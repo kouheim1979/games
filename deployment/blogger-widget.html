@@ -1,0 +1,743 @@
+<style>.ejl-fragment{--paper:#f6f4ed;--ink:#192d36;--muted:#50626a;--line:#ccd2cc;--green:#245847;--red:#a53b2c;--white:#fff;--soft:#e7eee7}.ejl-fragment,.ejl-fragment *{box-sizing:border-box}.ejl-fragment{margin:0;background:var(--paper);color:var(--ink);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.65}.ejl-fragment a{color:var(--green);text-underline-offset:3px}.ejl-fragment a:hover{color:var(--red)}.ejl-fragment a:focus-visible,.ejl-fragment button:focus-visible,.ejl-fragment input:focus-visible,.ejl-fragment select:focus-visible,.ejl-fragment summary:focus-visible,.ejl-fragment [tabindex]:focus-visible{outline:3px solid var(--red);outline-offset:4px}.ejl-fragment button,.ejl-fragment input,.ejl-fragment select{font:inherit}.ejl-fragment .wrap{max-width:1180px;margin:auto;padding:0 28px}.ejl-fragment .skip{position:absolute;left:20px;top:-100px;z-index:10;background:white;padding:12px}.ejl-fragment .skip:focus{top:10px}.ejl-fragment .dev-note{background:var(--ink);color:#fff;font-size:.78rem;text-align:center;padding:7px 16px;letter-spacing:.03em}.ejl-fragment .site-header{border-bottom:1px solid var(--line)}.ejl-fragment .header-inner{display:flex;align-items:center;justify-content:space-between;gap:24px;padding-top:23px;padding-bottom:23px;flex-wrap:wrap}.ejl-fragment .brand{font-weight:800;font-size:1.14rem;text-decoration:none;color:var(--ink);letter-spacing:-.04em;white-space:nowrap}.ejl-fragment .brand-mark{display:inline-grid;place-items:center;background:var(--red);color:white;width:31px;height:31px;border-radius:50%;margin-right:8px;font-size:15px;letter-spacing:0}.ejl-fragment .nav{display:flex;gap:23px;flex-wrap:wrap}.ejl-fragment .nav a{font-size:.9rem;font-weight:600;text-decoration:none;color:var(--ink);padding:7px 0}.ejl-fragment .nav a[aria-current=page]{text-decoration:underline;text-decoration-thickness:2px}.ejl-fragment .hero{display:grid;grid-template-columns:1.5fr 1fr;gap:60px;padding-top:66px;padding-bottom:62px;align-items:center}.ejl-fragment .eyebrow{text-transform:uppercase;font-size:.75rem;letter-spacing:.16em;font-weight:800;color:var(--green);margin:0 0 16px}.ejl-fragment h1,.ejl-fragment h2,.ejl-fragment h3{line-height:1.14;letter-spacing:-.035em}.ejl-fragment h1{font-size:clamp(2.3rem,4.8vw,4.15rem);max-width:900px;margin:0 0 24px;font-weight:750}.ejl-fragment h2{font-size:1.8rem;margin:42px 0 18px}.ejl-fragment h3{font-size:1.18rem;margin:18px 0 10px}.ejl-fragment .lede{font-size:1.12rem;color:var(--muted);max-width:720px}.ejl-fragment .hero-aside{background:var(--soft);border:1px solid #bbccbe;padding:30px;border-radius:3px}.ejl-fragment .hero-aside h2{margin:0 0 22px;font-size:1.5rem}.ejl-fragment .steps{list-style:none;margin:0;padding:0;counter-reset:steps}.ejl-fragment .steps li{padding:13px 0;border-top:1px solid #becdbf;display:flex;gap:16px}.ejl-fragment .steps li:before{counter-increment:steps;content:"0" counter(steps);font-family:ui-monospace,monospace;color:var(--green)}.ejl-fragment .button,.ejl-fragment button{display:inline-block;border:1px solid var(--green);background:var(--green);color:white;border-radius:3px;padding:12px 18px;font-weight:650;text-decoration:none;cursor:pointer;min-height:46px}.ejl-fragment .button:hover,.ejl-fragment button:hover{background:#193f33;color:white}.ejl-fragment .button.secondary,.ejl-fragment button.secondary{background:transparent;color:var(--green)}.ejl-fragment .actions{display:flex;gap:12px;flex-wrap:wrap;margin:22px 0}.ejl-fragment .section-head{display:flex;justify-content:space-between;align-items:baseline;gap:18px}.ejl-fragment .section-head h2{margin:10px 0 24px}.ejl-fragment .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}.ejl-fragment .card{border:1px solid var(--line);background:var(--white);padding:26px;display:flex;flex-direction:column;align-items:flex-start;min-width:0}.ejl-fragment .card .tag{font-size:.69rem;letter-spacing:.12em;font-weight:800;text-transform:uppercase;color:var(--green)}.ejl-fragment .card h3{font-size:1.55rem;margin:20px 0 12px}.ejl-fragment .card p{color:var(--muted);font-size:.96rem;margin-top:0}.ejl-fragment .card a{margin-top:auto;font-weight:650}.ejl-fragment .card .number{font-family:ui-monospace,monospace;color:var(--muted);font-size:.8rem;align-self:flex-end}.ejl-fragment .section{padding-bottom:54px}.ejl-fragment .stripe{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:28px 0;margin:10px 0 46px;display:grid;grid-template-columns:1fr 2fr;gap:32px}.ejl-fragment .stripe h2{font-size:1.25rem;margin:0}.ejl-fragment .stripe p{margin:0;color:var(--muted)}.ejl-fragment .page-head{padding:46px 0 24px}.ejl-fragment .page-head h1{font-size:clamp(2rem,4vw,3.35rem)}.ejl-fragment .breadcrumb{font-size:.8rem;color:var(--muted);margin-bottom:24px}.ejl-fragment .meta{font-size:.8rem;color:var(--muted)}.ejl-fragment .article-grid{display:grid;grid-template-columns:minmax(0,760px) 270px;gap:60px;align-items:start}.ejl-fragment .prose{max-width:800px;min-width:0}.ejl-fragment .prose h2:first-child{margin-top:12px}.ejl-fragment .prose li{margin:8px 0}.ejl-fragment .prose p{margin:0 0 19px}.ejl-fragment .prose ul,.ejl-fragment .prose ol{padding-left:24px}.ejl-fragment .aside{background:var(--soft);padding:23px;border:1px solid #bbccbe;position:sticky;top:24px}.ejl-fragment .aside h2{font-size:1.1rem;margin:0 0 16px}.ejl-fragment .aside a{display:block;margin:12px 0}.ejl-fragment .callout{background:var(--soft);border-left:4px solid var(--green);padding:20px 24px;margin:24px 0}.ejl-fragment .callout p:last-child{margin-bottom:0}.ejl-fragment .caution{background:#f9eee2;border-left-color:#955018}.ejl-fragment .table-scroll{overflow-x:auto;margin:20px 0}.ejl-fragment table{border-collapse:collapse;width:100%;font-size:.93rem;text-align:left}.ejl-fragment th,.ejl-fragment td{padding:13px 14px;border-bottom:1px solid var(--line);vertical-align:top}.ejl-fragment th{background:var(--soft)}.ejl-fragment .sources{border-top:1px solid var(--line);margin-top:40px;padding-top:8px;font-size:.86rem}.ejl-fragment .sources a{overflow-wrap:anywhere}.ejl-fragment .sources li{padding-bottom:9px}.ejl-fragment .related{margin-top:35px}.ejl-fragment .tool-layout{display:grid;grid-template-columns:minmax(0,760px) 270px;gap:60px}.ejl-fragment .tool-form{background:white;border:1px solid var(--line);padding:28px;min-width:0}.ejl-fragment .fields{display:grid;grid-template-columns:1fr 1fr;gap:20px}.ejl-fragment .field{display:flex;flex-direction:column;gap:6px}.ejl-fragment .field label{font-weight:650;font-size:.92rem}.ejl-fragment .field small,.ejl-fragment .small{font-size:.81rem;color:var(--muted)}.ejl-fragment input,.ejl-fragment select{width:100%;min-height:47px;border:1px solid #83928c;background:#fff;color:var(--ink);padding:9px 11px;border-radius:2px}.ejl-fragment fieldset{border:0;border-top:1px solid var(--line);padding:22px 0 0;margin:22px 0}.ejl-fragment legend{font-weight:750;padding-right:12px}.ejl-fragment fieldset:first-child{margin-top:0}.ejl-fragment .error{background:#fff0eb;color:#772616;border:2px solid #a53b2c;padding:16px;margin-top:20px}.ejl-fragment .result{margin-top:26px;border-top:4px solid var(--green);padding-top:18px}.ejl-fragment .result h2{font-size:1.6rem;margin:0 0 20px}.ejl-fragment .metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.ejl-fragment .metric{background:var(--soft);padding:16px}.ejl-fragment .metric strong{display:block;font-size:1.65rem;line-height:1.2;overflow-wrap:anywhere}.ejl-fragment .metric span{display:block;font-size:.8rem;margin-top:9px}.ejl-fragment details{margin:24px 0;border:1px solid var(--line);padding:16px 20px;background:white}.ejl-fragment summary{font-weight:700;cursor:pointer;min-height:30px}.ejl-fragment .formula{font-family:ui-monospace,monospace;font-size:.86rem;overflow-wrap:anywhere;background:var(--soft);padding:16px}.ejl-fragment .site-footer{margin-top:70px;border-top:1px solid var(--line);padding:34px 0;font-size:.84rem;color:var(--muted)}.ejl-fragment .footer-top{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}.ejl-fragment .footer-links{display:flex;gap:14px;flex-wrap:wrap}.ejl-fragment .footer-note{max-width:760px;margin-top:24px;font-size:.78rem}.ejl-fragment .empty-space{padding-bottom:22px}.ejl-fragment [hidden]{display:none!important}@media(max-width:900px){.ejl-fragment .hero{gap:28px}.ejl-fragment .article-grid,.ejl-fragment .tool-layout{grid-template-columns:minmax(0,1fr)}.ejl-fragment .aside{position:static}.ejl-fragment .grid{grid-template-columns:repeat(2,minmax(0,1fr))}.ejl-fragment .tool-layout{gap:25px}.ejl-fragment .metrics{grid-template-columns:1fr 1fr}}@media(max-width:600px){.ejl-fragment .wrap{padding-left:20px;padding-right:20px}.ejl-fragment .header-inner{padding-top:17px;padding-bottom:14px;gap:10px}.ejl-fragment .nav{gap:20px}.ejl-fragment .nav a{font-size:.85rem}.ejl-fragment .hero{grid-template-columns:1fr;gap:24px;padding-top:38px;padding-bottom:36px}.ejl-fragment .hero-aside{padding:24px}.ejl-fragment .grid{grid-template-columns:1fr}.ejl-fragment .stripe{grid-template-columns:1fr;gap:12px}.ejl-fragment .section-head{display:block}.ejl-fragment .section-head h2{margin-bottom:12px}.ejl-fragment .section-head>a{display:inline-block;margin-bottom:20px}.ejl-fragment .page-head{padding-top:28px}.ejl-fragment .fields,.ejl-fragment .metrics{grid-template-columns:1fr}.ejl-fragment .tool-form{padding:20px 16px}.ejl-fragment .actions>*{flex:1;text-align:center}.ejl-fragment .article-grid{gap:30px}.ejl-fragment .card{padding:23px}.ejl-fragment .card h3{margin-top:14px}.ejl-fragment .table-scroll{max-width:100%}.ejl-fragment th,.ejl-fragment td{padding:10px}.ejl-fragment h2{font-size:1.6rem}.ejl-fragment .site-footer{margin-top:45px}}@media print{.ejl-fragment{background:white;font-size:11pt}.ejl-fragment .dev-note,.ejl-fragment .site-header,.ejl-fragment .site-footer,.ejl-fragment .aside,.ejl-fragment .actions,.ejl-fragment .skip,.ejl-fragment .breadcrumb{display:none}.ejl-fragment .wrap{max-width:none;padding:0}.ejl-fragment .tool-layout,.ejl-fragment .article-grid,.ejl-fragment .hero{display:block}.ejl-fragment .tool-form{border:0;padding:0}.ejl-fragment .fields{grid-template-columns:1fr 1fr}.ejl-fragment .metrics{grid-template-columns:repeat(3,1fr)}.ejl-fragment input,.ejl-fragment select{border:1px solid #aaa}.ejl-fragment .result{break-inside:avoid}.ejl-fragment .page-head{padding-top:0}.ejl-fragment h1{font-size:24pt}.ejl-fragment .card{break-inside:avoid}.ejl-fragment a{color:inherit}}.ejl-fragment .aside{position:static}.ejl-fragment .hero{grid-template-columns:1fr}.ejl-fragment .article-grid,.ejl-fragment .tool-layout{grid-template-columns:1fr}.ejl-fragment .ejl-menu{display:flex;gap:16px;flex-wrap:wrap;margin:0 0 25px}.ejl-fragment{padding:20px;max-width:1180px;margin:auto}
+/* Blogger shell and an original, lightweight editorial front page. No remote assets. */
+body{background:#f8f6ef!important;color:#273d34!important}
+.bg-photo,.bg-photo-overlay{display:none!important}
+.centered-top-container{background:#f8f6ef!important;color:#273d34!important;border-top:5px solid #a54d31;border-bottom:1px solid #c5c8ba;box-shadow:none!important}
+.centered-top-container .svg-icon-24{fill:#273d34!important}
+.centered-top-container .centered-top{padding-top:22px!important;padding-bottom:12px!important}
+.Header h1,.Header h1 a,.Header h2,.Header h2 a{font-family:Georgia,'Times New Roman',serif!important;font-size:clamp(28px,3.6vw,44px)!important;font-weight:400!important;letter-spacing:-1.5px!important;color:#273d34!important}
+.Header .description{color:#526054!important;font-size:13px!important;max-width:720px;margin:10px auto!important;line-height:1.6}
+.PageList li a{color:#273d34!important;font-size:12px!important;letter-spacing:.065em}
+.PageList li.selected a{color:#a54d31!important}
+.centered-bottom{max-width:1120px!important;padding-top:30px!important}
+.post-outer-container,.FeaturedPost,.post-outer{box-shadow:none!important;background:transparent!important}
+.post-title,.post-title a{font-family:Georgia,'Times New Roman',serif!important;color:#273d34!important;letter-spacing:-.025em}
+.post-body,.post-snippet{color:#384c42!important}
+.ejl-fragment{background:transparent!important;padding:10px 0!important;--paper:#f8f6ef;--ink:#273d34;--green:#315c47;--soft:#eaf0e6;--line:#c5c8ba}
+.ejl-fragment h2,.ejl-fragment h3{font-family:Georgia,'Times New Roman',serif;font-weight:400;letter-spacing:-.025em}
+.ejl-fragment .card{border:0;border-top:2px solid #c5c8ba;background:transparent;padding:24px 4px}
+.ejl-fragment .ejl-menu{border-bottom:1px solid #c5c8ba;padding-bottom:16px;font-size:13px;gap:14px}
+.ejl-fragment .tool-form{border:1px solid #c5c8ba;border-top:4px solid #315c47;background:#fffef9}
+.ejl-fragment .button,.ejl-fragment button{border-radius:0}
+.ejl-fragment .sources{border-top:2px solid #273d34}
+body.ejl-front .FeaturedPost,body.ejl-front #Blog1{display:none!important}
+body.ejl-front .centered-bottom{padding-top:0!important}
+.ejl-edition,.ejl-edition *{box-sizing:border-box}
+.ejl-edition{color:#273d34;font:16px/1.65 system-ui,-apple-system,'Segoe UI',sans-serif;max-width:1100px;margin:auto;text-align:left}
+.ejl-edition a{color:inherit;text-decoration-thickness:1px;text-underline-offset:5px}
+.ejl-edition a:hover{color:#a54d31}
+.ejl-edition a:focus-visible{outline:3px solid #a54d31;outline-offset:5px}
+.ejl-edition h2,.ejl-edition h3{font-family:Georgia,'Times New Roman',serif;font-weight:400;letter-spacing:-.035em;line-height:1.12;color:#273d34}
+.ejl-indexline{display:flex;justify-content:space-between;gap:16px;border-bottom:1px solid #c5c8ba;padding:17px 0;font:10px/1.5 ui-monospace,monospace;text-transform:uppercase;letter-spacing:.12em}
+.ejl-opening{display:grid;grid-template-columns:1fr 1.12fr;gap:30px;align-items:center;padding:48px 0 45px}
+.ejl-kicker{font:11px/1.5 ui-monospace,monospace;text-transform:uppercase;letter-spacing:.12em;color:#8b422a;margin:0 0 18px}
+.ejl-opening h2{font-size:clamp(42px,4.8vw,66px);margin:0 0 25px}
+.ejl-opening h2 em{font-weight:400;color:#a54d31}
+.ejl-opening-copy>p:not(.ejl-kicker){max-width:410px;font-size:15px}
+.ejl-edition .ejl-solid-link{display:inline-flex;gap:24px;align-items:center;background:#273d34;color:#fffdf4;padding:13px 18px;margin-top:12px;font-size:13px;text-decoration:none}
+.ejl-edition .ejl-solid-link:hover{background:#a54d31;color:white}
+.ejl-edition .ejl-marginal{font:11px/1.8 ui-monospace,monospace;color:#5d695e;margin-top:20px}
+.ejl-house{margin:0;min-width:0;transform:rotate(-1deg)}
+.ejl-house svg{display:block;width:100%;height:auto;border:1px solid #c5c8ba}
+.ejl-house figcaption{display:flex;justify-content:space-between;gap:12px;font:9px/1.6 ui-monospace,monospace;color:#526054;margin-top:12px}
+.ejl-section-heading{border-top:3px solid #273d34;border-bottom:1px solid #c5c8ba;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:22px 0}
+.ejl-section-heading h2{font-size:30px;margin:0}.ejl-section-heading>span{font:10px/1.6 ui-monospace,monospace;color:#526054}
+.ejl-guide-row{display:grid;grid-template-columns:130px 1fr 175px;gap:22px;align-items:start;padding:30px 0;border-bottom:1px solid #c5c8ba}
+.ejl-folio{font:10px/1.6 ui-monospace,monospace;letter-spacing:.07em;color:#8b422a;padding-top:6px}
+.ejl-guide-row h3{font-size:27px;margin:0 0 12px}.ejl-guide-row h3 a{text-decoration:none}.ejl-guide-row h3 a:hover{text-decoration:underline}
+.ejl-guide-row p{font-size:14px;margin:0;color:#526054}.ejl-guide-row .ejl-checkline{font:10px/1.7 ui-monospace,monospace;margin-top:12px;color:#526054}
+.ejl-row-action{font-size:12px;line-height:1.7;padding:9px 0;min-height:44px;align-self:center}
+.ejl-workbench{display:grid;grid-template-columns:1fr 1.1fr;gap:60px;background:#e8ede2;padding:36px;margin:48px 0}
+.ejl-workbench h2{font-size:34px;margin:0 0 18px}.ejl-workbench p:not(.ejl-kicker){font-size:14px;color:#526054}.ejl-workbench>div>a{font-size:13px}
+.ejl-tool-ledger{list-style:none;counter-reset:tool;padding:0;margin:0;border-top:1px solid #aab6a6}
+.ejl-tool-ledger li{counter-increment:tool;border-bottom:1px solid #aab6a6}
+.ejl-tool-ledger a{display:grid;grid-template-columns:24px 1fr;column-gap:12px;padding:12px 0;text-decoration:none;font-size:14px}
+.ejl-tool-ledger a:before{content:'0' counter(tool);font:10px/2 ui-monospace,monospace;grid-row:span 2;color:#8b422a}
+.ejl-tool-ledger small{grid-column:2;font-size:11px;color:#526054}
+.ejl-editor-note{display:grid;grid-template-columns:180px 1fr;gap:30px;margin:40px 0 50px;max-width:860px}
+.ejl-editor-note h2{font-size:30px;margin:0 0 15px}.ejl-editor-note p{font-size:15px;color:#526054}.ejl-editor-note a{font-size:12px}.ejl-editor-note div>span{margin:0 12px;color:#a1a698}
+.ejl-edition-footer{display:flex;justify-content:space-between;gap:20px;border-top:1px solid #c5c8ba;padding:23px 0;font:11px/1.9 ui-monospace,monospace}
+#Attribution1{margin-top:28px!important;font-size:11px!important}
+@media(max-width:800px){.ejl-guide-row{grid-template-columns:110px 1fr}.ejl-row-action{grid-column:2}.ejl-workbench{gap:30px;padding:26px}.ejl-editor-note{grid-template-columns:130px 1fr}.ejl-opening{gap:22px}.ejl-house figcaption{display:block}.ejl-house figcaption span{display:block}}
+@media(max-width:600px){.centered-top-container .centered-top{padding-top:16px!important}.Header h1,.Header h1 a{font-size:29px!important;letter-spacing:-1px!important}.Header .description{font-size:12px!important}.centered-bottom{padding-left:20px!important;padding-right:20px!important}.ejl-indexline{font-size:9px;display:block}.ejl-indexline span{display:block}.ejl-indexline span+span{margin-top:5px}.ejl-opening{grid-template-columns:1fr;padding:30px 0;gap:24px}.ejl-opening h2{font-size:42px}.ejl-opening-copy>p:not(.ejl-kicker){max-width:none}.ejl-house{transform:none;max-width:500px}.ejl-house figcaption{display:flex;font-size:8px}.ejl-section-heading{display:block;padding:20px 0}.ejl-section-heading h2{font-size:28px;margin-bottom:10px}.ejl-guide-row{grid-template-columns:1fr;gap:12px;padding:23px 0}.ejl-guide-row h3{font-size:27px}.ejl-row-action{grid-column:1;padding:8px 0}.ejl-workbench{grid-template-columns:1fr;margin:32px 0;padding:24px 20px;gap:22px}.ejl-workbench h2{font-size:30px}.ejl-editor-note{grid-template-columns:1fr;gap:12px;margin:30px 0}.ejl-edition-footer{display:block}.ejl-edition-footer>span{display:block;margin-bottom:16px}.ejl-fragment .fields,.ejl-fragment .metrics{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){.ejl-edition *{scroll-behavior:auto!important}}
+@media print{.ejl-house{transform:none}.ejl-opening{grid-template-columns:1fr 1fr}.ejl-guide-row,.ejl-workbench{break-inside:avoid}.ejl-edition{font-size:11pt}.ejl-opening h2{font-size:30pt}}
+/* Keep the native Blogger masthead compact and its description readable. */
+.Header .header-widget p{color:#526054!important;font-size:13px!important;line-height:1.6;max-width:690px;margin:8px auto 0!important}
+body .centered{max-width:1140px!important;width:calc(100% - 40px)!important;padding-top:0!important}
+.centered-top .blog-name{margin:8px 0!important}
+.centered-top .Header{margin-bottom:0!important}
+#PageList1{margin:10px 0 0!important;padding-top:0!important}
+@media(max-width:600px){body .centered{width:100%!important}.Header .header-widget p{font-size:12px!important}}
+
+#PageList1 li{margin-left:12px!important;margin-right:12px!important}
+</style>
+<style>
+/* Mainichi Toolbox: the shared portal is namespaced to keep the existing tools intact. */
+:root { --mt-ink:#273d34; --mt-paper:#f8f6ef; --mt-line:#d6d9ca; --mt-muted:#58675c; --mt-rust:#a54d31; }
+.mt-portal,.mt-portal *,#mt-player,#mt-player *,.mt-languagebar,.mt-languagebar * { box-sizing:border-box; }
+.mt-portal { color:var(--mt-ink); font:15px/1.75 system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; max-width:1100px; margin:auto; text-align:left; }
+.mt-portal [hidden],#mt-player [hidden] { display:none!important; }
+.mt-portal h2,.mt-portal h3,.mt-portal p,.mt-portal figure { margin:0; }
+.mt-portal a { color:inherit; text-decoration:none; }
+.mt-portal a:hover { color:var(--mt-rust); }
+.mt-portal button,.mt-portal input,#mt-player button,#mt-player a { font:inherit; }
+.mt-portal button,#mt-player button,.mt-languagebar button { cursor:pointer; touch-action:manipulation; }
+.mt-portal a:focus-visible,.mt-portal button:focus-visible,.mt-portal input:focus-visible,#mt-player :focus-visible,.mt-languagebar button:focus-visible { outline:3px solid var(--mt-rust); outline-offset:4px; }
+.mt-sr { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+.mt-languagebar { display:flex; align-items:center; justify-content:center; gap:5px; flex-wrap:wrap; margin:18px auto 10px; padding:0 10px; }
+.mt-languagebar button { background:transparent; color:var(--mt-muted); border:1px solid transparent; border-radius:99px; padding:7px 14px; min-height:40px; font:12px/1.4 system-ui,sans-serif; }
+.mt-languagebar button:hover { background:#e8ece0; color:var(--mt-ink); }
+.mt-languagebar button[aria-pressed=true] { border-color:var(--mt-ink); background:var(--mt-ink); color:#fffdf5; }
+.mt-indexline { display:flex; justify-content:space-between; gap:16px; padding:18px 0; border-bottom:1px solid var(--mt-line); text-transform:uppercase; letter-spacing:.11em; font:10px/1.5 ui-monospace,monospace; }
+.mt-indexline span:last-child { color:var(--mt-rust); }
+.mt-hero { display:grid; grid-template-columns:1.18fr 1fr; gap:55px; align-items:center; padding:48px 0 50px; }
+.mt-eyebrow { color:var(--mt-rust); font:11px/1.6 ui-monospace,monospace; letter-spacing:.08em; margin:0 0 20px!important; }
+.mt-hero h2 { font-size:clamp(32px,3.7vw,51px); font-weight:600; letter-spacing:-.05em; line-height:1.45; color:var(--mt-ink); }
+.mt-hero h2 span { display:block; }
+.mt-hero h2 span:last-child { color:var(--mt-rust); }
+.mt-hero .mt-intro { max-width:490px; color:var(--mt-muted); font-size:14px; margin:21px 0 24px; }
+.mt-portal .mt-primary { display:inline-flex; align-items:center; justify-content:space-between; gap:35px; background:var(--mt-ink); color:#fffdf4; border:1px solid var(--mt-ink); padding:12px 20px; min-height:46px; font-size:13px; }
+.mt-portal .mt-primary:hover { background:var(--mt-rust); border-color:var(--mt-rust); color:white; }
+.mt-facts { display:flex; flex-wrap:wrap; gap:9px 18px; color:var(--mt-muted); margin-top:22px; font:11px/1.7 ui-monospace,monospace; }
+.mt-facts span:before { content:'\2022 '; color:var(--mt-rust); margin-right:7px; }
+.mt-feature { display:block; position:relative; padding:24px 26px 22px; background:#e9eade; border:1px solid #cdd2c2; transform:rotate(1deg); overflow:hidden; }
+.mt-feature:hover { color:var(--mt-ink)!important; }
+.mt-feature-top { display:flex; justify-content:space-between; gap:10px; font:10px/1.5 ui-monospace,monospace; color:var(--mt-muted); }
+.mt-feature-visual { height:174px; display:flex; justify-content:center; align-items:center; gap:17px; margin:10px 0 18px; }
+.mt-bottle { display:flex; flex-direction:column-reverse; height:124px; width:47px; border:2px solid #344a3b; border-top:0; border-radius:0 0 18px 18px; padding:5px; gap:3px; transform:rotate(-8deg); background:#f8f6ef80; box-shadow:4px 7px 0 #273d3410; }
+.mt-bottle:before { content:''; position:absolute; top:-8px; left:-3px; width:49px; height:8px; border:2px solid #344a3b; border-radius:4px; background:#e9eade; }
+.mt-bottle:nth-child(2) { transform:translateY(-10px); }
+.mt-bottle:nth-child(3) { transform:rotate(8deg); }
+.mt-bottle i { display:block; height:24px; border-radius:2px; flex-shrink:0; }
+.mt-purple { background:#a19ab8; }.mt-orange { background:#ce8a68; }.mt-lime { background:#a2b18b; }
+.mt-feature h3 { font:500 21px/1.3 Georgia,serif; color:var(--mt-ink); }
+.mt-feature p { font-size:12px; color:var(--mt-muted); margin-top:6px; }
+.mt-feature-bottom { display:flex; justify-content:space-between; gap:15px; font-size:12px; margin-top:17px; padding-top:12px; border-top:1px solid #c5ccbc; }
+.mt-library { scroll-margin-top:25px; }
+.mt-section-heading { display:flex; justify-content:space-between; align-items:end; gap:22px; border-top:3px solid var(--mt-ink); padding:24px 0 21px; }
+.mt-section-heading h2 { font-weight:500; color:var(--mt-ink); font-size:29px; letter-spacing:-.03em; line-height:1.4; }
+.mt-section-heading p { color:var(--mt-muted); font-size:12px; margin-top:7px; }
+.mt-result { color:var(--mt-rust); flex-shrink:0; font:11px/1.6 ui-monospace,monospace; padding-bottom:4px; }
+.mt-controls { display:flex; justify-content:space-between; gap:20px; align-items:center; flex-wrap:wrap; margin-bottom:23px; }
+.mt-filters { display:flex; gap:6px; flex-wrap:wrap; }
+.mt-filters button { border:1px solid var(--mt-line); border-radius:99px; background:transparent; color:var(--mt-muted); padding:8px 12px; min-height:40px; font-size:12px; }
+.mt-filters button[aria-pressed=true] { color:#fffdf4; border-color:var(--mt-ink); background:var(--mt-ink); }
+.mt-filters button:hover { border-color:var(--mt-ink); }
+.mt-filters .mt-count { font-size:10px; margin-left:5px; opacity:.8; }
+.mt-searchbox { position:relative; flex:1; min-width:235px; max-width:335px; }
+.mt-searchbox input { width:100%; min-height:43px; border:1px solid var(--mt-line); border-radius:0; padding:10px 40px 10px 14px; background:#fffdf6; color:var(--mt-ink); font-size:13px; }
+.mt-searchbox input::-webkit-search-cancel-button { -webkit-appearance:none; }
+.mt-searchbox input::placeholder { color:#687568; opacity:1; }
+.mt-searchbox button { position:absolute; right:1px; top:1px; width:40px; height:41px; border:0; background:transparent; color:var(--mt-muted); font-size:20px; }
+.mt-gamegrid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:24px; }
+.mt-game { min-width:0; border:1px solid var(--mt-line); background:#fffdf7; display:flex; flex-direction:column; }
+.mt-card-art { height:123px; position:relative; display:flex; align-items:center; justify-content:center; overflow:hidden; border-bottom:1px solid var(--mt-line); color:#374638; }
+.mt-card-art:before,.mt-card-art:after { content:''; position:absolute; border:1px solid currentColor; opacity:.12; width:118px; height:118px; border-radius:50%; }
+.mt-card-art:before { left:-18px; bottom:-55px; }.mt-card-art:after { right:-38px; top:-52px; width:150px; height:150px; }
+.mt-card-art>span { position:relative; z-index:1; font:500 48px/1 Georgia,'Times New Roman',serif; letter-spacing:-.04em; transform:rotate(-6deg); }
+.mt-card-art>small { position:absolute; right:14px; bottom:10px; font:9px/1.5 ui-monospace,monospace; opacity:.6; }
+.mt-violet { background:#e8e4ed; color:#6a5b7d; }.mt-green { background:#e4e9d8; color:#4c6245; }.mt-blue { background:#dfe9ea; color:#486575; }.mt-rose { background:#efdfda; color:#965e56; }.mt-amber { background:#f0e6cb; color:#8f743f; }
+.mt-card-body { flex:1; padding:20px 20px 16px; display:flex; flex-direction:column; }
+.mt-card-tag { font:10px/1.6 ui-monospace,monospace; color:var(--mt-rust); margin-bottom:11px; }
+.mt-game h3 { font-size:18px; line-height:1.55; font-weight:600; color:var(--mt-ink); letter-spacing:-.02em; }
+.mt-game h3 a:hover { text-decoration:underline; text-underline-offset:4px; }
+.mt-original-title { font-size:11px; color:var(--mt-muted); margin-top:3px; }
+.mt-card-description { color:var(--mt-muted); font-size:13px; margin-top:10px!important; margin-bottom:18px!important; }
+.mt-card-bottom { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:auto; padding-top:13px; border-top:1px solid #e4e6db; }
+.mt-card-language { color:var(--mt-muted); font-size:10px; line-height:1.5; }
+.mt-playlink { display:inline-flex; gap:12px; align-items:center; min-height:38px; font-size:12px; font-weight:600; flex-shrink:0; }
+.mt-empty { padding:45px 20px; text-align:center; border:1px dashed var(--mt-line); color:var(--mt-muted); }
+.mt-empty button { border:1px solid var(--mt-ink); background:var(--mt-ink); color:white; padding:11px 20px; margin-top:18px; }
+.mt-language-note { color:var(--mt-muted); font-size:11px; padding:16px 0 0; }
+.mt-tools { margin:48px 0; padding:30px; background:#e9ede2; border-top:2px solid var(--mt-ink); scroll-margin-top:25px; }
+.mt-tools h2 { font-size:25px; line-height:1.5; font-weight:500; color:var(--mt-ink); }
+.mt-tools .mt-tools-intro { font-size:13px; color:var(--mt-muted); margin:10px 0 4px; }
+.mt-tools .mt-tools-language { color:var(--mt-rust); font-size:11px; margin-bottom:23px; }
+.mt-toolgrid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:21px 28px; }
+.mt-tool-card { border-top:1px solid #bbc5b4; padding-top:15px; }
+.mt-tool-card h3 { font-size:15px; font-weight:600; line-height:1.6; color:var(--mt-ink); }
+.mt-tool-card p { color:var(--mt-muted); font-size:12px; margin:7px 0 8px; }
+.mt-tool-card a { font-size:12px; text-decoration:underline; text-underline-offset:4px; }
+.mt-help { border-top:1px solid var(--mt-line); padding:27px 0 35px; }
+.mt-help>h2 { font-size:23px; font-weight:500; margin-bottom:22px; color:var(--mt-ink); }
+.mt-helpgrid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:30px; }
+.mt-help .mt-step { font:11px/1.5 ui-monospace,monospace; color:var(--mt-rust); margin-bottom:8px; }
+.mt-help h3 { font-size:15px; font-weight:600; color:var(--mt-ink); margin-bottom:8px; }
+.mt-help p { font-size:12px; color:var(--mt-muted); }
+.mt-footer { display:flex; justify-content:space-between; gap:25px; border-top:1px solid var(--mt-line); padding:23px 0; font-size:11px; }
+.mt-footer-brand { font-size:14px; font-weight:600; margin-bottom:8px; }
+.mt-footer p { max-width:560px; color:var(--mt-muted); }
+.mt-footer-links { display:flex; flex-wrap:wrap; gap:8px 18px; max-width:340px; align-content:start; justify-content:end; }
+.mt-footer-links a { text-decoration:underline; text-underline-offset:4px; }
+.mt-made { color:var(--mt-muted); font-size:10px; padding-bottom:28px; }
+#mt-player { width:min(1200px,calc(100vw - 28px)); max-width:none; height:93vh; height:93dvh; max-height:100%; margin:auto; padding:0; border:1px solid #adb8a7; border-radius:8px; background:var(--mt-paper); color:var(--mt-ink); box-shadow:0 25px 90px #18241b55; font:14px/1.6 system-ui,sans-serif; }
+#mt-player[open] { display:flex; flex-direction:column; }
+#mt-player::backdrop { background:#19291fbf; }
+.mt-playing { overflow:hidden!important; }
+.mt-player-header { display:flex; justify-content:space-between; align-items:start; gap:20px; padding:14px 20px 10px; }
+#mt-player-title { margin:0; font-size:20px; line-height:1.5; color:var(--mt-ink); }
+#mt-player-description { margin:3px 0 0; color:var(--mt-muted); font-size:12px; }
+#mt-close { width:44px; height:44px; flex-shrink:0; border:1px solid var(--mt-line); background:#fffdf7; color:var(--mt-ink); font-size:24px!important; }
+.mt-player-tools { display:flex; align-items:center; flex-wrap:wrap; gap:8px; padding:0 20px 10px; font-size:11px; }
+.mt-player-tools>a,.mt-player-tools>button { padding:7px 11px; border:1px solid var(--mt-line); color:var(--mt-ink); background:white; min-height:36px; font-size:11px!important; text-decoration:none; }
+.mt-player-tools>span { flex:1; color:var(--mt-muted); padding:4px; font-size:10px; }
+#mt-frame-wrap { flex:1; min-height:0; background:#fff; border-top:1px solid var(--mt-line); position:relative; }
+#mt-game-frame { display:block; width:100%; height:100%; border:0; background:#fff; }
+#mt-loading { position:absolute; top:12px; left:50%; transform:translateX(-50%); background:var(--mt-paper); color:var(--mt-ink); padding:10px 18px; box-shadow:0 3px 18px #17241c22; font-size:12px; pointer-events:none; max-width:85%; }
+#mt-frame-hint { padding:7px 20px; margin:0; color:var(--mt-muted); font-size:10px; background:var(--mt-paper); }
+#mt-road-note { margin:0; padding:5px 20px; color:#8b422a; font-size:11px; }
+#mt-player:fullscreen { width:100vw; height:100vh; border:0; border-radius:0; }
+.mt-edition-note { padding:15px 18px; margin:0 0 24px; border-left:3px solid var(--mt-rust); background:#e9ede2; font:12px/1.7 system-ui,sans-serif; color:var(--mt-ink); }
+.mt-edition-note p { margin:0 0 8px; }.mt-edition-note a { text-decoration:underline; color:var(--mt-ink); }
+/* Blogger layout integration: the mount stays out of the sidebar and replaces only the landing view. */
+body.mt-front #ejl-front-page,body.mt-front #Blog1,body.mt-front .FeaturedPost { display:none!important; }
+body.mt-front .centered-bottom { padding-top:0!important; }
+body.mt-front #HTML1 { padding:0!important; margin:0!important; }
+#mt-site-header { color:var(--mt-ink); text-align:center; padding:27px 15px 8px; border-top:5px solid var(--mt-rust); }
+#mt-site-header h1 { margin:0; font:500 clamp(28px,4vw,42px)/1.5 system-ui,sans-serif; letter-spacing:-.04em; }
+#mt-site-header>p { margin:6px 0 0; color:var(--mt-muted); font:12px/1.6 system-ui,sans-serif; }
+body.mt-standalone { margin:0; background:var(--mt-paper); }
+body.mt-standalone>.mt-portal { padding:0 24px; }
+@media(min-width:1500px) { .mt-hero { gap:80px; } }
+@media(max-width:900px) { .mt-gamegrid { gap:18px; }.mt-hero { gap:30px; }.mt-card-body { padding:17px 16px 12px; }.mt-toolgrid { grid-template-columns:repeat(2,minmax(0,1fr)); }.mt-filters { gap:5px; }.mt-searchbox { max-width:none; } }
+@media(max-width:700px) { .mt-hero { grid-template-columns:1fr; gap:28px; padding:30px 0 34px; }.mt-hero h2 { font-size:clamp(30px,6.8vw,42px); }.mt-hero .mt-intro { max-width:none; }.mt-feature { transform:none; padding:20px; }.mt-feature-visual { height:135px; margin:4px 0 13px; }.mt-bottle { height:108px; width:43px; }.mt-bottle:before { width:45px; }.mt-bottle i { height:20px; }.mt-gamegrid { grid-template-columns:repeat(2,minmax(0,1fr)); }.mt-controls { display:block; }.mt-searchbox { margin-top:13px; min-width:0; }.mt-section-heading { padding-top:22px; gap:12px; }.mt-section-heading h2 { font-size:25px; }.mt-card-art { height:103px; }.mt-card-art>span { font-size:40px; }.mt-game h3 { font-size:16px; }.mt-card-description { font-size:12px; }.mt-card-bottom { align-items:start; flex-direction:column; gap:4px; }.mt-playlink { width:100%; justify-content:space-between; }.mt-tools { padding:24px 20px; margin:35px 0; }.mt-tools h2 { font-size:23px; }.mt-helpgrid { grid-template-columns:1fr; gap:22px; }.mt-helpgrid>div { display:grid; grid-template-columns:28px 1fr; column-gap:12px; }.mt-step { grid-row:span 2; padding-top:3px; }.mt-help h3 { margin-bottom:4px; }.mt-footer { flex-direction:column; gap:18px; }.mt-footer-links { justify-content:start; max-width:none; }.mt-indexline { font-size:9px; padding:14px 0; }.mt-languagebar { margin:14px auto 7px; gap:3px; }.mt-languagebar button { padding:7px 11px; }#mt-player { width:100%; height:100dvh; max-height:100dvh; border:0; border-radius:0; }.mt-player-header { padding:10px 12px 7px; gap:12px; }#mt-player-title { font-size:17px; }#mt-player-description { display:none; }.mt-player-tools { padding:0 12px 8px; }.mt-player-tools>span { flex-basis:100%; padding:0; }#mt-frame-hint { padding:6px 12px; }.mt-player-tools>a,.mt-player-tools>button { font-size:11px!important; min-height:36px; } }
+@media(max-width:400px) { .mt-card-body { padding:14px 12px 10px; }.mt-gamegrid { gap:12px; }.mt-card-art { height:91px; }.mt-game h3 { font-size:15px; }.mt-filters button { padding:7px 10px; font-size:11px; }.mt-result { font-size:10px; }.mt-section-heading h2 { font-size:23px; }.mt-indexline { letter-spacing:.04em; }.mt-languagebar button { padding:6px 10px; }.mt-toolgrid { grid-template-columns:1fr; gap:18px; }.mt-facts { gap:5px 13px; font-size:10px; } }
+@media(prefers-reduced-motion:reduce) { .mt-portal * { scroll-behavior:auto!important; } }
+
+</style>
+<template id="mt-portal-template"><div class="mt-portal" id="mt-portal" lang="ja">
+  <div class="mt-indexline"><span>MAINICHI TOOLBOX / PLAY &amp; LEARN</span><span data-mt-i18n="total">14本のゲーム</span></div>
+  <section class="mt-hero" aria-labelledby="mt-hero-title">
+    <div class="mt-hero-copy">
+      <p data-mt-i18n="kicker" class="mt-eyebrow">遊ぶ。考える。見つける。</p>
+      <h2 id="mt-hero-title"><span data-mt-i18n="heroFirst">いつもの時間に、</span><span data-mt-i18n="heroLast">小さな発見を。</span></h2>
+      <p data-mt-i18n="intro" class="mt-intro">ひとりでじっくり、家族でわいわい。気になるゲームをひとつ選んで、さっそく遊んでみよう。</p>
+      <a class="mt-primary" href="#games"><span data-mt-i18n="browse">ゲームを探す</span><span aria-hidden="true">↘</span></a>
+      <div class="mt-facts"><span data-mt-i18n="free">すべて無料</span><span data-mt-i18n="browser">ブラウザーで遊べる</span></div>
+    </div>
+    <a class="mt-feature" data-mt-game="WaterSortPuzzle" href="https://kouheim1979.github.io/games/WaterSortPuzzle/">
+      <div class="mt-feature-top"><span data-mt-i18n="featured">今日のひとやすみ</span><span aria-hidden="true">PICK / 01</span></div>
+      <div class="mt-feature-visual" aria-hidden="true">
+        <div class="mt-bottle"><i class="mt-purple"></i><i class="mt-orange"></i><i class="mt-lime"></i><i class="mt-purple"></i></div>
+        <div class="mt-bottle"><i class="mt-lime"></i><i class="mt-lime"></i><i class="mt-lime"></i></div>
+        <div class="mt-bottle"><i class="mt-orange"></i><i class="mt-purple"></i><i class="mt-orange"></i></div>
+      </div>
+      <h3 data-mt-i18n="featureDetail">Water Sort Puzzle</h3><p data-mt-i18n="featureCopy">色をそろえて、気持ちをほどく。</p>
+      <div class="mt-feature-bottom"><span data-mt-i18n="featurePlay">このパズルで遊ぶ</span><span aria-hidden="true">↗</span></div>
+    </a>
+  </section>
+  <section class="mt-library" id="games" aria-labelledby="mt-library-title">
+    <div class="mt-section-heading"><div><h2 data-mt-i18n="library" id="mt-library-title">ゲームの引き出し</h2><p data-mt-i18n="libraryIntro">遊びたい気分から、ぴったりの一本を。</p></div><span id="mt-results" class="mt-result" role="status" aria-live="polite">14本のゲーム</span></div>
+    <div class="mt-controls">
+      <div class="mt-filters" role="group" aria-label="Categories"><button type="button" data-mt-category="all" aria-pressed="true"><span data-mt-i18n="all">すべて</span><span class="mt-count">14</span></button><button type="button" data-mt-category="puzzle" aria-pressed="false"><span data-mt-i18n="puzzle">パズル</span><span class="mt-count">4</span></button><button type="button" data-mt-category="party" aria-pressed="false"><span data-mt-i18n="party">みんなで</span><span class="mt-count">4</span></button><button type="button" data-mt-category="learn" aria-pressed="false"><span data-mt-i18n="learn">学び・クイズ</span><span class="mt-count">7</span></button><button type="button" data-mt-category="casual" aria-pressed="false"><span data-mt-i18n="casual">気軽に</span><span class="mt-count">1</span></button></div>
+      <div class="mt-searchbox"><label for="mt-search" class="mt-sr" data-mt-i18n="search">ゲーム名・キーワードで検索</label><input type="search" id="mt-search" autocomplete="off" placeholder="ゲーム名・キーワードで検索" aria-label="ゲーム名・キーワードで検索"><button id="mt-clear" type="button" aria-label="検索をクリア" hidden>×</button></div>
+    </div>
+    <div class="mt-gamegrid"><article class="mt-game" data-mt-card="WaterSortPuzzle">
+      <a class="mt-card-art mt-violet" href="https://kouheim1979.github.io/games/WaterSortPuzzle/" data-mt-game="WaterSortPuzzle" aria-label="Water Sort Puzzle"><span aria-hidden="true">◒</span><small aria-hidden="true">01 / PLAY</small></a>
+      <div class="mt-card-body"><div class="mt-card-tag"><span data-mt-i18n="puzzle">パズル</span></div><h3><a data-mt-game="WaterSortPuzzle" href="https://kouheim1979.github.io/games/WaterSortPuzzle/" data-mt-title="WaterSortPuzzle">Water Sort Puzzle</a></h3><div class="mt-original-title" data-mt-original-title="WaterSortPuzzle" lang="ja" hidden>Water Sort Puzzle</div><p class="mt-card-description" data-mt-description="WaterSortPuzzle">色水を注いで、同じ色をひとつの瓶に。ゆっくり考えたい日のパズル。</p><div class="mt-card-bottom"><span data-mt-i18n="original" class="mt-card-language">ゲーム内：日本語中心</span><a class="mt-playlink" href="https://kouheim1979.github.io/games/WaterSortPuzzle/" data-mt-game="WaterSortPuzzle"><span data-mt-i18n="play">遊ぶ</span><span aria-hidden="true">↗</span></a></div></div>
+    </article><article class="mt-game" data-mt-card="todofuken-draft">
+      <a class="mt-card-art mt-green" href="https://kouheim1979.github.io/games/todofuken-draft/" data-mt-game="todofuken-draft" aria-label="都道府県ドラフトバトル"><span aria-hidden="true">47</span><small aria-hidden="true">02 / PLAY</small></a>
+      <div class="mt-card-body"><div class="mt-card-tag"><span data-mt-i18n="party">みんなで</span></div><h3><a data-mt-game="todofuken-draft" href="https://kouheim1979.github.io/games/todofuken-draft/" data-mt-title="todofuken-draft">都道府県ドラフトバトル</a></h3><div class="mt-original-title" data-mt-original-title="todofuken-draft" lang="ja" hidden>都道府県ドラフトバトル</div><p class="mt-card-description" data-mt-description="todofuken-draft">47都道府県を指名して、自分だけのチームづくり。CPUとも、みんなとも。</p><div class="mt-card-bottom"><span data-mt-i18n="original" class="mt-card-language">ゲーム内：日本語中心</span><a class="mt-playlink" href="https://kouheim1979.github.io/games/todofuken-draft/" data-mt-game="todofuken-draft"><span data-mt-i18n="play">遊ぶ</span><span aria-hidden="true">↗</span></a></div></div>
+    </article><article class="mt-game" data-mt-card="rin-harbor">
+      <a class="mt-card-art mt-blue" href="https://kouheim1979.github.io/games/rin-harbor/" data-mt-game="rin-harbor" aria-label="リンハーバー"><span aria-hidden="true">⚓</span><small aria-hidden="true">03 / PLAY</small></a>
+      <div class="mt-card-body"><div class="mt-card-tag"><span data-mt-i18n="puzzle">パズル</span></div><h3><a data-mt-game="rin-harbor" href="https://kouheim1979.github.io/games/rin-harbor/" data-mt-title="rin-harbor">リンハーバー</a></h3><div class="mt-original-title" data-mt-original-title="rin-harbor" lang="ja" hidden>リンハーバー</div><p class="mt-card-description" data-mt-description="rin-harbor">アイテムを合成して、港の物語を進めよう。リンと楽しむ小さな冒険。</p><div class="mt-card-bottom"><span data-mt-i18n="original" class="mt-card-language">ゲーム内：日本語中心</span><a class="mt-playlink" href="https://kouheim1979.github.io/games/rin-harbor/" data-mt-game="rin-harbor"><span data-mt-i18n="play">遊ぶ</span><span aria-hidden="true">↗</span></a></div></div>
+    </article><article class="mt-game" data-mt-card="word-wolf">
+      <a class="mt-card-art mt-rose" href="https://kouheim1979.github.io/games/word-wolf/" data-mt-game="word-wolf" aria-label="ワードウルフ"><span aria-hidden="true">W</span><small aria-hidden="true">04 / PLAY</small></a>
+      <div class="mt-card-body"><div class="mt-card-tag"><span data-mt-i18n="party">みんなで</span></div><h3><a data-mt-game="word-wolf" href="https://kouheim1979.github.io/games/word-wolf/" data-mt-title="word-wolf">ワードウルフ</a></h3><div class="mt-original-title" data-mt-original-title="word-wolf" lang="ja" hidden>ワードウルフ</div><p class="mt-card-description" data-mt-description="word-wolf">少し違うお題を持つのは誰？ 会話の中から少数派を探すパーティーゲーム。</p><div class="mt-card-bottom"><span data-mt-i18n="original" class="mt-card-language">ゲーム内：日本語中心</span><a class="mt-playlink" href="https://kouheim1979.github.io/games/word-wolf/" data-mt-game="word-wolf"><span data-mt-i18n="play">遊ぶ</span><span aria-hidden="true">↗</span></a></div></div>
+    </article><article class="mt-game" data-mt-card="word-wolf2">
+      <a class="mt-card-art mt-amber" href="https://kouheim1979.github.io/games/word-wolf2/" data-mt-game="word-wolf2" aria-label="ワードウルフ 2"><span aria-hidden="true">W₂</span><small aria-hidden="true">05 / PLAY</small></a>
+      <div class="mt-card-body"><div class="mt-card-tag"><span data-mt-i18n="party">みんなで</span></div><h3><a data-mt-game="word-wolf2" href="https://kouheim1979.github.io/games/word-wolf2/" data-mt-title="word-wolf2">ワードウルフ 2</a></h3><div class="mt-original-title" data-mt-original-title="word-wolf2" lang="ja" hidden>ワードウルフ 2</div><p class="mt-card-description" data-mt-description="word-wolf2">もうひとつのワードウルフ。お題を確認したら、みんなで話し合おう。</p><div class="mt-card-bottom"><span data-mt-i18n="original" class="mt-card-language">ゲーム内：日本語中心</span><a class="mt-playlink" href="https://kouheim1979.github.io/games/word-wolf2/" data-mt-game="word-wolf2"><span data-mt-i18n="play">遊ぶ</span><span aria-hidden="true">↗</span></a></div></div>
+    </article><article class="mt-game" data-mt-card="Chroma-sort">
+      <a class="mt-card-art mt-violet" href="https://kouheim1979.github.io/games/Chroma-sort/" data-mt-game="Chroma-sort" aria-label="Chroma Sort"><span aria-hidden="true">▦</span><small aria-hidden="true">06 / PLAY</small></a>
+      <div class="mt-card-body"><div class="mt-card-tag"><span data-mt-i18n="puzzle">パズル</span></div><h3><a data-mt-game="Chroma-sort" href="https://kouheim1979.github.io/games/Chroma-sort/" data-mt-title="Chroma-sort">Chroma Sort</a></h3><div class="mt-original-title" data-mt-original-title="Chroma-sort" lang="ja" hidden>Chroma Sort</div><p class="mt-card-description" data-mt-description="Chroma-sort">色の並びを見ながら整理するソートパズル。次の一手を考えよう。</p><div class="mt-card-bottom"><span data-mt-i18n="original" class="mt-card-language">ゲーム内：日本語中心</span><a class="mt-playlink" href="https://kouheim1979.github.io/games/Chroma-sort/" data-mt-game="Chroma-sort"><span data-mt-i18n="play">遊ぶ</span><span aria-hidden="true">↗</span></a></div></div>
+    </article><article class="mt-game" data-mt-card="yakitori">
+      <a class="mt-card-art mt-amber" href="https://kouheim1979.github.io/games/yakitori/" data-mt-game="yakitori" aria-label="やきとり ならべ"><span aria-hidden="true">≋</span><small aria-hidden="true">07 / PLAY</small></a>
+      <div class="mt-card-body"><div class="mt-card-tag"><span data-mt-i18n="puzzle">パズル</span></div><h3><a data-mt-game="yakitori" href="https://kouheim1979.github.io/games/yakitori/" data-mt-title="yakitori">やきとり ならべ</a></h3><div class="mt-original-title" data-mt-original-title="yakitori" lang="ja" hidden>やきとり ならべ</div><p class="mt-card-description" data-mt-description="yakitori">焼き台の串を入れ替えて3本そろえ、お客さんの注文に届けよう。</p><div class="mt-card-bottom"><span data-mt-i18n="original" class="mt-card-language">ゲーム内：日本語中心</span><a class="mt-playlink" href="https://kouheim1979.github.io/games/yakitori/" data-mt-game="yakitori"><span data-mt-i18n="play">遊ぶ</span><span aria-hidden="true">↗</span></a></div></div>
+    </article><article class="mt-game" data-mt-card="atama-oshiri">
+      <a class="mt-card-art mt-blue" href="https://kouheim1979.github.io/games/atama-oshiri/" data-mt-game="atama-oshiri" aria-label="あたまとおしり"><span aria-hidden="true">あ…ん</span><small aria-hidden="true">08 / PLAY</small></a>
+      <div class="mt-card-body"><div class="mt-card-tag"><span data-mt-i18n="party">みんなで</span></div><h3><a data-mt-game="atama-oshiri" href="https://kouheim1979.github.io/games/atama-oshiri/" data-mt-title="atama-oshiri">あたまとおしり</a></h3><div class="mt-original-title" data-mt-original-title="atama-oshiri" lang="ja" hidden>あたまとおしり</div><p class="mt-card-description" data-mt-description="atama-oshiri">最初と最後の文字をヒントに、間をつなぐ日本語を考えよう。</p><div class="mt-card-bottom"><span data-mt-i18n="original" class="mt-card-language">ゲーム内：日本語中心</span><a class="mt-playlink" href="https://kouheim1979.github.io/games/atama-oshiri/" data-mt-game="atama-oshiri"><span data-mt-i18n="play">遊ぶ</span><span aria-hidden="true">↗</span></a></div></div>
+    </article><article class="mt-game" data-mt-card="nihon-meguri-47">
+      <a class="mt-card-art mt-green" href="https://kouheim1979.github.io/games/nihon-meguri-47/" data-mt-game="nihon-meguri-47" aria-label="日本めぐり47"><span aria-hidden="true">日</span><small aria-hidden="true">09 / PLAY</small></a>
+      <div class="mt-card-body"><div class="mt-card-tag"><span data-mt-i18n="learn">学び・クイズ</span></div><h3><a data-mt-game="nihon-meguri-47" href="https://kouheim1979.github.io/games/nihon-meguri-47/" data-mt-title="nihon-meguri-47">日本めぐり47</a></h3><div class="mt-original-title" data-mt-original-title="nihon-meguri-47" lang="ja" hidden>日本めぐり47</div><p class="mt-card-description" data-mt-description="nihon-meguri-47">県庁所在地、名所、名物。4択クイズで日本の都道府県をめぐろう。</p><div class="mt-card-bottom"><span data-mt-i18n="original" class="mt-card-language">ゲーム内：日本語中心</span><a class="mt-playlink" href="https://kouheim1979.github.io/games/nihon-meguri-47/" data-mt-game="nihon-meguri-47"><span data-mt-i18n="play">遊ぶ</span><span aria-hidden="true">↗</span></a></div></div>
+    </article><article class="mt-game" data-mt-card="jintori">
+      <a class="mt-card-art mt-green" href="https://kouheim1979.github.io/games/jintori/" data-mt-game="jintori" aria-label="日本地図ウルフ"><span aria-hidden="true">⌖</span><small aria-hidden="true">10 / PLAY</small></a>
+      <div class="mt-card-body"><div class="mt-card-tag"><span data-mt-i18n="learn">学び・クイズ</span></div><h3><a data-mt-game="jintori" href="https://kouheim1979.github.io/games/jintori/" data-mt-title="jintori">日本地図ウルフ</a></h3><div class="mt-original-title" data-mt-original-title="jintori" lang="ja" hidden>日本地図ウルフ</div><p class="mt-card-description" data-mt-description="jintori">お題のランキングをヒントに、地図から都道府県を選ぶ陣取りクイズ。</p><div class="mt-card-bottom"><span data-mt-i18n="original" class="mt-card-language">ゲーム内：日本語中心</span><a class="mt-playlink" href="https://kouheim1979.github.io/games/jintori/" data-mt-game="jintori"><span data-mt-i18n="play">遊ぶ</span><span aria-hidden="true">↗</span></a></div></div>
+    </article><article class="mt-game" data-mt-card="kotowaza">
+      <a class="mt-card-art mt-rose" href="https://kouheim1979.github.io/games/kotowaza/" data-mt-game="kotowaza" aria-label="ことばクエスト"><span aria-hidden="true">言</span><small aria-hidden="true">11 / PLAY</small></a>
+      <div class="mt-card-body"><div class="mt-card-tag"><span data-mt-i18n="learn">学び・クイズ</span></div><h3><a data-mt-game="kotowaza" href="https://kouheim1979.github.io/games/kotowaza/" data-mt-title="kotowaza">ことばクエスト</a></h3><div class="mt-original-title" data-mt-original-title="kotowaza" lang="ja" hidden>ことばクエスト</div><p class="mt-card-description" data-mt-description="kotowaza">慣用句・ことわざ・故事成語をクイズで学ぶ、ことばの冒険。</p><div class="mt-card-bottom"><span data-mt-i18n="original" class="mt-card-language">ゲーム内：日本語中心</span><a class="mt-playlink" href="https://kouheim1979.github.io/games/kotowaza/" data-mt-game="kotowaza"><span data-mt-i18n="play">遊ぶ</span><span aria-hidden="true">↗</span></a></div></div>
+    </article><article class="mt-game" data-mt-card="nazonazo-kids">
+      <a class="mt-card-art mt-amber" href="https://kouheim1979.github.io/games/nazonazo-kids/" data-mt-game="nazonazo-kids" aria-label="小4なぞなぞ探偵団"><span aria-hidden="true">？</span><small aria-hidden="true">12 / PLAY</small></a>
+      <div class="mt-card-body"><div class="mt-card-tag"><span data-mt-i18n="learn">学び・クイズ</span></div><h3><a data-mt-game="nazonazo-kids" href="https://kouheim1979.github.io/games/nazonazo-kids/" data-mt-title="nazonazo-kids">小4なぞなぞ探偵団</a></h3><div class="mt-original-title" data-mt-original-title="nazonazo-kids" lang="ja" hidden>小4なぞなぞ探偵団</div><p class="mt-card-description" data-mt-description="nazonazo-kids">なぞなぞを解いて名探偵に。解説を読みながら、小4の学習にもつなげよう。</p><div class="mt-card-bottom"><span data-mt-i18n="original" class="mt-card-language">ゲーム内：日本語中心</span><a class="mt-playlink" href="https://kouheim1979.github.io/games/nazonazo-kids/" data-mt-game="nazonazo-kids"><span data-mt-i18n="play">遊ぶ</span><span aria-hidden="true">↗</span></a></div></div>
+    </article><article class="mt-game" data-mt-card="pokemon-quiz-app">
+      <a class="mt-card-art mt-blue" href="https://kouheim1979.github.io/games/pokemon-quiz-app/" data-mt-game="pokemon-quiz-app" aria-label="ポケモン当てクイズ＆全国図鑑"><span aria-hidden="true">◉</span><small aria-hidden="true">13 / PLAY</small></a>
+      <div class="mt-card-body"><div class="mt-card-tag"><span data-mt-i18n="learn">学び・クイズ</span></div><h3><a data-mt-game="pokemon-quiz-app" href="https://kouheim1979.github.io/games/pokemon-quiz-app/" data-mt-title="pokemon-quiz-app">ポケモン当てクイズ＆全国図鑑</a></h3><div class="mt-original-title" data-mt-original-title="pokemon-quiz-app" lang="ja" hidden>ポケモン当てクイズ＆全国図鑑</div><p class="mt-card-description" data-mt-description="pokemon-quiz-app">ポケモンを当てるクイズと全国図鑑。知っているポケモンを探してみよう。</p><div class="mt-card-bottom"><span data-mt-i18n="original" class="mt-card-language">ゲーム内：日本語中心</span><a class="mt-playlink" href="https://kouheim1979.github.io/games/pokemon-quiz-app/" data-mt-game="pokemon-quiz-app"><span data-mt-i18n="play">遊ぶ</span><span aria-hidden="true">↗</span></a></div></div>
+    </article><article class="mt-game" data-mt-card="react-game">
+      <a class="mt-card-art mt-rose" href="https://kouheim1979.github.io/games/react-game/" data-mt-game="react-game" aria-label="反射神経ゲーム"><span aria-hidden="true">ϟ</span><small aria-hidden="true">14 / PLAY</small></a>
+      <div class="mt-card-body"><div class="mt-card-tag"><span data-mt-i18n="casual">気軽に</span></div><h3><a data-mt-game="react-game" href="https://kouheim1979.github.io/games/react-game/" data-mt-title="react-game">反射神経ゲーム</a></h3><div class="mt-original-title" data-mt-original-title="react-game" lang="ja" hidden>反射神経ゲーム</div><p class="mt-card-description" data-mt-description="react-game">合図を見逃さずタップ。自分の反応の速さに挑戦しよう。</p><div class="mt-card-bottom"><span data-mt-i18n="original" class="mt-card-language">ゲーム内：日本語中心</span><a class="mt-playlink" href="https://kouheim1979.github.io/games/react-game/" data-mt-game="react-game"><span data-mt-i18n="play">遊ぶ</span><span aria-hidden="true">↗</span></a></div></div>
+    </article></div>
+    <div id="mt-empty" class="mt-empty" hidden><p data-mt-i18n="empty">見つかりませんでした。別のことばで探してみてください。</p><button id="mt-reset" type="button" data-mt-i18n="reset">すべて表示</button></div>
+    <p data-mt-i18n="originalNote" class="mt-language-note">表示言語はサイトの案内・ゲーム紹介に適用されます。ゲーム内の文章やお題は各ゲームの元の言語です。</p>
+  </section>
+  <section id="mt-tools" class="mt-tools" aria-labelledby="mt-tools-title">
+    <h2 data-mt-i18n="toolsTitle" id="mt-tools-title">暮らしに、もうひとつの道具を。</h2><p data-mt-i18n="toolsIntro" class="mt-tools-intro">計算や準備を手伝う、これまでの無料ツールもこちらから。</p><p data-mt-i18n="toolEnglish" class="mt-tools-language">ツール本体・解説は英語です</p>
+    <div class="mt-toolgrid"><article class="mt-tool-card"><h3 data-mt-i18n="toolRice">鍋炊きごはんガイド＆タイマー</h3><p data-mt-i18n="toolRiceP">お米と水の分量、火加減、加熱時間を確認。</p><a href="https://everydayjapanlab.blogspot.com/p/stovetop-rice.html"><span data-mt-i18n="read">使ってみる</span> <span aria-hidden="true">↗</span></a></article><article class="mt-tool-card"><h3 data-mt-i18n="toolBidet">温水洗浄便座の設置チェック</h3><p data-mt-i18n="toolBidetP">寸法・電源・給水条件を整理。</p><a href="https://everydayjapanlab.blogspot.com/p/washlet-fit.html"><span data-mt-i18n="read">使ってみる</span> <span aria-hidden="true">↗</span></a></article><article class="mt-tool-card"><h3 data-mt-i18n="toolHeat">給湯のエネルギー・費用計算</h3><p data-mt-i18n="toolHeatP">使用量と料金から、条件ごとの費用を比較。</p><a href="https://everydayjapanlab.blogspot.com/p/heat-pump-water-heater.html"><span data-mt-i18n="read">使ってみる</span> <span aria-hidden="true">↗</span></a></article><article class="mt-tool-card"><h3 data-mt-i18n="toolStock">防災備蓄リスト</h3><p data-mt-i18n="toolStockP">人数と日数、今ある備蓄から必要量を計算。</p><a href="https://everydayjapanlab.blogspot.com/p/emergency-stockpile.html"><span data-mt-i18n="read">使ってみる</span> <span aria-hidden="true">↗</span></a></article><article class="mt-tool-card"><h3 data-mt-i18n="toolBackup">EVからの非常用電源</h3><p data-mt-i18n="toolBackupP">バッテリー容量と消費電力から利用時間を試算。</p><a href="https://everydayjapanlab.blogspot.com/p/v2h-backup.html"><span data-mt-i18n="read">使ってみる</span> <span aria-hidden="true">↗</span></a></article><article class="mt-tool-card"><h3 data-mt-i18n="toolParcel">宅配ボックスの容量試算</h3><p data-mt-i18n="toolParcelP">配達数と回収時間から必要な容量を考える。</p><a href="https://everydayjapanlab.blogspot.com/p/parcel-locker.html"><span data-mt-i18n="read">使ってみる</span> <span aria-hidden="true">↗</span></a></article></div>
+  </section>
+  <section class="mt-help" aria-labelledby="mt-help-title"><h2 data-mt-i18n="helpTitle" id="mt-help-title">はじめての方へ</h2><div class="mt-helpgrid"><div><div class="mt-step">01</div><h3 data-mt-i18n="help1">ゲームを選ぶ</h3><p data-mt-i18n="help1p">カードから「遊ぶ」を選ぶと、このページ内にゲームが開きます。</p></div><div><div class="mt-step">02</div><h3 data-mt-i18n="help2">自分のペースで</h3><p data-mt-i18n="help2p">スマホでもパソコンでも。音や記録の設定は、ゲームごとのメニューで変更できます。</p></div><div><div class="mt-step">03</div><h3 data-mt-i18n="help3">また、ここから</h3><p data-mt-i18n="help3p">選んだ表示言語は、このブラウザーに保存します。ゲームを閉じると一覧に戻れます。</p></div></div></section>
+  <footer class="mt-footer"><div><div data-mt-i18n="brand" class="mt-footer-brand">まいにち道具箱</div><p data-mt-i18n="footer">ちょっと遊んで、ちょっと学ぶ。毎日に使える小さな道具。</p></div><nav class="mt-footer-links" aria-label="Site information"><a data-mt-i18n="about" href="https://everydayjapanlab.blogspot.com/p/about.html">このサイトについて</a><a data-mt-i18n="contact" href="https://everydayjapanlab.blogspot.com/p/contact.html">お問い合わせ</a><a data-mt-i18n="privacy" href="https://everydayjapanlab.blogspot.com/p/privacy.html">プライバシー</a><a data-mt-i18n="advertising" href="https://everydayjapanlab.blogspot.com/p/advertising.html">広告について</a></nav></footer>
+  <p data-mt-i18n="made" class="mt-made">ゲームは作者のGitHub Pagesから読み込みます。保存される記録はゲームごとに異なります。</p>
+  <dialog id="mt-player" aria-labelledby="mt-player-title" aria-describedby="mt-frame-hint">
+    <div class="mt-player-header"><div><h2 id="mt-player-title"></h2><p id="mt-player-description"></p></div><button id="mt-close" type="button" aria-label="ゲームを閉じる">×</button></div>
+    <div class="mt-player-tools"><a id="mt-new-tab" target="_blank" rel="noopener noreferrer" data-mt-i18n="newTab">別タブで開く</a><button id="mt-fullscreen" type="button" data-mt-i18n="fullscreen">全画面</button><span data-mt-i18n="original">ゲーム内：日本語中心</span></div>
+    <p id="mt-road-note" data-mt-i18n="road" hidden></p>
+    <div id="mt-frame-wrap"><div id="mt-loading" role="status" data-mt-i18n="loading"></div></div>
+    <p id="mt-frame-hint" data-mt-i18n="frameHint">表示されない・操作しづらい場合は、別タブで開いてください。</p>
+  </dialog>
+</div></template>
+<script>
+(()=>{const start=()=>{
+// Pure, deterministic planning models. No network calls or storage.
+function number(value, name, min, max, integer=false) {
+  if (value === '' || (typeof value === 'string' && !value.trim()) || value === null || value === undefined || typeof value === 'boolean') throw new Error(`${name}: enter a number.`);
+  const n = Number(value);
+  if (!Number.isFinite(n) || n < min || n > max || (integer && !Number.isInteger(n))) throw new Error(`${name}: enter ${integer?'a whole number':'a number'} from ${min} to ${max}.`);
+  return n;
+}
+function heatPump(x) {
+  const litres=number(x.litres,'Daily delivered water',0,10000), days=number(x.days,'Days per year',1,366,true);
+  const cold=number(x.cold,'Cold inlet temperature',0,40), hot=number(x.hot,'Delivered water temperature',1,80);
+  if(hot<=cold) throw new Error('Delivered water temperature must be above the cold inlet temperature.');
+  const cop=number(x.cop,'Seasonal heat-pump COP',1,8), loss=number(x.loss,'Heat-loss allowance',0,100)/100;
+  const auxiliary=number(x.auxiliary,'Resistance heat share',0,100)/100;
+  const rate=number(x.rate,'Electricity price',0,10000), baselineRate=number(x.baselineRate,'Baseline energy price',0,10000);
+  const baselineEfficiency=number(x.baselineEfficiency,'Baseline efficiency',1,100)/100;
+  const extra=number(x.extra,'Additional upfront cost',0,1000000);
+  const drawHeat=litres*4.186*(hot-cold)/3600*days, heat=drawHeat*(1+loss);
+  const electricity=heat*((1-auxiliary)/cop+auxiliary), baselineEnergy=heat/baselineEfficiency;
+  const cost=electricity*rate, baselineCost=baselineEnergy*baselineRate, saving=baselineCost-cost;
+  return {drawHeat,heat,electricity,baselineEnergy,cost,baselineCost,saving,payback:extra>0&&saving>0?extra/saving:null,
+    scenarios:[2,3,4].map(c=>({cop:c,kwh:heat*((1-auxiliary)/c+auxiliary),cost:heat*((1-auxiliary)/c+auxiliary)*rate}))};
+}
+function stockpile(x) {
+  const people=number(x.people,'People',1,1000,true), days=number(x.days,'Days',1,90,true);
+  const waterRate=number(x.waterRate,'Water per person per day',0.1,50), mealRate=number(x.mealRate,'Meals per person per day',1,10,true);
+  const toiletRate=number(x.toiletRate,'Toilet uses per person per day',1,30,true), bottle=number(x.bottle,'Container capacity',0.1,1000);
+  const waterOwned=number(x.waterOwned,'Water already stored',0,1000000), mealsOwned=number(x.mealsOwned,'Meals already stored',0,1000000,true), toiletsOwned=number(x.toiletsOwned,'Toilet uses already supplied',0,1000000,true);
+  const water=people*days*waterRate, meals=people*days*mealRate, toilets=people*days*toiletRate;
+  const waterBuy=Math.max(0,water-waterOwned), mealsBuy=Math.max(0,meals-mealsOwned), toiletsBuy=Math.max(0,toilets-toiletsOwned);
+  return {water,meals,toilets,waterBuy,mealsBuy,toiletsBuy,containers:Math.ceil(waterBuy/bottle)};
+}
+function backup(x) {
+  const capacity=number(x.capacity,'Usable battery capacity',0.1,1000), start=number(x.start,'Starting charge',0,100), reserve=number(x.reserve,'Reserve charge',0,100);
+  if(reserve>start) throw new Error('Reserve charge cannot exceed starting charge.');
+  const efficiency=number(x.efficiency,'Conversion efficiency',1,100)/100, load=number(x.load,'Average AC load',1,100000), standby=number(x.standby,'AC-equivalent standby load',0,10000);
+  const energy=capacity*(start-reserve)/100*efficiency;
+  return {energy,hours:energy/((load+standby)/1000)};
+}
+function lockers(x) {
+  const homes=number(x.homes,'Homes',1,100000,true), rate=number(x.rate,'Parcels per home per week',0,1000), hours=number(x.hours,'Mean collection delay',0,720);
+  const peak=number(x.peak,'Peak multiplier',1,20), utilisation=number(x.utilisation,'Target occupancy',1,100)/100;
+  const daily=homes*rate/7, mean=daily*hours/24, capacity=Math.ceil(mean*peak/utilisation);
+  return {daily,mean,capacity};
+}
+function readiness(x) {
+  const unit=x.unit==='in'?25.4:1;
+  const length=number(x.length,'Bolt centre to bowl front',1,1000/unit)*unit;
+  const bolts=number(x.bolts,'Bolt spacing',1,1000/unit)*unit;
+  const clearance=number(x.clearance,'Rear clearance',0,1000/unit)*unit;
+  const tasks=['Compare all three dimensions and the tank/bowl contour with the exact product drawing.','Confirm mounting access, hose routing, water pressure and local backflow requirements with the product instructions.'];
+  if(x.shape==='unknown') tasks.push('Identify the toilet bowl shape and model. A round/elongated label alone does not prove fit.');
+  if(x.voltage==='unknown'||x.productVoltage==='unknown') tasks.push('Confirm both local supply and the exact product voltage AND frequency rating.');
+  else if(x.voltage!==x.productVoltage) tasks.push('Voltage mismatch recorded. Choose a locally approved model with matching supply; do not treat a plug adapter as a solution.');
+  else tasks.push('Voltage labels match; frequency, certification, circuit capacity and manufacturer instructions still need verification.');
+  if(x.outlet!=='yes') tasks.push('Have a qualified local installer verify the protected, grounded outlet location and wet-area requirements.');
+  if(x.valve!=='yes') tasks.push('Have the water shut-off valve and connection arrangement checked before purchase.');
+  return {length,bolts,clearance,tasks};
+}
+
+const fmt=(n,d=1)=>{
+  // Remove floating-point noise only at display precision; model values stay unchanged.
+  const scale=10**d, magnitude=Math.abs(n)*scale;
+  const rounded=Math.round(magnitude+Number.EPSILON*Math.max(1,magnitude)*2)/scale;
+  const display=rounded===0?0:n<0?-rounded:rounded;
+  return new Intl.NumberFormat('en',{maximumFractionDigits:d}).format(display);
+};
+const money=(n,c)=>new Intl.NumberFormat('en',{style:'currency',currency:c,maximumFractionDigits:0}).format(n);
+const metric=(value,label)=>`<div class="metric"><strong>${value}</strong><span>${label}</span></div>`;
+const functions={heatPump,stockpile,backup,lockers,readiness};
+for(const form of document.querySelectorAll('form[data-tool]')){
+  const result=form.querySelector('.result'), error=form.querySelector('.error');
+  const clear=()=>{result.hidden=true;result.replaceChildren();error.hidden=true;error.textContent='';};
+  form.addEventListener('input',clear);
+  form.addEventListener('change',clear);
+  let measurementUnit='mm';
+  form.addEventListener('reset',()=>{clear();measurementUnit='mm';});
+  if(form.elements.unit) form.elements.unit.addEventListener('change',()=>{
+    const next=form.elements.unit.value;
+    if(next!==measurementUnit){
+      for(const name of ['length','bolts','clearance']){
+        const input=form.elements.namedItem(name);
+        if(input.value!==''&&Number.isFinite(Number(input.value))) input.value=String(Number((Number(input.value)*(next==='in'?1/25.4:25.4)).toFixed(3)));
+      }
+      measurementUnit=next;
+    }
+  });
+  const preset=form.elements.waterPreset;
+  if(preset) preset.addEventListener('change',()=>{if(preset.value!=='custom')form.elements.waterRate.value=preset.value;});
+  if(form.elements.waterRate) form.elements.waterRate.addEventListener('input',()=>{preset.value='custom';});
+  form.addEventListener('submit',event=>{
+    event.preventDefault();clear();
+    try{
+      if(!form.checkValidity()) {const invalid=form.querySelector('input:invalid,select:invalid');throw new Error(`${invalid.labels?.[0]?.textContent.trim()||'Input'}: ${invalid.validationMessage||'check this value.'}`);}
+      const x=Object.fromEntries(new FormData(form)), type=form.dataset.tool, r=functions[type](x);
+      let content='';
+      if(type==='heatPump'){
+        content=`<div class="metrics">${metric(fmt(r.electricity,0)+' kWh','Modelled annual electricity')}${metric(money(r.cost,x.currency),'Modelled annual running cost')}${metric(money(r.saving,x.currency),r.saving>=0?'Annual saving against your baseline':'Annual saving (negative = higher cost)')}</div><p>Baseline energy: ${fmt(r.baselineEnergy,0)} kWh/year; baseline cost: ${money(r.baselineCost,x.currency)}/year. Useful hot-water heat: ${fmt(r.drawHeat,0)} kWh/year.</p><p>${r.payback===null?'Simple payback not shown: enter a positive additional upfront cost and obtain a positive annual saving.':`Illustrative simple payback: ${fmt(r.payback)} years. This ignores financing, maintenance, price changes and equipment life.`}</p><h3>COP sensitivity \u2014 other inputs unchanged</h3><div class="table-scroll"><table><thead><tr><th>COP</th><th>Electricity / year</th><th>Cost / year</th></tr></thead><tbody>${r.scenarios.map(s=>`<tr><th>${s.cop}</th><td>${fmt(s.kwh,0)} kWh</td><td>${money(s.cost,x.currency)}</td></tr>`).join('')}</tbody></table></div>`;
+      }else if(type==='stockpile'){
+        content=`<div class="metrics">${metric(fmt(r.water)+' L','Total water target')}${metric(fmt(r.meals,0),'Total individual meal portions')}${metric(fmt(r.toilets,0),'Total toilet uses to supply')}</div><h3>Additional supplies after existing stock</h3><ul><li>${fmt(r.waterBuy)} L water: ${fmt(r.containers,0)} additional containers of ${fmt(Number(x.bottle))} L, rounded up.</li><li>${fmt(r.mealsBuy,0)} individual meal portions.</li><li>Products covering ${fmt(r.toiletsBuy,0)} toilet uses. Confirm uses per package; this is not automatically a bag count.</li></ul><p>Plan separate water and supplies for pets, extra hygiene, medical needs and local conditions. Three meal portions is a counting convention, not a nutritional prescription.</p>`;
+      }else if(type==='backup'){
+        content=`<div class="metrics">${metric(fmt(r.energy,2)+' kWh','Available modelled AC energy')}${metric(fmt(r.hours)+' hours','At your average load and standby input')}</div><p>This energy budget does not verify V2H compatibility, islanding, starting surges, continuous inverter power, battery condition or local approval. Do not use it to size life-critical backup.</p>`;
+      }else if(type==='lockers'){
+        content=`<div class="metrics">${metric(fmt(r.daily),'Expected parcels per day')}${metric(fmt(r.mean,2),'Mean occupied compartments')}${metric(fmt(r.capacity,0),'Illustrative planning compartments')}</div><p>${r.capacity===0?'Zero occupancy in the supplied scenario. Real deliveries and collection delays may still require compartments.':'One parcel per compartment is assumed.'} This is a steady-state mean with an arbitrary headroom adjustment, not a probability of availability or a service-level guarantee. Test size mix, clustered arrivals and longer collection delays separately.</p>`;
+      }else{
+        content=`<h3>Measurements recorded \u2014 compatibility not certified</h3><p>Bolt centre to bowl front: ${fmt(r.length)} mm \u00b7 bolt spacing: ${fmt(r.bolts)} mm \u00b7 rear clearance: ${fmt(r.clearance)} mm.</p><ul>${r.tasks.map(t=>`<li>${t}</li>`).join('')}</ul><p>Keep the toilet model number, chosen seat drawing and photos together for the manufacturer or installer. No universal pass/fail score is assigned.</p>`;
+      }
+      result.innerHTML=`<h2>Your planning result</h2>${content}<p class="small">Calculated from the current inputs. Changing any input clears this result. No input is sent to a server.</p>`;
+      result.hidden=false;result.focus();
+    }catch(e){error.textContent=e.message;error.hidden=false;error.focus();}
+  });
+}
+for(const button of document.querySelectorAll('[data-print]')) button.addEventListener('click',()=>window.print());
+
+};if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",start);else start();})();
+
+(function () {
+  'use strict';
+  const langs = ['ja', 'en', 'zh', 'es'];
+  const entry = (id, icon, color, groups, titles, descriptions) => ({
+    id, icon, color, groups,
+    title: Object.fromEntries(langs.map((lang, i) => [lang, titles[i]])),
+    description: Object.fromEntries(langs.map((lang, i) => [lang, descriptions[i]])),
+    url: 'https://kouheim1979.github.io/games/' + id + '/'
+  });
+  // This is the owner's curated collection, not every directory in the repo.
+  const games = [
+    entry('WaterSortPuzzle', '\u25d2', 'violet', ['puzzle'],
+      ['Water Sort Puzzle', 'Water Sort Puzzle', '\u5f69\u6c34\u5206\u7c7b\u62fc\u56fe', 'Water Sort Puzzle'],
+      ['\u8272\u6c34\u3092\u6ce8\u3044\u3067\u3001\u540c\u3058\u8272\u3092\u3072\u3068\u3064\u306e\u74f6\u306b\u3002\u3086\u3063\u304f\u308a\u8003\u3048\u305f\u3044\u65e5\u306e\u30d1\u30ba\u30eb\u3002', 'Pour, sort and bring matching colors together. A quiet puzzle for a little thinking time.', '\u5012\u51fa\u5f69\u6c34\uff0c\u628a\u76f8\u540c\u989c\u8272\u96c6\u4e2d\u5230\u4e00\u4e2a\u74f6\u5b50\u91cc\u3002\u9759\u4e0b\u5fc3\u6765\uff0c\u4eab\u53d7\u601d\u8003\u7684\u4e50\u8da3\u3002', 'Vierte y agrupa los colores en sus frascos. Un rompecabezas para pensar con calma.']),
+    entry('todofuken-draft', '47', 'green', ['party', 'learn'],
+      ['\u90fd\u9053\u5e9c\u770c\u30c9\u30e9\u30d5\u30c8\u30d0\u30c8\u30eb', 'Prefecture Draft Battle', '\u90fd\u9053\u5e9c\u53bf\u9009\u79c0\u5bf9\u6218', 'Batalla de prefecturas'],
+      ['47\u90fd\u9053\u5e9c\u770c\u3092\u6307\u540d\u3057\u3066\u3001\u81ea\u5206\u3060\u3051\u306e\u30c1\u30fc\u30e0\u3065\u304f\u308a\u3002CPU\u3068\u3082\u3001\u307f\u3093\u306a\u3068\u3082\u3002', 'Draft Japanese prefectures to build your own team. Play against the CPU or with a group.', '\u4ece\u65e5\u672c47\u4e2a\u90fd\u9053\u5e9c\u53bf\u4e2d\u9009\u79c0\uff0c\u7ec4\u5efa\u81ea\u5df1\u7684\u961f\u4f0d\u3002\u53ef\u6311\u6218\u7535\u8111\uff0c\u4e5f\u53ef\u591a\u4eba\u6e38\u73a9\u3002', 'Elige prefecturas de Jap\u00f3n y crea tu equipo. Juega contra la CPU o con m\u00e1s personas.']),
+    entry('rin-harbor', '\u2693', 'blue', ['puzzle'],
+      ['\u30ea\u30f3\u30cf\u30fc\u30d0\u30fc', 'Rin Harbor', '\u7433\u7684\u6e2f\u6e7e', 'Rin Harbor'],
+      ['\u30a2\u30a4\u30c6\u30e0\u3092\u5408\u6210\u3057\u3066\u3001\u6e2f\u306e\u7269\u8a9e\u3092\u9032\u3081\u3088\u3046\u3002\u30ea\u30f3\u3068\u697d\u3057\u3080\u5c0f\u3055\u306a\u5192\u967a\u3002', 'Merge items and follow the story of a harbor. A little adventure with Rin.', '\u5408\u6210\u7269\u54c1\uff0c\u63a8\u52a8\u6e2f\u6e7e\u7684\u6545\u4e8b\u3002\u548c\u7433\u4e00\u8d77\u5c55\u5f00\u5c0f\u5c0f\u7684\u5192\u9669\u3002', 'Combina objetos y avanza en la historia del puerto. Una peque\u00f1a aventura junto a Rin.']),
+    entry('word-wolf', 'W', 'rose', ['party'],
+      ['\u30ef\u30fc\u30c9\u30a6\u30eb\u30d5', 'Word Wolf', '\u8bcd\u8bed\u72fc\u4eba', 'Word Wolf'],
+      ['\u5c11\u3057\u9055\u3046\u304a\u984c\u3092\u6301\u3064\u306e\u306f\u8ab0\uff1f \u4f1a\u8a71\u306e\u4e2d\u304b\u3089\u5c11\u6570\u6d3e\u3092\u63a2\u3059\u30d1\u30fc\u30c6\u30a3\u30fc\u30b2\u30fc\u30e0\u3002', 'Who has a slightly different word? Find the odd one out through conversation.', '\u8c01\u62ff\u5230\u4e86\u4e0d\u4e00\u6837\u7684\u8bcd\uff1f\u901a\u8fc7\u4ea4\u8c08\u627e\u51fa\u5c11\u6570\u6d3e\u7684\u805a\u4f1a\u6e38\u620f\u3002', '\u00bfQui\u00e9n tiene una palabra distinta? Descubre a la minor\u00eda conversando.']),
+    entry('word-wolf2', 'W\u2082', 'amber', ['party'],
+      ['\u30ef\u30fc\u30c9\u30a6\u30eb\u30d5 2', 'Word Wolf 2', '\u8bcd\u8bed\u72fc\u4eba 2', 'Word Wolf 2'],
+      ['\u3082\u3046\u3072\u3068\u3064\u306e\u30ef\u30fc\u30c9\u30a6\u30eb\u30d5\u3002\u304a\u984c\u3092\u78ba\u8a8d\u3057\u305f\u3089\u3001\u307f\u3093\u306a\u3067\u8a71\u3057\u5408\u304a\u3046\u3002', 'Another version of Word Wolf. Check your word, then start the group discussion.', '\u8bcd\u8bed\u72fc\u4eba\u7684\u53e6\u4e00\u7248\u672c\u3002\u786e\u8ba4\u81ea\u5df1\u7684\u8bcd\u8bed\u540e\uff0c\u548c\u5927\u5bb6\u4e00\u8d77\u8ba8\u8bba\u3002', 'Otra versi\u00f3n de Word Wolf. Mira tu palabra y empieza la conversaci\u00f3n en grupo.']),
+    entry('Chroma-sort', '\u25a6', 'violet', ['puzzle'],
+      ['Chroma Sort', 'Chroma Sort', 'Chroma \u8272\u5f69\u5206\u7c7b', 'Chroma Sort'],
+      ['\u8272\u306e\u4e26\u3073\u3092\u898b\u306a\u304c\u3089\u6574\u7406\u3059\u308b\u30bd\u30fc\u30c8\u30d1\u30ba\u30eb\u3002\u6b21\u306e\u4e00\u624b\u3092\u8003\u3048\u3088\u3046\u3002', 'A sorting puzzle built around color. Look at the arrangement and plan your next move.', '\u89c2\u5bdf\u989c\u8272\u7684\u6392\u5217\uff0c\u6574\u7406\u51fa\u6b63\u786e\u7684\u7ec4\u5408\u3002\u60f3\u597d\u4e0b\u4e00\u6b65\u518d\u884c\u52a8\u3002', 'Un puzle de clasificaci\u00f3n por colores. Observa la disposici\u00f3n y planea tu siguiente paso.']),
+    entry('yakitori', '\u224b', 'amber', ['puzzle'],
+      ['\u3084\u304d\u3068\u308a \u306a\u3089\u3079', 'Yakitori Match', '\u70e4\u4e32\u6392\u5217', 'Combina brochetas'],
+      ['\u713c\u304d\u53f0\u306e\u4e32\u3092\u5165\u308c\u66ff\u3048\u30663\u672c\u305d\u308d\u3048\u3001\u304a\u5ba2\u3055\u3093\u306e\u6ce8\u6587\u306b\u5c4a\u3051\u3088\u3046\u3002', 'Swap skewers on the grill, match three and serve your customers.', '\u4ea4\u6362\u70e4\u67b6\u4e0a\u7684\u70e4\u4e32\uff0c\u51d1\u9f50\u4e09\u4e32\uff0c\u5b8c\u6210\u5ba2\u4eba\u7684\u8ba2\u5355\u3002', 'Intercambia brochetas, junta tres iguales y sirve los pedidos de tus clientes.']),
+    entry('atama-oshiri', '\u3042\u2026\u3093', 'blue', ['party', 'learn'],
+      ['\u3042\u305f\u307e\u3068\u304a\u3057\u308a', 'First & Last', '\u8bcd\u8bed\u7684\u9996\u4e0e\u5c3e', 'Principio y final'],
+      ['\u6700\u521d\u3068\u6700\u5f8c\u306e\u6587\u5b57\u3092\u30d2\u30f3\u30c8\u306b\u3001\u9593\u3092\u3064\u306a\u3050\u65e5\u672c\u8a9e\u3092\u8003\u3048\u3088\u3046\u3002', 'Use the first and last character as clues to think of a Japanese word.', '\u6839\u636e\u5f00\u5934\u548c\u7ed3\u5c3e\u7684\u6587\u5b57\uff0c\u60f3\u51fa\u8fde\u63a5\u5b83\u4eec\u7684\u65e5\u8bed\u8bcd\u8bed\u3002', 'Piensa en una palabra japonesa a partir de su primer y \u00faltimo car\u00e1cter.']),
+    entry('nihon-meguri-47', '\u65e5', 'green', ['learn'],
+      ['\u65e5\u672c\u3081\u3050\u308a47', 'Discover Japan 47', '\u7545\u6e38\u65e5\u672c47', 'Descubre Jap\u00f3n 47'],
+      ['\u770c\u5e81\u6240\u5728\u5730\u3001\u540d\u6240\u3001\u540d\u7269\u30024\u629e\u30af\u30a4\u30ba\u3067\u65e5\u672c\u306e\u90fd\u9053\u5e9c\u770c\u3092\u3081\u3050\u308d\u3046\u3002', 'Explore Japan through multiple-choice questions on prefectural capitals, sights and local specialties.', '\u901a\u8fc7\u56db\u9009\u4e00\u95ee\u7b54\uff0c\u4e86\u89e3\u65e5\u672c\u5404\u5730\u7684\u9996\u5e9c\u3001\u540d\u80dc\u548c\u7279\u4ea7\u3002', 'Recorre Jap\u00f3n con preguntas de opci\u00f3n m\u00faltiple sobre capitales, lugares y especialidades locales.']),
+    entry('jintori', '\u2316', 'green', ['learn'],
+      ['\u65e5\u672c\u5730\u56f3\u30a6\u30eb\u30d5', 'Japan Map Wolf', '\u65e5\u672c\u5730\u56fe\u72fc\u4eba', 'Lobo del mapa de Jap\u00f3n'],
+      ['\u304a\u984c\u306e\u30e9\u30f3\u30ad\u30f3\u30b0\u3092\u30d2\u30f3\u30c8\u306b\u3001\u5730\u56f3\u304b\u3089\u90fd\u9053\u5e9c\u770c\u3092\u9078\u3076\u9663\u53d6\u308a\u30af\u30a4\u30ba\u3002', 'Use ranking clues to choose prefectures on a map of Japan.', '\u6839\u636e\u6392\u540d\u63d0\u793a\uff0c\u5728\u65e5\u672c\u5730\u56fe\u4e0a\u9009\u62e9\u90fd\u9053\u5e9c\u53bf\uff0c\u6311\u6218\u9886\u5730\u95ee\u7b54\u3002', 'Usa las pistas de clasificaci\u00f3n para elegir prefecturas en el mapa de Jap\u00f3n.']),
+    entry('kotowaza', '\u8a00', 'rose', ['learn'],
+      ['\u3053\u3068\u3070\u30af\u30a8\u30b9\u30c8', 'Japanese Phrase Quest', '\u65e5\u8bed\u8bcd\u53e5\u4efb\u52a1', 'Aventura de expresiones'],
+      ['\u6163\u7528\u53e5\u30fb\u3053\u3068\u308f\u3056\u30fb\u6545\u4e8b\u6210\u8a9e\u3092\u30af\u30a4\u30ba\u3067\u5b66\u3076\u3001\u3053\u3068\u3070\u306e\u5192\u967a\u3002', 'Explore Japanese idioms, proverbs and classical expressions through quizzes.', '\u901a\u8fc7\u95ee\u7b54\u5b66\u4e60\u65e5\u8bed\u60ef\u7528\u8bed\u3001\u8c1a\u8bed\u548c\u5178\u6545\u6210\u8bed\uff0c\u5c55\u5f00\u8bed\u8a00\u5192\u9669\u3002', 'Aprende modismos, refranes y expresiones cl\u00e1sicas japonesas con cuestionarios.']),
+    entry('nazonazo-kids', '\uff1f', 'amber', ['learn'],
+      ['\u5c0f4\u306a\u305e\u306a\u305e\u63a2\u5075\u56e3', 'Kids\u2019 Riddle Detectives', '\u5c0f\u5b66\u751f\u8c1c\u8bed\u4fa6\u63a2\u56e2', 'Detectives de acertijos'],
+      ['\u306a\u305e\u306a\u305e\u3092\u89e3\u3044\u3066\u540d\u63a2\u5075\u306b\u3002\u89e3\u8aac\u3092\u8aad\u307f\u306a\u304c\u3089\u3001\u5c0f4\u306e\u5b66\u7fd2\u306b\u3082\u3064\u306a\u3052\u3088\u3046\u3002', 'Solve riddles and become a detective. Explanations connect the puzzles with Japanese grade-four learning.', '\u89e3\u5f00\u8c1c\u8bed\uff0c\u6210\u4e3a\u5c0f\u4fa6\u63a2\u3002\u9605\u8bfb\u89e3\u8bf4\uff0c\u5de9\u56fa\u65e5\u672c\u5c0f\u5b66\u56db\u5e74\u7ea7\u7684\u77e5\u8bc6\u3002', 'Resuelve acertijos y convi\u00e9rtete en detective. Las explicaciones se relacionan con el cuarto curso de primaria en Jap\u00f3n.']),
+    entry('pokemon-quiz-app', '\u25c9', 'blue', ['learn'],
+      ['\u30dd\u30b1\u30e2\u30f3\u5f53\u3066\u30af\u30a4\u30ba\uff06\u5168\u56fd\u56f3\u9451', 'Pok\u00e9mon Quiz & Pok\u00e9dex', '\u5b9d\u53ef\u68a6\u95ee\u7b54\u4e0e\u5168\u56fd\u56fe\u9274', 'Cuestionario Pok\u00e9mon y Pok\u00e9dex'],
+      ['\u30dd\u30b1\u30e2\u30f3\u3092\u5f53\u3066\u308b\u30af\u30a4\u30ba\u3068\u5168\u56fd\u56f3\u9451\u3002\u77e5\u3063\u3066\u3044\u308b\u30dd\u30b1\u30e2\u30f3\u3092\u63a2\u3057\u3066\u307f\u3088\u3046\u3002', 'A Pok\u00e9mon guessing quiz and a Pok\u00e9dex. See how many you recognize.', '\u6311\u6218\u5b9d\u53ef\u68a6\u731c\u8c1c\u95ee\u7b54\uff0c\u6d4f\u89c8\u5168\u56fd\u56fe\u9274\uff0c\u5bfb\u627e\u4f60\u8ba4\u8bc6\u7684\u5b9d\u53ef\u68a6\u3002', 'Adivina los Pok\u00e9mon y consulta la Pok\u00e9dex. \u00bfCu\u00e1ntos reconoces?']),
+    entry('react-game', '\u03df', 'rose', ['casual'],
+      ['\u53cd\u5c04\u795e\u7d4c\u30b2\u30fc\u30e0', 'Reaction Time', '\u53cd\u5e94\u901f\u5ea6\u6e38\u620f', 'Tiempo de reacci\u00f3n'],
+      ['\u5408\u56f3\u3092\u898b\u9003\u3055\u305a\u30bf\u30c3\u30d7\u3002\u81ea\u5206\u306e\u53cd\u5fdc\u306e\u901f\u3055\u306b\u6311\u6226\u3057\u3088\u3046\u3002', 'Watch for the signal and tap. Challenge your reaction speed.', '\u770b\u51c6\u4fe1\u53f7\uff0c\u8fc5\u901f\u70b9\u51fb\uff0c\u6311\u6218\u81ea\u5df1\u7684\u53cd\u5e94\u901f\u5ea6\u3002', 'Espera la se\u00f1al y toca. Pon a prueba tu velocidad de reacci\u00f3n.']),
+
+  ];
+  const ui = {
+    ja: {
+      brand:'\u307e\u3044\u306b\u3061\u9053\u5177\u7bb1',subtitle:'\u66ae\u3089\u3057\u3068\u5b66\u3073\u306e\u7121\u6599\u30a2\u30d7\u30ea',language:'\u8868\u793a\u8a00\u8a9e',home:'\u30db\u30fc\u30e0',games:'\u30b2\u30fc\u30e0',tools:'\u66ae\u3089\u3057\u306e\u30c4\u30fc\u30eb',guides:'\u8aad\u307f\u3082\u306e',contact:'\u304a\u554f\u3044\u5408\u308f\u305b',about:'\u3053\u306e\u30b5\u30a4\u30c8\u306b\u3064\u3044\u3066',privacy:'\u30d7\u30e9\u30a4\u30d0\u30b7\u30fc',advertising:'\u5e83\u544a\u306b\u3064\u3044\u3066',methodology:'\u5236\u4f5c\u30fb\u8abf\u67fb\u65b9\u91dd',
+      kicker:'\u904a\u3076\u3002\u8003\u3048\u308b\u3002\u898b\u3064\u3051\u308b\u3002',heroFirst:'\u3044\u3064\u3082\u306e\u6642\u9593\u306b\u3001',heroLast:'\u5c0f\u3055\u306a\u767a\u898b\u3092\u3002',intro:'\u3072\u3068\u308a\u3067\u3058\u3063\u304f\u308a\u3001\u5bb6\u65cf\u3067\u308f\u3044\u308f\u3044\u3002\u6c17\u306b\u306a\u308b\u30b2\u30fc\u30e0\u3092\u3072\u3068\u3064\u9078\u3093\u3067\u3001\u3055\u3063\u305d\u304f\u904a\u3093\u3067\u307f\u3088\u3046\u3002',browse:'\u30b2\u30fc\u30e0\u3092\u63a2\u3059',featured:'\u4eca\u65e5\u306e\u3072\u3068\u3084\u3059\u307f',featureCopy:'\u8272\u3092\u305d\u308d\u3048\u3066\u3001\u6c17\u6301\u3061\u3092\u307b\u3069\u304f\u3002',featureDetail:'Water Sort Puzzle',featurePlay:'\u3053\u306e\u30d1\u30ba\u30eb\u3067\u904a\u3076',free:'\u3059\u3079\u3066\u7121\u6599',browser:'\u30d6\u30e9\u30a6\u30b6\u30fc\u3067\u904a\u3079\u308b',total:'{total}\u672c\u306e\u30b2\u30fc\u30e0',library:'\u30b2\u30fc\u30e0\u306e\u5f15\u304d\u51fa\u3057',libraryIntro:'\u904a\u3073\u305f\u3044\u6c17\u5206\u304b\u3089\u3001\u3074\u3063\u305f\u308a\u306e\u4e00\u672c\u3092\u3002',all:'\u3059\u3079\u3066',puzzle:'\u30d1\u30ba\u30eb',party:'\u307f\u3093\u306a\u3067',learn:'\u5b66\u3073\u30fb\u30af\u30a4\u30ba',casual:'\u6c17\u8efd\u306b',search:'\u30b2\u30fc\u30e0\u540d\u30fb\u30ad\u30fc\u30ef\u30fc\u30c9\u3067\u691c\u7d22',clear:'\u691c\u7d22\u3092\u30af\u30ea\u30a2',play:'\u904a\u3076',results:'{count}\u672c\u306e\u30b2\u30fc\u30e0',empty:'\u898b\u3064\u304b\u308a\u307e\u305b\u3093\u3067\u3057\u305f\u3002\u5225\u306e\u3053\u3068\u3070\u3067\u63a2\u3057\u3066\u307f\u3066\u304f\u3060\u3055\u3044\u3002',reset:'\u3059\u3079\u3066\u8868\u793a',original:'\u30b2\u30fc\u30e0\u5185\uff1a\u65e5\u672c\u8a9e\u4e2d\u5fc3',originalNote:'\u8868\u793a\u8a00\u8a9e\u306f\u30b5\u30a4\u30c8\u306e\u6848\u5185\u30fb\u30b2\u30fc\u30e0\u7d39\u4ecb\u306b\u9069\u7528\u3055\u308c\u307e\u3059\u3002\u30b2\u30fc\u30e0\u5185\u306e\u6587\u7ae0\u3084\u304a\u984c\u306f\u5404\u30b2\u30fc\u30e0\u306e\u5143\u306e\u8a00\u8a9e\u3067\u3059\u3002',loading:'\u30b2\u30fc\u30e0\u3092\u8aad\u307f\u8fbc\u3093\u3067\u3044\u307e\u3059\u2026',frameHint:'\u8868\u793a\u3055\u308c\u306a\u3044\u30fb\u64cd\u4f5c\u3057\u3065\u3089\u3044\u5834\u5408\u306f\u3001\u5225\u30bf\u30d6\u3067\u958b\u3044\u3066\u304f\u3060\u3055\u3044\u3002',newTab:'\u5225\u30bf\u30d6\u3067\u958b\u304f',close:'\u30b2\u30fc\u30e0\u3092\u9589\u3058\u308b',fullscreen:'\u5168\u753b\u9762',fullscreenError:'\u5168\u753b\u9762\u8868\u793a\u306b\u5bfe\u5fdc\u3057\u3066\u3044\u307e\u305b\u3093\u3002\u5225\u30bf\u30d6\u3067\u958b\u3044\u3066\u304f\u3060\u3055\u3044\u3002',how:'\u904a\u3073\u65b9',playing:'\u30b2\u30fc\u30e0\u753b\u9762',road:'\u30c9\u30e9\u30a4\u30d6\u4e2d\u306e\u30b2\u30fc\u30e0\u306f\u540c\u4e57\u8005\u5411\u3051\u3067\u3059\u3002\u904b\u8ee2\u8005\u306f\u64cd\u4f5c\u3057\u306a\u3044\u3067\u304f\u3060\u3055\u3044\u3002',toolsTitle:'\u66ae\u3089\u3057\u306b\u3001\u3082\u3046\u3072\u3068\u3064\u306e\u9053\u5177\u3092\u3002',toolsIntro:'\u8a08\u7b97\u3084\u6e96\u5099\u3092\u624b\u4f1d\u3046\u3001\u3053\u308c\u307e\u3067\u306e\u7121\u6599\u30c4\u30fc\u30eb\u3082\u3053\u3061\u3089\u304b\u3089\u3002',toolEnglish:'\u30c4\u30fc\u30eb\u672c\u4f53\u30fb\u89e3\u8aac\u306f\u82f1\u8a9e\u3067\u3059',read:'\u4f7f\u3063\u3066\u307f\u308b',legacy:'\u66ae\u3089\u3057\u306e\u30ac\u30a4\u30c9\uff08\u82f1\u8a9e\uff09',footer:'\u3061\u3087\u3063\u3068\u904a\u3093\u3067\u3001\u3061\u3087\u3063\u3068\u5b66\u3076\u3002\u6bce\u65e5\u306b\u4f7f\u3048\u308b\u5c0f\u3055\u306a\u9053\u5177\u3002',made:'\u30b2\u30fc\u30e0\u306f\u4f5c\u8005\u306eGitHub Pages\u304b\u3089\u8aad\u307f\u8fbc\u307f\u307e\u3059\u3002\u4fdd\u5b58\u3055\u308c\u308b\u8a18\u9332\u306f\u30b2\u30fc\u30e0\u3054\u3068\u306b\u7570\u306a\u308a\u307e\u3059\u3002',helpTitle:'\u306f\u3058\u3081\u3066\u306e\u65b9\u3078',help1:'\u30b2\u30fc\u30e0\u3092\u9078\u3076',help1p:'\u30ab\u30fc\u30c9\u304b\u3089\u300c\u904a\u3076\u300d\u3092\u9078\u3076\u3068\u3001\u3053\u306e\u30da\u30fc\u30b8\u5185\u306b\u30b2\u30fc\u30e0\u304c\u958b\u304d\u307e\u3059\u3002',help2:'\u81ea\u5206\u306e\u30da\u30fc\u30b9\u3067',help2p:'\u30b9\u30de\u30db\u3067\u3082\u30d1\u30bd\u30b3\u30f3\u3067\u3082\u3002\u97f3\u3084\u8a18\u9332\u306e\u8a2d\u5b9a\u306f\u3001\u30b2\u30fc\u30e0\u3054\u3068\u306e\u30e1\u30cb\u30e5\u30fc\u3067\u5909\u66f4\u3067\u304d\u307e\u3059\u3002',help3:'\u307e\u305f\u3001\u3053\u3053\u304b\u3089',help3p:'\u9078\u3093\u3060\u8868\u793a\u8a00\u8a9e\u306f\u3001\u3053\u306e\u30d6\u30e9\u30a6\u30b6\u30fc\u306b\u4fdd\u5b58\u3057\u307e\u3059\u3002\u30b2\u30fc\u30e0\u3092\u9589\u3058\u308b\u3068\u4e00\u89a7\u306b\u623b\u308c\u307e\u3059\u3002',legacyNotice:'\u3053\u306e\u30da\u30fc\u30b8\u306e\u672c\u6587\u30fb\u8a08\u7b97\u30c4\u30fc\u30eb\u306f\u82f1\u8a9e\u7248\u3067\u3059\u3002\u6848\u5185\u3068\u30b2\u30fc\u30e0\u4e00\u89a7\u306f4\u8a00\u8a9e\u3067\u5207\u308a\u66ff\u3048\u3089\u308c\u307e\u3059\u3002',backGames:'\u30b2\u30fc\u30e0\u4e00\u89a7\u3078',
+      toolRice:'\u934b\u708a\u304d\u3054\u306f\u3093\u30ac\u30a4\u30c9\uff06\u30bf\u30a4\u30de\u30fc',toolRiceP:'\u304a\u7c73\u3068\u6c34\u306e\u5206\u91cf\u3001\u706b\u52a0\u6e1b\u3001\u52a0\u71b1\u6642\u9593\u3092\u78ba\u8a8d\u3002',toolBidet:'\u6e29\u6c34\u6d17\u6d44\u4fbf\u5ea7\u306e\u8a2d\u7f6e\u30c1\u30a7\u30c3\u30af',toolBidetP:'\u5bf8\u6cd5\u30fb\u96fb\u6e90\u30fb\u7d66\u6c34\u6761\u4ef6\u3092\u6574\u7406\u3002',toolHeat:'\u7d66\u6e6f\u306e\u30a8\u30cd\u30eb\u30ae\u30fc\u30fb\u8cbb\u7528\u8a08\u7b97',toolHeatP:'\u4f7f\u7528\u91cf\u3068\u6599\u91d1\u304b\u3089\u3001\u6761\u4ef6\u3054\u3068\u306e\u8cbb\u7528\u3092\u6bd4\u8f03\u3002',toolStock:'\u9632\u707d\u5099\u84c4\u30ea\u30b9\u30c8',toolStockP:'\u4eba\u6570\u3068\u65e5\u6570\u3001\u4eca\u3042\u308b\u5099\u84c4\u304b\u3089\u5fc5\u8981\u91cf\u3092\u8a08\u7b97\u3002',toolBackup:'EV\u304b\u3089\u306e\u975e\u5e38\u7528\u96fb\u6e90',toolBackupP:'\u30d0\u30c3\u30c6\u30ea\u30fc\u5bb9\u91cf\u3068\u6d88\u8cbb\u96fb\u529b\u304b\u3089\u5229\u7528\u6642\u9593\u3092\u8a66\u7b97\u3002',toolParcel:'\u5b85\u914d\u30dc\u30c3\u30af\u30b9\u306e\u5bb9\u91cf\u8a66\u7b97',toolParcelP:'\u914d\u9054\u6570\u3068\u56de\u53ce\u6642\u9593\u304b\u3089\u5fc5\u8981\u306a\u5bb9\u91cf\u3092\u8003\u3048\u308b\u3002'
+    },
+    en: {
+      brand:'Mainichi Toolbox',subtitle:'Free apps for everyday life and learning',language:'Display language',home:'Home',games:'Games',tools:'Everyday tools',guides:'Guides',contact:'Contact',about:'About',privacy:'Privacy',advertising:'Advertising',methodology:'Our approach',
+      kicker:'Play. Think. Discover.',heroFirst:'A little discovery.',heroLast:'An everyday moment.',intro:'A quiet puzzle for one, or a lively game together. Pick something that catches your eye and start playing.',browse:'Find a game',featured:'A little break',featureCopy:'Sort the colors. Clear your mind.',featureDetail:'Water Sort Puzzle',featurePlay:'Play this puzzle',free:'All free',browser:'Play in your browser',total:'{total} games to explore',library:'The game drawer',libraryIntro:'Find a game to match your mood.',all:'All games',puzzle:'Puzzles',party:'Play together',learn:'Learn & quiz',casual:'Quick play',search:'Search games and keywords',clear:'Clear search',play:'Play',results:'{count} games',empty:'No games found. Try another keyword.',reset:'Show all games',original:'In-game: mainly Japanese',originalNote:'The language selector translates this site\u2019s navigation and game descriptions. Each game keeps its original in-game language.',loading:'Loading your game\u2026',frameHint:'If the game does not appear or is difficult to use here, open it in a new tab.',newTab:'Open in new tab',close:'Close game',fullscreen:'Full screen',fullscreenError:'Full screen is not supported here. Please open the game in a new tab.',how:'How to play',playing:'Game screen',road:'Road-trip games are for passengers. Drivers must not operate the game.',toolsTitle:'Another useful tool for your day.',toolsIntro:'The existing free planning tools are still here to help with calculations and preparation.',toolEnglish:'Tool interfaces and guides are in English',read:'Open tool',legacy:'Everyday guides (English)',footer:'A little play. A little learning. Small tools for everyday moments.',made:'Games load from the creator\u2019s GitHub Pages. Saved progress and settings vary by game.',helpTitle:'Your first visit?',help1:'Pick a game',help1p:'Choose Play on a card to open the game right on this page.',help2:'Go at your own pace',help2p:'Use your phone or computer. Sound and saved progress are managed in each game\u2019s own menu.',help3:'Come back anytime',help3p:'Your display-language choice is saved in this browser. Close the game to return to the collection.',legacyNotice:'This article or planning tool is the English edition. Site navigation and the game collection are available in four languages.',backGames:'Back to games',
+      toolRice:'Stovetop rice guide & timer',toolRiceP:'Check rice and water measures, heat cues and timing.',toolBidet:'Bidet-seat readiness',toolBidetP:'Organize measurements, power and plumbing requirements.',toolHeat:'Water-heating cost calculator',toolHeatP:'Compare scenarios using your water use and energy rates.',toolStock:'Emergency supplies planner',toolStockP:'Estimate quantities from people, days and existing stock.',toolBackup:'EV-to-home backup',toolBackupP:'Estimate runtime from battery capacity and power demand.',toolParcel:'Parcel-locker capacity',toolParcelP:'Explore capacity using delivery volume and collection time.'
+    },
+    zh: {
+      brand:'\u6bcf\u65e5\u5de5\u5177\u7bb1',subtitle:'\u751f\u6d3b\u4e0e\u5b66\u4e60\u7684\u514d\u8d39\u5e94\u7528',language:'\u663e\u793a\u8bed\u8a00',home:'\u9996\u9875',games:'\u6e38\u620f',tools:'\u751f\u6d3b\u5de5\u5177',guides:'\u9605\u8bfb\u6307\u5357',contact:'\u8054\u7cfb\u6211\u4eec',about:'\u5173\u4e8e\u672c\u7ad9',privacy:'\u9690\u79c1\u653f\u7b56',advertising:'\u5e7f\u544a\u8bf4\u660e',methodology:'\u5236\u4f5c\u4e0e\u7814\u7a76\u65b9\u6cd5',
+      kicker:'\u73a9\u4e00\u73a9\uff0c\u60f3\u4e00\u60f3\uff0c\u53d1\u73b0\u65b0\u4e50\u8da3\u3002',heroFirst:'\u5728\u5e73\u5e38\u7684\u65f6\u5149\u91cc\uff0c',heroLast:'\u9047\u89c1\u5c0f\u5c0f\u7684\u53d1\u73b0\u3002',intro:'\u72ec\u81ea\u9759\u9759\u601d\u8003\uff0c\u6216\u4e0e\u5bb6\u4eba\u70ed\u95f9\u540c\u4e50\u3002\u6311\u9009\u4e00\u6b3e\u611f\u5174\u8da3\u7684\u6e38\u620f\uff0c\u73b0\u5728\u5c31\u5f00\u59cb\u3002',browse:'\u5bfb\u627e\u6e38\u620f',featured:'\u4f11\u606f\u4e00\u4e0b',featureCopy:'\u6574\u7406\u989c\u8272\uff0c\u653e\u677e\u5fc3\u60c5\u3002',featureDetail:'\u5f69\u6c34\u5206\u7c7b\u62fc\u56fe',featurePlay:'\u5f00\u59cb\u8fd9\u6b3e\u62fc\u56fe',free:'\u5168\u90e8\u514d\u8d39',browser:'\u6d4f\u89c8\u5668\u76f4\u63a5\u6e38\u73a9',total:'{total}\u6b3e\u6e38\u620f',library:'\u6e38\u620f\u62bd\u5c49',libraryIntro:'\u6309\u5fc3\u60c5\uff0c\u627e\u5230\u9002\u5408\u81ea\u5df1\u7684\u90a3\u4e00\u6b3e\u3002',all:'\u5168\u90e8',puzzle:'\u76ca\u667a\u62fc\u56fe',party:'\u591a\u4eba\u540c\u4e50',learn:'\u5b66\u4e60\u4e0e\u95ee\u7b54',casual:'\u8f7b\u677e\u4e00\u523b',search:'\u641c\u7d22\u6e38\u620f\u540d\u79f0\u6216\u5173\u952e\u8bcd',clear:'\u6e05\u9664\u641c\u7d22',play:'\u5f00\u59cb\u6e38\u620f',results:'{count}\u6b3e\u6e38\u620f',empty:'\u6ca1\u6709\u627e\u5230\u6e38\u620f\uff0c\u8bf7\u6362\u4e2a\u5173\u952e\u8bcd\u8bd5\u8bd5\u3002',reset:'\u663e\u793a\u5168\u90e8',original:'\u6e38\u620f\u5185\uff1a\u4e3b\u8981\u4e3a\u65e5\u8bed',originalNote:'\u8bed\u8a00\u5207\u6362\u9002\u7528\u4e8e\u672c\u7ad9\u5bfc\u822a\u548c\u6e38\u620f\u4ecb\u7ecd\u3002\u5404\u6e38\u620f\u5185\u7684\u6587\u5b57\u4e0e\u9898\u76ee\u4fdd\u7559\u539f\u6765\u7684\u8bed\u8a00\u3002',loading:'\u6b63\u5728\u52a0\u8f7d\u6e38\u620f\u2026',frameHint:'\u5982\u679c\u6e38\u620f\u65e0\u6cd5\u663e\u793a\u6216\u64cd\u4f5c\u4e0d\u4fbf\uff0c\u8bf7\u5728\u65b0\u6807\u7b7e\u9875\u4e2d\u6253\u5f00\u3002',newTab:'\u5728\u65b0\u6807\u7b7e\u9875\u6253\u5f00',close:'\u5173\u95ed\u6e38\u620f',fullscreen:'\u5168\u5c4f',fullscreenError:'\u5f53\u524d\u73af\u5883\u4e0d\u652f\u6301\u5168\u5c4f\uff0c\u8bf7\u5728\u65b0\u6807\u7b7e\u9875\u6253\u5f00\u6e38\u620f\u3002',how:'\u73a9\u6cd5\u4ecb\u7ecd',playing:'\u6e38\u620f\u753b\u9762',road:'\u65c5\u9014\u6e38\u620f\u4ec5\u4f9b\u4e58\u5ba2\u6e38\u73a9\u3002\u9a7e\u9a76\u5458\u8bf7\u52ff\u64cd\u4f5c\u3002',toolsTitle:'\u4e3a\u751f\u6d3b\uff0c\u591a\u51c6\u5907\u4e00\u4ef6\u5de5\u5177\u3002',toolsIntro:'\u539f\u6709\u7684\u514d\u8d39\u5de5\u5177\u4e5f\u4fdd\u7559\u5728\u8fd9\u91cc\uff0c\u5e2e\u52a9\u4f60\u8ba1\u7b97\u4e0e\u51c6\u5907\u3002',toolEnglish:'\u5de5\u5177\u754c\u9762\u4e0e\u89e3\u8bf4\u4e3a\u82f1\u8bed',read:'\u6253\u5f00\u5de5\u5177',legacy:'\u751f\u6d3b\u6307\u5357\uff08\u82f1\u8bed\uff09',footer:'\u73a9\u4e00\u73a9\uff0c\u5b66\u4e00\u70b9\u3002\u4e3a\u6bcf\u4e00\u5929\u51c6\u5907\u7684\u5c0f\u5de5\u5177\u3002',made:'\u6e38\u620f\u4ece\u4f5c\u8005\u7684 GitHub Pages \u52a0\u8f7d\u3002\u8bb0\u5f55\u4e0e\u8bbe\u7f6e\u7684\u4fdd\u5b58\u65b9\u5f0f\u56e0\u6e38\u620f\u800c\u5f02\u3002',helpTitle:'\u7b2c\u4e00\u6b21\u6765\uff1f',help1:'\u6311\u9009\u6e38\u620f',help1p:'\u70b9\u51fb\u6e38\u620f\u5361\u7247\u4e0a\u7684\u201c\u5f00\u59cb\u6e38\u620f\u201d\uff0c\u5373\u53ef\u5728\u672c\u9875\u9762\u6e38\u73a9\u3002',help2:'\u6309\u7167\u81ea\u5df1\u7684\u8282\u594f',help2p:'\u624b\u673a\u3001\u7535\u8111\u5747\u53ef\u4f7f\u7528\u3002\u58f0\u97f3\u548c\u6e38\u620f\u8bb0\u5f55\u8bf7\u5728\u5404\u6e38\u620f\u81ea\u5df1\u7684\u83dc\u5355\u4e2d\u8bbe\u7f6e\u3002',help3:'\u968f\u65f6\u56de\u6765',help3p:'\u4f60\u9009\u62e9\u7684\u663e\u793a\u8bed\u8a00\u4f1a\u4fdd\u5b58\u5728\u5f53\u524d\u6d4f\u89c8\u5668\u4e2d\u3002\u5173\u95ed\u6e38\u620f\u5373\u53ef\u8fd4\u56de\u5217\u8868\u3002',legacyNotice:'\u672c\u9875\u6b63\u6587\u6216\u8ba1\u7b97\u5de5\u5177\u4e3a\u82f1\u8bed\u7248\u3002\u672c\u7ad9\u5bfc\u822a\u4e0e\u6e38\u620f\u5217\u8868\u652f\u6301\u56db\u79cd\u8bed\u8a00\u3002',backGames:'\u8fd4\u56de\u6e38\u620f\u5217\u8868',
+      toolRice:'\u9505\u716e\u7c73\u996d\u6307\u5357\u4e0e\u8ba1\u65f6\u5668',toolRiceP:'\u786e\u8ba4\u7c73\u6c34\u6bd4\u4f8b\u3001\u706b\u5019\u4e0e\u70f9\u996a\u65f6\u95f4\u3002',toolBidet:'\u667a\u80fd\u9a6c\u6876\u76d6\u5b89\u88c5\u68c0\u67e5',toolBidetP:'\u6574\u7406\u5c3a\u5bf8\u3001\u7535\u6e90\u548c\u4f9b\u6c34\u6761\u4ef6\u3002',toolHeat:'\u70ed\u6c34\u80fd\u8017\u4e0e\u8d39\u7528\u8ba1\u7b97',toolHeatP:'\u6839\u636e\u7528\u6c34\u91cf\u548c\u80fd\u6e90\u5355\u4ef7\u6bd4\u8f83\u4e0d\u540c\u65b9\u6848\u3002',toolStock:'\u5e94\u6025\u7269\u8d44\u89c4\u5212',toolStockP:'\u6309\u4eba\u6570\u3001\u5929\u6570\u4e0e\u73b0\u6709\u50a8\u5907\u8ba1\u7b97\u6240\u9700\u6570\u91cf\u3002',toolBackup:'\u7535\u52a8\u6c7d\u8f66\u5bb6\u5ead\u5e94\u6025\u4f9b\u7535',toolBackupP:'\u6839\u636e\u7535\u6c60\u5bb9\u91cf\u548c\u529f\u7387\u9700\u6c42\u4f30\u7b97\u4f7f\u7528\u65f6\u95f4\u3002',toolParcel:'\u5feb\u9012\u67dc\u5bb9\u91cf\u4f30\u7b97',toolParcelP:'\u6839\u636e\u6295\u9012\u91cf\u548c\u53d6\u4ef6\u65f6\u95f4\u8bc4\u4f30\u6240\u9700\u5bb9\u91cf\u3002'
+    },
+    es: {
+      brand:'Caja Mainichi',subtitle:'Apps gratuitas para la vida diaria y el aprendizaje',language:'Idioma de la p\u00e1gina',home:'Inicio',games:'Juegos',tools:'Herramientas',guides:'Gu\u00edas',contact:'Contacto',about:'Sobre el sitio',privacy:'Privacidad',advertising:'Publicidad',methodology:'Nuestro enfoque',
+      kicker:'Juega. Piensa. Descubre.',heroFirst:'Un peque\u00f1o descubrimiento.',heroLast:'Un momento cotidiano.',intro:'Un puzle tranquilo a solas o un juego animado en familia. Elige el que te llame la atenci\u00f3n y empieza a jugar.',browse:'Buscar un juego',featured:'Una peque\u00f1a pausa',featureCopy:'Ordena los colores. Despeja la mente.',featureDetail:'Water Sort Puzzle',featurePlay:'Jugar este puzle',free:'Todo gratis',browser:'Juega en el navegador',total:'{total} juegos por descubrir',library:'El caj\u00f3n de juegos',libraryIntro:'Encuentra el juego que va con tu \u00e1nimo.',all:'Todos',puzzle:'Puzles',party:'En compa\u00f1\u00eda',learn:'Aprender y responder',casual:'Juego r\u00e1pido',search:'Buscar juegos y palabras clave',clear:'Borrar b\u00fasqueda',play:'Jugar',results:'{count} juegos',empty:'No se han encontrado juegos. Prueba otra palabra.',reset:'Mostrar todos',original:'En el juego: principalmente japon\u00e9s',originalNote:'El selector cambia el idioma de la navegaci\u00f3n y las descripciones del sitio. Cada juego conserva su idioma original.',loading:'Cargando el juego\u2026',frameHint:'Si el juego no aparece o resulta dif\u00edcil de usar aqu\u00ed, \u00e1brelo en otra pesta\u00f1a.',newTab:'Abrir en otra pesta\u00f1a',close:'Cerrar juego',fullscreen:'Pantalla completa',fullscreenError:'La pantalla completa no est\u00e1 disponible aqu\u00ed. Abre el juego en otra pesta\u00f1a.',how:'C\u00f3mo jugar',playing:'Pantalla del juego',road:'Los juegos de viaje son para los pasajeros. El conductor no debe usarlos.',toolsTitle:'Otra herramienta \u00fatil para tu d\u00eda.',toolsIntro:'Las herramientas gratuitas de siempre siguen aqu\u00ed para ayudarte a calcular y prepararte.',toolEnglish:'Las herramientas y las gu\u00edas est\u00e1n en ingl\u00e9s',read:'Abrir herramienta',legacy:'Gu\u00edas para la vida diaria (ingl\u00e9s)',footer:'Un poco de juego, un poco de aprendizaje. Peque\u00f1as herramientas para cada d\u00eda.',made:'Los juegos se cargan desde GitHub Pages de su creador. Los datos guardados dependen de cada juego.',helpTitle:'\u00bfEs tu primera visita?',help1:'Elige un juego',help1p:'Pulsa Jugar en una tarjeta para abrir el juego en esta misma p\u00e1gina.',help2:'A tu ritmo',help2p:'Desde el m\u00f3vil o el ordenador. El sonido y el progreso se gestionan en el men\u00fa de cada juego.',help3:'Vuelve cuando quieras',help3p:'El idioma elegido se guarda en este navegador. Cierra el juego para volver a la colecci\u00f3n.',legacyNotice:'Este art\u00edculo o herramienta est\u00e1 en ingl\u00e9s. La navegaci\u00f3n y la colecci\u00f3n de juegos est\u00e1n disponibles en cuatro idiomas.',backGames:'Volver a los juegos',
+      toolRice:'Gu\u00eda y temporizador para cocer arroz',toolRiceP:'Consulta las medidas, la intensidad del fuego y los tiempos.',toolBidet:'Comprobaci\u00f3n para un asiento bid\u00e9',toolBidetP:'Organiza las medidas y los requisitos el\u00e9ctricos y de agua.',toolHeat:'Coste de calentar agua',toolHeatP:'Compara escenarios seg\u00fan el consumo de agua y las tarifas.',toolStock:'Plan de reservas de emergencia',toolStockP:'Calcula cantidades por personas, d\u00edas y existencias.',toolBackup:'Energ\u00eda de respaldo con un veh\u00edculo el\u00e9ctrico',toolBackupP:'Estima la autonom\u00eda seg\u00fan la bater\u00eda y la demanda de energ\u00eda.',toolParcel:'Capacidad de taquillas de paqueter\u00eda',toolParcelP:'Explora la capacidad seg\u00fan las entregas y el tiempo de recogida.'
+    }
+  };
+  const data = {langs, games, ui};
+  if (typeof module !== 'undefined' && module.exports) module.exports = data;
+  else window.MainichiCatalog = data;
+}());
+
+(function () {
+  'use strict';
+  const boot = () => {
+    const data = window.MainichiCatalog;
+    if (!data || document.documentElement.dataset.mainichiReady) return;
+    document.documentElement.dataset.mainichiReady = '1';
+    const {langs, games, ui} = data;
+    const query = new URLSearchParams(location.search);
+    let saved = '';
+    try { saved = localStorage.getItem('mainichi:language') || ''; } catch (_) {}
+    let lang = langs.includes(query.get('lang')) ? query.get('lang') : langs.includes(saved) ? saved : 'ja';
+    let category = 'all';
+    let search = '';
+    let activeGame = null;
+    let returnFocus = null;
+    let loadTimer = 0;
+    const $ = (s, root = document) => root.querySelector(s);
+    const $$ = (s, root = document) => [...root.querySelectorAll(s)];
+    const t = (key) => (ui[lang][key] || ui.ja[key] || key).replace('{total}', String(games.length));
+    const portalTemplate = $('#mt-portal-template');
+    const landing = !$('#mt-portal') && portalTemplate &&
+      (location.pathname === '/' || /\/p\/(home|games)\.html$/.test(location.pathname));
+    if (landing) {
+      const main = $('main.centered-bottom');
+      if (main) {
+        const previous = $('#ejl-front-page');
+        if (previous) previous.remove();
+        main.prepend(portalTemplate.content.cloneNode(true));
+        document.body.classList.add('ejl-front', 'mt-front');
+      }
+    }
+    const portal = $('#mt-portal');
+    const header = $('#mt-site-header') || $('.Header .header-widget') || $('.Header');
+    if (header && !$('#mt-languages')) {
+      const bar = document.createElement('div');
+      bar.id = 'mt-languages';
+      bar.className = 'mt-languagebar';
+      bar.setAttribute('role', 'group');
+      bar.setAttribute('aria-label', 'Language');
+      const label = document.createElement('span');
+      label.className = 'mt-sr';
+      label.dataset.mtI18n = 'language';
+      bar.append(label);
+      for (const [code, name] of [['ja', '\u65e5\u672c\u8a9e'], ['en', 'English'], ['zh', '\u4e2d\u6587'], ['es', 'Espa\u00f1ol']]) {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.dataset.mtLang = code;
+        button.lang = code === 'zh' ? 'zh-Hans' : code;
+        button.textContent = name;
+        button.addEventListener('click', () => changeLanguage(code, true));
+        bar.append(button);
+      }
+      header.append(bar);
+    }
+    const pageMenu = $('#PageList1 ul');
+    if (pageMenu && !$('.mt-game-nav', pageMenu)) {
+      const li = document.createElement('li');
+      li.className = 'mt-game-nav';
+      const a = document.createElement('a');
+      a.href = 'https://everydayjapanlab.blogspot.com/#games';
+      a.dataset.mtI18n = 'games';
+      li.append(a);
+      const homeItem = $('li', pageMenu);
+      if (homeItem) homeItem.after(li); else pageMenu.append(li);
+    }
+    const navKeys = {
+      '/p/home.html': 'home', '/p/topics.html': 'guides', '/p/tools.html': 'tools',
+      '/p/contact.html': 'contact', '/p/about.html': 'about', '/p/privacy.html': 'privacy',
+      '/p/methodology.html': 'methodology', '/p/advertising.html': 'advertising'
+    };
+    $$('#PageList1 a, .ejl-menu a').forEach(a => {
+      const key = navKeys[new URL(a.href, location.href).pathname];
+      if (key) a.dataset.mtI18n = key;
+    });
+    if (!portal) {
+      const article = $('.post-body');
+      if (article && !$('#mt-edition-note')) {
+        const note = document.createElement('aside');
+        note.id = 'mt-edition-note';
+        note.className = 'mt-edition-note';
+        const p = document.createElement('p');
+        p.dataset.mtI18n = 'legacyNotice';
+        const a = document.createElement('a');
+        a.href = 'https://everydayjapanlab.blogspot.com/#games';
+        a.dataset.mtI18n = 'backGames';
+        note.append(p, a);
+        article.prepend(note);
+      }
+    }
+    const dialog = $('#mt-player');
+    const cards = portal ? $$('.mt-game', portal) : [];
+    const field = $('#mt-search');
+    function gameURL(game) { return game.url; }
+    function filteredGames() {
+      const normalized = search.normalize('NFKC').trim().toLocaleLowerCase();
+      return games.filter(g => (category === 'all' || g.groups.includes(category)) &&
+        (!normalized || [g.id, ...Object.values(g.title), ...Object.values(g.description), ...g.groups.map(k => t(k))]
+          .join(' ').normalize('NFKC').toLocaleLowerCase().includes(normalized)));
+    }
+    function filterCards() {
+      const visible = new Set(filteredGames().map(g => g.id));
+      cards.forEach(card => { card.hidden = !visible.has(card.dataset.mtCard); });
+      const results = $('#mt-results');
+      if (results) results.textContent = t('results').replace('{count}', visible.size);
+      const empty = $('#mt-empty');
+      if (empty) empty.hidden = visible.size !== 0;
+      const clear = $('#mt-clear');
+      if (clear) clear.hidden = !search;
+      $$('[data-mt-category]').forEach(button => {
+        button.setAttribute('aria-pressed', String(button.dataset.mtCategory === category));
+      });
+    }
+    function updateActiveGame() {
+      if (!activeGame || !dialog) return;
+      $('#mt-player-title').textContent = activeGame.title[lang];
+      $('#mt-player-description').textContent = activeGame.description[lang];
+      $('#mt-game-frame')?.setAttribute('title', t('playing') + ': ' + activeGame.title[lang]);
+      $('#mt-road-note').hidden = activeGame.id !== 'golden-week';
+    }
+    function changeLanguage(next, persist) {
+      if (!langs.includes(next)) return;
+      lang = next;
+      document.documentElement.lang = next === 'zh' ? 'zh-Hans' : next;
+      if (persist) {
+        try { localStorage.setItem('mainichi:language', lang); } catch (_) {}
+        const url = new URL(location.href);
+        url.searchParams.set('lang', lang);
+        try { history.replaceState(null, '', url); } catch (_) {}
+      }
+      $$('[data-mt-i18n]').forEach(el => { el.textContent = t(el.dataset.mtI18n); });
+      $$('[data-mt-title]').forEach(el => {
+        const game = games.find(g => g.id === el.dataset.mtTitle);
+        if (game) el.textContent = game.title[lang];
+      });
+      $$('[data-mt-description]').forEach(el => {
+        const game = games.find(g => g.id === el.dataset.mtDescription);
+        if (game) el.textContent = game.description[lang];
+      });
+      $$('[data-mt-original-title]').forEach(el => {
+        const game = games.find(g => g.id === el.dataset.mtOriginalTitle);
+        el.hidden = lang === 'ja' || game.title.ja === game.title[lang];
+      });
+      $$('.mt-card-art[data-mt-game]').forEach(link => {
+        const game = games.find(g => g.id === link.dataset.mtGame);
+        if (game) link.setAttribute('aria-label', game.title[lang]);
+      });
+      $('.mt-filters')?.setAttribute('aria-label', t('games'));
+      $('.mt-footer-links')?.setAttribute('aria-label', t('about'));
+      $$('[data-mt-lang]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.mtLang === lang)));
+      const bar = $('#mt-languages');
+      if (bar) bar.setAttribute('aria-label', t('language'));
+      const heading = $('#mt-site-header h1') || $('.Header h1 a, .Header h1, .Header h2 a, .Header h2');
+      if (heading) heading.textContent = t('brand');
+      const description = $('#mt-site-header > p') || $('.Header .header-widget > p, .Header .description');
+      if (description) description.textContent = t('subtitle');
+      if (portal) portal.lang = next === 'zh' ? 'zh-Hans' : next;
+      if (portal) document.title = t('brand') + ' | ' + t('subtitle');
+      if (field) {
+        field.placeholder = t('search');
+        field.setAttribute('aria-label', t('search'));
+      }
+      const clear = $('#mt-clear');
+      if (clear) clear.setAttribute('aria-label', t('clear'));
+      for (const a of $$('a[data-mt-i18n], #mt-portal .mt-tool-card a, #mt-portal .mt-footer a')) {
+        const url = new URL(a.getAttribute('href'), location.href);
+        if (url.hostname === 'everydayjapanlab.blogspot.com') {
+          url.searchParams.set('lang', lang);
+          a.href = url.href;
+        }
+      }
+      const close = $('#mt-close');
+      if (close) close.setAttribute('aria-label', t('close'));
+      filterCards();
+      updateActiveGame();
+    }
+    if (field) field.addEventListener('input', () => { search = field.value; filterCards(); });
+    $('#mt-clear')?.addEventListener('click', () => { search = ''; field.value = ''; filterCards(); field.focus(); });
+    $$('[data-mt-category]').forEach(button => button.addEventListener('click', () => {
+      category = button.dataset.mtCategory;
+      filterCards();
+    }));
+    $('#mt-reset')?.addEventListener('click', () => {
+      category = 'all'; search = ''; field.value = ''; filterCards(); field.focus();
+    });
+    function closePlayer() {
+      if (!dialog) return;
+      if (document.fullscreenElement === dialog && document.exitFullscreen) document.exitFullscreen().catch(() => {});
+      if (dialog.open) dialog.close();
+      const frame = $('#mt-game-frame');
+      if (frame) frame.remove();
+      clearTimeout(loadTimer);
+      document.body.classList.remove('mt-playing');
+      activeGame = null;
+      if (returnFocus && returnFocus.isConnected) returnFocus.focus();
+      returnFocus = null;
+    }
+    function openGame(id, trigger) {
+      const game = games.find(g => g.id === id);
+      if (!game) return;
+      if (!dialog || !dialog.showModal) { location.href = gameURL(game); return; }
+      clearTimeout(loadTimer);
+      $('#mt-game-frame')?.remove();
+      activeGame = game;
+      returnFocus = trigger || document.activeElement;
+      $('#mt-new-tab').href = gameURL(game);
+      const status = $('#mt-loading');
+      status.hidden = false;
+      status.textContent = t('loading');
+      $('#mt-frame-hint').textContent = t('frameHint');
+      updateActiveGame();
+      const frame = document.createElement('iframe');
+      frame.id = 'mt-game-frame';
+      frame.title = t('playing') + ': ' + game.title[lang];
+      frame.allow = 'fullscreen; autoplay';
+      frame.allowFullscreen = true;
+      frame.referrerPolicy = 'strict-origin-when-cross-origin';
+      frame.addEventListener('load', () => { clearTimeout(loadTimer); status.hidden = true; });
+      frame.src = gameURL(game);
+      $('#mt-frame-wrap').append(frame);
+      if (!dialog.open) dialog.showModal();
+      document.body.classList.add('mt-playing');
+      $('#mt-close').focus();
+      loadTimer = setTimeout(() => { status.textContent = t('frameHint'); }, 12000);
+    }
+    $$('[data-mt-game]').forEach(link => link.addEventListener('click', event => {
+      if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+      event.preventDefault();
+      openGame(link.dataset.mtGame, link);
+    }));
+    $('#mt-close')?.addEventListener('click', closePlayer);
+    dialog?.addEventListener('cancel', event => { event.preventDefault(); closePlayer(); });
+    dialog?.addEventListener('close', () => { if (activeGame) closePlayer(); });
+    $('#mt-fullscreen')?.addEventListener('click', async () => {
+      const frame = $('#mt-game-frame');
+      if (!frame) return;
+      try {
+        if (dialog.requestFullscreen) await dialog.requestFullscreen();
+        else throw new Error('Unsupported');
+      } catch (_) { $('#mt-frame-hint').textContent = t('fullscreenError'); }
+    });
+    changeLanguage(lang, false);
+    if (portal && games.some(g => g.id === query.get('game'))) openGame(query.get('game'), null);
+  };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot, {once:true});
+  else boot();
+}());
+
+</script>

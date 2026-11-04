@@ -1,0 +1,38 @@
+{
+  "date": "2026-11-04 Asia/Tokyo",
+  "site": "https://everydayjapanlab.blogspot.com/",
+  "brand": "まいにち道具箱",
+  "languages": [
+    "ja",
+    "en",
+    "zh-Hans",
+    "es"
+  ],
+  "published_game_count": 14,
+  "excluded": [
+    "kokon-tozai",
+    "golden-week",
+    "lunch-roulette"
+  ],
+  "scope": "Language switching covers the portal, game introductions, search/category labels and shared site navigation. Original game UIs and legacy English article/tool bodies retain their original language.",
+  "verification": {
+    "dictionary_and_static_checks": "4 tests passed",
+    "preview_language_switching": "ja/en/zh/es passed",
+    "preview_search": "ウルフ matched 3 games",
+    "preview_puzzle_filter": "4 games",
+    "preview_widths": [
+      360,
+      390,
+      768
+    ],
+    "horizontal_overflow": false,
+    "game_start_screens": "14 verified, including the nested Chroma Sort frames",
+    "water_sort_move": "one red layer moved from bottle 1 to bottle 2",
+    "modal_close": "iframe removed and collection restored",
+    "live_blogger_languages": "ja/en/zh/es passed, no literal HTML entities in rendered portal text",
+    "live_language_persistence": "Spanish retained after navigating to the root without lang query"
+  },
+  "blogger_deployed": true,
+  "github_pages_deployment": "source commit pending",
+  "adsense_status": "No change made; no approval or revenue claim."
+}

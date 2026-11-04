@@ -1,0 +1,81 @@
+(function () {
+  'use strict';
+  const langs = ['ja', 'en', 'zh', 'es'];
+  const entry = (id, icon, color, groups, titles, descriptions) => ({
+    id, icon, color, groups,
+    title: Object.fromEntries(langs.map((lang, i) => [lang, titles[i]])),
+    description: Object.fromEntries(langs.map((lang, i) => [lang, descriptions[i]])),
+    url: 'https://kouheim1979.github.io/games/' + id + '/'
+  });
+  // This is the owner's curated collection, not every directory in the repo.
+  const games = [
+    entry('WaterSortPuzzle', '◒', 'violet', ['puzzle'],
+      ['Water Sort Puzzle', 'Water Sort Puzzle', '彩水分类拼图', 'Water Sort Puzzle'],
+      ['色水を注いで、同じ色をひとつの瓶に。ゆっくり考えたい日のパズル。', 'Pour, sort and bring matching colors together. A quiet puzzle for a little thinking time.', '倒出彩水，把相同颜色集中到一个瓶子里。静下心来，享受思考的乐趣。', 'Vierte y agrupa los colores en sus frascos. Un rompecabezas para pensar con calma.']),
+    entry('todofuken-draft', '47', 'green', ['party', 'learn'],
+      ['都道府県ドラフトバトル', 'Prefecture Draft Battle', '都道府县选秀对战', 'Batalla de prefecturas'],
+      ['47都道府県を指名して、自分だけのチームづくり。CPUとも、みんなとも。', 'Draft Japanese prefectures to build your own team. Play against the CPU or with a group.', '从日本47个都道府县中选秀，组建自己的队伍。可挑战电脑，也可多人游玩。', 'Elige prefecturas de Japón y crea tu equipo. Juega contra la CPU o con más personas.']),
+    entry('rin-harbor', '⚓', 'blue', ['puzzle'],
+      ['リンハーバー', 'Rin Harbor', '琳的港湾', 'Rin Harbor'],
+      ['アイテムを合成して、港の物語を進めよう。リンと楽しむ小さな冒険。', 'Merge items and follow the story of a harbor. A little adventure with Rin.', '合成物品，推动港湾的故事。和琳一起展开小小的冒险。', 'Combina objetos y avanza en la historia del puerto. Una pequeña aventura junto a Rin.']),
+    entry('word-wolf', 'W', 'rose', ['party'],
+      ['ワードウルフ', 'Word Wolf', '词语狼人', 'Word Wolf'],
+      ['少し違うお題を持つのは誰？ 会話の中から少数派を探すパーティーゲーム。', 'Who has a slightly different word? Find the odd one out through conversation.', '谁拿到了不一样的词？通过交谈找出少数派的聚会游戏。', '¿Quién tiene una palabra distinta? Descubre a la minoría conversando.']),
+    entry('word-wolf2', 'W₂', 'amber', ['party'],
+      ['ワードウルフ 2', 'Word Wolf 2', '词语狼人 2', 'Word Wolf 2'],
+      ['もうひとつのワードウルフ。お題を確認したら、みんなで話し合おう。', 'Another version of Word Wolf. Check your word, then start the group discussion.', '词语狼人的另一版本。确认自己的词语后，和大家一起讨论。', 'Otra versión de Word Wolf. Mira tu palabra y empieza la conversación en grupo.']),
+    entry('Chroma-sort', '▦', 'violet', ['puzzle'],
+      ['Chroma Sort', 'Chroma Sort', 'Chroma 色彩分类', 'Chroma Sort'],
+      ['色の並びを見ながら整理するソートパズル。次の一手を考えよう。', 'A sorting puzzle built around color. Look at the arrangement and plan your next move.', '观察颜色的排列，整理出正确的组合。想好下一步再行动。', 'Un puzle de clasificación por colores. Observa la disposición y planea tu siguiente paso.']),
+    entry('yakitori', '≋', 'amber', ['puzzle'],
+      ['やきとり ならべ', 'Yakitori Match', '烤串排列', 'Combina brochetas'],
+      ['焼き台の串を入れ替えて3本そろえ、お客さんの注文に届けよう。', 'Swap skewers on the grill, match three and serve your customers.', '交换烤架上的烤串，凑齐三串，完成客人的订单。', 'Intercambia brochetas, junta tres iguales y sirve los pedidos de tus clientes.']),
+    entry('atama-oshiri', 'あ…ん', 'blue', ['party', 'learn'],
+      ['あたまとおしり', 'First & Last', '词语的首与尾', 'Principio y final'],
+      ['最初と最後の文字をヒントに、間をつなぐ日本語を考えよう。', 'Use the first and last character as clues to think of a Japanese word.', '根据开头和结尾的文字，想出连接它们的日语词语。', 'Piensa en una palabra japonesa a partir de su primer y último carácter.']),
+    entry('nihon-meguri-47', '日', 'green', ['learn'],
+      ['日本めぐり47', 'Discover Japan 47', '畅游日本47', 'Descubre Japón 47'],
+      ['県庁所在地、名所、名物。4択クイズで日本の都道府県をめぐろう。', 'Explore Japan through multiple-choice questions on prefectural capitals, sights and local specialties.', '通过四选一问答，了解日本各地的首府、名胜和特产。', 'Recorre Japón con preguntas de opción múltiple sobre capitales, lugares y especialidades locales.']),
+    entry('jintori', '⌖', 'green', ['learn'],
+      ['日本地図ウルフ', 'Japan Map Wolf', '日本地图狼人', 'Lobo del mapa de Japón'],
+      ['お題のランキングをヒントに、地図から都道府県を選ぶ陣取りクイズ。', 'Use ranking clues to choose prefectures on a map of Japan.', '根据排名提示，在日本地图上选择都道府县，挑战领地问答。', 'Usa las pistas de clasificación para elegir prefecturas en el mapa de Japón.']),
+    entry('kotowaza', '言', 'rose', ['learn'],
+      ['ことばクエスト', 'Japanese Phrase Quest', '日语词句任务', 'Aventura de expresiones'],
+      ['慣用句・ことわざ・故事成語をクイズで学ぶ、ことばの冒険。', 'Explore Japanese idioms, proverbs and classical expressions through quizzes.', '通过问答学习日语惯用语、谚语和典故成语，展开语言冒险。', 'Aprende modismos, refranes y expresiones clásicas japonesas con cuestionarios.']),
+    entry('nazonazo-kids', '？', 'amber', ['learn'],
+      ['小4なぞなぞ探偵団', 'Kids’ Riddle Detectives', '小学生谜语侦探团', 'Detectives de acertijos'],
+      ['なぞなぞを解いて名探偵に。解説を読みながら、小4の学習にもつなげよう。', 'Solve riddles and become a detective. Explanations connect the puzzles with Japanese grade-four learning.', '解开谜语，成为小侦探。阅读解说，巩固日本小学四年级的知识。', 'Resuelve acertijos y conviértete en detective. Las explicaciones se relacionan con el cuarto curso de primaria en Japón.']),
+    entry('pokemon-quiz-app', '◉', 'blue', ['learn'],
+      ['ポケモン当てクイズ＆全国図鑑', 'Pokémon Quiz & Pokédex', '宝可梦问答与全国图鉴', 'Cuestionario Pokémon y Pokédex'],
+      ['ポケモンを当てるクイズと全国図鑑。知っているポケモンを探してみよう。', 'A Pokémon guessing quiz and a Pokédex. See how many you recognize.', '挑战宝可梦猜谜问答，浏览全国图鉴，寻找你认识的宝可梦。', 'Adivina los Pokémon y consulta la Pokédex. ¿Cuántos reconoces?']),
+    entry('react-game', 'ϟ', 'rose', ['casual'],
+      ['反射神経ゲーム', 'Reaction Time', '反应速度游戏', 'Tiempo de reacción'],
+      ['合図を見逃さずタップ。自分の反応の速さに挑戦しよう。', 'Watch for the signal and tap. Challenge your reaction speed.', '看准信号，迅速点击，挑战自己的反应速度。', 'Espera la señal y toca. Pon a prueba tu velocidad de reacción.']),
+
+  ];
+  const ui = {
+    ja: {
+      brand:'まいにち道具箱',subtitle:'暮らしと学びの無料アプリ',language:'表示言語',home:'ホーム',games:'ゲーム',tools:'暮らしのツール',guides:'読みもの',contact:'お問い合わせ',about:'このサイトについて',privacy:'プライバシー',advertising:'広告について',methodology:'制作・調査方針',
+      kicker:'遊ぶ。考える。見つける。',heroFirst:'いつもの時間に、',heroLast:'小さな発見を。',intro:'ひとりでじっくり、家族でわいわい。気になるゲームをひとつ選んで、さっそく遊んでみよう。',browse:'ゲームを探す',featured:'今日のひとやすみ',featureCopy:'色をそろえて、気持ちをほどく。',featureDetail:'Water Sort Puzzle',featurePlay:'このパズルで遊ぶ',free:'すべて無料',browser:'ブラウザーで遊べる',total:'{total}本のゲーム',library:'ゲームの引き出し',libraryIntro:'遊びたい気分から、ぴったりの一本を。',all:'すべて',puzzle:'パズル',party:'みんなで',learn:'学び・クイズ',casual:'気軽に',search:'ゲーム名・キーワードで検索',clear:'検索をクリア',play:'遊ぶ',results:'{count}本のゲーム',empty:'見つかりませんでした。別のことばで探してみてください。',reset:'すべて表示',original:'ゲーム内：日本語中心',originalNote:'表示言語はサイトの案内・ゲーム紹介に適用されます。ゲーム内の文章やお題は各ゲームの元の言語です。',loading:'ゲームを読み込んでいます…',frameHint:'表示されない・操作しづらい場合は、別タブで開いてください。',newTab:'別タブで開く',close:'ゲームを閉じる',fullscreen:'全画面',fullscreenError:'全画面表示に対応していません。別タブで開いてください。',how:'遊び方',playing:'ゲーム画面',road:'ドライブ中のゲームは同乗者向けです。運転者は操作しないでください。',toolsTitle:'暮らしに、もうひとつの道具を。',toolsIntro:'計算や準備を手伝う、これまでの無料ツールもこちらから。',toolEnglish:'ツール本体・解説は英語です',read:'使ってみる',legacy:'暮らしのガイド（英語）',footer:'ちょっと遊んで、ちょっと学ぶ。毎日に使える小さな道具。',made:'ゲームは作者のGitHub Pagesから読み込みます。保存される記録はゲームごとに異なります。',helpTitle:'はじめての方へ',help1:'ゲームを選ぶ',help1p:'カードから「遊ぶ」を選ぶと、このページ内にゲームが開きます。',help2:'自分のペースで',help2p:'スマホでもパソコンでも。音や記録の設定は、ゲームごとのメニューで変更できます。',help3:'また、ここから',help3p:'選んだ表示言語は、このブラウザーに保存します。ゲームを閉じると一覧に戻れます。',legacyNotice:'このページの本文・計算ツールは英語版です。案内とゲーム一覧は4言語で切り替えられます。',backGames:'ゲーム一覧へ',
+      toolRice:'鍋炊きごはんガイド＆タイマー',toolRiceP:'お米と水の分量、火加減、加熱時間を確認。',toolBidet:'温水洗浄便座の設置チェック',toolBidetP:'寸法・電源・給水条件を整理。',toolHeat:'給湯のエネルギー・費用計算',toolHeatP:'使用量と料金から、条件ごとの費用を比較。',toolStock:'防災備蓄リスト',toolStockP:'人数と日数、今ある備蓄から必要量を計算。',toolBackup:'EVからの非常用電源',toolBackupP:'バッテリー容量と消費電力から利用時間を試算。',toolParcel:'宅配ボックスの容量試算',toolParcelP:'配達数と回収時間から必要な容量を考える。'
+    },
+    en: {
+      brand:'Mainichi Toolbox',subtitle:'Free apps for everyday life and learning',language:'Display language',home:'Home',games:'Games',tools:'Everyday tools',guides:'Guides',contact:'Contact',about:'About',privacy:'Privacy',advertising:'Advertising',methodology:'Our approach',
+      kicker:'Play. Think. Discover.',heroFirst:'A little discovery.',heroLast:'An everyday moment.',intro:'A quiet puzzle for one, or a lively game together. Pick something that catches your eye and start playing.',browse:'Find a game',featured:'A little break',featureCopy:'Sort the colors. Clear your mind.',featureDetail:'Water Sort Puzzle',featurePlay:'Play this puzzle',free:'All free',browser:'Play in your browser',total:'{total} games to explore',library:'The game drawer',libraryIntro:'Find a game to match your mood.',all:'All games',puzzle:'Puzzles',party:'Play together',learn:'Learn & quiz',casual:'Quick play',search:'Search games and keywords',clear:'Clear search',play:'Play',results:'{count} games',empty:'No games found. Try another keyword.',reset:'Show all games',original:'In-game: mainly Japanese',originalNote:'The language selector translates this site’s navigation and game descriptions. Each game keeps its original in-game language.',loading:'Loading your game…',frameHint:'If the game does not appear or is difficult to use here, open it in a new tab.',newTab:'Open in new tab',close:'Close game',fullscreen:'Full screen',fullscreenError:'Full screen is not supported here. Please open the game in a new tab.',how:'How to play',playing:'Game screen',road:'Road-trip games are for passengers. Drivers must not operate the game.',toolsTitle:'Another useful tool for your day.',toolsIntro:'The existing free planning tools are still here to help with calculations and preparation.',toolEnglish:'Tool interfaces and guides are in English',read:'Open tool',legacy:'Everyday guides (English)',footer:'A little play. A little learning. Small tools for everyday moments.',made:'Games load from the creator’s GitHub Pages. Saved progress and settings vary by game.',helpTitle:'Your first visit?',help1:'Pick a game',help1p:'Choose Play on a card to open the game right on this page.',help2:'Go at your own pace',help2p:'Use your phone or computer. Sound and saved progress are managed in each game’s own menu.',help3:'Come back anytime',help3p:'Your display-language choice is saved in this browser. Close the game to return to the collection.',legacyNotice:'This article or planning tool is the English edition. Site navigation and the game collection are available in four languages.',backGames:'Back to games',
+      toolRice:'Stovetop rice guide & timer',toolRiceP:'Check rice and water measures, heat cues and timing.',toolBidet:'Bidet-seat readiness',toolBidetP:'Organize measurements, power and plumbing requirements.',toolHeat:'Water-heating cost calculator',toolHeatP:'Compare scenarios using your water use and energy rates.',toolStock:'Emergency supplies planner',toolStockP:'Estimate quantities from people, days and existing stock.',toolBackup:'EV-to-home backup',toolBackupP:'Estimate runtime from battery capacity and power demand.',toolParcel:'Parcel-locker capacity',toolParcelP:'Explore capacity using delivery volume and collection time.'
+    },
+    zh: {
+      brand:'每日工具箱',subtitle:'生活与学习的免费应用',language:'显示语言',home:'首页',games:'游戏',tools:'生活工具',guides:'阅读指南',contact:'联系我们',about:'关于本站',privacy:'隐私政策',advertising:'广告说明',methodology:'制作与研究方法',
+      kicker:'玩一玩，想一想，发现新乐趣。',heroFirst:'在平常的时光里，',heroLast:'遇见小小的发现。',intro:'独自静静思考，或与家人热闹同乐。挑选一款感兴趣的游戏，现在就开始。',browse:'寻找游戏',featured:'休息一下',featureCopy:'整理颜色，放松心情。',featureDetail:'彩水分类拼图',featurePlay:'开始这款拼图',free:'全部免费',browser:'浏览器直接游玩',total:'{total}款游戏',library:'游戏抽屉',libraryIntro:'按心情，找到适合自己的那一款。',all:'全部',puzzle:'益智拼图',party:'多人同乐',learn:'学习与问答',casual:'轻松一刻',search:'搜索游戏名称或关键词',clear:'清除搜索',play:'开始游戏',results:'{count}款游戏',empty:'没有找到游戏，请换个关键词试试。',reset:'显示全部',original:'游戏内：主要为日语',originalNote:'语言切换适用于本站导航和游戏介绍。各游戏内的文字与题目保留原来的语言。',loading:'正在加载游戏…',frameHint:'如果游戏无法显示或操作不便，请在新标签页中打开。',newTab:'在新标签页打开',close:'关闭游戏',fullscreen:'全屏',fullscreenError:'当前环境不支持全屏，请在新标签页打开游戏。',how:'玩法介绍',playing:'游戏画面',road:'旅途游戏仅供乘客游玩。驾驶员请勿操作。',toolsTitle:'为生活，多准备一件工具。',toolsIntro:'原有的免费工具也保留在这里，帮助你计算与准备。',toolEnglish:'工具界面与解说为英语',read:'打开工具',legacy:'生活指南（英语）',footer:'玩一玩，学一点。为每一天准备的小工具。',made:'游戏从作者的 GitHub Pages 加载。记录与设置的保存方式因游戏而异。',helpTitle:'第一次来？',help1:'挑选游戏',help1p:'点击游戏卡片上的“开始游戏”，即可在本页面游玩。',help2:'按照自己的节奏',help2p:'手机、电脑均可使用。声音和游戏记录请在各游戏自己的菜单中设置。',help3:'随时回来',help3p:'你选择的显示语言会保存在当前浏览器中。关闭游戏即可返回列表。',legacyNotice:'本页正文或计算工具为英语版。本站导航与游戏列表支持四种语言。',backGames:'返回游戏列表',
+      toolRice:'锅煮米饭指南与计时器',toolRiceP:'确认米水比例、火候与烹饪时间。',toolBidet:'智能马桶盖安装检查',toolBidetP:'整理尺寸、电源和供水条件。',toolHeat:'热水能耗与费用计算',toolHeatP:'根据用水量和能源单价比较不同方案。',toolStock:'应急物资规划',toolStockP:'按人数、天数与现有储备计算所需数量。',toolBackup:'电动汽车家庭应急供电',toolBackupP:'根据电池容量和功率需求估算使用时间。',toolParcel:'快递柜容量估算',toolParcelP:'根据投递量和取件时间评估所需容量。'
+    },
+    es: {
+      brand:'Caja Mainichi',subtitle:'Apps gratuitas para la vida diaria y el aprendizaje',language:'Idioma de la página',home:'Inicio',games:'Juegos',tools:'Herramientas',guides:'Guías',contact:'Contacto',about:'Sobre el sitio',privacy:'Privacidad',advertising:'Publicidad',methodology:'Nuestro enfoque',
+      kicker:'Juega. Piensa. Descubre.',heroFirst:'Un pequeño descubrimiento.',heroLast:'Un momento cotidiano.',intro:'Un puzle tranquilo a solas o un juego animado en familia. Elige el que te llame la atención y empieza a jugar.',browse:'Buscar un juego',featured:'Una pequeña pausa',featureCopy:'Ordena los colores. Despeja la mente.',featureDetail:'Water Sort Puzzle',featurePlay:'Jugar este puzle',free:'Todo gratis',browser:'Juega en el navegador',total:'{total} juegos por descubrir',library:'El cajón de juegos',libraryIntro:'Encuentra el juego que va con tu ánimo.',all:'Todos',puzzle:'Puzles',party:'En compañía',learn:'Aprender y responder',casual:'Juego rápido',search:'Buscar juegos y palabras clave',clear:'Borrar búsqueda',play:'Jugar',results:'{count} juegos',empty:'No se han encontrado juegos. Prueba otra palabra.',reset:'Mostrar todos',original:'En el juego: principalmente japonés',originalNote:'El selector cambia el idioma de la navegación y las descripciones del sitio. Cada juego conserva su idioma original.',loading:'Cargando el juego…',frameHint:'Si el juego no aparece o resulta difícil de usar aquí, ábrelo en otra pestaña.',newTab:'Abrir en otra pestaña',close:'Cerrar juego',fullscreen:'Pantalla completa',fullscreenError:'La pantalla completa no está disponible aquí. Abre el juego en otra pestaña.',how:'Cómo jugar',playing:'Pantalla del juego',road:'Los juegos de viaje son para los pasajeros. El conductor no debe usarlos.',toolsTitle:'Otra herramienta útil para tu día.',toolsIntro:'Las herramientas gratuitas de siempre siguen aquí para ayudarte a calcular y prepararte.',toolEnglish:'Las herramientas y las guías están en inglés',read:'Abrir herramienta',legacy:'Guías para la vida diaria (inglés)',footer:'Un poco de juego, un poco de aprendizaje. Pequeñas herramientas para cada día.',made:'Los juegos se cargan desde GitHub Pages de su creador. Los datos guardados dependen de cada juego.',helpTitle:'¿Es tu primera visita?',help1:'Elige un juego',help1p:'Pulsa Jugar en una tarjeta para abrir el juego en esta misma página.',help2:'A tu ritmo',help2p:'Desde el móvil o el ordenador. El sonido y el progreso se gestionan en el menú de cada juego.',help3:'Vuelve cuando quieras',help3p:'El idioma elegido se guarda en este navegador. Cierra el juego para volver a la colección.',legacyNotice:'Este artículo o herramienta está en inglés. La navegación y la colección de juegos están disponibles en cuatro idiomas.',backGames:'Volver a los juegos',
+      toolRice:'Guía y temporizador para cocer arroz',toolRiceP:'Consulta las medidas, la intensidad del fuego y los tiempos.',toolBidet:'Comprobación para un asiento bidé',toolBidetP:'Organiza las medidas y los requisitos eléctricos y de agua.',toolHeat:'Coste de calentar agua',toolHeatP:'Compara escenarios según el consumo de agua y las tarifas.',toolStock:'Plan de reservas de emergencia',toolStockP:'Calcula cantidades por personas, días y existencias.',toolBackup:'Energía de respaldo con un vehículo eléctrico',toolBackupP:'Estima la autonomía según la batería y la demanda de energía.',toolParcel:'Capacidad de taquillas de paquetería',toolParcelP:'Explora la capacidad según las entregas y el tiempo de recogida.'
+    }
+  };
+  const data = {langs, games, ui};
+  if (typeof module !== 'undefined' && module.exports) module.exports = data;
+  else window.MainichiCatalog = data;
+}());
