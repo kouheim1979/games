@@ -5,10 +5,6 @@ const {games, ui} = require('./catalog.js');
 const e = value => String(value).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
 const tx = (key, tag = 'span', extra = '') => `<${tag} data-mt-i18n="${key}"${extra}>${e(ui.ja[key].replace('{total}', String(games.length)))}</${tag}>`;
 const categories = ['all', 'puzzle', 'party', 'learn', 'casual'];
-const tools = [
-  ['Rice','stovetop-rice'], ['Bidet','washlet-fit'], ['Heat','heat-pump-water-heater'],
-  ['Stock','emergency-stockpile'], ['Backup','v2h-backup'], ['Parcel','parcel-locker']
-];
 const html = `<div class="mt-portal" id="mt-portal" lang="ja">
   <div class="mt-indexline"><span>MAINICHI TOOLBOX / PLAY &amp; LEARN</span>${tx('total')}</div>
   <section class="mt-hero" aria-labelledby="mt-hero-title">
@@ -42,10 +38,6 @@ const html = `<div class="mt-portal" id="mt-portal" lang="ja">
     </article>`).join('')}</div>
     <div id="mt-empty" class="mt-empty" hidden>${tx('empty','p')}<button id="mt-reset" type="button" data-mt-i18n="reset">${e(ui.ja.reset)}</button></div>
     ${tx('originalNote','p',' class="mt-language-note"')}
-  </section>
-  <section id="mt-tools" class="mt-tools" aria-labelledby="mt-tools-title">
-    ${tx('toolsTitle','h2',' id="mt-tools-title"')}${tx('toolsIntro','p',' class="mt-tools-intro"')}${tx('toolEnglish','p',' class="mt-tools-language"')}
-    <div class="mt-toolgrid">${tools.map(([name, slug])=>`<article class="mt-tool-card">${tx('tool'+name,'h3')}${tx('tool'+name+'P','p')}<a href="https://everydayjapanlab.blogspot.com/p/${slug}.html">${tx('read')} <span aria-hidden="true">↗</span></a></article>`).join('')}</div>
   </section>
   <section class="mt-help" aria-labelledby="mt-help-title">${tx('helpTitle','h2',' id="mt-help-title"')}<div class="mt-helpgrid">${[1,2,3].map(n=>`<div><div class="mt-step">0${n}</div>${tx('help'+n,'h3')}${tx('help'+n+'p','p')}</div>`).join('')}</div></section>
   <footer class="mt-footer"><div>${tx('brand','div',' class="mt-footer-brand"')}${tx('footer','p')}</div><nav class="mt-footer-links" aria-label="Site information">${[['about','about'],['contact','contact'],['privacy','privacy'],['advertising','advertising']].map(([key,slug])=>`<a data-mt-i18n="${key}" href="https://everydayjapanlab.blogspot.com/p/${slug}.html">${e(ui.ja[key].replace('{total}', String(games.length)))}</a>`).join('')}</nav></footer>
