@@ -90,7 +90,10 @@
     const dialog = $('#mt-player');
     const cards = portal ? $$('.mt-game', portal) : [];
     const field = $('#mt-search');
-    function gameURL(game) { return game.url; }
+    function gameURL(game) {
+      // ゲーム側の i18n.js が ?lang= を読んで画面を切り替える
+      try { const u = new URL(game.url); u.searchParams.set('lang', lang); return u.href; } catch (_) { return game.url; }
+    }
     function filteredGames() {
       const normalized = search.normalize('NFKC').trim().toLocaleLowerCase();
       return games.filter(g => (category === 'all' || g.groups.includes(category)) &&
@@ -114,6 +117,7 @@
       if (!activeGame || !dialog) return;
       $('#mt-player-title').textContent = activeGame.title[lang];
       $('#mt-player-description').textContent = activeGame.description[lang];
+      const newTab = $('#mt-new-tab'); if (newTab) newTab.href = gameURL(activeGame);
       $('#mt-game-frame')?.setAttribute('title', t('playing') + ': ' + activeGame.title[lang]);
       $('#mt-road-note').hidden = activeGame.id !== 'golden-week';
     }
