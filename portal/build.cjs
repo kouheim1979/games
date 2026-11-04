@@ -2,6 +2,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const root = path.resolve(__dirname, '..');
 const {games, ui} = require('./catalog.js');
+const guides = require('./guides.js');
 const e = value => String(value).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
 const tx = (key, tag = 'span', extra = '') => `<${tag} data-mt-i18n="${key}"${extra}>${e(ui.ja[key].replace('{total}', String(games.length)))}</${tag}>`;
 const categories = ['all', 'puzzle', 'party', 'learn', 'casual'];
@@ -34,13 +35,13 @@ const html = `<div class="mt-portal" id="mt-portal" lang="ja">
     </div>
     <div class="mt-gamegrid">${games.map((g, i) => `<article class="mt-game" data-mt-card="${g.id}">
       <a class="mt-card-art mt-${g.color}" href="${g.url}" data-mt-game="${g.id}" aria-label="${e(g.title.ja)}"><span aria-hidden="true">${e(g.icon)}</span><small aria-hidden="true">${String(i+1).padStart(2,'0')} / PLAY</small></a>
-      <div class="mt-card-body"><div class="mt-card-tag">${tx(g.groups[0])}</div><h3><a data-mt-game="${g.id}" href="${g.url}" data-mt-title="${g.id}">${e(g.title.ja)}</a></h3><div class="mt-original-title" data-mt-original-title="${g.id}" lang="ja" hidden>${e(g.title.ja)}</div><p class="mt-card-description" data-mt-description="${g.id}">${e(g.description.ja)}</p><div class="mt-card-bottom">${tx('original','span',' class="mt-card-language"')}<a class="mt-playlink" href="${g.url}" data-mt-game="${g.id}">${tx('play')}<span aria-hidden="true">↗</span></a></div></div>
+      <div class="mt-card-body"><div class="mt-card-tag">${tx(g.groups[0])}</div><h3><a data-mt-game="${g.id}" href="${g.url}" data-mt-title="${g.id}">${e(g.title.ja)}</a></h3><div class="mt-original-title" data-mt-original-title="${g.id}" lang="ja" hidden>${e(g.title.ja)}</div><p class="mt-card-description" data-mt-description="${g.id}">${e(g.description.ja)}</p><details class="mt-howto"><summary data-mt-i18n="how">${e(ui.ja.how)}</summary><p data-mt-steps="${g.id}">${e(guides[g.id].ja.steps)}</p><p data-mt-tip="${g.id}">${e(guides[g.id].ja.tip)}</p></details><div class="mt-card-bottom">${tx('original','span',' class="mt-card-language"')}<a class="mt-playlink" href="${g.url}" data-mt-game="${g.id}">${tx('play')}<span aria-hidden="true">↗</span></a></div></div>
     </article>`).join('')}</div>
     <div id="mt-empty" class="mt-empty" hidden>${tx('empty','p')}<button id="mt-reset" type="button" data-mt-i18n="reset">${e(ui.ja.reset)}</button></div>
     ${tx('originalNote','p',' class="mt-language-note"')}
   </section>
   <section class="mt-help" aria-labelledby="mt-help-title">${tx('helpTitle','h2',' id="mt-help-title"')}<div class="mt-helpgrid">${[1,2,3].map(n=>`<div><div class="mt-step">0${n}</div>${tx('help'+n,'h3')}${tx('help'+n+'p','p')}</div>`).join('')}</div></section>
-  <footer class="mt-footer"><div>${tx('brand','div',' class="mt-footer-brand"')}${tx('footer','p')}</div><nav class="mt-footer-links" aria-label="Site information">${[['about','about'],['contact','contact'],['privacy','privacy'],['advertising','advertising']].map(([key,slug])=>`<a data-mt-i18n="${key}" href="https://everydayjapanlab.blogspot.com/p/${slug}.html">${e(ui.ja[key].replace('{total}', String(games.length)))}</a>`).join('')}</nav></footer>
+  <footer class="mt-footer"><div>${tx('brand','div',' class="mt-footer-brand"')}${tx('footer','p')}</div><nav class="mt-footer-links" aria-label="Site information">${[['guides','topics'],['about','about'],['contact','contact'],['privacy','privacy'],['advertising','advertising']].map(([key,slug])=>`<a data-mt-i18n="${key}" href="https://everydayjapanlab.blogspot.com/p/${slug}.html">${e(ui.ja[key].replace('{total}', String(games.length)))}</a>`).join('')}</nav></footer>
   ${tx('made','p',' class="mt-made"')}
   <dialog id="mt-player" aria-labelledby="mt-player-title" aria-describedby="mt-frame-hint">
     <div class="mt-player-header"><div><h2 id="mt-player-title"></h2><p id="mt-player-description"></p></div><button id="mt-close" type="button" aria-label="${e(ui.ja.close)}">×</button></div>
@@ -53,9 +54,10 @@ const html = `<div class="mt-portal" id="mt-portal" lang="ja">
 fs.writeFileSync(path.join(__dirname, 'portal.html'), html+'\n');
 const css = fs.readFileSync(path.join(__dirname,'portal.css'),'utf8');
 const catalog = fs.readFileSync(path.join(__dirname,'catalog.js'),'utf8');
+const guideScript = fs.readFileSync(path.join(__dirname,'guides.js'),'utf8');
 const script = fs.readFileSync(path.join(__dirname,'portal.js'),'utf8');
 const standalone = `<!doctype html>
-<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f8f6ef"><meta name="description" content="まいにち道具箱。パズル・家族ゲーム・学びのクイズなど、${games.length}本の無料ブラウザーゲーム。日本語・English・中文・Españolでゲームを探せます。"><title>まいにち道具箱 | 暮らしと学びの無料アプリ</title><link rel="stylesheet" href="./portal/portal.css?v=20261104.2"><script src="./portal/catalog.js?v=20261104.2" defer></script><script src="./portal/portal.js?v=20261104.2" defer></script></head>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f8f6ef"><meta name="description" content="まいにち道具箱。パズル・家族ゲーム・学びのクイズなど、${games.length}本の無料ブラウザーゲーム。日本語・English・中文・Españolでゲームを探せます。"><title>まいにち道具箱 | 暮らしと学びの無料アプリ</title><link rel="stylesheet" href="./portal/portal.css?v=20261105.1"><script src="./portal/catalog.js?v=20261105.1" defer></script><script src="./portal/guides.js?v=20261105.1" defer></script><script src="./portal/portal.js?v=20261105.1" defer></script></head>
 <body class="mt-standalone"><header id="mt-site-header"><h1>まいにち道具箱</h1><p>暮らしと学びの無料アプリ</p></header>${html}<noscript><p style="padding:20px;text-align:center">ゲーム名のリンクから直接開けます。言語切り替えと検索にはJavaScriptが必要です。</p></noscript></body></html>`;
 fs.writeFileSync(path.join(root,'index.html'), standalone);
 const oldWidgetPath = path.join(root,'deployment/blogger-widget-before-20261104.html');
@@ -79,7 +81,8 @@ if (fs.existsSync(oldWidgetPath)) {
     return '\\u' + (0xd800 + (n >> 10)).toString(16) + '\\u' + (0xdc00 + (n & 0x3ff)).toString(16);
   });
   const asciiCSS = css.replace(/[^\x00-\x7f]/gu, char => '\\' + char.codePointAt(0).toString(16) + ' ');
-  const widget = originalStyles + '\n<style>\n' + asciiCSS + '\n</style>\n<template id="mt-portal-template">'+html+'</template>\n<script>\n'+asciiJS(toolsScript+'\n'+catalog+'\n'+script)+'\n</script>\n';
+  const widget = originalStyles + '\n<style>\n' + asciiCSS + '\n</style>\n<template id="mt-portal-template">'+html+'</template>\n<script>\n'+asciiJS(toolsScript+'\n'+catalog+'\n'+guideScript+'\n'+script)+'\n</script>\n';
   fs.writeFileSync(path.join(root,'deployment/blogger-widget.html'),widget);
 }
 console.log(JSON.stringify({games:games.length,languages:Object.keys(ui),htmlBytes:Buffer.byteLength(html),indexBytes:Buffer.byteLength(standalone),bloggerWidget:fs.existsSync(path.join(root,'deployment/blogger-widget.html'))}));
+

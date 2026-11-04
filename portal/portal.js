@@ -72,7 +72,8 @@
       const key = navKeys[new URL(a.href, location.href).pathname];
       if (key) a.dataset.mtI18n = key;
     });
-    if (!portal) {
+    const infoPage = $('[data-mt-info]');
+    if (!portal && !infoPage) {
       const article = $('.post-body');
       if (article && !$('#mt-edition-note')) {
         const note = document.createElement('aside');
@@ -140,6 +141,24 @@
         const game = games.find(g => g.id === el.dataset.mtDescription);
         if (game) el.textContent = game.description[lang];
       });
+      for (const kind of ['steps', 'tip']) {
+        $$('[data-mt-' + kind + ']').forEach(el => {
+          const id = el.getAttribute('data-mt-' + kind);
+          const guide = window.MainichiGuides?.[id]?.[lang];
+          if (guide) el.textContent = guide[kind];
+        });
+      }
+      if (infoPage) {
+        $$('[data-mt-info-lang]', infoPage).forEach(section => {
+          section.hidden = section.dataset.mtInfoLang !== lang;
+          if (!section.hidden) {
+            const title = section.dataset.mtPageTitle;
+            const heading = $('.post-title');
+            if (heading) heading.textContent = title;
+            document.title = title + ' | ' + t('brand');
+          }
+        });
+      }
       $$('[data-mt-original-title]').forEach(el => {
         const game = games.find(g => g.id === el.dataset.mtOriginalTitle);
         el.hidden = lang === 'ja' || game.title.ja === game.title[lang];
@@ -248,3 +267,4 @@
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot, {once:true});
   else boot();
 }());
+
