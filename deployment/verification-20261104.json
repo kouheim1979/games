@@ -8,11 +8,12 @@
     "zh-Hans",
     "es"
   ],
-  "published_game_count": 14,
+  "published_game_count": 13,
   "excluded": [
     "kokon-tozai",
     "golden-week",
-    "lunch-roulette"
+    "lunch-roulette",
+    "word-wolf"
   ],
   "scope": "Language switching covers the portal, game introductions, search/category labels and shared site navigation. Original game UIs and legacy English article/tool bodies retain their original language.",
   "verification": {
@@ -31,14 +32,12 @@
     "modal_close": "iframe removed and collection restored",
     "live_blogger_languages": "ja/en/zh/es passed, no literal HTML entities in rendered portal text",
     "live_language_persistence": "Spanish retained after navigating to the root without lang query",
-    "live_game_launch": "Word Wolf opened inside the Blogger portal",
-    "live_empty_search_reset": "No-match state and keyboard reset restored 14 games",
-    "github_pages_public_url": "https://kouheim1979.github.io/games/",
-    "github_pages_public_cards": 14,
-    "browser_limit": "Cloud desktop Chrome; narrow widths checked in preview frames, no physical iPhone verification"
+    "final_live_blogger_cards": 13,
+    "word_wolf_selection": "word-wolf2 only",
+    "final_static_checks": "4 tests passed with 13 games"
   },
   "blogger_deployed": true,
-  "github_pages_deployment": "success",
+  "github_pages_deployment": "final curated source update",
   "adsense_status": "No change made; no approval or revenue claim.",
-  "source_commit": "25157d1c7ce796a8aab0003b38c1e301fe68cb06"
+  "pokemon_review": "Recommended excluding from a monetized collection; awaiting owner decision. Currently still listed."
 }
