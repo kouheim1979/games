@@ -30,9 +30,15 @@
     "water_sort_move": "one red layer moved from bottle 1 to bottle 2",
     "modal_close": "iframe removed and collection restored",
     "live_blogger_languages": "ja/en/zh/es passed, no literal HTML entities in rendered portal text",
-    "live_language_persistence": "Spanish retained after navigating to the root without lang query"
+    "live_language_persistence": "Spanish retained after navigating to the root without lang query",
+    "live_game_launch": "Word Wolf opened inside the Blogger portal",
+    "live_empty_search_reset": "No-match state and keyboard reset restored 14 games",
+    "github_pages_public_url": "https://kouheim1979.github.io/games/",
+    "github_pages_public_cards": 14,
+    "browser_limit": "Cloud desktop Chrome; narrow widths checked in preview frames, no physical iPhone verification"
   },
   "blogger_deployed": true,
-  "github_pages_deployment": "source commit pending",
-  "adsense_status": "No change made; no approval or revenue claim."
+  "github_pages_deployment": "success",
+  "adsense_status": "No change made; no approval or revenue claim.",
+  "source_commit": "25157d1c7ce796a8aab0003b38c1e301fe68cb06"
 }
