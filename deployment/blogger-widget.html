@@ -606,9 +606,8 @@ for(const button of document.querySelectorAll('[data-print]')) button.addEventLi
     }
     const portal = $('#mt-portal');
     const header = $('#mt-site-header') || $('.Header .header-widget') || $('.Header');
-    if (header && !$('#mt-languages')) {
+    if (header && !$('.mt-languagebar')) {
       const bar = document.createElement('div');
-      bar.id = 'mt-languages';
       bar.className = 'mt-languagebar';
       bar.setAttribute('role', 'group');
       bar.setAttribute('aria-label', 'Language');
@@ -622,11 +621,15 @@ for(const button of document.querySelectorAll('[data-print]')) button.addEventLi
         button.dataset.mtLang = code;
         button.lang = code === 'zh' ? 'zh-Hans' : code;
         button.textContent = name;
-        button.addEventListener('click', () => changeLanguage(code, true));
         bar.append(button);
       }
       header.append(bar);
     }
+    // Blogger clones its header while scrolling; cloned buttons lose direct listeners.
+    document.addEventListener('click', event => {
+      const button = event.target.closest?.('.mt-languagebar [data-mt-lang]');
+      if (button && langs.includes(button.dataset.mtLang)) changeLanguage(button.dataset.mtLang, true);
+    });
     const pageMenu = $('#PageList1 ul');
     if (pageMenu && !$('.mt-game-nav', pageMenu)) {
       const li = document.createElement('li');
@@ -745,12 +748,14 @@ for(const button of document.querySelectorAll('[data-print]')) button.addEventLi
       $('.mt-filters')?.setAttribute('aria-label', t('games'));
       $('.mt-footer-links')?.setAttribute('aria-label', t('about'));
       $$('[data-mt-lang]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.mtLang === lang)));
-      const bar = $('#mt-languages');
-      if (bar) bar.setAttribute('aria-label', t('language'));
-      const heading = $('#mt-site-header h1') || $('.Header h1 a, .Header h1, .Header h2 a, .Header h2');
-      if (heading) heading.textContent = t('brand');
-      const description = $('#mt-site-header > p') || $('.Header .header-widget > p, .Header .description');
-      if (description) description.textContent = t('subtitle');
+      $$('.mt-languagebar').forEach(bar => bar.setAttribute('aria-label', t('language')));
+      $$('#mt-site-header h1, .Header h1, .Header h2').forEach(heading => {
+        const title = $('a', heading) || heading;
+        title.textContent = t('brand');
+      });
+      $$('#mt-site-header > p, .Header .header-widget > p, .Header .description').forEach(description => {
+        description.textContent = t('subtitle');
+      });
       if (portal) portal.lang = next === 'zh' ? 'zh-Hans' : next;
       if (portal) document.title = t('brand') + ' | ' + t('subtitle');
       if (field) {
