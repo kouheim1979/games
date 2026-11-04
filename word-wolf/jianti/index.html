@@ -1,0 +1,1184 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>简体字ノート</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700&family=Noto+Serif+JP:wght@500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=IBM+Plex+Sans:ital,wght@0,500;1,500&display=swap">
+<style>
+/* Layout: one narrow column like a copybook page; the 米字格 practice square is the hero of every view. */
+:root {
+  --paper: #f5f7f3;
+  --sheet: #ffffff;
+  --ink: #1b211e;
+  --ink-soft: #5b6660;
+  --line: #d9e0da;
+  --grid: #8fc4a6;          /* green guide lines, like a 田字格 notebook */
+  --jade: #1d6b4c;          /* 简体字 accent */
+  --jade-wash: #e3f0e8;
+  --indigo: #39477f;        /* 日本漢字 accent */
+  --indigo-wash: #e7e9f4;
+  --good: #1d7a45;
+  --bad: #b23a2e;
+  --bad-wash: #f8e5e2;
+  --font-cn: "Noto Serif SC", "Songti SC", "SimSun", serif;
+  --font-jp: "Noto Serif JP", "Hiragino Mincho ProN", "Yu Mincho", serif;
+  --font-ui: "Zen Kaku Gothic New", "Hiragino Sans", "Yu Gothic", system-ui, sans-serif;
+  --font-py: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #121614; --sheet: #1a201d; --ink: #e6ece8; --ink-soft: #9aa7a0; --line: #2c3531;
+    --grid: #2f6a4b; --jade: #6fd1a0; --jade-wash: #1d3329; --indigo: #a7b3ec; --indigo-wash: #242a44;
+    --good: #6fd1a0; --bad: #f08a7c; --bad-wash: #3a2220; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #121614; --sheet: #1a201d; --ink: #e6ece8; --ink-soft: #9aa7a0; --line: #2c3531;
+  --grid: #2f6a4b; --jade: #6fd1a0; --jade-wash: #1d3329; --indigo: #a7b3ec; --indigo-wash: #242a44;
+  --good: #6fd1a0; --bad: #f08a7c; --bad-wash: #3a2220; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body {
+  background: var(--paper); color: var(--ink); font-family: var(--font-ui); font-size: 15px; line-height: 1.6;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 20px 48px;
+}
+.cn { font-family: var(--font-cn); }
+.jp { font-family: var(--font-jp); }
+.py { font-family: var(--font-py); font-style: italic; letter-spacing: .02em; }
+.wrap { max-width: 640px; margin: 0 auto; display: flex; flex-direction: column; gap: 18px; }
+button { font: inherit; color: inherit; cursor: pointer; }
+button:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--jade); outline-offset: 2px; }
+
+header { display: flex; align-items: end; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.brand h1 { margin: 0; font-size: 26px; line-height: 1.2; font-weight: 700; letter-spacing: .04em; }
+.brand h1 .cn { color: var(--jade); }
+.brand p { margin: 2px 0 0; color: var(--ink-soft); font-size: 13px; }
+.progress { min-width: 160px; flex: 0 1 220px; font-size: 12px; color: var(--ink-soft); }
+.progress .bar { height: 6px; background: var(--line); border-radius: 3px; overflow: hidden; margin-top: 4px; }
+.progress .bar i { display: block; height: 100%; background: var(--jade); width: 0; transition: width .4s; }
+.progress b { color: var(--ink); font-variant-numeric: tabular-nums; }
+
+nav { display: grid; grid-template-columns: repeat(5, 1fr); border: 1px solid var(--line); border-radius: 10px; background: var(--sheet); padding: 4px; gap: 4px; }
+nav button { border: 0; background: transparent; padding: 8px 2px; white-space: nowrap; border-radius: 7px; font-weight: 500; font-size: 14px; color: var(--ink-soft); }
+nav button[aria-selected="true"] { background: var(--jade-wash); color: var(--jade); font-weight: 700; }
+
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { border: 1px solid var(--line); background: var(--sheet); border-radius: 999px; padding: 4px 12px; font-size: 13px; color: var(--ink-soft); }
+.chiprow { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; width: 100%; }
+.chiplabel { font-size: 11px; letter-spacing: .1em; font-weight: 700; color: var(--ink-soft); margin-right: 2px; }
+.origin { display: flex; flex-direction: column; gap: 8px; padding-top: 14px; border-top: 1px solid var(--line); }
+.originhead { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+.originhead h2 { margin: 0; font-size: 18px; text-wrap: balance; }
+.chip[aria-pressed="true"] { border-color: var(--jade); color: var(--jade); background: var(--jade-wash); font-weight: 700; }
+.toolbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; }
+.toggle { display: inline-flex; gap: 6px; align-items: center; font-size: 13px; color: var(--ink-soft); }
+
+/* 米字格 */
+.mizi { position: relative; aspect-ratio: 1; max-width: 100%; border: 2px solid var(--grid); background: var(--sheet); display: grid; place-items: center; }
+.mizi svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.mizi svg line { stroke: var(--grid); stroke-width: 1; stroke-dasharray: 4 4; }
+.mizi span { position: relative; line-height: 1; }
+
+/* Flashcard */
+.card { background: var(--sheet); border: 1px solid var(--line); border-radius: 14px; padding: 20px; display: flex; flex-direction: column; gap: 16px; }
+.pair { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 14px; }
+.side { display: flex; flex-direction: column; align-items: center; gap: 8px; min-width: 0; }
+.side .mizi { width: min(100%, 170px); }
+.side .mizi span { font-size: clamp(72px, 22vw, 116px); }
+.side.jpside .mizi { border-color: var(--line); }
+.side.jpside .mizi svg line { stroke: var(--line); }
+.side.jpside .mizi span { color: var(--indigo); }
+.side.cnside .mizi span { color: var(--jade); }
+.label { font-size: 11px; letter-spacing: .12em; color: var(--ink-soft); font-weight: 700; }
+.arrow { color: var(--ink-soft); font-size: 22px; }
+.hidden-char { color: var(--ink-soft) !important; opacity: .35; font-family: var(--font-ui) !important; font-size: 56px !important; }
+.meta { display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; min-height: 64px; }
+.meta .py { font-size: 24px; color: var(--ink); }
+.meta .mean { color: var(--ink-soft); font-size: 14px; }
+.tag { display: inline-block; font-size: 12px; padding: 2px 10px; border-radius: 999px; background: var(--indigo-wash); color: var(--indigo); font-weight: 500; }
+.actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.btn { border: 1px solid var(--line); background: var(--sheet); border-radius: 10px; padding: 12px; font-weight: 700; font-size: 15px; }
+.btn.primary { background: var(--jade); border-color: var(--jade); color: var(--sheet); }
+.btn.ghost { color: var(--ink-soft); font-weight: 500; }
+.btn.full { grid-column: 1 / -1; }
+.speak { border: 1px solid var(--line); background: var(--sheet); border-radius: 999px; width: 36px; height: 36px; display: inline-grid; place-items: center; color: var(--jade); }
+.speak svg { width: 18px; height: 18px; }
+.cardfoot { display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+
+/* Quiz */
+.qprompt { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.qprompt .mizi { width: 150px; }
+.qprompt .mizi span { font-size: 104px; }
+.options { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.opt { border: 1px solid var(--line); background: var(--sheet); border-radius: 12px; aspect-ratio: 1; font-size: clamp(34px, 10vw, 48px); line-height: 1; display: grid; place-items: center; }
+.opt.right { border-color: var(--good); background: var(--jade-wash); color: var(--good); }
+.opt.wrong { border-color: var(--bad); background: var(--bad-wash); color: var(--bad); }
+.opt:disabled { cursor: default; }
+.feedback { text-align: center; min-height: 52px; font-size: 14px; }
+.feedback strong.ok { color: var(--good); }
+.feedback strong.ng { color: var(--bad); }
+.dots { display: flex; gap: 4px; justify-content: center; }
+.dots i { width: 10px; height: 10px; border-radius: 50%; background: var(--line); }
+.dots i.ok { background: var(--good); }
+.dots i.ng { background: var(--bad); }
+.dots i.now { outline: 2px solid var(--jade); outline-offset: 1px; }
+.result { text-align: center; display: flex; flex-direction: column; gap: 10px; align-items: center; }
+.result .score { font-size: 48px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--jade); line-height: 1.1; }
+.misslist { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+.miss { border: 1px solid var(--line); border-radius: 8px; padding: 4px 10px; font-size: 18px; }
+
+/* List */
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); gap: 8px; }
+.cell { border: 1px solid var(--line); background: var(--sheet); border-radius: 10px; padding: 8px 4px 6px; display: flex; flex-direction: column; align-items: center; gap: 2px; position: relative; }
+.cell .c { font-size: 30px; line-height: 1.1; color: var(--jade); }
+.cell .j { font-size: 13px; color: var(--indigo); }
+.cell.known::after { content: ""; position: absolute; top: 6px; right: 6px; width: 7px; height: 7px; border-radius: 50%; background: var(--good); }
+.cell[aria-expanded="true"] { border-color: var(--jade); }
+.detail { background: var(--sheet); border: 1px solid var(--jade); border-radius: 12px; padding: 14px 16px; display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+.detail .big { font-size: 56px; line-height: 1; }
+.detail .txt { flex: 1; min-width: 160px; display: flex; flex-direction: column; gap: 2px; }
+.legend { font-size: 12px; color: var(--ink-soft); display: flex; gap: 14px; flex-wrap: wrap; }
+.legend span::before { content: ""; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--good); margin-right: 5px; vertical-align: middle; }
+
+/* Rules */
+.intro { color: var(--ink-soft); font-size: 14px; margin: 0; max-width: 60ch; }
+.rules { display: flex; flex-direction: column; gap: 10px; }
+.rule { background: var(--sheet); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; display: grid; grid-template-columns: auto 1fr; gap: 6px 16px; align-items: center; }
+.rad { display: flex; align-items: center; gap: 8px; font-size: 32px; line-height: 1; }
+.rad .jp { color: var(--indigo); }
+.rad .cn { color: var(--jade); }
+.rad small { font-size: 16px; color: var(--ink-soft); }
+.ex { display: flex; flex-wrap: wrap; gap: 6px 12px; font-size: 17px; }
+.ex button { border: 0; background: none; padding: 0; }
+.ex .jp { color: var(--indigo); }
+.ex .cn { color: var(--jade); }
+.ex .to { color: var(--ink-soft); font-size: 12px; margin: 0 2px; }
+.rule .note { grid-column: 1 / -1; font-size: 12px; color: var(--ink-soft); }
+.tip { border-left: 3px solid var(--grid); padding: 6px 12px; font-size: 13px; color: var(--ink-soft); background: var(--sheet); border-radius: 0 8px 8px 0; }
+
+@media (max-width: 460px) {
+  .pair { gap: 8px; }
+  .arrow { font-size: 16px; }
+  .card { padding: 16px 12px; }
+}
+/* 出題範囲 */
+.selwrap { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--ink-soft); flex: 1 1 260px; min-width: 0; }
+.selwrap select { flex: 1; min-width: 0; font: inherit; font-size: 14px; color: var(--ink); background: var(--sheet); border: 1px solid var(--line); border-radius: 8px; padding: 7px 8px; }
+/* パーツ */
+.partsec { display: flex; flex-direction: column; gap: 10px; }
+.sechead h2 { margin: 0 0 2px; font-size: 18px; }
+.compgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; }
+.comp { background: var(--sheet); border: 1px solid var(--line); border-radius: 12px; min-width: 0; }
+.comp.open { grid-column: 1 / -1; border-color: var(--jade); }
+.comphead { width: 100%; border: 0; background: none; padding: 10px 12px; display: flex; flex-direction: column; align-items: flex-start; gap: 6px; text-align: left; border-radius: 12px; }
+.compglyph { display: flex; align-items: center; gap: 6px; font-size: 30px; line-height: 1; }
+.compglyph .jp { color: var(--indigo); }
+.compglyph .cn { color: var(--jade); }
+.compglyph small { font-size: 14px; color: var(--ink-soft); }
+.compname { display: flex; flex-wrap: wrap; gap: 0 8px; font-size: 12px; color: var(--ink-soft); line-height: 1.4; min-width: 0; }
+.compname span { font-variant-numeric: tabular-nums; }
+.compbody { padding: 0 12px 12px; display: flex; flex-direction: column; gap: 10px; }
+.compactions { display: flex; gap: 6px; flex-wrap: wrap; }
+.ex button.isknown .cn { text-decoration: underline; text-decoration-color: var(--good); text-underline-offset: 4px; }
+/* 組み立て */
+.buildtop { display: flex; gap: 10px; align-items: center; justify-content: space-between; flex-wrap: wrap; font-size: 12px; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+.buildrow { display: grid; grid-template-columns: 1fr auto 1fr; gap: 12px; align-items: start; }
+.buildrow .mizi { width: min(100%, 150px); }
+.buildrow .mizi span { font-size: clamp(64px, 20vw, 100px); }
+.buildrow .jpside .mizi span { color: var(--indigo); }
+.buildrow .arrow { align-self: center; }
+.partsjp { font-size: 18px; color: var(--ink-soft); }
+.partsjp .jp { color: var(--indigo); }
+.slots { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; width: min(100%, 150px); aspect-ratio: 1; }
+.slot { border: 2px dashed var(--grid); border-radius: 8px; display: grid; place-items: center; background: var(--sheet); font-size: clamp(30px, 9vw, 44px); line-height: 1; color: var(--jade); }
+.slot.empty { color: var(--ink-soft); font-family: var(--font-ui); font-size: 24px; opacity: .5; }
+.slot.right { border-style: solid; border-color: var(--good); background: var(--jade-wash); }
+.slot.wrong { border-style: solid; border-color: var(--bad); background: var(--bad-wash); color: var(--bad); }
+.partglyph, .opt.part { font-family: "Noto Serif SC", "Noto Serif JP", "Songti SC", serif; }
+.steplabel { text-align: center; font-weight: 700; display: flex; flex-direction: column; gap: 2px; }
+.steplabel span { font-weight: 400; font-size: 12px; color: var(--ink-soft); }
+.buildresult { display: grid; grid-template-columns: auto 1fr; gap: 16px; align-items: center; }
+.buildresult .mizi { width: 120px; }
+.buildresult .mizi span { font-size: 84px; color: var(--jade); }
+.buildresult .txt { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.partline { font-size: 22px; }
+.okc { color: var(--good); }
+.ngc { color: var(--bad); }
+.tag.parttag { background: var(--jade-wash); color: var(--jade); }
+@media (max-width: 460px) {
+  nav button { font-size: 13px; }
+  .buildresult { grid-template-columns: 1fr; justify-items: center; text-align: center; }
+  .buildresult .txt { align-items: center; }
+}
+
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+
+/* 中国語だけの字・意味が違う語 */
+.glossbox { width: min(100%, 170px); aspect-ratio: 1; max-width: 100%; border: 2px solid var(--line); background: var(--sheet); display: grid; place-items: center; text-align: center; padding: 10px; font-size: clamp(16px, 4.6vw, 22px); font-weight: 700; color: var(--indigo); line-height: 1.4; }
+.qprompt .glossbox { width: 150px; }
+.word { font-size: clamp(56px, 17vw, 92px); color: var(--jade); line-height: 1.15; text-align: center; letter-spacing: .06em; }
+.wordbox { display: flex; flex-direction: column; align-items: center; gap: 8px; padding-block: 10px; border-block: 1px dashed var(--grid); }
+.trapnote { color: var(--ink-soft); font-size: 14px; text-align: center; }
+.trapnote b { color: var(--indigo); }
+.compare { display: grid; gap: 8px; width: 100%; text-align: left; }
+.compare > div { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; padding: 10px 12px; border-radius: 10px; background: var(--jade-wash); }
+.compare > div.jprow { background: var(--indigo-wash); }
+.compare .k { font-size: 11px; letter-spacing: .1em; font-weight: 700; color: var(--ink-soft); min-width: 7em; }
+.compare .v { font-weight: 700; }
+.example { font-size: 14px; color: var(--ink-soft); display: flex; flex-wrap: wrap; gap: 4px 10px; justify-content: center; align-items: baseline; }
+.example .cn { font-size: 20px; color: var(--ink); }
+.meta .example .py, .example .py { font-size: 15px; }
+.options.textopts { grid-template-columns: 1fr 1fr; }
+.opt.text { aspect-ratio: auto; font-family: var(--font-ui); font-size: 15px; line-height: 1.4; padding: 14px 10px; min-height: 64px; }
+.cell .j.small { font-size: 11px; line-height: 1.3; text-align: center; padding-inline: 2px; overflow-wrap: anywhere; }
+.cell.wordcell .c { font-size: 22px; padding-block: 4px; }
+.cell.wordcell .j { color: var(--bad); }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <h1><span class="cn">简体字</span>ノート</h1>
+      <p>部首とつくりに注目して、日本の漢字から简体字へ。</p>
+    </div>
+    <div class="progress" aria-live="polite">
+      覚えた字 <b id="knownCount">0</b> / <b id="totalCount">0</b>
+      <div class="bar"><i id="knownBar"></i></div>
+    </div>
+  </header>
+
+  <nav role="tablist" aria-label="モード">
+    <button role="tab" id="tab-parts" data-view="parts" aria-selected="true">パーツ</button>
+    <button role="tab" id="tab-build" data-view="build" aria-selected="false">組み立て</button>
+    <button role="tab" id="tab-card" data-view="card" aria-selected="false">カード</button>
+    <button role="tab" id="tab-quiz" data-view="quiz" aria-selected="false">クイズ</button>
+    <button role="tab" id="tab-rules" data-view="rules" aria-selected="false">由来</button>
+  </nav>
+
+  <div class="toolbar" id="filterBar" hidden>
+    <label class="selwrap" for="groupSel"><span>出題範囲</span><select id="groupSel"></select></label>
+    <label class="toggle"><input type="checkbox" id="onlyUnknown"> まだ覚えていない字だけ</label>
+  </div>
+
+  <section id="view-parts"></section>
+  <section id="view-build" hidden></section>
+  <section id="view-card" hidden></section>
+  <section id="view-quiz" hidden></section>
+  <section id="view-rules" hidden></section>
+</div>
+
+<script>
+// [日本漢字, 简体字, pinyin, 意味, グループ(r=部首 / w=形が大きく違う / s=少しだけ違う), 部首キー]
+const RAW = `
+語|语|yǔ|言葉|r|言
+話|话|huà|話す・話|r|言
+説|说|shuō|言う・話す|r|言
+読|读|dú|読む|r|言
+請|请|qǐng|どうぞ・頼む|r|言
+謝|谢|xiè|感謝する|r|言
+認|认|rèn|認める・見分ける|r|言
+識|识|shí|知る|r|言
+記|记|jì|記す・覚える|r|言
+試|试|shì|試す|r|言
+誰|谁|shéi|誰|r|言
+課|课|kè|授業・課|r|言
+調|调|diào|調べる|r|言
+議|议|yì|議論する|r|言
+銀|银|yín|銀|r|金
+鉄|铁|tiě|鉄|r|金
+鏡|镜|jìng|鏡|r|金
+銭|钱|qián|お金|r|金
+錯|错|cuò|間違い|r|金
+鍋|锅|guō|鍋|r|金
+飯|饭|fàn|ご飯|r|食
+飲|饮|yǐn|飲む|r|食
+館|馆|guǎn|館・店|r|食
+餃|饺|jiǎo|ギョーザ|r|食
+餓|饿|è|お腹がすく|r|食
+紙|纸|zhǐ|紙|r|糸
+線|线|xiàn|線|r|糸
+経|经|jīng|経る・経済|r|糸
+結|结|jié|結ぶ|r|糸
+給|给|gěi|あげる・〜に|r|糸
+練|练|liàn|練習する|r|糸
+級|级|jí|等級・学年|r|糸
+紅|红|hóng|赤い|r|糸
+緑|绿|lǜ|緑|r|糸
+細|细|xì|細い|r|糸
+終|终|zhōng|終わる|r|糸
+絵|绘|huì|絵を描く|r|糸
+門|门|mén|門・ドア|r|門
+問|问|wèn|問う|r|門
+間|间|jiān|間・部屋|r|門
+聞|闻|wén|嗅ぐ・聞く|r|門
+閉|闭|bì|閉じる|r|門
+貝|贝|bèi|貝|r|貝
+貴|贵|guì|値段が高い|r|貝
+費|费|fèi|費用|r|貝
+員|员|yuán|人員|r|貝
+質|质|zhì|質|r|貝
+財|财|cái|財産|r|貝
+車|车|chē|車|r|車
+転|转|zhuǎn|回る・転送する|r|車
+軽|轻|qīng|軽い|r|車
+輸|输|shū|負ける・運ぶ|r|車
+軍|军|jūn|軍|r|車
+連|连|lián|連なる|r|車
+見|见|jiàn|見る・会う|r|見
+現|现|xiàn|現在|r|見
+覚|觉|jué|感じる|r|見
+規|规|guī|規則|r|見
+観|观|guān|見る・観光|r|見
+題|题|tí|問題|r|頁
+顔|颜|yán|色・顔|r|頁
+順|顺|shùn|順調|r|頁
+頼|赖|lài|頼る（右は页ではなく负）|s|
+預|预|yù|預ける・予め|r|頁
+馬|马|mǎ|馬|r|馬
+験|验|yàn|試験・検査|r|馬
+駐|驻|zhù|駐在する|r|馬
+騎|骑|qí|乗る（自転車など）|r|馬
+魚|鱼|yú|魚|r|魚
+鮮|鲜|xiān|新鮮|r|魚
+鳥|鸟|niǎo|鳥|r|鳥
+鶏|鸡|jī|鶏|r|鳥
+鳴|鸣|míng|鳴く|r|鳥
+長|长|cháng|長い|cs|
+東|东|dōng|東|cs|
+楽|乐|lè|楽しい|cs|
+書|书|shū|本|cs|
+電|电|diàn|電気|pt|
+気|气|qì|気・ガス|pt|
+発|发|fā|発する・送る|cs|
+髪|发|fà|髪（「発」と同じ字に）|hm|
+対|对|duì|正しい・〜に対して|sy|
+時|时|shí|時|an|
+動|动|dòng|動く|sy|
+場|场|chǎng|場|cs|
+業|业|yè|業・仕事|pt|
+両|两|liǎng|2つ|s|
+個|个|gè|〜個（量詞）|an|
+図|图|tú|図|cs|
+歳|岁|suì|〜歳|an|
+飛|飞|fēi|飛ぶ|pt|
+習|习|xí|習う|pt|
+衛|卫|wèi|守る|cs|
+産|产|chǎn|生産する|pt|
+厳|严|yán|厳しい|pt|
+郷|乡|xiāng|故郷・田舎|pt|
+億|亿|yì|億|ph|
+進|进|jìn|入る・進む|ph|
+遠|远|yuǎn|遠い|ph|
+運|运|yùn|運ぶ・運|ph|
+過|过|guò|過ぎる|sy|
+還|还|hái|まだ・さらに|sy|
+辺|边|biān|辺・そば|sy|
+適|适|shì|適する|hm|
+様|样|yàng|様子|ph|
+機|机|jī|機械|hm|
+極|极|jí|極めて|ph|
+歴|历|lì|歴史|ph|
+層|层|céng|階・層|sy|
+園|园|yuán|園|ph|
+実|实|shí|実際|cs|
+処|处|chù|所|an|
+応|应|yīng|〜すべき|cs|
+単|单|dān|単一|cs|
+戦|战|zhàn|戦う|ph|
+価|价|jià|価格|ph|
+優|优|yōu|優れた|ph|
+雲|云|yún|雲|an|
+隊|队|duì|隊・チーム|hy|
+陽|阳|yáng|太陽|hy|
+陰|阴|yīn|曇り・陰|hy|
+際|际|jì|際・国際|pt|
+陸|陆|lù|陸|sy|
+葉|叶|yè|葉|hm|
+薬|药|yào|薬|ph|
+芸|艺|yì|芸術|ph|
+華|华|huá|華やか・中国|ph|
+夢|梦|mèng|夢|an|
+筆|笔|bǐ|筆・ペン|hy|
+節|节|jié|節・祝日|cs|
+漢|汉|hàn|漢|sy|
+湯|汤|tāng|スープ|cs|
+熱|热|rè|暑い・熱い|ph|
+無|无|wú|ない|an|
+為|为|wèi|〜のために|cs|
+龍|龙|lóng|竜|cs|
+亀|龟|guī|亀|pt|
+歯|齿|chǐ|歯|pt|
+広|广|guǎng|広い|pt|
+買|买|mǎi|買う|cs|
+売|卖|mài|売る|cs|
+頭|头|tóu|頭|cs|
+願|愿|yuàn|願う|hm|
+類|类|lèi|種類|pt|
+開|开|kāi|開ける|pt|
+関|关|guān|閉める・関わる|pt|
+親|亲|qīn|親しい・親|pt|
+報|报|bào|新聞・報告|cs|
+興|兴|xìng|興味|cs|
+劇|剧|jù|劇|ph|
+圧|压|yā|押す・圧|pt|
+涙|泪|lèi|涙|hy|
+聴|听|tīng|聞く|hm|
+帰|归|guī|帰る|cs|
+帯|带|dài|持って行く・帯|cs|
+師|师|shī|先生|cs|
+島|岛|dǎo|島|cs|
+後|后|hòu|後ろ・後|hm|
+麺|面|miàn|麺（「面」と同じ字に）|hm|
+雑|杂|zá|雑多|an|
+幾|几|jǐ|いくつ|hm|
+衆|众|zhòng|大勢|an|
+豊|丰|fēng|豊か|hm|
+隻|只|zhī|〜匹（量詞）|hm|
+準|准|zhǔn|正確な・許す|hm|
+決|决|jué|決める|s|
+減|减|jiǎn|減る|s|
+涼|凉|liáng|涼しい|s|
+況|况|kuàng|状況|s|
+歩|步|bù|歩く・歩|s|
+強|强|qiáng|強い|s|
+収|收|shōu|収める・受け取る|s|
+黒|黑|hēi|黒い|s|
+拝|拜|bài|拝む|s|
+渉|涉|shè|渉る|s|
+呉|吴|wú|呉（姓）|s|
+換|换|huàn|換える|s|
+戸|户|hù|戸・世帯|s|
+冊|册|cè|〜冊|s|
+毎|每|měi|毎|s|
+剣|剑|jiàn|剣|s|
+舎|舍|shè|宿舎|s|
+隠|隐|yǐn|隠れる|s|
+恵|惠|huì|恵み|s|
+徳|德|dé|徳・ドイツ|s|
+険|险|xiǎn|危ない|s|
+論|论|lùn|論じる|r|言
+輪|轮|lún|車輪・〜回|r|車
+倫|伦|lún|倫理|r|
+伝|传|chuán|伝える|r|
+偉|伟|wěi|偉大な|r|
+違|违|wéi|違反する|r|
+緯|纬|wěi|緯度|r|糸
+張|张|zhāng|〜枚・張る|r|
+帳|帐|zhàng|帳簿・テント|r|
+凍|冻|dòng|凍る|r|
+棟|栋|dòng|〜棟|r|
+陳|陈|chén|並べる・陳（姓）|r|
+焼|烧|shāo|焼く・熱が出る|r|
+暁|晓|xiǎo|知る・夜明け|r|
+倉|仓|cāng|倉庫|r|
+創|创|chuàng|創る|r|
+槍|枪|qiāng|銃・槍|r|
+弾|弹|tán|弾く・弾む|r|
+職|职|zhí|職業|r|
+織|织|zhī|織る|r|糸
+続|续|xù|続く|r|糸
+義|义|yì|意義・正義|r|
+儀|仪|yí|儀式・器具|r|
+渦|涡|wō|渦|r|
+禍|祸|huò|災い|r|
+亜|亚|yà|アジア（亚洲）|r|
+悪|恶|è|悪い|r|
+満|满|mǎn|満ちる|r|
+廃|废|fèi|廃れる|r|
+偽|伪|wěi|偽の|r|
+視|视|shì|見る|r|見
+販|贩|fàn|販売する|r|貝
+飼|饲|sì|飼う|r|食
+駆|驱|qū|駆ける・追い払う|r|馬
+閑|闲|xián|暇な|r|門
+領|领|lǐng|襟・率いる|r|頁
+額|额|é|額・金額|r|頁
+鯨|鲸|jīng|クジラ|r|魚
+検|检|jiǎn|検査する|s|
+`.trim().split("\n").map((l) => {
+  const [jp, cn, py, mean, g, rad] = l.split("|");
+  return { kind: "pair", jp, cn, py, mean, g, rad };
+});
+
+// 日本ではほとんど使わないが、中国語では頻出の字: [简体字, pinyin, 意味, 例, 例のpinyin, 例の意味]
+const CN_ONLY = `
+们|men|〜たち（複数）|我们|wǒmen|私たち
+这|zhè|これ・この|这个|zhège|これ
+那|nà|あれ・あの|那个|nàge|あれ
+哪|nǎ|どれ・どの|哪里|nǎlǐ|どこ
+么|me|（疑問・語調の字）|什么|shénme|何
+吗|ma|〜か？（疑問）|你好吗？|nǐ hǎo ma|元気ですか
+呢|ne|〜は？・〜ね|你呢？|nǐ ne|あなたは？
+吧|ba|〜しよう・〜でしょう|走吧|zǒu ba|行こう
+啊|a|ああ・〜よ（感嘆）|好啊|hǎo a|いいよ
+你|nǐ|あなた|你好|nǐ hǎo|こんにちは
+您|nín|あなた（丁寧）|您贵姓？|nín guìxìng|お名前は？
+她|tā|彼女|她是老师|tā shì lǎoshī|彼女は先生です
+它|tā|それ（人以外）|它很可爱|tā hěn kě'ài|それはかわいい
+咱|zán|（相手を含む）私たち|咱们走吧|zánmen zǒu ba|一緒に行こう
+俩|liǎ|二人|我们俩|wǒmen liǎ|私たち二人
+啥|shá|何（口語）|干啥？|gàn shá|何してるの
+很|hěn|とても|很好|hěn hǎo|とても良い
+没|méi|ない（所有・過去の否定）|没有|méiyǒu|ない・なかった
+别|bié|〜するな・ほかの|别走|bié zǒu|行かないで
+跟|gēn|〜と・ついて行く|跟我来|gēn wǒ lái|ついて来て
+把|bǎ|〜を（処置の文）|把门关上|bǎ mén guānshang|ドアを閉める
+吃|chī|食べる|吃饭|chīfàn|ご飯を食べる
+喝|hē|飲む|喝茶|hē chá|お茶を飲む
+找|zhǎo|探す|找工作|zhǎo gōngzuò|仕事を探す
+拿|ná|持つ・取る|拿着|názhe|持っている
+扔|rēng|投げる・捨てる|扔垃圾|rēng lājī|ゴミを捨てる
+躺|tǎng|横になる|躺下|tǎngxià|横になる
+玩|wán|遊ぶ|玩游戏|wán yóuxì|ゲームで遊ぶ
+聊|liáo|おしゃべりする|聊天|liáotiān|おしゃべりする
+逛|guàng|ぶらつく|逛街|guàngjiē|街をぶらぶらする
+懂|dǒng|わかる|我不懂|wǒ bù dǒng|わかりません
+干|gàn|する・やる|你干什么？|nǐ gàn shénme|何してるの
+搞|gǎo|やる・する（口語）|搞错了|gǎocuò le|間違えた
+累|lèi|疲れた|我很累|wǒ hěn lèi|とても疲れた
+吵|chǎo|うるさい・口げんか|太吵了|tài chǎo le|うるさすぎる
+帅|shuài|かっこいい|很帅|hěn shuài|かっこいい
+胖|pàng|太っている|有点胖|yǒudiǎn pàng|少し太っている
+瘦|shòu|やせている|太瘦了|tài shòu le|やせすぎ
+嘴|zuǐ|口|张嘴|zhāng zuǐ|口を開ける
+脸|liǎn|顔|洗脸|xǐ liǎn|顔を洗う
+肚|dù|お腹|肚子|dùzi|お腹
+腿|tuǐ|脚（ももからすね）|腿疼|tuǐ téng|脚が痛い
+爸|bà|父|爸爸|bàba|お父さん
+妈|mā|母|妈妈|māma|お母さん
+哥|gē|兄|哥哥|gēge|お兄さん
+狗|gǒu|犬|小狗|xiǎogǒu|子犬
+鸭|yā|アヒル|北京烤鸭|Běijīng kǎoyā|北京ダック
+蛋|dàn|卵|鸡蛋|jīdàn|鶏の卵
+筷|kuài|箸|筷子|kuàizi|箸
+碗|wǎn|お椀|一碗饭|yì wǎn fàn|ご飯一杯
+块|kuài|かたまり・元（お金）|三块钱|sān kuài qián|3元
+咖|kā|（音訳の字）|咖啡|kāfēi|コーヒー
+啤|pí|（音訳の字）|啤酒|píjiǔ|ビール
+`.trim().split("\n").map((l) => {
+  const [cn, py, mean, ex, expy, exmean] = l.split("|");
+  return { kind: "c", g: "c", cn, py, mean, ex, expy, exmean };
+});
+
+// 形は日本語と同じ（または似ている）のに意味が違う語: [中国語, pinyin, 中国語の意味, 日本語での意味, 日本語の意味を中国語で, そのpinyin]
+const FALSE_FRIENDS = `
+手纸|shǒuzhǐ|トイレットペーパー|手紙|信|xìn
+汽车|qìchē|自動車|汽車（列車）|火车|huǒchē
+走|zǒu|歩く・出かける|走る|跑|pǎo
+去|qù|行く|去る|离开|líkāi
+娘|niáng|母（方言）|娘|女儿|nǚ'ér
+丈夫|zhàngfu|夫|丈夫（じょうぶ）|结实|jiēshi
+大丈夫|dàzhàngfu|立派な男|大丈夫（問題ない）|没关系|méi guānxi
+老婆|lǎopo|妻（口語）|老婆（年老いた女性）|老太太|lǎotàitai
+爱人|àiren|配偶者|愛人|情人|qíngrén
+新闻|xīnwén|ニュース|新聞|报纸|bàozhǐ
+勉强|miǎnqiǎng|無理に・しぶしぶ|勉強|学习|xuéxí
+工作|gōngzuò|仕事|工作（図工）|手工|shǒugōng
+高校|gāoxiào|大学（高等教育機関）|高校|高中|gāozhōng
+床|chuáng|ベッド|床（ゆか）|地板|dìbǎn
+人参|rénshēn|朝鮮人参|人参（にんじん）|胡萝卜|húluóbo
+邪魔|xiémó|悪魔|邪魔|打扰|dǎrǎo
+怪我|guài wǒ|私のせいだ|怪我（けが）|受伤|shòushāng
+颜色|yánsè|色|顔色|脸色|liǎnsè
+看病|kànbìng|診察を受ける・する|看病（かんびょう）|护理|hùlǐ
+先生|xiānsheng|〜さん（男性）・夫|先生（教師）|老师|lǎoshī
+猪|zhū|ブタ|猪（いのしし）|野猪|yězhū
+汤|tāng|スープ|湯（お湯）|热水|rèshuǐ
+迷惑|míhuò|戸惑う・惑わす|迷惑|麻烦|máfan
+深刻|shēnkè|印象深い・深い|深刻|严重|yánzhòng
+结束|jiéshù|終わる|結束（団結）|团结|tuánjié
+便宜|piányi|安い|便宜（べんぎ）|方便|fāngbiàn
+暗算|ànsuàn|陰謀で人を陥れる|暗算|心算|xīnsuàn
+`.trim().split("\n").map((l) => {
+  const [cn, py, mean, trap, jpword, jpwordpy] = l.split("|");
+  return { kind: "f", g: "f", cn, py, mean, trap, jpword, jpwordpy };
+});
+
+const ALL = [...RAW, ...CN_ONLY, ...FALSE_FRIENDS].map((x, i) => ({ ...x, id: i, parts: [] }));
+const BY_JP = new Map(ALL.filter((x) => x.kind === "pair").map((x) => [x.jp, x]));
+
+// 部品（部首・つくり）。key = 日本の形、cn = 简体字での形、chars = その部品を含む字（日本の形）
+const COMPONENTS = [
+  { key: "言", cn: "讠", pos: "bushu", name: "ごんべん", chars: "語話説読請謝認識記試誰課調議論", note: "左側にあるときだけ讠になる。単独の「言」はそのまま。" },
+  { key: "金", cn: "钅", pos: "bushu", name: "かねへん", chars: "銀鉄鏡銭錯鍋", note: "左側にあるときだけ钅になる。単独の「金」はそのまま。" },
+  { key: "食", cn: "饣", pos: "bushu", name: "しょくへん", chars: "飯飲館餃餓飼", note: "左側にあるときだけ饣になる。単独の「食」はそのまま。" },
+  { key: "糸", cn: "纟", pos: "bushu", name: "いとへん", chars: "紙線経結給練級紅緑細終絵続織緯", note: "左側の糸は纟。単独の「糸」は「丝 sī」になる。" },
+  { key: "車", cn: "车", pos: "bushu", name: "くるまへん", chars: "車転軽輸軍連輪", note: "単独でも部品でも车。" },
+  { key: "馬", cn: "马", pos: "bushu", name: "うまへん", chars: "馬験駐騎駆", note: "単独でも部品でも马。" },
+  { key: "魚", cn: "鱼", pos: "bushu", name: "うおへん", chars: "魚鮮鯨", note: "単独でも部品でも鱼。" },
+  { key: "貝", cn: "贝", pos: "bushu", name: "かいへん・こがい", chars: "貝貴費員質財販", note: "左にも下にも現れる。買→买、売→卖 は贝が消える例外。" },
+  { key: "門", cn: "门", pos: "bushu", name: "もんがまえ", chars: "門問間聞閉閑", note: "開→开、関→关 は門ごと消える例外。" },
+  { key: "見", cn: "见", pos: "bushu", name: "みる", chars: "見現覚規観視", note: "右や下に現れる。親→亲 は見が消える例外。" },
+  { key: "頁", cn: "页", pos: "bushu", name: "おおがい", chars: "題顔順預領額", note: "右側の頁は页。頭→头、願→愿、類→类 は例外。頼→赖 の右は页ではなく负。" },
+  { key: "鳥", cn: "鸟", pos: "bushu", name: "とり", chars: "鳥鶏鳴", note: "単独でも部品でも鸟。" },
+  { key: "売", cn: "卖", pos: "tsukuri", name: "読・続の右", chars: "売読続", note: "読→读、続→续。右側の売がまとめて卖になる。" },
+  { key: "戠", cn: "只", pos: "tsukuri", name: "識・職・織の右", chars: "識職織", note: "画数の多い右側を、同じ系統の音の「只」に置き換え。" },
+  { key: "侖", cn: "仑", pos: "tsukuri", name: "論・輪の右", chars: "論輪倫", note: "lun と読む字の右側。" },
+  { key: "云", cn: "专", pos: "tsukuri", name: "転・伝の右", chars: "転伝", note: "日本の新字体は「云」、中国は「专」（專の草書から）。専→专 も同じ。" },
+  { key: "韋", cn: "韦", pos: "tsukuri", name: "偉・違・緯の部品", chars: "偉違緯", note: "wei と読む字に多い。囲→围 も中が韦。" },
+  { key: "長", cn: "长", pos: "tsukuri", name: "張・帳の右", chars: "長張帳", note: "草書から作られた长が、部品でもそのまま使われる。" },
+  { key: "東", cn: "东", pos: "tsukuri", name: "凍・棟・陳の右", chars: "東凍棟陳", note: "草書から作られた东が、部品でもそのまま使われる。" },
+  { key: "尭", cn: "尧", pos: "tsukuri", name: "焼・暁の右", chars: "焼暁", note: "点や画の数が少し違う。" },
+  { key: "倉", cn: "仓", pos: "tsukuri", name: "倉・創・槍の部品", chars: "倉創槍", note: "cang / chuang / qiang と読む字に共通。" },
+  { key: "単", cn: "单", pos: "tsukuri", name: "弾の右", chars: "単弾", note: "上の点の向きが違う（日本 ツ、中国 丷）。" },
+  { key: "義", cn: "义", pos: "tsukuri", name: "議・儀の右", chars: "義議儀", note: "画数の多い義を、まるごと义に。" },
+  { key: "咼", cn: "呙", pos: "tsukuri", name: "鍋・渦・禍の右", chars: "鍋渦禍", note: "日本では咼のまま。中国では呙。" },
+  { key: "亜", cn: "亚", pos: "tsukuri", name: "悪の上", chars: "亜悪", note: "悪→恶。上の部分が亚になる。" },
+  { key: "両", cn: "两", pos: "tsukuri", name: "満の右", chars: "両満", note: "満→满。中の形が两になる。" },
+  { key: "発", cn: "发", pos: "tsukuri", name: "廃の中", chars: "発廃", note: "廃→废。発の部分が发になる。" },
+  { key: "為", cn: "为", pos: "tsukuri", name: "偽の右", chars: "為偽", note: "偽→伪。為の部分が为になる。" },
+];
+const COMP = Object.fromEntries(COMPONENTS.map((c) => [c.key, c]));
+for (const c of COMPONENTS) {
+  c.items = [...c.chars].map((j) => BY_JP.get(j)).filter(Boolean);
+  c.items.forEach((x) => x.parts.push(c.key));
+}
+
+// 組み立て用: [日本の字, 日本の左, 日本の右, 中国の左, 中国の右]
+const BUILD = `
+語|言|吾|讠|吾
+話|言|舌|讠|舌
+読|言|売|讠|卖
+請|言|青|讠|青
+謝|言|射|讠|射
+認|言|忍|讠|人
+識|言|戠|讠|只
+記|言|己|讠|己
+試|言|式|讠|式
+課|言|果|讠|果
+調|言|周|讠|周
+議|言|義|讠|义
+論|言|侖|讠|仑
+続|糸|売|纟|卖
+織|糸|戠|纟|只
+職|耳|戠|耳|只
+輪|車|侖|车|仑
+倫|亻|侖|亻|仑
+転|車|云|车|专
+伝|亻|云|亻|专
+偉|亻|韋|亻|韦
+緯|糸|韋|纟|韦
+張|弓|長|弓|长
+帳|巾|長|巾|长
+弾|弓|単|弓|单
+凍|冫|東|冫|东
+棟|木|東|木|东
+陳|阝|東|阝|东
+焼|火|尭|火|尧
+暁|日|尭|日|尧
+槍|木|倉|木|仓
+創|倉|刂|仓|刂
+儀|亻|義|亻|义
+鍋|金|咼|钅|呙
+渦|氵|咼|氵|呙
+禍|礻|咼|礻|呙
+銀|金|艮|钅|艮
+鉄|金|失|钅|失
+銭|金|戋|钅|戋
+鏡|金|竟|钅|竟
+錯|金|昔|钅|昔
+飯|食|反|饣|反
+飲|食|欠|饣|欠
+館|食|官|饣|官
+飼|食|司|饣|司
+紙|糸|氏|纟|氏
+紅|糸|工|纟|工
+結|糸|吉|纟|吉
+給|糸|合|纟|合
+級|糸|及|纟|及
+細|糸|田|纟|田
+終|糸|冬|纟|冬
+絵|糸|会|纟|会
+線|糸|泉|纟|戋
+鮮|魚|羊|鱼|羊
+鯨|魚|京|鱼|京
+鳴|口|鳥|口|鸟
+鶏|奚|鳥|又|鸟
+題|是|頁|是|页
+順|川|頁|川|页
+領|令|頁|令|页
+額|客|頁|客|页
+現|王|見|王|见
+規|夫|見|夫|见
+視|礻|見|礻|见
+財|貝|才|贝|才
+販|貝|反|贝|反
+駐|馬|主|马|主
+騎|馬|奇|马|奇
+駆|馬|区|马|区
+`.trim().split("\n").map((l) => {
+  const [jp, lj, rj, lc, rc] = l.split("|");
+  return { x: BY_JP.get(jp), lj, rj, lc, rc };
+}).filter((b) => b.x);
+const LEFT_POOL = [...new Set(BUILD.flatMap((b) => [b.lc, b.lj]))];
+const RIGHT_POOL = [...new Set(BUILD.flatMap((b) => [b.rc, b.rj]))];
+
+// 简体字の作り方（由来）。分類は代表的な説明に沿ったもので、複数の由来が重なる字もある。
+const ORIGINS = [
+  { key: "r", name: "部首・つくりの類推", desc: "部首やつくりなどの部品をまとめて簡略化したもの。部品を覚えれば、知らない字でもかなり予想できます。部品ごとの一覧は「パーツ」タブにあります。" },
+  { key: "cs", name: "草書から", desc: "筆で崩して書いた草書の形を、楷書の形に直したもの。書→书、東→东、長→长、為→为 など、元の字と見た目が大きく変わります。" },
+  { key: "pt", name: "一部を残す", desc: "字の特徴的な部分や輪郭だけを残したもの。飛→飞、習→习、業→业、開→开（門を外す）、歯→齿 など。" },
+  { key: "hm", name: "同音で代用", desc: "画数の少ない既存の字を当てたもの。多くは同じか近い発音です。後→后、麺→面、幾→几、葉→叶。元は別の字だったので、1字に2つの意味が合流しています。" },
+  { key: "an", name: "古字・俗字", desc: "昔から手書きなどで使われていた簡単な字体を、正式な字にしたもの。雲→云、衆→众、無→无、個→个 など。" },
+  { key: "ph", name: "音符を交換", desc: "発音を表す部分（音符）を、同じか近い音の簡単な字に替えたもの。遠→远（元 yuán）、運→运（云 yún）、億→亿（乙 yì）、戦→战（占 zhàn）、華→华（化 huà）。" },
+  { key: "sy", name: "記号に置換", desc: "複雑な部分を「又」「寸」「不」などの単純な形に置き換えたもの。発音とは関係しません。漢→汉、対→对、過→过、還→还。" },
+  { key: "hy", name: "新しい会意", desc: "意味を表す部品を組み合わせて作り直したもの。涙→泪（水＋目）、陽→阳（日）、陰→阴（月）、筆→笔（竹＋毛）、隊→队（人）。" },
+  { key: "s", name: "字体の小差", desc: "简体字化というより、日本の新字体と中国の字体で細部が違うもの。点や画の有無に注意。歩/步、黒/黑、決/决、強/强。" },
+];
+const VOCAB = [
+  { key: "c", name: "中国語だけの字" },
+  { key: "f", name: "意味が違う語" },
+];
+const GROUP_TAG = Object.fromEntries([...ORIGINS, ...VOCAB].map((g) => [g.key, g.name]));
+
+// ---- per-viewer progress (browser only) ----
+let known = new Set();
+try { known = new Set(JSON.parse(localStorage.getItem("jianti-known") || "[]")); } catch (e) {}
+function saveKnown() { try { localStorage.setItem("jianti-known", JSON.stringify([...known])); } catch (e) {} updateProgress(); }
+function key(x) { return x.kind === "pair" ? x.jp + x.cn : x.kind + ":" + x.cn; }
+
+const state = { view: "parts", group: "all", onlyUnknown: false, deck: [], pos: 0, flipped: false, quiz: null, openComp: null, build: null };
+
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const shuffle = (a) => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+
+const MIZI_SVG = '<svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><line x1="50" y1="0" x2="50" y2="100"/><line x1="0" y1="50" x2="100" y2="50"/><line x1="0" y1="0" x2="100" y2="100"/><line x1="100" y1="0" x2="0" y2="100"/></svg>';
+const SPEAK_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/><path d="M19 6a8.5 8.5 0 0 1 0 12"/></svg>';
+const canSpeak = typeof window.speechSynthesis !== "undefined";
+function speak(text) {
+  if (!canSpeak) return;
+  try {
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = "zh-CN"; u.rate = 0.8;
+    const v = speechSynthesis.getVoices().find((v) => /zh[-_]CN/i.test(v.lang));
+    if (v) u.voice = v;
+    speechSynthesis.speak(u);
+  } catch (e) {}
+}
+function speakBtn(text) { return canSpeak ? `<button class="speak" data-speak="${esc(text)}" aria-label="発音を聞く">${SPEAK_SVG}</button>` : ""; }
+function sayText(x) { return x.kind === "c" ? x.ex : x.cn; }
+
+const cnSpan = (s, style = "") => `<span class="cn" lang="zh-Hans"${style ? ` style="${style}"` : ""}>${esc(s)}</span>`;
+const jpSpan = (s, style = "") => `<span class="jp" lang="ja"${style ? ` style="${style}"` : ""}>${esc(s)}</span>`;
+const pySpan = (s, style = "") => `<span class="py" lang="zh-Latn-pinyin"${style ? ` style="${style}"` : ""}>${esc(s)}</span>`;
+const mizi = (inner, jpStyle) => `<div class="mizi"${jpStyle ? ' style="border-color:var(--line)"' : ""}>${jpStyle ? MIZI_SVG.replace(/<line/g, '<line style="stroke:var(--line)"') : MIZI_SVG}${inner}</div>`;
+const partsLabel = (x) => (x.parts || []).map((k) => `${k}→${COMP[k].cn}`).join("・");
+
+function inGroup(x, g) {
+  if (g === "all") return true;
+  if (g.startsWith("p:")) return x.parts.includes(g.slice(2));
+  return x.g === g;
+}
+function pool() {
+  return ALL.filter((x) => inGroup(x, state.group) && (!state.onlyUnknown || !known.has(key(x))));
+}
+
+function updateProgress() {
+  const n = ALL.filter((x) => known.has(key(x))).length;
+  $("#knownCount").textContent = n;
+  $("#totalCount").textContent = ALL.length;
+  $("#knownBar").style.width = (100 * n / ALL.length) + "%";
+}
+
+function renderSelect() {
+  const opt = (k, label, n) => `<option value="${k}"${state.group === k ? " selected" : ""}>${esc(label)}（${n}）</option>`;
+  const comps = (pos) => COMPONENTS.filter((c) => c.pos === pos).map((c) => opt("p:" + c.key, `${c.key}→${c.cn}　${c.name}`, c.items.length)).join("");
+  $("#groupSel").innerHTML = opt("all", "すべて", ALL.length)
+    + `<optgroup label="部首">${comps("bushu")}</optgroup>`
+    + `<optgroup label="つくり・部品">${comps("tsukuri")}</optgroup>`
+    + `<optgroup label="作り方">${ORIGINS.map((o) => opt(o.key, o.name, ALL.filter((x) => x.g === o.key).length)).join("")}</optgroup>`
+    + `<optgroup label="語彙">${VOCAB.map((o) => opt(o.key, o.name, ALL.filter((x) => x.g === o.key).length)).join("")}</optgroup>`;
+}
+function groupName(g) {
+  if (g === "all") return "すべて";
+  if (g.startsWith("p:")) { const c = COMP[g.slice(2)]; return `${c.key}→${c.cn}`; }
+  return GROUP_TAG[g];
+}
+
+// ---- Parts view ----
+function exampleBtns(items) {
+  return items.map((x) => `<button data-jump="${x.id}" class="${known.has(key(x)) ? "isknown" : ""}"><span class="jp" lang="ja">${x.jp}</span><span class="to">→</span><span class="cn" lang="zh-Hans">${x.cn}</span></button>`).join("");
+}
+function compCard(c) {
+  const open = state.openComp === c.key;
+  const done = c.items.filter((x) => known.has(key(x))).length;
+  return `<div class="comp${open ? " open" : ""}">
+    <button class="comphead" data-comp="${esc(c.key)}" aria-expanded="${open}">
+      <span class="compglyph"><span class="jp" lang="ja">${c.key}</span><small aria-hidden="true">→</small><span class="cn" lang="zh-Hans">${c.cn}</span></span>
+      <span class="compname">${esc(c.name)}<span>${done}/${c.items.length}字</span></span>
+    </button>
+    ${open ? `<div class="compbody">
+      <p class="intro">${esc(c.note)}</p>
+      <div class="ex">${exampleBtns(c.items)}</div>
+      <div class="compactions">
+        <button class="chip" data-practice="p:${esc(c.key)}" data-to="card">カードで練習</button>
+        <button class="chip" data-practice="p:${esc(c.key)}" data-to="quiz">クイズ</button>
+        ${BUILD.some((b) => b.x.parts.includes(c.key)) ? `<button class="chip" data-practice="p:${esc(c.key)}" data-to="build">組み立て</button>` : ""}
+      </div>
+    </div>` : ""}
+  </div>`;
+}
+function renderParts() {
+  const sec = (pos, title, lead) => `<section class="partsec">
+    <div class="sechead"><h2>${title}</h2><p class="intro">${lead}</p></div>
+    <div class="compgrid">${COMPONENTS.filter((c) => c.pos === pos).map(compCard).join("")}</div>
+  </section>`;
+  $("#view-parts").innerHTML = `<div style="display:flex;flex-direction:column;gap:22px">
+    ${sec("bushu", "部首", "よく出る12の部首。左側（偏）や右側に来たときの形を覚えると、その部首を持つ字がまとめて読めます。")}
+    ${sec("tsukuri", "つくり・部品", "右側（旁）や中の部品も、同じ形ならまとめて簡略化されます。部品の形が日本と中国で別々に変わったものもあります。")}
+    <div class="tip">部品をタップすると、その部品を含む字と練習ボタンが出ます。字をタップするとカードで答えを確認できます。</div>
+  </div>`;
+}
+
+// ---- Build view ----
+function pickOpts(correct, trap, poolArr) {
+  const out = [correct];
+  if (trap !== correct) out.push(trap);
+  for (const p of shuffle(poolArr)) { if (out.length >= 4) break; if (!out.includes(p)) out.push(p); }
+  return shuffle(out);
+}
+function buildList() {
+  const g = state.group.startsWith("p:") ? state.group.slice(2) : null;
+  const list = BUILD.filter((b) => !g || b.x.parts.includes(g));
+  return list.length ? list : BUILD;
+}
+function newBuildRound() {
+  const list = shuffle(buildList());
+  state.build = { list, i: 0, ok: 0, n: 0, scope: state.group.startsWith("p:") ? state.group : "all" };
+  setBuildItem();
+}
+function setBuildItem() {
+  const B = state.build, b = B.list[B.i];
+  B.cur = { b, optsL: pickOpts(b.lc, b.lj, LEFT_POOL), optsR: pickOpts(b.rc, b.rj, RIGHT_POOL), l: null, r: null };
+}
+function slot(v, ok) {
+  if (v == null) return `<div class="slot empty">?</div>`;
+  return `<div class="slot ${ok == null ? "" : ok ? "right" : "wrong"}"><span class="partglyph">${esc(v)}</span></div>`;
+}
+function renderBuild() {
+  const B = state.build, c = B.cur, b = c.b;
+  const doneBoth = c.l != null && c.r != null;
+  const okL = c.l == null ? null : c.l === b.lc, okR = c.r == null ? null : c.r === b.rc;
+  const step = c.l == null ? "L" : c.r == null ? "R" : "done";
+  const opts = step === "L" ? c.optsL : step === "R" ? c.optsR : [];
+  const scopeNote = B.scope === "all" ? `全${B.list.length}字` : `${groupName(B.scope)} の${B.list.length}字`;
+  $("#view-build").innerHTML = `<div class="card">
+    <div class="buildtop"><span>${scopeNote}・${B.i + 1}問目</span><span>正解 ${B.ok} / ${B.n}</span>
+      ${B.scope !== "all" ? `<button class="chip" data-act="buildAll">全部の字で</button>` : ""}</div>
+    <div class="buildrow">
+      <div class="side jpside"><span class="label">日本の漢字</span>${mizi(jpSpan(b.x.jp), true)}
+        <span class="partsjp">${jpSpan(b.lj)} ＋ ${jpSpan(b.rj)}</span></div>
+      <span class="arrow" aria-hidden="true">→</span>
+      <div class="side"><span class="label">简体字の部品</span>
+        <div class="slots">${slot(c.l, doneBoth ? okL : null)}${slot(c.r, doneBoth ? okR : null)}</div>
+        <span class="partsjp">左 ＋ 右</span></div>
+    </div>
+    ${step !== "done" ? `
+      <div class="steplabel">${step === "L" ? "左側（偏）はどの形？" : "右側（旁）はどの形？"}<span>日本と同じ形のままのこともあります</span></div>
+      <div class="options">${opts.map((o, k) => `<button class="opt part" data-part="${k}">${esc(o)}</button>`).join("")}</div>`
+    : `<div class="buildresult">
+        <div class="side cnside">${mizi(cnSpan(b.x.cn))}</div>
+        <div class="txt">
+          <div>${okL && okR ? `<strong class="okc">正解</strong>` : `<strong class="ngc">おしい</strong>`}</div>
+          <div class="partline">${cnSpan(b.lc)} ＋ ${cnSpan(b.rc)} ＝ ${cnSpan(b.x.cn, "color:var(--jade);font-weight:700")}</div>
+          <div style="display:flex;gap:8px;align-items:center">${pySpan(b.x.py, "font-size:20px")}${speakBtn(b.x.cn)}</div>
+          <div class="mean">${esc(b.x.mean)}</div>
+          ${[b.lj !== b.lc ? `左 ${b.lj}→${b.lc}` : `左 ${b.lj} はそのまま`, b.rj !== b.rc ? `右 ${b.rj}→${b.rc}` : `右 ${b.rj} はそのまま`].map((t) => `<span class="tag">${esc(t)}</span>`).join(" ")}
+        </div>
+      </div>
+      <button class="btn primary" data-act="nextBuild">次の字</button>`}
+  </div>`;
+}
+
+// ---- Card view ----
+function newDeck() { state.deck = shuffle(pool()); state.pos = 0; state.flipped = false; }
+
+function cardBody(x) {
+  const f = state.flipped;
+  if (x.kind === "pair") {
+    return `<div class="pair">
+      <div class="side jpside"><span class="label">日本の漢字</span>${mizi(`<span class="jp" lang="ja">${x.jp}</span>`, true)}</div>
+      <span class="arrow" aria-hidden="true">→</span>
+      <div class="side cnside"><span class="label">简体字</span>${mizi(f ? `<span class="cn" lang="zh-Hans">${x.cn}</span>` : `<span class="hidden-char">?</span>`)}</div>
+    </div>
+    <div class="meta">${f
+      ? `<div style="display:flex;gap:10px;align-items:center">${pySpan(x.py)}${speakBtn(x.cn)}</div>
+         <div class="mean">${esc(x.mean)}</div>
+         <div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:center">${x.parts.length ? `<span class="tag parttag">部品 ${esc(partsLabel(x))}</span>` : ""}<span class="tag">${GROUP_TAG[x.g]}</span></div>`
+      : `<div class="mean">意味：${esc(x.mean)}</div><div class="mean">${x.parts.length ? `ヒント：部品 ${x.parts.map((k) => esc(k)).join("・")} に注目` : "简体字の形を思い浮かべてから、めくってください。"}</div>`}</div>`;
+  }
+  if (x.kind === "c") {
+    return `<div class="pair">
+      <div class="side jpside"><span class="label">日本語の意味</span><div class="glossbox">${esc(x.mean)}</div></div>
+      <span class="arrow" aria-hidden="true">→</span>
+      <div class="side cnside"><span class="label">简体字</span>${mizi(f ? `<span class="cn" lang="zh-Hans">${x.cn}</span>` : `<span class="hidden-char">?</span>`)}</div>
+    </div>
+    <div class="meta">${f
+      ? `<div style="display:flex;gap:10px;align-items:center">${pySpan(x.py)}${speakBtn(x.ex)}</div>
+         <div class="example">例 ${cnSpan(x.ex)}${pySpan(x.expy)}<span>${esc(x.exmean)}</span></div>
+         <span class="tag">中国語でよく使う字</span>`
+      : `<div class="mean">日本語ではあまり使わないが、中国語ではよく出る字です。</div><div class="mean">この意味の简体字を思い浮かべてから、めくってください。</div>`}</div>`;
+  }
+  return `<div class="wordbox">
+      <span class="label">中国語での意味は？</span>
+      <div class="word cn" lang="zh-Hans">${esc(x.cn)}</div>
+      ${f ? `<div style="display:flex;gap:10px;align-items:center">${pySpan(x.py, "font-size:20px")}${speakBtn(x.cn)}</div>` : ""}
+    </div>
+    <div class="meta">${f
+      ? `<div class="compare">
+           <div><span class="k">中国語の意味</span><span class="v" style="color:var(--jade)">${esc(x.mean)}</span></div>
+           <div class="jprow"><span class="k">日本語の「${esc(x.trap.replace(/（.*）/, ""))}」は</span>${cnSpan(x.jpword, "font-size:20px;color:var(--indigo)")}${pySpan(x.jpwordpy)}</div>
+         </div>`
+      : `<div class="trapnote">日本語なら <b>${esc(x.trap)}</b> ですが、中国語では？</div>`}</div>`;
+}
+
+function renderCard() {
+  const el = $("#view-card");
+  if (!state.deck.length) {
+    el.innerHTML = `<div class="card result"><p>この条件の字はすべて覚えました。</p><button class="btn primary" data-act="clearFilter">範囲を「すべて」に戻す</button></div>`;
+    return;
+  }
+  const x = state.deck[state.pos];
+  const isKnown = known.has(key(x));
+  el.innerHTML = `
+  <div class="card">
+    ${cardBody(x)}
+    <div class="actions">
+      ${state.flipped
+        ? `<button class="btn" data-act="again">もう一度</button><button class="btn primary" data-act="got">覚えた</button>`
+        : `<button class="btn primary full" data-act="flip">めくる</button>`}
+    </div>
+    <div class="cardfoot">
+      <span>${state.pos + 1} / ${state.deck.length}${isKnown ? "　・覚えた字" : ""}</span>
+      <span style="display:flex;gap:6px">
+        <button class="btn ghost" style="padding:4px 10px;font-size:12px" data-act="prev">前へ</button>
+        <button class="btn ghost" style="padding:4px 10px;font-size:12px" data-act="skip">次へ</button>
+        <button class="btn ghost" style="padding:4px 10px;font-size:12px" data-act="reshuffle">シャッフル</button>
+      </span>
+    </div>
+  </div>`;
+}
+function flipCard() { state.flipped = true; renderCard(); speak(sayText(state.deck[state.pos])); }
+function nextCard() {
+  state.flipped = false;
+  if (state.pos < state.deck.length - 1) state.pos++;
+  else newDeck();
+  renderCard();
+}
+function openChar(id) {
+  state.view = "card"; state.group = "all"; state.onlyUnknown = false;
+  newDeck();
+  const k = state.deck.findIndex((x) => x.id === id);
+  if (k > 0) state.deck.unshift(state.deck.splice(k, 1)[0]);
+  state.flipped = true;
+  newQuiz(state.quiz ? state.quiz.dir : "jp2cn");
+  render();
+  speak(sayText(ALL[id]));
+  window.scrollTo({ top: 0 });
+}
+
+// ---- Quiz view ----
+const QLEN = 10;
+function pickDistinct(cands, exclude, n) {
+  const out = [];
+  for (const c of cands) { if (out.length >= n) break; if (!exclude.includes(c) && !out.includes(c)) out.push(c); }
+  return out;
+}
+function makeQuestion(x, dir) {
+  if (x.kind === "f") {
+    const others = shuffle(FALSE_FRIENDS.filter((y) => y.cn !== x.cn)).map((y) => y.mean);
+    const opts = [x.mean, x.trap, ...pickDistinct(others, [x.mean, x.trap], 2)];
+    return { x, type: "text", options: shuffle(opts), answer: x.mean, picked: null };
+  }
+  if (x.kind === "c") {
+    const others = shuffle(CN_ONLY.filter((y) => y.cn !== x.cn && y.mean !== x.mean));
+    if (dir === "jp2cn") return { x, type: "cn", options: shuffle([x.cn, ...pickDistinct(others.map((y) => y.cn), [x.cn], 3)]), answer: x.cn, picked: null };
+    return { x, type: "text", options: shuffle([x.mean, ...pickDistinct(others.map((y) => y.mean), [x.mean], 3)]), answer: x.mean, picked: null };
+  }
+  const field = dir === "jp2cn" ? "cn" : "jp";
+  const pairs = ALL.filter((y) => y.kind === "pair" && y.cn !== x.cn && y.jp !== x.jp);
+  // 同じ部品を持つ字を優先して選択肢にする（部品で見分ける練習）
+  const samePart = shuffle(pairs.filter((y) => y.parts.some((k) => x.parts.includes(k)))).map((y) => y[field]);
+  const sameGroup = shuffle(pairs.filter((y) => y.g === x.g)).map((y) => y[field]);
+  const rest = shuffle(pairs).map((y) => y[field]);
+  return { x, type: field, options: shuffle([x[field], ...pickDistinct([...samePart, ...sameGroup, ...rest], [x[field]], 3)]), answer: x[field], picked: null };
+}
+function newQuiz(dir) {
+  state.quiz = { dir, qs: shuffle(pool()).slice(0, QLEN).map((x) => makeQuestion(x, dir)), i: 0, done: false };
+}
+function quizPrompt(c, dir) {
+  const x = c.x;
+  if (x.kind === "f") return `<span class="label">中国語での意味は？</span><div class="word cn" lang="zh-Hans" style="font-size:64px">${esc(x.cn)}</div>`;
+  if (x.kind === "c") {
+    return dir === "jp2cn"
+      ? `<span class="label">この意味の简体字は？</span><div class="glossbox">${esc(x.mean)}</div>`
+      : `<span class="label">この字の意味は？</span>${mizi(cnSpan(x.cn, "color:var(--jade)"))}`;
+  }
+  return dir === "jp2cn"
+    ? `<span class="label">この漢字の简体字は？</span>${mizi(jpSpan(x.jp, "color:var(--indigo)"), true)}`
+    : `<span class="label">この简体字の日本漢字は？</span>${mizi(cnSpan(x.cn, "color:var(--jade)"))}`;
+}
+function answerLine(x) {
+  if (x.kind === "pair") return `${jpSpan(x.jp)} → ${cnSpan(x.cn)} ${pySpan(x.py)}　${esc(x.mean)}${x.parts.length ? `<br><span class="tag parttag">部品 ${esc(partsLabel(x))}</span>` : ""}`;
+  if (x.kind === "c") return `${cnSpan(x.cn)} ${pySpan(x.py)}　${esc(x.mean)}（${cnSpan(x.ex)}：${esc(x.exmean)}）`;
+  return `${cnSpan(x.cn)} ${pySpan(x.py)}＝${esc(x.mean)}。日本語の「${esc(x.trap.replace(/（.*）/, ""))}」は ${cnSpan(x.jpword)}`;
+}
+function missLine(x) {
+  if (x.kind === "pair") return `${jpSpan(x.jp, "color:var(--indigo)")} → ${cnSpan(x.cn, "color:var(--jade)")} ${pySpan(x.py, "font-size:13px")}`;
+  return `${cnSpan(x.cn, "color:var(--jade)")} ${pySpan(x.py, "font-size:13px")} <span style="font-size:13px">${esc(x.mean)}</span>`;
+}
+function renderQuiz() {
+  const el = $("#view-quiz");
+  const q = state.quiz;
+  const dirSwitch = `<div class="chips" style="justify-content:center">
+      <button class="chip" data-qdir="jp2cn" aria-pressed="${!q || q.dir === "jp2cn"}">日本語 → 简体字</button>
+      <button class="chip" data-qdir="cn2jp" aria-pressed="${!!q && q.dir === "cn2jp"}">简体字 → 日本語</button></div>`;
+  if (!q || !q.qs.length) {
+    el.innerHTML = `<div class="card result">${dirSwitch}<p>この条件では出題できる字がありません。</p><button class="btn primary" data-act="clearFilter">範囲を「すべて」に戻す</button></div>`;
+    return;
+  }
+  const dots = `<div class="dots">${q.qs.map((c, k) => `<i class="${c.picked == null ? "" : c.options[c.picked] === c.answer ? "ok" : "ng"} ${k === q.i && !q.done ? "now" : ""}"></i>`).join("")}</div>`;
+  if (q.done) {
+    const ok = q.qs.filter((c) => c.options[c.picked] === c.answer).length;
+    const miss = q.qs.filter((c) => c.options[c.picked] !== c.answer);
+    el.innerHTML = `<div class="card result">${dots}
+      <div class="score">${ok} / ${q.qs.length}</div>
+      <p style="margin:0;color:var(--ink-soft)">${ok === q.qs.length ? "全問正解です。" : "間違えた字は「まだ覚えていない字」に戻しました。"}</p>
+      ${miss.length ? `<div class="misslist">${miss.map((c) => `<span class="miss">${missLine(c.x)}</span>`).join("")}</div>` : ""}
+      <button class="btn primary" data-act="newQuiz" style="min-width:200px">もう一回</button></div>`;
+    return;
+  }
+  const c = q.qs[q.i];
+  const answered = c.picked != null;
+  const optCls = c.type === "text" ? "text" : c.type;
+  const optLang = c.type === "cn" ? "zh-Hans" : "ja";
+  let fb = "";
+  if (answered) {
+    const right = c.options[c.picked] === c.answer;
+    fb = `${right ? `<strong class="ok">正解</strong>` : `<strong class="ng">不正解</strong>`}　${answerLine(c.x)} ${speakBtn(sayText(c.x))}`;
+  }
+  el.innerHTML = `<div class="card">${dirSwitch}${dots}
+    <div class="qprompt">${quizPrompt(c, q.dir)}</div>
+    <div class="options ${c.type === "text" ? "textopts" : ""}">${c.options.map((o, k) => {
+      let cls = "";
+      if (answered) { if (o === c.answer) cls = "right"; else if (k === c.picked) cls = "wrong"; }
+      return `<button class="opt ${optCls} ${cls}" lang="${optLang}" data-opt="${k}" ${answered ? "disabled" : ""}>${esc(o)}</button>`;
+    }).join("")}</div>
+    <div class="feedback" aria-live="polite">${fb}</div>
+    ${answered ? `<button class="btn primary" data-act="nextQ">${q.i < q.qs.length - 1 ? "次の問題" : "結果を見る"}</button>` : ""}
+  </div>`;
+}
+
+// ---- Origins view ----
+function renderRules() {
+  const sections = ORIGINS.map((o) => {
+    const items = ALL.filter((x) => x.g === o.key);
+    return `<section class="origin">
+      <div class="originhead"><h2>${o.name}</h2>
+        ${o.key === "r" ? `<button class="chip" data-view="parts">パーツを見る</button>` : `<button class="chip" data-practice="${o.key}" data-to="card">この${items.length}字を練習</button>`}</div>
+      <p class="intro">${o.desc}</p>
+      ${o.key === "r" ? "" : `<div class="ex">${exampleBtns(items)}</div>`}
+    </section>`;
+  }).join("");
+  $("#view-rules").innerHTML = `<div style="display:flex;flex-direction:column;gap:20px">
+    <p class="intro">部品の類推で説明できない字は、ほかの決まった方法で作られています。作り方ごとにまとめました。分類は代表的な説明に沿ったもので、複数の由来が重なる字もあります。</p>
+    ${sections}
+  </div>`;
+}
+
+// ---- view switching ----
+const VIEWS = ["parts", "build", "card", "quiz", "rules"];
+function render() {
+  for (const v of VIEWS) {
+    $("#view-" + v).hidden = state.view !== v;
+    $("#tab-" + v).setAttribute("aria-selected", state.view === v);
+  }
+  $("#filterBar").hidden = !(state.view === "card" || state.view === "quiz");
+  renderSelect();
+  $("#onlyUnknown").checked = state.onlyUnknown;
+  if (state.view === "parts") renderParts();
+  if (state.view === "build") renderBuild();
+  if (state.view === "card") renderCard();
+  if (state.view === "quiz") renderQuiz();
+  if (state.view === "rules") renderRules();
+}
+function filtersChanged() {
+  newDeck();
+  newQuiz(state.quiz ? state.quiz.dir : "jp2cn");
+  render();
+}
+
+document.addEventListener("click", (e) => {
+  const t = e.target.closest("button");
+  if (!t) return;
+  if (t.dataset.speak) { speak(t.dataset.speak); return; }
+  if (t.dataset.practice) {
+    state.group = t.dataset.practice; state.onlyUnknown = false; state.view = t.dataset.to || "card";
+    newDeck(); newQuiz(state.quiz ? state.quiz.dir : "jp2cn");
+    if (state.view === "build") newBuildRound();
+    render(); window.scrollTo({ top: 0 }); return;
+  }
+  if (t.dataset.view) { state.view = t.dataset.view; render(); return; }
+  if (t.dataset.comp) { state.openComp = state.openComp === t.dataset.comp ? null : t.dataset.comp; renderParts(); return; }
+  if (t.dataset.qdir) { newQuiz(t.dataset.qdir); renderQuiz(); return; }
+  if (t.dataset.jump) { openChar(+t.dataset.jump); return; }
+  if (t.dataset.part != null && state.build) {
+    const c = state.build.cur, k = +t.dataset.part;
+    if (c.l == null) c.l = c.optsL[k];
+    else if (c.r == null) {
+      c.r = c.optsR[k];
+      const ok = c.l === c.b.lc && c.r === c.b.rc;
+      state.build.n++; if (ok) state.build.ok++;
+      if (ok) known.add(key(c.b.x)); else known.delete(key(c.b.x));
+      saveKnown(); speak(c.b.x.cn);
+    }
+    renderBuild(); return;
+  }
+  if (t.dataset.opt != null && state.quiz) {
+    const c = state.quiz.qs[state.quiz.i];
+    if (c.picked != null) return;
+    c.picked = +t.dataset.opt;
+    if (c.options[c.picked] === c.answer) known.add(key(c.x)); else known.delete(key(c.x));
+    saveKnown(); renderQuiz(); return;
+  }
+  const act = t.dataset.act;
+  if (!act) return;
+  if (act === "flip") flipCard();
+  else if (act === "got") { known.add(key(state.deck[state.pos])); saveKnown(); nextCard(); }
+  else if (act === "again") { known.delete(key(state.deck[state.pos])); saveKnown(); const x = state.deck.splice(state.pos, 1)[0]; state.deck.splice(Math.min(state.deck.length, state.pos + 4), 0, x); state.flipped = false; renderCard(); }
+  else if (act === "skip") nextCard();
+  else if (act === "prev") { state.flipped = false; state.pos = Math.max(0, state.pos - 1); renderCard(); }
+  else if (act === "reshuffle") { newDeck(); renderCard(); }
+  else if (act === "clearFilter") { state.group = "all"; state.onlyUnknown = false; filtersChanged(); }
+  else if (act === "nextQ") { const q = state.quiz; if (q.i < q.qs.length - 1) q.i++; else q.done = true; renderQuiz(); }
+  else if (act === "newQuiz") { newQuiz(state.quiz.dir); renderQuiz(); }
+  else if (act === "nextBuild") { const B = state.build; B.i = (B.i + 1) % B.list.length; if (B.i === 0) B.list = shuffle(B.list); setBuildItem(); renderBuild(); }
+  else if (act === "buildAll") { state.group = "all"; newBuildRound(); renderBuild(); }
+});
+$("#groupSel").addEventListener("change", (e) => { state.group = e.target.value; filtersChanged(); });
+$("#onlyUnknown").addEventListener("change", (e) => { state.onlyUnknown = e.target.checked; filtersChanged(); });
+document.addEventListener("keydown", (e) => {
+  if (state.view !== "card" || e.target.closest("input, select, button")) return;
+  if (e.key === " " || e.key === "Enter") { if (!state.flipped && state.deck.length) { e.preventDefault(); flipCard(); } }
+  else if (e.key === "ArrowRight") nextCard();
+  else if (e.key === "ArrowLeft") { state.flipped = false; state.pos = Math.max(0, state.pos - 1); renderCard(); }
+});
+if (canSpeak) { try { speechSynthesis.getVoices(); } catch (e) {} }
+
+updateProgress();
+newDeck();
+newQuiz("jp2cn");
+newBuildRound();
+render();
+</script>
+</body>
+</html>

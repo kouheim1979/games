@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#fff7e8" />
+  <title>あたまおしりゲーム</title>
+  <style>
+    :root{
+      --bg:#fff7e8;
+      --card:#ffffff;
+      --ink:#25304a;
+      --muted:#6e7690;
+      --line:#eadfca;
+      --accent:#ff8a3d;
+      --accent2:#5b8def;
+      --good:#1f9d68;
+      --bad:#d94b4b;
+      --shadow:0 14px 34px rgba(86,64,29,.12);
+    }
+    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+    html,body{margin:0;min-height:100%;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;color:var(--ink);background:
+      radial-gradient(circle at 12% 8%,#fff0c7 0,transparent 30%),
+      radial-gradient(circle at 92% 15%,#e8f0ff 0,transparent 28%),
+      var(--bg)}
+    body{padding:max(16px,env(safe-area-inset-top)) 16px max(22px,env(safe-area-inset-bottom))}
+    .app{width:min(100%,560px);margin:0 auto}
+    .hero{text-align:center;margin:8px 0 18px}
+    h1{font-size:clamp(28px,8vw,40px);line-height:1.1;margin:0;font-weight:900;letter-spacing:.03em}
+    .hero p{margin:8px 0 0;color:var(--muted);font-size:14px}
+    .card{background:rgba(255,255,255,.96);border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow);padding:18px;margin-bottom:14px}
+    .toprow{display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .label{font-size:12px;color:var(--muted);font-weight:700}
+    .timer{font-size:18px;font-weight:900;font-variant-numeric:tabular-nums}
+    .target{display:flex;align-items:center;justify-content:center;gap:18px;margin:16px 0 10px}
+    .kana{width:88px;height:88px;border-radius:24px;display:grid;place-items:center;font-size:50px;font-weight:900;background:#fff4dd;border:2px solid #ffd48b}
+    .kana.end{background:#edf3ff;border-color:#bfd2ff}
+    .arrow{font-size:34px;color:var(--muted);font-weight:900}
+    .hintline{text-align:center;color:var(--muted);font-size:13px;min-height:20px}
+    .controls{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+    button{border:0;border-radius:16px;padding:14px 14px;font-size:15px;font-weight:900;cursor:pointer}
+    button:disabled{opacity:.45;cursor:default}
+    .primary{background:var(--accent);color:white}
+    .secondary{background:#edf2ff;color:#315fae}
+    .ghost{background:#f5f2ec;color:#625b50}
+    .inputWrap{display:flex;gap:10px}
+    input{flex:1;min-width:0;border:2px solid var(--line);border-radius:16px;padding:14px 14px;font-size:18px;font-weight:800;outline:none;background:white;color:var(--ink)}
+    input:focus{border-color:#ffbd79;box-shadow:0 0 0 4px rgba(255,138,61,.12)}
+    .submit{white-space:nowrap;background:var(--accent2);color:white}
+    .message{min-height:24px;margin:10px 2px 0;font-size:14px;font-weight:800}
+    .message.good{color:var(--good)} .message.bad{color:var(--bad)}
+    .best{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:end;margin-top:14px;padding-top:14px;border-top:1px dashed var(--line)}
+    .bestWord{font-size:22px;font-weight:900;word-break:break-all}
+    .bestScore{font-size:34px;font-weight:900;color:var(--accent)}
+    .bestScore small{font-size:13px;color:var(--muted);margin-left:4px}
+    .historyTitle{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+    .historyTitle h2{font-size:17px;margin:0}
+    .history{display:flex;flex-direction:column;gap:8px}
+    .row{display:grid;grid-template-columns:42px 1fr auto;gap:10px;align-items:center;padding:10px 12px;border-radius:14px;background:#faf8f4}
+    .rank{font-weight:900;color:var(--muted)}
+    .word{font-weight:900;word-break:break-all}
+    .count{font-weight:900;color:var(--accent2)}
+    .empty{text-align:center;color:var(--muted);padding:12px 0;font-size:14px}
+    .rules{font-size:13px;line-height:1.7;color:var(--muted)}
+    .rules strong{color:var(--ink)}
+    .record{display:flex;justify-content:space-between;gap:10px;padding-top:10px;margin-top:10px;border-top:1px solid var(--line);font-size:13px}
+    .record b{color:var(--accent)}
+    @media (max-width:390px){
+      .kana{width:76px;height:76px;font-size:44px}
+      .inputWrap{flex-direction:column}
+      .submit{width:100%}
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header class="hero">
+      <h1>あたまおしりゲーム</h1>
+      <p>指定された文字ではじまり、指定された文字で終わる「できるだけ長い言葉」を考えよう！</p>
+    </header>
+
+    <section class="card">
+      <div class="toprow">
+        <div>
+          <div class="label">お題</div>
+          <div style="font-size:16px;font-weight:900">最長ワードをねらえ！</div>
+        </div>
+        <div>
+          <div class="label">のこり時間</div>
+          <div class="timer" id="timer">60秒</div>
+        </div>
+      </div>
+
+      <div class="target" aria-live="polite">
+        <div class="kana" id="startKana">や</div>
+        <div class="arrow">→</div>
+        <div class="kana end" id="endKana">り</div>
+      </div>
+
+      <div class="hintline" id="hintLine">例は見ずに、まず自分で考えてみよう</div>
+
+      <div class="controls">
+        <button class="primary" id="startBtn">60秒スタート</button>
+        <button class="secondary" id="nextBtn">別のお題</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="label" style="margin-bottom:8px">答えを入力</div>
+      <div class="inputWrap">
+        <input id="answerInput" type="text" inputmode="text" autocomplete="off" autocapitalize="off" placeholder="例：やきとり" maxlength="60" />
+        <button class="submit" id="submitBtn">判定する</button>
+      </div>
+      <div class="message" id="message" aria-live="polite"></div>
+
+      <div class="best">
+        <div>
+          <div class="label">このお題のベスト</div>
+          <div class="bestWord" id="bestWord">まだありません</div>
+        </div>
+        <div class="bestScore" id="bestScore">0<small>文字</small></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="historyTitle">
+        <h2>ランキング</h2>
+        <button class="ghost" id="clearBtn" style="padding:8px 11px;font-size:12px">このお題をクリア</button>
+      </div>
+      <div class="history" id="history"></div>
+    </section>
+
+    <section class="card rules">
+      <strong>遊び方</strong><br>
+      ・頭の文字と、おしりの文字が合っていればOK。<br>
+      ・ひらがな／カタカナは同じ文字として判定します。<br>
+      ・空白は文字数に含めません。小さい「ゃ・ゅ・ょ・っ」や「ー」は1文字です。<br>
+      ・言葉として成立しているかは、みんなで判定してください。<br>
+      ・60秒が終わっても入力済みランキングは残ります。
+      <div class="record">
+        <span>端末内の最高記録</span>
+        <span><b id="allTimeBest">0文字</b></span>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const pairs = [
+      ['や','り','やきとり'],
+      ['ら','ん','らーめん'],
+      ['か','ん','かいだん'],
+      ['し','う','しょうゆ'],
+      ['た','り','たより'],
+      ['あ','ん','あんぱん'],
+      ['さ','り','さそり'],
+      ['ひ','り','ひだり'],
+      ['こ','り','こおり'],
+      ['ま','り','まつり'],
+      ['は','し','はし'],
+      ['き','ん','きりん'],
+      ['す','り','すべり'],
+      ['ふ','ん','ふうせん'],
+      ['な','り','なわとび'],
+      ['み','り','みどり'],
+      ['お','り','おにぎり'],
+      ['つ','り','つり'],
+      ['え','り','えり'],
+      ['ほ','ん','ほん'],
+      ['く','り','くすり'],
+      ['せ','ん','せんぷうき'],
+      ['と','り','とり'],
+      ['む','り','むり'],
+      ['よ','り','より']
+    ];
+
+    const startKana = document.getElementById('startKana');
+    const endKana = document.getElementById('endKana');
+    const timerEl = document.getElementById('timer');
+    const startBtn = document.getElementById('startBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const answerInput = document.getElementById('answerInput');
+    const submitBtn = document.getElementById('submitBtn');
+    const message = document.getElementById('message');
+    const bestWord = document.getElementById('bestWord');
+    const bestScore = document.getElementById('bestScore');
+    const historyEl = document.getElementById('history');
+    const clearBtn = document.getElementById('clearBtn');
+    const hintLine = document.getElementById('hintLine');
+    const allTimeBestEl = document.getElementById('allTimeBest');
+
+    let pairIndex = 0;
+    let entries = [];
+    let seconds = 60;
+    let timerId = null;
+    let running = false;
+
+    function toHiragana(str){
+      return Array.from(str).map(ch => {
+        const code = ch.charCodeAt(0);
+        if(code >= 0x30A1 && code <= 0x30F6){
+          return String.fromCharCode(code - 0x60);
+        }
+        return ch;
+      }).join('');
+    }
+
+    function cleanWord(str){
+      return toHiragana(str.normalize('NFKC'))
+        .replace(/[\s　]/g,'')
+        .replace(/[「」『』【】()（）・,，.。!！?？]/g,'');
+    }
+
+    function charCount(str){
+      return Array.from(cleanWord(str)).length;
+    }
+
+    function currentPair(){
+      return pairs[pairIndex];
+    }
+
+    function storageKey(){
+      const [s,e] = currentPair();
+      return 'atamaOshiri:' + s + ':' + e;
+    }
+
+    function loadEntries(){
+      try{
+        entries = JSON.parse(localStorage.getItem(storageKey()) || '[]');
+        if(!Array.isArray(entries)) entries = [];
+      }catch{
+        entries = [];
+      }
+      render();
+    }
+
+    function saveEntries(){
+      localStorage.setItem(storageKey(), JSON.stringify(entries.slice(0,30)));
+      const best = entries.reduce((m,x)=>Math.max(m,x.count),0);
+      const globalBest = Math.max(Number(localStorage.getItem('atamaOshiri:globalBest') || 0), best);
+      localStorage.setItem('atamaOshiri:globalBest', String(globalBest));
+      allTimeBestEl.textContent = globalBest + '文字';
+    }
+
+    function render(){
+      const [s,e] = currentPair();
+      startKana.textContent = s;
+      endKana.textContent = e;
+
+      const sorted = [...entries].sort((a,b)=>b.count-a.count || a.time-b.time);
+      const best = sorted[0];
+      bestWord.textContent = best ? best.word : 'まだありません';
+      bestScore.innerHTML = (best ? best.count : 0) + '<small>文字</small>';
+
+      if(sorted.length === 0){
+        historyEl.innerHTML = '<div class="empty">まだ答えがありません</div>';
+      }else{
+        historyEl.innerHTML = sorted.slice(0,8).map((x,i)=>`
+          <div class="row">
+            <div class="rank">#${i+1}</div>
+            <div class="word">${escapeHtml(x.word)}</div>
+            <div class="count">${x.count}文字</div>
+          </div>
+        `).join('');
+      }
+
+      const globalBest = Number(localStorage.getItem('atamaOshiri:globalBest') || 0);
+      allTimeBestEl.textContent = globalBest + '文字';
+    }
+
+    function escapeHtml(s){
+      return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    }
+
+    function setMessage(text,type=''){
+      message.className = 'message' + (type ? ' ' + type : '');
+      message.textContent = text;
+    }
+
+    function submitAnswer(){
+      const raw = answerInput.value.trim();
+      if(!raw){
+        setMessage('言葉を入力してください。','bad');
+        return;
+      }
+
+      const word = cleanWord(raw);
+      const [s,e] = currentPair();
+      const chars = Array.from(word);
+
+      if(chars.length < 2){
+        setMessage('2文字以上の言葉を入力してください。','bad');
+        return;
+      }
+      if(chars[0] !== s){
+        setMessage('「' + s + '」から始まる言葉にしてください。','bad');
+        return;
+      }
+      if(chars[chars.length - 1] !== e){
+        setMessage('「' + e + '」で終わる言葉にしてください。','bad');
+        return;
+      }
+
+      const count = charCount(raw);
+      if(entries.some(x => cleanWord(x.word) === word)){
+        setMessage('その言葉はすでに登録されています。','bad');
+        return;
+      }
+
+      entries.push({word:raw.replace(/[\s　]+/g,''),count,time:Date.now()});
+      saveEntries();
+      render();
+      answerInput.value = '';
+      setMessage('OK！ ' + count + '文字です。もっと長い言葉を狙おう！','good');
+      answerInput.focus();
+    }
+
+    function stopTimer(){
+      if(timerId){
+        clearInterval(timerId);
+        timerId = null;
+      }
+      running = false;
+      startBtn.disabled = false;
+      startBtn.textContent = '60秒スタート';
+    }
+
+    function startTimer(){
+      stopTimer();
+      seconds = 60;
+      running = true;
+      timerEl.textContent = seconds + '秒';
+      startBtn.disabled = true;
+      startBtn.textContent = '挑戦中…';
+      setMessage('スタート！ できるだけ長い言葉を入力しよう。','good');
+      answerInput.focus();
+
+      timerId = setInterval(()=>{
+        seconds--;
+        timerEl.textContent = seconds + '秒';
+        if(seconds <= 0){
+          stopTimer();
+          timerEl.textContent = '終了！';
+          const best = [...entries].sort((a,b)=>b.count-a.count)[0];
+          setMessage(best ? '終了！ 今回のベストは「' + best.word + '」' + best.count + '文字！' : '終了！ 次は答えを見つけよう。', best ? 'good' : 'bad');
+        }
+      },1000);
+    }
+
+    function nextPair(){
+      stopTimer();
+      timerEl.textContent = '60秒';
+      let next;
+      do{
+        next = Math.floor(Math.random() * pairs.length);
+      }while(next === pairIndex && pairs.length > 1);
+      pairIndex = next;
+      answerInput.value = '';
+      hintLine.textContent = '例は見ずに、まず自分で考えてみよう';
+      setMessage('');
+      loadEntries();
+    }
+
+    function showHint(){
+      const example = currentPair()[2];
+      hintLine.textContent = 'ヒント例：' + example + '（もっと長い言葉を探してね）';
+    }
+
+    startBtn.addEventListener('click', startTimer);
+    nextBtn.addEventListener('click', nextPair);
+    submitBtn.addEventListener('click', submitAnswer);
+    answerInput.addEventListener('keydown', e => {
+      if(e.key === 'Enter') submitAnswer();
+    });
+
+    clearBtn.addEventListener('click', ()=>{
+      entries = [];
+      localStorage.removeItem(storageKey());
+      render();
+      setMessage('このお題のランキングをクリアしました。');
+    });
+
+    hintLine.addEventListener('click', showHint);
+    hintLine.style.cursor = 'pointer';
+    hintLine.title = 'タップでヒント';
+
+    pairIndex = 0;
+    loadEntries();
+  </script>
+</body>
+</html>

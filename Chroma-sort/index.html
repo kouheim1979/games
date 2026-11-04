@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ja">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Chroma Sort</title>
+<style>
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#050a1d;color:#eaf2ff;font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans',sans-serif}
+#appframe{position:fixed;inset:0;width:100%;height:100%;border:0;background:#050a1d}
+#msg{position:fixed;left:8px;right:8px;bottom:8px;z-index:99999;background:#300;color:#fff;border:1px solid #f66;border-radius:10px;padding:10px;font-size:12px;white-space:pre-wrap;display:none}
+</style>
+<iframe id="appframe"></iframe>
+<pre id="msg"></pre>
+<script>
+const msg=document.getElementById('msg');
+function show(t){msg.textContent=t;msg.style.display='block'}
+function injectMaster(html){
+  html=html.replaceAll('Chroma Sort Test','Chroma Sort');
+  html=html.replace("fetch('./index.html?test='+Date.now(),{cache:'no-store'})","fetch('./base.html?test='+Date.now(),{cache:'no-store'})");
+  html=html.replace("#sd.expert  {background:rgba(180,60,255,.24); color:#ddaaff}","#sd.expert  {background:rgba(180,60,255,.24); color:#ddaaff}\\n#sd.master  {background:rgba(255,70,190,.24); color:#ffb7ee}");
+  html=html.replace('<button class="gbtn" data-v="expert">EXPERT</button>','<button class="gbtn" data-v="expert">EXPERT</button>\\n        <button class="gbtn" data-v="master">MASTER</button>');
+  html=html.replace(`/* ボトル数は常に20本（カラー16本+空4本）、難易度は色数のみ変更 */
+const DC={
+  easy:  {c:4, b:16, e:4, sh:60},
+  normal:{c:8, b:16, e:4, sh:130},
+  hard:  {c:12,b:16, e:4, sh:230},
+  expert:{c:16,b:16, e:4, sh:380},
+};
+const DORD=['easy','normal','hard','expert'];`,`/* EXPERTまでは20本固定（カラー16本+空4本）、MASTERはカラー17本+空3本 */
+const DC={
+  easy:  {c:4, b:16, e:4, sh:60},
+  normal:{c:8, b:16, e:4, sh:130},
+  hard:  {c:12,b:16, e:4, sh:230},
+  expert:{c:16,b:16, e:4, sh:380},
+  master:{c:17,b:17, e:3, sh:520},
+};
+const DORD=['easy','normal','hard','expert','master'];`);
+  html=html.replace("static G='ws10testg';static S='ws10tests';","static G='ws11masterg';static S='ws11masters';");
+  html=html.replace("return{easy:'EASY',normal:'NORMAL',hard:'HARD',expert:'EXPERT'}[Stage.norm(d)]||'EASY';","return{easy:'EASY',normal:'NORMAL',hard:'HARD',expert:'EXPERT',master:'MASTER'}[Stage.norm(d)]||'EASY';");
+  html=html.replace("for(const [a,b] of Object.entries(colorRepls)) if(s.includes(a)) s=s.replace(a,b);","for(const [a,b] of Object.entries(colorRepls)) if(s.includes(a)) s=s.replace(a,b);\n  s=must(s,\"const CN=['red','blue','green','yellow','orange','cyan','purple','pink','gray','brown','lime','teal','cream','indigo','silver','lavender'];\",\"const CN=['red','blue','green','yellow','orange','cyan','purple','pink','gray','brown','lime','teal','cream','indigo','silver','lavender','black'];\",'CN master color');\n  s=must(s,\"  silver:  {bg:'linear-gradient(180deg,#aaccee,#7799bb)',gl:'#99bbdd',sym:'✦',light:true}, /* 冷色シルバー */\\n};\",\"  silver:  {bg:'linear-gradient(180deg,#aaccee,#7799bb)',gl:'#99bbdd',sym:'✦',light:true}, /* 冷色シルバー */\\n  black:   {bg:'linear-gradient(180deg,#333333,#050505)',gl:'#444444',sym:'♣',light:false}, /* MASTER追加色 */\\n};\",'CS master color');");
+  return html;
+}
+(async()=>{
+  try{
+    const r=await fetch('./test.html?wrap='+Date.now(),{cache:'no-store'});
+    if(!r.ok)throw new Error('test.html fetch failed: '+r.status);
+    document.getElementById('appframe').srcdoc=injectMaster(await r.text());
+  }catch(e){show('起動エラー: '+e.message+'\n'+(e.stack||''));}
+})();
+</script>
+</html>

@@ -1,0 +1,1286 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="ワードウルフ">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#fff7ec">
+<!-- ホーム画面アイコン（同じ場所の icon.png を参照） -->
+<link rel="icon" type="image/png" href="./icon.png?v=1">
+<link rel="apple-touch-icon" href="./icon.png?v=1">
+<link rel="apple-touch-icon" sizes="180x180" href="./icon.png?v=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;700;800;900&family=Zen+Maru+Gothic:wght@500;700;900&family=Reggae+One&display=swap" rel="stylesheet">
+<title>ワードウルフ</title>
+<style>
+:root {
+  --c-hero:#FF3366;
+  --c-hero-dk:#C81E48;
+  --c-sun:#FFC93C;
+  --c-sun-dk:#E8A920;
+  --c-deep:#3B5BDB;
+  --c-deep-dk:#2D44A8;
+  --c-ink:#1F0A3D;
+  --c-ink-soft:#6B6483;
+  --c-cream:#FFF9F2;
+  --c-paper:#FFFFFF;
+  --c-line:#1F0A3D;
+  --sh-1:2px 2px 0 var(--c-line);
+  --sh-2:4px 4px 0 var(--c-line);
+  --sh-3:6px 6px 0 var(--c-line);
+  --r-sm:8px;
+  --r-md:14px;
+  --r-lg:20px;
+  --r-xl:28px;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{font-family:"Zen Maru Gothic","M PLUS Rounded 1c",-apple-system,BlinkMacSystemFont,"Hiragino Maru Gothic ProN","Hiragino Sans","Yu Gothic UI","Meiryo",sans-serif;font-size:16px;font-weight:500;background:var(--c-cream);color:var(--c-ink);min-height:100%;width:100%;overflow-x:hidden;}
+body{min-height:100svh;min-height:100dvh;}
+button,input{font-size:16px;-webkit-appearance:none;appearance:none;font-family:inherit;color:var(--c-ink);}
+input{background:var(--c-paper);border:2.5px solid var(--c-line);border-radius:var(--r-sm);padding:10px 12px;}
+button:focus-visible,input:focus-visible{outline:none;box-shadow:0 0 0 4px rgba(255,51,102,.35),var(--sh-1);}
+#app{position:relative;z-index:1;min-height:100svh;min-height:100dvh;display:flex;flex-direction:column;align-items:center;padding:0 16px;}
+.bg-dots{position:fixed;inset:0;z-index:0;background-image:radial-gradient(circle at center,var(--c-ink) 1.5px,transparent 1.5px);background-size:28px 28px;opacity:.06;pointer-events:none;}
+.screen{display:none;width:100%;max-width:520px;position:relative;z-index:1;min-height:100svh;min-height:100dvh;}
+.screen.active{display:flex;flex-direction:column;align-items:center;animation:pop .35s cubic-bezier(.5,1.6,.4,1);}
+#title-screen{justify-content:center;min-height:100vh;text-align:center;}
+.logo-wrap{margin-bottom:20px;}
+.moon{display:inline-flex;align-items:center;justify-content:center;animation:bob 2.6s ease-in-out infinite;}
+.hero-character{width:138px;height:138px;display:block;}
+.title-main,.logo-font{font-family:"Reggae One","M PLUS Rounded 1c",sans-serif;font-weight:400;font-size:38px;line-height:1.15;color:var(--c-hero);text-shadow:3px 3px 0 var(--c-line);}
+.title-sub{display:inline-block;margin-top:10px;font-size:13px;padding:6px 14px;border:2px solid var(--c-line);border-radius:999px;background:var(--c-sun);box-shadow:var(--sh-1);transform:rotate(-1deg);font-family:"M PLUS Rounded 1c",sans-serif;font-weight:800;color:var(--c-ink);}
+.screen-title,.display{font-family:"M PLUS Rounded 1c","Zen Maru Gothic",sans-serif;font-weight:900;font-size:22px;color:var(--c-ink);}
+.screen-title-row{display:flex;align-items:center;justify-content:space-between;width:100%;gap:8px;}
+.screen-title-row .screen-title{flex:1;text-align:center;}
+.section-card,.result-card,.player-card,.complete-card,.wolf-answer-box,.abort-dialog,.discussion-hint,.vote-item,.toggle-row,.word-pair-row{background:var(--c-paper);border:3px solid var(--c-line);border-radius:var(--r-lg);box-shadow:var(--sh-2);}
+.section-card{width:100%;padding:22px;transform:rotate(.4deg);}
+.section-card:nth-of-type(even){transform:rotate(-.5deg);}
+#setup-screen,#words-screen{align-items:stretch;}
+#setup-screen .screen-shell,#words-screen .screen-shell{padding-top:calc(16px + env(safe-area-inset-top));}
+.setup-stack{display:flex;flex-direction:column;gap:16px;padding:2px 8px 10px;}
+.setup-help{font-size:11px;font-weight:400;}
+.footer-actions{width:100%;display:flex;flex-direction:column;align-items:center;gap:10px;}
+.secondary-action-button{width:100%;max-width:350px;min-height:54px;}
+.words-description{text-align:center;}
+.words-editor-card{padding:16px 16px 14px;transform:none;}
+.word-editor-error{min-height:22px;margin:8px 0 4px;color:var(--c-hero-dk);font-size:13px;font-weight:700;}
+.word-editor-error:empty{display:none;}
+.word-pair-list{display:flex;flex-direction:column;gap:10px;margin-top:8px;}
+.word-pair-row{display:flex;align-items:center;gap:8px;padding:8px 10px;}
+.word-pair-inputs{flex:1;min-width:0;display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:8px;}
+.word-input{min-width:0;}
+.word-row-action{margin-left:0;flex:0 0 auto;width:auto;min-width:56px;min-height:40px;padding:8px 12px;}
+.form-action-button{flex:0 0 auto;width:auto;min-width:120px;min-height:40px;padding:8px 14px;}
+.screen-shell{width:100%;min-height:100svh;min-height:100dvh;display:grid;grid-template-rows:auto minmax(0,1fr) auto;padding:calc(18px + env(safe-area-inset-top)) 0 0;gap:12px;}
+.screen-header{display:flex;flex-direction:column;gap:10px;padding:0 8px;}
+.screen-main{min-height:0;}
+.screen-main.scrollable{overflow-y:auto;-webkit-overflow-scrolling:touch;padding-right:2px;}
+.screen-footer{width:100%;display:flex;justify-content:center;padding:12px 8px calc(14px + env(safe-area-inset-bottom));}
+.primary-action-button{width:100%;max-width:350px;min-height:56px;display:inline-flex;align-items:center;justify-content:center;border-radius:24px;font-size:17px;font-weight:900;margin:0;}
+.section-label,.section-label-row,.words-stats,.vote-instruction,.deal-instruction,.result-desc,.overlay-note,.overlay-role,.toggle-label-sub,.wolf-answer-hint,.wolf-row-label,.box-label{font-size:13px;color:var(--c-ink-soft);}
+.section-label-row{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;}
+.count-row,.timer-options,.judge-row,.abort-dialog-btns,.result-word-row{display:flex;gap:10px;}
+.count-row{justify-content:center;align-items:center;}
+.count-display,.timer-text,.result-title,.wolf-answer-word,.overlay-word{font-family:"Reggae One","M PLUS Rounded 1c",sans-serif;font-weight:400;}
+.count-display{font-size:64px;color:var(--c-hero);min-width:100px;text-align:center;}
+.count-btn{width:50px;height:50px;border-radius:999px;border:3px solid var(--c-line);background:var(--c-sun);box-shadow:var(--sh-1);font-family:"M PLUS Rounded 1c",sans-serif;font-size:24px;font-weight:900;color:var(--c-ink);}
+.player-row,.word-pair-inputs,.toggle-row,.vote-item,.player-result-row{display:flex;align-items:center;gap:8px;}
+.player-inputs{display:flex;flex-direction:column;gap:8px;width:100%;max-width:100%;min-width:0;}
+.player-row{background:var(--c-cream);border:3px solid var(--c-line);border-radius:var(--r-md);padding:6px 10px;min-height:60px;width:100%;max-width:100%;min-width:0;overflow:hidden;}
+.player-row.drag-over{transform:translateY(-2px);}
+.drag-handle,.row-num,.word-sep{color:var(--c-ink-soft);font-size:13px;}
+.player-input,.word-input{flex:1;border:2px dashed transparent;background:transparent;padding:8px 10px;font-size:15px;color:var(--c-ink);min-height:38px;}
+.player-input{min-width:0;width:100%;max-width:100%;box-sizing:border-box;}
+.player-input:focus,.player-input:focus-visible{
+  outline:none;
+  border-color:var(--c-hero);
+  box-shadow:inset 0 0 0 3px rgba(255,51,102,.25);
+}
+.timer-btn,.btn-sm,.btn-sm-add,.btn-sm-danger{flex:1;min-height:50px;border-radius:var(--r-md);border:3px solid var(--c-line);box-shadow:var(--sh-1);background:var(--c-cream);font-family:"M PLUS Rounded 1c",sans-serif;font-weight:800;}
+.timer-btn{min-height:50px;padding:8px 6px;}
+.timer-btn.selected{background:var(--c-sun);color:var(--c-ink);}
+.toggle-row{justify-content:space-between;padding:9px 12px;align-items:center;}
+.toggle-row+.toggle-row{margin-top:8px;border-top:2px dashed var(--c-line);padding-top:10px;}
+.toggle-row.on{background:#DDD6FE;}
+.toggle-switch{width:50px;height:28px;border-radius:999px;border:2px solid var(--c-line);background:var(--c-paper);position:relative;flex-shrink:0;}
+.toggle-switch::after{content:"";position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:999px;background:var(--c-cream);border:2px solid var(--c-line);transition:transform .2s ease;}
+.toggle-switch.on{background:var(--c-hero);} .toggle-switch.on::after{transform:translateX(22px);}
+.btn,.btn-primary,.btn-secondary,.btn-green,.btn-wolf,.btn-start,.btn-abort{padding:14px 18px;border-radius:var(--r-md);border:3px solid var(--c-line);font-family:"M PLUS Rounded 1c",sans-serif;font-weight:800;font-size:16px;letter-spacing:.02em;min-height:54px;width:100%;margin-bottom:10px;background:var(--c-paper);color:var(--c-ink);box-shadow:var(--sh-2);transition:transform .08s ease,box-shadow .08s ease;cursor:pointer;text-align:center;}
+.btn-primary,.btn-start,.btn-wolf{background:var(--c-hero);color:var(--c-cream);}
+.btn-secondary{background:var(--c-cream);color:var(--c-hero);}
+.btn-green{background:var(--c-deep);color:var(--c-cream);}
+.btn-sm-danger{background:#FED7AA;color:var(--c-ink);}
+.btn-sm-add{background:#BBF7D0;color:var(--c-ink);}
+.btn-abort{width:auto;min-height:44px;padding:8px 14px;font-size:13px;background:var(--c-paper);margin:0;box-shadow:var(--sh-1);}
+button:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--c-line);}
+.word-add-row{background:#BBF7D0;}
+.word-add-card{padding:14px 16px;}
+.word-add-fields{display:flex;flex-direction:column;gap:10px;}
+.word-add-fields .word-input{width:100%;max-width:100%;min-width:0;background:var(--c-paper);}
+.word-add-fields .form-action-button{align-self:flex-end;margin-top:2px;}
+.word-list-card .word-pair-list{margin-top:0;}
+.player-card{
+  width:100%;
+  min-height:190px;
+  padding:18px 14px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  text-align:center;
+}
+.complete-card{
+  width:100%;
+  min-height:190px;
+  padding:18px 14px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  text-align:center;
+}
+.complete-icon{font-size:32px;line-height:1;}
+.complete-title{
+  font-family:"M PLUS Rounded 1c","Zen Maru Gothic",sans-serif;
+  font-size:clamp(28px,7vw,36px);
+  font-weight:900;
+  line-height:1.15;
+}
+.complete-sub{font-size:clamp(16px,4.4vw,19px);text-align:center;}
+.player-card-name{
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  font-family:"M PLUS Rounded 1c","Zen Maru Gothic",sans-serif;
+  font-size:clamp(28px,7vw,36px);
+  font-weight:900;
+  line-height:1.15;
+}
+.player-card-hint{font-size:clamp(16px,4.4vw,19px);text-align:center;}
+.tap-icon{font-size:32px;line-height:1;}
+.progress-dots{display:flex;justify-content:center;gap:6px;}
+.dot{width:10px;height:10px;border-radius:999px;background:var(--c-paper);border:2px solid var(--c-line);} .dot.done{background:var(--c-sun);} .dot.current{background:var(--c-hero);transform:scale(1.2);}
+.wolf-count-badge,.reversal-info-badge,.overlay-note{border:2px solid var(--c-line);border-radius:var(--r-md);padding:10px 14px;box-shadow:var(--sh-1);}
+.wolf-count-badge{background:#FED7AA;} .reversal-info-badge{background:#DDD6FE;}
+.overlay{position:fixed;inset:0;background:rgba(31,10,61,.8);z-index:200;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:24px;text-align:center;}
+.overlay-shell{width:100%;max-width:520px;min-height:100svh;min-height:100dvh;display:grid;grid-template-rows:auto minmax(0,1fr) auto;padding:calc(12px + env(safe-area-inset-top)) 0 0;gap:12px;}
+.overlay-main{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;}
+.overlay.hidden,.abort-overlay.hidden{display:none;}
+.overlay-name{font-size:32px;color:var(--c-cream);font-family:"M PLUS Rounded 1c",sans-serif;font-weight:900;} .overlay-word{font-size:72px;color:var(--c-sun);text-shadow:3px 3px 0 var(--c-line);} .overlay-player{font-size:13px;color:var(--c-cream);}
+.timer-circle{width:170px;height:170px;position:relative;margin:0 auto;border:3px solid var(--c-line);border-radius:999px;background:var(--c-paper);box-shadow:var(--sh-3);}
+.timer-bg{fill:none;stroke:var(--c-ink-soft);stroke-width:8;} .timer-arc{fill:none;stroke:var(--c-sun);stroke-width:8;stroke-linecap:round;stroke-dasharray:440;stroke-dashoffset:0;transition:stroke-dashoffset 1s linear,stroke .2s ease;} .timer-svg{width:100%;height:100%;transform:rotate(-90deg);} .timer-text{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:48px;color:var(--c-hero);}
+.vote-item{justify-content:space-between;user-select:none;padding:12px 14px;min-height:76px;border-width:3px;} .vote-item.voted{background:#FED7AA;} .vote-name{font-family:"M PLUS Rounded 1c",sans-serif;font-size:18px;font-weight:800;} .vote-count{font-family:"Reggae One",sans-serif;font-size:32px;color:var(--c-hero);}
+#discussion-screen,#vote-screen,#reversal-screen{align-items:stretch;}
+#discussion-screen .screen-main,#vote-screen .screen-main,#reversal-screen .screen-main{display:flex;flex-direction:column;gap:12px;padding:4px 8px 6px;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+#discussion-screen .screen-shell,#vote-screen .screen-shell{padding-top:calc(20px + env(safe-area-inset-top));}
+#deal-screen .screen-main{display:flex;flex-direction:column;justify-content:flex-start;padding:4px 8px 6px;}
+#deal-screen #deal-cards{display:flex;flex-direction:column;gap:10px;width:100%;}
+#reversal-screen .screen-shell{padding-top:calc(12px + env(safe-area-inset-top));gap:8px;}
+#reversal-screen .screen-main{gap:8px;padding-top:0;}
+.result-screen{padding:0;align-items:stretch;text-align:center;}
+.result-screen .screen-main{padding:2px 8px 8px;}
+.result-screen .screen-shell{padding-top:calc(12px + env(safe-area-inset-top));gap:10px;}
+.result-screen .screen-header{gap:6px;}
+.result-screen .result-emoji{font-size:68px;line-height:1;}
+.result-screen .result-title{font-size:38px;line-height:1.08;}
+.result-screen .result-desc{font-size:19px;line-height:1.4;margin-bottom:4px;white-space:pre-line;}
+.result-screen .result-stack{display:flex;flex-direction:column;gap:12px;}
+.result-screen .result-card{padding:15px;}
+.result-screen .result-card-label{margin-bottom:8px;}
+.result-screen .result-word-row{gap:8px;}
+.result-screen .word-box{padding:12px 10px;}
+.result-screen .player-result-row{padding:10px 12px;min-height:auto;border-width:3px;box-shadow:var(--sh-1);}
+.result-screen .player-result-list{display:flex;flex-direction:column;gap:8px;}
+.result-screen .btn-secondary{margin-top:4px;}
+.reversal-banner{background:var(--c-hero);border:3px solid var(--c-line);border-radius:var(--r-xl);padding:16px;box-shadow:var(--sh-3);color:var(--c-cream);transform:rotate(-.5deg);}
+.reversal-big-title{font-family:"Reggae One",sans-serif;font-size:38px;} .result-emoji{font-size:82px;animation:pop .35s cubic-bezier(.5,1.6,.4,1);} .result-title{font-size:64px;color:var(--c-hero);}
+.word-box{flex:1;border-radius:var(--r-md);padding:14px 10px;border:3px solid var(--c-line);box-shadow:var(--sh-1);} .cbox{background:#BBF7D0;} .wbox{background:#FED7AA;} .box-word{font-family:"M PLUS Rounded 1c",sans-serif;font-size:22px;font-weight:900;}
+.player-result-row{display:grid;grid-template-columns:44px minmax(0,1fr) 96px;align-items:center;gap:10px;padding:12px;background:var(--c-paper);border:3px solid var(--c-line);border-radius:var(--r-md);box-shadow:var(--sh-1);}
+.player-result-row.is-wolf{background:#FED7AA;}
+.player-result-row.is-citizen{background:#BBF7D0;}
+.pr-icon{display:flex;align-items:center;justify-content:center;font-size:22px;}
+.pr-info{min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:2px;}
+.pr-name,.pr-word{max-width:100%;text-align:center;overflow-wrap:anywhere;}
+.pr-name{font-family:"M PLUS Rounded 1c",sans-serif;font-weight:900;}
+.pr-word{font-size:14px;}
+.pr-badges{min-width:96px;display:flex;flex-direction:column;align-items:flex-end;justify-content:center;gap:6px;}
+.pr-tag{font-size:11px;font-family:"M PLUS Rounded 1c",sans-serif;font-weight:800;padding:4px 8px;border:2px solid var(--c-line);border-radius:var(--r-sm);background:var(--c-cream);}
+.abort-overlay{position:fixed;inset:0;background:rgba(31,10,61,.8);z-index:300;display:flex;align-items:center;justify-content:center;padding:24px;}
+.abort-dialog{max-width:340px;padding:24px;}
+.squiggle{height:14px;margin:4px 0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 14' preserveAspectRatio='none'%3E%3Cpath d='M0 7 Q 7.5 0 15 7 T 30 7 T 45 7 T 60 7' fill='none' stroke='%231F0A3D' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:repeat-x;background-size:60px 14px;opacity:.4;}
+#fx-layer{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:400;}
+.confetti-piece{position:absolute;top:-20px;width:12px;height:16px;border:1.5px solid var(--c-line);animation:confetti-fall 2.4s cubic-bezier(.2,.6,.4,1) forwards;}
+@keyframes pop{0%{transform:scale(.85);opacity:0}100%{transform:scale(1);opacity:1}}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-8px) rotate(3deg)}}
+@keyframes confetti-fall{to{transform:translateY(110vh) rotate(360deg);opacity:.85}}
+@media (max-width: 480px){
+  #words-screen .screen-header{padding:0 4px;}
+  #words-screen .screen-main.scrollable{padding-right:0;}
+  #words-screen .section-card{transform:none;}
+  #words-screen .section-label-row{align-items:flex-start;}
+  #words-screen .form-action-button{min-width:96px;}
+  #words-screen .word-pair-row{padding:8px;}
+  #words-screen .word-pair-inputs{grid-template-columns:minmax(0,1fr);}
+  #words-screen .word-sep{justify-self:center;}
+  #words-screen .word-row-action{align-self:flex-end;}
+  #words-screen .word-add-fields .form-action-button{align-self:stretch;}
+  .word-pair-row{flex-direction:column;align-items:stretch;}
+  .word-row-action{align-self:flex-end;}
+}
+@media (prefers-reduced-motion: reduce){*{animation:none !important;transition:none !important;scroll-behavior:auto !important;}}
+</style>
+
+</head>
+<body>
+<div class="bg-dots"></div>
+<div id="fx-layer"></div>
+<div id="app">
+
+<!-- TITLE -->
+
+<div id="title-screen" class="screen active">
+  <div class="logo-wrap">
+    <div class="moon">
+      <img class="hero-character" src="./wolf_float.webp" alt="羊のふりをしたオオカミ">
+    </div>
+    <div class="title-main">ワードウルフ</div>
+    <div class="title-sub">WORD WOLF</div>
+  </div>
+  <button class="btn-start" onclick="showSetup()" style="margin-bottom:16px;">🐺 はじめる</button>
+  <button class="btn-secondary" style="max-width:280px;" onclick="showWords()">📝 お題を編集</button>
+</div>
+
+<!-- SETUP -->
+
+<div id="setup-screen" class="screen">
+  <div class="screen-shell">
+    <header class="screen-header">
+      <div class="screen-title">⚙️ ゲーム設定</div>
+    </header>
+    <main class="screen-main scrollable">
+      <div class="setup-stack">
+        <div class="section-card">
+          <span class="section-label">👥 プレイ人数</span>
+          <div class="count-row">
+            <button class="count-btn" onclick="changeCount(-1)">－</button>
+            <div class="count-display" id="count-display">4</div>
+            <button class="count-btn" onclick="changeCount(1)">＋</button>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <span class="section-label">🐺 ウルフ人数</span>
+          <div class="count-row">
+            <button class="count-btn" onclick="changeWolfCount(-1)">－</button>
+            <div class="count-display" id="wolf-count-display">1</div>
+            <button class="count-btn" onclick="changeWolfCount(1)">＋</button>
+          </div>
+          <div class="setup-help" style="text-align:center;margin-top:8px;">最大でプレイヤー人数 - 1 人まで設定できます</div>
+        </div>
+
+        <div class="section-card">
+          <span class="section-label">📝 プレイヤー名　<span class="setup-help">☰ ドラッグで並べ替え</span></span>
+          <div class="player-inputs" id="player-inputs"></div>
+        </div>
+
+        <div class="section-card">
+          <span class="section-label">⏱️ 話し合い時間</span>
+          <div class="timer-options">
+            <button class="timer-btn" onclick="selectTimer(this,120)">2分</button>
+            <button class="timer-btn selected" onclick="selectTimer(this,180)">3分</button>
+            <button class="timer-btn" onclick="selectTimer(this,300)">5分</button>
+            <button class="timer-btn" onclick="selectTimer(this,0)">なし</button>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <span class="section-label">🎛️ オプション</span>
+          <div class="toggle-row" id="toggle-reversal" onclick="toggleOption('reversal')">
+            <div class="toggle-label-wrap">
+              <div class="toggle-label-main">🌀 大逆転モード</div>
+              <div class="toggle-label-sub">追放後ウルフが答えたら正解/不正解を判定</div>
+            </div>
+            <div class="toggle-switch" id="sw-reversal"></div>
+          </div>
+          <div class="toggle-row" id="toggle-hint" onclick="toggleOption('hint')">
+            <div class="toggle-label-wrap">
+              <div class="toggle-label-main">💡 役割ヒント表示</div>
+              <div class="toggle-label-sub">お題確認時に「ウルフかも」のヒントを表示</div>
+            </div>
+            <div class="toggle-switch" id="sw-hint"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer class="screen-footer setup-footer">
+      <div class="footer-actions">
+        <button class="btn-primary primary-action-button" onclick="startGame()">🎮 ゲームスタート</button>
+        <button class="btn-secondary secondary-action-button" onclick="showScreen('title-screen')">← もどる</button>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<!-- WORD EDITOR -->
+
+<div id="words-screen" class="screen">
+  <div class="screen-shell">
+    <header class="screen-header">
+      <div class="screen-title-row">
+        <div class="screen-title">📝 お題リスト</div>
+        <button class="btn-abort" onclick="showScreen('title-screen')">← もどる</button>
+      </div>
+      <div class="words-stats" id="words-stats"></div>
+      <div class="section-label words-description">お題AとBはゲームごとにランダムで市民／ウルフに割り当てられます</div>
+    </header>
+    <main class="screen-main scrollable">
+      <div class="section-card words-editor-card word-add-card">
+        <div class="section-label" style="margin-bottom:8px;">新しいお題ペアを追加</div>
+        <div class="word-add-fields">
+          <input class="word-input" type="text" id="new-a" placeholder="お題Aを入力" oninput="setWordEditorError('')">
+          <input class="word-input" type="text" id="new-b" placeholder="お題Bを入力" oninput="setWordEditorError('')">
+          <button class="btn-sm-add form-action-button" onclick="addWordPair()">＋ 追加</button>
+        </div>
+        <div class="word-editor-error" id="word-editor-error" role="status" aria-live="polite"></div>
+      </div>
+      <div class="section-card words-editor-card word-list-card">
+        <div class="section-label-row">
+          <span class="section-label" style="margin-bottom:0;">お題ペア一覧</span>
+        </div>
+        <div class="word-pair-list" id="word-pair-list"></div>
+      </div>
+    </main>
+    <footer class="screen-footer">
+      <button class="btn-primary primary-action-button" onclick="showScreen('title-screen')">保存してもどる</button>
+    </footer>
+  </div>
+</div>
+
+<!-- 中止確認オーバーレイ -->
+
+<div id="abort-overlay" class="abort-overlay hidden">
+  <div class="abort-dialog">
+    <div class="abort-dialog-title">⏹ ゲームを中止</div>
+    <div class="abort-dialog-sub">中止するとゲームの進行が<br>リセットされます。よろしいですか？</div>
+    <div class="abort-dialog-btns">
+      <button class="btn-secondary" onclick="closeAbort()">キャンセル</button>
+      <button class="btn-wolf" onclick="doAbort()">中止する</button>
+    </div>
+  </div>
+</div>
+
+<!-- DEAL -->
+
+<div id="deal-screen" class="screen">
+  <div class="screen-shell">
+    <header class="screen-header">
+      <div class="screen-title-row">
+        <div class="screen-title">📋 お題配布</div>
+        <button class="btn-abort" onclick="openAbort()">⏹ 中止</button>
+      </div>
+      <div class="deal-instruction">順番にタップして自分のお題を確認してください。<br>他の人に見せないように！</div>
+      <div class="progress-dots" id="progress-dots"></div>
+      <div class="wolf-count-badge" id="wolf-count-badge"></div>
+      <div class="reversal-info-badge" id="reversal-info-badge" style="display:none;">🌀 大逆転モード ON — 追放後にウルフの逆転チャンスあり！</div>
+      <button class="btn-secondary" onclick="redealGame()" style="font-size:14px;padding:10px;">🔀 このお題やったことある（再抽選）</button>
+    </header>
+    <main class="screen-main">
+      <div id="deal-cards"></div>
+    </main>
+    <footer class="screen-footer">
+      <button id="deal-primary-btn" class="btn-primary primary-action-button" onclick="onDealPrimaryAction()">👀 お題を見る</button>
+    </footer>
+  </div>
+</div>
+
+<!-- WORD OVERLAY -->
+
+<div id="word-overlay" class="overlay hidden">
+  <div class="overlay-shell">
+    <header class="screen-header">
+      <div class="screen-title-row">
+        <button class="btn-abort" onclick="redealFromOverlay()">🔀 再抽選</button>
+        <button class="btn-abort" onclick="abortFromOverlay()">⏹ 中止</button>
+      </div>
+    </header>
+    <main class="overlay-main">
+      <div class="overlay-player">あなたのお題</div>
+      <div class="overlay-name" id="overlay-name"></div>
+      <div class="overlay-word topic-word" id="overlay-word"></div>
+      <div class="overlay-role" id="overlay-role" style="display:none;"></div>
+      <div class="overlay-note">📸 しっかり覚えたら閉じてください</div>
+    </main>
+    <footer class="screen-footer">
+      <button class="btn-primary primary-action-button" onclick="closeOverlay()">確認した ✓</button>
+    </footer>
+  </div>
+</div>
+
+<!-- DISCUSSION -->
+
+<div id="discussion-screen" class="screen">
+  <div class="screen-shell">
+    <header class="screen-header">
+      <div class="screen-title-row">
+        <div class="screen-title">💬 話し合い</div>
+        <button class="btn-abort" onclick="openAbort()">⏹ 中止</button>
+      </div>
+    </header>
+    <main class="screen-main">
+      <div class="timer-circle">
+        <svg class="timer-svg" viewBox="0 0 160 160">
+          <circle class="timer-bg"  cx="80" cy="80" r="70"/>
+          <circle class="timer-arc" id="timer-arc" cx="80" cy="80" r="70"/>
+        </svg>
+        <div class="timer-text" id="timer-text">3:00</div>
+      </div>
+      <div class="discussion-hint">
+        <div class="hint-title">💡 話し合いのヒント</div>
+        • 自分のお題について話す<br>
+        • ウルフかもしれない人を探す<br>
+        • でも自分のお題は直接言わない！<br>
+        • 怪しい人を観察しよう
+      </div>
+      <button class="btn-secondary" id="pause-btn" onclick="pauseResume()">⏸ 一時停止</button>
+    </main>
+    <footer class="screen-footer">
+      <button class="btn-primary primary-action-button" onclick="goToVote()">🗳️ 投票する</button>
+    </footer>
+  </div>
+</div>
+
+<!-- VOTE -->
+
+<div id="vote-screen" class="screen">
+  <div class="screen-shell">
+    <header class="screen-header">
+      <div class="screen-title-row">
+        <div class="screen-title">🗳️ 投票</div>
+        <button class="btn-abort" onclick="openAbort()">⏹ 中止</button>
+      </div>
+      <div class="vote-instruction">ウルフだと思う人をタップ！（複数可）</div>
+    </header>
+    <main class="screen-main">
+      <div class="vote-list" id="vote-list"></div>
+      <button class="btn-secondary" onclick="resetVotes()">リセット</button>
+    </main>
+    <footer class="screen-footer">
+      <button class="btn-primary primary-action-button" id="result-btn" onclick="processVoteResult()" disabled>結果へ進む →</button>
+    </footer>
+  </div>
+</div>
+
+<!-- REVERSAL -->
+
+<div id="reversal-screen" class="screen">
+  <div class="screen-shell">
+    <header class="screen-header">
+      <div class="screen-title-row">
+        <div style="-webkit-box-flex:1;-ms-flex:1;flex:1;"></div>
+        <button class="btn-abort" onclick="openAbort()">⏹ 中止</button>
+      </div>
+    </header>
+    <main class="screen-main">
+      <div class="reversal-banner shake-in">
+        <div style="font-size:44px;">🌀</div>
+        <div class="reversal-big-title">大逆転チャンス！</div>
+        <div class="reversal-sub">追放されたウルフに最後のチャンス！<br>市民のお題を当てれば大逆転勝利！</div>
+      </div>
+      <div class="wolf-answer-box">
+        <div class="wolf-answer-label">🐺 ウルフのお題（自分のお題）</div>
+        <div class="wolf-answer-word" id="reversal-wolf-word"></div>
+        <div class="wolf-answer-hint">「市民のお題は何？」と答えてもらってください</div>
+      </div>
+      <div class="judge-who" id="reversal-wolf-names"></div>
+      <div class="section-label" style="text-align:center;">ウルフが答えたら正解か不正解か判定してください</div>
+      <div class="judge-row">
+        <button class="btn-green"  onclick="judgeReversal(true)">⭕ 正解！<br><span style="font-size:13px;font-weight:400;">ウルフの逆転勝利</span></button>
+        <button class="btn-wolf" onclick="judgeReversal(false)">✕ 不正解<br><span style="font-size:13px;font-weight:400;">市民の勝利</span></button>
+      </div>
+      <button class="btn-secondary" onclick="showResult(false)">スキップ（逆転なし）</button>
+    </main>
+    <footer class="screen-footer"></footer>
+  </div>
+</div>
+
+<!-- RESULT -->
+
+<div id="result-screen" class="screen result-screen">
+  <div class="screen-shell">
+    <header class="screen-header">
+      <div class="result-emoji" id="result-emoji"></div>
+      <div class="result-title" id="result-title"></div>
+      <div class="result-desc"  id="result-desc"></div>
+    </header>
+    <main class="screen-main">
+      <div class="result-stack">
+        <div class="result-card">
+          <div class="result-card-label">お題の答え</div>
+          <div class="result-word-row">
+            <div class="word-box cbox"><div class="box-label">市民のお題</div><div class="box-word" id="r-citizen"></div></div>
+            <div class="word-box wbox"><div class="box-label">ウルフのお題</div><div class="box-word" id="r-wolf-word"></div></div>
+          </div>
+        </div>
+        <div class="result-card">
+          <div class="result-card-label">みんなのお題</div>
+          <div class="player-result-list" id="player-result-list"></div>
+        </div>
+      </div>
+      <button class="btn-secondary" onclick="showScreen('title-screen')">🏠 タイトルへ</button>
+    </main>
+    <footer class="screen-footer">
+      <button class="btn-primary primary-action-button" onclick="playAgain()">🔄 もう一度遊ぶ</button>
+    </footer>
+  </div>
+</div>
+
+</div>
+
+<script>
+/* ════════════════════════
+   内蔵バックアップお題（なし）
+════════════════════════ */
+var BUILTIN_PAIRS=[];
+
+/* ════════════════════════
+   LOCAL STORAGE キー
+════════════════════════ */
+var LS_NAMES    = 'ww_names';
+var LS_PAIRS    = 'ww_pairs';
+var LS_REVERSAL = 'ww_reversal';
+var LS_HINT     = 'ww_hint';
+var LS_TIMER    = 'ww_timer';
+var LS_WOLF_CNT = 'ww_wolf_count';
+
+function lsGet(k,def){ try{ var v=localStorage.getItem(k); return v!==null?JSON.parse(v):def; }catch(e){ return def; } }
+function lsSet(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
+
+/* ════════════════════════
+   STATE
+════════════════════════ */
+var S={
+  wordPairs: lsGet(LS_PAIRS, BUILTIN_PAIRS.slice()),
+  playerCount:4, playerNames:[],
+  wolfCount:   lsGet(LS_WOLF_CNT, 1),
+  timerSecs:   lsGet(LS_TIMER,    180),
+  reversalEnabled: lsGet(LS_REVERSAL, true),   /* 初期値: 大逆転モード ON */
+  hintEnabled:     lsGet(LS_HINT,     false),  /* 初期値: ヒント OFF     */
+  roles:[], citizenWord:'', wolfWord:'',
+  dealIdx:0,
+  timerHandle:null, remaining:0, paused:false,
+  votes:{}, mostVoted:[], wolfCaught:false
+};
+
+/* ════════════════════════
+   JSON読み込み
+   words.json と words_family.json を両方読み込んで合算
+   localStorageに保存済みでも毎回読み直して最新を反映
+════════════════════════ */
+var JSON_FILES = ['words.json', 'words_family.json'];
+var jsonLoaded = {};   /* ファイル名 → ペア配列 */
+var jsonPending = 0;   /* 読み込み待ちカウント */
+
+function tryLoadJSON(){
+  jsonLoaded = {};
+  jsonPending = JSON_FILES.length;
+  for(var i=0;i<JSON_FILES.length;i++){
+    loadOneJSON(JSON_FILES[i]);
+  }
+}
+
+function loadOneJSON(filename){
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', filename, true);
+  xhr.onreadystatechange = function(){
+    if(xhr.readyState !== 4) return;
+    if((xhr.status===200||xhr.status===0) && xhr.responseText){
+      try{
+        var data = JSON.parse(xhr.responseText);
+        var pairs = [];
+        if(data.categories){
+          for(var i=0;i<data.categories.length;i++){
+            var cat = data.categories[i];
+            if(cat.pairs) for(var j=0;j<cat.pairs.length;j++) pairs.push(cat.pairs[j]);
+          }
+        }
+        if(pairs.length > 0) jsonLoaded[filename] = pairs;
+      }catch(e){}
+    }
+    jsonPending--;
+    if(jsonPending <= 0) mergeLoadedJSON();
+  };
+  xhr.onerror = function(){ jsonPending--; if(jsonPending<=0) mergeLoadedJSON(); };
+  try{ xhr.send(); }catch(e){ jsonPending--; if(jsonPending<=0) mergeLoadedJSON(); }
+}
+
+function mergeLoadedJSON(){
+  /* 全JSONのペアをフラットに集める */
+  var allFromJSON = [];
+  for(var i=0;i<JSON_FILES.length;i++){
+    var fp = jsonLoaded[JSON_FILES[i]];
+    if(fp) for(var j=0;j<fp.length;j++) allFromJSON.push(fp[j]);
+  }
+
+  /* localStorageに保存済みの編集内容がある場合：
+     編集済みペアを優先し、JSONにしかない新規ペアを末尾に追加 */
+  var lsPairs = lsGet(LS_PAIRS, null);
+  if(lsPairs !== null && lsPairs.length > 0){
+    var base = lsPairs.slice();
+    for(var k=0;k<allFromJSON.length;k++){
+      var p = allFromJSON[k];
+      var found = false;
+      for(var m=0;m<base.length;m++){
+        if(base[m][0]===p[0] && base[m][1]===p[1]){ found=true; break; }
+      }
+      if(!found) base.push(p);
+    }
+    S.wordPairs = base;
+    lsSet(LS_PAIRS, base);
+  } else {
+    /* 初回またはlocalStorageが空：JSONから全部読む */
+    S.wordPairs = allFromJSON;
+    lsSet(LS_PAIRS, allFromJSON);
+  }
+  renderWordStats();
+  renderWordList();
+}
+
+/* ════════════════════════
+   UTILS
+════════════════════════ */
+function showScreen(id){
+  var all=document.querySelectorAll('.screen');
+  for(var i=0;i<all.length;i++) all[i].classList.remove('active');
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+/* ════════════════════════
+   SETUP
+════════════════════════ */
+function showSetup(){
+  showScreen('setup-screen');
+  S.wolfCount=Math.min(Math.max(1,S.wolfCount),Math.max(1,S.playerCount-1));
+  document.getElementById('wolf-count-display').textContent=S.wolfCount;
+  renderPlayerInputs();
+  /* タイマーボタンの選択状態を復元 */
+  var btns=document.querySelectorAll('.timer-btn');
+  var timerMap=[120,180,300,0];
+  for(var i=0;i<btns.length;i++){
+    btns[i].classList.toggle('selected', timerMap[i]===S.timerSecs);
+  }
+}
+
+function changeCount(d){
+  S.playerCount=Math.max(3,Math.min(20,S.playerCount+d));
+  S.wolfCount=Math.min(Math.max(1,S.wolfCount),Math.max(1,S.playerCount-1));
+  lsSet(LS_WOLF_CNT,S.wolfCount);
+  document.getElementById('wolf-count-display').textContent=S.wolfCount;
+  document.getElementById('count-display').textContent=S.playerCount;
+  renderPlayerInputs();
+}
+
+
+
+function changeWolfCount(d){
+  var maxWolf=Math.max(1,S.playerCount-1);
+  S.wolfCount=Math.max(1,Math.min(maxWolf,S.wolfCount+d));
+  lsSet(LS_WOLF_CNT,S.wolfCount);
+  document.getElementById('wolf-count-display').textContent=S.wolfCount;
+}
+
+function renderPlayerInputs(){
+  var container=document.getElementById('player-inputs');
+  var oldIn=container.querySelectorAll('.player-input');
+  var cur=[];
+  for(var x=0;x<oldIn.length;x++) cur.push(oldIn[x].value);
+  var saved=lsGet(LS_NAMES,[]);
+  container.innerHTML='';
+  for(var j=0;j<S.playerCount;j++){
+    var val=(j<cur.length&&cur[j]!=='')?cur[j]:(saved[j]||'');
+    var row=document.createElement('div');
+    row.className='player-row';
+    row.innerHTML=
+      '<span class="drag-handle" data-role="handle">☰</span>'+
+      '<span class="row-num">'+(j+1)+'</span>'+
+      '<input class="player-input" type="text" placeholder="プレイヤー '+(j+1)+'" value="'+esc(val)+'">';
+    container.appendChild(row);
+  }
+  attachTouchSort();
+}
+
+/* touch sort */
+function attachTouchSort(){
+  var container=document.getElementById('player-inputs');
+  var srcRow=null,ghost=null,fingerOffY=0;
+  function rows(){ return Array.prototype.slice.call(container.querySelectorAll('.player-row')); }
+  function mkGhost(row){
+    var g=row.cloneNode(true); var r=row.getBoundingClientRect();
+    g.style.cssText='position:fixed;margin:0;pointer-events:none;z-index:999;opacity:0.88;'+
+      'box-shadow:5px 5px 0 #1F0A3D;border:2.5px solid #1F0A3D;border-radius:14px;'+
+      'background:#FFF9F2;padding:4px 8px 4px 4px;left:'+r.left+'px;top:'+r.top+'px;width:'+r.width+'px;'+
+      'display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;';
+    document.body.appendChild(g); return g;
+  }
+  container.addEventListener('touchstart',function(e){
+    var t=e.target; if(!t||t.getAttribute('data-role')!=='handle') return;
+    var row=t.parentNode; if(!row||!row.classList.contains('player-row')) return;
+    srcRow=row; var r=row.getBoundingClientRect(); fingerOffY=e.touches[0].clientY-r.top;
+    ghost=mkGhost(row); row.style.opacity='0.25'; e.preventDefault();
+  },{passive:false});
+  container.addEventListener('touchmove',function(e){
+    if(!srcRow||!ghost) return; e.preventDefault();
+    var ty=e.touches[0].clientY; ghost.style.top=(ty-fingerOffY)+'px';
+    var rr=rows();
+    for(var i=0;i<rr.length;i++) rr[i].classList.remove('drag-over');
+    for(var j=0;j<rr.length;j++){
+      if(rr[j]===srcRow) continue; var b=rr[j].getBoundingClientRect();
+      if(ty>=b.top&&ty<=b.bottom){rr[j].classList.add('drag-over');break;}
+    }
+  },{passive:false});
+  container.addEventListener('touchend',function(){
+    if(!srcRow) return;
+    if(ghost){if(ghost.parentNode)ghost.parentNode.removeChild(ghost);ghost=null;}
+    srcRow.style.opacity='';
+    var rr=rows(),tgt=null;
+    for(var i=0;i<rr.length;i++) if(rr[i].classList.contains('drag-over')){tgt=rr[i];break;}
+    for(var j=0;j<rr.length;j++) rr[j].classList.remove('drag-over');
+    if(tgt&&tgt!==srcRow){
+      var si=rr.indexOf(srcRow),ti=rr.indexOf(tgt);
+      if(si<ti) container.insertBefore(srcRow,tgt.nextSibling);
+      else container.insertBefore(srcRow,tgt);
+      renumberRows();
+    }
+    srcRow=null;
+  });
+}
+function renumberRows(){
+  var rr=document.querySelectorAll('#player-inputs .player-row');
+  for(var i=0;i<rr.length;i++){
+    rr[i].querySelector('.row-num').textContent=i+1;
+    rr[i].querySelector('.player-input').placeholder='プレイヤー '+(i+1);
+  }
+}
+
+function selectTimer(btn,secs){
+  var btns=document.querySelectorAll('.timer-btn');
+  for(var i=0;i<btns.length;i++) btns[i].classList.remove('selected');
+  btn.classList.add('selected');
+  S.timerSecs=secs;
+  lsSet(LS_TIMER,secs); /* タイマーも記憶 */
+}
+
+function toggleOption(key){
+  if(key==='reversal'){
+    S.reversalEnabled=!S.reversalEnabled;
+    lsSet(LS_REVERSAL,S.reversalEnabled);
+    document.getElementById('sw-reversal').classList.toggle('on',S.reversalEnabled);
+    document.getElementById('toggle-reversal').classList.toggle('on',S.reversalEnabled);
+  } else if(key==='hint'){
+    S.hintEnabled=!S.hintEnabled;
+    lsSet(LS_HINT,S.hintEnabled);
+    document.getElementById('sw-hint').classList.toggle('on',S.hintEnabled);
+    document.getElementById('toggle-hint').classList.toggle('on',S.hintEnabled);
+  }
+}
+
+/* ════════════════════════
+   WORD EDITOR
+════════════════════════ */
+function setWordEditorError(msg){
+  var el=document.getElementById('word-editor-error');
+  if(el) el.textContent=msg||'';
+}
+
+function showWords(){
+  renderWordStats();
+  renderWordList();
+  setWordEditorError('');
+  showScreen('words-screen');
+}
+
+function renderWordStats(){
+  var el=document.getElementById('words-stats');
+  if(el) el.innerHTML='現在 <span>'+S.wordPairs.length+'</span> ペアあります';
+}
+
+function renderWordList(){
+  var list=document.getElementById('word-pair-list');
+  if(!list) return;
+  list.innerHTML='';
+  for(var i=0;i<S.wordPairs.length;i++){
+    list.appendChild(makePairRow(i, S.wordPairs[i][0], S.wordPairs[i][1]));
+  }
+}
+
+function makePairRow(idx, a, b){
+  var row=document.createElement('div');
+  row.className='word-pair-row';
+  row.dataset.idx=idx;
+  row.innerHTML=
+    '<div class="word-pair-inputs">'+
+      '<input class="word-input" type="text" value="'+esc(a)+'" placeholder="お題A" onchange="updatePair('+idx+',0,this.value)">'+
+      '<span class="word-sep">vs</span>'+
+      '<input class="word-input" type="text" value="'+esc(b)+'" placeholder="お題B" onchange="updatePair('+idx+',1,this.value)">'+
+    '</div>'+
+    '<button class="btn-sm-danger word-row-action" onclick="deletePair('+idx+')">✕</button>';
+  return row;
+}
+
+function updatePair(idx,col,val){
+  if(idx<0||idx>=S.wordPairs.length) return;
+  S.wordPairs[idx][col]=val.trim();
+  lsSet(LS_PAIRS,S.wordPairs);
+  renderWordStats();
+}
+
+function deletePair(idx){
+  if(idx<0||idx>=S.wordPairs.length) return;
+  S.wordPairs.splice(idx,1);
+  lsSet(LS_PAIRS,S.wordPairs);
+  renderWordStats();
+  renderWordList();
+}
+
+function addWordPair(){
+  var a=document.getElementById('new-a');
+  var b=document.getElementById('new-b');
+  if(!a||!b) return;
+  var av=a.value.trim(), bv=b.value.trim();
+  a.style.borderBottom='';
+  b.style.borderBottom='';
+  if(!av||!bv){
+    setWordEditorError('お題Aとお題Bの両方を入力してください。');
+    a.style.borderBottom='2px solid #FF3366';
+    b.style.borderBottom='2px solid #FF3366';
+    return;
+  }
+  for(var i=0;i<S.wordPairs.length;i++){
+    if(S.wordPairs[i][0]===av&&S.wordPairs[i][1]===bv){
+      setWordEditorError('同じお題ペアはすでに登録されています。');
+      return;
+    }
+  }
+  setWordEditorError('');
+  S.wordPairs.push([av,bv]);
+  lsSet(LS_PAIRS,S.wordPairs);
+  renderWordStats();
+  renderWordList();
+  a.focus();
+  /* 追加されたペアが見える位置までスクロール */
+  var list=document.getElementById('word-pair-list');
+  if(list && list.lastElementChild) list.lastElementChild.scrollIntoView({block:'nearest'});
+}
+
+function tone(freq,dur,type,vol){
+  var Ctx=window.AudioContext||window.webkitAudioContext;
+  if(!Ctx) return;
+  var ctx=new Ctx();
+  var osc=ctx.createOscillator();
+  var g=ctx.createGain();
+  osc.connect(g); g.connect(ctx.destination);
+  osc.type=type||"sine";
+  osc.frequency.value=freq;
+  g.gain.setValueAtTime(vol||0.08,ctx.currentTime);
+  g.gain.exponentialRampToValueAtTime(0.0001,ctx.currentTime+dur);
+  osc.start(); osc.stop(ctx.currentTime+dur+0.02);
+}
+function playTapFx(){ tone(620,0.05,'sine',0.03); }
+function playSuccessFx(){ tone(880,0.10); setTimeout(function(){tone(1320,0.16);},90); }
+function playFailFx(){ tone(180,0.25,'square',0.06); }
+function fireConfetti(amount){
+  var colors=["#FF3366","#FFC93C","#3B5BDB","#FFF9F2"];
+  var root=document.getElementById('fx-layer'); if(!root) return;
+  for(var i=0;i<(amount||36);i++){
+    var p=document.createElement('div');
+    p.className='confetti-piece';
+    p.style.left=(Math.random()*100)+'%';
+    p.style.background=colors[i%colors.length];
+    root.appendChild(p);
+    setTimeout(function(el){ if(el.parentNode) el.parentNode.removeChild(el); }.bind(null,p),3500);
+  }
+}
+
+/* ════════════════════════
+   GAME START
+════════════════════════ */
+function startGame(){
+  var inputs=document.querySelectorAll('#player-inputs .player-input');
+  S.playerNames=[];
+  for(var i=0;i<inputs.length;i++)
+    S.playerNames.push(inputs[i].value.trim()||'プレイヤー '+(i+1));
+  S.playerCount=S.playerNames.length;
+  lsSet(LS_NAMES,S.playerNames);
+
+  var pairs=S.wordPairs.length>0?S.wordPairs:BUILTIN_PAIRS;
+  var pair=pairs[Math.floor(Math.random()*pairs.length)];
+  if(Math.random()<0.5){S.citizenWord=pair[0];S.wolfWord=pair[1];}
+  else{S.citizenWord=pair[1];S.wolfWord=pair[0];}
+
+  var wolfCount=Math.max(1,Math.min(S.wolfCount,S.playerCount-1));
+  S.roles=[];
+  for(var j=0;j<S.playerCount;j++) S.roles.push('citizen');
+  var pool=[];
+  for(var k=0;k<S.playerCount;k++) pool.push(k);
+  for(var w=0;w<wolfCount;w++){
+    var ri=Math.floor(Math.random()*pool.length);
+    S.roles[pool[ri]]='wolf'; pool.splice(ri,1);
+  }
+
+  S.dealIdx=0; S.votes={}; S.mostVoted=[]; S.wolfCaught=false;
+  clearInterval(S.timerHandle);
+  setupDealScreen();
+  showScreen('deal-screen');
+}
+
+/* ════════════════════════
+   DEAL
+════════════════════════ */
+function setupDealScreen(){
+  var html='';
+  for(var i=0;i<S.playerNames.length;i++)
+    html+='<div class="dot'+(i===0?' current':'')+'" id="dot-'+i+'"></div>';
+  document.getElementById('progress-dots').innerHTML=html;
+  var wc=0; for(var j=0;j<S.roles.length;j++) if(S.roles[j]==='wolf') wc++;
+  document.getElementById('wolf-count-badge').innerHTML='🐺 ウルフは <span>'+wc+'人</span>います';
+  document.getElementById('reversal-info-badge').style.display=S.reversalEnabled?'block':'none';
+  renderDealCard();
+}
+
+function renderDealCard(){
+  var el=document.getElementById('deal-cards');
+  var primaryBtn=document.getElementById('deal-primary-btn');
+  if(S.dealIdx>=S.playerCount){
+    el.innerHTML=
+      '<div class="complete-card fade-in">'+
+        '<span class="complete-icon">✅</span>'+
+        '<div class="complete-title">全員確認完了！</div>'+
+        '<div class="complete-sub">話し合いをはじめましょう</div>'+
+      '</div>';
+    if(primaryBtn){
+      primaryBtn.textContent='💬 話し合い開始';
+      primaryBtn.onclick=startDiscussion;
+    }
+    return;
+  }
+  var name=S.playerNames[S.dealIdx];
+  el.innerHTML=
+    '<div class="player-card fade-in" onclick="onDealTap()">'+
+      '<div class="player-card-name">👤 '+esc(name)+'</div>'+
+      '<div class="player-card-hint">タップしてお題を確認</div>'+
+      '<span class="tap-icon">👆</span>'+
+    '</div>';
+  if(primaryBtn){
+    primaryBtn.textContent='👀 お題を見る';
+    primaryBtn.onclick=onDealPrimaryAction;
+  }
+}
+
+function onDealTap(){ openOverlay(S.dealIdx); }
+function onDealPrimaryAction(){
+  if(S.dealIdx>=S.playerCount){ startDiscussion(); return; }
+  onDealTap();
+}
+
+function openOverlay(idx){
+  var word=S.roles[idx]==='wolf'?S.wolfWord:S.citizenWord;
+  var roleHintEl=document.getElementById('overlay-role');
+  document.getElementById('overlay-name').textContent=S.playerNames[idx];
+  document.getElementById('overlay-word').textContent=word;
+  if(roleHintEl){
+    if(S.hintEnabled){
+      roleHintEl.textContent=S.roles[idx]==='wolf'?'💡 役割ヒント: あなたはウルフです':'💡 役割ヒント: あなたは市民です';
+      roleHintEl.style.display='block';
+    }else{
+      roleHintEl.textContent='';
+      roleHintEl.style.display='none';
+    }
+  }
+  document.getElementById('word-overlay').classList.remove('hidden');
+}
+
+function closeOverlay(){
+  document.getElementById('word-overlay').classList.add('hidden');
+  var dot=document.getElementById('dot-'+S.dealIdx);
+  if(dot){dot.classList.remove('current');dot.classList.add('done');}
+  S.dealIdx++;
+  if(S.dealIdx<S.playerCount){ var nd=document.getElementById('dot-'+S.dealIdx); if(nd) nd.classList.add('current'); }
+  renderDealCard();
+}
+
+/* ════════════════════════
+   DISCUSSION
+════════════════════════ */
+function startDiscussion(){
+  S.remaining=S.timerSecs; S.paused=false;
+  document.getElementById('pause-btn').textContent='⏸ 一時停止';
+  document.getElementById('pause-btn').style.display='';
+  document.getElementById('timer-arc').style.stroke='#FFC93C';
+  document.getElementById('timer-text').style.color='#FFC93C';
+  updateTimerDisplay();
+  showScreen('discussion-screen');
+  if(S.timerSecs>0){
+    requestWakeLock(); /* スリープ防止 開始 */
+    startTimerTick();
+  } else {
+    document.getElementById('timer-text').textContent='∞';
+    document.getElementById('timer-arc').style.strokeDashoffset='440';
+    document.getElementById('pause-btn').style.display='none';
+  }
+}
+function startTimerTick(){
+  clearInterval(S.timerHandle);
+  S.timerHandle=setInterval(function(){
+    if(S.paused) return;
+    S.remaining--; updateTimerDisplay();
+    if(S.remaining<=0){
+      clearInterval(S.timerHandle);
+      S.timerHandle=null;
+      releaseWakeLock(); /* スリープ防止 解放 */
+      document.getElementById('timer-text').textContent='⏰';
+      document.getElementById('timer-arc').style.stroke='#FF3366';
+      document.getElementById('timer-text').style.color='#FF3366';
+    }
+  },1000);
+}
+function updateTimerDisplay(){
+  var t=S.remaining;
+  document.getElementById('timer-text').textContent=Math.floor(t/60)+':'+(t%60<10?'0':'')+(t%60);
+  var frac=S.timerSecs>0?(t/S.timerSecs):1;
+  document.getElementById('timer-arc').style.strokeDashoffset=440*(1-frac);
+  if(t<=30&&t>0){ document.getElementById('timer-arc').style.stroke='#FF3366'; document.getElementById('timer-text').style.color='#FF3366'; }
+}
+function pauseResume(){
+  S.paused=!S.paused;
+  document.getElementById('pause-btn').textContent=S.paused?'▶ 再開':'⏸ 一時停止';
+}
+function goToVote(){clearInterval(S.timerHandle);buildVoteScreen();showScreen('vote-screen');}
+
+/* ════════════════════════
+   VOTE
+════════════════════════ */
+function buildVoteScreen(){
+  S.votes={};
+  for(var i=0;i<S.playerNames.length;i++) S.votes[S.playerNames[i]]=0;
+  renderVoteList();
+  document.getElementById('result-btn').disabled=true;
+}
+function renderVoteList(){
+  var html='';
+  for(var i=0;i<S.playerNames.length;i++){
+    var name=S.playerNames[i],cnt=S.votes[name]||0;
+    html+='<div class="vote-item'+(cnt>0?' voted':'')+'" data-vname="'+esc(name)+'" onclick="onVoteTap(this)">'+
+      '<div class="vote-name">👤 '+esc(name)+'</div>'+
+      '<div class="vote-count">'+(cnt>0?cnt:'')+'</div></div>';
+  }
+  document.getElementById('vote-list').innerHTML=html;
+  var total=0; for(var k in S.votes) if(S.votes.hasOwnProperty(k)) total+=S.votes[k];
+  document.getElementById('result-btn').disabled=(total===0);
+}
+function onVoteTap(el){
+  var name=el.getAttribute('data-vname');
+  if(!name||!(name in S.votes)) return;
+  S.votes[name]=S.votes[name]>0?0:1;
+  renderVoteList();
+}
+function resetVotes(){
+  for(var i=0;i<S.playerNames.length;i++) S.votes[S.playerNames[i]]=0;
+  renderVoteList();
+}
+
+/* ════════════════════════
+   PROCESS VOTE
+════════════════════════ */
+function processVoteResult(){
+  var maxV=0;
+  for(var n in S.votes) if(S.votes.hasOwnProperty(n)&&S.votes[n]>maxV) maxV=S.votes[n];
+  S.mostVoted=[];
+  for(var m in S.votes) if(S.votes.hasOwnProperty(m)&&S.votes[m]===maxV&&maxV>0) S.mostVoted.push(m);
+  var wolves=[];
+  for(var i=0;i<S.playerNames.length;i++) if(S.roles[i]==='wolf') wolves.push(S.playerNames[i]);
+  S.wolfCaught=false;
+  for(var j=0;j<S.mostVoted.length;j++) if(wolves.indexOf(S.mostVoted[j])>=0){S.wolfCaught=true;break;}
+  if(S.reversalEnabled&&S.wolfCaught) showReversalScreen();
+  else showResult(false);
+}
+
+/* ════════════════════════
+   REVERSAL
+════════════════════════ */
+function showReversalScreen(){
+  var wolves=[],caught=[];
+  for(var i=0;i<S.playerNames.length;i++) if(S.roles[i]==='wolf') wolves.push(S.playerNames[i]);
+  for(var j=0;j<S.mostVoted.length;j++) if(wolves.indexOf(S.mostVoted[j])>=0) caught.push(S.mostVoted[j]);
+  document.getElementById('reversal-wolf-word').textContent=S.wolfWord;
+  document.getElementById('reversal-wolf-names').textContent='🐺 追放：'+caught.join('、');
+  showScreen('reversal-screen');
+}
+function judgeReversal(correct){ showResult(correct); }
+
+/* ════════════════════════
+   RESULT
+════════════════════════ */
+function showResult(reversalWin){
+  var wolves=[];
+  for(var i=0;i<S.playerNames.length;i++) if(S.roles[i]==='wolf') wolves.push(S.playerNames[i]);
+  var emoji=document.getElementById('result-emoji');
+  var title=document.getElementById('result-title');
+  var desc =document.getElementById('result-desc');
+  if(reversalWin){
+    emoji.textContent='🌀'; title.textContent='大逆転！ウルフの勝利！'; playSuccessFx(); fireConfetti(52);
+    title.className='result-title reversal-wins';
+    desc.textContent='ウルフが市民のお題を見事に当てて大逆転！\n「'+wolves.join('、')+'」の勝利！';
+  } else if(S.wolfCaught){
+    emoji.textContent='🎉'; title.textContent='市民の勝利！'; playSuccessFx(); fireConfetti(48);
+    title.className='result-title citizen-wins';
+    desc.textContent='ウルフを見つけ出しました！\n「'+S.mostVoted.join('、')+'」が追放されました。'+
+      (S.reversalEnabled?'\nウルフは正解できませんでした...':'');
+  } else {
+    emoji.textContent='🐺'; title.textContent='ウルフの勝利...'; playFailFx();
+    title.className='result-title wolf-wins';
+    desc.textContent='ウルフは生き残りました！\nうまく市民に紛れ込んでいました。';
+  }
+
+  document.getElementById('r-citizen').textContent=S.citizenWord;
+  document.getElementById('r-wolf-word').textContent=S.wolfWord;
+
+  /* プレイヤー別お題一覧 */
+  var listEl=document.getElementById('player-result-list');
+  var html='';
+  for(var j=0;j<S.playerNames.length;j++){
+    var name=S.playerNames[j];
+    var isWolf=(S.roles[j]==='wolf');
+    var word=isWolf?S.wolfWord:S.citizenWord;
+    var wasVoted=(S.mostVoted.indexOf(name)>=0);
+
+    var rowClass='player-result-row '+(isWolf?'is-wolf':'is-citizen');
+    var icon=isWolf?'🐺':'😊';
+    var wordClass=isWolf?'wolf-word':'citizen-word';
+
+    /* バッジ */
+    var badges='';
+    if(isWolf) badges+='<div class="pr-tag tag-wolf">ウルフ</div>';
+    if(wasVoted) badges+='<div class="pr-tag tag-voted">追放票あり</div>';
+
+    html+=
+      '<div class="'+rowClass+'">'+
+        '<div class="pr-icon">'+icon+'</div>'+
+        '<div class="pr-info">'+
+          '<div class="pr-name">'+esc(name)+'</div>'+
+          '<div class="pr-word '+wordClass+'">'+esc(word)+'</div>'+
+        '</div>'+
+        '<div class="pr-badges"'+(badges?'':' aria-hidden=\"true\"')+'>'+badges+'</div>'+
+      '</div>';
+  }
+  listEl.innerHTML=html;
+
+  showScreen('result-screen');
+}
+function playAgain(){showSetup();}
+
+/* ════════════════════════
+   中止
+════════════════════════ */
+function openAbort(){
+  document.getElementById('abort-overlay').classList.remove('hidden');
+}
+function closeAbort(){
+  document.getElementById('abort-overlay').classList.add('hidden');
+}
+function doAbort(){
+  clearInterval(S.timerHandle);
+  releaseWakeLock();
+  document.getElementById('abort-overlay').classList.add('hidden');
+  document.getElementById('word-overlay').classList.add('hidden');
+  showScreen('title-screen');
+}
+
+/* オーバーレイ内の中止ボタン（確認ダイアログを経由） */
+function abortFromOverlay(){
+  document.getElementById('word-overlay').classList.add('hidden');
+  openAbort();
+}
+
+/* オーバーレイ内の再抽選ボタン */
+function redealFromOverlay(){
+  document.getElementById('word-overlay').classList.add('hidden');
+  redealGame();
+}
+
+/* ════════════════════════
+   再抽選（やったことある）
+   同じお題が連続しないよう除外して選ぶ
+════════════════════════ */
+function redealGame(){
+  var pairs=S.wordPairs.length>0?S.wordPairs:BUILTIN_PAIRS;
+  var candidates=[];
+  for(var i=0;i<pairs.length;i++){
+    var p=pairs[i];
+    if(p[0]!==S.citizenWord&&p[1]!==S.citizenWord&&
+       p[0]!==S.wolfWord  &&p[1]!==S.wolfWord){
+      candidates.push(p);
+    }
+  }
+  if(candidates.length===0) candidates=pairs;
+  var pair=candidates[Math.floor(Math.random()*candidates.length)];
+  if(Math.random()<0.5){S.citizenWord=pair[0];S.wolfWord=pair[1];}
+  else{S.citizenWord=pair[1];S.wolfWord=pair[0];}
+  S.dealIdx=0;
+  setupDealScreen();
+}
+
+/* ════════════════════════
+   Wake Lock（スリープ防止）
+   タイマー開始時に取得、終了・中止時に解放
+════════════════════════ */
+var wakeLock=null;
+
+function requestWakeLock(){
+  if(!('wakeLock' in navigator)) return;
+  navigator.wakeLock.request('screen').then(function(lock){
+    wakeLock=lock;
+    lock.addEventListener('release',function(){ wakeLock=null; });
+  }).catch(function(){});
+}
+
+function releaseWakeLock(){
+  if(wakeLock){ wakeLock.release().catch(function(){}); wakeLock=null; }
+}
+
+/* ページが再表示されたとき（バックグラウンドから復帰）に再取得 */
+document.addEventListener('visibilitychange',function(){
+  if(document.visibilityState==='visible'&&S.timerHandle&&!S.paused){
+    requestWakeLock();
+  }
+});
+
+/* ════════════════════════
+   INIT — トグルの見た目をStateに同期
+════════════════════════ */
+(function init(){
+  /* 画面回転ロック（縦固定） */
+  if(screen.orientation&&screen.orientation.lock){
+    screen.orientation.lock('portrait').catch(function(){});
+  }
+
+  document.getElementById('sw-reversal').classList.toggle('on',S.reversalEnabled);
+  document.getElementById('toggle-reversal').classList.toggle('on',S.reversalEnabled);
+  document.getElementById('sw-hint').classList.toggle('on',S.hintEnabled);
+  document.getElementById('toggle-hint').classList.toggle('on',S.hintEnabled);
+  tryLoadJSON();
+  renderPlayerInputs();
+  document.addEventListener('click',function(e){ if(e.target&&e.target.tagName==='BUTTON') playTapFx(); });
+})();
+</script>
+
+</body>
+</html>

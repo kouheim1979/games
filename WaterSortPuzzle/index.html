@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#1f1940">
+<meta name="description" content="ガラス瓶の色水を揃える、静かなパズル。20ステージ、デイリーチャレンジ、記録と中断再開。広告・外部通信なし。">
+<title>Water Sort Puzzle</title>
+<style>
+:root{
+  --bg0:#070b20;--bg1:#111b46;--bg2:#28134d;
+  --panel:rgba(10,15,43,.72);--panelStrong:rgba(13,19,54,.91);
+  --line:rgba(180,205,255,.16);--lineStrong:rgba(205,224,255,.32);
+  --text:#f5f8ff;--sub:rgba(210,224,255,.62);--gold:#ffd45a;
+  --accent:#8c79ff;--accent2:#da65ff;--danger:#ff6b8b;--ok:#5df0ae;
+  --dur:300ms;--bw:58px;--bh:148px;--gap:11px;--safe:env(safe-area-inset-bottom,0px);
+}
+body[data-theme="Blue"]{--bg0:#041426;--bg1:#082f58;--bg2:#0d4958;--accent:#4fb5ff;--accent2:#6de4da}
+body[data-theme="Dark"]{--bg0:#05070d;--bg1:#101522;--bg2:#16111e;--accent:#8b92a8;--accent2:#bb86fc;--panel:rgba(5,8,15,.82);--panelStrong:rgba(5,8,15,.95)}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden;touch-action:manipulation}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Hiragino Sans","Yu Gothic",sans-serif;
+  color:var(--text);background:var(--bg0);user-select:none;-webkit-user-select:none;
+  -webkit-tap-highlight-color:transparent;
+}
+button{font:inherit}
+#scene{position:fixed;inset:0;overflow:hidden;pointer-events:none;background:linear-gradient(180deg,var(--bg0),var(--bg1) 56%,var(--bg2));background:
+  radial-gradient(ellipse 92% 68% at 18% -8%,color-mix(in srgb,var(--accent) 42%,transparent),transparent 62%),
+  radial-gradient(ellipse 85% 65% at 92% 105%,color-mix(in srgb,var(--accent2) 35%,transparent),transparent 62%),
+  linear-gradient(180deg,var(--bg0),var(--bg1) 56%,var(--bg2))}
+#scene::before,#scene::after{
+  content:"";position:absolute;border-radius:50%;filter:blur(34px);opacity:.34;
+  animation:aurora 13s ease-in-out infinite alternate
+}
+#scene::before{width:52vw;height:52vw;max-width:280px;max-height:280px;left:-12%;top:22%;background:var(--accent)}
+#scene::after{width:46vw;height:46vw;max-width:240px;max-height:240px;right:-10%;bottom:12%;background:var(--accent2);animation-delay:-6s}
+@keyframes aurora{to{transform:translate3d(26px,-22px,0) scale(1.14);opacity:.48}}
+#stars{position:fixed;inset:0;pointer-events:none;overflow:hidden}
+.star{position:absolute;width:var(--s);height:var(--s);border-radius:50%;background:#dceaff;box-shadow:0 0 8px rgba(190,220,255,.5);animation:twinkle var(--t) ease-in-out infinite;animation-delay:var(--d)}
+@keyframes twinkle{0%,100%{opacity:.08;transform:scale(.8)}50%{opacity:.72;transform:scale(1.18)}}
+
+#app{position:relative;z-index:2;width:100%;height:100vh;height:100dvh;max-width:520px;margin:0 auto;display:flex;flex-direction:column}
+#header{
+  flex:none;display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:center;
+  padding:calc(10px + env(safe-area-inset-top,0px)) 12px 9px;border-bottom:1px solid var(--line);
+  background:var(--panel);background:linear-gradient(180deg,color-mix(in srgb,var(--panelStrong) 94%,transparent),var(--panel));
+  backdrop-filter:blur(24px) saturate(1.2);-webkit-backdrop-filter:blur(24px) saturate(1.2);
+  box-shadow:0 12px 32px rgba(0,0,0,.15)
+}
+.stageBlock{min-width:0}
+#stageTitle{font-size:20px;line-height:1.05;font-weight:900;letter-spacing:-.02em}
+#difficulty{
+  display:inline-flex;margin-top:4px;padding:3px 8px;border-radius:999px;
+  font-size:8px;line-height:1;font-weight:900;letter-spacing:.18em;border:1px solid transparent
+}
+#difficulty.easy{color:#77f5a7;background:rgba(30,210,110,.10);border-color:rgba(70,240,145,.18)}
+#difficulty.normal{color:#7ec5ff;background:rgba(70,150,255,.10);border-color:rgba(100,180,255,.18)}
+#difficulty.hard{color:#ffc078;background:rgba(255,150,60,.10);border-color:rgba(255,170,80,.18)}
+#difficulty.expert{color:#f49cff;background:rgba(230,90,255,.10);border-color:rgba(235,120,255,.18)}
+#coinPill{
+  display:flex;align-items:center;gap:6px;height:38px;padding:0 12px;border-radius:15px;
+  color:var(--gold);font-weight:900;background:linear-gradient(180deg,rgba(255,205,80,.12),rgba(255,175,40,.06));
+  border:1px solid rgba(255,205,90,.28);box-shadow:inset 0 1px rgba(255,255,255,.08)
+}
+.coinIcon{width:18px;height:18px;border-radius:50%;background:radial-gradient(circle at 36% 30%,#fff8c1,#ffd250 42%,#d99313 76%);box-shadow:inset 0 -2px 3px rgba(120,65,0,.35),0 0 10px rgba(255,205,70,.25)}
+#settingsBtn{
+  width:40px;height:40px;border-radius:14px;border:1px solid var(--lineStrong);
+  color:var(--text);font-size:18px;background:rgba(255,255,255,.065);cursor:pointer;
+  box-shadow:inset 0 1px rgba(255,255,255,.08),0 8px 20px rgba(0,0,0,.15);
+  transition:transform .16s ease,background .2s ease
+}
+#settingsBtn:active{transform:scale(.9) rotate(30deg);background:rgba(255,255,255,.13)}
+
+#game{
+  flex:1;min-height:0;overflow:auto;-webkit-overflow-scrolling:touch;
+  display:flex;align-items:flex-start;justify-content:center;padding:12px 8px 14px
+}
+#game.stage-enter{animation:stageEnter .42s cubic-bezier(.2,.8,.2,1) both}
+@keyframes stageEnter{from{opacity:0;transform:translateY(10px) scale(.98);filter:blur(3px)}to{opacity:1;transform:none;filter:none}}
+#grid{
+  width:100%;display:grid;grid-template-columns:repeat(var(--cols,3),var(--bw));
+  justify-content:center;align-items:end;gap:var(--gap);padding:8px 4px 2px;margin:auto 0
+}
+#grid.compact{--bh:136px;--bw:54px;--gap:9px}
+#grid.dense{--bh:124px;--bw:50px;--gap:8px}
+
+.bottle{
+  position:relative;width:var(--bw);height:calc(var(--bh) + 22px);border:0;background:transparent;
+  display:flex;flex-direction:column;align-items:center;justify-content:flex-end;color:inherit;cursor:pointer;
+  transform-origin:50% 78%;transition:transform var(--dur) cubic-bezier(.2,.8,.2,1),filter var(--dur) ease;
+  filter:drop-shadow(0 12px 12px rgba(0,0,0,.28))
+}
+.bottle::before{
+  content:"";position:absolute;z-index:-1;left:50%;bottom:4px;width:72%;height:10px;transform:translateX(-50%);
+  border-radius:50%;background:rgba(0,0,0,.24);filter:blur(6px);transition:all var(--dur)
+}
+.bottle.selected{transform:translateY(-14px) scale(1.055);filter:drop-shadow(0 18px 17px rgba(0,0,0,.30)) drop-shadow(0 0 18px rgba(205,220,255,.18))}
+.bottle.selected::before{width:88%;opacity:.58}
+.bottle.done{filter:drop-shadow(0 12px 12px rgba(0,0,0,.26)) drop-shadow(0 0 12px var(--glow))}
+.bottle.hint-from,.bottle.hint-to{animation:hintPulse .68s ease-in-out infinite alternate}
+.bottle.hint-from::after,.bottle.hint-to::after{
+  position:absolute;top:-4px;z-index:12;padding:3px 5px;border-radius:7px;font-size:7px;font-weight:1000;letter-spacing:.08em;
+  background:rgba(255,232,80,.94);color:#362a00;box-shadow:0 4px 14px rgba(255,220,50,.25)
+}
+.bottle.hint-from::after{content:"FROM"}.bottle.hint-to::after{content:"TO"}
+@keyframes hintPulse{to{transform:translateY(-9px) scale(1.06);filter:brightness(1.28) drop-shadow(0 0 18px rgba(255,230,70,.7))}}
+.bottle.shake{animation:shake .42s cubic-bezier(.36,.07,.19,.97)}
+@keyframes shake{0%,100%{transform:translateX(0)}18%{transform:translateX(-8px) rotate(-4deg)}36%{transform:translateX(8px) rotate(4deg)}54%{transform:translateX(-6px) rotate(-3deg)}72%{transform:translateX(5px) rotate(2deg)}86%{transform:translateX(-2px)}}
+.bottle.pouring{
+  z-index:30;animation:pourTravel var(--dur) cubic-bezier(.25,.72,.2,1) both;
+  filter:drop-shadow(0 18px 20px rgba(0,0,0,.42))
+}
+@keyframes pourTravel{
+  0%{transform:translate(0,0) rotate(0) scale(1)}
+  20%{transform:translate(0,-12px) rotate(0) scale(1.03)}
+  52%{transform:translate(var(--px),var(--py)) rotate(var(--tilt)) scale(1.04)}
+  76%{transform:translate(var(--px),var(--py)) rotate(var(--tilt)) scale(1.04)}
+  100%{transform:translate(0,0) rotate(0) scale(1)}
+}
+.bottle.receiving .vessel{animation:receivePulse var(--dur) ease}
+@keyframes receivePulse{35%,72%{box-shadow:0 0 0 2px rgba(255,255,255,.25),0 0 28px rgba(135,180,255,.35),inset -8px 0 20px rgba(0,0,0,.2)}}
+.neck{
+  width:68%;height:13px;flex:none;position:relative;z-index:5;
+  border:2px solid rgba(220,235,255,.48);border-bottom:0;border-radius:8px 8px 0 0;
+  background:linear-gradient(90deg,rgba(255,255,255,.13),rgba(255,255,255,.03) 44%,rgba(255,255,255,.15));
+  box-shadow:inset 0 1px rgba(255,255,255,.2)
+}
+.neck::after{content:"";position:absolute;left:4px;right:4px;top:3px;height:2px;border-radius:3px;background:rgba(255,255,255,.22)}
+.vessel{
+  width:100%;height:var(--bh);position:relative;overflow:hidden;border-radius:4px 4px 18px 18px;
+  border:1.8px solid rgba(205,226,255,.34);border-top-color:rgba(205,226,255,.22);
+  background:linear-gradient(90deg,rgba(110,150,255,.07),rgba(255,255,255,.02) 45%,rgba(95,120,225,.06));
+  box-shadow:inset -8px 0 20px rgba(0,0,0,.22),inset 0 -12px 18px rgba(0,0,0,.18),inset 6px 0 12px rgba(255,255,255,.025);
+  transition:border-color var(--dur),box-shadow var(--dur)
+}
+.selected .vessel{border-color:rgba(238,246,255,.72);box-shadow:0 0 0 1px rgba(255,255,255,.16),0 0 22px rgba(180,210,255,.13),inset -8px 0 20px rgba(0,0,0,.22)}
+.levelLines{position:absolute;inset:0;z-index:1;pointer-events:none;background:repeating-linear-gradient(to top,transparent 0,transparent calc(25% - 1px),rgba(255,255,255,.045) calc(25% - 1px),rgba(255,255,255,.045) 25%)}
+.liquid{position:absolute;inset:4px 3px 3px;z-index:2;overflow:hidden;border-radius:2px 2px 14px 14px}
+.water{
+  position:absolute;left:0;right:0;bottom:calc(var(--i) * 25%);height:25%;
+  background:linear-gradient(180deg,var(--c1),var(--c2));
+  box-shadow:inset 0 7px 9px rgba(255,255,255,.15),inset 0 -8px 10px rgba(0,0,0,.13);
+  animation:waterSettle var(--dur) cubic-bezier(.2,.8,.2,1) both
+}
+.water+.water{border-bottom:1px solid rgba(0,0,0,.16)}
+.water.surface::before{
+  content:"";position:absolute;left:-4%;right:-4%;top:-3px;height:7px;border-radius:50%;
+  background:linear-gradient(180deg,rgba(255,255,255,.40),rgba(255,255,255,.05) 55%,rgba(0,0,0,.08));
+  opacity:.8;animation:surfaceWave 2.8s ease-in-out infinite alternate
+}
+@keyframes surfaceWave{to{transform:translateX(4%) scaleY(.72);opacity:.62}}
+@keyframes waterSettle{from{transform:translateY(8px);opacity:.35}to{transform:none;opacity:1}}
+.glass{
+  position:absolute;inset:0;z-index:6;pointer-events:none;border-radius:inherit;
+  background:linear-gradient(90deg,rgba(255,255,255,.30) 0%,rgba(255,255,255,.09) 10%,transparent 25%,transparent 68%,rgba(0,0,0,.16) 100%)
+}
+.glass::before{content:"";position:absolute;top:8px;left:7px;width:8px;height:66%;border-radius:99px;background:linear-gradient(rgba(255,255,255,.46),rgba(255,255,255,.06),transparent)}
+.glass::after{content:"";position:absolute;left:16%;right:16%;bottom:5px;height:7px;border-radius:50%;background:rgba(255,255,255,.06)}
+.bottleNum{position:absolute;bottom:-1px;font-size:8px;font-weight:800;color:rgba(205,220,255,.30)}
+
+.pour-stream{
+  position:fixed;z-index:100;width:5px;height:54px;border-radius:999px;pointer-events:none;
+  transform-origin:50% 0;background:linear-gradient(180deg,var(--stream1),var(--stream2));
+  box-shadow:0 0 8px var(--stream1);opacity:0;filter:saturate(1.15);
+  animation:stream var(--streamDur) ease-in-out both
+}
+@keyframes stream{0%,18%,92%,100%{opacity:0;transform:translateY(-4px) rotate(var(--sr)) scaleY(.35)}35%,75%{opacity:.92;transform:translateY(0) rotate(var(--sr)) scaleY(1)}}
+
+#footer{
+  flex:none;display:grid;grid-template-columns:repeat(4,1fr);gap:7px;
+  padding:9px 10px calc(9px + var(--safe));border-top:1px solid var(--line);
+  background:var(--panel);background:linear-gradient(0deg,color-mix(in srgb,var(--panelStrong) 96%,transparent),var(--panel));
+  backdrop-filter:blur(24px) saturate(1.2);-webkit-backdrop-filter:blur(24px) saturate(1.2)
+}
+.action{
+  position:relative;min-width:0;min-height:58px;border:1px solid rgba(215,228,255,.17);border-radius:18px;
+  color:var(--text);background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.035));
+  box-shadow:inset 0 1px rgba(255,255,255,.07),0 7px 18px rgba(0,0,0,.10);cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+  transition:transform .14s ease,background .18s ease,border-color .18s ease,opacity .18s ease
+}
+.action:active{transform:translateY(2px) scale(.94);background:rgba(255,255,255,.12)}
+.action:disabled{opacity:.28;pointer-events:none}
+.action .ico{font-size:20px;line-height:1}.action .lbl{font-size:9px;font-weight:800;color:var(--sub)}
+.action .cost{font-size:7px;font-weight:800;color:rgba(255,214,90,.7)}
+.action.special{border-color:rgba(170,135,255,.26);background:linear-gradient(180deg,rgba(142,112,255,.14),rgba(121,73,235,.07))}
+
+.modalBack{
+  position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;padding:18px;
+  background:rgba(2,4,12,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  opacity:1;transition:opacity .22s
+}
+.modalBack.hidden{display:none}
+.card{
+  width:min(350px,100%);max-height:100%;overflow:auto;border-radius:27px;padding:24px 20px;
+  background:linear-gradient(180deg,rgba(18,24,61,.97),rgba(7,11,32,.98));
+  border:1px solid rgba(190,210,255,.20);box-shadow:0 28px 80px rgba(0,0,0,.46),inset 0 1px rgba(255,255,255,.06);
+  animation:modalIn .34s cubic-bezier(.2,.9,.2,1.1) both
+}
+@keyframes modalIn{from{opacity:0;transform:translateY(18px) scale(.92)}to{opacity:1;transform:none}}
+.clearCard{text-align:center}.clearIcon{font-size:58px;animation:clearPop .65s cubic-bezier(.25,1.5,.4,1) .08s both}
+@keyframes clearPop{from{opacity:0;transform:scale(.3) rotate(-18deg)}to{opacity:1;transform:none}}
+.clearTitle{font-size:29px;font-weight:1000;letter-spacing:-.03em;margin:5px 0 7px;background:linear-gradient(120deg,#fff,#a9e5ff,#f1a8ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+#rewardText{font-size:18px;font-weight:900;color:var(--gold)}#totalText{margin:6px 0 20px;color:var(--sub);font-size:12px}
+.primary{
+  width:100%;padding:14px 16px;border:0;border-radius:15px;color:white;font-weight:900;font-size:15px;cursor:pointer;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));box-shadow:0 10px 28px rgba(140,121,255,.3);box-shadow:0 10px 28px color-mix(in srgb,var(--accent) 30%,transparent)
+}
+.settingsTitle{text-align:center;font-size:18px;font-weight:900;margin-bottom:13px}
+.settingRow{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.065)}
+.settingRow .label{font-size:12px;font-weight:700;color:var(--sub)}
+.toggle,.choice,.ghost{
+  border:1px solid rgba(255,255,255,.14);border-radius:10px;background:rgba(255,255,255,.055);color:var(--sub);
+  padding:6px 10px;font-size:10px;font-weight:800;cursor:pointer
+}
+.toggle.on,.choice.on{background:rgba(140,121,255,.32);border-color:var(--accent);background:color-mix(in srgb,var(--accent) 32%,transparent);border-color:color-mix(in srgb,var(--accent) 58%,transparent);color:#fff}
+.choiceGroup{display:flex;gap:4px}.settingsActions{display:grid;gap:7px;margin-top:16px}.ghost{padding:11px;width:100%;color:var(--text)}.ghost.danger{color:#ffacba;border-color:rgba(255,100,130,.26);background:rgba(255,70,100,.055)}
+
+#toast{
+  position:fixed;z-index:180;left:50%;bottom:calc(82px + var(--safe));transform:translateX(-50%) translateY(15px);
+  padding:9px 13px;border-radius:999px;background:rgba(6,9,24,.88);border:1px solid rgba(255,255,255,.11);
+  color:#fff;font-size:11px;font-weight:800;box-shadow:0 10px 28px rgba(0,0,0,.35);
+  opacity:0;pointer-events:none;transition:opacity .2s,transform .2s
+}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+#confetti{position:fixed;inset:0;z-index:250;overflow:hidden;pointer-events:none}
+.conf{position:absolute;top:-20px;width:var(--w);height:var(--h);border-radius:var(--r);background:var(--cc);animation:confetti var(--ct) linear forwards}
+@keyframes confetti{to{transform:translate3d(var(--drift),112vh,0) rotate(850deg);opacity:.15}}
+
+@media(max-width:350px){
+  :root{--bw:52px;--bh:132px;--gap:8px}
+  #grid.compact{--bw:49px;--bh:122px;--gap:7px}#grid.dense{--bw:46px;--bh:113px;--gap:6px}
+  #header{padding-left:9px;padding-right:9px;gap:7px}.action{min-height:54px}.action .ico{font-size:18px}
+}
+@media(min-width:560px){
+  #app{max-width:640px}#grid{--bw:64px;--bh:166px;--gap:15px}#grid.compact,#grid.dense{--bw:60px;--bh:154px;--gap:13px}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
+/* Atelier edition: the original glass, liquid and aurora effects are retained. */
+:root{--bw:64px;--bh:164px;--gap:18px;--text:#f5f3ff;--sub:#9fa9c6}
+button{touch-action:manipulation}button:focus-visible{outline:2px solid #d6c7ff;outline-offset:5px}
+.icon{width:22px;height:22px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.masthead{flex:none;display:flex;align-items:center;gap:10px;padding:calc(16px + env(safe-area-inset-top,0px)) 20px 13px}
+.brandmark{width:32px;height:40px;color:#c5b6ff;display:grid;place-items:center}.brandmark .icon{width:30px;height:36px}
+.wordmark{font-size:11px;letter-spacing:.3em;font-weight:750}.brandnote{font-size:9px;letter-spacing:.14em;color:var(--sub);margin-top:4px}
+.navIcon{margin-left:auto;width:44px;height:44px;display:grid;place-items:center;border:1px solid var(--line);border-radius:15px;color:#c8c7e2;background:rgba(255,255,255,.035);cursor:pointer}
+#header{background:transparent;border:0;box-shadow:none;padding:4px 20px 12px;backdrop-filter:none;-webkit-backdrop-filter:none}
+#stageTitle{font-size:29px;font-weight:700;letter-spacing:-.04em}#difficulty{font-size:9px;letter-spacing:.13em;padding:4px 8px;margin-top:7px}
+#coinPill{height:38px;font-size:13px;border-color:rgba(255,205,90,.2);background:rgba(255,200,90,.045)}#settingsBtn{width:44px;height:44px;background:rgba(255,255,255,.035);display:grid;place-items:center;border-color:var(--line)}
+#runBar{flex:none;margin:0 20px;padding:12px 0 13px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.runStats{display:flex;justify-content:space-between;gap:12px}.runStat{display:flex;align-items:center;gap:7px;color:#d4d5ea;font-size:13px;font-variant-numeric:tabular-nums}.runStat small{font-size:9px;color:var(--sub);letter-spacing:.07em}.runStat .icon{width:15px;height:15px;color:var(--sub)}
+.completionTrack{height:3px;background:rgba(255,255,255,.065);margin-top:12px;border-radius:8px;overflow:hidden}#completionFill{height:100%;width:0;background:linear-gradient(90deg,var(--accent),#b4e9ed);transition:width .4s}
+#game{padding:28px 10px 20px}#grid{gap:20px 18px;padding:14px 4px 8px}#grid.compact{--bw:60px;--bh:146px;--gap:14px}#grid.dense{--bw:54px;--bh:126px;--gap:12px}
+.bottleNum{bottom:-7px;font-size:10px;color:#8d98b9}.bottle{height:calc(var(--bh) + 27px)}.bottle.available .vessel{border-color:rgba(178,235,222,.8);box-shadow:0 0 18px rgba(124,224,197,.13)}
+.bottle.selected .neck{border-color:#e4dfff}.water .colorMark{display:none;position:absolute;inset:0;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:rgba(255,255,255,.94);text-shadow:0 1px 2px #111;pointer-events:none}
+body[data-labels="true"] .water .colorMark{display:flex}.bottle.done .bottleNum{color:#b5dacb}.bottle.done .bottleNum::after{content:' ✓';font-size:9px}
+#coachBar{flex:none;display:flex;align-items:center;gap:10px;margin:0 18px 7px;min-height:43px;border-radius:14px;padding:7px 10px;color:var(--sub);font-size:11px;line-height:1.6;background:rgba(255,255,255,.025)}
+#coachText{flex:1}#helpBtn{width:34px;height:34px;min-width:34px;border:0;border-radius:50%;background:rgba(255,255,255,.04);color:#b3bdd9;cursor:pointer}.helpIcon{font-size:13px;font-weight:700}
+#footer{padding:10px 16px calc(14px + var(--safe));gap:9px;background:rgba(6,10,29,.38);border-color:rgba(255,255,255,.065)}.action{min-height:69px;border-radius:18px;background:rgba(255,255,255,.025);box-shadow:inset 0 1px rgba(255,255,255,.03)}.action .lbl{font-size:10px;color:#c5c8db;font-weight:600}.action .cost{font-size:9px;min-height:12px}.action .ico{height:23px}.action.special{background:rgba(145,112,255,.07);border-color:rgba(164,145,225,.17)}
+#toast{max-width:calc(100% - 32px);width:max-content;border-radius:14px;white-space:normal;line-height:1.5;text-align:center;bottom:calc(139px + var(--safe))}
+.card{width:min(390px,100%);padding:26px 23px;background:linear-gradient(155deg,rgba(28,29,65,.99),rgba(10,14,34,.99));border-color:rgba(200,190,241,.19)}.modalBack{padding:20px}
+.eyebrow{font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:#b7afd3;margin-bottom:10px}.card h2{font-size:24px;font-weight:650;letter-spacing:-.04em}.card p{font-size:12px;line-height:1.8;color:var(--sub)}.cardHead{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:18px}.closeIcon{width:36px;height:36px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.03);color:var(--sub);cursor:pointer}
+.clearIcon{font-size:0;width:78px;height:78px;border-radius:50%;display:grid;place-items:center;margin:0 auto 20px;color:#c5b6ff;background:radial-gradient(circle,rgba(175,139,255,.18),rgba(175,139,255,.02));border:1px solid rgba(186,159,255,.18)}.clearIcon .icon{width:36px;height:43px}.clearTitle{font-size:29px;font-weight:650;margin-bottom:9px;background:none;color:#f4efff}.resultStars{font-size:27px;letter-spacing:8px;color:#f5cf73;margin:16px 0 9px}.resultDetails{display:flex;gap:8px;margin:16px 0}.resultDetails>div{flex:1;border:1px solid var(--line);border-radius:13px;padding:11px 4px}.resultDetails small{display:block;font-size:9px;color:var(--sub);margin-bottom:4px}.resultDetails strong{font-size:17px;font-weight:650;font-variant-numeric:tabular-nums}.resultNote{margin-bottom:18px;font-size:11px;color:var(--sub)}#rewardText{font-size:14px}#totalText{font-size:11px;margin-bottom:16px}.primary{font-size:13px;font-weight:650;padding:15px}.ghost{font-size:12px;min-height:43px;font-weight:500}.settingsTitle{font-size:22px;font-weight:650;text-align:left}.settingRow{min-height:56px}.settingRow .label{font-size:12px}.choice,.toggle{font-size:10px;padding:9px 10px;min-height:37px}.settingsActions{gap:8px}.subtle{font-size:9px!important;letter-spacing:.02em}.mutedLink{border:0;background:none;color:#b5bcd3;font-size:11px;padding:10px;cursor:pointer}
+.journeyCard{width:min(460px,100%)}.journeySummary{font-size:12px;color:var(--sub);margin-bottom:20px}.chapter{margin-top:21px}.chapterHead{display:flex;justify-content:space-between;margin-bottom:9px;font-size:10px;letter-spacing:.1em;color:var(--sub)}.stageTiles{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}.stageTile{min-height:65px;border:1px solid var(--line);border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;background:rgba(255,255,255,.035);color:var(--text);font-size:16px;cursor:pointer}.stageTile small{font-size:8px;color:#dfc07f;letter-spacing:1px}.stageTile.current{border-color:#a898d7;background:rgba(151,117,239,.16)}.stageTile:disabled{color:#69728e;background:rgba(255,255,255,.01);cursor:default}.modeActions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:23px}.modeActions button{text-align:left;padding:13px 11px;line-height:1.6}.modeActions strong{font-size:12px;display:block}.modeActions small{font-size:10px;color:var(--sub)}
+.lesson{display:flex;gap:13px;padding:15px 0;border-bottom:1px solid var(--line)}.lesson b{width:25px;height:25px;border-radius:50%;display:grid;place-items:center;background:rgba(148,115,255,.12);color:#cbbbe9;flex:none;font-size:11px}.lesson strong{display:block;font-size:13px;margin-bottom:4px;font-weight:650}.helpFoot{margin:18px 0}.dialogActions{display:grid;gap:8px;margin-top:20px}.screenReader{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+body[data-motion="false"] *,body[data-motion="false"] *::before,body[data-motion="false"] *::after{animation:none!important;transition:none!important}
+@media(max-width:350px){:root{--bw:58px;--bh:142px;--gap:14px}.masthead{padding-left:14px;padding-right:14px}#header{padding-left:14px;padding-right:14px}#stageTitle{font-size:25px}#grid{gap:16px 12px}#grid.compact{--bw:54px;--bh:128px}#grid.dense{--bw:48px;--bh:108px}#footer{padding-left:10px;padding-right:10px;gap:6px}.action{min-height:65px}.choice{padding:8px}#game{padding-top:20px}}
+@media(max-height:730px){.masthead{padding-top:calc(9px + env(safe-area-inset-top,0px));padding-bottom:5px}#header{padding-bottom:9px}#runBar{padding:9px 0}#grid{--bh:142px}#grid.compact{--bh:121px}#grid.dense{--bh:105px}#game{padding:19px 8px 12px}}
+@media(min-width:560px){#app{max-width:660px}.masthead{padding-top:27px}#grid{--bw:73px;--bh:185px;gap:24px}#grid.compact{--bw:65px;--bh:163px}#grid.dense{--bw:60px;--bh:144px}#footer{padding-bottom:23px}.action{min-height:76px}}
+@media(max-height:500px) and (min-width:560px){.masthead{position:absolute;right:74px;top:10px;padding:0;z-index:3}.masthead .brandmark,.masthead>div{display:none}.masthead .navIcon{margin:0}#header{padding-top:10px;padding-right:124px}#settingsBtn{position:absolute;right:20px;top:10px}#grid{--bh:140px}#grid.compact,#grid.dense{--bh:115px}#coachBar{display:none}.action{min-height:52px}}
+
+/* Refined edition: board auto-fits the viewport, calmer chrome, clearer states. */
+#grid{grid-template-columns:repeat(var(--cols,3),var(--bw));gap:var(--gy,20px) var(--gx,18px);padding:6px 0 0}
+#game{padding:16px 12px 10px;align-items:center}
+.bottle{height:calc(var(--bh) + 31px);padding-bottom:18px}
+.bottle::before{bottom:16px}
+.bottleNum{bottom:0;line-height:14px;min-width:18px;padding:0 5px;border-radius:99px;font-size:10px;font-weight:700;color:#7f8aab;font-variant-numeric:tabular-nums;transition:color .2s,background .2s}
+.bottle.selected .bottleNum{color:#fff;background:color-mix(in srgb,var(--accent) 55%,transparent)}
+.bottle.done .bottleNum{color:#9fe8c8}
+.bottle.available .bottleNum{color:#bff3e4}
+.liquid::after{content:"";position:absolute;inset:0;z-index:3;pointer-events:none;background:linear-gradient(90deg,rgba(0,0,0,.20),transparent 22%,rgba(255,255,255,.10) 42%,transparent 60%,rgba(0,0,0,.24))}
+.water{box-shadow:inset 0 5px 8px rgba(255,255,255,.12),inset 0 -6px 9px rgba(0,0,0,.12)}
+.water+.water{border-bottom:0}
+.water+.water::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:rgba(0,0,0,.14)}
+.bottle.done .vessel{border-color:rgba(190,240,220,.5)}
+.bottle.done .neck{border-color:rgba(190,240,220,.6);background:linear-gradient(180deg,var(--glow),transparent)}
+#stageTitle{font-size:27px}
+#runBar{padding:10px 0 11px;border-bottom:0}
+.completionTrack{height:4px;margin-top:10px;background:rgba(255,255,255,.08)}
+#completionFill{box-shadow:0 0 10px color-mix(in srgb,var(--accent) 60%,transparent)}
+#coachBar{background:transparent;border:1px solid var(--line);min-height:40px;padding:4px 6px 4px 14px}
+#helpBtn{width:32px;height:32px;min-width:32px}
+.action:not(:disabled):hover{background:rgba(255,255,255,.06);border-color:rgba(215,228,255,.26)}
+.action:disabled{opacity:.34}
+.action .ico{color:#d8d4f5}.action.special .ico{color:#cbbcff}
+.settingRow .label{display:flex;align-items:center;gap:10px;color:#cdd2e6}
+.settingRow .label .icon{width:18px;height:18px;color:var(--sub)}
+.toggle{position:relative;width:52px;min-height:30px;height:30px;padding:0;border-radius:99px;font-size:0;flex:none;background:rgba(255,255,255,.08);transition:background .2s,border-color .2s}
+.toggle::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#c6cbe0;box-shadow:0 2px 6px rgba(0,0,0,.3);transition:transform .2s cubic-bezier(.2,.8,.2,1),background .2s}
+.toggle.on::after{transform:translateX(22px);background:#fff}
+.choiceGroup{padding:3px;gap:2px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid var(--line)}
+.choice{border:0;background:transparent;min-height:32px;border-radius:9px}
+.choice.on{border:0}
+.chapterHead{align-items:baseline;gap:8px;letter-spacing:.06em}
+.chapterHead b{font-weight:600;color:#cfd3ea}.chapterHead .cnum{color:var(--accent2);font-variant-numeric:tabular-nums}.chapterHead .cmeta{margin-left:auto;font-size:9px;letter-spacing:.12em}
+.stageTile{position:relative;font-weight:600;transition:transform .15s,background .2s,border-color .2s}
+.stageTile:not(:disabled):active{transform:scale(.94)}
+.stageTile small{font-size:9px;letter-spacing:.08em;color:var(--sub)}
+.stageTile.cleared{border-color:rgba(245,207,115,.22);background:linear-gradient(180deg,rgba(245,207,115,.08),rgba(255,255,255,.02))}
+.stageTile.cleared small{color:#f5cf73;letter-spacing:1px}
+.stageTile.current small{color:#e3dbff}
+.stageTile.current{box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 22%,transparent)}
+.stageTile.locked{border-style:dashed;border-color:rgba(255,255,255,.07)}
+.stageTile .icon{width:16px;height:16px;color:#4f5873}
+@media(max-height:700px){
+  .masthead{padding-top:calc(8px + env(safe-area-inset-top,0px));padding-bottom:4px}.brandnote{display:none}.brandmark{width:24px;height:30px}.brandmark .icon{width:22px;height:28px}
+  #header{padding-bottom:6px}#stageTitle{font-size:23px}#difficulty{margin-top:5px}
+  #runBar{padding:7px 0}.completionTrack{margin-top:7px}
+  #coachBar{min-height:36px;margin-bottom:5px}#footer{padding-top:7px;padding-bottom:calc(8px + var(--safe))}.action{min-height:56px;gap:1px}.action .ico{height:20px}.action .ico .icon{width:19px;height:19px}
+  #game{padding-top:10px;padding-bottom:6px}
+}
+@media(max-height:600px){#coachBar{display:none}#toast{bottom:calc(90px + var(--safe))}}
+@media(max-height:500px) and (min-width:560px){.completionTrack{display:none}#runBar{padding:6px 0}#game{padding-top:6px}.action{min-height:50px;flex-direction:row;gap:7px}}
+
+/* Casual edition: deep purple argyle room, round glass bottles, chunky 3D buttons. */
+:root{--room:#2b2354;--roomDark:#1f1940;--shelf:#3a2f72;--cream:#fff3d6;--creamEdge:#e9c27a;--btnTop:#c58cff;--btnBot:#8a48e6;--btnEdge:#5b2aa6;--pillTop:#62ccff;--pillBot:#2b86e6}
+body[data-theme="Blue"]{--room:#1d2c5c;--roomDark:#131d40;--shelf:#2a3f80;--btnTop:#7cc4ff;--btnBot:#3f7fe6;--btnEdge:#24509e}
+body[data-theme="Dark"]{--room:#1c1c26;--roomDark:#111117;--shelf:#2a2a38;--btnTop:#9a8fb8;--btnBot:#5f557d;--btnEdge:#3a3350}
+body{font-family:"Hiragino Maru Gothic ProN","Arial Rounded MT Bold","Hiragino Sans","Yu Gothic",-apple-system,sans-serif;background:var(--roomDark)}
+#stars,.masthead{display:none}
+#scene{background:
+  radial-gradient(ellipse 120% 80% at 50% 45%,transparent 40%,rgba(0,0,0,.45)),
+  conic-gradient(from 45deg,rgba(255,255,255,.035) 25%,transparent 0 50%,rgba(255,255,255,.035) 0 75%,transparent 0) 0 0/72px 72px,
+  var(--room)}
+#scene::before,#scene::after{display:none}
+#header{display:grid;grid-template-columns:auto 1fr auto auto;gap:8px;align-items:center;padding:calc(12px + env(safe-area-inset-top,0px)) 14px 12px;
+  background:linear-gradient(180deg,var(--roomDark),color-mix(in srgb,var(--roomDark) 70%,var(--room)));border-bottom:5px solid var(--shelf);box-shadow:0 6px 14px rgba(0,0,0,.3)}
+#coinPill{position:relative;height:34px;padding:0 14px 0 34px;margin-left:12px;border-radius:99px;font-size:16px;font-weight:900;color:#5b3a10;
+  background:linear-gradient(180deg,#fffaf0,var(--cream) 55%,#f2d9a2);border:2px solid var(--creamEdge);box-shadow:0 3px 0 rgba(0,0,0,.25)}
+.coinIcon{position:absolute;left:-14px;top:50%;width:40px;height:40px;transform:translateY(-50%);display:grid;place-items:center;
+  background:radial-gradient(circle at 35% 30%,#fff3a0,#ffd43b 45%,#f0a000 80%);border:2px solid #fff1b0;box-shadow:0 3px 0 #b77400,0 4px 8px rgba(0,0,0,.3)}
+.coinIcon::after{content:"★";color:#fff7c9;font-size:20px;line-height:1;text-shadow:0 1px 0 #c98400}
+.stageBlock{justify-self:center;min-width:0;max-width:100%;text-align:center;padding:5px 18px 6px;border-radius:99px;
+  background:linear-gradient(180deg,#5a48a8,#3a2c7a);border:3px solid var(--creamEdge);box-shadow:inset 0 2px 0 rgba(255,255,255,.18),0 3px 0 rgba(0,0,0,.3)}
+#stageTitle{font-size:19px;font-weight:900;letter-spacing:0;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-shadow:0 2px 0 rgba(0,0,0,.35)}
+#difficulty{margin-top:2px;padding:0;border:0;background:none!important;font-size:8px;letter-spacing:.16em}
+#settingsBtn,#header .navIcon{width:44px;height:44px;margin:0;border-radius:50%;display:grid;place-items:center;color:#fff;
+  background:radial-gradient(circle at 40% 30%,var(--btnTop),var(--btnBot) 75%);border:3px solid var(--creamEdge);box-shadow:0 3px 0 var(--btnEdge),0 5px 10px rgba(0,0,0,.3)}
+#settingsBtn .icon,#header .navIcon .icon{width:22px;height:22px;stroke-width:2.3}
+#settingsBtn:active,#header .navIcon:active{transform:translateY(2px);box-shadow:0 1px 0 var(--btnEdge)}
+#runBar{margin:10px 16px 0;padding:0;border:0}
+.runStats{justify-content:center;gap:8px}
+.runStat{padding:5px 12px;border-radius:99px;background:rgba(0,0,0,.25);color:#fff;font-weight:700;font-size:13px}
+.runStat small{color:#c9bff0}.runStat .icon{color:#c9bff0}
+.completionTrack{height:6px;margin:8px auto 0;max-width:260px;border-radius:99px;background:rgba(0,0,0,.3);box-shadow:inset 0 1px 2px rgba(0,0,0,.4)}
+#completionFill{background:linear-gradient(90deg,#ffd43b,#ffb000);box-shadow:none;border-radius:99px}
+/* Round glass bottles */
+.bottle{filter:drop-shadow(0 8px 8px rgba(0,0,0,.35))}
+.bottle::before{display:none}
+.neck{width:58%;height:14px;margin-bottom:-5px;border:2px solid rgba(150,215,255,.75);border-radius:9px;
+  background:linear-gradient(180deg,rgba(210,240,255,.45),rgba(90,140,210,.3) 60%,rgba(40,70,140,.4));box-shadow:inset 0 2px 0 rgba(255,255,255,.4),0 2px 3px rgba(0,0,0,.3)}
+.neck::after{display:none}
+.vessel{--r:calc(var(--bw)*.3);border-radius:calc(var(--bw)*.44) calc(var(--bw)*.44) var(--r) var(--r);
+  border:2px solid rgba(120,210,255,.6);background:linear-gradient(90deg,rgba(255,255,255,.08),rgba(30,40,90,.25) 40%,rgba(10,15,40,.35));
+  box-shadow:0 0 8px rgba(90,200,255,.25),inset 0 0 0 1px rgba(255,255,255,.06)}
+.levelLines{display:none}
+.liquid{inset:calc(var(--bw)*.3) 2px 2px;overflow:visible;border-radius:0;clip-path:inset(-40px 0 0 0 round 0 0 calc(var(--r) - 3px) calc(var(--r) - 3px))}
+.liquid::after{background:linear-gradient(90deg,rgba(0,0,0,.16),transparent 20%,rgba(255,255,255,.12) 38%,transparent 55%,rgba(0,0,0,.2))}
+.water{background:color-mix(in srgb,var(--c1) 55%,var(--c2));box-shadow:none;--eh:calc(var(--bw)*.26)}
+.water+.water::after{display:none}
+.water.surface::before{left:0;right:0;top:calc(var(--eh) / -2);height:var(--eh);border-radius:50%;opacity:1;animation:none;
+  background:color-mix(in srgb,var(--c1) 80%,#fff);box-shadow:inset 0 -2px 3px rgba(0,0,0,.12)}
+.glass{border-radius:inherit;background:linear-gradient(90deg,rgba(255,255,255,.22),transparent 18%,transparent 78%,rgba(255,255,255,.08))}
+.glass::before{top:calc(var(--bw)*.22);left:16%;width:7%;min-width:4px;height:58%;background:linear-gradient(rgba(255,255,255,.55),rgba(255,255,255,.12) 70%,transparent)}
+.glass::after{display:none}
+.bottle.selected .vessel{border-color:#fff;box-shadow:0 0 14px rgba(150,230,255,.6)}
+.bottle.selected .neck{border-color:#fff}
+.bottle.available .vessel{border-color:#7ff0d0;box-shadow:0 0 14px rgba(110,240,200,.45)}
+.bottle.done .vessel{border-color:color-mix(in srgb,var(--glow) 70%,#fff);box-shadow:0 0 16px var(--glow)}
+.bottle.done .neck{background:linear-gradient(180deg,#e7c28a,#a8743e);border-color:#f3d9a4}
+.bottleNum{color:rgba(220,210,255,.45);font-weight:800}
+.bottle.selected .bottleNum{background:var(--btnBot)}
+#coachBar{margin:0 16px 8px;min-height:36px;border:0;border-radius:99px;background:rgba(0,0,0,.25);color:#e6defc;font-weight:700}
+#helpBtn{background:linear-gradient(180deg,var(--pillTop),var(--pillBot));color:#fff;border:2px solid #cdeeff}
+/* Chunky footer buttons */
+#footer{gap:8px;padding:12px 14px calc(12px + var(--safe));border-top:4px solid color-mix(in srgb,var(--shelf) 70%,#fff 10%);
+  background:linear-gradient(180deg,var(--shelf),color-mix(in srgb,var(--shelf) 75%,#000))}
+.action,.action.special{min-height:auto;padding:0;gap:0;border:0;border-radius:0;background:none;box-shadow:none;justify-content:flex-start}
+.action:not(:disabled):hover{background:none}
+.action .ico{width:60px;height:56px;border-radius:17px;display:grid;place-items:center;color:#fff;
+  background:linear-gradient(180deg,var(--btnTop),var(--btnBot));border:2px solid rgba(255,255,255,.35);
+  box-shadow:0 5px 0 var(--btnEdge),inset 0 3px 0 rgba(255,255,255,.35),0 9px 12px rgba(0,0,0,.3);transition:transform .1s,box-shadow .1s}
+.action.special .ico{color:#fff}
+.action .ico .icon{width:30px;height:30px;stroke-width:2.6;filter:drop-shadow(0 2px 0 rgba(60,20,120,.5))}
+.action:active{transform:none;background:none}
+.action:active .ico{transform:translateY(4px);box-shadow:0 1px 0 var(--btnEdge),inset 0 3px 0 rgba(255,255,255,.35)}
+.action .lbl{position:relative;z-index:1;margin-top:-6px;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:900;color:#fff;white-space:nowrap;
+  background:linear-gradient(180deg,var(--pillTop),var(--pillBot));border:2px solid #cdeeff;text-shadow:0 1px 0 rgba(0,40,100,.5)}
+.action .cost{position:absolute;top:-6px;right:calc(50% - 40px);min-height:0;padding:1px 6px;border-radius:99px;font-size:9px;font-weight:900;color:#5b3a10;
+  background:linear-gradient(180deg,#fff3a0,#ffc928);border:1.5px solid #fff;box-shadow:0 2px 0 rgba(0,0,0,.25)}
+#undoBtn .cost,#restartBtn .cost{display:none}
+.action:disabled{opacity:.45;filter:grayscale(.6)}
+/* Playful cards */
+.modalBack{background:rgba(15,10,35,.72)}
+.card{background:linear-gradient(180deg,#4d3c96,#2d2262);border:3px solid var(--creamEdge);box-shadow:0 8px 0 rgba(0,0,0,.25),0 28px 60px rgba(0,0,0,.5)}
+.card h2,.clearTitle{color:#fff;font-weight:900;text-shadow:0 2px 0 rgba(0,0,0,.3)}
+.eyebrow{color:#f3d9a4}
+.primary{border-radius:18px;font-size:15px;font-weight:900;color:#fff;text-shadow:0 2px 0 rgba(0,80,20,.45);
+  background:linear-gradient(180deg,#86ea6e,#3fb34a);border:2px solid rgba(255,255,255,.4);box-shadow:0 5px 0 #2a7d33,0 10px 18px rgba(0,0,0,.3)}
+.primary:active{transform:translateY(4px);box-shadow:0 1px 0 #2a7d33}
+.ghost{border-radius:14px;background:rgba(0,0,0,.2);border-color:rgba(255,255,255,.15)}
+.clearIcon{color:#ffd43b;background:radial-gradient(circle,rgba(255,212,59,.25),rgba(255,212,59,.03));border-color:rgba(255,212,59,.4)}
+.resultStars{color:#ffd43b;text-shadow:0 2px 0 #b77400}
+.resultDetails>div{background:rgba(0,0,0,.2);border-color:rgba(255,255,255,.1)}
+.stageTile{border-radius:16px;font-weight:900}
+.stageTile:not(:disabled){background:linear-gradient(180deg,var(--btnTop),var(--btnBot));border:2px solid rgba(255,255,255,.3);box-shadow:0 4px 0 var(--btnEdge);color:#fff}
+.stageTile.cleared{background:linear-gradient(180deg,#ffe27a,#f0a800);border-color:#fff3c0;box-shadow:0 4px 0 #a86f00;color:#5b3a10}
+.stageTile.cleared small{color:#7a4a00}.stageTile:not(:disabled) small{color:#fff}
+.stageTile.current{box-shadow:0 4px 0 var(--btnEdge),0 0 0 3px #fff}
+.toggle.on,.choice.on{background:linear-gradient(180deg,var(--pillTop),var(--pillBot));border-color:#cdeeff}
+@media(max-width:350px){#header{gap:6px;padding-left:10px;padding-right:10px}#coinPill{font-size:14px;padding-right:10px}.stageBlock{padding:4px 10px 5px}#stageTitle{font-size:16px}.action .ico{width:52px;height:50px}.action .lbl{font-size:10px;padding:2px 7px}}
+@media(max-height:700px){#header{padding-top:calc(8px + env(safe-area-inset-top,0px));padding-bottom:8px}#runBar{margin-top:7px}.runStat{padding:3px 10px}.completionTrack{margin-top:6px}#footer{padding-top:10px}.action .ico{height:48px;width:54px}.action .ico .icon{width:26px;height:26px}}
+@media(max-height:500px) and (min-width:560px){#header{padding:8px 20px 8px}#settingsBtn{position:static}.completionTrack{display:none}#runBar{margin-top:5px}.action{flex-direction:column;gap:0}.action .ico{height:42px;width:52px}.action .ico .icon{width:24px;height:24px}#footer{padding-top:8px;padding-bottom:8px}}
+</style>
+</head>
+<body data-theme="Purple">
+<div id="scene"></div><div id="stars"></div>
+<div id="app">
+  <div class="masthead"><span class="brandmark" data-icon="drop" aria-hidden="true"></span><div><div class="wordmark">WATER SORT</div><div class="brandnote">A QUIET COLOR RITUAL</div></div></div>
+  <header id="header">
+    <div id="coinPill"><span class="coinIcon"></span><span id="coinValue">100</span></div>
+    <div class="stageBlock"><div id="stageTitle">Stage 1</div><div id="difficulty" class="easy">EASY</div></div>
+    <button id="journeyBtn" class="navIcon" aria-label="ステージ一覧" data-icon="grid"></button>
+    <button id="settingsBtn" aria-label="設定" data-icon="settings"></button>
+  </header>
+  <section id="runBar" aria-label="プレイ記録"><div class="runStats"><div class="runStat"><span data-icon="steps" aria-hidden="true"></span><span id="moveValue">0</span><small>手</small></div><div class="runStat"><span data-icon="clock" aria-hidden="true"></span><span id="timeValue">0:00</span></div><div class="runStat"><small>BEST</small><span id="bestValue">—</span></div></div><div class="completionTrack"><div id="completionFill"></div></div></section>
+  <main id="game" aria-label="色水のパズル盤面"><div id="grid"></div></main>
+  <div id="coachBar"><span id="coachText">移したいビン → 移し先をタップ</span><button id="helpBtn" aria-label="遊び方"><span class="helpIcon">?</span></button></div>
+  <footer id="footer">
+    <button id="undoBtn" class="action" aria-label="一手戻す"><span class="ico" data-icon="undo"></span><span class="lbl">戻す</span><span class="cost">無料</span></button>
+    <button id="restartBtn" class="action" aria-label="ステージをやり直す"><span class="ico" data-icon="restart"></span><span class="lbl">やり直す</span><span class="cost">最初から</span></button>
+    <button id="hintBtn" class="action special" aria-label="ヒント（10 コイン）"><span class="ico" data-icon="hint"></span><span class="lbl">ヒント</span><span class="cost">10 コイン</span></button>
+    <button id="extraBtn" class="action special" aria-label="空ビン追加（20 コイン）"><span class="ico" data-icon="bottle"></span><span class="lbl">空ビン追加</span><span class="cost">20 コイン</span></button>
+  </footer>
+</div>
+<div id="toast" role="status" aria-live="polite"></div><div id="confetti" aria-hidden="true"></div>
+<div id="clearModal" class="modalBack hidden" role="dialog" aria-modal="true" aria-labelledby="clearHeading">
+  <div class="card clearCard">
+    <div class="clearIcon" data-icon="drop" aria-hidden="true"></div><div class="eyebrow">A LITTLE MOMENT OF CLARITY</div><h2 id="clearHeading" class="clearTitle">すべて、きれいに。</h2>
+    <div id="resultStars" class="resultStars" aria-label="星の評価">★☆☆</div><div class="resultDetails"><div><small>手数</small><strong id="resultMoves">0</strong></div><div><small>時間</small><strong id="resultTime">0:00</strong></div><div><small>手数の目安</small><strong id="resultPar">—</strong></div></div><div id="resultNote" class="resultNote"></div>
+    <div id="rewardText">+20 コイン</div><div id="totalText">合計: 120 🪙</div>
+    <button id="nextBtn" class="primary">次のステージへ →</button><button id="clearJourneyBtn" class="mutedLink">ステージ一覧を見る</button>
+  </div>
+</div>
+<div id="settingsModal" class="modalBack hidden" role="dialog" aria-modal="true" aria-labelledby="settingsHeading">
+  <div class="card">
+    <div class="eyebrow">MAKE IT YOURS</div><h2 id="settingsHeading" class="settingsTitle">自分のペースで。</h2>
+    <div class="settingRow"><span class="label"><span data-icon="sound" aria-hidden="true"></span>サウンド</span><button id="soundBtn" class="toggle on">ON</button></div>
+    <div class="settingRow"><span class="label"><span data-icon="vibrate" aria-hidden="true"></span>バイブ</span><button id="vibBtn" class="toggle on">ON</button></div>
+    <div class="settingRow"><span class="label"><span data-icon="palette" aria-hidden="true"></span>テーマ</span><div id="themeGroup" class="choiceGroup"><button class="choice" data-v="Purple">Purple</button><button class="choice" data-v="Blue">Blue</button><button class="choice" data-v="Dark">Dark</button></div></div>
+    <div class="settingRow"><span class="label"><span data-icon="speed" aria-hidden="true"></span>速度</span><div id="speedGroup" class="choiceGroup"><button class="choice" data-v="Slow">Slow</button><button class="choice" data-v="Normal">Normal</button><button class="choice" data-v="Fast">Fast</button></div></div>
+    <div class="settingRow"><span class="label"><span data-icon="tag" aria-hidden="true"></span>色の識別記号</span><button id="labelsBtn" class="toggle">OFF</button></div><div class="settingRow"><span class="label"><span data-icon="motion" aria-hidden="true"></span>アニメーション</span><button id="motionBtn" class="toggle on">ON</button></div>
+    <div class="settingsActions"><button id="randomBtn" class="ghost">ランダム練習 · 報酬なし</button><button id="settingsHelpBtn" class="ghost">遊び方と星の条件</button><button id="resetBtn" class="ghost danger">保存データを初期化</button><button id="closeSettingsBtn" class="ghost">閉じる</button></div><p id="saveStatus" class="subtle" style="margin-top:14px;text-align:center">端末内に自動保存 · 外部通信なし</p>
+  </div>
+</div>
+<div id="journeyModal" class="modalBack hidden" role="dialog" aria-modal="true" aria-labelledby="journeyHeading"><div class="card journeyCard"><div class="cardHead"><div><div class="eyebrow">YOUR COLOR JOURNEY</div><h2 id="journeyHeading">色をめぐる旅。</h2></div><button id="closeJourneyBtn" class="closeIcon" aria-label="ステージ一覧を閉じる" data-icon="close"></button></div><div id="journeySummary" class="journeySummary"></div><div id="stageList"></div><div class="modeActions"><button id="dailyBtn" class="ghost"><strong>今日のパズル</strong><small id="dailyLabel">毎日ひとつ、新しい色。</small></button><button id="practiceBtn" class="ghost"><strong>ランダム練習</strong><small>今の難易度で。報酬なし。</small></button></div><p class="subtle" style="margin-top:15px">クリア済みの面は何度でも。コイン報酬は初回のみ。</p></div></div>
+<div id="helpModal" class="modalBack hidden" role="dialog" aria-modal="true" aria-labelledby="helpHeading"><div class="card"><div class="eyebrow">TAKE A BREATH. FIND YOUR FLOW.</div><h2 id="helpHeading">揃えるだけ。奥は深い。</h2><div class="lesson"><b>1</b><div><strong>移したいビン → 移し先</strong><p>一番上の、連続した同じ色が移動します。</p></div></div><div class="lesson"><b>2</b><div><strong>空ビンか、同じ色の上へ</strong><p>4段まで入ります。移せるビンは淡く光ります。</p></div></div><div class="lesson"><b>3</b><div><strong>すべての色をひとつずつ</strong><p>「同じ色で4段」か「空」に揃えばクリア。</p></div></div><p class="helpFoot">★ クリア　★★ ヒント・追加ビンなし<br>★★★ さらに手数の目安以内。目安は最短手数ではありません。<br>戻す：購入も返金。やり直す：購入の返金なし。</p><button id="closeHelpBtn" class="primary">さあ、ひと息。</button></div></div>
+<div id="confirmModal" class="modalBack hidden" role="dialog" aria-modal="true" aria-labelledby="confirmHeading"><div class="card"><div class="eyebrow">A FRESH START</div><h2 id="confirmHeading"></h2><p id="confirmText" style="margin-top:14px"></p><div class="dialogActions"><button id="confirmYesBtn" class="primary">やり直す</button><button id="confirmNoBtn" class="ghost">このまま続ける</button></div></div></div>
+<script>
+(()=>{'use strict';
+
+const K=Object.freeze({
+  CAP:4,INITIAL_COINS:100,CLEAR_REWARD:20,CAMPAIGN_BONUS:100,HINT_COST:10,EXTRA_COST:20,MAX_EXTRA:3,
+  SAVE_VERSION:4,SAVE_KEY:'watersort_game_v3',SETTINGS_KEY:'watersort_settings_v3',
+  SPEED:Object.freeze({Slow:480,Normal:300,Fast:150}),
+  COLORS:Object.freeze(['red','blue','green','yellow','orange','cyan','purple','pink','gray','brown']),
+  STYLE:Object.freeze({
+    red:['#ff565f','#bf1425','#ff686f'],blue:['#4678ff','#1642c8','#6692ff'],green:['#43e977','#0a963b','#62f195'],
+    yellow:['#ffe962','#caa817','#fff07d'],orange:['#ff9a3c','#d95a13','#ffb15e'],cyan:['#42dfeb','#079cae','#63edf6'],
+    purple:['#b56cff','#7624d1','#cc8aff'],pink:['#ff69a8','#c51f69','#ff87bc'],gray:['#a7b4ca','#637089','#c0cbdc'],brown:['#bb855a','#76482a','#d39b72']
+  }),
+  DIFF:Object.freeze({
+    easy:Object.freeze({colors:4,empty:2,target:18,minMixed:3}),
+    normal:Object.freeze({colors:6,empty:2,target:28,minMixed:5}),
+    hard:Object.freeze({colors:8,empty:2,target:38,minMixed:6}),
+    expert:Object.freeze({colors:10,empty:3,target:50,minMixed:8})
+  })
+});
+const FIXED_SEEDS=Object.freeze([42,137,256,512,1337,2048,3141,6283,9999,12345,54321,99999,11111,22222,33333,44444,55555,66666,77777,88888]);
+const copy=value=>JSON.parse(JSON.stringify(value));
+const ICONS=Object.freeze({drop:'<path d="M12 2C9 6 4 11 4 16a8 8 0 0 0 16 0c0-5-5-10-8-14Z"/><path d="M8 16a4 4 0 0 0 4 4"/>',grid:'<rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/>',settings:'<path d="m9 3-1 3-3 1-2 3 2 2-1 3 2 3 3-1 2 3h3l1-3 3-1 2-3-2-2 1-3-2-3-3 1-2-3Z"/><circle cx="12" cy="12" r="3"/>',steps:'<path d="M4 17h4v-5h5V7h7M17 4l3 3-3 3"/>',clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',undo:'<path d="m8 4-5 5 5 5M3 9h10a7 7 0 0 1 0 14"/>',restart:'<path d="M3 10a9 9 0 1 1 1 8M3 4v6h6"/>',hint:'<path d="M9 18h6M9 21h6M8 15a7 7 0 1 1 8 0l-1 3H9Z"/>',bottle:'<path d="M9 2h6v4l3 4v10a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V10l3-4ZM6 13h12M12 15v5M10 17h4"/>',close:'<path d="m6 6 12 12M18 6 6 18"/>',sound:'<path d="M4 10v6h4l5 4V6L8 10Z"/><path d="M17 9a5 5 0 0 1 0 8M19.5 6.5a8.5 8.5 0 0 1 0 13"/>',vibrate:'<rect x="8" y="3" width="8" height="20" rx="2"/><path d="M4 9v8M20 9v8"/>',palette:'<path d="M12 3a10 10 0 0 0 0 20c1.5 0 2-1 2-2 0-2 1-3 3-3h2a3 3 0 0 0 3-3c0-7-5-12-10-12Z"/><circle cx="7.5" cy="12" r="1.2"/><circle cx="10" cy="7.5" r="1.2"/><circle cx="15" cy="7.5" r="1.2"/>',speed:'<path d="M13 2 4 15h7l-1 9 9-13h-7Z"/>',tag:'<path d="M3 4v8l10 10 9-9L12 3H4Z"/><circle cx="8" cy="8.5" r="1.5"/>',motion:'<path d="M3 13c3-6 6-6 9 0s6 6 9 0"/>',lock:'<rect x="5" y="11" width="14" height="11" rx="2.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>'});
+const icon=name=>`<svg class="icon" viewBox="0 0 24 26" aria-hidden="true">${ICONS[name]||ICONS.drop}</svg>`;
+const timeText=seconds=>`${Math.floor(seconds/60)}:${String(seconds%60).padStart(2,'0')}`;
+
+class RNG{
+  constructor(seed){this.s=seed>>>0}
+  next(){let s=(this.s+0x6D2B79F5)|0;this.s=s;s=Math.imul(s^(s>>>15),1|s);s=s+Math.imul(s^(s>>>7),61|s)^s;return((s^(s>>>14))>>>0)/4294967296}
+  int(n){return Math.floor(this.next()*n)}
+}
+
+class Bottle{
+  constructor(segments=[]){this._s=Array.isArray(segments)?[...segments]:[]}
+  get segments(){return[...this._s]} get length(){return this._s.length} get empty(){return this._s.length===0}
+  get full(){return this._s.length>=K.CAP} get free(){return K.CAP-this._s.length} get top(){return this.empty?null:this._s[this._s.length-1]}
+  get run(){if(this.empty)return 0;let n=0,t=this.top;for(let i=this._s.length-1;i>=0&&this._s[i]===t;i--)n++;return n}
+  get complete(){return this.empty||(this._s.length===K.CAP&&this._s.every(c=>c===this._s[0]))}
+  canPourTo(target){return target instanceof Bottle&&!this.empty&&!target.full&&(target.empty||target.top===this.top)}
+  take(n){return this._s.splice(this._s.length-n,n)} give(a){this._s.push(...a)} clone(){return new Bottle(this._s)} toJSON(){return[...this._s]}
+}
+
+class StorageManager{
+  load(){try{const raw=localStorage.getItem(K.SAVE_KEY)||localStorage.getItem('watersort_game_v2');return raw?JSON.parse(raw):null}catch(e){console.warn('Save load failed',e);return null}}
+  save(state){try{localStorage.setItem(K.SAVE_KEY,JSON.stringify(state.toJSON()));return true}catch(e){console.warn('Save failed',e);return false}}
+  loadSettings(){try{const raw=localStorage.getItem(K.SETTINGS_KEY)||localStorage.getItem('watersort_settings_v2');return raw?JSON.parse(raw):null}catch{return null}}
+  saveSettings(s){try{localStorage.setItem(K.SETTINGS_KEY,JSON.stringify(s))}catch(e){console.warn('Settings save failed',e)}}
+  clearAll(){try{[K.SAVE_KEY,K.SETTINGS_KEY,'watersort_game_v2','watersort_settings_v2'].forEach(k=>localStorage.removeItem(k))}catch(e){console.warn('Clear failed',e)}}
+}
+
+class SettingsManager{
+  constructor(storage){this.storage=storage;this.defaults={sound:true,vibration:true,theme:'Purple',speed:'Normal',labels:false,motion:!window.matchMedia?.('(prefers-reduced-motion: reduce)').matches,helpSeen:false};this.values=this.#validated(storage.loadSettings());this.apply()}
+  #validated(v){const x={...this.defaults,...(v&&typeof v==='object'&&!Array.isArray(v)?v:{})};if(!['Purple','Blue','Dark'].includes(x.theme))x.theme='Purple';if(!Object.prototype.hasOwnProperty.call(K.SPEED,x.speed))x.speed='Normal';for(const k of ['sound','vibration','labels','motion','helpSeen'])if(typeof x[k]!=='boolean')x[k]=this.defaults[k];return x}
+  set(k,v){if(!Object.prototype.hasOwnProperty.call(this.defaults,k))return;this.values[k]=v;this.values=this.#validated(this.values);this.storage.saveSettings(this.values);this.apply()}
+  reset(){this.values={...this.defaults};this.storage.saveSettings(this.values);this.apply()}
+  apply(){document.body.dataset.theme=this.values.theme;document.body.dataset.labels=String(this.values.labels);document.body.dataset.motion=String(this.values.motion);document.documentElement.style.setProperty('--dur',`${K.SPEED[this.values.speed]}ms`)}
+  get ms(){return K.SPEED[this.values.speed]||300}
+}
+
+class SoundManager{
+  constructor(settings){this.settings=settings;this.ctx=null}
+  #init(){if(this.ctx)return;try{const A=window.AudioContext||window.webkitAudioContext;if(A)this.ctx=new A()}catch{}}
+  #tone(freq,d=.09,type='sine',volume=.09,delay=0){if(!this.ctx)return;try{const now=this.ctx.currentTime+delay,o=this.ctx.createOscillator(),g=this.ctx.createGain();o.type=type;o.frequency.setValueAtTime(freq,now);g.gain.setValueAtTime(volume,now);g.gain.exponentialRampToValueAtTime(.001,now+d);o.connect(g);g.connect(this.ctx.destination);o.start(now);o.stop(now+d)}catch{}}
+  play(type){if(!this.settings.values.sound)return;this.#init();if(!this.ctx)return;try{if(this.ctx.state==='suspended')this.ctx.resume().catch(()=>{})}catch{}
+    if(type==='select')this.#tone(610,.07,'sine',.07);
+    else if(type==='pour'){this.#tone(390,.11,'triangle',.10);this.#tone(510,.11,'triangle',.07,.065)}
+    else if(type==='fail')this.#tone(155,.16,'square',.06);
+    else if(type==='coin'){this.#tone(820,.07,'sine',.09);this.#tone(1080,.10,'sine',.07,.055)}
+    else if(type==='clear')[523,659,784,1047].forEach((f,i)=>this.#tone(f,.33,'sine',.10,i*.09));
+  }
+  vibrate(pattern){if(this.settings.values.vibration&&navigator.vibrate)try{navigator.vibrate(pattern)}catch{}}
+}
+
+class StageManager{
+  static today(date=new Date()){return`${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`}
+  daily(date=StageManager.today()){const seed=Number(date.replace(/-/g,''))+71833,stage=StageManager.buildRandom('normal',seed);if(!stage)throw new Error('Daily stage generation failed');return{...stage,level:6,mode:'daily',dailyDate:date}}
+  static difficulty(level){if(level<=5)return'easy';if(level<=10)return'normal';if(level<=15)return'hard';if(level<=20)return'expert';return['easy','normal','hard','expert'][Math.floor((level-21)/5)%4]}
+  static label(d){return({easy:'EASY',normal:'NORMAL',hard:'HARD',expert:'EXPERT'})[d]||'EASY'}
+  static config(d){return K.DIFF[d]||K.DIFF.easy}
+  static key(b){return b.map(x=>x.join('.')).join('|')}
+  static run(x){if(!x.length)return 0;let n=0,t=x[x.length-1];for(let i=x.length-1;i>=0&&x[i]===t;i--)n++;return n}
+  static solved(b){return b.every(x=>!x.length||(x.length===K.CAP&&x.every(c=>c===x[0])))}
+  static mixed(b){return b.filter(x=>new Set(x).size>1).length}
+  static canMove(b,f,t){return f!==t&&b[f]?.length>0&&b[t]?.length<K.CAP&&(!b[t].length||b[t][b[t].length-1]===b[f][b[f].length-1])}
+  static moveArray(b,f,t){if(!this.canMove(b,f,t))return 0;const n=Math.min(this.run(b[f]),K.CAP-b[t].length);b[t].push(...b[f].splice(b[f].length-n,n));return n}
+  static validate(stage){
+    try{
+      if(!stage||!Object.prototype.hasOwnProperty.call(K.DIFF,stage.difficulty))return{ok:false,reason:'difficulty'};
+      const d=stage.difficulty,cfg=this.config(d),b=stage.bottles;
+      if(!Array.isArray(b)||b.length!==cfg.colors+cfg.empty)return{ok:false,reason:'bottle count'};
+      if(b.filter(x=>Array.isArray(x)&&x.length===0).length!==cfg.empty)return{ok:false,reason:'empty count'};
+      const allowed=K.COLORS.slice(0,cfg.colors),counts=Object.fromEntries(allowed.map(c=>[c,0]));
+      for(const x of b){if(!Array.isArray(x)||x.length>K.CAP)return{ok:false,reason:'capacity'};for(const c of x){if(!allowed.includes(c))return{ok:false,reason:'color'};counts[c]++}}
+      if(allowed.some(c=>counts[c]!==K.CAP))return{ok:false,reason:'color count'};
+      if(this.solved(b))return{ok:false,reason:'already solved'};
+      if(!Array.isArray(stage.solution)||!stage.solution.length)return{ok:false,reason:'solution missing'};
+      const cur=b.map(x=>[...x]);let steps=0,solvedAt=0;for(const m of stage.solution){if(!m||!Number.isInteger(m.from)||!Number.isInteger(m.to)||!Number.isInteger(m.count)||!this.canMove(cur,m.from,m.to))return{ok:false,reason:'solution illegal'};const n=this.moveArray(cur,m.from,m.to);if(n!==m.count)return{ok:false,reason:'solution count'};steps++;if(!solvedAt&&this.solved(cur))solvedAt=steps}if(!this.solved(cur))return{ok:false,reason:'solution incomplete'};
+      return{ok:true,solvedAt}
+    }catch(e){return{ok:false,reason:String(e)}}
+  }
+  static validateAllFixedStages(){let ok=true;FIXED_SEEDS.forEach((seed,i)=>{const level=i+1,d=this.difficulty(level),stage=this.buildRandom(d,seed),v=stage?this.validate(stage):{ok:false,reason:'generation failed'};if(!v.ok){ok=false;console.error('Invalid fixed stage:',level,v.reason)}});if(ok)console.info('All fixed stages validated successfully.');return ok}
+  static buildRandom(diff,seed){
+    const cfg=this.config(diff),master=new RNG(seed);let best=null;
+    for(let trial=0;trial<36;trial++){
+      const rng=new RNG((seed+master.int(0x7fffffff)+trial*3571)>>>0);
+      let b=K.COLORS.slice(0,cfg.colors).map(c=>Array(K.CAP).fill(c));for(let i=0;i<cfg.empty;i++)b.push([]);
+      const steps=[],seen=new Set([this.key(b)]);let prev=null;const max=cfg.target*2+18;
+      for(let s=0;s<max;s++){
+        const opts=[];
+        for(let fi=0;fi<b.length;fi++){
+          const src=b[fi];if(!src.length)continue;const color=src[src.length-1],run=this.run(src);
+          for(let ti=0;ti<b.length;ti++){
+            const dst=b[ti];if(fi===ti||dst.length>=K.CAP)continue;if(dst.length&&dst[dst.length-1]===color)continue;
+            const mm=Math.min(run,K.CAP-dst.length);
+            for(let count=1;count<=mm;count++){
+              const remain=src.slice(0,-count);if(remain.length&&remain[remain.length-1]!==color)continue;
+              if(prev&&prev.fi===ti&&prev.ti===fi&&prev.count===count)continue;
+              const nb=b.map(x=>[...x]);nb[ti].push(...nb[fi].splice(nb[fi].length-count,count));const key=this.key(nb);if(seen.has(key))continue;
+              const score=this.mixed(nb)*3+(dst.length?5:0)+rng.next()*7;opts.push({fi,ti,count,nb,key,score});
+            }
+          }
+        }
+        if(!opts.length)break;opts.sort((a,z)=>z.score-a.score);const pick=opts[rng.int(Math.min(5,opts.length))];b=pick.nb;seen.add(pick.key);steps.push({fi:pick.fi,ti:pick.ti,count:pick.count});prev=pick;
+        if(b.filter(x=>!x.length).length===cfg.empty&&!this.solved(b)&&this.mixed(b)>=cfg.minMixed){
+          const solution=[...steps].reverse().map(m=>({from:m.ti,to:m.fi,count:m.count}));const candidate={difficulty:diff,bottles:b.map(x=>[...x]),solution};
+          const v=this.validate(candidate);if(v.ok){candidate.solution=solution.slice(0,v.solvedAt);const spread=K.COLORS.slice(0,cfg.colors).reduce((n,c)=>n+b.filter(x=>x.includes(c)).length,0),score=this.mixed(b)*20+spread*2+Math.min(steps.length,cfg.target);if(!best||score>best.score)best={...candidate,score}}
+        }
+      }
+    }
+    return best
+  }
+  load(level){
+    const diff=StageManager.difficulty(level);
+    if(level>=1&&level<=20){
+      const stage=StageManager.buildRandom(diff,FIXED_SEEDS[level-1]);
+      if(!stage||!StageManager.validate(stage).ok)throw new Error(`Fixed stage ${level} generation failed`);
+      return{...stage,level}
+    }
+    const seed=((Date.now()&0x7fffffff)^(level*7919))>>>0;
+    for(let a=0;a<8;a++){const stage=StageManager.buildRandom(diff,(seed+a*9973)>>>0);if(stage&&StageManager.validate(stage).ok)return{...stage,level}}
+    const baseSeed=FIXED_SEEDS[({easy:0,normal:5,hard:10,expert:15})[diff]??0],fallback=StageManager.buildRandom(diff,baseSeed);
+    if(!fallback)throw new Error('Fallback stage generation failed');
+    return{...fallback,level}
+  }
+  random(diff){
+    const seed=(Date.now()^(Math.random()*0x7fffffff))>>>0;
+    for(let a=0;a<10;a++){const stage=StageManager.buildRandom(diff,(seed+a*13337)>>>0);if(stage&&StageManager.validate(stage).ok)return stage}
+    const baseSeed=FIXED_SEEDS[({easy:0,normal:5,hard:10,expert:15})[diff]??0];
+    return StageManager.buildRandom(diff,baseSeed)
+  }
+}
+
+class GameState{
+  constructor(stage,options={}){
+    this.level=stage.level||1;this.difficulty=stage.difficulty||StageManager.difficulty(this.level);
+    this.coins=Number.isInteger(options.coins)?options.coins:K.INITIAL_COINS;
+    this.bottles=(stage.bottles||[]).map(x=>new Bottle(x));this.initialBottles=(stage.initialBottles||stage.bottles||[]).map(x=>new Bottle(x));
+    this.mode=stage.mode||options.mode||'campaign';this.dailyDate=stage.dailyDate||options.dailyDate||'';this.solution=copy(stage.solution||[]);
+    this.extraCount=options.extraCount||0;this.history=copy(options.history||[]);this.selected=null;this.stageCleared=Boolean(options.stageCleared);
+    this.completedStages=new Set(Array.isArray(options.completedStages)?options.completedStages:[]);this.campaignBonusClaimed=Boolean(options.campaignBonusClaimed);this.lastMove=options.lastMove?{...options.lastMove}:null;
+    this.moves=options.moves||0;this.elapsedSec=options.elapsedSec||0;this.hintsUsed=options.hintsUsed||0;this.extraUsed=options.extraUsed||0;this.records=copy(options.records||{});this.dailyCompleted=new Set(options.dailyCompleted||[])
+  }
+  get recordKey(){return this.mode==='campaign'?`c:${this.level}`:this.mode==='daily'?`d:${this.dailyDate}`:null}
+  get par(){return this.solution.length||StageManager.config(this.difficulty).target}
+  get stars(){return this.hintsUsed||this.extraUsed?1:this.moves<=this.par?3:2}
+  snapshot(){return{bottles:this.bottles.map(b=>b.toJSON()),coins:this.coins,extraCount:this.extraCount,stageCleared:this.stageCleared,completedStages:[...this.completedStages],campaignBonusClaimed:this.campaignBonusClaimed,lastMove:this.lastMove?{...this.lastMove}:null,moves:this.moves,hintsUsed:this.hintsUsed,extraUsed:this.extraUsed,records:copy(this.records),dailyCompleted:[...this.dailyCompleted]}}
+  pushHistory(){this.history.push(this.snapshot());if(this.history.length>150)this.history.shift()}
+  restore(s){this.bottles=s.bottles.map(x=>new Bottle(x));this.coins=s.coins;this.extraCount=s.extraCount;this.stageCleared=Boolean(s.stageCleared);this.completedStages=new Set(s.completedStages);this.campaignBonusClaimed=s.campaignBonusClaimed;this.lastMove=s.lastMove?{...s.lastMove}:null;this.moves=s.moves||0;this.hintsUsed=s.hintsUsed||0;this.extraUsed=s.extraUsed||0;this.records=copy(s.records||{});this.dailyCompleted=new Set(s.dailyCompleted||[]);this.selected=null}
+  undo(){const s=this.history.pop();if(!s)return false;this.restore(s);return true}
+  restart(){this.bottles=this.initialBottles.map(b=>b.clone());this.extraCount=0;this.history=[];this.selected=null;this.stageCleared=false;this.lastMove=null;this.moves=0;this.elapsedSec=0;this.hintsUsed=0;this.extraUsed=0}
+  canMove(f,t){return f!==t&&this.bottles[f]&&this.bottles[t]&&this.bottles[f].canPourTo(this.bottles[t])}
+  move(f,t){if(!this.canMove(f,t))return false;this.pushHistory();const source=this.bottles[f],target=this.bottles[t],n=Math.min(source.run,target.free);target.give(source.take(n));this.selected=null;this.lastMove={from:f,to:t};this.moves++;return true}
+  addExtra(){if(this.extraCount>=K.MAX_EXTRA)return{ok:false,msg:'追加ビンは最大3本です'};if(this.coins<K.EXTRA_COST)return{ok:false,msg:'コインが足りません'};this.pushHistory();this.coins-=K.EXTRA_COST;this.bottles.push(new Bottle());this.extraCount++;this.extraUsed++;this.selected=null;return{ok:true}}
+  useHint(){if(this.coins<K.HINT_COST)return false;this.pushHistory();this.coins-=K.HINT_COST;this.hintsUsed++;this.selected=null;return true}
+  get clear(){return this.bottles.length>0&&this.bottles.every(b=>b.complete)}
+  claimClear(){
+    if(!this.clear||this.stageCleared)return null;
+    this.stageCleared=true;let reward=0;
+    if(this.mode==='campaign'&&!this.completedStages.has(this.level)){
+      this.completedStages.add(this.level);reward=K.CLEAR_REWARD;
+      if(this.level===20&&!this.campaignBonusClaimed){this.campaignBonusClaimed=true;reward+=K.CAMPAIGN_BONUS}
+    }
+    if(this.mode==='daily'&&!this.dailyCompleted.has(this.dailyDate)){this.dailyCompleted.add(this.dailyDate);reward=K.CLEAR_REWARD}
+    const key=this.recordKey;if(key){const prior=this.records[key];this.records[key]={stars:Math.max(prior?.stars||0,this.stars),moves:Math.min(prior?.moves??Infinity,this.moves),seconds:Math.min(prior?.seconds??Infinity,this.elapsedSec),clears:(prior?.clears||0)+1}}
+    this.coins+=reward;return reward
+  }
+  toJSON(){return{version:K.SAVE_VERSION,level:this.level,difficulty:this.difficulty,coins:this.coins,bottles:this.bottles.map(b=>b.toJSON()),initialBottles:this.initialBottles.map(b=>b.toJSON()),solution:copy(this.solution),extraCount:this.extraCount,completedStages:[...this.completedStages],campaignBonusClaimed:this.campaignBonusClaimed,stageCleared:this.stageCleared,mode:this.mode,dailyDate:this.dailyDate,moves:this.moves,elapsedSec:this.elapsedSec,hintsUsed:this.hintsUsed,extraUsed:this.extraUsed,records:copy(this.records),dailyCompleted:[...this.dailyCompleted],history:copy(this.history),lastMove:this.lastMove?{...this.lastMove}:null}}
+  static fromSaved(d){
+    if(!d||![2,3,K.SAVE_VERSION].includes(d.version)||!Number.isSafeInteger(d.level)||d.level<1||d.level>1000000||!Number.isSafeInteger(d.coins)||d.coins<0||!Array.isArray(d.bottles))throw new Error('invalid save');
+    const legacy=d.version===2,initial=legacy?d.initial:d.initialBottles;if(!Array.isArray(initial))throw new Error('invalid initial board');
+    const diff=['easy','normal','hard','expert'].includes(d.difficulty)?d.difficulty:StageManager.difficulty(d.level),cfg=StageManager.config(diff),allowed=K.COLORS.slice(0,cfg.colors);
+    if(diff!==StageManager.difficulty(d.level)||(d.difficulty!==undefined&&d.difficulty!==diff))throw new Error('invalid difficulty');
+    let mode=d.mode||'campaign';if(!['campaign','daily','practice'].includes(mode))throw new Error('invalid mode');
+    if(mode==='daily'&&(d.level!==6||!/^\d{4}-\d{2}-\d{2}$/.test(d.dailyDate||'')))throw new Error('invalid daily stage');
+    const extra=d.extraCount===undefined?d.bottles.length-cfg.colors-cfg.empty:d.extraCount;
+    if(!Number.isInteger(extra)||extra<0||extra>K.MAX_EXTRA)throw new Error('invalid extra bottle count');
+    const validBoard=(a,count)=>{
+      if(!Array.isArray(a)||a.length!==count)return false;
+      const counts=Object.fromEntries(allowed.map(c=>[c,0]));
+      for(const bottle of a){if(!Array.isArray(bottle)||bottle.length>K.CAP)return false;for(const color of bottle){if(!allowed.includes(color))return false;counts[color]++}}
+      return allowed.every(c=>counts[c]===K.CAP)
+    };
+    if(!validBoard(d.bottles,cfg.colors+cfg.empty+extra)||!validBoard(initial,cfg.colors+cfg.empty)||initial.filter(x=>!x.length).length!==cfg.empty||StageManager.solved(initial))throw new Error('invalid board');
+    const completed=legacy?Array.from({length:Math.max(0,d.level-1)},(_,i)=>i+1):(Array.isArray(d.completedStages)?d.completedStages:[]);
+    if(completed.length>10000||completed.some(n=>!Number.isSafeInteger(n)||n<1||n>1000000))throw new Error('invalid completed stages');
+    if(!legacy&&d.stageCleared!==undefined&&typeof d.stageCleared!=='boolean')throw new Error('invalid clear flag');
+    if(d.campaignBonusClaimed!==undefined&&typeof d.campaignBonusClaimed!=='boolean')throw new Error('invalid bonus flag');
+    const stageCleared=legacy?Boolean(d.rewardGranted):Boolean(d.stageCleared);
+    if(stageCleared&&!StageManager.solved(d.bottles))throw new Error('invalid cleared board');
+    if(stageCleared&&mode==='campaign'&&!completed.includes(d.level))completed.push(d.level);
+    const campaignBonusClaimed=Boolean(d.campaignBonusClaimed)||completed.includes(20);
+    const metrics={};for(const k of ['moves','elapsedSec','hintsUsed','extraUsed']){const n=d[k]??0;if(!Number.isSafeInteger(n)||n<0||n>10000000)throw new Error('invalid metric');metrics[k]=n}
+    const records=d.records||{};if(typeof records!=='object'||Array.isArray(records)||Object.keys(records).length>10000)throw new Error('invalid records');
+    for(const [k,v] of Object.entries(records)){if(!/^(c:[1-9]\d{0,5}|d:\d{4}-\d{2}-\d{2})$/.test(k)||!v||![1,2,3].includes(v.stars)||!['moves','seconds','clears'].every(n=>Number.isSafeInteger(v[n])&&v[n]>=0&&v[n]<=10000000))throw new Error('invalid record')}
+    const dailyCompleted=d.dailyCompleted||[];if(!Array.isArray(dailyCompleted)||dailyCompleted.length>10000||dailyCompleted.some(x=>typeof x!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(x)))throw new Error('invalid daily history');
+    let solution=d.solution||[];
+    if(!Array.isArray(solution)||solution.length>500)throw new Error('invalid solution');
+    if(solution.length&&!StageManager.validate({difficulty:diff,bottles:initial,solution}).ok)throw new Error('invalid solution proof');
+    if(!solution.length&&d.level<=20&&mode==='campaign'){const fixed=new StageManager().load(d.level);if(StageManager.key(fixed.bottles)===StageManager.key(initial))solution=fixed.solution;else if(d.version<4)mode='practice'}
+    const state=new GameState({level:d.level,difficulty:diff,bottles:d.bottles,initialBottles:initial,solution,mode,dailyDate:d.dailyDate},{coins:d.coins,extraCount:extra,completedStages:completed,campaignBonusClaimed,stageCleared,records,dailyCompleted,...metrics});
+    if(d.lastMove!==undefined&&d.lastMove!==null){if(!Number.isInteger(d.lastMove.from)||!Number.isInteger(d.lastMove.to)||!state.bottles[d.lastMove.from]||!state.bottles[d.lastMove.to])throw new Error('invalid last move');state.lastMove={...d.lastMove}}
+    if(d.history!==undefined){if(!Array.isArray(d.history)||d.history.length>150)throw new Error('invalid Undo history');state.history=d.history.map(s=>{
+      if(!s||!validBoard(s.bottles,cfg.colors+cfg.empty+s.extraCount)||!Number.isInteger(s.extraCount)||s.extraCount<0||s.extraCount>K.MAX_EXTRA)throw new Error('invalid Undo board');
+      const entry=GameState.fromSaved({...state.toJSON(),...s,history:[],elapsedSec:state.elapsedSec,version:K.SAVE_VERSION});return entry.snapshot()
+    })}
+    return state;
+  }
+}
+
+class SolutionPlanner{
+  static canonical(b){return b.map(x=>x.join('.')).sort().join('|')}
+  static estimate(b){const colors=new Set(),blocks=b.reduce((sum,x)=>{let n=0;for(let i=0;i<x.length;i++){colors.add(x[i]);if(i===0||x[i]!==x[i-1])n++}return sum+n},0);return blocks-colors.size}
+  static proof(g){
+    if(!g.solution.length)return null;const b=g.initialBottles.map(x=>x.toJSON());for(let i=0;i<g.extraCount;i++)b.push([]);
+    const key=StageManager.key(g.bottles.map(x=>x.toJSON()));
+    for(let i=0;i<g.solution.length;i++){if(StageManager.key(b)===key)return g.solution.slice(i).map(x=>({...x}));const m=g.solution[i];if(StageManager.moveArray(b,m.from,m.to)!==m.count)return null}
+    return null
+  }
+  static moves(b){
+    const result=[];let empty=-1;for(let i=0;i<b.length;i++)if(!b[i].length){empty=i;break}
+    for(let from=0;from<b.length;from++){
+      const s=b[from];if(!s.length||(s.length===4&&s.every(c=>c===s[0])))continue;
+      for(let to=0;to<b.length;to++){
+        if(!StageManager.canMove(b,from,to))continue;const d=b[to];if(!d.length&&(to!==empty||StageManager.run(s)===s.length))continue;
+        result.push({from,to})
+      }
+    }return result
+  }
+  static async solve(board,{maxNodes=24000,maxMs=900,yieldEvery=350}={}){
+    const started=Date.now(),heap=[],best=new Map();let expanded=0,order=0;
+    const push=n=>{n.order=order++;heap.push(n);let i=heap.length-1;while(i){const p=(i-1)>>1;if(heap[p].score<n.score||(heap[p].score===n.score&&heap[p].order<n.order))break;heap[i]=heap[p];i=p}heap[i]=n};
+    const pop=()=>{const first=heap[0],last=heap.pop();if(heap.length){let i=0;while(i*2+1<heap.length){let child=i*2+1;if(child+1<heap.length&&(heap[child+1].score<heap[child].score))child++;if(last.score<=heap[child].score)break;heap[i]=heap[child];i=child}heap[i]=last}return first};
+    const root={board:board.map(x=>[...x]),parent:null,move:null,depth:0,score:0};push(root);best.set(this.canonical(root.board),0);
+    while(heap.length){
+      if(expanded>=maxNodes||Date.now()-started>maxMs)return{status:'limit',path:null,expanded};
+      const n=pop();if(n.depth>best.get(this.canonical(n.board)))continue;
+      if(StageManager.solved(n.board)){const path=[];for(let p=n;p.move;p=p.parent)path.push(p.move);return{status:'solved',path:path.reverse(),expanded}}
+      expanded++;
+      for(const m of this.moves(n.board)){
+        if(n.move&&n.move.from===m.to&&n.move.to===m.from)continue;
+        const next=n.board.map(x=>[...x]),count=StageManager.moveArray(next,m.from,m.to),key=this.canonical(next),depth=n.depth+1;
+        if((best.get(key)??Infinity)<=depth)continue;best.set(key,depth);
+        push({board:next,parent:n,move:{...m,count},depth,score:depth+this.estimate(next)*4})
+      }
+      if(best.size>maxNodes*4)return{status:'limit',path:null,expanded};
+      if(yieldEvery&&expanded%yieldEvery===0)await new Promise(resolve=>setTimeout(resolve,0));
+    }
+    return{status:'deadend',path:null,expanded}
+  }
+}
+
+class HintManager{
+  find(g){
+    let best=null,bestScore=-Infinity;const board=g.bottles.map(b=>b.toJSON()),visited=new Set(g.history.map(s=>StageManager.key(s.bottles)));
+    for(let f=0;f<g.bottles.length;f++){
+      const s=g.bottles[f];if(s.empty||(!s.empty&&s.complete))continue;
+      for(let t=0;t<g.bottles.length;t++){
+        if(f===t)continue;const d=g.bottles[t];if(!s.canPourTo(d))continue;
+        const n=Math.min(s.run,d.free);if(!n)continue;if(d.empty&&s.run===s.length)continue;
+        const next=board.map(b=>[...b]);StageManager.moveArray(next,f,t);if(visited.has(StageManager.key(next)))continue;
+        let score=0;if(d.length+n===K.CAP)score+=100;if(!d.empty)score+=35+n*4;if(s.length-n===0)score+=22;if(s.length>n&&s._s[s.length-n-1]!==s.top)score+=16;if(d.empty)score+=4;
+        if(g.lastMove&&g.lastMove.from===t&&g.lastMove.to===f)score-=80;
+        if(score>bestScore){bestScore=score;best={from:f,to:t}}
+      }
+    }return best
+  }
+}
+
+class AnimationManager{
+  constructor(settings){this.settings=settings}
+  wait(ms){return new Promise(r=>setTimeout(r,ms))}
+  async shake(el){if(!el)return;el.classList.remove('shake');void el.offsetWidth;el.classList.add('shake');await this.wait(430);el.classList.remove('shake')}
+  async pour(fromEl,toEl,color){
+    if(!this.settings.values.motion)return;
+    if(!fromEl||!toEl)return;const fr=fromEl.getBoundingClientRect(),tr=toEl.getBoundingClientRect(),dir=(tr.left+tr.width/2)>=(fr.left+fr.width/2)?1:-1;
+    const dx=(tr.left+tr.width/2)-(fr.left+fr.width/2)-dir*36,dy=(tr.top-fr.top)-18;
+    fromEl.style.setProperty('--px',`${dx}px`);fromEl.style.setProperty('--py',`${dy}px`);fromEl.style.setProperty('--tilt',`${dir*68}deg`);
+    fromEl.classList.add('pouring');toEl.classList.add('receiving');
+    const ms=this.settings.ms,streamDelay=Math.max(45,ms*.43);setTimeout(()=>this.stream(tr,color,dir,Math.max(120,ms*.45)),streamDelay);
+    await this.wait(ms+20);fromEl.classList.remove('pouring');toEl.classList.remove('receiving')
+  }
+  stream(targetRect,color,dir,duration){
+    const pair=K.STYLE[color]||['#fff','#aaa'];const e=document.createElement('div');e.className='pour-stream';
+    e.style.left=`${targetRect.left+targetRect.width/2-dir*17}px`;e.style.top=`${targetRect.top-23}px`;e.style.setProperty('--stream1',pair[0]);e.style.setProperty('--stream2',pair[1]);e.style.setProperty('--sr',`${dir*12}deg`);e.style.setProperty('--streamDur',`${duration}ms`);
+    document.body.appendChild(e);setTimeout(()=>e.remove(),duration+80)
+  }
+  stageEnter(){const e=document.getElementById('game');e.classList.remove('stage-enter');void e.offsetWidth;e.classList.add('stage-enter')}
+  confetti(){
+    const wrap=document.getElementById('confetti');wrap.innerHTML='';const cols=Object.values(K.STYLE).map(x=>x[2]);
+    for(let i=0;i<78;i++){const e=document.createElement('i');e.className='conf';e.style.left=`${Math.random()*100}%`;e.style.setProperty('--cc',cols[i%cols.length]);e.style.setProperty('--w',`${5+Math.random()*8}px`);e.style.setProperty('--h',`${7+Math.random()*12}px`);e.style.setProperty('--r',Math.random()>.55?'50%':'2px');e.style.setProperty('--drift',`${-60+Math.random()*120}px`);e.style.setProperty('--ct',`${1.8+Math.random()*1.8}s`);e.style.animationDelay=`${Math.random()*.75}s`;wrap.appendChild(e)}
+    setTimeout(()=>wrap.innerHTML='',4300)
+  }
+}
+
+class Renderer{
+  constructor(settings){this.settings=settings;this.toastTimer=null;this.hintTimer=null;this.boardKey=null}
+  icons(){document.querySelectorAll('[data-icon]').forEach(el=>el.innerHTML=icon(el.dataset.icon))}
+  metrics(g){document.getElementById('moveValue').textContent=g.moves;document.getElementById('timeValue').textContent=timeText(g.elapsedSec);const best=g.recordKey&&g.records[g.recordKey];document.getElementById('bestValue').textContent=best?`${best.moves}手`:'—';const total=StageManager.config(g.difficulty).colors,done=g.bottles.filter(b=>b.complete&&!b.empty).length;document.getElementById('completionFill').style.setProperty('width',`${done/total*100}%`)}
+  render(g){
+    document.getElementById('stageTitle').textContent=g.mode==='daily'?'Daily Puzzle':g.mode==='practice'?'Free Practice':`Stage ${g.level}`;const d=document.getElementById('difficulty');d.textContent=StageManager.label(g.difficulty)+(g.mode==='daily'?` · ${g.dailyDate.slice(5).replace('-','/')}`:g.mode==='practice'?' · 練習':'');d.className=g.difficulty;
+    document.getElementById('coinValue').textContent=g.coins;const grid=document.getElementById('grid'),n=g.bottles.length;grid.className=n>=12?'dense':n>=9?'compact':'';
+    const key=StageManager.key(g.bottles.map(b=>b.toJSON()));if(this.boardKey!==key){grid.innerHTML='';g.bottles.forEach((b,i)=>grid.appendChild(this.#bottle(b,i,g.selected===i)));this.boardKey=key}
+    g.bottles.forEach((b,i)=>{const el=this.el(i);el?.classList.toggle('selected',g.selected===i);el?.classList.toggle('available',g.selected!==null&&g.canMove(g.selected,i));el?.setAttribute('aria-pressed',String(g.selected===i))});
+    document.getElementById('undoBtn').disabled=!g.history.length;document.getElementById('hintBtn').disabled=g.stageCleared||g.coins<K.HINT_COST;document.getElementById('extraBtn').disabled=g.stageCleared||g.coins<K.EXTRA_COST||g.extraCount>=K.MAX_EXTRA
+    this.fit();this.metrics(g);document.getElementById('coachText').textContent=g.stageCleared?'すべての色が揃いました。':g.selected!==null?`ビン ${g.selected+1} を選択中 · 淡く光るビンへ`:'移したいビン → 移し先をタップ';
+    if(!g.stageCleared&&!SolutionPlanner.moves(g.bottles.map(b=>b.toJSON())).length)document.getElementById('coachText').textContent='動かせる手がありません。「戻す」か「空ビン追加」を。'
+  }
+  #bottle(b,i,selected){
+    const btn=document.createElement('button');btn.type='button';btn.className='bottle'+(selected?' selected':'')+(b.complete&&!b.empty?' done':'');btn.dataset.i=i;const names={red:'赤',blue:'青',green:'緑',yellow:'黄',orange:'橙',cyan:'水色',purple:'紫',pink:'桃',gray:'灰',brown:'茶'};btn.setAttribute('aria-label',`ビン ${i+1}、${b.empty?'空':`下から ${b.segments.map(c=>names[c]).join('、')}`}${b.complete&&!b.empty?'、完成':''}`);
+    if(b.complete&&!b.empty)btn.style.setProperty('--glow',(K.STYLE[b.segments[0]]||['','','#fff'])[2]+'88');
+    const neck=document.createElement('div');neck.className='neck';const vessel=document.createElement('div');vessel.className='vessel';const lines=document.createElement('div');lines.className='levelLines';const liq=document.createElement('div');liq.className='liquid';
+    const segs=b.segments;segs.forEach((c,idx)=>{const p=K.STYLE[c],w=document.createElement('div');w.className='water'+(idx===segs.length-1?' surface':'');w.style.setProperty('--i',idx);w.style.setProperty('--c1',p[0]);w.style.setProperty('--c2',p[1]);const mark=document.createElement('span');mark.className='colorMark';mark.textContent=String.fromCharCode(65+K.COLORS.indexOf(c));w.appendChild(mark);liq.appendChild(w)});
+    const glass=document.createElement('div');glass.className='glass';vessel.append(lines,liq,glass);const num=document.createElement('span');num.className='bottleNum';num.textContent=i+1;btn.append(neck,vessel,num);return btn
+  }
+  // Size bottles to the space actually available so the whole board is visible
+  // without scrolling; only very crowded boards on tiny screens fall back to scrolling.
+  fit(){
+    const game=document.getElementById('game'),grid=document.getElementById('grid'),n=grid.children.length;if(!n||!game.clientWidth||typeof getComputedStyle!=='function')return;
+    const cs=getComputedStyle(game),W=game.clientWidth-parseFloat(cs.paddingLeft)-parseFloat(cs.paddingRight)-6,H=game.clientHeight-parseFloat(cs.paddingTop)-parseFloat(cs.paddingBottom)-10;
+    const EXTRA=31,GX=.3,GY=.28,MAX=innerWidth>=560?80:70,MIN=36;let best=null;
+    for(let rows=1;rows<=n;rows++){const cols=Math.ceil(n/rows);if(rows>1&&Math.ceil(n/(rows-1))===cols)continue;
+      const byW=W/(cols+GX*(cols-1)),byH=(H-rows*EXTRA)/(rows*2+GY*(rows-1)),bw=Math.min(MAX,byW,byH);
+      if(!best||bw>best.bw+.5)best={rows,cols,bw}}
+    let {cols,bw}=best,bh;
+    if(bw>=MIN){bh=Math.min(bw*2.55,(H-best.rows*EXTRA-GY*bw*(best.rows-1))/best.rows)}
+    else{cols=Math.max(3,Math.min(n,Math.floor((W+GX*42)/(42*(1+GX)))));bw=Math.min(56,W/(cols+GX*(cols-1)));const rows=Math.ceil(n/cols);bh=Math.min(bw*2.35,(H-rows*EXTRA-GY*bw*(rows-1))/rows)}
+    bw=Math.floor(bw);bh=Math.floor(Math.max(bh,bw*1.9));
+    const set=(k,v)=>grid.style.setProperty(k,v);set('--cols',cols);set('--bw',`${bw}px`);set('--bh',`${bh}px`);set('--gx',`${Math.floor(bw*GX)}px`);set('--gy',`${Math.floor(Math.max(12,bw*GY))}px`)
+  }
+  el(i){return document.querySelector(`.bottle[data-i="${i}"]`)}
+  hint(from,to){this.clearHint();this.el(from)?.classList.add('hint-from');this.el(to)?.classList.add('hint-to');this.hintTimer=setTimeout(()=>this.clearHint(),5500)}
+  clearHint(){clearTimeout(this.hintTimer);document.querySelectorAll('.bottle.hint-from,.bottle.hint-to').forEach(e=>e.classList.remove('hint-from','hint-to'))}
+  toast(msg){const e=document.getElementById('toast');e.textContent=msg;e.classList.add('show');clearTimeout(this.toastTimer);this.toastTimer=setTimeout(()=>e.classList.remove('show'),1500)}
+  showClear(reward,total,g){document.getElementById('rewardText').textContent=reward>0?`+${reward} コイン`:'報酬は取得済み / 練習モード';document.getElementById('totalText').textContent=`所持コイン ${total}`;if(g){document.getElementById('resultMoves').textContent=g.moves;document.getElementById('resultTime').textContent=timeText(g.elapsedSec);document.getElementById('resultPar').textContent=g.par;document.getElementById('resultStars').textContent='★'.repeat(g.stars)+'☆'.repeat(3-g.stars);document.getElementById('resultStars').setAttribute('aria-label',`${g.stars}つ星`);document.getElementById('resultNote').textContent=g.stars===3?'道具なしで、手数の目安以内。お見事。':g.stars===2?'道具なしでクリア。次は手数に挑戦。':'ヒントや追加ビンを使っても、揃えたことが大切。';document.getElementById('nextBtn').textContent=g.mode==='campaign'?'次のステージへ →':'色の旅に戻る →'}document.getElementById('clearModal').classList.remove('hidden')}
+  hideClear(){document.getElementById('clearModal').classList.add('hidden')}
+  settingsUI(){
+    const s=this.settings.values,ss=document.getElementById('soundBtn'),sv=document.getElementById('vibBtn');ss.textContent=s.sound?'ON':'OFF';ss.className='toggle'+(s.sound?' on':'');sv.textContent=s.vibration?'ON':'OFF';sv.className='toggle'+(s.vibration?' on':'');
+    document.querySelectorAll('#themeGroup .choice').forEach(b=>b.classList.toggle('on',b.dataset.v===s.theme));document.querySelectorAll('#speedGroup .choice').forEach(b=>b.classList.toggle('on',b.dataset.v===s.speed))
+    for(const key of ['labels','motion']){const button=document.getElementById(`${key}Btn`);button.textContent=s[key]?'ON':'OFF';button.className='toggle'+(s[key]?' on':'');button.setAttribute('aria-pressed',String(s[key]))}
+    ss.setAttribute('aria-pressed',String(s.sound));sv.setAttribute('aria-pressed',String(s.vibration));
+  }
+  journey(g){
+    const completed=[...g.completedStages].filter(n=>n<=20),stars=completed.reduce((sum,n)=>sum+(g.records[`c:${n}`]?.stars||1),0);document.getElementById('journeySummary').textContent=`${completed.length} / 20 クリア　·　${stars} / 60 ★`;
+    const list=document.getElementById('stageList');list.innerHTML='';const chapters=['はじめの一滴','色が重なる','流れを読む','最後のひとしずく'];
+    for(let c=0;c<4;c++){const section=document.createElement('section');section.className='chapter';const heading=document.createElement('div');heading.className='chapterHead';const doneCount=[1,2,3,4,5].filter(i=>g.completedStages.has(c*5+i)).length;heading.innerHTML=`<span class="cnum">0${c+1}</span><b></b><span class="cmeta">${StageManager.label(StageManager.difficulty(c*5+1))} · ${doneCount}/5</span>`;heading.querySelector('b').textContent=chapters[c];const row=document.createElement('div');row.className='stageTiles';for(let i=1;i<=5;i++){const level=c*5+i,unlocked=level===1||g.completedStages.has(level)||g.completedStages.has(level-1)||(g.mode==='campaign'&&level===g.level);const button=document.createElement('button');const cleared=g.completedStages.has(level);button.className='stageTile'+(g.mode==='campaign'&&g.level===level?' current':'')+(cleared?' cleared':'')+(unlocked?'':' locked');button.dataset.level=level;button.disabled=!unlocked;button.setAttribute('aria-label',unlocked?`Stage ${level}${g.completedStages.has(level)?' クリア済み':''}`:`Stage ${level} 未解放`);const number=document.createElement('span');if(unlocked)number.textContent=level;else number.innerHTML=icon('lock');button.append(number);if(unlocked){const score=document.createElement('small');const st=g.records[`c:${level}`]?.stars||1;score.textContent=cleared?'★'.repeat(st)+'☆'.repeat(3-st):'PLAY';button.append(score)}row.appendChild(button)}section.append(heading,row);list.appendChild(section)}
+    document.getElementById('dailyLabel').textContent=g.dailyCompleted.has(StageManager.today())?'今日はクリア済み · 再挑戦できます':'毎日ひとつ、新しい色。初回 +20';
+  }
+}
+
+class App{
+  constructor(){this.storage=new StorageManager();this.settings=new SettingsManager(this.storage);this.sound=new SoundManager(this.settings);this.anim=new AnimationManager(this.settings);this.renderer=new Renderer(this.settings);this.hints=new HintManager();this.state=null;this.busy=false;this.clearTimer=null;this.clockTimer=null;this.confirmAction=null;this.lastHint=null;this.focusReturn=null;this.initialized=false;this.lastTick=Date.now();this.timeRemainder=0}
+  init(){
+    if(this.initialized)return;this.initialized=true;
+    this.makeStars();const saved=this.storage.load();try{this.state=saved?GameState.fromSaved(saved):null}catch(e){console.warn('Invalid save discarded',e);this.state=null}
+    if(!this.state){const st=new StageManager().load(1);this.state=new GameState(st)}
+    this.bind();this.renderer.icons();this.renderer.settingsUI();this.renderer.render(this.state);this.anim.stageEnter();this.save();
+    if(this.state.stageCleared)this.renderer.showClear(0,this.state.coins,this.state);else{this.checkWin();if(!this.settings.values.helpSeen)this.openModal('helpModal')}
+    this.clockTimer=setInterval(()=>this.tick(),1000);
+    const refit=()=>this.renderer.fit();if(typeof ResizeObserver==='function')new ResizeObserver(refit).observe(document.getElementById('game'));else if(typeof window!=='undefined'&&window.addEventListener)window.addEventListener('resize',refit);
+  }
+  makeStars(){const e=document.getElementById('stars');e.innerHTML='';for(let i=0;i<55;i++){const s=document.createElement('i');s.className='star';s.style.left=`${Math.random()*100}%`;s.style.top=`${Math.random()*100}%`;s.style.setProperty('--s',`${.7+Math.random()*1.9}px`);s.style.setProperty('--t',`${3+Math.random()*6}s`);s.style.setProperty('--d',`${Math.random()*-6}s`);e.appendChild(s)}}
+  bind(){
+    document.getElementById('grid').addEventListener('click',e=>{const b=e.target.closest('.bottle');if(b)this.tap(+b.dataset.i)});
+    const on=(id,fn)=>document.getElementById(id).addEventListener('click',fn);
+    on('undoBtn',()=>this.undo());on('restartBtn',()=>this.restart());on('hintBtn',()=>this.hint());on('extraBtn',()=>this.extra());on('settingsBtn',()=>this.openSettings());on('closeSettingsBtn',()=>this.closeSettings());on('nextBtn',()=>this.next());on('randomBtn',()=>this.random());on('resetBtn',()=>this.reset());
+    on('journeyBtn',()=>this.openJourney());on('clearJourneyBtn',()=>this.openJourney());on('closeJourneyBtn',()=>this.closeModal('journeyModal'));on('helpBtn',()=>this.openModal('helpModal'));on('settingsHelpBtn',()=>{this.closeSettings();this.openModal('helpModal')});on('closeHelpBtn',()=>{this.settings.set('helpSeen',true);this.closeModal('helpModal')});
+    on('dailyBtn',()=>this.daily());on('practiceBtn',()=>this.random());on('labelsBtn',()=>{this.settings.set('labels',!this.settings.values.labels);this.renderer.settingsUI()});on('motionBtn',()=>{this.settings.set('motion',!this.settings.values.motion);this.renderer.settingsUI()});
+    on('confirmYesBtn',()=>{const action=this.confirmAction;this.confirmAction=null;this.closeModal('confirmModal');if(action)action()});on('confirmNoBtn',()=>{this.confirmAction=null;this.closeModal('confirmModal')});
+    document.getElementById('stageList').addEventListener('click',e=>{const button=e.target.closest('[data-level]');if(button&&!button.disabled)this.selectStage(Number(button.dataset.level))});
+    on('soundBtn',()=>{this.settings.set('sound',!this.settings.values.sound);this.renderer.settingsUI()});on('vibBtn',()=>{this.settings.set('vibration',!this.settings.values.vibration);this.renderer.settingsUI()});
+    document.querySelectorAll('#themeGroup .choice').forEach(b=>b.addEventListener('click',()=>{this.settings.set('theme',b.dataset.v);this.renderer.settingsUI()}));
+    document.querySelectorAll('#speedGroup .choice').forEach(b=>b.addEventListener('click',()=>{this.settings.set('speed',b.dataset.v);this.renderer.settingsUI()}));
+    for(const id of ['settingsModal','journeyModal'])document.getElementById(id).addEventListener('click',e=>{if(e.target.id===id)this.closeModal(id)});
+    document.addEventListener('keydown',e=>this.key(e));document.addEventListener('visibilitychange',()=>{this.lastTick=Date.now();this.save()});window.addEventListener('pagehide',()=>this.save())
+  }
+  save(){const ok=this.storage.save(this.state);document.getElementById('saveStatus').textContent=ok?'端末内に自動保存 · 外部通信なし':'このブラウザでは保存できません · 画面を閉じると進行が失われます';return ok}
+  modal(){const all=document.querySelectorAll('.modalBack:not(.hidden)');return all.length?all[all.length-1]:null}
+  openModal(id){if(this.busy)return;this.focusReturn=document.activeElement;const modal=document.getElementById(id);modal.classList.remove('hidden');modal.querySelector(id==='confirmModal'?'#confirmNoBtn':'button:not(:disabled)')?.focus();this.lastTick=Date.now()}
+  closeModal(id){document.getElementById(id).classList.add('hidden');this.focusReturn?.focus?.();this.lastTick=Date.now();if(id==='journeyModal'&&this.state.stageCleared)this.renderer.showClear(0,this.state.coins,this.state)}
+  key(e){
+    const modal=this.modal();if(!modal)return;
+    if(e.key==='Escape'){if(modal.id==='settingsModal'||modal.id==='journeyModal')this.closeModal(modal.id);if(modal.id==='confirmModal'){this.confirmAction=null;this.closeModal(modal.id)}return}
+    if(e.key==='Tab'){const buttons=[...modal.querySelectorAll('button:not(:disabled)')];if(!buttons.length)return;const first=buttons[0],last=buttons[buttons.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}}
+  }
+  tick(){const now=Date.now(),delta=Math.max(0,Math.min(2000,now-this.lastTick));this.lastTick=now;if(document.hidden||this.busy||this.state.stageCleared||this.modal()||!this.state.moves){this.timeRemainder=0;return}this.timeRemainder+=delta;const seconds=Math.floor(this.timeRemainder/1000);this.timeRemainder%=1000;if(!seconds)return;this.state.elapsedSec+=seconds;this.renderer.metrics(this.state);if(this.state.elapsedSec%10===0)this.save()}
+  ask(title,text,action,label='やり直す'){this.confirmAction=action;document.getElementById('confirmHeading').textContent=title;document.getElementById('confirmText').textContent=text;document.getElementById('confirmYesBtn').textContent=label;this.openModal('confirmModal')}
+  cancelClear(){clearTimeout(this.clearTimer);this.clearTimer=null;this.renderer.hideClear();this.renderer.clearHint();this.lastHint=null}
+  async tap(i){
+    if(this.busy||this.modal()||this.state.stageCleared||!this.state.bottles[i])return;this.renderer.clearHint();
+    if(this.state.selected===null){if(this.state.bottles[i].empty){this.sound.play('fail');await this.anim.shake(this.renderer.el(i));return}this.state.selected=i;this.sound.play('select');this.sound.vibrate(12);this.renderer.render(this.state);return}
+    const from=this.state.selected;if(from===i){this.state.selected=null;this.sound.play('select');this.renderer.render(this.state);return}
+    if(!this.state.canMove(from,i)){if(!this.state.bottles[i].empty){this.state.selected=i;this.sound.play('select');this.renderer.render(this.state);return}this.sound.play('fail');this.sound.vibrate([28,18,28]);await this.anim.shake(this.renderer.el(i));this.renderer.toast('同じ色の上か、空ビンへ移せます');return}
+    const fromEl=this.renderer.el(from),toEl=this.renderer.el(i),color=this.state.bottles[from].top;this.state.move(from,i);this.busy=true;this.lastHint=null;this.save();this.sound.play('pour');this.sound.vibrate(20);
+    try{await this.anim.pour(fromEl,toEl,color)}catch(e){console.warn('Pour animation failed',e)}finally{this.busy=false;this.renderer.render(this.state);this.save();this.checkWin()}
+  }
+  undo(){if(this.busy)return;if(!this.state.undo()){this.renderer.toast('戻れる手がありません');return}this.cancelClear();this.sound.play('select');this.renderer.render(this.state);this.save()}
+  restart(){if(this.busy)return;const restart=()=>{this.cancelClear();this.state.restart();this.sound.play('select');this.renderer.render(this.state);this.anim.stageEnter();this.lastTick=Date.now();this.save()};if(this.state.moves||this.state.hintsUsed||this.state.extraUsed){this.ask('このステージをやり直す？','手数と盤面を最初に戻します。追加ビンは消え、購入に使ったコインは返却されません。',restart)}else restart()}
+  async hint(){
+    if(this.busy||this.state.stageCleared)return;const state=this.state,board=state.bottles.map(b=>b.toJSON()),key=StageManager.key(board);
+    if(this.lastHint?.key===key){this.renderer.hint(this.lastHint.move.from,this.lastHint.move.to);this.renderer.toast('同じ盤面のヒントは再表示無料です');return}
+    if(state.coins<K.HINT_COST){this.renderer.toast('コインが足りません');return}
+    this.busy=true;document.getElementById('hintBtn').disabled=true;document.getElementById('coachText').textContent='色の流れを考えています…';
+    try{
+      const result=await SolutionPlanner.solve(board);let path=result.path;
+      if(!path?.length&&result.status==='limit')path=SolutionPlanner.proof(state);
+      if(this.state!==state)return;
+      if(!path?.length){this.renderer.toast(result.status==='deadend'?'この盤面は解けません。「戻す」で前の盤面へ。':'探索の上限に達しました。コインは消費していません。');return}
+      const move=path[0];if(!state.canMove(move.from,move.to)||!state.useHint())return;
+      this.sound.play('coin');this.renderer.render(state);this.renderer.hint(move.from,move.to);this.lastHint={key,move};document.getElementById('coachText').textContent=`解答への一手 · ビン ${move.from+1} → ${move.to+1}`;this.save()
+    }catch(e){console.warn('Hint search failed',e);this.renderer.toast('ヒントを再試行してください。コインは消費していません。')}finally{this.busy=false;document.getElementById('hintBtn').disabled=state.stageCleared||state.coins<K.HINT_COST}
+  }
+  extra(){if(this.busy||this.state.stageCleared)return;const r=this.state.addExtra();if(!r.ok){this.sound.play('fail');this.renderer.toast(r.msg);return}this.sound.play('coin');this.renderer.render(this.state);this.save()}
+  checkWin(){
+    const state=this.state,reward=state.claimClear();if(reward===null)return;
+    this.renderer.render(state);this.sound.play('clear');this.sound.vibrate([70,35,70,35,140]);this.anim.confetti();this.save();
+    clearTimeout(this.clearTimer);this.clearTimer=setTimeout(()=>{this.clearTimer=null;if(this.state===state&&state.stageCleared){this.renderer.showClear(reward,state.coins,state);document.getElementById('nextBtn').focus()}},420)
+  }
+  carry(){return{coins:this.state.coins,completedStages:[...this.state.completedStages],campaignBonusClaimed:this.state.campaignBonusClaimed,records:this.state.records,dailyCompleted:[...this.state.dailyCompleted]}}
+  changeStage(stage){const carry=this.carry();this.cancelClear();for(const id of ['settingsModal','journeyModal','helpModal'])document.getElementById(id).classList.add('hidden');this.state=new GameState(stage,carry);this.renderer.render(this.state);this.anim.stageEnter();this.lastTick=Date.now();this.save()}
+  next(){if(this.busy||!this.state.stageCleared)return;if(this.state.mode!=='campaign'){this.openJourney();return}try{this.changeStage(new StageManager().load(this.state.level+1))}catch(e){console.warn(e);this.renderer.toast('ステージを読み込めません。再試行してください。')}}
+  openJourney(){if(this.busy)return;clearTimeout(this.clearTimer);this.clearTimer=null;this.renderer.hideClear();this.closeSettings();this.renderer.journey(this.state);this.openModal('journeyModal')}
+  selectStage(level){if(this.busy||!Number.isInteger(level)||level<1||level>20||!(level===1||this.state.completedStages.has(level)||this.state.completedStages.has(level-1)||(this.state.mode==='campaign'&&level===this.state.level)))return;this.switchSafely(()=>new StageManager().load(level))}
+  switchSafely(make){const change=()=>{try{this.changeStage(make())}catch(e){console.warn('Stage load failed',e);this.renderer.toast('ステージを読み込めません。再試行してください。')}};if(!this.state.stageCleared&&(this.state.moves||this.state.extraCount||this.state.hintsUsed)){this.ask('別のパズルへ移動する？','現在の盤面は切り替わります。購入したコインは返却されません。記録とクリア状況は残ります。',change,'移動する')}else change()}
+  random(){if(this.busy)return;this.switchSafely(()=>{const stage=new StageManager().random(this.state.difficulty);if(!stage)throw new Error('Random generation failed');return{...stage,level:this.state.level,mode:'practice'}})}
+  daily(){if(this.busy)return;this.switchSafely(()=>new StageManager().daily())}
+  openSettings(){if(this.busy)return;this.renderer.settingsUI();this.openModal('settingsModal');this.sound.play('select')}
+  closeSettings(){this.closeModal('settingsModal')}
+  reset(){if(this.busy)return;this.ask('保存データをすべて初期化？','コイン・クリア記録・星・設定が消えます。この操作は取り消せません。',()=>{this.cancelClear();this.storage.clearAll();this.settings.reset();this.state=new GameState(new StageManager().load(1));for(const id of ['settingsModal','journeyModal'])document.getElementById(id).classList.add('hidden');this.renderer.settingsUI();this.renderer.render(this.state);this.anim.stageEnter();this.save();this.openModal('helpModal')},'初期化する')}
+}
+document.addEventListener('DOMContentLoaded',()=>new App().init(),{once:true});
+})();
+</script>
+</body>
+</html>

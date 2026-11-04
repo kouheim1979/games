@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#fff8f3">
+  <title>ランチルーレット</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+
+    :root {
+      --bg: #fff8f3;
+      --surface: #ffffff;
+      --surface-2: #f7f3ef;
+      --text: #241f1c;
+      --muted: #776e68;
+      --line: #eadfd8;
+      --accent: #f45b35;
+      --accent-dark: #d94420;
+      --accent-soft: #fff0e9;
+      --gold: #f3b93f;
+      --danger: #c83d4d;
+      --shadow: 0 12px 32px rgba(71, 44, 31, 0.10);
+      --radius: 20px;
+    }
+
+    html { background: var(--bg); }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      min-height: 100dvh;
+      padding: max(14px, env(safe-area-inset-top)) 14px max(28px, env(safe-area-inset-bottom));
+      background:
+        radial-gradient(circle at 10% -10%, rgba(244, 91, 53, 0.10), transparent 34%),
+        radial-gradient(circle at 100% 20%, rgba(243, 185, 63, 0.10), transparent 30%),
+        var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", Meiryo, sans-serif;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    button, input { font: inherit; }
+    button, summary, .shop-row { -webkit-tap-highlight-color: transparent; }
+    button { touch-action: manipulation; }
+
+    .app {
+      width: min(100%, 560px);
+      margin: 0 auto;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin: 2px 2px 14px;
+    }
+
+    .title-wrap h1 {
+      margin: 0;
+      font-size: clamp(1.35rem, 6vw, 1.75rem);
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+    }
+
+    .title-wrap p {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    .count-pill {
+      flex: 0 0 auto;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.78);
+      color: var(--muted);
+      border-radius: 999px;
+      padding: 8px 11px;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    .main-card {
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid rgba(234, 223, 216, 0.92);
+      border-radius: 26px;
+      box-shadow: var(--shadow);
+      padding: 16px;
+    }
+
+    .result-box {
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      border-radius: 18px;
+      background: var(--surface-2);
+      border: 1px solid var(--line);
+      padding: 12px 16px;
+      margin-bottom: 14px;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    .result-box.decided {
+      background: var(--accent-soft);
+      border-color: #ffd0bd;
+      transform: translateY(-1px);
+    }
+
+    .result-placeholder {
+      color: var(--muted);
+      font-size: 0.92rem;
+      font-weight: 700;
+    }
+
+    .result-content {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .result-box.decided .result-placeholder { display: none; }
+    .result-box.decided .result-content { display: flex; }
+
+    .result-emoji { font-size: 2rem; }
+
+    .result-text { min-width: 0; text-align: left; }
+    .result-label { color: var(--muted); font-size: 0.72rem; font-weight: 700; }
+    .result-name {
+      margin-top: 2px;
+      font-size: clamp(1.1rem, 5vw, 1.4rem);
+      line-height: 1.25;
+      font-weight: 800;
+      overflow-wrap: anywhere;
+    }
+
+    .wheel-shell {
+      position: relative;
+      width: min(78vw, 330px);
+      aspect-ratio: 1;
+      margin: 4px auto 16px;
+    }
+
+    .pointer {
+      position: absolute;
+      z-index: 4;
+      top: -4px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 14px solid transparent;
+      border-right: 14px solid transparent;
+      border-top: 28px solid var(--accent);
+      filter: drop-shadow(0 3px 3px rgba(71, 44, 31, 0.16));
+    }
+
+    #wheel {
+      width: 100%;
+      height: 100%;
+      display: block;
+      border-radius: 50%;
+      box-shadow: 0 10px 26px rgba(71, 44, 31, 0.14);
+    }
+
+    .wheel-center {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 76px;
+      height: 76px;
+      border: 5px solid #fff;
+      border-radius: 50%;
+      background: var(--surface);
+      box-shadow: 0 6px 18px rgba(71, 44, 31, 0.16);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .wheel-center strong { font-size: 0.94rem; line-height: 1; }
+    .wheel-center span { margin-top: 5px; color: var(--muted); font-size: 0.67rem; }
+
+    .primary-btn {
+      width: 100%;
+      min-height: 56px;
+      border: 0;
+      border-radius: 17px;
+      background: linear-gradient(135deg, var(--accent), #ff7b45);
+      color: white;
+      font-weight: 800;
+      font-size: 1.05rem;
+      letter-spacing: 0.02em;
+      box-shadow: 0 8px 20px rgba(244, 91, 53, 0.24);
+      cursor: pointer;
+      transition: transform 0.12s ease, opacity 0.12s ease;
+    }
+
+    .primary-btn:active { transform: scale(0.985); }
+    .primary-btn:disabled { opacity: 0.45; box-shadow: none; cursor: default; }
+
+    .result-actions {
+      display: none;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+      margin-top: 9px;
+    }
+
+    .result-actions.show { display: grid; }
+
+    .secondary-btn, .map-link {
+      min-height: 46px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: white;
+      color: var(--text);
+      font-weight: 700;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .map-link { color: var(--accent-dark); background: var(--accent-soft); border-color: #ffd0bd; }
+
+    .editor {
+      margin-top: 14px;
+      background: rgba(255, 255, 255, 0.88);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    details { width: 100%; }
+
+    summary {
+      list-style: none;
+      min-height: 58px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 0 16px;
+      cursor: pointer;
+      font-weight: 800;
+    }
+
+    summary::-webkit-details-marker { display: none; }
+
+    .summary-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    .chevron { transition: transform 0.2s ease; font-size: 1rem; }
+    details[open] .chevron { transform: rotate(180deg); }
+
+    .editor-body {
+      border-top: 1px solid var(--line);
+      padding: 14px;
+    }
+
+    .toolbar {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .search-input, .shop-input {
+      width: 100%;
+      min-height: 46px;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      background: #fff;
+      color: var(--text);
+      padding: 0 13px;
+      outline: none;
+      font-size: 16px;
+    }
+
+    .search-input:focus, .shop-input:focus {
+      border-color: #ff9c76;
+      box-shadow: 0 0 0 3px rgba(244, 91, 53, 0.10);
+    }
+
+    .small-btn {
+      min-height: 46px;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      background: var(--surface-2);
+      color: var(--text);
+      padding: 0 12px;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .quick-row {
+      display: flex;
+      gap: 7px;
+      overflow-x: auto;
+      padding-bottom: 10px;
+      scrollbar-width: none;
+    }
+
+    .quick-row::-webkit-scrollbar { display: none; }
+
+    .quick-btn {
+      flex: 0 0 auto;
+      min-height: 38px;
+      padding: 0 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: white;
+      color: var(--muted);
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .shop-list {
+      max-height: min(46vh, 390px);
+      overflow-y: auto;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: white;
+    }
+
+    .shop-row {
+      min-height: 50px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 8px 6px 12px;
+      border-bottom: 1px solid #f1e9e4;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .shop-row:last-child { border-bottom: 0; }
+    .shop-row.off { opacity: 0.48; }
+
+    .check {
+      flex: 0 0 auto;
+      width: 24px;
+      height: 24px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      border: 2px solid #d5c9c2;
+      color: white;
+      font-size: 0.78rem;
+      font-weight: 900;
+    }
+
+    .shop-row:not(.off) .check { background: var(--accent); border-color: var(--accent); }
+
+    .shop-name {
+      min-width: 0;
+      flex: 1;
+      font-size: 0.92rem;
+      font-weight: 650;
+      overflow-wrap: anywhere;
+    }
+
+    .delete-btn {
+      flex: 0 0 auto;
+      width: 40px;
+      height: 40px;
+      border: 0;
+      border-radius: 11px;
+      background: transparent;
+      color: #a39993;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    .delete-btn:active { background: #f8ecec; color: var(--danger); }
+
+    .empty-search {
+      padding: 22px 14px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.86rem;
+    }
+
+    .add-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .add-btn {
+      min-width: 72px;
+      min-height: 46px;
+      border: 0;
+      border-radius: 13px;
+      background: var(--text);
+      color: white;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .helper {
+      margin: 9px 2px 0;
+      color: var(--muted);
+      font-size: 0.74rem;
+      line-height: 1.5;
+    }
+
+    .toast {
+      position: fixed;
+      z-index: 20;
+      left: 50%;
+      bottom: max(18px, env(safe-area-inset-bottom));
+      transform: translate(-50%, 12px);
+      max-width: calc(100vw - 28px);
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(36, 31, 28, 0.92);
+      color: white;
+      font-size: 0.82rem;
+      font-weight: 700;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.18s ease, transform 0.18s ease;
+    }
+
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+    @media (max-width: 380px) {
+      body { padding-left: 10px; padding-right: 10px; }
+      .main-card { padding: 13px; }
+      .wheel-shell { width: min(76vw, 292px); }
+      .toolbar { grid-template-columns: 1fr; }
+      .toolbar .small-btn { width: 100%; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header class="topbar">
+      <div class="title-wrap">
+        <h1>🍽 ランチルーレット</h1>
+        <p>迷ったら、1タップで決める。</p>
+      </div>
+      <div class="count-pill" id="countPill">--店</div>
+    </header>
+
+    <section class="main-card" aria-label="ランチを決める">
+      <div class="result-box" id="resultBox" aria-live="polite">
+        <div class="result-placeholder" id="resultPlaceholder">「今日のランチを決める」をタップ</div>
+        <div class="result-content">
+          <div class="result-emoji" id="resultEmoji">🍴</div>
+          <div class="result-text">
+            <div class="result-label">今日のランチ</div>
+            <div class="result-name" id="resultName">—</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="wheel-shell">
+        <div class="pointer" aria-hidden="true"></div>
+        <canvas id="wheel" width="640" height="640" aria-label="ランチ候補ルーレット"></canvas>
+        <button class="wheel-center" id="centerBtn" type="button" aria-label="ルーレットを回す">
+          <strong>START</strong>
+          <span id="centerCount">--候補</span>
+        </button>
+      </div>
+
+      <button class="primary-btn" id="spinBtn" type="button">今日のランチを決める</button>
+
+      <div class="result-actions" id="resultActions">
+        <button class="secondary-btn" id="respinBtn" type="button">↻ もう一回</button>
+        <a class="map-link" id="mapLink" href="#" target="_blank" rel="noopener">📍 地図で見る</a>
+      </div>
+    </section>
+
+    <section class="editor">
+      <details id="editorDetails">
+        <summary>
+          <span>候補を編集</span>
+          <span class="summary-right"><span id="summaryCount">-- / --店</span><span class="chevron">⌄</span></span>
+        </summary>
+
+        <div class="editor-body">
+          <div class="toolbar">
+            <input class="search-input" id="searchInput" type="search" placeholder="お店を検索" autocomplete="off" aria-label="お店を検索">
+            <button class="small-btn" id="selectAllBtn" type="button">全部ON</button>
+          </div>
+
+          <div class="quick-row" aria-label="候補の一括操作">
+            <button class="quick-btn" id="excludeAllBtn" type="button">全部OFF</button>
+            <button class="quick-btn" id="restoreDefaultBtn" type="button">初期状態に戻す</button>
+          </div>
+
+          <div class="shop-list" id="shopList" aria-label="ランチ候補一覧"></div>
+
+          <div class="add-row">
+            <input class="shop-input" id="shopInput" type="text" maxlength="30" placeholder="お店を追加" autocomplete="off" aria-label="お店を追加">
+            <button class="add-btn" id="addBtn" type="button">追加</button>
+          </div>
+          <p class="helper">✓ が付いている店だけがルーレットの対象です。選択状態と追加した店はこの端末に保存されます。</p>
+        </div>
+      </details>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    const DEFAULT_NAMES = [
+      "丸亀製麺","サイゼリヤ","マクドナルド","モスバーガー","バーガーキング",
+      "サンマルクカフェ","ノースポートモール フードコート","モザイクモール フードコート",
+      "サブウェイ","くら寿司","スシロー","はま寿司","ジョリーパスタ","CoCo壱番屋",
+      "ココス","デニーズ","ガスト","五右衛門","からやま","かつや","一風堂",
+      "武蔵野森珈琲","ビーノビーノ","天狗","くいどん","びっくりドンキー","横浜家",
+      "揚州商人","大戸屋","ひろかぜ","満寵","初代","ラディカ","ラーメン魂","KFC"
+    ];
+
+    const EMOJIS = {
+      "丸亀":"🍜", "麺":"🍜", "ラーメン":"🍜", "一風堂":"🍜", "横浜家":"🍜", "初代":"🍜",
+      "うどん":"🍜", "そば":"🍜", "パスタ":"🍝", "サイゼ":"🍝", "五右衛門":"🍝",
+      "寿司":"🍣", "スシ":"🍣", "はま寿司":"🍣", "バーガー":"🍔", "マクド":"🍔", "モス":"🍔",
+      "KFC":"🍗", "からやま":"🍗", "かつや":"🥩", "カレー":"🍛", "CoCo":"🍛",
+      "サブウェイ":"🥖", "カフェ":"☕", "珈琲":"☕", "焼肉":"🥩", "くいどん":"🥩",
+      "中華":"🥟", "揚州":"🥟", "大戸屋":"🍱", "天狗":"🍺", "ビーノ":"🍷", "フードコート":"🛍"
+    };
+
+    const COLORS = [
+      "#F45B35", "#F3B93F", "#E86A92", "#45A9C8", "#7D72C9", "#F08B4A",
+      "#57A773", "#DD5D68", "#4AAE9B", "#B76D9E", "#6E9ECF", "#D18D45"
+    ];
+
+    const STORAGE_KEY = "lunch-roulette-v2";
+    const OLD_STORAGE_KEY = "lunch-roulette-v1";
+
+    let shopIdCounter = 0;
+    let allShops = [];
+    const excluded = new Set();
+    let spinning = false;
+    let currentAngle = 0;
+    let lastWinner = null;
+    let toastTimer = null;
+
+    const $ = (id) => document.getElementById(id);
+    const canvas = $("wheel");
+    const ctx = canvas.getContext("2d");
+    const size = canvas.width;
+    const cx = size / 2;
+    const cy = size / 2;
+    const radius = size / 2 - 8;
+    const TAU = Math.PI * 2;
+
+    function guessEmoji(name) {
+      for (const [key, emoji] of Object.entries(EMOJIS)) {
+        if (name.includes(key)) return emoji;
+      }
+      return "🍽";
+    }
+
+    function makeDefaultShops() {
+      shopIdCounter = 0;
+      return DEFAULT_NAMES.map((name) => ({ name, emoji: guessEmoji(name), id: shopIdCounter++ }));
+    }
+
+    function normalizeShop(raw) {
+      const name = String(raw?.name || "").trim();
+      if (!name) return null;
+      const id = Number.isFinite(raw?.id) ? raw.id : shopIdCounter++;
+      shopIdCounter = Math.max(shopIdCounter, id + 1);
+      return { name, emoji: raw?.emoji || guessEmoji(name), id };
+    }
+
+    function saveState() {
+      const data = {
+        shops: allShops,
+        excluded: [...excluded],
+        idCounter: shopIdCounter
+      };
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch (_) {}
+    }
+
+    function loadState() {
+      let data = null;
+      try {
+        const current = localStorage.getItem(STORAGE_KEY);
+        const old = localStorage.getItem(OLD_STORAGE_KEY);
+        data = JSON.parse(current || old || "null");
+      } catch (_) {}
+
+      if (!data || !Array.isArray(data.shops)) {
+        allShops = makeDefaultShops();
+        excluded.clear();
+        return;
+      }
+
+      shopIdCounter = Number.isFinite(data.idCounter) ? data.idCounter : 0;
+      allShops = data.shops.map(normalizeShop).filter(Boolean);
+      excluded.clear();
+      (data.excluded || []).forEach((id) => excluded.add(id));
+      saveState();
+    }
+
+    function getActive() {
+      return allShops.filter((shop) => !excluded.has(shop.id));
+    }
+
+    function colorForId(id) {
+      return COLORS[Math.abs(id) % COLORS.length];
+    }
+
+    function normalizeAngle(angle) {
+      return ((angle % TAU) + TAU) % TAU;
+    }
+
+    function drawWheel(angle = 0) {
+      const shops = getActive();
+      ctx.clearRect(0, 0, size, size);
+
+      if (!shops.length) {
+        ctx.beginPath();
+        ctx.arc(cx, cy, radius, 0, TAU);
+        ctx.fillStyle = "#f2ebe6";
+        ctx.fill();
+        ctx.fillStyle = "#776e68";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.font = "700 26px -apple-system, BlinkMacSystemFont, sans-serif";
+        ctx.fillText("候補をONにしてください", cx, cy - 55);
+        return;
+      }
+
+      const slice = TAU / shops.length;
+      shops.forEach((shop, index) => {
+        const start = angle + index * slice;
+        const end = start + slice;
+
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.arc(cx, cy, radius, start, end);
+        ctx.closePath();
+        ctx.fillStyle = colorForId(shop.id);
+        ctx.fill();
+        ctx.strokeStyle = "rgba(255,255,255,0.55)";
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        if (shops.length <= 18) {
+          ctx.save();
+          ctx.translate(cx, cy);
+          ctx.rotate(start + slice / 2);
+          ctx.textAlign = "right";
+          ctx.textBaseline = "middle";
+          ctx.fillStyle = "rgba(255,255,255,0.96)";
+          ctx.font = `${shops.length <= 10 ? 24 : 20}px -apple-system, BlinkMacSystemFont, sans-serif`;
+          ctx.shadowColor = "rgba(0,0,0,0.22)";
+          ctx.shadowBlur = 4;
+          const label = shop.name.length > 8 ? shop.name.slice(0, 8) + "…" : shop.name;
+          ctx.fillText(`${shop.emoji} ${label}`, radius * 0.86, 0);
+          ctx.restore();
+        }
+      });
+
+      ctx.beginPath();
+      ctx.arc(cx, cy, radius, 0, TAU);
+      ctx.strokeStyle = "rgba(85,62,50,0.16)";
+      ctx.lineWidth = 4;
+      ctx.stroke();
+    }
+
+    function updateCounts() {
+      const active = getActive().length;
+      $("countPill").textContent = `${active}店から選ぶ`;
+      $("centerCount").textContent = `${active}候補`;
+      $("summaryCount").textContent = `${active} / ${allShops.length}店`;
+      $("spinBtn").disabled = spinning || active === 0;
+      $("centerBtn").disabled = spinning || active === 0;
+      if (active === 0) {
+        $("resultPlaceholder").textContent = "候補を1店以上ONにしてください";
+      } else if (!lastWinner) {
+        $("resultPlaceholder").textContent = "「今日のランチを決める」をタップ";
+      }
+    }
+
+    function showToast(message) {
+      const toast = $("toast");
+      toast.textContent = message;
+      toast.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove("show"), 1600);
+    }
+
+    function showResult(shop) {
+      lastWinner = shop;
+      $("resultEmoji").textContent = shop.emoji;
+      $("resultName").textContent = shop.name;
+      $("resultBox").classList.add("decided");
+      $("resultActions").classList.add("show");
+      $("spinBtn").textContent = "もう一度まわす";
+      $("mapLink").href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(shop.name)}`;
+      if (navigator.vibrate) navigator.vibrate(30);
+    }
+
+    function spin() {
+      if (spinning) return;
+      const shops = getActive();
+      if (!shops.length) {
+        $("editorDetails").open = true;
+        showToast("候補を1店以上ONにしてください");
+        return;
+      }
+
+      spinning = true;
+      lastWinner = null;
+      $("resultBox").classList.remove("decided");
+      $("resultActions").classList.remove("show");
+      $("resultPlaceholder").textContent = "選んでいます…";
+      $("spinBtn").textContent = "ルーレット中…";
+      updateCounts();
+
+      const winnerIndex = Math.floor(Math.random() * shops.length);
+      const winner = shops[winnerIndex];
+      const slice = TAU / shops.length;
+      const pointerAngle = -Math.PI / 2;
+      const desired = pointerAngle - (winnerIndex + 0.5) * slice;
+      const currentNorm = normalizeAngle(currentAngle);
+      const extraDelta = normalizeAngle(desired - currentNorm);
+      const rotations = 4 + Math.floor(Math.random() * 2);
+      const targetAngle = currentAngle + rotations * TAU + extraDelta;
+      const startAngle = currentAngle;
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const duration = reducedMotion ? 350 : 2200;
+      const startTime = performance.now();
+
+      function easeOutCubic(t) {
+        return 1 - Math.pow(1 - t, 3);
+      }
+
+      function frame(now) {
+        const progress = Math.min((now - startTime) / duration, 1);
+        currentAngle = startAngle + (targetAngle - startAngle) * easeOutCubic(progress);
+        drawWheel(currentAngle);
+
+        if (progress < 1) {
+          requestAnimationFrame(frame);
+          return;
+        }
+
+        currentAngle = normalizeAngle(targetAngle);
+        drawWheel(currentAngle);
+        spinning = false;
+        showResult(winner);
+        updateCounts();
+      }
+
+      requestAnimationFrame(frame);
+    }
+
+    function renderList() {
+      const list = $("shopList");
+      const query = $("searchInput").value.trim().toLowerCase();
+      list.innerHTML = "";
+
+      const visible = allShops.filter((shop) => shop.name.toLowerCase().includes(query));
+      if (!visible.length) {
+        const empty = document.createElement("div");
+        empty.className = "empty-search";
+        empty.textContent = "該当するお店がありません";
+        list.appendChild(empty);
+        return;
+      }
+
+      visible.forEach((shop) => {
+        const row = document.createElement("div");
+        row.className = "shop-row" + (excluded.has(shop.id) ? " off" : "");
+        row.setAttribute("role", "checkbox");
+        row.setAttribute("aria-checked", String(!excluded.has(shop.id)));
+        row.tabIndex = 0;
+
+        const check = document.createElement("span");
+        check.className = "check";
+        check.textContent = excluded.has(shop.id) ? "" : "✓";
+
+        const name = document.createElement("span");
+        name.className = "shop-name";
+        name.textContent = `${shop.emoji} ${shop.name}`;
+
+        const del = document.createElement("button");
+        del.type = "button";
+        del.className = "delete-btn";
+        del.setAttribute("aria-label", `${shop.name}を削除`);
+        del.textContent = "✕";
+        del.addEventListener("click", (event) => {
+          event.stopPropagation();
+          deleteShop(shop.id);
+        });
+
+        const toggle = () => toggleShop(shop.id);
+        row.addEventListener("click", toggle);
+        row.addEventListener("keydown", (event) => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            toggle();
+          }
+        });
+
+        row.append(check, name, del);
+        list.appendChild(row);
+      });
+    }
+
+    function refresh() {
+      renderList();
+      updateCounts();
+      drawWheel(currentAngle);
+      saveState();
+    }
+
+    function toggleShop(id) {
+      if (excluded.has(id)) excluded.delete(id);
+      else excluded.add(id);
+      lastWinner = null;
+      $("resultBox").classList.remove("decided");
+      $("resultActions").classList.remove("show");
+      $("spinBtn").textContent = "今日のランチを決める";
+      refresh();
+    }
+
+    function deleteShop(id) {
+      const shop = allShops.find((item) => item.id === id);
+      if (!shop) return;
+      allShops = allShops.filter((item) => item.id !== id);
+      excluded.delete(id);
+      refresh();
+      showToast(`${shop.name}を削除しました`);
+    }
+
+    function addShop() {
+      const input = $("shopInput");
+      const name = input.value.trim();
+      if (!name) return;
+
+      if (allShops.some((shop) => shop.name.toLowerCase() === name.toLowerCase())) {
+        showToast("そのお店はすでにあります");
+        input.select();
+        return;
+      }
+
+      allShops.push({ name, emoji: guessEmoji(name), id: shopIdCounter++ });
+      input.value = "";
+      $("searchInput").value = "";
+      refresh();
+      showToast(`${name}を追加しました`);
+    }
+
+    function selectAll(on) {
+      excluded.clear();
+      if (!on) allShops.forEach((shop) => excluded.add(shop.id));
+      lastWinner = null;
+      $("resultBox").classList.remove("decided");
+      $("resultActions").classList.remove("show");
+      $("spinBtn").textContent = "今日のランチを決める";
+      refresh();
+      showToast(on ? "すべての店をONにしました" : "すべての店をOFFにしました");
+    }
+
+    function restoreDefaults() {
+      if (!confirm("追加・削除・選択状態を初期状態に戻しますか？")) return;
+      allShops = makeDefaultShops();
+      excluded.clear();
+      lastWinner = null;
+      currentAngle = 0;
+      $("searchInput").value = "";
+      $("resultBox").classList.remove("decided");
+      $("resultActions").classList.remove("show");
+      $("spinBtn").textContent = "今日のランチを決める";
+      refresh();
+      showToast("初期状態に戻しました");
+    }
+
+    $("spinBtn").addEventListener("click", spin);
+    $("centerBtn").addEventListener("click", spin);
+    $("respinBtn").addEventListener("click", spin);
+    canvas.addEventListener("click", spin);
+    $("selectAllBtn").addEventListener("click", () => selectAll(true));
+    $("excludeAllBtn").addEventListener("click", () => selectAll(false));
+    $("restoreDefaultBtn").addEventListener("click", restoreDefaults);
+    $("addBtn").addEventListener("click", addShop);
+    $("searchInput").addEventListener("input", renderList);
+    $("shopInput").addEventListener("keydown", (event) => {
+      if (event.key === "Enter") addShop();
+    });
+
+    loadState();
+    refresh();
+  </script>
+</body>
+</html>

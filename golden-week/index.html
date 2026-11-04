@@ -1,0 +1,1430 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ドライブひまつぶしBOX</title>
+<style>
+:root{
+  --bg:#fff7d6;
+  --card:#ffffff;
+  --ink:#24143d;
+  --muted:#6f6680;
+  --line:#24143d;
+  --pink:#ff4d8d;
+  --pink-dark:#cf2665;
+  --blue:#4277ff;
+  --blue-dark:#244ec7;
+  --yellow:#ffd84d;
+  --yellow-dark:#d5a900;
+  --green:#44d07b;
+  --green-dark:#1d9a4e;
+  --purple:#9c5cff;
+  --purple-dark:#6f35cc;
+  --danger:#ff6b5f;
+  --shadow:5px 5px 0 var(--line);
+  --radius:22px;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+html,body{
+  margin:0;
+  padding:0;
+  min-height:100%;
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;
+  color:var(--ink);
+  background:
+    radial-gradient(circle at 10% 10%, rgba(255,216,77,.45), transparent 28%),
+    radial-gradient(circle at 85% 20%, rgba(255,77,141,.28), transparent 26%),
+    radial-gradient(circle at 50% 95%, rgba(66,119,255,.20), transparent 28%),
+    var(--bg);
+}
+
+button,input{
+  font:inherit;
+}
+
+.app{
+  width:min(980px,100%);
+  margin:0 auto;
+  padding:14px;
+}
+
+.hero{
+  border:4px solid var(--line);
+  border-radius:28px;
+  background:var(--card);
+  box-shadow:var(--shadow);
+  padding:18px;
+  margin-bottom:14px;
+  position:relative;
+  overflow:hidden;
+}
+
+.hero::after{
+  content:"";
+  position:absolute;
+  right:-30px;
+  top:-30px;
+  width:130px;
+  height:130px;
+  background:var(--yellow);
+  border:4px solid var(--line);
+  border-radius:50%;
+  z-index:0;
+}
+
+.hero-inner{
+  position:relative;
+  z-index:1;
+}
+
+.title-row{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;
+}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.logo-mark{
+  width:64px;
+  height:64px;
+  border:4px solid var(--line);
+  border-radius:18px;
+  background:linear-gradient(135deg,#fff,#ffe476);
+  display:grid;
+  place-items:center;
+  box-shadow:3px 3px 0 var(--line);
+  font-size:34px;
+}
+
+h1{
+  margin:0;
+  font-size:clamp(26px,7vw,46px);
+  line-height:1.05;
+  letter-spacing:.02em;
+}
+
+.subtitle{
+  margin:6px 0 0;
+  color:var(--muted);
+  font-weight:800;
+  font-size:14px;
+}
+
+.notice{
+  margin-top:12px;
+  padding:10px 12px;
+  border:3px solid var(--line);
+  border-radius:16px;
+  background:#fff2f7;
+  font-weight:800;
+  line-height:1.5;
+}
+
+.score-box{
+  min-width:150px;
+  border:4px solid var(--line);
+  border-radius:18px;
+  background:var(--yellow);
+  box-shadow:3px 3px 0 var(--line);
+  padding:10px 14px;
+  text-align:center;
+}
+
+.score-label{
+  font-size:13px;
+  font-weight:900;
+}
+
+.score-value{
+  font-size:34px;
+  font-weight:1000;
+  line-height:1;
+}
+
+.nav{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+  margin:16px 0;
+}
+
+@media (min-width:720px){
+  .nav{
+    grid-template-columns:repeat(4,minmax(0,1fr));
+  }
+}
+
+.nav button,
+.big-btn,
+.small-btn,
+.choice-btn{
+  border:4px solid var(--line);
+  border-radius:18px;
+  box-shadow:4px 4px 0 var(--line);
+  min-height:58px;
+  padding:12px 14px;
+  background:var(--blue);
+  color:white;
+  font-weight:1000;
+  cursor:pointer;
+  transition:transform .08s ease, box-shadow .08s ease, filter .15s ease;
+}
+
+.nav button:active,
+.big-btn:active,
+.small-btn:active,
+.choice-btn:active{
+  transform:translate(3px,3px);
+  box-shadow:1px 1px 0 var(--line);
+}
+
+.nav button.active{
+  background:var(--pink);
+}
+
+.nav button:nth-child(2n){
+  background:var(--purple);
+}
+
+.nav button:nth-child(3n){
+  background:var(--green);
+}
+
+.nav button:nth-child(4n){
+  background:var(--yellow);
+  color:var(--ink);
+}
+
+.screen{
+  display:none;
+}
+
+.screen.active{
+  display:block;
+}
+
+.panel{
+  border:4px solid var(--line);
+  border-radius:var(--radius);
+  background:var(--card);
+  box-shadow:var(--shadow);
+  padding:16px;
+  margin-bottom:14px;
+}
+
+.panel-title{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-bottom:12px;
+}
+
+.panel-title h2{
+  margin:0;
+  font-size:clamp(22px,5vw,34px);
+}
+
+.help{
+  color:var(--muted);
+  font-weight:800;
+  line-height:1.55;
+}
+
+.row{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  align-items:center;
+}
+
+.grid{
+  display:grid;
+  gap:10px;
+}
+
+.cards{
+  grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+}
+
+.game-card{
+  border:3px solid var(--line);
+  border-radius:20px;
+  background:#fffdf2;
+  padding:14px;
+  box-shadow:3px 3px 0 var(--line);
+}
+
+.game-card h3{
+  margin:0 0 8px;
+  font-size:20px;
+}
+
+.game-card p{
+  margin:0;
+  color:var(--muted);
+  line-height:1.5;
+  font-weight:700;
+}
+
+.big-btn{
+  background:var(--pink);
+  font-size:18px;
+}
+
+.big-btn.secondary{
+  background:var(--blue);
+}
+
+.big-btn.green{
+  background:var(--green);
+}
+
+.big-btn.yellow{
+  background:var(--yellow);
+  color:var(--ink);
+}
+
+.big-btn.purple{
+  background:var(--purple);
+}
+
+.small-btn{
+  min-height:44px;
+  padding:8px 12px;
+  font-size:14px;
+  border-width:3px;
+  border-radius:14px;
+  box-shadow:3px 3px 0 var(--line);
+  background:#fff;
+  color:var(--ink);
+}
+
+.small-btn.danger{
+  background:var(--danger);
+  color:white;
+}
+
+.player-list{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.player-chip{
+  border:3px solid var(--line);
+  border-radius:999px;
+  background:#fff;
+  padding:9px 13px;
+  font-weight:1000;
+  box-shadow:2px 2px 0 var(--line);
+  cursor:pointer;
+}
+
+.player-chip.active{
+  background:var(--yellow);
+}
+
+.input{
+  width:100%;
+  min-height:50px;
+  border:3px solid var(--line);
+  border-radius:15px;
+  padding:10px 12px;
+  font-weight:900;
+  background:#fff;
+  color:var(--ink);
+}
+
+.bingo-grid{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:7px;
+}
+
+.bingo-cell{
+  aspect-ratio:1/1;
+  border:3px solid var(--line);
+  border-radius:14px;
+  background:#fff;
+  box-shadow:2px 2px 0 var(--line);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:5px;
+  font-size:clamp(11px,3vw,15px);
+  font-weight:1000;
+  cursor:pointer;
+  line-height:1.2;
+  user-select:none;
+}
+
+.bingo-cell.marked{
+  background:var(--green);
+  color:#052b15;
+  position:relative;
+}
+
+.bingo-cell.marked::after{
+  content:"✓";
+  position:absolute;
+  right:5px;
+  top:2px;
+  font-size:20px;
+}
+
+.badge{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  border:3px solid var(--line);
+  border-radius:999px;
+  padding:6px 10px;
+  background:#fff;
+  font-weight:1000;
+  box-shadow:2px 2px 0 var(--line);
+}
+
+.big-card{
+  border:4px solid var(--line);
+  border-radius:24px;
+  min-height:190px;
+  display:grid;
+  place-items:center;
+  text-align:center;
+  padding:18px;
+  background:#fffdf2;
+  box-shadow:4px 4px 0 var(--line);
+  margin:12px 0;
+}
+
+.big-card-main{
+  font-size:clamp(25px,7vw,48px);
+  font-weight:1000;
+  line-height:1.25;
+}
+
+.big-card-sub{
+  color:var(--muted);
+  font-size:16px;
+  font-weight:900;
+  margin-top:12px;
+  line-height:1.55;
+}
+
+.plate-input{
+  font-size:30px;
+  text-align:center;
+  letter-spacing:.18em;
+}
+
+.result-box{
+  border:3px dashed var(--line);
+  border-radius:18px;
+  background:#f8fbff;
+  padding:14px;
+  margin-top:12px;
+  font-weight:900;
+  line-height:1.7;
+}
+
+.choice-list{
+  display:grid;
+  gap:10px;
+  margin:12px 0;
+}
+
+.choice-btn{
+  width:100%;
+  text-align:left;
+  background:#fff;
+  color:var(--ink);
+}
+
+.choice-btn.correct{
+  background:var(--green);
+}
+
+.choice-btn.wrong{
+  background:var(--danger);
+  color:#fff;
+}
+
+.choice-btn:disabled{
+  opacity:1;
+  cursor:not-allowed;
+}
+
+.footer-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:12px;
+}
+
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:18px;
+  transform:translateX(-50%) translateY(120px);
+  width:min(92vw,520px);
+  border:4px solid var(--line);
+  border-radius:18px;
+  background:var(--yellow);
+  box-shadow:var(--shadow);
+  padding:12px 14px;
+  font-weight:1000;
+  text-align:center;
+  z-index:20;
+  transition:transform .25s ease;
+}
+
+.toast.show{
+  transform:translateX(-50%) translateY(0);
+}
+
+hr{
+  border:0;
+  border-top:3px dashed rgba(36,20,61,.35);
+  margin:14px 0;
+}
+
+.kpi{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+}
+
+.kpi-box{
+  border:3px solid var(--line);
+  border-radius:16px;
+  background:#fff;
+  box-shadow:2px 2px 0 var(--line);
+  padding:10px;
+  text-align:center;
+}
+
+.kpi-num{
+  font-size:24px;
+  font-weight:1000;
+}
+
+.kpi-label{
+  color:var(--muted);
+  font-size:12px;
+  font-weight:900;
+}
+
+.safe{
+  background:#eafff1;
+}
+
+.parked{
+  background:#fff1ed;
+}
+
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="title-row">
+        <div class="logo">
+          <div class="logo-mark">🚗</div>
+          <div>
+            <h1>ドライブ<br>ひまつぶしBOX</h1>
+            <p class="subtitle">帰省・渋滞・長距離移動に。家族で遊べる車内ミニゲーム集。</p>
+          </div>
+        </div>
+        <div class="score-box">
+          <div class="score-label">ファミリーポイント</div>
+          <div id="scoreValue" class="score-value">0</div>
+        </div>
+      </div>
+      <div class="notice">
+        ⚠️ 運転者は操作しないでください。見る・探す・答える係は同乗者が担当しましょう。
+      </div>
+    </div>
+  </header>
+
+  <nav class="nav" id="nav">
+    <button data-screen="home" class="active">ホーム</button>
+    <button data-screen="bingo">ビンゴ</button>
+    <button data-screen="talk">おしゃべり</button>
+    <button data-screen="shiritori">しりとり</button>
+    <button data-screen="plate">ナンバー探偵</button>
+    <button data-screen="quiz">クイズ</button>
+    <button data-screen="mission">ミッション</button>
+    <button data-screen="settings">設定</button>
+  </nav>
+
+  <main>
+    <section id="home" class="screen active">
+      <div class="panel">
+        <div class="panel-title">
+          <h2>今日の遊び方</h2>
+          <span class="badge">👤 <span id="currentPlayerLabel">プレイヤー</span></span>
+        </div>
+        <p class="help">
+          まずプレイヤーを選んで、好きなゲームを開始します。できたらポイントをためましょう。
+          途中でアプリを閉じても、スコアとビンゴは保存されます。
+        </p>
+
+        <div class="kpi">
+          <div class="kpi-box">
+            <div class="kpi-num" id="homeScore">0</div>
+            <div class="kpi-label">ポイント</div>
+          </div>
+          <div class="kpi-box">
+            <div class="kpi-num" id="homeBingoMarked">0</div>
+            <div class="kpi-label">ビンゴ発見</div>
+          </div>
+          <div class="kpi-box">
+            <div class="kpi-num" id="homeBingoLines">0</div>
+            <div class="kpi-label">ビンゴ数</div>
+          </div>
+        </div>
+
+        <hr>
+
+        <div class="grid cards">
+          <div class="game-card">
+            <h3>🚙 みつけたビンゴ</h3>
+            <p>トラック、トンネル、橋など、車窓から見つけたものをタップ。</p>
+          </div>
+          <div class="game-card">
+            <h3>💬 おしゃべりカード</h3>
+            <p>家族で話せるお題カード。眠気覚ましにも使えます。</p>
+          </div>
+          <div class="game-card">
+            <h3>🔤 しりとりお題</h3>
+            <p>普通のしりとりに、テーマや縛りを追加して遊びます。</p>
+          </div>
+          <div class="game-card">
+            <h3>🔎 ナンバー探偵</h3>
+            <p>見かけた車のナンバーを入れて、ラッキー判定します。</p>
+          </div>
+          <div class="game-card">
+            <h3>🧠 3択クイズ</h3>
+            <p>小学生でも楽しめる雑学クイズ。正解でポイント。</p>
+          </div>
+          <div class="game-card">
+            <h3>⏱️ 30秒ミッション</h3>
+            <p>安全にできる観察ミッション。できたら自己申告でOK。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="bingo" class="screen">
+      <div class="panel">
+        <div class="panel-title">
+          <h2>🚙 みつけたビンゴ</h2>
+          <div class="row">
+            <span class="badge">発見 <span id="bingoMarkedCount">0</span></span>
+            <span class="badge">ビンゴ <span id="bingoLineCount">0</span></span>
+          </div>
+        </div>
+        <p class="help">見つけたものをタップ。1つ発見で+1点、新しいビンゴで+5点。</p>
+        <div id="bingoGrid" class="bingo-grid"></div>
+        <div class="footer-actions">
+          <button class="big-btn yellow" id="newBingoBtn">新しいビンゴにする</button>
+          <button class="small-btn danger" id="clearBingoBtn">ビンゴだけリセット</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="talk" class="screen">
+      <div class="panel">
+        <div class="panel-title">
+          <h2>💬 おしゃべりカード</h2>
+          <span class="badge">話したら +1点</span>
+        </div>
+        <p class="help">カードをめくって、家族で順番に答えます。正解はありません。</p>
+        <div class="big-card">
+          <div>
+            <div id="talkMain" class="big-card-main">カードをめくってね</div>
+            <div id="talkSub" class="big-card-sub">移動中の会話ネタが出ます。</div>
+          </div>
+        </div>
+        <div class="footer-actions">
+          <button class="big-btn" id="nextTalkBtn">カードをめくる</button>
+          <button class="big-btn secondary" id="talkDoneBtn">話せた！ +1</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="shiritori" class="screen">
+      <div class="panel">
+        <div class="panel-title">
+          <h2>🔤 しりとりお題</h2>
+          <span class="badge">続いたら +2点</span>
+        </div>
+        <p class="help">テーマ付きしりとりです。10個続いたら「できた！」を押してください。</p>
+        <div class="big-card">
+          <div>
+            <div id="shiritoriMain" class="big-card-main">お題を出してね</div>
+            <div id="shiritoriSub" class="big-card-sub">食べ物、動物、地名などの縛りが出ます。</div>
+          </div>
+        </div>
+        <div class="footer-actions">
+          <button class="big-btn purple" id="nextShiritoriBtn">お題を出す</button>
+          <button class="big-btn green" id="shiritoriDoneBtn">10個できた！ +2</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="plate" class="screen">
+      <div class="panel">
+        <div class="panel-title">
+          <h2>🔎 ナンバー探偵</h2>
+          <span class="badge">発見ボーナスあり</span>
+        </div>
+        <p class="help">
+          見かけた車の4桁ナンバーを入力してください。数字の並びからラッキー判定します。
+          入力は同乗者が担当してください。
+        </p>
+        <input id="plateInput" class="input plate-input" inputmode="numeric" maxlength="4" placeholder="1234">
+        <div class="footer-actions">
+          <button class="big-btn" id="analyzePlateBtn">判定する</button>
+          <button class="small-btn" id="clearPlateBtn">消す</button>
+        </div>
+        <div id="plateResult" class="result-box">
+          例：7777、1221、1234、合計10などを見つけるとポイントが入ります。
+        </div>
+      </div>
+    </section>
+
+    <section id="quiz" class="screen">
+      <div class="panel">
+        <div class="panel-title">
+          <h2>🧠 3択クイズ</h2>
+          <span class="badge">正解 +3点</span>
+        </div>
+        <p class="help">答えを選んでください。次の問題で何度でも遊べます。</p>
+        <div class="big-card">
+          <div>
+            <div id="quizQuestion" class="big-card-main">問題を出してね</div>
+            <div id="quizCategory" class="big-card-sub">ドライブ雑学・日本・ことば</div>
+          </div>
+        </div>
+        <div id="quizChoices" class="choice-list"></div>
+        <div id="quizResult" class="result-box">まだ問題がありません。</div>
+        <div class="footer-actions">
+          <button class="big-btn yellow" id="nextQuizBtn">次の問題</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="mission" class="screen">
+      <div class="panel">
+        <div class="panel-title">
+          <h2>⏱️ 30秒ミッション</h2>
+          <span class="badge">成功 +2点</span>
+        </div>
+        <p class="help">30秒くらいでできる車内ミッションです。危ない動きは禁止です。</p>
+        <div class="big-card">
+          <div>
+            <div id="missionMain" class="big-card-main">ミッションを出してね</div>
+            <div id="missionSub" class="big-card-sub">安全にできるものだけ出ます。</div>
+          </div>
+        </div>
+        <div class="footer-actions">
+          <button class="big-btn green" id="nextMissionBtn">ミッションを出す</button>
+          <button class="big-btn" id="missionDoneBtn">できた！ +2</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="settings" class="screen">
+      <div class="panel">
+        <div class="panel-title">
+          <h2>⚙️ 設定</h2>
+        </div>
+        <p class="help">プレイヤー名を追加できます。スコアはこの端末に保存されます。</p>
+
+        <h3>プレイヤー</h3>
+        <div id="playerList" class="player-list"></div>
+
+        <hr>
+
+        <div class="row">
+          <input id="newPlayerInput" class="input" placeholder="名前を入力 例：リン">
+          <button class="big-btn secondary" id="addPlayerBtn">追加</button>
+        </div>
+
+        <hr>
+
+        <div class="footer-actions">
+          <button class="small-btn" id="addOnePointBtn">手動で +1点</button>
+          <button class="small-btn danger" id="resetScoreBtn">スコアをリセット</button>
+          <button class="small-btn danger" id="resetAllBtn">全部リセット</button>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div id="toast" class="toast">ポイントを追加しました</div>
+
+<script>
+"use strict";
+
+const STORAGE_KEY = "drive_himatsubushi_box_v1";
+
+const BINGO_ITEMS = [
+  "赤い車","青い車","黄色い車","トラック","バス",
+  "タクシー","救急車","消防車","パトカー","バイク",
+  "自転車","犬","猫","鳥","川",
+  "海","山","橋","トンネル","コンビニ",
+  "ガソリンスタンド","信号","踏切","電車","新幹線",
+  "飛行機","工事中","クレーン","看板","自動販売機",
+  "大きな木","花","畑","田んぼ","神社",
+  "お寺","学校","公園","高速道路","サービスエリア",
+  "ナンバー7","ゾロ目ナンバー","県外ナンバー","キャンピングカー","白い雲",
+  "夕日","富士山っぽい山","長い坂","カーブ標識","道の駅",
+  "郵便車","宅配トラック","観光バス","レンタカー","料金所"
+];
+
+const TALK_CARDS = [
+  ["今日いちばん楽しみなことは？","理由も一緒に話してみよう。"],
+  ["車で行ってみたい場所はどこ？","日本でも海外でもOK。"],
+  ["もし車が空を飛べたら、まずどこに行く？","目的地まで何分で着くかな？"],
+  ["家族でお店を開くなら何屋さん？","店名も考えよう。"],
+  ["最近うれしかったことを1つ教えて。","小さいことでもOK。"],
+  ["好きなおにぎりの具ランキングを作ろう。","1位から3位まで。"],
+  ["一日だけ動物になれるなら何になる？","その動物で何をしたい？"],
+  ["無人島に3つだけ持っていくなら？","家族で相談して決めよう。"],
+  ["今日の目的地に点数をつけるなら何点？","期待点でOK。"],
+  ["もし100万円もらったら何に使う？","貯金、旅行、買い物、なんでもOK。"],
+  ["家族の中で一番方向感覚がいいのは誰？","理由も言ってみよう。"],
+  ["今見える景色にタイトルをつけるなら？","映画タイトルっぽくしてもOK。"],
+  ["好きな給食メニューは？","大人は昔の給食でもOK。"],
+  ["一番好きな季節は？","その季節にしたいことも話そう。"],
+  ["今日のドライブを映画にするなら題名は？","ジャンルも決めよう。"],
+  ["家族でチーム名をつけるなら？","かっこいい名前、変な名前、どちらもOK。"],
+  ["一番好きな匂いは？","食べ物、場所、季節など。"],
+  ["タイムマシンがあったら過去と未来どっちに行く？","理由も話そう。"],
+  ["次の休憩で買いたいものは？","飲み物、アイス、お土産など。"],
+  ["車内で流したい曲は？","歌ってもOK。ただし大声すぎ注意。"]
+];
+
+const SHIRITORI_TOPICS = [
+  "食べ物だけ",
+  "動物だけ",
+  "家にあるものだけ",
+  "学校にあるものだけ",
+  "乗り物だけ",
+  "地名だけ",
+  "カタカナの言葉だけ",
+  "3文字の言葉だけ",
+  "4文字以上の言葉だけ",
+  "かわいいものだけ",
+  "強そうなものだけ",
+  "丸いものだけ",
+  "赤いものだけ",
+  "夏っぽいものだけ",
+  "冬っぽいものだけ",
+  "旅行に関係あるものだけ"
+];
+
+const SHIRITORI_STARTS = [
+  "あ","か","さ","た","な","は","ま","や","ら","わ",
+  "い","き","し","ち","に","ひ","み","り",
+  "う","く","す","つ","ぬ","ふ","む","ゆ","る"
+];
+
+const QUIZZES = [
+  {
+    category:"日本",
+    q:"日本で一番北にある都道府県は？",
+    choices:["北海道","青森県","秋田県"],
+    answer:0,
+    exp:"北海道が日本の一番北にある都道府県です。"
+  },
+  {
+    category:"ドライブ",
+    q:"高速道路で休憩できる場所はどれ？",
+    choices:["サービスエリア","体育館","図書館"],
+    answer:0,
+    exp:"サービスエリアやパーキングエリアで休憩できます。"
+  },
+  {
+    category:"ことば",
+    q:"『旅は道連れ』の続きは？",
+    choices:["世は情け","犬も歩けば","急がば回れ"],
+    answer:0,
+    exp:"『旅は道連れ、世は情け』ということわざです。"
+  },
+  {
+    category:"生き物",
+    q:"イルカは何の仲間？",
+    choices:["魚","鳥","ほ乳類"],
+    answer:2,
+    exp:"イルカは赤ちゃんを産み、肺で息をするほ乳類です。"
+  },
+  {
+    category:"日本",
+    q:"富士山がまたがっている県は？",
+    choices:["静岡県と山梨県","長野県と岐阜県","神奈川県と東京都"],
+    answer:0,
+    exp:"富士山は静岡県と山梨県にまたがっています。"
+  },
+  {
+    category:"算数",
+    q:"車のナンバー『1234』の数字を全部足すと？",
+    choices:["7","10","12"],
+    answer:1,
+    exp:"1+2+3+4=10です。"
+  },
+  {
+    category:"交通",
+    q:"赤信号の意味は？",
+    choices:["進め","止まれ","急いで渡れ"],
+    answer:1,
+    exp:"赤信号は止まれです。"
+  },
+  {
+    category:"自然",
+    q:"雨のあとに空に出ることがある七色のものは？",
+    choices:["虹","月","雪"],
+    answer:0,
+    exp:"雨上がりに太陽の光が水滴で分かれて虹が見えることがあります。"
+  },
+  {
+    category:"食べ物",
+    q:"お米を炊くと何になる？",
+    choices:["パン","ごはん","うどん"],
+    answer:1,
+    exp:"お米を炊くとごはんになります。"
+  },
+  {
+    category:"地理",
+    q:"横浜市がある都道府県は？",
+    choices:["神奈川県","千葉県","埼玉県"],
+    answer:0,
+    exp:"横浜市は神奈川県にあります。"
+  },
+  {
+    category:"乗り物",
+    q:"新幹線が走るために使うものは？",
+    choices:["線路","海","雲"],
+    answer:0,
+    exp:"新幹線は専用の線路を走ります。"
+  },
+  {
+    category:"ことば",
+    q:"『急がば回れ』の意味に近いものは？",
+    choices:["近道ばかり選ぶ","安全で確実な方法を選ぶ","急いで走る"],
+    answer:1,
+    exp:"急いでいるときほど、安全で確実な方法がよいという意味です。"
+  }
+];
+
+const MISSIONS = [
+  ["30秒で赤いものを3つ探そう","車内・車外どちらでもOK。見つけたら声に出してね。","safe"],
+  ["青い車を1台見つけよう","見つかるまでのんびり探そう。","safe"],
+  ["トラックの色を3種類見つけよう","白、黒、赤など。","safe"],
+  ["看板のひらがなを5文字見つけよう","読める文字だけでOK。","safe"],
+  ["橋かトンネルを見つけよう","高速道路ならチャンス多め。","safe"],
+  ["雲の形を何かにたとえよう","動物、食べ物、キャラクターなど。","safe"],
+  ["車内にある丸いものを3つ探そう","タイヤは見えたらOK。","safe"],
+  ["次の信号までに黄色いものを探そう","無理に身を乗り出さない。","safe"],
+  ["家族の誰かをほめよう","照れずに1つ言えたら成功。","safe"],
+  ["今の景色を5秒だけ静かに観察しよう","そのあと何が見えたか話そう。","safe"],
+  ["ナンバーに『7』が入った車を探そう","見つけたらラッキー。","safe"],
+  ["県外ナンバーを1つ見つけよう","読めなかったら色や車種でもOK。","safe"],
+  ["サービスエリアで背伸びを3回しよう","これは停車中だけ。","parked"],
+  ["休憩中に深呼吸を3回しよう","これは停車中だけ。","parked"],
+  ["休憩中に忘れ物チェックをしよう","スマホ、財布、水筒、マウスピースなど。","parked"]
+];
+
+let state = loadState();
+let currentQuiz = null;
+let answeredQuiz = false;
+let toastTimer = null;
+
+const $ = (id) => document.getElementById(id);
+
+function defaultState(){
+  return {
+    score:0,
+    players:["リン","ミク","お父さん","お母さん"],
+    currentPlayerIndex:0,
+    bingo:null
+  };
+}
+
+function loadState(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(!raw) return defaultState();
+    const parsed = JSON.parse(raw);
+    const base = defaultState();
+    return {
+      ...base,
+      ...parsed,
+      players:Array.isArray(parsed.players) && parsed.players.length ? parsed.players : base.players
+    };
+  }catch(e){
+    return defaultState();
+  }
+}
+
+function saveState(){
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
+
+function shuffle(array){
+  const a = [...array];
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random() * (i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+
+function pick(array){
+  return array[Math.floor(Math.random() * array.length)];
+}
+
+function showToast(message){
+  const toast = $("toast");
+  toast.textContent = message;
+  toast.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove("show"), 1800);
+}
+
+function currentPlayerName(){
+  if(!state.players.length) return "プレイヤー";
+  const index = Math.min(state.currentPlayerIndex, state.players.length - 1);
+  return state.players[index] || "プレイヤー";
+}
+
+function addScore(points, reason){
+  const safePoints = Number(points);
+  if(!Number.isFinite(safePoints)) return;
+  state.score = Math.max(0, state.score + safePoints);
+  saveState();
+  renderCommon();
+  const sign = safePoints >= 0 ? "+" : "";
+  showToast(`${currentPlayerName()}：${sign}${safePoints}点 ${reason || ""}`);
+}
+
+function renderCommon(){
+  $("scoreValue").textContent = state.score;
+  $("homeScore").textContent = state.score;
+  $("currentPlayerLabel").textContent = currentPlayerName();
+
+  const bingo = ensureBingo();
+  $("homeBingoMarked").textContent = bingo.marked.filter(Boolean).length;
+  $("homeBingoLines").textContent = bingo.lines || 0;
+
+  renderPlayers();
+}
+
+function switchScreen(screenId){
+  document.querySelectorAll(".screen").forEach(sec => {
+    sec.classList.toggle("active", sec.id === screenId);
+  });
+  document.querySelectorAll("#nav button").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.screen === screenId);
+  });
+
+  if(screenId === "bingo") renderBingo();
+  if(screenId === "settings") renderPlayers();
+
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+function ensureBingo(){
+  if(!state.bingo || !Array.isArray(state.bingo.items) || state.bingo.items.length !== 25){
+    const items = shuffle(BINGO_ITEMS).slice(0,25);
+    state.bingo = {
+      items,
+      marked:Array(25).fill(false),
+      lines:0
+    };
+    saveState();
+  }
+  return state.bingo;
+}
+
+function createNewBingo(){
+  const items = shuffle(BINGO_ITEMS).slice(0,25);
+  state.bingo = {
+    items,
+    marked:Array(25).fill(false),
+    lines:0
+  };
+  saveState();
+  renderBingo();
+  renderCommon();
+  showToast("新しいビンゴにしました");
+}
+
+function clearBingoMarks(){
+  const bingo = ensureBingo();
+  bingo.marked = Array(25).fill(false);
+  bingo.lines = 0;
+  saveState();
+  renderBingo();
+  renderCommon();
+  showToast("ビンゴをリセットしました");
+}
+
+function countBingoLines(marked){
+  const lines = [];
+  for(let r=0;r<5;r++){
+    lines.push([0,1,2,3,4].map(c => r*5+c));
+  }
+  for(let c=0;c<5;c++){
+    lines.push([0,1,2,3,4].map(r => r*5+c));
+  }
+  lines.push([0,6,12,18,24]);
+  lines.push([4,8,12,16,20]);
+
+  return lines.reduce((count,line) => {
+    return count + (line.every(index => marked[index]) ? 1 : 0);
+  },0);
+}
+
+function toggleBingo(index){
+  const bingo = ensureBingo();
+  if(index < 0 || index >= bingo.marked.length) return;
+
+  const wasMarked = bingo.marked[index];
+  const beforeLines = bingo.lines || 0;
+  bingo.marked[index] = !wasMarked;
+
+  const afterLines = countBingoLines(bingo.marked);
+  bingo.lines = afterLines;
+
+  saveState();
+  renderBingo();
+  renderCommon();
+
+  if(!wasMarked){
+    addScore(1, "発見！");
+    if(afterLines > beforeLines){
+      addScore((afterLines - beforeLines) * 5, "ビンゴ達成！");
+    }
+  }else{
+    showToast("マークを外しました");
+  }
+}
+
+function renderBingo(){
+  const bingo = ensureBingo();
+  const grid = $("bingoGrid");
+  grid.innerHTML = "";
+
+  bingo.items.forEach((item,index) => {
+    const cell = document.createElement("button");
+    cell.type = "button";
+    cell.className = "bingo-cell" + (bingo.marked[index] ? " marked" : "");
+    cell.textContent = item;
+    cell.addEventListener("click", () => toggleBingo(index));
+    grid.appendChild(cell);
+  });
+
+  $("bingoMarkedCount").textContent = bingo.marked.filter(Boolean).length;
+  $("bingoLineCount").textContent = bingo.lines || 0;
+}
+
+function nextTalk(){
+  const card = pick(TALK_CARDS);
+  $("talkMain").textContent = card[0];
+  $("talkSub").textContent = card[1];
+}
+
+function nextShiritori(){
+  const topic = pick(SHIRITORI_TOPICS);
+  const start = pick(SHIRITORI_STARTS);
+  const extra = pick([
+    "『ん』で終わったら負け。",
+    "同じ言葉は使えません。",
+    "迷ったら家族にヒントをもらってOK。",
+    "10個続いたら成功。",
+    "難しいときは普通のしりとりに戻してOK。"
+  ]);
+
+  $("shiritoriMain").textContent = `${topic}`;
+  $("shiritoriSub").textContent = `スタート文字：${start}　${extra}`;
+}
+
+function sanitizePlate(value){
+  return String(value || "").replace(/[^\d]/g,"").slice(0,4);
+}
+
+function analyzePlate(){
+  const input = $("plateInput");
+  const value = sanitizePlate(input.value);
+  input.value = value;
+
+  if(!value){
+    $("plateResult").innerHTML = "数字を入力してください。例：1234";
+    showToast("ナンバーを入力してね");
+    return;
+  }
+
+  const digits = value.split("").map(Number);
+  const sum = digits.reduce((a,b) => a+b,0);
+  const unique = new Set(digits);
+  const reversed = value.split("").reverse().join("");
+  const findings = [];
+  let points = 0;
+
+  if(value.length === 4){
+    if(unique.size === 1){
+      findings.push("ゾロ目！かなりレア！");
+      points += 5;
+    }
+    if(value === reversed && unique.size !== 1){
+      findings.push("ミラーナンバー！");
+      points += 4;
+    }
+    if(value === "1234" || value === "2345" || value === "3456" || value === "4567" || value === "5678" || value === "6789"){
+      findings.push("階段ナンバー！");
+      points += 4;
+    }
+    if(value === "9876" || value === "8765" || value === "7654" || value === "6543" || value === "5432" || value === "4321"){
+      findings.push("逆階段ナンバー！");
+      points += 4;
+    }
+  }
+
+  if(value.includes("7")){
+    findings.push("ラッキー7入り！");
+    points += 1;
+  }
+
+  if(sum === 10){
+    findings.push("合計10ぴったり！");
+    points += 3;
+  }else if(sum === 20){
+    findings.push("合計20ぴったり！");
+    points += 3;
+  }else if(sum === 24){
+    findings.push("合計24！");
+    points += 2;
+  }
+
+  if(value.includes("0")){
+    findings.push("0入りナンバー！");
+    points += 1;
+  }
+
+  if(findings.length === 0){
+    findings.push("今回は普通ナンバー。でも観察成功！");
+    points += 1;
+  }
+
+  const html = `
+    <div>入力：<strong>${value}</strong></div>
+    <div>数字の合計：<strong>${sum}</strong></div>
+    <div>判定：</div>
+    <ul>${findings.map(f => `<li>${escapeHtml(f)}</li>`).join("")}</ul>
+    <div>獲得ポイント：<strong>+${points}</strong></div>
+  `;
+  $("plateResult").innerHTML = html;
+  addScore(points, "ナンバー発見");
+}
+
+function escapeHtml(text){
+  return String(text)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+function nextQuiz(){
+  currentQuiz = pick(QUIZZES);
+  answeredQuiz = false;
+  $("quizQuestion").textContent = currentQuiz.q;
+  $("quizCategory").textContent = `カテゴリ：${currentQuiz.category}`;
+  $("quizResult").textContent = "答えを選んでください。";
+
+  const list = $("quizChoices");
+  list.innerHTML = "";
+
+  currentQuiz.choices.forEach((choice,index) => {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "choice-btn";
+    btn.textContent = `${index + 1}. ${choice}`;
+    btn.addEventListener("click", () => answerQuiz(index));
+    list.appendChild(btn);
+  });
+}
+
+function answerQuiz(index){
+  if(!currentQuiz || answeredQuiz) return;
+  answeredQuiz = true;
+
+  const buttons = [...document.querySelectorAll("#quizChoices .choice-btn")];
+  buttons.forEach((btn,i) => {
+    btn.disabled = true;
+    if(i === currentQuiz.answer) btn.classList.add("correct");
+    if(i === index && i !== currentQuiz.answer) btn.classList.add("wrong");
+  });
+
+  if(index === currentQuiz.answer){
+    $("quizResult").innerHTML = `正解！<br>${escapeHtml(currentQuiz.exp)}`;
+    addScore(3, "クイズ正解");
+  }else{
+    $("quizResult").innerHTML = `ざんねん。正解は「${escapeHtml(currentQuiz.choices[currentQuiz.answer])}」。<br>${escapeHtml(currentQuiz.exp)}`;
+    showToast("次の問題にチャレンジ");
+  }
+}
+
+function nextMission(){
+  const mission = pick(MISSIONS);
+  $("missionMain").textContent = mission[0];
+  $("missionSub").textContent = mission[1];
+
+  const card = $("missionSub").closest(".big-card");
+  card.classList.remove("safe","parked");
+  card.classList.add(mission[2]);
+}
+
+function renderPlayers(){
+  const list = $("playerList");
+  list.innerHTML = "";
+
+  state.players.forEach((name,index) => {
+    const chip = document.createElement("button");
+    chip.type = "button";
+    chip.className = "player-chip" + (index === state.currentPlayerIndex ? " active" : "");
+    chip.textContent = name;
+    chip.addEventListener("click", () => {
+      state.currentPlayerIndex = index;
+      saveState();
+      renderCommon();
+      showToast(`${name}を選びました`);
+    });
+    list.appendChild(chip);
+  });
+}
+
+function addPlayer(){
+  const input = $("newPlayerInput");
+  const name = input.value.trim();
+
+  if(!name){
+    showToast("名前を入力してください");
+    return;
+  }
+
+  if(name.length > 12){
+    showToast("名前は12文字以内にしてください");
+    return;
+  }
+
+  if(state.players.includes(name)){
+    showToast("同じ名前があります");
+    return;
+  }
+
+  state.players.push(name);
+  state.currentPlayerIndex = state.players.length - 1;
+  input.value = "";
+  saveState();
+  renderCommon();
+  showToast(`${name}を追加しました`);
+}
+
+function resetScore(){
+  const ok = confirm("スコアを0に戻しますか？");
+  if(!ok) return;
+  state.score = 0;
+  saveState();
+  renderCommon();
+  showToast("スコアをリセットしました");
+}
+
+function resetAll(){
+  const ok = confirm("全部リセットしますか？ プレイヤー、スコア、ビンゴが初期状態に戻ります。");
+  if(!ok) return;
+  state = defaultState();
+  saveState();
+  renderCommon();
+  renderBingo();
+  nextTalk();
+  nextShiritori();
+  nextQuiz();
+  nextMission();
+  showToast("全部リセットしました");
+}
+
+function bindEvents(){
+  document.querySelectorAll("#nav button").forEach(btn => {
+    btn.addEventListener("click", () => switchScreen(btn.dataset.screen));
+  });
+
+  $("newBingoBtn").addEventListener("click", createNewBingo);
+  $("clearBingoBtn").addEventListener("click", clearBingoMarks);
+
+  $("nextTalkBtn").addEventListener("click", nextTalk);
+  $("talkDoneBtn").addEventListener("click", () => addScore(1, "おしゃべり成功"));
+
+  $("nextShiritoriBtn").addEventListener("click", nextShiritori);
+  $("shiritoriDoneBtn").addEventListener("click", () => addScore(2, "しりとり成功"));
+
+  $("plateInput").addEventListener("input", (e) => {
+    e.target.value = sanitizePlate(e.target.value);
+  });
+  $("analyzePlateBtn").addEventListener("click", analyzePlate);
+  $("clearPlateBtn").addEventListener("click", () => {
+    $("plateInput").value = "";
+    $("plateResult").textContent = "例：7777、1221、1234、合計10などを見つけるとポイントが入ります。";
+  });
+
+  $("nextQuizBtn").addEventListener("click", nextQuiz);
+
+  $("nextMissionBtn").addEventListener("click", nextMission);
+  $("missionDoneBtn").addEventListener("click", () => addScore(2, "ミッション成功"));
+
+  $("addPlayerBtn").addEventListener("click", addPlayer);
+  $("newPlayerInput").addEventListener("keydown", (e) => {
+    if(e.key === "Enter") addPlayer();
+  });
+
+  $("addOnePointBtn").addEventListener("click", () => addScore(1, "手動追加"));
+  $("resetScoreBtn").addEventListener("click", resetScore);
+  $("resetAllBtn").addEventListener("click", resetAll);
+}
+
+function init(){
+  ensureBingo();
+  bindEvents();
+  renderCommon();
+  renderBingo();
+  nextTalk();
+  nextShiritori();
+  nextQuiz();
+  nextMission();
+}
+
+init();
+</script>
+</body>
+</html>

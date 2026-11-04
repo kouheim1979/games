@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="format-detection" content="telephone=no">
+<meta name="theme-color" content="#eaf6f1">
+<title>リンハーバー</title>
+<link rel="apple-touch-icon" href="assets/art-v1/icon-180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/art-v1/icon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="assets/art-v1/icon-512.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="preload" as="image" href="assets/art-hd/hero.webp">
+<link rel="stylesheet" href="youth.css?v=board-size1">
+<!-- Replaces item-art-levels.js and warehouse.js. Features are integrated before startup. -->
+</head>
+<body data-view="opening">
+<div class="app">
+  <section id="screenOpening" class="screen on">
+    <div class="openingHero">
+      <div id="openingFallback" class="openingFallback"></div>
+      <video id="openingVideo" class="openingVideo" muted autoplay loop playsinline preload="metadata" poster="assets/art-hd/hero.webp" aria-hidden="true"><source src="assets/video/title-loop.mp4" type="video/mp4"></video>
+      <img id="openingImage" src="assets/art-hd/hero.webp" alt="リンとリン号が待つ夕暮れの港" width="2880" height="1620" fetchpriority="high" decoding="async">
+      <div class="openingBadge">RIN HARBOR ／ SEA JOURNAL</div>
+      <div class="titleCompass" aria-hidden="true"><svg class="uiIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><path d="m16 8-2 6-6 2 2-6Z"/></svg></div><div class="openingCopy">
+        <span class="eyebrow">ひとつ合成。ひとつ冒険。</span><b>リンハーバー</b>
+        <span class="sub">この港のつづきは、きみとリンで。</span>
+      </div>
+      <div class="openingButtons">
+        <button id="startHome" class="primary">港へ行く</button>
+        <button id="startGame" class="good">合成して遊ぶ</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="sub">セーブは自動。自分のペースで冒険しよう。</div>
+    </div>
+  </section>
+
+  <section id="screenHome" class="screen">
+    <header class="card">
+      <div class="top homeWelcome">
+        <div><span class="eyebrow">おかえり、キャプテン。</span><div class="title">リンの港</div></div>
+        <span id="streakBadge" class="streak">🔥 1日</span>
+      </div>
+      <div class="harborHero">
+        <img id="homeShipImage" class="harborHeroImg" alt="リン号">
+        <div id="homeShipFallback" class="harborFallback">⛵</div>
+        <div class="harborOverlay">
+          <div>
+            <div class="tiny">次の目標</div><b id="repairTitle">壊れたリン号</b>
+            <div id="repairSub" class="tiny">修理を進めよう</div>
+            <div class="progress"><i id="repairBar"></i></div>
+          </div>
+          <button id="repairBtn" class="good">🔧 修理</button>
+        </div>
+      </div>
+      <div id="repairJourney" class="repairJourney" aria-label="修理の進み具合"></div><div id="statsHome" class="stats"></div>
+      <div class="harborGuide"><img src="assets/art-v1/icon-180.png" alt="リン" width="48" height="48"><div><small>RIN</small><p id="homeGuide">いっしょに船を直そう！</p></div><button data-go="game" class="primary">合成して遊ぶ</button></div>
+    </header>
+    <button class="playBanner" data-go="game"><span><small>材料を集めて、船をよみがえらせよう</small><strong>合成して遊ぶ</strong></span><span aria-hidden="true">→</span></button><div class="homeGrid"><button class="menuCard" data-go="warehouse"><span class="menuIcon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m3 8 9-5 9 5v12H3ZM3 8h18M8 20v-8h8v8M8 16h8"/></svg></span><b>みなとの倉庫</b><span class="tiny"><span data-warehouse-count>0/12</span> 保管中</span></button>
+      <button class="menuCard" data-go="game"><span class="menuIcon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="6" height="6" rx="1.5"/><rect x="14" y="4" width="6" height="6" rx="1.5"/><rect x="4" y="14" width="6" height="6" rx="1.5"/><path d="M17 14v6M14 17h6"/></svg></span><b>合成ゲーム</b><span class="tiny">ヒント・やり直し対応</span></button>
+      <button class="menuCard" data-go="orders"><span class="menuIcon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 15h16l-2 4H6l-2-4Z"/><path d="M7 15V9h6v6M13 9V5h4v10"/><path d="M2.5 20.5c1.2.7 2.4.7 3.6 0 1.2.7 2.4.7 3.6 0 1.2.7 2.4.7 3.6 0 1.2.7 2.4.7 3.6 0 1.2.7 2.4.7 3.6 0"/></svg></span><b id="homeOrderTitle">注文</b><span id="homeOrderSub" class="tiny">8件あります</span></button>
+      <button class="menuCard" data-go="story"><span class="menuIcon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H12v16H6.5A2.5 2.5 0 0 0 4 21.5v-16Z"/><path d="M20 5.5A2.5 2.5 0 0 0 17.5 3H12v16h5.5A2.5 2.5 0 0 1 20 21.5v-16Z"/></svg></span><b>冒険のきろく</b><span class="tiny">港とリン号を成長</span></button>
+      <button class="menuCard" data-go="book"><span class="menuIcon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 4.5 6.5 12 10l7.5-3.5L12 3Z"/><path d="M6 9v5c0 2.2 2.7 4 6 4s6-1.8 6-4V9"/><path d="M20 8v6"/></svg></span><b>お宝コレクション</b><span id="homeBookSub" class="tiny">発見を集めよう</span></button>
+    </div>
+
+
+    <div class="card">
+      <div class="top">
+        <div><h2>今日のミッション</h2><div id="dailyDate" class="tiny"></div></div>
+        <span id="dailyClear" class="pill">3つクリアで⭐3</span>
+      </div>
+      <div id="dailyList" class="dailyList"></div>
+    </div>
+
+
+  </section>
+
+  <section id="screenGame" class="screen game">
+    <div class="gamePage">
+      <header class="gameHead">
+        <div class="gameHeadRow">
+          <div><span class="eyebrow">つくって、届けて、港を育てる</span><div class="gameTitle">合成アトリエ</div></div>
+          <div class="gameHeadActions"><button id="autoGame" class="good" aria-label="自動納品の切り替え">自動 ON</button><button id="openWarehouse" aria-label="倉庫を開く"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m3 8 9-5 9 5v12H3ZM3 8h18M8 20v-8h8v8M8 16h8"/></svg><b>倉庫</b><small data-warehouse-count>0/12</small></button></div>
+        </div>
+        <div id="miniStats" class="miniStats"></div><div class="xpRail" aria-label="次のレベルまで"><i id="gameXp"></i></div>
+      </header>
+      <div class="orderStrip"><div class="requestAvatar" aria-hidden="true"><svg class="uiIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 7h18v13H3zM3 7l9 7 9-7M8 4h8"/></svg></div>
+        <div>
+          <b id="nextOrderTitle">注文チェック中</b>
+          <small id="nextOrderSub">同じアイテムを重ねよう</small>
+          <div id="nextWants" class="wantMini"></div>
+        </div>
+        <button id="quickTop" class="primary" disabled>お届け</button>
+      </div>
+      <div class="boardBox"><div id="board" class="board" role="group" aria-label="合成ボード・6行6列"></div></div>
+      <div class="controls">
+        <button id="store" class="primary" disabled>預ける</button>
+        <button id="hint" class="warn">ヒント</button>
+        <button id="undo" disabled>戻す</button>
+        <button id="sort">整列</button>
+        <button id="sell" class="danger" disabled>売る</button>
+        <button id="clear">解除</button>
+      </div>
+      <div id="msg" class="msg" role="status" aria-live="polite">屋台をタップすると材料がずっと出るよ。</div>
+    </div>
+  </section>
+
+  <section id="screenOrders" class="screen">
+    <header class="card">
+      <div class="top">
+        <div><span class="eyebrow">材料を届けて、港のみんなを笑顔に</span><div class="title">みんなのお願い</div><div class="sub">そろった注文から納品できます</div></div>
+        <button id="quickOrders" class="primary">納品を確認</button>
+      </div>
+      <div id="statsOrders" class="stats"></div>
+    </header>
+    <div class="card">
+      <h2>注文一覧</h2>
+      <div id="orders" class="orders"></div>
+    </div>
+  </section>
+
+  <section id="screenStory" class="screen">
+    <header class="card">
+      <div class="top">
+        <div><span class="eyebrow">少しずつ広がる、港の物語</span><div class="title">冒険のきろく</div><div class="sub">港の物語とリン号の修理記録</div></div>
+        <button data-go="game" class="primary">星を集める</button>
+      </div>
+      <div id="statsStory" class="stats"></div>
+    </header>
+    <div class="card">
+      <div class="top"><h2>リン号の修理アルバム</h2><button id="openAlbum" class="warn">大きく見る</button></div>
+      <div id="albumStrip" class="albumStrip"></div>
+    </div>
+    <div class="card">
+      <h2>港の物語</h2>
+      <div id="storyList" class="storyList"></div>
+    </div>
+  </section>
+
+<section id="screenWarehouse" class="screen">
+  <header class="card warehouseHeading">
+    <div class="top"><div><span class="eyebrow">あとで使うアイテムを、大切に。</span><div class="title">みなとの倉庫</div></div><button data-go="game" class="primary">ゲームへ</button></div>
+    <p class="sub">保管中のアイテムは自動納品に使われません。</p>
+    <div class="warehouseStatus"><span>保管数 <strong id="warehouseCount">0 / 12</strong></span><button id="warehouseUndo" disabled>1手戻す</button></div>
+    <div class="warehouseMeterTrack"><i id="warehouseMeter"></i></div>
+    <p id="warehouseBoardSpace" role="status" class="tiny"></p>
+    <details class="warehouseHelp"><summary>使い方・倉庫の大きさ</summary><p>盤面のアイテムを選択 →「預ける」で保管。「取り出す」で1こずつ盤面へ戻します。屋台は預けられません。</p><p>最初は12こ。リン号を1段階修理すると4こ分、プレイヤーレベルが3つ上がるごとに2こ分増えます。取り出した直後の自動納品はしません。</p></details>
+  </header>
+  <div id="warehouseFilters" class="warehouseFilters" role="group" aria-label="保管アイテムの種類"></div>
+  <div id="warehouseList" class="warehouseList"></div>
+</section>
+
+  <section id="screenBook" class="screen">
+    <header class="card">
+      <div class="bookHeader">
+        <div><span class="eyebrow">まだ見ぬお宝を、見つけに行こう</span><div class="title">お宝コレクション</div><div id="bookProgressText" class="sub">発見中</div></div>
+        <button data-go="game" class="primary">集める</button>
+      </div>
+      <div id="statsBook" class="stats"></div>
+    </header>
+    <div class="card">
+      <h2>アイテム図鑑</h2><p class="tiny">形とLvを見くらべよう。同じ種類・同じLvの2つが合成できます。</p>
+      <div id="bookChains" class="bookChains"></div>
+    </div>
+    <div class="card">
+      <h2>設定・データ</h2><p id="storageStatus" class="tiny">この端末に自動保存しています。</p><p id="offlineStatus" class="tiny">オフラインの準備中…</p><button id="downloadSave">バックアップをファイルに保存</button><p class="tiny">バージョン 2026.09.08 Atelier 4 ・ つくり方ガイド</p>
+      <div class="settings">
+        <div class="setting"><div><b>自動納品</b><small>完成した注文を自動で届けます</small></div><button id="autoSetting" class="toggle"></button></div>
+        <div class="setting"><div><b>物語を自動進行</b><small>星が足りたら次の話を開放します</small></div><button id="autoStorySetting" class="toggle"></button></div>
+        <div class="setting"><div><b>効果音</b><small>合成・納品・修理で短い音を鳴らします</small></div><button id="soundSetting" class="toggle"></button></div>
+        <div class="setting"><div><b>触覚フィードバック</b><small>対応端末で軽く振動します</small></div><button id="hapticSetting" class="toggle"></button></div>
+        <div class="setting"><div><b>セーブをバックアップ</b><small>復元用コードをクリップボードへコピー</small></div><button id="exportSave">📋 コピー</button></div>
+        <div class="setting"><div><b>バックアップから復元</b><small>保存したコードを貼り付けて復元</small></div><button id="importSave">📥 復元</button></div>
+        <div class="setting"><div><b>最初からやり直す</b><small>この端末のリンハーバーを初期化</small></div><button id="reset" class="danger">初期化</button></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<nav id="nav" class="nav hidden">
+  <button data-go="home"><span class="navIcon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 11.2 12 4l8.5 7.2"/><path d="M5.5 10.5V20h13v-9.5"/><path d="M9.5 20v-6h5v6"/></svg></span>ホーム</button>
+  <button data-go="game"><span class="navIcon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="6" height="6" rx="1.5"/><rect x="14" y="4" width="6" height="6" rx="1.5"/><rect x="4" y="14" width="6" height="6" rx="1.5"/><path d="M17 14v6M14 17h6"/></svg></span>ゲーム</button>
+  <button data-go="orders"><span class="navIcon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 15h16l-2 4H6l-2-4Z"/><path d="M7 15V9h6v6M13 9V5h4v10"/><path d="M2.5 20.5c1.2.7 2.4.7 3.6 0 1.2.7 2.4.7 3.6 0 1.2.7 2.4.7 3.6 0 1.2.7 2.4.7 3.6 0 1.2.7 2.4.7 3.6 0"/></svg></span>注文</button>
+  <button data-go="warehouse"><span class="navIcon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m3 8 9-5 9 5v12H3ZM3 8h18M8 20v-8h8v8M8 16h8"/></svg></span>倉庫</button>
+  <button data-go="story"><span class="navIcon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H12v16H6.5A2.5 2.5 0 0 0 4 21.5v-16Z"/><path d="M20 5.5A2.5 2.5 0 0 0 17.5 3H12v16h5.5A2.5 2.5 0 0 1 20 21.5v-16Z"/></svg></span>物語</button>
+  <button data-go="book"><span class="navIcon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 4.5 6.5 12 10l7.5-3.5L12 3Z"/><path d="M6 9v5c0 2.2 2.7 4 6 4s6-1.8 6-4V9"/><path d="M20 8v6"/></svg></span>図鑑</button>
+</nav>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<div id="celebrate" class="celebrate"></div>
+<div id="viewer" class="viewer" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="viewerTitle">
+  <div class="viewerPanel">
+    <div class="viewerHead"><b id="viewerTitle">修理アルバム</b><div class="viewerActions"><button id="viewerMovie" class="warn">ムービー</button><button id="viewerClose" class="off">閉じる</button></div></div>
+    <img id="viewerImg" class="viewerImg" alt="">
+    <div id="viewerText" class="viewerText"></div>
+    <div id="viewerThumbs" class="viewerThumbs"></div>
+  </div>
+</div>
+
+<div id="movieViewer" class="movieViewer" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="movieTitle">
+  <div class="moviePanel">
+    <div class="movieTop"><div><span class="movieKicker">REPAIR MOVIE</span><b id="movieTitle">リン号を修理！</b></div><button id="movieSkip" class="off">スキップ</button></div>
+    <video id="repairMovie" class="repairMovie" muted playsinline preload="metadata"></video>
+    <div id="movieCaption" class="movieCaption">リン号が少しずつ元気になっていくよ。</div>
+  </div>
+</div>
+
+<div id="recipeViewer" class="viewer recipeViewer" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="recipeTitle" aria-describedby="recipeNeed">
+  <div class="recipePanel">
+    <div class="recipeHead"><h2 id="recipeTitle">つくり方</h2><button id="recipeClose">閉じる</button></div>
+    <div id="recipeBody" class="recipeBody">
+      <p id="recipeNeed" class="recipeNeed"></p>
+      <div id="recipeFormula" class="recipeFormula" aria-hidden="true"></div>
+      <p id="recipeRule"></p><p id="recipeSource" class="recipeSource"></p>
+      <ol id="recipeSteps" class="recipeSteps" aria-label="合成の順番"></ol>
+      <button id="recipeWarehouse" class="good" hidden>この材料を倉庫で見る</button>
+    </div>
+    <div class="recipeFoot"><button id="recipeGuide" class="primary">この注文を目標にする</button><button id="recipeAuto" hidden>おまかせに戻す</button></div>
+  </div>
+</div>
+
+<div id="generatorSecretViewer" class="viewer generatorSecretViewer" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="generatorSecretTitle">
+  <div class="generatorSecretPanel">
+    <div class="viewerHead"><b id="generatorSecretTitle">屋台の裏設定</b><button id="generatorSecretClose" class="off">閉じる</button></div>
+    <div class="generatorSecretBody">
+      <p class="generatorSecretLead">屋台を5秒長押しすると開く秘密メニューです。</p>
+      <section class="generatorBoardSettings" aria-labelledby="generatorBoardLabel">
+        <label id="generatorBoardLabel" for="generatorBoardSize">盤面のマス数（すべての屋台で共通）</label>
+        <select id="generatorBoardSize" aria-describedby="generatorBoardHelp generatorBoardNote"></select>
+        <p id="generatorBoardHelp" class="tiny">標準は6×6の36マス。縮小時は外側のアイテムを空きマスへ移します。入り切らない場合は変更できません。</p>
+        <p id="generatorBoardNote" class="tiny" role="status" aria-live="polite"></p>
+      </section>
+      <b class="generatorOutputLabel">この屋台から出すアイテム</b>
+      <div id="generatorSecretOptions" class="generatorSecretOptions"></div>
+      <p id="generatorSecretNote" class="tiny"></p>
+    </div>
+    <div class="generatorSecretActions"><button id="generatorSecretReset">抽選を通常に戻す</button><button id="generatorSecretSave" class="primary">保存</button></div>
+  </div>
+</div>
+
+<script src="item-art.js?v=guide1"></script>
+<script src="game.js?v=board-size1"></script>
+<noscript>遊ぶにはJavaScriptを有効にしてください。</noscript>
+</body>
+</html>

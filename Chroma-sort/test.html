@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="ja">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Chroma Sort Test</title>
+<style>
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#050a1d;color:#eaf2ff;font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans',sans-serif}
+#frame{position:fixed;inset:0;width:100%;height:100%;border:0;background:#050a1d}
+#msg{position:fixed;left:8px;right:8px;bottom:8px;z-index:99999;background:#300;color:#fff;border:1px solid #f66;border-radius:10px;padding:10px;font-size:12px;white-space:pre-wrap;display:none}
+#msg.ok{background:#063;border-color:#6f9}
+</style>
+<iframe id="frame"></iframe>
+<pre id="msg"></pre>
+<script>
+const msg=document.getElementById('msg');
+function show(text,ok=false){msg.textContent=text;msg.className=ok?'ok':'';msg.style.display='block'}
+function hide(){msg.style.display='none'}
+function must(s,a,b,name){if(!s.includes(a))throw new Error('patch missing: '+name);return s.replace(a,b)}
+function patch(html){
+  let s=html;
+  s=s.replace('<title>Water Sort Puzzle</title>','<title>Chroma Sort Test</title>');
+  s=s.replace('<div id="sd" class="easy">EASY</div>','<div id="sd" class="easy">EASY / 4色</div>');
+  if(!s.includes('#sd.expert')){
+    s=must(s,"#sd.hard    {background:rgba(255,60,20,.26);  color:#ff9966}","#sd.hard    {background:rgba(255,60,20,.26);  color:#ff9966}\n#sd.expert  {background:rgba(180,60,255,.24); color:#ddaaff}",'expert css');
+  }
+  if(!s.includes('.abtn.on{')){
+    s=must(s,".abtn:disabled{opacity:.28;pointer-events:none}",".abtn:disabled{opacity:.28;pointer-events:none}\n.abtn.on{background:linear-gradient(160deg,#7c5cff 0%,#3516b8 100%);box-shadow:0 4px 14px rgba(80,40,220,.55),inset 0 1px 0 rgba(255,255,255,.25)}",'symbol button css');
+  }
+  if(!s.includes('.bseg.sym::before')){
+    s=must(s,"/* Glass overlay: left bright → right dark = cylinder */\n.bglass{",`/* ── Color-symbol support ── */
+.bseg.sym::before{
+  content:attr(data-sym);
+  position:absolute;inset:0;z-index:3;
+  display:flex;align-items:center;justify-content:center;
+  font-size:calc(var(--BW)*.34);font-weight:900;
+  color:rgba(255,255,255,.92);
+  text-shadow:0 2px 5px rgba(0,0,0,.95),0 0 8px rgba(0,0,0,.75);
+  pointer-events:none;
+}
+.bseg.sym.light::before{
+  color:rgba(0,0,0,.78);
+  text-shadow:0 1px 1px rgba(255,255,255,.50),0 0 4px rgba(255,255,255,.35);
+}
+
+/* Glass overlay: left bright → right dark = cylinder */
+.bglass{`,'symbol css');
+  }
+  if(!s.includes('id="bsym"')){
+    const old=`    <button class="abtn" id="bxtra">
+      <span class="ai">🧪</span><span class="al">+Bottle</span><span class="ac">-20🪙</span>
+    </button>`;
+    const neu=old+`
+    <button class="abtn" id="bsym">
+      <span class="ai">🔣</span><span class="al">Symbol</span><span class="ac" id="symst">OFF</span>
+    </button>`;
+    s=must(s,old,neu,'symbol footer');
+  }
+  if(!s.includes('id="dgrp"')){
+    const old=`    <div class="srow"><span class="slbl">🔊 サウンド</span><button class="tog on" id="ss">ON</button></div>
+    <div class="srow"><span class="slbl">📳 バイブ</span><button class="tog on" id="sv">ON</button></div>`;
+    const neu=old+`
+    <div class="srow">
+      <span class="slbl">🎚️ 難易度</span>
+      <div class="bgrp" id="dgrp">
+        <button class="gbtn on" data-v="easy">EASY</button>
+        <button class="gbtn" data-v="normal">NORMAL</button>
+        <button class="gbtn" data-v="hard">HARD</button>
+        <button class="gbtn" data-v="expert">EXPERT</button>
+      </div>
+    </div>`;
+    s=must(s,old,neu,'difficulty setting');
+  }
+  const colorRepls={
+"red:     {bg:'linear-gradient(180deg,#ff3333,#bb0000)',gl:'#ff1111'},":"red:     {bg:'linear-gradient(180deg,#ff3333,#bb0000)',gl:'#ff1111',sym:'●',light:false},",
+"orange:  {bg:'linear-gradient(180deg,#ff9900,#cc5500)',gl:'#ff7700'},":"orange:  {bg:'linear-gradient(180deg,#ff9900,#cc5500)',gl:'#ff7700',sym:'▲',light:false},",
+"brown:   {bg:'linear-gradient(180deg,#cc6622,#884411)',gl:'#bb5511'},":"brown:   {bg:'linear-gradient(180deg,#cc6622,#884411)',gl:'#bb5511',sym:'⬟',light:false},",
+"yellow:  {bg:'linear-gradient(180deg,#ffee00,#ccaa00)',gl:'#ffdd00'},":"yellow:  {bg:'linear-gradient(180deg,#ffee00,#ccaa00)',gl:'#ffdd00',sym:'★',light:true},",
+"lime:    {bg:'linear-gradient(180deg,#ccff00,#88bb00)',gl:'#bbff00'},":"lime:    {bg:'linear-gradient(180deg,#ccff00,#88bb00)',gl:'#bbff00',sym:'✚',light:true},",
+"green:   {bg:'linear-gradient(180deg,#00ee55,#009933)',gl:'#00ff44'},":"green:   {bg:'linear-gradient(180deg,#00ee55,#009933)',gl:'#00ff44',sym:'＋',light:false},",
+"teal:    {bg:'linear-gradient(180deg,#00ffcc,#009977)',gl:'#00ffaa'},":"teal:    {bg:'linear-gradient(180deg,#00ffcc,#009977)',gl:'#00ffaa',sym:'◇',light:false},",
+"cyan:    {bg:'linear-gradient(180deg,#00aaff,#0066bb)',gl:'#00aaff'},":"cyan:    {bg:'linear-gradient(180deg,#00aaff,#0066bb)',gl:'#00aaff',sym:'○',light:true},",
+"blue:    {bg:'linear-gradient(180deg,#3344ff,#0011cc)',gl:'#2233ff'},":"blue:    {bg:'linear-gradient(180deg,#3344ff,#0011cc)',gl:'#2233ff',sym:'■',light:false},",
+"indigo:  {bg:'linear-gradient(180deg,#7722ff,#4400bb)',gl:'#6611ff'},":"indigo:  {bg:'linear-gradient(180deg,#7722ff,#4400bb)',gl:'#6611ff',sym:'⬢',light:false},",
+"purple:  {bg:'linear-gradient(180deg,#cc00ff,#8800cc)',gl:'#bb00ff'},":"purple:  {bg:'linear-gradient(180deg,#cc00ff,#8800cc)',gl:'#bb00ff',sym:'◆',light:false},",
+"lavender:{bg:'linear-gradient(180deg,#dd99ff,#9966cc)',gl:'#ccaaff'},":"lavender:{bg:'linear-gradient(180deg,#dd99ff,#9966cc)',gl:'#ccaaff',sym:'✿',light:true},",
+"pink:    {bg:'linear-gradient(180deg,#ff44bb,#cc0066)',gl:'#ff22aa'},":"pink:    {bg:'linear-gradient(180deg,#ff44bb,#cc0066)',gl:'#ff22aa',sym:'♥',light:false},",
+"cream:   {bg:'linear-gradient(180deg,#fffff0,#eecc88)',gl:'#ffffff'},":"cream:   {bg:'linear-gradient(180deg,#fffff0,#eecc88)',gl:'#ffffff',sym:'☀',light:true},",
+"gray:    {bg:'linear-gradient(180deg,#bbbbbb,#777777)',gl:'#aaaaaa'},":"gray:    {bg:'linear-gradient(180deg,#bbbbbb,#777777)',gl:'#aaaaaa',sym:'×',light:true},",
+"silver:  {bg:'linear-gradient(180deg,#aaccee,#7799bb)',gl:'#99bbdd'},":"silver:  {bg:'linear-gradient(180deg,#aaccee,#7799bb)',gl:'#99bbdd',sym:'✦',light:true},"
+  };
+  for(const [a,b] of Object.entries(colorRepls)) if(s.includes(a)) s=s.replace(a,b);
+  s=must(s,`/* 全ステージ14色×18本 — 難易度はシャッフル量のみ変化 */
+const DC={
+  beginner:{c:16,b:16,e:4,sh:18},
+  easy:    {c:16,b:16,e:4,sh:60},
+  normal:  {c:16,b:16,e:4,sh:160},
+  hard:    {c:16,b:16,e:4,sh:380},
+};
+const DORD=['beginner','easy','normal','hard'];`,`/* ボトル数は常に20本（カラー16本+空4本）、難易度は色数のみ変更 */
+const DC={
+  easy:  {c:4, b:16, e:4, sh:60},
+  normal:{c:8, b:16, e:4, sh:130},
+  hard:  {c:12,b:16, e:4, sh:230},
+  expert:{c:16,b:16, e:4, sh:380},
+};
+const DORD=['easy','normal','hard','expert'];`,'DC');
+  s=must(s,"static G='ws6g';static S='ws6s';","static G='ws10testg';static S='ws10tests';",'storage');
+  s=must(s,"constructor(){this.#d={sound:true,vib:true,theme:'navy',spd:'Normal',...(Store.ls()||{})}}","constructor(){this.#d={sound:true,vib:true,theme:'navy',spd:'Normal',diff:'easy',sym:false,...(Store.ls()||{})};if(!DORD.includes(this.#d.diff))this.#d.diff='easy'}",'cfg');
+  s=s.replace(/class Stage\{\n  \/\* Difficulty name from stage number \*\/\n  static diff\(n\)\{[\s\S]*?\n  \/\* Core generator: pool shuffle \(Fisher-Yates\) \*\/\n  static createMixedStage\(diff,seed\)\{\n    const cfg=DC\[diff\],rng=new RNG\(seed\);\n    const colors=CN\.slice\(0,cfg\.c\);\n    \/\* Build pool: each color × CAP \*\/\n    const pool=\[\];\n    colors\.forEach\(c=>\{for\(let i=0;i<CAP;i\+\+\)pool\.push\(c\)\}\);/,`class Stage{
+  static norm(d){return DORD.includes(d)?d:'easy'}
+  static label(d){
+    return{easy:'EASY',normal:'NORMAL',hard:'HARD',expert:'EXPERT'}[Stage.norm(d)]||'EASY';
+  }
+
+  /* Core generator: pool shuffle (Fisher-Yates) */
+  static createMixedStage(diff,seed){
+    diff=Stage.norm(diff);
+    const cfg=DC[diff],rng=new RNG(seed);
+    const colors=CN.slice(0,cfg.c);
+    /* Build pool: always 16 color-bottles worth of segments.
+       Fewer colors means each selected color appears in multiple solved bottles. */
+    const pool=[];
+    for(let group=0;group<cfg.b;group++){
+      const c=colors[group%colors.length];
+      for(let i=0;i<CAP;i++)pool.push(c);
+    }`);
+  s=s.replace(/  \/\* Load a stage: fixed data for 1-20, random generation beyond \*\/\n  static load\(n\)\{[\s\S]*?return Stage\.gen\(diff,seed\);\n  \}\n\}/,`  /* Load a stage using selected difficulty */
+  static load(n,diff='easy'){
+    diff=Stage.norm(diff);
+    const seed=((n*7919+31337)^(n*n*13)^(DC[diff].c*1009))&0xFFFFFF;
+    return Stage.gen(diff,seed);
+  }
+}`);
+  s=must(s,"class GS{\n  lv=1;coins=IC;sel=null;","class GS{\n  lv=1;coins=IC;sel=null;diff='easy';",'GS prop');
+  s=must(s,`  load(n){
+    const b=Stage.load(n);
+    this.lv=n;this.btls=b;this.init=b.map(b=>b.clone());`,`  load(n,diff=this.diff){
+    diff=Stage.norm(diff);
+    const b=Stage.load(n,diff);
+    this.lv=n;this.diff=diff;this.btls=b;this.init=b.map(b=>b.clone());`,'GS load');
+  s=must(s,"lv:this.lv,coins:this.coins,\n      btls","lv:this.lv,coins:this.coins,diff:this.diff,\n      btls",'toJ');
+  s=must(s,"g.lv=d.lv;g.coins=d.coins;\n    g.btls","g.lv=d.lv;g.coins=d.coins;g.diff=Stage.norm(d.diff||'easy');\n    g.btls",'fromJ');
+  s=must(s,`  #hdr(){
+    const d=Stage.diff(this.#g.lv);
+    document.getElementById('sn').textContent=\`Stage \${this.#g.lv}\`;
+    const b=document.getElementById('sd');
+    b.textContent=Stage.label(d);b.className=d;
+    document.getElementById('cv').textContent=this.#g.coins;
+  }`,`  #hdr(){
+    const d=this.#g.diff;
+    document.getElementById('sn').textContent=\`Stage \${this.#g.lv}\`;
+    const b=document.getElementById('sd');
+    b.textContent=\`\${Stage.label(d)} / \${DC[d].c}色\`;b.className=d;
+    document.getElementById('cv').textContent=this.#g.coins;
+  }`,'hdr');
+  s=must(s,`      if(i<segs.length){
+        s.style.background=CS[segs[i]].bg;
+        if(i>0&&segs[i]!==segs[i-1])s.classList.add('sep');
+      }`,`      if(i<segs.length){
+        const c=CS[segs[i]];
+        s.style.background=c.bg;
+        if(this.#cfg.get('sym')){
+          s.classList.add('sym');
+          if(c.light)s.classList.add('light');
+          s.dataset.sym=c.sym;
+        }
+        if(i>0&&segs[i]!==segs[i-1])s.classList.add('sep');
+      }`,'seg symbol');
+  s=must(s,`  #ftr(){
+    document.getElementById('bundo').disabled =!this.#g.hist.length;
+    document.getElementById('bhint').disabled =this.#g.coins<HCOST;
+    document.getElementById('bxtra').disabled =this.#g.coins<XCOST||this.#g.xc>=MAXX;
+  }`,`  #ftr(){
+    document.getElementById('bundo').disabled =!this.#g.hist.length;
+    document.getElementById('bhint').disabled =this.#g.coins<HCOST;
+    document.getElementById('bxtra').disabled =this.#g.coins<XCOST||this.#g.xc>=MAXX;
+    const sym=document.getElementById('bsym');
+    const symst=document.getElementById('symst');
+    if(sym&&symst){
+      const on=this.#cfg.get('sym');
+      symst.textContent=on?'ON':'OFF';
+      sym.classList.toggle('on',!!on);
+    }
+  }`,'ftr');
+  s=must(s,`    document.querySelectorAll('#tgrp .gbtn').forEach(b=>b.classList.toggle('on',b.dataset.v===s.theme));
+    document.querySelectorAll('#agrp .gbtn').forEach(b=>b.classList.toggle('on',b.dataset.v===s.spd));
+  }`,`    document.querySelectorAll('#tgrp .gbtn').forEach(b=>b.classList.toggle('on',b.dataset.v===s.theme));
+    document.querySelectorAll('#agrp .gbtn').forEach(b=>b.classList.toggle('on',b.dataset.v===s.spd));
+    document.querySelectorAll('#dgrp .gbtn').forEach(b=>b.classList.toggle('on',b.dataset.v===s.diff));
+    const sym=document.getElementById('bsym');
+    const symst=document.getElementById('symst');
+    if(sym&&symst){symst.textContent=s.sym?'ON':'OFF';sym.classList.toggle('on',!!s.sym)}
+  }`,'rSet');
+  s=must(s,`  #ld(){
+    const sv=Store.lg();
+    if(sv){
+      try{this.#g=GS.fromJ(sv);this.#r=new Ren(this.#g,this.#cfg);return}
+      catch(e){console.warn('restore failed:',e)}
+    }
+    this.#g.load(1);
+  }`,`  #ld(){
+    const sv=Store.lg();
+    if(sv){
+      try{
+        this.#g=GS.fromJ(sv);
+        this.#cfg.set('diff',this.#g.diff);
+        this.#r=new Ren(this.#g,this.#cfg);return
+      }
+      catch(e){console.warn('restore failed:',e)}
+    }
+    this.#g.load(1,this.#cfg.get('diff'));
+  }`,'ld');
+  s=must(s,"on('bxtra', ()=>this.#extra());\n    on('bcfg',  ()=>this.#openS());","on('bxtra', ()=>this.#extra());\n    on('bsym',  ()=>this.#toggleSym());\n    on('bcfg',  ()=>this.#openS());",'bind symbol');
+  s=must(s,`    document.querySelectorAll('#agrp .gbtn').forEach(b=>b.addEventListener('click',()=>{
+      this.#cfg.set('spd',b.dataset.v);
+      document.documentElement.style.setProperty('--dur',\`${'${SPD[b.dataset.v]}'}ms\`);
+      this.#r.rSet();
+    }));
+  }`,`    document.querySelectorAll('#agrp .gbtn').forEach(b=>b.addEventListener('click',()=>{
+      this.#cfg.set('spd',b.dataset.v);
+      document.documentElement.style.setProperty('--dur',\`${'${SPD[b.dataset.v]}'}ms\`);
+      this.#r.rSet();
+    }));
+    document.querySelectorAll('#dgrp .gbtn').forEach(b=>b.addEventListener('click',()=>{
+      const diff=b.dataset.v;
+      if(this.#cfg.get('diff')===diff)return;
+      this.#cfg.set('diff',diff);
+      this.#g.load(1,diff);
+      this.#r.render();this.#r.rSet();this.#an.fin();this.#sv();
+    }));
+  }`,'bind dgrp');
+  s=must(s,`  #next(){
+    document.getElementById('mclear').classList.add('hidden');
+    this.#g.load(this.#g.lv+1);
+    this.#r.render();this.#an.fin();this.#sv();
+  }
+
+  #openS(){this.#r.rSet();document.getElementById('mset').classList.remove('hidden')}`,`  #next(){
+    document.getElementById('mclear').classList.add('hidden');
+    this.#g.load(this.#g.lv+1,this.#cfg.get('diff'));
+    this.#r.render();this.#an.fin();this.#sv();
+  }
+
+  #toggleSym(){
+    this.#cfg.set('sym',!this.#cfg.get('sym'));
+    this.#r.render();this.#r.rSet();
+  }
+
+  #openS(){this.#r.rSet();document.getElementById('mset').classList.remove('hidden')}`,'next toggle');
+  s=must(s,"Store.cg();this.#g=new GS();this.#g.load(1);","Store.cg();this.#g=new GS();this.#g.load(1,this.#cfg.get('diff'));",'reset');
+  return s;
+}
+(async()=>{
+  try{
+    show('loading index.html...');
+    const r=await fetch('./index.html?test='+Date.now(),{cache:'no-store'});
+    if(!r.ok)throw new Error('fetch index failed: '+r.status);
+    const html=patch(await r.text());
+    document.getElementById('frame').srcdoc=html;
+    setTimeout(()=>hide(),1200);
+  }catch(e){show('TEST PATCH ERROR:\n'+e.message+'\n'+(e.stack||''));}
+})();
+</script>
+</html>
