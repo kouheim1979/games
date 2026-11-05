@@ -7,6 +7,7 @@
 | [atama-oshiri](atama-oshiri/) | あたまとおしり |
 | [Chroma-sort](Chroma-sort/) | Chroma Sort |
 | [golden-week](golden-week/) | ドライブひまつぶしBOX |
+| [hitori-shiritori](hitori-shiritori/) | ひとりしりとり |
 | [jintori](jintori/) | 完璧な日本地図ウルフ |
 | [kokon-tozai](kokon-tozai/) | 古今東西ドライブ |
 | [kotowaza](kotowaza/) | ことばクエスト 〜慣用句・ことわざ・古事成語バトル〜 |

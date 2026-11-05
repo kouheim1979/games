@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>ひとりしりとり</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Zen+Maru+Gothic:wght@500;700;900&display=swap">
+<style>
+html{color-scheme:light}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font-size:14px}[hidden]{display:none!important}
+/* Layout: 原稿用紙のマス目の上に、ことばカードの山と、つないだ「しりとりの列」 */
+:root{
+  --bg:#EEF3F1; --grid:#DCE6E2; --ink:#1D2B3A; --sub:#5C6B78;
+  --card:#FFFFFF; --line:#C9D5D1; --accent:#2F5BD3; --accent-ink:#FFFFFF;
+  --mark:#FFD23F; --mark-ink:#1D2B3A; --ok:#22875A; --ng:#D0453A;
+  --display:"Dela Gothic One","Hiragino Sans","Noto Sans JP",sans-serif;
+  --body:"Zen Maru Gothic","Hiragino Maru Gothic ProN","Hiragino Sans","Noto Sans JP",sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#121820; --grid:#1B2430; --ink:#E6EDF5; --sub:#97A6B5;
+  --card:#1D2632; --line:#2E3A48; --accent:#86A6FF; --accent-ink:#0E1420;
+  --mark:#E8B92F; --mark-ink:#121820; --ok:#4CC28A; --ng:#FF7B6E; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#121820; --grid:#1B2430; --ink:#E6EDF5; --sub:#97A6B5;
+  --card:#1D2632; --line:#2E3A48; --accent:#86A6FF; --accent-ink:#0E1420;
+  --mark:#E8B92F; --mark-ink:#121820; --ok:#4CC28A; --ng:#FF7B6E; color-scheme:dark }
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:28px 28px;}
+.wrap{max-width:720px;margin:0 auto;padding-block:20px 40px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  display:flex;flex-direction:column;gap:18px}
+header{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap}
+h1{font-family:var(--display);font-weight:400;font-size:clamp(28px,7vw,40px);margin:0;letter-spacing:.02em;line-height:1.1}
+h1 .hl{background:linear-gradient(transparent 58%,var(--mark) 58%);padding:0 .05em}
+.rule{font-size:13px;color:var(--sub);margin:4px 0 0}
+
+.modes{display:flex;gap:6px;background:var(--card);border:1.5px solid var(--line);border-radius:999px;padding:4px}
+.modes button{font:700 14px var(--body);border:0;background:transparent;color:var(--ink);padding:8px 14px;border-radius:999px;cursor:pointer}
+.modes button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+.modes button:focus-visible,.btn:focus-visible,.card:focus-visible{outline:3px solid var(--mark);outline-offset:2px}
+.modedesc{font-size:13px;color:var(--sub);margin:-8px 0 0}
+
+.status{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.prompt{font-size:17px;font-weight:700}
+.prompt .k{display:inline-block;min-width:1.6em;text-align:center;background:var(--mark);color:var(--mark-ink);border-radius:6px;padding:0 .25em;margin:0 .15em;font-size:20px}
+.count{font-variant-numeric:tabular-nums;color:var(--sub);font-size:14px}
+
+.chain{min-height:64px;background:var(--card);border:2px dashed var(--line);border-radius:14px;padding:12px;display:flex;flex-wrap:wrap;align-items:center;gap:6px 4px}
+.chain.empty{justify-content:center;color:var(--sub);font-size:14px}
+.chip{font-weight:700;font-size:16px;padding:6px 10px;border-radius:8px;background:var(--bg);border:1.5px solid var(--line);white-space:nowrap}
+.chip .e{color:var(--accent)}
+.arrow{color:var(--sub);font-size:14px}
+.chain.win{border-style:solid;border-color:var(--ok)}
+.chain.fail{border-style:solid;border-color:var(--ng)}
+
+.pool{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.card{position:relative;font:900 22px var(--body);color:var(--ink);background:var(--card);border:2px solid var(--line);
+  border-radius:12px;padding:18px 8px;cursor:pointer;text-align:center;box-shadow:0 3px 0 var(--line);transition:transform .12s, box-shadow .12s;letter-spacing:.04em}
+.card:active{transform:translateY(2px);box-shadow:0 1px 0 var(--line)}
+.card .s{color:var(--accent)}
+.card .e{background:linear-gradient(transparent 60%,var(--mark) 60%)}
+.card.used{opacity:.28;cursor:default;box-shadow:none;transform:none}
+.card.next{border-color:var(--accent)}
+.card .lock{position:absolute;top:4px;right:8px;font-size:11px;font-weight:700;color:var(--sub)}
+.card.shake{animation:shake .32s;border-color:var(--ng)}
+@keyframes shake{20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(3px)}}
+
+.tools{display:flex;gap:8px;flex-wrap:wrap}
+.btn{font:700 15px var(--body);border-radius:10px;padding:10px 16px;cursor:pointer;border:2px solid var(--ink);background:var(--card);color:var(--ink)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn:disabled{opacity:.35;cursor:default}
+.note{font-size:13px;color:var(--sub);align-self:center}
+
+.msg{border-radius:12px;padding:14px 16px;font-weight:700;display:flex;flex-direction:column;gap:6px}
+.msg.win{background:color-mix(in srgb,var(--ok) 14%,var(--card));border:2px solid var(--ok)}
+.msg.fail{background:color-mix(in srgb,var(--ng) 12%,var(--card));border:2px solid var(--ng)}
+.msg.warn{background:var(--card);border:2px solid var(--mark)}
+.msg .big{font-family:var(--display);font-weight:400;font-size:24px}
+.msg .ans{font-weight:500;font-size:14px;color:var(--sub);line-height:1.7}
+@media (prefers-reduced-motion:reduce){.card,.card.shake{animation:none;transition:none}}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>ひとり<span class="hl">しりとり</span></h1>
+      <p class="rule">ぜんぶのことばを、しりとりでつなげよう。</p>
+    </div>
+    <div class="modes" role="group" aria-label="むずかしさ">
+      <button id="m-easy" data-mode="easy">かんたん</button>
+      <button id="m-hard" data-mode="hard">むずかしい</button>
+      <button id="m-oni" data-mode="oni">おに</button>
+    </div>
+  </header>
+  <p class="modedesc" id="modedesc"></p>
+
+  <div class="status">
+    <div class="prompt" id="prompt"></div>
+    <div class="count" id="count"></div>
+  </div>
+  <div class="chain" id="chain" aria-live="polite"></div>
+  <div id="msg" hidden></div>
+  <div class="pool" id="pool"></div>
+  <div class="tools">
+    <button class="btn" id="undo">ひとつもどる</button>
+    <button class="btn" id="reset">さいしょから</button>
+    <button class="btn primary" id="next">つぎのもんだい</button>
+    <span class="note" id="locknote" hidden>おにモード：えらんだらもどれません</span>
+  </div>
+</div>
+
+<script>
+const RAW = `
+あり あひる あめ あたま あさがお あしか あじさい あくび あさり あみ
+いぬ いか いちご いす いるか いのしし いと いけ いわし いも いど
+うし うま うみ うちわ うさぎ うきわ うぐいす うめ うた うなぎ
+えび えき えだ えのぐ えんぴつ えりまき
+おに おにぎり おけ おかし おもち おばけ おの おどり おしろ
+かめ かさ かに かき かば かえる からす かぶ かがみ かたつむり かい かもめ かかし かぎ
+きつね きのこ きって きく きゅうり きつつき きもの きば
+くま くり くじら くつ くし くも くるま くさ くち くわがた
+けむし けいと けしごむ けむり けいさつ
+こま こい こあら こけし ことり こども こおり こたつ こま
+さる さかな さくら さら さい さつまいも さそり さめ
+しか しまうま しお しろ しっぽ しじみ しか
+すいか すずめ すな すし すいとう するめ すずり
+せみ せなか せかい
+そら そり そうじき そば そろばん
+たこ たまご たぬき たいこ たけ たる たき たわし
+ちくわ ちず ちょう ちから ちゃわん
+つくえ つみき つる つき つばめ つの つらら
+てがみ てんぐ てぶくろ てっぽう てら てるてるぼうず
+とけい とら とまと とり とんぼ とうふ とびら とかげ
+なす なし なべ なみ なわとび なまず
+にわとり にじ にもつ にわ
+ぬいぐるみ ぬりえ
+ねこ ねずみ ねぎ ねじ ねっこ
+のり のこぎり のはら
+はさみ はし はな はち はと はくさい はたけ はかま はり
+ひよこ ひつじ ひこうき ひまわり ひげ ひもの
+ふね ふえ ふくろう ふぐ ふじ
+へび へちま へそ
+ほし ほたる ほね ほうき ほたて
+まど まくら まめ まつ まり まぐろ
+みみ みず みそ みかづき みのむし みこし
+むし むぎ むかで むしめがね
+めだか めがね めいろ めだま
+もも もち もぐら もみじ もり
+やぎ やま やさい やね やり
+ゆき ゆび ゆかた ゆめ ゆり
+よる よっと よろい
+らくだ らっぱ
+りす りんご
+るす
+れいぞうこ
+ろうそく ろけっと
+わに わかめ わな わたあめ
+がっこう がちょう ぎんこう ごりら ごま ごみ ざる じてんしゃ じどうしゃ
+でんしゃ だんご どんぐり どうろ ばった ばなな びわ ぶどう ぶた べんとう ぼうし ぱんだ ぱせり
+`;
+const SMALL={ゃ:'や',ゅ:'ゆ',ょ:'よ',っ:'つ',ぁ:'あ',ぃ:'い',ぅ:'う',ぇ:'え',ぉ:'お'};
+const lastK=w=>{const c=w[w.length-1];return SMALL[c]||c};
+const firstK=w=>w[0];
+const ALL=[...new Set(RAW.split(/\s+/).filter(Boolean))].filter(w=>!/[んー]$/.test(w));
+const BY_FIRST={};ALL.forEach(w=>{(BY_FIRST[firstK(w)]=BY_FIRST[firstK(w)]||[]).push(w)});
+
+const MODES={
+  easy:{n:5,label:'かんたん',desc:'つなぎかたは なんとおりも あるよ。まちがえたら もどれる。'},
+  hard:{n:7,label:'むずかしい',desc:'こたえは ひとつだけ。まちがえたら もどれる。'},
+  oni:{n:8,label:'おに',desc:'こたえは ひとつだけ。いちど えらんだら もどれない！'}
+};
+const rnd=a=>a[Math.floor(Math.random()*a.length)];
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+
+function makeChain(n){
+  for(let t=0;t<300;t++){
+    const chain=[rnd(ALL)];const used=new Set(chain);
+    while(chain.length<n){
+      const c=(BY_FIRST[lastK(chain[chain.length-1])]||[]).filter(w=>!used.has(w));
+      if(!c.length)break;const w=rnd(c);chain.push(w);used.add(w);
+    }
+    if(chain.length===n)return chain;
+  }
+  return null;
+}
+function solve(ws,limit=99){
+  const n=ws.length,adj=ws.map(a=>ws.map((b,j)=>j).filter(j=>ws[j]!==a&&lastK(a)===firstK(ws[j])));
+  let count=0;const sols=[];
+  const dfs=(i,used,path)=>{
+    if(path.length===n){count++;if(sols.length<1)sols.push(path.slice());return}
+    for(const j of adj[i]){if(used&(1<<j))continue;path.push(j);dfs(j,used|(1<<j),path);path.pop();if(count>=limit)return}
+  };
+  for(let i=0;i<n&&count<limit;i++)dfs(i,1<<i,[i]);
+  return {count,first:sols[0]};
+}
+function generate(mode){
+  const n=MODES[mode].n;let best=null;
+  for(let t=0;t<5000;t++){
+    const ch=makeChain(n);if(!ch)continue;
+    const r=solve(ch);
+    if(mode==='easy'?r.count>=2:r.count===1)return{words:shuffle(ch),solution:ch,count:r.count};
+    if(!best)best={words:shuffle(ch),solution:ch,count:r.count};
+  }
+  return best;
+}
+
+let S={mode:'easy',words:[],solution:[],count:0,chain:[],status:'play'};
+const $=id=>document.getElementById(id);
+
+function newGame(mode){
+  S.mode=mode||S.mode;const g=generate(S.mode);
+  Object.assign(S,g,{chain:[],status:'play'});render();
+}
+function remaining(){return S.words.map((w,i)=>i).filter(i=>!S.chain.includes(i))}
+function needK(){return S.chain.length?lastK(S.words[S.chain[S.chain.length-1]]):null}
+function pick(i,el){
+  if(S.status==='win'||S.status==='fail'||S.chain.includes(i))return;
+  const k=needK();
+  if(k&&firstK(S.words[i])!==k){el.classList.remove('shake');void el.offsetWidth;el.classList.add('shake');return}
+  S.chain.push(i);
+  const rest=remaining();
+  if(!rest.length)S.status='win';
+  else if(!rest.some(j=>firstK(S.words[j])===lastK(S.words[i])))S.status=S.mode==='oni'?'fail':'stuck';
+  else S.status='play';
+  render();
+}
+function undo(){if(S.mode==='oni'||!S.chain.length||S.status==='win')return;S.chain.pop();S.status='play';render()}
+function reset(){S.chain=[];S.status='play';render()}
+
+function wordHTML(w,withStart){
+  const a=[...w];const s=withStart?`<span class="s">${a[0]}</span>`:a[0];
+  if(a.length===1)return s;
+  return s+a.slice(1,-1).join('')+`<span class="e">${a[a.length-1]}</span>`;
+}
+function render(){
+  document.querySelectorAll('.modes button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.mode===S.mode));
+  $('modedesc').textContent=MODES[S.mode].desc;
+  const k=needK();
+  $('prompt').innerHTML=S.status==='win'?'クリア！':k?`つぎは<span class="k">${k}</span>ではじまることば`:'すきなことばから はじめよう';
+  $('count').textContent=`${S.chain.length} / ${S.words.length}`;
+
+  const ch=$('chain');ch.className='chain'+(S.chain.length?'':' empty')+(S.status==='win'?' win':'')+(S.status==='fail'?' fail':'');
+  ch.innerHTML=S.chain.length?S.chain.map((i,n)=>(n?'<span class="arrow">→</span>':'')+`<span class="chip">${wordHTML(S.words[i],false).replace('class="e"','class="e"')}</span>`).join(''):'ここに しりとりが ならぶよ';
+
+  const pool=$('pool');pool.innerHTML='';
+  S.words.forEach((w,i)=>{
+    const b=document.createElement('button');b.className='card';b.id='w'+i;b.innerHTML=wordHTML(w,true);
+    const used=S.chain.includes(i);
+    if(used){b.classList.add('used');b.disabled=true;if(S.mode==='oni')b.insertAdjacentHTML('beforeend','<span class="lock">けってい</span>')}
+    b.addEventListener('click',()=>pick(i,b));pool.appendChild(b);
+  });
+
+  const m=$('msg');m.hidden=true;m.className='msg';
+  const ans=`<div class="ans">こたえのれい：${S.solution.join(' → ')}</div>`;
+  if(S.status==='win'){
+    m.hidden=false;m.classList.add('win');
+    m.innerHTML=`<div class="big">ぜんぶ つながった！</div>`+(S.mode==='easy'?`<div>このもんだいの つなぎかたは ${S.count>=99?'99とおりいじょう':S.count+'とおり'}。</div>`:`<div>${S.words.length}このことばを ぴったり つなげたね。</div>`);
+  }else if(S.status==='stuck'){
+    m.hidden=false;m.classList.add('warn');
+    m.innerHTML=`<div>いきどまり！「${needK()}」ではじまることばが のこってないよ。もどって やりなおそう。</div>`;
+  }else if(S.status==='fail'){
+    m.hidden=false;m.classList.add('fail');
+    m.innerHTML=`<div class="big">ざんねん…</div><div>「${needK()}」ではじまることばが もうないよ。</div>${ans}`;
+  }
+  const oni=S.mode==='oni';
+  $('undo').hidden=oni;$('undo').disabled=!S.chain.length||S.status==='win';
+  $('locknote').hidden=!oni;
+  $('reset').hidden=S.status==='win';
+  $('reset').textContent=oni?'あきらめて さいしょから':'さいしょから';
+}
+
+document.querySelectorAll('.modes button').forEach(b=>b.addEventListener('click',()=>newGame(b.dataset.mode)));
+$('undo').addEventListener('click',undo);
+$('reset').addEventListener('click',reset);
+$('next').addEventListener('click',()=>newGame());
+newGame('easy');
+</script>
+
+</body>
+</html>
