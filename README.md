@@ -25,6 +25,25 @@
 
 各ゲームは元のリポジトリからコピーしたものです（`atama-oshiri` と `yakitori` は `launch-roulette` リポジトリ内から）。
 
+## 診断いろいろ（tools/）
+
+8問・約1分で遊べる診断アプリ10本です。一覧ページ: https://kouheim1979.github.io/games/tools/
+
+| フォルダ | タイトル |
+|---|---|
+| [tools/animal](tools/animal/) | どうぶつタイプ診断 |
+| [tools/zense](tools/zense/) | 前世なにもの診断 |
+| [tools/onigiri](tools/onigiri/) | おにぎりの具 診断 |
+| [tools/rpg-job](tools/rpg-job/) | RPG職業 診断 |
+| [tools/tenki](tools/tenki/) | お天気タイプ 診断 |
+| [tools/color](tools/color/) | 心のカラー 診断 |
+| [tools/family-role](tools/family-role/) | 家族の中のポジション 診断 |
+| [tools/study-style](tools/study-style/) | 勉強・仕事スタイル 診断 |
+| [tools/todofuken](tools/todofuken/) | あなたに似ている都道府県 診断 |
+| [tools/sweets](tools/sweets/) | スイーツ診断 |
+
+各診断は外部ファイルなしの1ファイルHTMLです。問題と結果は `tools/_src/data/*.txt` に書き、`python3 tools/_src/build.py` で `tools/<id>/index.html` と一覧 `tools/index.html` を作り直します。ビルド時に、全タイプが結果として出るか・ランダム回答で1タイプに偏らないか（各7〜28%）を確認します。前回の結果だけ端末の localStorage に保存し、回答は送信しません。公開ポータル（`portal/catalog.js`）には未掲載です。
+
 ## まいにち道具箱（公開ポータル）
 
 公開サイト: https://everydayjapanlab.blogspot.com/  

@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f1faf3">
+<meta name="description" content="8問に答えて、あなたを梅・鮭・ツナマヨ・昆布・明太子・おかかのどの具にたとえられるかがわかる、ごはん系の遊び診断。">
+<title>おにぎりの具 診断｜まいにち道具箱の診断</title>
+<style>
+:root{--ink:#1f2140;--muted:#5a5f7d;--paper:#fff;--accent:#2f8f5b;--accent2:#cdeedb;--bg:#f1faf3;--shadow:5px 6px 0 var(--ink)}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;min-height:100dvh;color:var(--ink);line-height:1.65;background:var(--bg);
+  background-image:radial-gradient(rgba(31,33,64,.13) 1.3px,transparent 1.3px);background-size:24px 24px;
+  font-family:"Hiragino Maru Gothic ProN","Hiragino Kaku Gothic ProN","Noto Sans JP",Meiryo,sans-serif}
+button{font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
+button:focus-visible,a:focus-visible{outline:4px solid #3f6bff;outline-offset:3px}
+.shell{width:min(100% - 32px,640px);margin:0 auto;padding:18px 0 max(40px,env(safe-area-inset-bottom))}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:18px}
+.back{font-size:13px;font-weight:800;color:var(--ink);text-decoration:none;background:var(--paper);border:2.5px solid var(--ink);border-radius:999px;padding:6px 12px;box-shadow:3px 3px 0 var(--ink)}
+.chip{font-size:11px;font-weight:900;background:var(--accent2);border:2px solid var(--ink);border-radius:999px;padding:5px 10px;white-space:nowrap}
+.card{background:var(--paper);border:3px solid var(--ink);border-radius:22px;box-shadow:var(--shadow);padding:24px 20px}
+.hero{text-align:center}
+.big{font-size:64px;line-height:1.1;display:inline-grid;place-items:center;width:104px;height:104px;border-radius:28px;background:var(--accent2);border:3px solid var(--ink);box-shadow:4px 4px 0 var(--ink);transform:rotate(-5deg);margin:4px 0 14px}
+h1{font-size:clamp(24px,6.4vw,32px);line-height:1.3;margin:0 0 10px;letter-spacing:.02em}
+.lead{color:var(--muted);margin:0 0 20px;font-size:15px}
+.meta{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:22px}
+.meta span{font-size:12px;font-weight:800;border:2px dashed var(--ink);border-radius:999px;padding:4px 10px}
+.btn{display:block;width:100%;border:3px solid var(--ink);border-radius:16px;background:var(--accent);color:#fff;font-weight:900;font-size:18px;padding:15px;box-shadow:4px 4px 0 var(--ink);text-shadow:0 1px 0 rgba(0,0,0,.2)}
+.btn.sub{background:var(--paper);color:var(--ink);font-size:15px;padding:12px;text-shadow:none}
+.btn:active,.opt:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--ink)}
+.last{margin-top:14px;font-size:13px;color:var(--muted)}
+.bar{height:14px;border:2.5px solid var(--ink);border-radius:999px;background:var(--paper);overflow:hidden;margin:4px 0 10px}
+.bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .3s ease}
+.qhead{display:flex;justify-content:space-between;align-items:center;font-weight:900;font-size:13px;margin-bottom:6px}
+.undo{background:none;border:0;font-size:13px;font-weight:800;color:var(--muted);padding:4px 0;text-decoration:underline}
+.undo:disabled{visibility:hidden}
+.q{font-size:clamp(19px,5vw,23px);line-height:1.45;margin:6px 0 18px}
+.opts{display:grid;gap:11px}
+.opt{text-align:left;background:var(--paper);border:3px solid var(--ink);border-radius:15px;padding:13px 14px;font-size:16px;font-weight:700;box-shadow:3px 3px 0 var(--ink);display:flex;gap:11px;align-items:center}
+.opt b{flex:none;display:grid;place-items:center;width:30px;height:30px;border-radius:9px;background:var(--accent2);border:2px solid var(--ink);font-size:14px}
+@media (hover:hover){.opt:hover{background:#fffbe8}}
+.fade{animation:fade .28s ease}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.rlabel{font-size:13px;font-weight:900;color:var(--muted);margin:0}
+.rname{font-size:clamp(26px,7vw,34px);margin:4px 0 6px;line-height:1.25}
+.catch{display:inline-block;background:var(--accent2);border:2px solid var(--ink);border-radius:10px;padding:3px 10px;font-weight:900;font-size:14px;margin-bottom:14px}
+.desc{text-align:left;margin:0 0 16px}
+.box{text-align:left;border:2.5px solid var(--ink);border-radius:14px;padding:12px 14px;margin:12px 0;background:#fffdf6}
+.box h2{font-size:14px;margin:0 0 6px}
+.box ul{margin:0;padding-left:1.2em}
+.box p{margin:0}
+.scores{display:grid;gap:7px;margin-top:4px}
+.srow{display:grid;grid-template-columns:7.5em 1fr 2.6em;align-items:center;gap:8px;font-size:13px;font-weight:700}
+.srow .sb{height:10px;border-radius:99px;background:#eee;border:1.5px solid var(--ink);overflow:hidden}
+.srow .sb i{display:block;height:100%;background:var(--accent)}
+.srow span:last-child{text-align:right}
+.actions{display:grid;gap:10px;margin-top:18px}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 16px;border-radius:12px;font-size:14px;font-weight:700;opacity:0;pointer-events:none;transition:opacity .2s}
+.toast.on{opacity:1}
+.note{font-size:12px;color:var(--muted);text-align:center;margin:18px 4px 0}
+[hidden]{display:none!important}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="top"><a class="back" href="../">← 診断いちらん</a><span class="chip">ごはん</span></div>
+
+  <section id="start" class="card hero fade">
+    <div class="big" aria-hidden="true">🍙</div>
+    <h1>おにぎりの具 診断</h1>
+    <p class="lead">あなたをおにぎりの具にたとえると何？ 8問で、いちばんあなたらしい具を選びます。</p>
+    <div class="meta"><span id="qcount"></span><span>約1分</span><span>登録なし</span></div>
+    <button class="btn" id="go" type="button">診断スタート</button>
+    <p class="last" id="last" hidden></p>
+  </section>
+
+  <section id="quiz" class="card" hidden>
+    <div class="qhead"><span id="qnum"></span><button class="undo" id="undo" type="button">← ひとつ戻る</button></div>
+    <div class="bar" role="progressbar" aria-valuemin="0" id="bar"><i></i></div>
+    <div id="qwrap"><h2 class="q" id="q"></h2><div class="opts" id="opts"></div></div>
+  </section>
+
+  <section id="result" class="card hero" hidden aria-live="polite">
+    <p class="rlabel">あなたは…</p>
+    <div class="big" id="remoji" aria-hidden="true"></div>
+    <h2 class="rname" id="rname"></h2>
+    <div class="catch" id="rcatch"></div>
+    <p class="desc" id="rdesc"></p>
+    <div class="box"><h2>✨ いいところ</h2><ul id="rgood"></ul></div>
+    <div class="box"><h2>💡 ひとことアドバイス</h2><p id="rtip"></p></div>
+    <div class="box"><h2>🤝 相性のいいタイプ</h2><p id="rmatch"></p></div>
+    <div class="box"><h2>📊 タイプの内訳</h2><div class="scores" id="rscores"></div></div>
+    <div class="actions">
+      <button class="btn" id="share" type="button">結果をシェア</button>
+      <button class="btn sub" id="again" type="button">もう一度やる</button>
+      <a class="btn sub" href="../" style="text-align:center;text-decoration:none">ほかの診断をやる</a>
+    </div>
+  </section>
+
+  <p class="note">※ 遊びの診断です。結果は性格や能力を判定するものではありません。回答はこの端末の中だけで使い、送信しません。</p>
+</div>
+<div class="toast" id="toast" role="status"></div>
+<script>
+const DATA = {"id": "onigiri", "title": "おにぎりの具 診断", "types": {"ume": {"emoji": "🔴", "name": "うめ", "short": "うめ", "catch": "すっぱいけど体にいい、しっかり者", "match": "tunamayo", "desc": "昔からみんなに愛される定番のうめ。ちょっとキリッとしていて、言うべきことはちゃんと言える真面目さがあります。いっしょにいると、まわりの人がしゃんとします。", "good": ["まじめで信頼できる", "ブレない芯がある", "みんなの健康（生活）を気づかえる"], "tip": "すっぱさの中にあるやさしさを、言葉でも伝えてみましょう。"}, "sake": {"emoji": "🐟", "name": "鮭", "short": "鮭", "catch": "だれからも好かれる、王道の人気者", "match": "konbu", "desc": "子どもからお年寄りまで、だれとでもなかよくできる王道タイプ。強いクセはないけれど、いるだけでうれしい存在。気づかいが自然にできるので、頼られることも多いはず。", "good": ["だれとでも打ちとける", "バランス感覚がいい", "安心感がある"], "tip": "たまにはあなたの「わがまま」も言ってみると、もっと好かれます。"}, "tunamayo": {"emoji": "🥫", "name": "ツナマヨ", "short": "ツナマヨ", "catch": "新しいもの好きの、ノリのいい楽しい人", "match": "ume", "desc": "コンビニの人気ナンバーワンになったこともある、ノリのいいツナマヨ。流行や新しいことに敏感で、まわりを明るく楽しくします。ちょっとくだけた感じが魅力です。", "good": ["明るくて楽しい", "新しいことへの反応が早い", "話しやすい"], "tip": "ノリで決めたことも、ときどき立ち止まって見直すとさらに◎。"}, "konbu": {"emoji": "🟫", "name": "昆布", "short": "昆布", "catch": "かむほど味が出る、じっくり型の名脇役", "match": "sake", "desc": "最初は地味に見えても、つきあうほどに良さがわかるじっくり型。ていねいで、相手の話を最後まで聞ける人です。気づいたらみんなが頼りにしています。", "good": ["聞き上手", "ていねい", "長くつきあえる"], "tip": "いいところは自分から少しアピールしてもバチは当たりません。"}, "mentai": {"emoji": "🌶️", "name": "明太子", "short": "明太子", "catch": "ピリッと刺激的な、情熱のチャレンジャー", "match": "okaka", "desc": "ピリッと辛くて印象に残る明太子。好きなことには全力で、思い切ったチャレンジができる情熱家です。あなたの本気は、まわりにも火をつけます。", "good": ["情熱的", "行動力がある", "印象に残る"], "tip": "全力疾走のあとは、ちゃんと水分（休けい）をとりましょう。"}, "okaka": {"emoji": "🐚", "name": "おかか", "short": "おかか", "catch": "素朴で家庭的な、ほっとする癒やし系", "match": "mentai", "desc": "しょうゆとかつお節のやさしい香りのおかか。かざらない自然体で、いっしょにいる人をほっとさせます。家族や身近な人を大切にするあたたかい人です。", "good": ["自然体で親しみやすい", "家族思い", "まわりを癒やす"], "tip": "たまには冒険して、知らない味（体験）にも手をのばしてみて。"}}, "questions": [{"q": "コンビニに入ったら、まず向かうのは？", "a": [{"t": "いつも買う定番の棚", "p": ["ume", "sake"]}, {"t": "新商品コーナー", "p": ["tunamayo"]}, {"t": "激辛・限定コーナー", "p": ["mentai"]}, {"t": "なんとなくぐるっと一周する", "p": ["konbu", "okaka"]}]}, {"q": "友だちからの印象で多いのは？", "a": [{"t": "しっかりしている", "p": ["ume"]}, {"t": "いっしょにいて楽", "p": ["sake", "okaka"]}, {"t": "おもしろい", "p": ["tunamayo"]}, {"t": "熱い", "p": ["mentai"]}]}, {"q": "好きな休日の朝ごはんは？", "a": [{"t": "白ごはん・みそ汁・焼き魚", "p": ["sake", "ume"]}, {"t": "パンケーキやカフェメニュー", "p": ["tunamayo"]}, {"t": "前の晩の残りものをおいしくアレンジ", "p": ["okaka"]}, {"t": "ゆっくり時間をかけて朝ごはんを楽しむ", "p": ["konbu"]}]}, {"q": "旅行のスタイルは？", "a": [{"t": "予定をきっちり決めておく", "p": ["ume"]}, {"t": "有名な場所をひととおり回る", "p": ["sake"]}, {"t": "地元の人しか知らない店を探す", "p": ["konbu", "mentai"]}, {"t": "実家や親せきの家でのんびり", "p": ["okaka"]}]}, {"q": "長く続けていることは？", "a": [{"t": "早寝早起きなどの生活習慣", "p": ["ume"]}, {"t": "同じ友だちとのつきあい", "p": ["konbu", "sake"]}, {"t": "流行をチェックすること", "p": ["tunamayo"]}, {"t": "自分を追いこむトレーニングや練習", "p": ["mentai"]}]}, {"q": "困ったときの口ぐせに近いのは？", "a": [{"t": "「ちゃんとしなきゃ」", "p": ["ume"]}, {"t": "「まあ、なんとかなるよ」", "p": ["tunamayo", "okaka"]}, {"t": "「もう少し考えてみる」", "p": ["konbu"]}, {"t": "「よし、やってみよう！」", "p": ["mentai"]}]}, {"q": "好きな季節は？", "a": [{"t": "梅雨〜初夏", "p": ["ume"]}, {"t": "秋", "p": ["sake", "konbu"]}, {"t": "夏", "p": ["mentai", "tunamayo"]}, {"t": "冬（こたつ）", "p": ["okaka"]}]}, {"q": "おにぎりを作るなら、どうにぎる？", "a": [{"t": "三角にきっちり", "p": ["ume", "sake"]}, {"t": "具をたっぷり、はみ出してもOK", "p": ["tunamayo", "mentai"]}, {"t": "時間をかけてふんわり", "p": ["konbu"]}, {"t": "家族の分もまとめて作る", "p": ["okaka"]}]}]};
+(function(){
+  'use strict';
+  const $ = id => document.getElementById(id);
+  const KEY = 'shindan:' + DATA.id;
+  const types = DATA.types, order = Object.keys(types);
+  let idx = 0, picks = [];
+  const store = {
+    get(){ try { return JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) { return null; } },
+    set(v){ try { localStorage.setItem(KEY, JSON.stringify(v)); } catch (e) {} }
+  };
+  const show = id => { for (const s of ['start','quiz','result']) $(s).hidden = s !== id; window.scrollTo(0, 0); };
+  $('qcount').textContent = '全' + DATA.questions.length + '問';
+  const prev = store.get();
+  if (prev && types[prev.type]) {
+    $('last').hidden = false;
+    $('last').textContent = '前回の結果：' + types[prev.type].emoji + ' ' + types[prev.type].name;
+  }
+  function shuffle(a){ for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+  let shuffled = [];
+  function render(){
+    const q = DATA.questions[idx], n = DATA.questions.length;
+    $('qnum').textContent = 'Q' + (idx + 1) + ' / ' + n;
+    $('bar').firstElementChild.style.width = (idx / n * 100) + '%';
+    $('bar').setAttribute('aria-valuemax', n); $('bar').setAttribute('aria-valuenow', idx);
+    $('undo').disabled = idx === 0;
+    $('q').textContent = q.q;
+    const box = $('opts'); box.textContent = '';
+    shuffled[idx] = shuffled[idx] || shuffle(q.a.map((_, i) => i));
+    shuffled[idx].forEach((oi, k) => {
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'opt';
+      const tag = document.createElement('b'); tag.textContent = 'ABCD'[k]; tag.setAttribute('aria-hidden', 'true');
+      const t = document.createElement('span'); t.textContent = q.a[oi].t;
+      b.append(tag, t);
+      b.addEventListener('click', () => choose(oi));
+      box.append(b);
+    });
+    const w = $('qwrap'); w.classList.remove('fade'); void w.offsetWidth; w.classList.add('fade');
+  }
+  function choose(oi){
+    picks[idx] = oi; idx++;
+    if (idx >= DATA.questions.length) finish(); else render();
+  }
+  function tally(){
+    const s = Object.fromEntries(order.map(k => [k, 0]));
+    picks.forEach((oi, qi) => { for (const k of DATA.questions[qi].a[oi].p) s[k] += 1; });
+    return s;
+  }
+  function finish(){
+    const s = tally();
+    const max = Math.max(...Object.values(s));
+    const top = order.filter(k => s[k] === max);
+    // Tie: the type chosen most recently wins, so the final answers decide.
+    let type = top[0];
+    for (let qi = picks.length - 1; qi >= 0 && top.length > 1; qi--) {
+      const hit = DATA.questions[qi].a[picks[qi]].p.find(k => top.includes(k));
+      if (hit) { type = hit; break; }
+    }
+    store.set({ type, at: Date.now() });
+    const r = types[type];
+    $('remoji').textContent = r.emoji; $('rname').textContent = r.name; $('rcatch').textContent = r.catch;
+    $('rdesc').textContent = r.desc; $('rtip').textContent = r.tip;
+    $('rgood').textContent = '';
+    for (const g of r.good) { const li = document.createElement('li'); li.textContent = g; $('rgood').append(li); }
+    const m = types[r.match]; $('rmatch').textContent = m.emoji + ' ' + m.name + '　— ' + m.catch;
+    const total = Object.values(s).reduce((a, b) => a + b, 0) || 1;
+    $('rscores').textContent = '';
+    for (const k of [...order].sort((a, b) => s[b] - s[a])) {
+      const row = document.createElement('div'); row.className = 'srow';
+      const pct = Math.round(s[k] / total * 100);
+      const a = document.createElement('span'); a.textContent = types[k].emoji + ' ' + types[k].short;
+      const bar = document.createElement('div'); bar.className = 'sb'; const fill = document.createElement('i'); fill.style.width = pct + '%'; bar.append(fill);
+      const c = document.createElement('span'); c.textContent = pct + '%';
+      row.append(a, bar, c); $('rscores').append(row);
+    }
+    show('result');
+  }
+  function start(){ idx = 0; picks = []; shuffled = []; show('quiz'); render(); }
+  function toast(msg){ const t = $('toast'); t.textContent = msg; t.classList.add('on'); setTimeout(() => t.classList.remove('on'), 1800); }
+  $('go').addEventListener('click', start);
+  $('again').addEventListener('click', start);
+  $('undo').addEventListener('click', () => { if (idx > 0) { idx--; picks.length = idx; render(); } });
+  $('share').addEventListener('click', async () => {
+    const r = types[store.get().type];
+    const text = '【' + DATA.title + '】わたしは「' + r.emoji + ' ' + r.name + '」でした！ ' + r.catch;
+    const url = location.href.split('#')[0].split('?')[0];
+    if (navigator.share) { try { await navigator.share({ title: DATA.title, text, url }); return; } catch (e) { if (e && e.name === 'AbortError') return; } }
+    try { await navigator.clipboard.writeText(text + ' ' + url); toast('結果をコピーしました'); }
+    catch (e) { prompt('コピーしてシェアしてください', text + ' ' + url); }
+  });
+})();
+</script>
+</body>
+</html>

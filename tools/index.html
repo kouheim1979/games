@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#fff8e9">
+<meta name="description" content="どうぶつタイプ・前世・おにぎりの具・RPG職業など、1分で遊べる無料の診断10本。登録なし・ブラウザーですぐできます。">
+<title>診断いろいろ｜まいにち道具箱</title>
+<style>
+:root{--ink:#1f2140;--muted:#5a5f7d;--bg:#fff8e9}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;min-height:100dvh;color:var(--ink);background:var(--bg);line-height:1.6;
+  background-image:radial-gradient(rgba(31,33,64,.13) 1.3px,transparent 1.3px);background-size:24px 24px;
+  font-family:"Hiragino Maru Gothic ProN","Hiragino Kaku Gothic ProN","Noto Sans JP",Meiryo,sans-serif}
+a:focus-visible{outline:4px solid #3f6bff;outline-offset:3px}
+.shell{width:min(100% - 32px,760px);margin:0 auto;padding:24px 0 max(40px,env(safe-area-inset-bottom))}
+.home{display:inline-block;font-size:13px;font-weight:800;color:var(--ink);text-decoration:none;background:#fff;border:2.5px solid var(--ink);border-radius:999px;padding:6px 12px;box-shadow:3px 3px 0 var(--ink);margin-bottom:18px}
+header{background:#fff;border:3px solid var(--ink);border-radius:24px;box-shadow:5px 6px 0 var(--ink);padding:22px 20px;margin-bottom:22px;position:relative;overflow:hidden}
+header::after{content:"🔮";position:absolute;right:-6px;top:-10px;font-size:92px;opacity:.16;transform:rotate(12deg)}
+.kick{display:inline-block;font-size:11px;font-weight:900;background:#ffe05c;border:2px solid var(--ink);border-radius:999px;padding:4px 10px}
+h1{font-size:clamp(26px,7vw,36px);margin:10px 0 6px;line-height:1.25}
+header p{margin:0;color:var(--muted)}
+.grid{display:grid;gap:14px}
+@media(min-width:640px){.grid{grid-template-columns:1fr 1fr}}
+.tc{display:flex;gap:13px;align-items:center;text-decoration:none;color:var(--ink);background:#fff;border:3px solid var(--ink);border-radius:20px;padding:14px;box-shadow:4px 4px 0 var(--ink);transition:transform .12s}
+.tc:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--ink)}
+@media(hover:hover){.tc:hover{transform:translate(-1px,-2px);box-shadow:5px 6px 0 var(--ink)}}
+.te{flex:none;display:grid;place-items:center;width:62px;height:62px;border-radius:18px;font-size:34px;background:var(--a2);border:2.5px solid var(--ink);transform:rotate(-4deg)}
+.tb{display:grid;gap:2px;min-width:0}
+.tg{justify-self:start;font-size:11px;font-weight:900;color:#fff;background:var(--a);border-radius:999px;padding:1px 9px}
+.tb strong{font-size:17px;line-height:1.35}
+.tl{font-size:12.5px;color:var(--muted);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.tar{margin-left:auto;font-weight:900;font-size:20px;color:var(--a)}
+.note{font-size:12px;color:var(--muted);text-align:center;margin:22px 4px 0}
+</style>
+</head>
+<body>
+<div class="shell">
+  <a class="home" href="../">← まいにち道具箱</a>
+  <header>
+    <span class="kick">TOOLS / 診断</span>
+    <h1>診断いろいろ 10本</h1>
+    <p>どれも8問・約1分。登録なしで、ブラウザーですぐ遊べます。家族や友だちと結果を見せ合ってみよう。</p>
+  </header>
+  <nav class="grid" aria-label="診断の一覧">
+<a class="tc" href="./animal/" style="--a:#f26b2a;--a2:#ffd6a6"><span class="te" aria-hidden="true">🦁</span><span class="tb"><span class="tg">性格</span><strong>どうぶつタイプ診断</strong><span class="tl">8つの質問に答えると、あなたにそっくりな動物がわかります。家族や友だちと見せ合ってみよう。</span></span><span class="tar" aria-hidden="true">→</span></a>
+<a class="tc" href="./zense/" style="--a:#7a4bd6;--a2:#e3d4ff"><span class="te" aria-hidden="true">🔮</span><span class="tb"><span class="tg">ネタ</span><strong>前世なにもの診断</strong><span class="tl">あなたの好みや行動から、前世の姿をこっそりのぞいてみます。もちろん信じるかどうかはあなた次第。</span></span><span class="tar" aria-hidden="true">→</span></a>
+<a class="tc" href="./onigiri/" style="--a:#2f8f5b;--a2:#cdeedb"><span class="te" aria-hidden="true">🍙</span><span class="tb"><span class="tg">ごはん</span><strong>おにぎりの具 診断</strong><span class="tl">あなたをおにぎりの具にたとえると何？ 8問で、いちばんあなたらしい具を選びます。</span></span><span class="tar" aria-hidden="true">→</span></a>
+<a class="tc" href="./rpg-job/" style="--a:#2c5fd6;--a2:#cfe0ff"><span class="te" aria-hidden="true">⚔️</span><span class="tb"><span class="tg">冒険</span><strong>RPG職業 診断</strong><span class="tl">もしあなたがRPGの世界に生まれたら、どの職業になる？ 冒険の前に、8問であなたの適職をチェック。</span></span><span class="tar" aria-hidden="true">→</span></a>
+<a class="tc" href="./tenki/" style="--a:#1f9bd1;--a2:#cdefff"><span class="te" aria-hidden="true">⛅</span><span class="tb"><span class="tg">性格</span><strong>お天気タイプ 診断</strong><span class="tl">あなたの心はどんなお天気？ 8問で、晴れ・くもり・雨・雪・虹・かみなりの6タイプから診断します。</span></span><span class="tar" aria-hidden="true">→</span></a>
+<a class="tc" href="./color/" style="--a:#e0447a;--a2:#ffd3e3"><span class="te" aria-hidden="true">🎨</span><span class="tb"><span class="tg">色</span><strong>心のカラー 診断</strong><span class="tl">いまのあなたの心をあらわす色は何色？ 8問に答えて、あなたのテーマカラーを見つけよう。</span></span><span class="tar" aria-hidden="true">→</span></a>
+<a class="tc" href="./family-role/" style="--a:#c9631e;--a2:#ffe0c2"><span class="te" aria-hidden="true">🏠</span><span class="tb"><span class="tg">家族</span><strong>家族の中のポジション 診断</strong><span class="tl">家族の中で、あなたはどんな役回り？ 家族みんなでやって、ぴったりのチームか確かめよう。</span></span><span class="tar" aria-hidden="true">→</span></a>
+<a class="tc" href="./study-style/" style="--a:#3a8f8a;--a2:#c9f0ec"><span class="te" aria-hidden="true">📚</span><span class="tb"><span class="tg">学び</span><strong>勉強・仕事スタイル 診断</strong><span class="tl">あなたにぴったりのがんばり方は？ 8問で、6つのスタイルからあなたに合う進め方とコツを見つけます。</span></span><span class="tar" aria-hidden="true">→</span></a>
+<a class="tc" href="./todofuken/" style="--a:#d23b3b;--a2:#ffd6d0"><span class="te" aria-hidden="true">🗾</span><span class="tb"><span class="tg">日本</span><strong>あなたに似ている都道府県 診断</strong><span class="tl">あなたの性格や好みは、どの都道府県のイメージに近い？ 8問で、6つの都道府県から診断します。</span></span><span class="tar" aria-hidden="true">→</span></a>
+<a class="tc" href="./sweets/" style="--a:#c2457e;--a2:#ffd9ea"><span class="te" aria-hidden="true">🍰</span><span class="tb"><span class="tg">おやつ</span><strong>スイーツ診断</strong><span class="tl">あなたをスイーツにたとえると？ 8問で、ショートケーキからどら焼きまで6つのスイーツから選びます。</span></span><span class="tar" aria-hidden="true">→</span></a>
+  </nav>
+  <p class="note">※ すべて遊びの診断です。結果は性格や能力を判定するものではありません。回答はお使いの端末の中だけで使い、送信しません。</p>
+</div>
+</body>
+</html>

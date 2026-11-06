@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#eef4ff">
+<meta name="description" content="8問に答えて、RPGの世界での職業（勇者・魔法使い・僧侶・盗賊・戦士・吟遊詩人）がわかる遊び診断。">
+<title>RPG職業 診断｜まいにち道具箱の診断</title>
+<style>
+:root{--ink:#1f2140;--muted:#5a5f7d;--paper:#fff;--accent:#2c5fd6;--accent2:#cfe0ff;--bg:#eef4ff;--shadow:5px 6px 0 var(--ink)}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;min-height:100dvh;color:var(--ink);line-height:1.65;background:var(--bg);
+  background-image:radial-gradient(rgba(31,33,64,.13) 1.3px,transparent 1.3px);background-size:24px 24px;
+  font-family:"Hiragino Maru Gothic ProN","Hiragino Kaku Gothic ProN","Noto Sans JP",Meiryo,sans-serif}
+button{font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
+button:focus-visible,a:focus-visible{outline:4px solid #3f6bff;outline-offset:3px}
+.shell{width:min(100% - 32px,640px);margin:0 auto;padding:18px 0 max(40px,env(safe-area-inset-bottom))}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:18px}
+.back{font-size:13px;font-weight:800;color:var(--ink);text-decoration:none;background:var(--paper);border:2.5px solid var(--ink);border-radius:999px;padding:6px 12px;box-shadow:3px 3px 0 var(--ink)}
+.chip{font-size:11px;font-weight:900;background:var(--accent2);border:2px solid var(--ink);border-radius:999px;padding:5px 10px;white-space:nowrap}
+.card{background:var(--paper);border:3px solid var(--ink);border-radius:22px;box-shadow:var(--shadow);padding:24px 20px}
+.hero{text-align:center}
+.big{font-size:64px;line-height:1.1;display:inline-grid;place-items:center;width:104px;height:104px;border-radius:28px;background:var(--accent2);border:3px solid var(--ink);box-shadow:4px 4px 0 var(--ink);transform:rotate(-5deg);margin:4px 0 14px}
+h1{font-size:clamp(24px,6.4vw,32px);line-height:1.3;margin:0 0 10px;letter-spacing:.02em}
+.lead{color:var(--muted);margin:0 0 20px;font-size:15px}
+.meta{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:22px}
+.meta span{font-size:12px;font-weight:800;border:2px dashed var(--ink);border-radius:999px;padding:4px 10px}
+.btn{display:block;width:100%;border:3px solid var(--ink);border-radius:16px;background:var(--accent);color:#fff;font-weight:900;font-size:18px;padding:15px;box-shadow:4px 4px 0 var(--ink);text-shadow:0 1px 0 rgba(0,0,0,.2)}
+.btn.sub{background:var(--paper);color:var(--ink);font-size:15px;padding:12px;text-shadow:none}
+.btn:active,.opt:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--ink)}
+.last{margin-top:14px;font-size:13px;color:var(--muted)}
+.bar{height:14px;border:2.5px solid var(--ink);border-radius:999px;background:var(--paper);overflow:hidden;margin:4px 0 10px}
+.bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .3s ease}
+.qhead{display:flex;justify-content:space-between;align-items:center;font-weight:900;font-size:13px;margin-bottom:6px}
+.undo{background:none;border:0;font-size:13px;font-weight:800;color:var(--muted);padding:4px 0;text-decoration:underline}
+.undo:disabled{visibility:hidden}
+.q{font-size:clamp(19px,5vw,23px);line-height:1.45;margin:6px 0 18px}
+.opts{display:grid;gap:11px}
+.opt{text-align:left;background:var(--paper);border:3px solid var(--ink);border-radius:15px;padding:13px 14px;font-size:16px;font-weight:700;box-shadow:3px 3px 0 var(--ink);display:flex;gap:11px;align-items:center}
+.opt b{flex:none;display:grid;place-items:center;width:30px;height:30px;border-radius:9px;background:var(--accent2);border:2px solid var(--ink);font-size:14px}
+@media (hover:hover){.opt:hover{background:#fffbe8}}
+.fade{animation:fade .28s ease}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.rlabel{font-size:13px;font-weight:900;color:var(--muted);margin:0}
+.rname{font-size:clamp(26px,7vw,34px);margin:4px 0 6px;line-height:1.25}
+.catch{display:inline-block;background:var(--accent2);border:2px solid var(--ink);border-radius:10px;padding:3px 10px;font-weight:900;font-size:14px;margin-bottom:14px}
+.desc{text-align:left;margin:0 0 16px}
+.box{text-align:left;border:2.5px solid var(--ink);border-radius:14px;padding:12px 14px;margin:12px 0;background:#fffdf6}
+.box h2{font-size:14px;margin:0 0 6px}
+.box ul{margin:0;padding-left:1.2em}
+.box p{margin:0}
+.scores{display:grid;gap:7px;margin-top:4px}
+.srow{display:grid;grid-template-columns:7.5em 1fr 2.6em;align-items:center;gap:8px;font-size:13px;font-weight:700}
+.srow .sb{height:10px;border-radius:99px;background:#eee;border:1.5px solid var(--ink);overflow:hidden}
+.srow .sb i{display:block;height:100%;background:var(--accent)}
+.srow span:last-child{text-align:right}
+.actions{display:grid;gap:10px;margin-top:18px}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 16px;border-radius:12px;font-size:14px;font-weight:700;opacity:0;pointer-events:none;transition:opacity .2s}
+.toast.on{opacity:1}
+.note{font-size:12px;color:var(--muted);text-align:center;margin:18px 4px 0}
+[hidden]{display:none!important}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="top"><a class="back" href="../">← 診断いちらん</a><span class="chip">冒険</span></div>
+
+  <section id="start" class="card hero fade">
+    <div class="big" aria-hidden="true">⚔️</div>
+    <h1>RPG職業 診断</h1>
+    <p class="lead">もしあなたがRPGの世界に生まれたら、どの職業になる？ 冒険の前に、8問であなたの適職をチェック。</p>
+    <div class="meta"><span id="qcount"></span><span>約1分</span><span>登録なし</span></div>
+    <button class="btn" id="go" type="button">診断スタート</button>
+    <p class="last" id="last" hidden></p>
+  </section>
+
+  <section id="quiz" class="card" hidden>
+    <div class="qhead"><span id="qnum"></span><button class="undo" id="undo" type="button">← ひとつ戻る</button></div>
+    <div class="bar" role="progressbar" aria-valuemin="0" id="bar"><i></i></div>
+    <div id="qwrap"><h2 class="q" id="q"></h2><div class="opts" id="opts"></div></div>
+  </section>
+
+  <section id="result" class="card hero" hidden aria-live="polite">
+    <p class="rlabel">あなたは…</p>
+    <div class="big" id="remoji" aria-hidden="true"></div>
+    <h2 class="rname" id="rname"></h2>
+    <div class="catch" id="rcatch"></div>
+    <p class="desc" id="rdesc"></p>
+    <div class="box"><h2>✨ いいところ</h2><ul id="rgood"></ul></div>
+    <div class="box"><h2>💡 ひとことアドバイス</h2><p id="rtip"></p></div>
+    <div class="box"><h2>🤝 相性のいいタイプ</h2><p id="rmatch"></p></div>
+    <div class="box"><h2>📊 タイプの内訳</h2><div class="scores" id="rscores"></div></div>
+    <div class="actions">
+      <button class="btn" id="share" type="button">結果をシェア</button>
+      <button class="btn sub" id="again" type="button">もう一度やる</button>
+      <a class="btn sub" href="../" style="text-align:center;text-decoration:none">ほかの診断をやる</a>
+    </div>
+  </section>
+
+  <p class="note">※ 遊びの診断です。結果は性格や能力を判定するものではありません。回答はこの端末の中だけで使い、送信しません。</p>
+</div>
+<div class="toast" id="toast" role="status"></div>
+<script>
+const DATA = {"id": "rpg-job", "title": "RPG職業 診断", "types": {"hero": {"emoji": "🗡️", "name": "勇者", "short": "勇者", "catch": "どんなピンチもあきらめない主人公", "match": "priest", "desc": "パーティーの真ん中に立つ勇者タイプ。正義感が強く、困っている人がいたら真っ先に動きます。あきらめない心が、仲間に勇気をあたえます。", "good": ["勇気がある", "正義感が強い", "何でもそつなくこなせる"], "tip": "ひとりでかかえこまず、仲間にもっと頼ってOK。勇者もときには宿屋で休みます。"}, "mage": {"emoji": "🪄", "name": "魔法使い", "short": "魔法使い", "catch": "知識と発想でピンチを切りひらく天才", "match": "warrior", "desc": "豊富な知識とひらめきで、だれも思いつかない作戦を考える魔法使いタイプ。準備が大事だと知っていて、ここぞという場面で大きな力を発揮します。", "good": ["頭の回転が速い", "発想がユニーク", "研究熱心"], "tip": "体力（睡眠）をおろそかにすると呪文がとなえられません。早めに寝よう。"}, "priest": {"emoji": "✨", "name": "僧侶", "short": "僧侶", "catch": "みんなを支えて回復させる癒やし役", "match": "hero", "desc": "仲間がけがをしたらすぐにかけつける僧侶タイプ。人の気持ちによりそうのが得意で、あなたのひとことで元気を取りもどす人がたくさんいます。", "good": ["やさしい", "気配りができる", "縁の下の力持ち"], "tip": "自分のHPも回復させることを忘れずに。"}, "thief": {"emoji": "🗝️", "name": "盗賊（シーフ）", "short": "盗賊", "catch": "すばやく器用な、宝さがしの名人", "match": "bard", "desc": "罠を見やぶり、宝箱を見つけるのが得意なシーフタイプ。要領がよく、近道や裏ワザを見つける天才です。身軽でどんな状況にもすぐ対応できます。", "good": ["器用で要領がいい", "すばやい", "好奇心が強い"], "tip": "近道ばかりでなく、ときには正面から挑むと新しい宝が見つかります。"}, "warrior": {"emoji": "🛡️", "name": "戦士", "short": "戦士", "catch": "仲間の盾になる、力強い守り手", "match": "mage", "desc": "パーティーの最前列でみんなを守る戦士タイプ。体を動かすのが好きで、一度決めたことは最後までやりとげる強さがあります。", "good": ["ねばり強い", "頼りになる", "まっすぐ"], "tip": "力まかせの前に、魔法使いの作戦を聞いてみると勝率アップ。"}, "bard": {"emoji": "🎻", "name": "吟遊詩人", "short": "吟遊詩人", "catch": "歌と言葉でパーティーを盛り上げる人", "match": "thief", "desc": "旅先で歌い、物語を語る吟遊詩人タイプ。人を楽しませるのが大好きで、表現力が豊か。あなたがいるとパーティーの士気がぐんと上がります。", "good": ["表現力が豊か", "場を明るくする", "人の心をつかむ"], "tip": "楽しい話の中に、自分の本音もちょっとだけまぜてみて。"}}, "questions": [{"q": "冒険の最初にもらえる道具。どれを選ぶ？", "a": [{"t": "伝説の剣", "p": ["hero", "warrior"]}, {"t": "古い魔導書", "p": ["mage"]}, {"t": "薬草のつめあわせ", "p": ["priest"]}, {"t": "小さな竪琴（ハープ）", "p": ["bard"]}]}, {"q": "ダンジョンで分かれ道。どうする？", "a": [{"t": "迷わず正面の道へ", "p": ["hero"]}, {"t": "地図と手がかりから正しい道を推理", "p": ["mage"]}, {"t": "罠がないか、こっそり先に見てくる", "p": ["thief"]}, {"t": "仲間の意見を聞いて決める", "p": ["priest", "bard"]}]}, {"q": "強いボスがあらわれた！", "a": [{"t": "仲間の前に立って攻撃を受け止める", "p": ["warrior"]}, {"t": "弱点をさぐって作戦を立てる", "p": ["mage", "thief"]}, {"t": "回復とサポートに全力", "p": ["priest"]}, {"t": "歌でみんなの力を上げる", "p": ["bard", "hero"]}]}, {"q": "町に着いたら、まず行くのは？", "a": [{"t": "武器・防具屋", "p": ["warrior"]}, {"t": "図書館", "p": ["mage"]}, {"t": "酒場でうわさ話を聞く", "p": ["bard", "thief"]}, {"t": "教会や病院で困っている人の手伝い", "p": ["priest"]}]}, {"q": "宝箱を見つけた！", "a": [{"t": "罠を外してからすばやく開ける", "p": ["thief"]}, {"t": "みんなで分けられるか考える", "p": ["priest", "hero"]}, {"t": "中身を鑑定して価値を調べる", "p": ["mage"]}, {"t": "とりあえず開けてみる！", "p": ["warrior", "bard"]}]}, {"q": "仲間に言われがちなのは？", "a": [{"t": "「さすがリーダー！」", "p": ["hero"]}, {"t": "「いつも助かるよ」", "p": ["priest", "warrior"]}, {"t": "「よくそんなこと思いつくね」", "p": ["mage"]}, {"t": "「話がおもしろい！」", "p": ["bard"]}]}, {"q": "冒険の目的は？", "a": [{"t": "世界を平和にするため", "p": ["hero"]}, {"t": "まだ知らない魔法や真実を知るため", "p": ["mage"]}, {"t": "お宝とスリルのため", "p": ["thief"]}, {"t": "旅の物語を語りつぐため", "p": ["bard"]}]}, {"q": "冒険が終わったら？", "a": [{"t": "王様に報告して次の旅へ", "p": ["hero"]}, {"t": "村で道場を開いて後輩をきたえる", "p": ["warrior"]}, {"t": "小さな診療所を開く", "p": ["priest"]}, {"t": "次の宝の地図をこっそり広げる", "p": ["thief"]}]}]};
+(function(){
+  'use strict';
+  const $ = id => document.getElementById(id);
+  const KEY = 'shindan:' + DATA.id;
+  const types = DATA.types, order = Object.keys(types);
+  let idx = 0, picks = [];
+  const store = {
+    get(){ try { return JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) { return null; } },
+    set(v){ try { localStorage.setItem(KEY, JSON.stringify(v)); } catch (e) {} }
+  };
+  const show = id => { for (const s of ['start','quiz','result']) $(s).hidden = s !== id; window.scrollTo(0, 0); };
+  $('qcount').textContent = '全' + DATA.questions.length + '問';
+  const prev = store.get();
+  if (prev && types[prev.type]) {
+    $('last').hidden = false;
+    $('last').textContent = '前回の結果：' + types[prev.type].emoji + ' ' + types[prev.type].name;
+  }
+  function shuffle(a){ for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+  let shuffled = [];
+  function render(){
+    const q = DATA.questions[idx], n = DATA.questions.length;
+    $('qnum').textContent = 'Q' + (idx + 1) + ' / ' + n;
+    $('bar').firstElementChild.style.width = (idx / n * 100) + '%';
+    $('bar').setAttribute('aria-valuemax', n); $('bar').setAttribute('aria-valuenow', idx);
+    $('undo').disabled = idx === 0;
+    $('q').textContent = q.q;
+    const box = $('opts'); box.textContent = '';
+    shuffled[idx] = shuffled[idx] || shuffle(q.a.map((_, i) => i));
+    shuffled[idx].forEach((oi, k) => {
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'opt';
+      const tag = document.createElement('b'); tag.textContent = 'ABCD'[k]; tag.setAttribute('aria-hidden', 'true');
+      const t = document.createElement('span'); t.textContent = q.a[oi].t;
+      b.append(tag, t);
+      b.addEventListener('click', () => choose(oi));
+      box.append(b);
+    });
+    const w = $('qwrap'); w.classList.remove('fade'); void w.offsetWidth; w.classList.add('fade');
+  }
+  function choose(oi){
+    picks[idx] = oi; idx++;
+    if (idx >= DATA.questions.length) finish(); else render();
+  }
+  function tally(){
+    const s = Object.fromEntries(order.map(k => [k, 0]));
+    picks.forEach((oi, qi) => { for (const k of DATA.questions[qi].a[oi].p) s[k] += 1; });
+    return s;
+  }
+  function finish(){
+    const s = tally();
+    const max = Math.max(...Object.values(s));
+    const top = order.filter(k => s[k] === max);
+    // Tie: the type chosen most recently wins, so the final answers decide.
+    let type = top[0];
+    for (let qi = picks.length - 1; qi >= 0 && top.length > 1; qi--) {
+      const hit = DATA.questions[qi].a[picks[qi]].p.find(k => top.includes(k));
+      if (hit) { type = hit; break; }
+    }
+    store.set({ type, at: Date.now() });
+    const r = types[type];
+    $('remoji').textContent = r.emoji; $('rname').textContent = r.name; $('rcatch').textContent = r.catch;
+    $('rdesc').textContent = r.desc; $('rtip').textContent = r.tip;
+    $('rgood').textContent = '';
+    for (const g of r.good) { const li = document.createElement('li'); li.textContent = g; $('rgood').append(li); }
+    const m = types[r.match]; $('rmatch').textContent = m.emoji + ' ' + m.name + '　— ' + m.catch;
+    const total = Object.values(s).reduce((a, b) => a + b, 0) || 1;
+    $('rscores').textContent = '';
+    for (const k of [...order].sort((a, b) => s[b] - s[a])) {
+      const row = document.createElement('div'); row.className = 'srow';
+      const pct = Math.round(s[k] / total * 100);
+      const a = document.createElement('span'); a.textContent = types[k].emoji + ' ' + types[k].short;
+      const bar = document.createElement('div'); bar.className = 'sb'; const fill = document.createElement('i'); fill.style.width = pct + '%'; bar.append(fill);
+      const c = document.createElement('span'); c.textContent = pct + '%';
+      row.append(a, bar, c); $('rscores').append(row);
+    }
+    show('result');
+  }
+  function start(){ idx = 0; picks = []; shuffled = []; show('quiz'); render(); }
+  function toast(msg){ const t = $('toast'); t.textContent = msg; t.classList.add('on'); setTimeout(() => t.classList.remove('on'), 1800); }
+  $('go').addEventListener('click', start);
+  $('again').addEventListener('click', start);
+  $('undo').addEventListener('click', () => { if (idx > 0) { idx--; picks.length = idx; render(); } });
+  $('share').addEventListener('click', async () => {
+    const r = types[store.get().type];
+    const text = '【' + DATA.title + '】わたしは「' + r.emoji + ' ' + r.name + '」でした！ ' + r.catch;
+    const url = location.href.split('#')[0].split('?')[0];
+    if (navigator.share) { try { await navigator.share({ title: DATA.title, text, url }); return; } catch (e) { if (e && e.name === 'AbortError') return; } }
+    try { await navigator.clipboard.writeText(text + ' ' + url); toast('結果をコピーしました'); }
+    catch (e) { prompt('コピーしてシェアしてください', text + ' ' + url); }
+  });
+})();
+</script>
+</body>
+</html>

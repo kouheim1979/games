@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#fff3f1">
+<meta name="description" content="8問に答えて、あなたに似ている都道府県（北海道・東京・京都・大阪・沖縄・長野）がわかる遊び診断。地域のイメージで楽しむネタ診断です。">
+<title>あなたに似ている都道府県 診断｜まいにち道具箱の診断</title>
+<style>
+:root{--ink:#1f2140;--muted:#5a5f7d;--paper:#fff;--accent:#d23b3b;--accent2:#ffd6d0;--bg:#fff3f1;--shadow:5px 6px 0 var(--ink)}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;min-height:100dvh;color:var(--ink);line-height:1.65;background:var(--bg);
+  background-image:radial-gradient(rgba(31,33,64,.13) 1.3px,transparent 1.3px);background-size:24px 24px;
+  font-family:"Hiragino Maru Gothic ProN","Hiragino Kaku Gothic ProN","Noto Sans JP",Meiryo,sans-serif}
+button{font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
+button:focus-visible,a:focus-visible{outline:4px solid #3f6bff;outline-offset:3px}
+.shell{width:min(100% - 32px,640px);margin:0 auto;padding:18px 0 max(40px,env(safe-area-inset-bottom))}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:18px}
+.back{font-size:13px;font-weight:800;color:var(--ink);text-decoration:none;background:var(--paper);border:2.5px solid var(--ink);border-radius:999px;padding:6px 12px;box-shadow:3px 3px 0 var(--ink)}
+.chip{font-size:11px;font-weight:900;background:var(--accent2);border:2px solid var(--ink);border-radius:999px;padding:5px 10px;white-space:nowrap}
+.card{background:var(--paper);border:3px solid var(--ink);border-radius:22px;box-shadow:var(--shadow);padding:24px 20px}
+.hero{text-align:center}
+.big{font-size:64px;line-height:1.1;display:inline-grid;place-items:center;width:104px;height:104px;border-radius:28px;background:var(--accent2);border:3px solid var(--ink);box-shadow:4px 4px 0 var(--ink);transform:rotate(-5deg);margin:4px 0 14px}
+h1{font-size:clamp(24px,6.4vw,32px);line-height:1.3;margin:0 0 10px;letter-spacing:.02em}
+.lead{color:var(--muted);margin:0 0 20px;font-size:15px}
+.meta{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:22px}
+.meta span{font-size:12px;font-weight:800;border:2px dashed var(--ink);border-radius:999px;padding:4px 10px}
+.btn{display:block;width:100%;border:3px solid var(--ink);border-radius:16px;background:var(--accent);color:#fff;font-weight:900;font-size:18px;padding:15px;box-shadow:4px 4px 0 var(--ink);text-shadow:0 1px 0 rgba(0,0,0,.2)}
+.btn.sub{background:var(--paper);color:var(--ink);font-size:15px;padding:12px;text-shadow:none}
+.btn:active,.opt:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--ink)}
+.last{margin-top:14px;font-size:13px;color:var(--muted)}
+.bar{height:14px;border:2.5px solid var(--ink);border-radius:999px;background:var(--paper);overflow:hidden;margin:4px 0 10px}
+.bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .3s ease}
+.qhead{display:flex;justify-content:space-between;align-items:center;font-weight:900;font-size:13px;margin-bottom:6px}
+.undo{background:none;border:0;font-size:13px;font-weight:800;color:var(--muted);padding:4px 0;text-decoration:underline}
+.undo:disabled{visibility:hidden}
+.q{font-size:clamp(19px,5vw,23px);line-height:1.45;margin:6px 0 18px}
+.opts{display:grid;gap:11px}
+.opt{text-align:left;background:var(--paper);border:3px solid var(--ink);border-radius:15px;padding:13px 14px;font-size:16px;font-weight:700;box-shadow:3px 3px 0 var(--ink);display:flex;gap:11px;align-items:center}
+.opt b{flex:none;display:grid;place-items:center;width:30px;height:30px;border-radius:9px;background:var(--accent2);border:2px solid var(--ink);font-size:14px}
+@media (hover:hover){.opt:hover{background:#fffbe8}}
+.fade{animation:fade .28s ease}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.rlabel{font-size:13px;font-weight:900;color:var(--muted);margin:0}
+.rname{font-size:clamp(26px,7vw,34px);margin:4px 0 6px;line-height:1.25}
+.catch{display:inline-block;background:var(--accent2);border:2px solid var(--ink);border-radius:10px;padding:3px 10px;font-weight:900;font-size:14px;margin-bottom:14px}
+.desc{text-align:left;margin:0 0 16px}
+.box{text-align:left;border:2.5px solid var(--ink);border-radius:14px;padding:12px 14px;margin:12px 0;background:#fffdf6}
+.box h2{font-size:14px;margin:0 0 6px}
+.box ul{margin:0;padding-left:1.2em}
+.box p{margin:0}
+.scores{display:grid;gap:7px;margin-top:4px}
+.srow{display:grid;grid-template-columns:7.5em 1fr 2.6em;align-items:center;gap:8px;font-size:13px;font-weight:700}
+.srow .sb{height:10px;border-radius:99px;background:#eee;border:1.5px solid var(--ink);overflow:hidden}
+.srow .sb i{display:block;height:100%;background:var(--accent)}
+.srow span:last-child{text-align:right}
+.actions{display:grid;gap:10px;margin-top:18px}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 16px;border-radius:12px;font-size:14px;font-weight:700;opacity:0;pointer-events:none;transition:opacity .2s}
+.toast.on{opacity:1}
+.note{font-size:12px;color:var(--muted);text-align:center;margin:18px 4px 0}
+[hidden]{display:none!important}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="top"><a class="back" href="../">← 診断いちらん</a><span class="chip">日本</span></div>
+
+  <section id="start" class="card hero fade">
+    <div class="big" aria-hidden="true">🗾</div>
+    <h1>あなたに似ている都道府県 診断</h1>
+    <p class="lead">あなたの性格や好みは、どの都道府県のイメージに近い？ 8問で、6つの都道府県から診断します。</p>
+    <div class="meta"><span id="qcount"></span><span>約1分</span><span>登録なし</span></div>
+    <button class="btn" id="go" type="button">診断スタート</button>
+    <p class="last" id="last" hidden></p>
+  </section>
+
+  <section id="quiz" class="card" hidden>
+    <div class="qhead"><span id="qnum"></span><button class="undo" id="undo" type="button">← ひとつ戻る</button></div>
+    <div class="bar" role="progressbar" aria-valuemin="0" id="bar"><i></i></div>
+    <div id="qwrap"><h2 class="q" id="q"></h2><div class="opts" id="opts"></div></div>
+  </section>
+
+  <section id="result" class="card hero" hidden aria-live="polite">
+    <p class="rlabel">あなたは…</p>
+    <div class="big" id="remoji" aria-hidden="true"></div>
+    <h2 class="rname" id="rname"></h2>
+    <div class="catch" id="rcatch"></div>
+    <p class="desc" id="rdesc"></p>
+    <div class="box"><h2>✨ いいところ</h2><ul id="rgood"></ul></div>
+    <div class="box"><h2>💡 ひとことアドバイス</h2><p id="rtip"></p></div>
+    <div class="box"><h2>🤝 相性のいいタイプ</h2><p id="rmatch"></p></div>
+    <div class="box"><h2>📊 タイプの内訳</h2><div class="scores" id="rscores"></div></div>
+    <div class="actions">
+      <button class="btn" id="share" type="button">結果をシェア</button>
+      <button class="btn sub" id="again" type="button">もう一度やる</button>
+      <a class="btn sub" href="../" style="text-align:center;text-decoration:none">ほかの診断をやる</a>
+    </div>
+  </section>
+
+  <p class="note">※ 遊びの診断です。結果は性格や能力を判定するものではありません。回答はこの端末の中だけで使い、送信しません。</p>
+</div>
+<div class="toast" id="toast" role="status"></div>
+<script>
+const DATA = {"id": "todofuken", "title": "あなたに似ている都道府県 診断", "types": {"hokkaido": {"emoji": "🐄", "name": "北海道", "short": "北海道", "catch": "大らかでスケールの大きい、大地の人", "match": "osaka", "desc": "広い大地のように、心が大らかでこまかいことを気にしないタイプ。自然や食べることが大好きで、いっしょにいる人をのびのびした気持ちにさせます。", "good": ["大らか", "スケールが大きい", "食べるのが好き"], "tip": "細かい予定も、たまにはちょっとだけ気にしてみるとうまくいきます。"}, "tokyo": {"emoji": "🗼", "name": "東京都", "short": "東京", "catch": "新しいもの好きで行動が速い都会派", "match": "nagano", "desc": "新しいお店、流行、最新の情報にいち早く反応する行動派。いろんな人と出会うのが好きで、毎日がにぎやかでも楽しめるパワーがあります。", "good": ["情報通", "行動が速い", "変化に強い"], "tip": "忙しい日が続いたら、山や森でスマホをおいてひと休み。"}, "kyoto": {"emoji": "⛩️", "name": "京都府", "short": "京都", "catch": "伝統と美を大切にする上品な人", "match": "okinawa", "desc": "古いものや本物の美しさを大切にする、上品で落ち着いたタイプ。言葉づかいやふるまいにこだわりがあり、ていねいな暮らしを好みます。", "good": ["品がある", "美意識が高い", "ものを大切にする"], "tip": "思っていることは、たまにストレートに言ってみると伝わりやすいです。"}, "osaka": {"emoji": "🐙", "name": "大阪府", "short": "大阪", "catch": "笑いと人情にあふれたにぎやかな人", "match": "hokkaido", "desc": "おもしろいことが大好きで、人とのやりとりを楽しむにぎやかタイプ。ツッコミやおしゃべりで場を盛り上げ、困っている人には世話を焼かずにいられません。", "good": ["おもしろい", "人情に厚い", "実用的でムダがない"], "tip": "しゃべりつかれたら、静かな時間も楽しんでみて。"}, "okinawa": {"emoji": "🌺", "name": "沖縄県", "short": "沖縄", "catch": "南国のようにのんびりあたたかい人", "match": "kyoto", "desc": "「なんくるないさ（なんとかなるさ）」の気持ちで、ゆったりかまえられるタイプ。家族や仲間を大切にし、いっしょにいる人をほっとさせます。", "good": ["のんびり", "あたたかい", "仲間を大切にする"], "tip": "大事な約束の時間だけは、ちょっと早めに出発しよう。"}, "nagano": {"emoji": "🏔️", "name": "長野県", "short": "長野", "catch": "自然を愛するまじめな努力家", "match": "tokyo", "desc": "山や森にかこまれた長野のように、まじめで落ち着いた努力家タイプ。コツコツ取り組むのが得意で、自然の中でリフレッシュするのが大好きです。", "good": ["まじめ", "ねばり強い", "自然が好き"], "tip": "たまには都会のにぎやかさの中で、新しい刺激をもらうのもおすすめ。"}}, "questions": [{"q": "旅行するならどこへ行きたい？", "a": [{"t": "大自然の中でキャンプ", "p": ["hokkaido", "nagano"]}, {"t": "話題のお店をめぐる都会旅", "p": ["tokyo"]}, {"t": "お寺や古い町並みを歩く", "p": ["kyoto"]}, {"t": "あたたかい海でのんびり", "p": ["okinawa"]}]}, {"q": "好きな食べ物に近いのは？", "a": [{"t": "海鮮・ジンギスカン・乳製品", "p": ["hokkaido"]}, {"t": "新しくできた人気店のメニュー", "p": ["tokyo"]}, {"t": "たこ焼き・お好み焼き", "p": ["osaka"]}, {"t": "そば・野菜・果物", "p": ["nagano"]}]}, {"q": "友だちと話すとき、あなたは？", "a": [{"t": "ボケたりツッコんだり、笑わせたい", "p": ["osaka"]}, {"t": "ゆっくりのんびり話す", "p": ["okinawa", "hokkaido"]}, {"t": "言葉を選んでていねいに話す", "p": ["kyoto"]}, {"t": "最新ニュースや流行の話をする", "p": ["tokyo"]}]}, {"q": "時間に対する考え方は？", "a": [{"t": "5分前行動がふつう", "p": ["nagano", "kyoto"]}, {"t": "時間はムダにしたくない。効率重視", "p": ["tokyo", "osaka"]}, {"t": "少しくらい遅れてもだいじょうぶ", "p": ["okinawa"]}, {"t": "細かい時間よりその場を楽しむ", "p": ["hokkaido"]}]}, {"q": "買い物のしかたは？", "a": [{"t": "値切りやお得情報が大好き", "p": ["osaka"]}, {"t": "長く使える上質なものを選ぶ", "p": ["kyoto", "nagano"]}, {"t": "流行りのものをすぐチェック", "p": ["tokyo"]}, {"t": "必要なものをまとめ買い", "p": ["hokkaido"]}]}, {"q": "好きな季節の過ごし方は？", "a": [{"t": "冬の雪遊びやスキー", "p": ["hokkaido", "nagano"]}, {"t": "夏の海と花火", "p": ["okinawa"]}, {"t": "秋の紅葉と和菓子", "p": ["kyoto"]}, {"t": "季節のイベントにみんなで出かける", "p": ["osaka"]}]}, {"q": "大事にしているのは？", "a": [{"t": "伝統や礼儀", "p": ["kyoto"]}, {"t": "家族・仲間とのつながり", "p": ["okinawa", "osaka"]}, {"t": "自分を高める努力", "p": ["nagano"]}, {"t": "新しいチャレンジ", "p": ["tokyo"]}]}, {"q": "住むならどんな家？", "a": [{"t": "庭の広い大きな家", "p": ["hokkaido", "nagano"]}, {"t": "商店街のそばのにぎやかな家", "p": ["osaka", "tokyo"]}, {"t": "古い町家をきれいに直した家", "p": ["kyoto"]}, {"t": "海の近くの風通しのいい家", "p": ["okinawa"]}]}]};
+(function(){
+  'use strict';
+  const $ = id => document.getElementById(id);
+  const KEY = 'shindan:' + DATA.id;
+  const types = DATA.types, order = Object.keys(types);
+  let idx = 0, picks = [];
+  const store = {
+    get(){ try { return JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) { return null; } },
+    set(v){ try { localStorage.setItem(KEY, JSON.stringify(v)); } catch (e) {} }
+  };
+  const show = id => { for (const s of ['start','quiz','result']) $(s).hidden = s !== id; window.scrollTo(0, 0); };
+  $('qcount').textContent = '全' + DATA.questions.length + '問';
+  const prev = store.get();
+  if (prev && types[prev.type]) {
+    $('last').hidden = false;
+    $('last').textContent = '前回の結果：' + types[prev.type].emoji + ' ' + types[prev.type].name;
+  }
+  function shuffle(a){ for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+  let shuffled = [];
+  function render(){
+    const q = DATA.questions[idx], n = DATA.questions.length;
+    $('qnum').textContent = 'Q' + (idx + 1) + ' / ' + n;
+    $('bar').firstElementChild.style.width = (idx / n * 100) + '%';
+    $('bar').setAttribute('aria-valuemax', n); $('bar').setAttribute('aria-valuenow', idx);
+    $('undo').disabled = idx === 0;
+    $('q').textContent = q.q;
+    const box = $('opts'); box.textContent = '';
+    shuffled[idx] = shuffled[idx] || shuffle(q.a.map((_, i) => i));
+    shuffled[idx].forEach((oi, k) => {
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'opt';
+      const tag = document.createElement('b'); tag.textContent = 'ABCD'[k]; tag.setAttribute('aria-hidden', 'true');
+      const t = document.createElement('span'); t.textContent = q.a[oi].t;
+      b.append(tag, t);
+      b.addEventListener('click', () => choose(oi));
+      box.append(b);
+    });
+    const w = $('qwrap'); w.classList.remove('fade'); void w.offsetWidth; w.classList.add('fade');
+  }
+  function choose(oi){
+    picks[idx] = oi; idx++;
+    if (idx >= DATA.questions.length) finish(); else render();
+  }
+  function tally(){
+    const s = Object.fromEntries(order.map(k => [k, 0]));
+    picks.forEach((oi, qi) => { for (const k of DATA.questions[qi].a[oi].p) s[k] += 1; });
+    return s;
+  }
+  function finish(){
+    const s = tally();
+    const max = Math.max(...Object.values(s));
+    const top = order.filter(k => s[k] === max);
+    // Tie: the type chosen most recently wins, so the final answers decide.
+    let type = top[0];
+    for (let qi = picks.length - 1; qi >= 0 && top.length > 1; qi--) {
+      const hit = DATA.questions[qi].a[picks[qi]].p.find(k => top.includes(k));
+      if (hit) { type = hit; break; }
+    }
+    store.set({ type, at: Date.now() });
+    const r = types[type];
+    $('remoji').textContent = r.emoji; $('rname').textContent = r.name; $('rcatch').textContent = r.catch;
+    $('rdesc').textContent = r.desc; $('rtip').textContent = r.tip;
+    $('rgood').textContent = '';
+    for (const g of r.good) { const li = document.createElement('li'); li.textContent = g; $('rgood').append(li); }
+    const m = types[r.match]; $('rmatch').textContent = m.emoji + ' ' + m.name + '　— ' + m.catch;
+    const total = Object.values(s).reduce((a, b) => a + b, 0) || 1;
+    $('rscores').textContent = '';
+    for (const k of [...order].sort((a, b) => s[b] - s[a])) {
+      const row = document.createElement('div'); row.className = 'srow';
+      const pct = Math.round(s[k] / total * 100);
+      const a = document.createElement('span'); a.textContent = types[k].emoji + ' ' + types[k].short;
+      const bar = document.createElement('div'); bar.className = 'sb'; const fill = document.createElement('i'); fill.style.width = pct + '%'; bar.append(fill);
+      const c = document.createElement('span'); c.textContent = pct + '%';
+      row.append(a, bar, c); $('rscores').append(row);
+    }
+    show('result');
+  }
+  function start(){ idx = 0; picks = []; shuffled = []; show('quiz'); render(); }
+  function toast(msg){ const t = $('toast'); t.textContent = msg; t.classList.add('on'); setTimeout(() => t.classList.remove('on'), 1800); }
+  $('go').addEventListener('click', start);
+  $('again').addEventListener('click', start);
+  $('undo').addEventListener('click', () => { if (idx > 0) { idx--; picks.length = idx; render(); } });
+  $('share').addEventListener('click', async () => {
+    const r = types[store.get().type];
+    const text = '【' + DATA.title + '】わたしは「' + r.emoji + ' ' + r.name + '」でした！ ' + r.catch;
+    const url = location.href.split('#')[0].split('?')[0];
+    if (navigator.share) { try { await navigator.share({ title: DATA.title, text, url }); return; } catch (e) { if (e && e.name === 'AbortError') return; } }
+    try { await navigator.clipboard.writeText(text + ' ' + url); toast('結果をコピーしました'); }
+    catch (e) { prompt('コピーしてシェアしてください', text + ' ' + url); }
+  });
+})();
+</script>
+</body>
+</html>

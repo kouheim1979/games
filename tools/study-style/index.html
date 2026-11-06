@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#effaf8">
+<meta name="description" content="8問に答えて、あなたに合う勉強・仕事の進め方（計画・短期集中・コツコツ・ひらめき・チーム・完璧主義）とコツがわかる遊び診断。">
+<title>勉強・仕事スタイル 診断｜まいにち道具箱の診断</title>
+<style>
+:root{--ink:#1f2140;--muted:#5a5f7d;--paper:#fff;--accent:#3a8f8a;--accent2:#c9f0ec;--bg:#effaf8;--shadow:5px 6px 0 var(--ink)}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;min-height:100dvh;color:var(--ink);line-height:1.65;background:var(--bg);
+  background-image:radial-gradient(rgba(31,33,64,.13) 1.3px,transparent 1.3px);background-size:24px 24px;
+  font-family:"Hiragino Maru Gothic ProN","Hiragino Kaku Gothic ProN","Noto Sans JP",Meiryo,sans-serif}
+button{font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
+button:focus-visible,a:focus-visible{outline:4px solid #3f6bff;outline-offset:3px}
+.shell{width:min(100% - 32px,640px);margin:0 auto;padding:18px 0 max(40px,env(safe-area-inset-bottom))}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:18px}
+.back{font-size:13px;font-weight:800;color:var(--ink);text-decoration:none;background:var(--paper);border:2.5px solid var(--ink);border-radius:999px;padding:6px 12px;box-shadow:3px 3px 0 var(--ink)}
+.chip{font-size:11px;font-weight:900;background:var(--accent2);border:2px solid var(--ink);border-radius:999px;padding:5px 10px;white-space:nowrap}
+.card{background:var(--paper);border:3px solid var(--ink);border-radius:22px;box-shadow:var(--shadow);padding:24px 20px}
+.hero{text-align:center}
+.big{font-size:64px;line-height:1.1;display:inline-grid;place-items:center;width:104px;height:104px;border-radius:28px;background:var(--accent2);border:3px solid var(--ink);box-shadow:4px 4px 0 var(--ink);transform:rotate(-5deg);margin:4px 0 14px}
+h1{font-size:clamp(24px,6.4vw,32px);line-height:1.3;margin:0 0 10px;letter-spacing:.02em}
+.lead{color:var(--muted);margin:0 0 20px;font-size:15px}
+.meta{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:22px}
+.meta span{font-size:12px;font-weight:800;border:2px dashed var(--ink);border-radius:999px;padding:4px 10px}
+.btn{display:block;width:100%;border:3px solid var(--ink);border-radius:16px;background:var(--accent);color:#fff;font-weight:900;font-size:18px;padding:15px;box-shadow:4px 4px 0 var(--ink);text-shadow:0 1px 0 rgba(0,0,0,.2)}
+.btn.sub{background:var(--paper);color:var(--ink);font-size:15px;padding:12px;text-shadow:none}
+.btn:active,.opt:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--ink)}
+.last{margin-top:14px;font-size:13px;color:var(--muted)}
+.bar{height:14px;border:2.5px solid var(--ink);border-radius:999px;background:var(--paper);overflow:hidden;margin:4px 0 10px}
+.bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .3s ease}
+.qhead{display:flex;justify-content:space-between;align-items:center;font-weight:900;font-size:13px;margin-bottom:6px}
+.undo{background:none;border:0;font-size:13px;font-weight:800;color:var(--muted);padding:4px 0;text-decoration:underline}
+.undo:disabled{visibility:hidden}
+.q{font-size:clamp(19px,5vw,23px);line-height:1.45;margin:6px 0 18px}
+.opts{display:grid;gap:11px}
+.opt{text-align:left;background:var(--paper);border:3px solid var(--ink);border-radius:15px;padding:13px 14px;font-size:16px;font-weight:700;box-shadow:3px 3px 0 var(--ink);display:flex;gap:11px;align-items:center}
+.opt b{flex:none;display:grid;place-items:center;width:30px;height:30px;border-radius:9px;background:var(--accent2);border:2px solid var(--ink);font-size:14px}
+@media (hover:hover){.opt:hover{background:#fffbe8}}
+.fade{animation:fade .28s ease}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.rlabel{font-size:13px;font-weight:900;color:var(--muted);margin:0}
+.rname{font-size:clamp(26px,7vw,34px);margin:4px 0 6px;line-height:1.25}
+.catch{display:inline-block;background:var(--accent2);border:2px solid var(--ink);border-radius:10px;padding:3px 10px;font-weight:900;font-size:14px;margin-bottom:14px}
+.desc{text-align:left;margin:0 0 16px}
+.box{text-align:left;border:2.5px solid var(--ink);border-radius:14px;padding:12px 14px;margin:12px 0;background:#fffdf6}
+.box h2{font-size:14px;margin:0 0 6px}
+.box ul{margin:0;padding-left:1.2em}
+.box p{margin:0}
+.scores{display:grid;gap:7px;margin-top:4px}
+.srow{display:grid;grid-template-columns:7.5em 1fr 2.6em;align-items:center;gap:8px;font-size:13px;font-weight:700}
+.srow .sb{height:10px;border-radius:99px;background:#eee;border:1.5px solid var(--ink);overflow:hidden}
+.srow .sb i{display:block;height:100%;background:var(--accent)}
+.srow span:last-child{text-align:right}
+.actions{display:grid;gap:10px;margin-top:18px}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 16px;border-radius:12px;font-size:14px;font-weight:700;opacity:0;pointer-events:none;transition:opacity .2s}
+.toast.on{opacity:1}
+.note{font-size:12px;color:var(--muted);text-align:center;margin:18px 4px 0}
+[hidden]{display:none!important}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="top"><a class="back" href="../">← 診断いちらん</a><span class="chip">学び</span></div>
+
+  <section id="start" class="card hero fade">
+    <div class="big" aria-hidden="true">📚</div>
+    <h1>勉強・仕事スタイル 診断</h1>
+    <p class="lead">あなたにぴったりのがんばり方は？ 8問で、6つのスタイルからあなたに合う進め方とコツを見つけます。</p>
+    <div class="meta"><span id="qcount"></span><span>約1分</span><span>登録なし</span></div>
+    <button class="btn" id="go" type="button">診断スタート</button>
+    <p class="last" id="last" hidden></p>
+  </section>
+
+  <section id="quiz" class="card" hidden>
+    <div class="qhead"><span id="qnum"></span><button class="undo" id="undo" type="button">← ひとつ戻る</button></div>
+    <div class="bar" role="progressbar" aria-valuemin="0" id="bar"><i></i></div>
+    <div id="qwrap"><h2 class="q" id="q"></h2><div class="opts" id="opts"></div></div>
+  </section>
+
+  <section id="result" class="card hero" hidden aria-live="polite">
+    <p class="rlabel">あなたは…</p>
+    <div class="big" id="remoji" aria-hidden="true"></div>
+    <h2 class="rname" id="rname"></h2>
+    <div class="catch" id="rcatch"></div>
+    <p class="desc" id="rdesc"></p>
+    <div class="box"><h2>✨ いいところ</h2><ul id="rgood"></ul></div>
+    <div class="box"><h2>💡 ひとことアドバイス</h2><p id="rtip"></p></div>
+    <div class="box"><h2>🤝 相性のいいタイプ</h2><p id="rmatch"></p></div>
+    <div class="box"><h2>📊 タイプの内訳</h2><div class="scores" id="rscores"></div></div>
+    <div class="actions">
+      <button class="btn" id="share" type="button">結果をシェア</button>
+      <button class="btn sub" id="again" type="button">もう一度やる</button>
+      <a class="btn sub" href="../" style="text-align:center;text-decoration:none">ほかの診断をやる</a>
+    </div>
+  </section>
+
+  <p class="note">※ 遊びの診断です。結果は性格や能力を判定するものではありません。回答はこの端末の中だけで使い、送信しません。</p>
+</div>
+<div class="toast" id="toast" role="status"></div>
+<script>
+const DATA = {"id": "study-style", "title": "勉強・仕事スタイル 診断", "types": {"plan": {"emoji": "🗓️", "name": "計画マスター", "short": "計画", "catch": "ゴールから逆算して進める戦略家", "match": "spark", "desc": "やることを書き出して、いつまでに何をするかを決めると力が出るタイプ。予定どおり進むと気持ちよく、先を見通せるので本番にも強いです。", "good": ["見通しを立てられる", "時間を守れる", "ムダが少ない"], "tip": "予定がくずれても大丈夫。「予備の日」を最初から作っておくと安心です。"}, "sprint": {"emoji": "⏱️", "name": "短期集中ダッシュ", "short": "短期集中", "catch": "しめきり前に爆発する瞬発力の人", "match": "steady", "desc": "時間がないときほど集中力がぐんと上がるタイプ。短い時間に一気に進める力はピカイチです。タイマーを使うと実力をさらに出せます。", "good": ["集中力がすごい", "切りかえが早い", "本番に強い"], "tip": "25分集中＋5分休けいをくり返すと、しめきり前でなくても力が出ます。"}, "steady": {"emoji": "🐾", "name": "コツコツ職人", "short": "コツコツ", "catch": "毎日の積み重ねで差をつける努力家", "match": "sprint", "desc": "毎日少しずつ続けるのが得意なタイプ。一回の量は少なくても、続けることで大きな力になっています。習慣にしてしまえばこっちのものです。", "good": ["継続力がある", "ミスが少ない", "着実に伸びる"], "tip": "できた日にシールや印をつけると、続けるのがもっと楽しくなります。"}, "spark": {"emoji": "💡", "name": "ひらめき探検家", "short": "ひらめき", "catch": "興味から深掘りするアイデアの人", "match": "plan", "desc": "「おもしろい！」と思った瞬間に、どこまでも深く学べるタイプ。気になることを調べるうちに、ほかの人が気づかないつながりを見つけます。", "good": ["好奇心が強い", "発想がユニーク", "深く理解できる"], "tip": "興味がわかないことは、好きなことと結びつけるとグッと進みます。"}, "team": {"emoji": "🤝", "name": "チームプレーヤー", "short": "チーム", "catch": "人と話すことで伸びるコミュニケーション型", "match": "perfect", "desc": "だれかといっしょだとやる気が出て、教え合うことで理解が深まるタイプ。説明したり話し合ったりするうちに、頭の中がすっきり整理されます。", "good": ["教えるのが上手", "人を巻きこめる", "楽しく続けられる"], "tip": "ひとりのときは、だれかに説明するつもりで声に出すと効果的です。"}, "perfect": {"emoji": "💎", "name": "完ぺき仕上げ人", "short": "完ぺき", "catch": "すみずみまで質にこだわるクオリティ派", "match": "team", "desc": "細かいところまでていねいに仕上げたいタイプ。ミスを見つける目がするどく、あなたが仕上げたものは安心して任せられます。", "good": ["ていねい", "見直しが得意", "品質が高い"], "tip": "「8割できたら一度出す」と決めておくと、時間切れを防げます。"}}, "questions": [{"q": "テストや発表の1週間前。あなたは？", "a": [{"t": "1週間の予定表を作る", "p": ["plan"]}, {"t": "まだ大丈夫、と思って前日にがんばる", "p": ["sprint"]}, {"t": "いつもどおり毎日少しずつやる", "p": ["steady"]}, {"t": "友だちと勉強会を開く", "p": ["team"]}]}, {"q": "勉強や作業をする場所は？", "a": [{"t": "決まった机で決まった時間に", "p": ["plan", "steady"]}, {"t": "カフェや図書館など、気分で変える", "p": ["spark"]}, {"t": "だれかがいるリビング", "p": ["team"]}, {"t": "自分の道具がそろった静かな場所", "p": ["perfect"]}]}, {"q": "新しいことを覚えるときは？", "a": [{"t": "全体の流れをつかんでから順番に", "p": ["plan"]}, {"t": "とりあえずやってみて覚える", "p": ["spark", "sprint"]}, {"t": "何度もくり返して体に覚えさせる", "p": ["steady"]}, {"t": "人に教えてもらう・教える", "p": ["team"]}]}, {"q": "提出物の仕上げ方は？", "a": [{"t": "時間いっぱい見直してこだわる", "p": ["perfect"]}, {"t": "しめきりギリギリに一気に仕上げる", "p": ["sprint"]}, {"t": "予定どおりに早めに出す", "p": ["plan"]}, {"t": "友だちに見てもらってから出す", "p": ["team", "perfect"]}]}, {"q": "やる気が出ないときは？", "a": [{"t": "「5分だけ」と決めてとりあえず始める", "p": ["steady"]}, {"t": "好きなことに関係づけてみる", "p": ["spark"]}, {"t": "だれかと話してやる気をもらう", "p": ["team"]}, {"t": "タイマーをかけて自分を追いこむ", "p": ["sprint"]}]}, {"q": "ノートやメモの取り方は？", "a": [{"t": "色やレイアウトまできれいにまとめる", "p": ["perfect"]}, {"t": "図や落書きもいっぱい、自由に書く", "p": ["spark"]}, {"t": "毎日の分を日付ごとにきちんと残す", "p": ["steady", "plan"]}, {"t": "要点だけを手早くメモ", "p": ["sprint"]}]}, {"q": "ほめられるとうれしいのは？", "a": [{"t": "「計画どおりだね」", "p": ["plan"]}, {"t": "「最後まで続けてえらい」", "p": ["steady"]}, {"t": "「そんな見方があるんだ！」", "p": ["spark"]}, {"t": "「仕上がりがきれい！」", "p": ["perfect"]}]}, {"q": "がんばったあとのごほうびは？", "a": [{"t": "次の目標を立てること", "p": ["plan", "perfect"]}, {"t": "一気に遊ぶ！", "p": ["sprint"]}, {"t": "新しい本や知らない場所を探検する", "p": ["spark"]}, {"t": "みんなでお祝い", "p": ["team", "steady"]}]}]};
+(function(){
+  'use strict';
+  const $ = id => document.getElementById(id);
+  const KEY = 'shindan:' + DATA.id;
+  const types = DATA.types, order = Object.keys(types);
+  let idx = 0, picks = [];
+  const store = {
+    get(){ try { return JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) { return null; } },
+    set(v){ try { localStorage.setItem(KEY, JSON.stringify(v)); } catch (e) {} }
+  };
+  const show = id => { for (const s of ['start','quiz','result']) $(s).hidden = s !== id; window.scrollTo(0, 0); };
+  $('qcount').textContent = '全' + DATA.questions.length + '問';
+  const prev = store.get();
+  if (prev && types[prev.type]) {
+    $('last').hidden = false;
+    $('last').textContent = '前回の結果：' + types[prev.type].emoji + ' ' + types[prev.type].name;
+  }
+  function shuffle(a){ for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+  let shuffled = [];
+  function render(){
+    const q = DATA.questions[idx], n = DATA.questions.length;
+    $('qnum').textContent = 'Q' + (idx + 1) + ' / ' + n;
+    $('bar').firstElementChild.style.width = (idx / n * 100) + '%';
+    $('bar').setAttribute('aria-valuemax', n); $('bar').setAttribute('aria-valuenow', idx);
+    $('undo').disabled = idx === 0;
+    $('q').textContent = q.q;
+    const box = $('opts'); box.textContent = '';
+    shuffled[idx] = shuffled[idx] || shuffle(q.a.map((_, i) => i));
+    shuffled[idx].forEach((oi, k) => {
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'opt';
+      const tag = document.createElement('b'); tag.textContent = 'ABCD'[k]; tag.setAttribute('aria-hidden', 'true');
+      const t = document.createElement('span'); t.textContent = q.a[oi].t;
+      b.append(tag, t);
+      b.addEventListener('click', () => choose(oi));
+      box.append(b);
+    });
+    const w = $('qwrap'); w.classList.remove('fade'); void w.offsetWidth; w.classList.add('fade');
+  }
+  function choose(oi){
+    picks[idx] = oi; idx++;
+    if (idx >= DATA.questions.length) finish(); else render();
+  }
+  function tally(){
+    const s = Object.fromEntries(order.map(k => [k, 0]));
+    picks.forEach((oi, qi) => { for (const k of DATA.questions[qi].a[oi].p) s[k] += 1; });
+    return s;
+  }
+  function finish(){
+    const s = tally();
+    const max = Math.max(...Object.values(s));
+    const top = order.filter(k => s[k] === max);
+    // Tie: the type chosen most recently wins, so the final answers decide.
+    let type = top[0];
+    for (let qi = picks.length - 1; qi >= 0 && top.length > 1; qi--) {
+      const hit = DATA.questions[qi].a[picks[qi]].p.find(k => top.includes(k));
+      if (hit) { type = hit; break; }
+    }
+    store.set({ type, at: Date.now() });
+    const r = types[type];
+    $('remoji').textContent = r.emoji; $('rname').textContent = r.name; $('rcatch').textContent = r.catch;
+    $('rdesc').textContent = r.desc; $('rtip').textContent = r.tip;
+    $('rgood').textContent = '';
+    for (const g of r.good) { const li = document.createElement('li'); li.textContent = g; $('rgood').append(li); }
+    const m = types[r.match]; $('rmatch').textContent = m.emoji + ' ' + m.name + '　— ' + m.catch;
+    const total = Object.values(s).reduce((a, b) => a + b, 0) || 1;
+    $('rscores').textContent = '';
+    for (const k of [...order].sort((a, b) => s[b] - s[a])) {
+      const row = document.createElement('div'); row.className = 'srow';
+      const pct = Math.round(s[k] / total * 100);
+      const a = document.createElement('span'); a.textContent = types[k].emoji + ' ' + types[k].short;
+      const bar = document.createElement('div'); bar.className = 'sb'; const fill = document.createElement('i'); fill.style.width = pct + '%'; bar.append(fill);
+      const c = document.createElement('span'); c.textContent = pct + '%';
+      row.append(a, bar, c); $('rscores').append(row);
+    }
+    show('result');
+  }
+  function start(){ idx = 0; picks = []; shuffled = []; show('quiz'); render(); }
+  function toast(msg){ const t = $('toast'); t.textContent = msg; t.classList.add('on'); setTimeout(() => t.classList.remove('on'), 1800); }
+  $('go').addEventListener('click', start);
+  $('again').addEventListener('click', start);
+  $('undo').addEventListener('click', () => { if (idx > 0) { idx--; picks.length = idx; render(); } });
+  $('share').addEventListener('click', async () => {
+    const r = types[store.get().type];
+    const text = '【' + DATA.title + '】わたしは「' + r.emoji + ' ' + r.name + '」でした！ ' + r.catch;
+    const url = location.href.split('#')[0].split('?')[0];
+    if (navigator.share) { try { await navigator.share({ title: DATA.title, text, url }); return; } catch (e) { if (e && e.name === 'AbortError') return; } }
+    try { await navigator.clipboard.writeText(text + ' ' + url); toast('結果をコピーしました'); }
+    catch (e) { prompt('コピーしてシェアしてください', text + ' ' + url); }
+  });
+})();
+</script>
+</body>
+</html>
