@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#fff3e3">
 <meta name="description" content="8問に答えて、あなたを動物にたとえると何タイプかがわかる無料の遊び診断。ライオン・イヌ・ネコ・フクロウ・イルカ・カメの6タイプ。">
-<title>どうぶつタイプ診断｜まいにち道具箱の診断</title>
+<title>どうぶつタイプ診断｜診断パーク</title>
 <style>
 :root{--ink:#1f2140;--muted:#5a5f7d;--paper:#fff;--accent:#f26b2a;--accent2:#ffd6a6;--bg:#fff3e3;--shadow:5px 6px 0 var(--ink)}
 *,*::before,*::after{box-sizing:border-box}
@@ -65,7 +65,7 @@ h1{font-size:clamp(24px,6.4vw,32px);line-height:1.3;margin:0 0 10px;letter-spaci
 </head>
 <body>
 <div class="shell">
-  <div class="top"><a class="back" href="../">← 診断いちらん</a><span class="chip">性格</span></div>
+  <div class="top"><a class="back" href="../">← 診断パーク</a><span class="chip">性格</span></div>
 
   <section id="start" class="card hero fade">
     <div class="big" aria-hidden="true">🦁</div>
@@ -95,7 +95,7 @@ h1{font-size:clamp(24px,6.4vw,32px);line-height:1.3;margin:0 0 10px;letter-spaci
     <div class="actions">
       <button class="btn" id="share" type="button">結果をシェア</button>
       <button class="btn sub" id="again" type="button">もう一度やる</button>
-      <a class="btn sub" href="../" style="text-align:center;text-decoration:none">ほかの診断をやる</a>
+      <a class="btn sub" href="../" style="text-align:center;text-decoration:none">診断パークでほかの診断をやる</a>
     </div>
   </section>
 
@@ -188,7 +188,7 @@ const DATA = {"id": "animal", "title": "どうぶつタイプ診断", "types": {
   $('undo').addEventListener('click', () => { if (idx > 0) { idx--; picks.length = idx; render(); } });
   $('share').addEventListener('click', async () => {
     const r = types[store.get().type];
-    const text = '【' + DATA.title + '】わたしは「' + r.emoji + ' ' + r.name + '」でした！ ' + r.catch;
+    const text = '【診断パーク／' + DATA.title + '】わたしは「' + r.emoji + ' ' + r.name + '」でした！ ' + r.catch;
     const url = location.href.split('#')[0].split('?')[0];
     if (navigator.share) { try { await navigator.share({ title: DATA.title, text, url }); return; } catch (e) { if (e && e.name === 'AbortError') return; } }
     try { await navigator.clipboard.writeText(text + ' ' + url); toast('結果をコピーしました'); }

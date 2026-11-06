@@ -25,9 +25,9 @@
 
 各ゲームは元のリポジトリからコピーしたものです（`atama-oshiri` と `yakitori` は `launch-roulette` リポジトリ内から）。
 
-## 診断いろいろ（tools/）
+## 診断パーク（tools/）
 
-8問・約1分で遊べる診断アプリ10本です。一覧ページ: https://kouheim1979.github.io/games/tools/
+8問・約1分で遊べる診断アプリ10本をまとめた「診断パーク」です。一覧ページ: https://kouheim1979.github.io/games/tools/
 
 | フォルダ | タイトル |
 |---|---|
