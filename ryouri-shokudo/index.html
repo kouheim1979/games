@@ -46,7 +46,9 @@
     --shadow: 0 3px 0 rgba(0, 0, 0, .35);
   }
 }
-* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+/* 連打・なぞり・長押しをする場所は、ブラウザーの拡大やスクロールを止める */
+.board, .board *, .bowl, .bowl *, .hold-btn, .hold-btn * { touch-action: none; -webkit-touch-callout: none; }
 html, body { margin: 0; height: 100%; }
 body {
   background: var(--bg); color: var(--ink); font-family: var(--round); font-weight: 700;
@@ -147,7 +149,7 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
 /* 切る */
 .board { width: 100%; max-width: 330px; height: 190px; border-radius: 22px; position: relative; overflow: hidden;
   background: repeating-linear-gradient(8deg, var(--board) 0 18px, var(--board-2) 18px 20px); box-shadow: inset 0 -6px 0 rgba(0,0,0,.1);
-  display: flex; align-items: center; justify-content: center; touch-action: manipulation; cursor: pointer; }
+  display: flex; align-items: center; justify-content: center; touch-action: none; cursor: pointer; }
 .board .food { font-size: 100px; line-height: 1; position: relative; transition: transform .08s; }
 .board .food.hit { transform: scale(.92) rotate(-4deg); }
 .board .cut { position: absolute; top: 28px; bottom: 28px; width: 3px; background: rgba(255,255,255,.85); border-radius: 2px; transform: rotate(8deg); }
@@ -464,6 +466,10 @@ const DISH = {
 const dishSVG = (id, cls) => '<svg class="' + (cls || '') + '" viewBox="0 0 120 90" aria-hidden="true">' + DISH[id] + '</svg>';
 
 /* ---------- セーブ ---------- */
+// iPhone の Safari は user-scalable=no を無視するので、ダブルタップ・ピンチの拡大をここで止める
+['gesturestart', 'gesturechange'].forEach(t => document.addEventListener(t, e => e.preventDefault(), { passive: false }));
+document.addEventListener('dblclick', e => e.preventDefault(), { passive: false });
+
 const KEY = 'ryouri-shokudo:v1';
 const fresh = () => ({ day: 1, money: 0, up: { knife: 0, pan: 0, sign: 0 }, book: {}, sound: true, served: 0, seenHow: false });
 let save = fresh();
