@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#eef2f8">
+  <meta name="description" content="18問で対人スタイル・感情・衝動性について振り返る、娯楽用の心理傾向セルフチェック。医学的な診断ではありません。">
+  <title>サイコパス傾向チェック | 心理スタイル診断（娯楽用）</title>
+  <style>
+    :root { color-scheme: light; --ink:#16213a; --muted:#65738b; --line:#e3e8f1; --paper:#fff; --accent:#6359d9; --accent-dark:#4e43b9; --mint:#1ba992; --blush:#e46b78; --bg:#f2f5fa; }
+    *,*::before,*::after { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body {margin:0; font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Noto Sans JP","Yu Gothic",Meiryo,sans-serif; color:var(--ink); background:radial-gradient(circle at 15% 0%,#e9e6ff 0,transparent 36%),radial-gradient(circle at 100% 60%,#e1f5f3 0,transparent 35%),var(--bg); min-height:100dvh; line-height:1.65;}
+    button {font:inherit; cursor:pointer;}
+    button:focus-visible, a:focus-visible {outline:3px solid #6d63e9; outline-offset:3px;}
+    .shell {width:min(100% - 32px,680px); margin:0 auto; padding:24px 0 max(38px,env(safe-area-inset-bottom));}
+    .masthead {display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:24px;}
+    .logo {display:flex; align-items:center; gap:10px; font-size:13px; font-weight:850; letter-spacing:.07em;}
+    .mark {height:34px; width:34px; background:#272955; color:white; display:grid; place-items:center; border-radius:11px; font-size:20px; font-weight:750;}
+    .tag {font-size:11px; font-weight:800; letter-spacing:.04em; color:#625c9c; background:#e8e7ff; padding:6px 10px; border-radius:999px; white-space:nowrap;}
+    .surface {background:var(--paper); border:1px solid rgba(223,230,242,.9); border-radius:26px; box-shadow:0 16px 55px rgba(32,43,86,.055); overflow:hidden;}
+    .hero {padding:clamp(24px,6vw,42px); position:relative; overflow:hidden;}
+    .hero:before {content:""; position:absolute; width:180px; height:180px; right:-95px; top:-90px; border-radius:50%; background:#edeaff; pointer-events:none;}
+    .eyebrow {display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:800; letter-spacing:.05em; color:var(--accent); margin-bottom:12px;}
+    h1 {font-size:clamp(30px,6vw,43px); letter-spacing:-.055em; line-height:1.24; margin:0 0 16px; font-weight:900;}
+    h1 em {font-style:normal;color:var(--accent);}
+    h2 {font-size:24px; letter-spacing:-.045em; line-height:1.35; margin:0;}
+    p {margin:0;}
+    .lead {font-size:15px; color:#4e5b72; max-width:38em;}
+    .facts {display:flex; gap:9px; flex-wrap:wrap; margin:24px 0 27px;}
+    .fact {border:1px solid var(--line); padding:8px 11px; border-radius:12px; font-size:12px; font-weight:750; color:#47526d; background:#fafbfe;}
+    .primary {display:flex; align-items:center; justify-content:center; gap:10px; width:100%; border:none; border-radius:15px; background:var(--accent); color:white; padding:16px 22px; font-weight:850; font-size:16px; transition:transform .15s,background .15s; box-shadow:0 7px 17px rgba(99,89,217,.19);}
+    .primary:active {transform:scale(.99);}
+    .primary:hover {background:var(--accent-dark);}
+    .primary[disabled] {opacity:.45; cursor:not-allowed; box-shadow:none;}
+    .secondary {border:1px solid #dfe3ef; color:#35415b; background:white; border-radius:12px; padding:12px 15px; font-weight:800;}
+    .secondary:hover {background:#f6f7ff;}
+    .notice {font-size:12px; color:#69758a; line-height:1.75; margin-top:17px;}
+    .foot {text-align:center; font-size:11px; color:#7a8599; margin-top:22px; padding:0 10px;}
+    .hidden {display:none!important;}
+    .inside {padding:clamp(20px,5.4vw,36px);}
+    .progress-top {display:flex; align-items:center; justify-content:space-between; font-size:13px; font-weight:850; margin-bottom:12px;}
+    .progress-top .dim {font-weight:700; color:#7b859a;}
+    .track {height:9px; background:#edf0f7; border-radius:50px; overflow:hidden;}
+    .fill {height:100%; width:0; background:linear-gradient(90deg,#8c81f0,#6359d9); transition:width .26s; border-radius:50px;}
+    .q-area {padding-top:29px;}
+    .q-kicker {font-size:12px; color:var(--accent); font-weight:800; margin-bottom:10px;}
+    .q-text {font-size:clamp(19px,4.5vw,25px); font-weight:860; line-height:1.56; letter-spacing:-.045em; min-height:80px;}
+    .q-hint {font-size:12px; color:#7a8598; margin:17px 0 12px;}
+    .options {display:grid; gap:9px;}
+    .option {display:flex; align-items:center; gap:13px; text-align:left; width:100%; border:1.5px solid #e3e7f0; background:#fff; padding:13px 15px; border-radius:13px; color:#35405a; font-size:14px; font-weight:680; transition:background .15s,border-color .15s;}
+    .option:hover {border-color:#bdb7fa; background:#faf9ff;}
+    .option.selected {background:#efedff; color:#4d41bd; border-color:#7e74e6;}
+    .radio-mark {width:19px;height:19px;border:2px solid #c4cad8;border-radius:50%;display:grid;place-items:center;flex-shrink:0;}
+    .option.selected .radio-mark {border-color:var(--accent);}
+    .option.selected .radio-mark::after {content:"";width:9px;height:9px;border-radius:50%;background:var(--accent);}
+    .nav {display:flex; gap:12px; margin-top:23px;}
+    .nav .primary {flex:1;}
+    .nav .secondary {flex:0 0 auto;}
+    .result-head {background:linear-gradient(150deg,#272b58,#47438b); padding:26px 25px 28px; color:white;}
+    .result-head .small {font-size:12px; color:#d5d4ff; font-weight:850; letter-spacing:.05em;}
+    .score-row {display:flex; align-items:baseline; gap:8px; margin:12px 0 9px;}
+    .score {font-size:65px; font-weight:900; line-height:1; letter-spacing:-.08em;}
+    .suffix {font-size:13px; color:#d6d5ff; font-weight:800;}
+    .result-label {font-size:20px; font-weight:850; margin:3px 0 8px;}
+    .result-description {font-size:13px; line-height:1.85; color:#edecff;}
+    .result-body {padding:26px 25px 28px;}
+    .bar-section {margin:0 0 27px;}
+    .bar-title {display:flex; align-items:center; justify-content:space-between; font-size:14px; margin:0 0 7px; font-weight:800;}
+    .bar-title output {font-variant-numeric:tabular-nums; font-size:13px; color:#65708a;}
+    .bar-track {background:#edf0f6;border-radius:30px; height:13px; overflow:hidden;}
+    .bar-track > span {display:block; height:100%; width:0; border-radius:30px; transition:width .7s ease;}
+    .bar-note {font-size:12px; color:#717c91; margin-top:5px;}
+    .insight {padding:16px 17px; border:1px solid #e7e7f7; background:#f7f7ff; border-radius:15px; margin-bottom:18px;}
+    .insight strong {display:block; font-size:14px; margin-bottom:6px; color:#423b93;}
+    .insight p {font-size:13px;color:#4e5970;}
+    .caution {padding:16px 17px; border-left:3px solid #b9b4fb; background:#fbfbff; color:#526078; font-size:12px; line-height:1.9; border-radius:8px;}
+    .button-row {display:flex; flex-direction:column; gap:10px; margin-top:22px;}
+    .button-row .secondary {width:100%;}
+    .toast {font-size:12px;text-align:center; min-height:18px;color:#238776;margin-top:12px;}
+    @media (prefers-reduced-motion:reduce) {*,*::before,*::after{transition:none!important;scroll-behavior:auto!important;}}
+    @media (min-width:580px) {.button-row {flex-direction:row;} .button-row > * {flex:1;} .q-area{padding-top:35px;} }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header class="masthead"><div class="logo"><div class="mark" aria-hidden="true">◇</div><span>MIND MIRROR</span></div><span class="tag">18歳以上・娯楽用</span></header>
+    <section id="intro" class="surface hero">
+      <span class="eyebrow">✦ 自分の考え方をのぞいてみよう</span>
+      <h1>サイコパス<em>傾向</em><br>チェック</h1>
+      <p class="lead">もし自分だったら、どう考える？ 18の質問から、<strong>共感・対人スタイル・衝動性</strong>という3つの側面を振り返ります。</p>
+      <div class="facts"><span class="fact">📝 全18問</span><span class="fact">⏱ 約3分</span><span class="fact">🔒 回答は送信されません</span></div>
+      <button id="start" class="primary" type="button">チェックを始める <span aria-hidden="true">→</span></button>
+      <p class="notice">※ このアプリはオリジナルの<strong>娯楽・自己理解用</strong>チェックです。医学的・心理学的に標準化された検査ではなく、「サイコパスかどうか」を判定することはできません。未成年者の評価には使わないでください。</p>
+    </section>
+    <section id="quiz" class="surface inside hidden" aria-label="質問">
+      <div class="progress-top"><span id="count">QUESTION 01 / 18</span><span class="dim" id="percent">0% 完了</span></div>
+      <div class="track" role="progressbar" aria-label="回答進捗" aria-valuemin="0" aria-valuemax="18" aria-valuenow="0" id="progress"><div class="fill" id="progress-fill"></div></div>
+      <div class="q-area"><div class="q-kicker" id="category">気持ち・共感</div><div class="q-text" id="question" aria-live="polite"></div><p class="q-hint">最も近いものを1つ選んでください。</p><div class="options" id="choices" role="group" aria-label="回答の選択肢"></div></div>
+      <div class="nav"><button id="back" class="secondary" type="button">戻る</button><button id="next" class="primary" type="button" disabled>次へ <span aria-hidden="true">→</span></button></div>
+      <p class="notice">直感で答えてOK。正解・不正解はありません。</p>
+    </section>
+    <section id="result" class="surface hidden" aria-label="チェック結果" aria-live="polite">
+      <div class="result-head"><div class="small">YOUR SELF-REFLECTION REPORT</div><div class="score-row"><span class="score" id="score">0</span><span class="suffix">/ 100 目安スコア</span></div><div class="result-label" id="level">今回の回答傾向</div><p class="result-description" id="description"></p></div>
+      <div class="result-body">
+        <h2 style="font-size:19px;margin-bottom:17px">3つの傾向</h2>
+        <div id="bars"></div>
+        <div class="insight"><strong id="insight-title">回答から見える傾向</strong><p id="insight"></p></div>
+        <div class="caution"><strong>この結果について</strong><br>数値と区分はこのアプリ内での便宜的な集計です。一般人口との比較、発症確率、臨床的な判定基準ではありません。自己申告だけで人の性格や行動を確定的に判断することはできません。悩みや対人トラブルが続く場合は、専門家に相談してください。</div>
+        <div class="button-row"><button id="copy" class="primary" type="button">結果をコピー</button><button id="restart" class="secondary" type="button">最初からやり直す</button></div><p class="toast" id="toast" role="status"></p>
+      </div>
+    </section>
+    <footer class="foot">MIND MIRROR · 一人で振り返るためのエンタメチェック · 入力内容は保存・送信しません</footer>
+  </main>
+<script>
+  'use strict';
+  const questions = [
+    {cat:'感情・共感', text:'相手がつらそうにしていると、自分もその気持ちを感じることがある。', reverse:true, group:'feel'},
+    {cat:'対人スタイル', text:'自分の目的のため、相手に都合のよい情報だけを伝えることがある。', reverse:false, group:'social'},
+    {cat:'行動・衝動性', text:'刺激が欲しくなると、後先をあまり考えずに行動することがある。', reverse:false, group:'action'},
+    {cat:'感情・共感', text:'人を傷つけたと気づいたら、後から後悔する。', reverse:true, group:'feel'},
+    {cat:'対人スタイル', text:'たとえ不利になっても、他人との約束は守ろうとする。', reverse:true, group:'social'},
+    {cat:'行動・衝動性', text:'イライラすると、考えるより先に言い返してしまう。', reverse:false, group:'action'},
+    {cat:'感情・共感', text:'人が困っていても、自分に直接関係なければ気にならない。', reverse:false, group:'feel'},
+    {cat:'対人スタイル', text:'相手を説得するために、事実を大げさに話すことがある。', reverse:false, group:'social'},
+    {cat:'行動・衝動性', text:'大切な決断をする前に、結果をよく考える。', reverse:true, group:'action'},
+    {cat:'感情・共感', text:'自分が悪かったと思えば、素直に謝ることができる。', reverse:true, group:'feel'},
+    {cat:'対人スタイル', text:'うそが見つからなければ、問題ないと感じることがある。', reverse:false, group:'social'},
+    {cat:'行動・衝動性', text:'退屈すると、多少のリスクを取ってでも刺激を求める。', reverse:false, group:'action'},
+    {cat:'感情・共感', text:'自分の利益になるなら、誰かが傷ついても仕方ないと思う。', reverse:false, group:'feel'},
+    {cat:'対人スタイル', text:'何かを伝えるときは、相手の立場や受け取り方を考える。', reverse:true, group:'social'},
+    {cat:'行動・衝動性', text:'周囲に止められても、その場の勢いで行動してしまうことがある。', reverse:false, group:'action'},
+    {cat:'感情・共感', text:'他人の失敗や痛みを見ても、ほとんど何も感じない。', reverse:false, group:'feel'},
+    {cat:'対人スタイル', text:'自分の失敗を、つい他人のせいにしてしまうことがある。', reverse:false, group:'social'},
+    {cat:'行動・衝動性', text:'決められたルールは、自分にメリットがなくても守ろうとする。', reverse:true, group:'action'}
+  ];
+  const labels = ['まったく当てはまらない','あまり当てはまらない','どちらともいえない','やや当てはまる','とても当てはまる'];
+  let answers = Array(questions.length).fill(null);
+  let current = 0;
+  let latestReport = '';
+  const $ = id => document.getElementById(id);
+  const show = screen => {
+    ['intro','quiz','result'].forEach(x => $(x).classList.toggle('hidden',x!==screen));
+    window.scrollTo({top:0,behavior:'instant'});
+  };
+  function renderQuestion() {
+    const q=questions[current];
+    $('count').textContent = `QUESTION ${String(current+1).padStart(2,'0')} / ${questions.length}`;
+    $('percent').textContent=`${Math.round(answers.filter(x=>x!==null).length/questions.length*100)}% 回答済み`;
+    $('progress').setAttribute('aria-valuenow',answers.filter(x=>x!==null).length);
+    $('progress-fill').style.width=`${answers.filter(x=>x!==null).length/questions.length*100}%`;
+    $('category').textContent=q.cat;
+    $('question').textContent=q.text;
+    $('choices').replaceChildren();
+    labels.forEach((label,i)=>{
+      const btn=document.createElement('button'); btn.type='button';
+      btn.className='option'+(answers[current]===i?' selected':'');
+      btn.setAttribute('aria-pressed',String(answers[current]===i));
+      btn.innerHTML='<span class="radio-mark" aria-hidden="true"></span><span></span>';
+      btn.lastElementChild.textContent=label;
+      btn.addEventListener('click',()=>{answers[current]=i; renderQuestion();});
+      $('choices').append(btn);
+    });
+    $('back').disabled=current===0;
+    $('back').style.opacity=current===0?'.45':'1';
+    $('next').disabled=answers[current]===null;
+    $('next').innerHTML=current===questions.length-1?'結果を見る <span aria-hidden="true">→</span>':'次へ <span aria-hidden="true">→</span>';
+  }
+  function computeReport() {
+    const groups={feel:[],social:[],action:[]};
+    questions.forEach((q,i)=>groups[q.group].push(q.reverse?4-answers[i]:answers[i]));
+    const mean = arr=>arr.reduce((a,b)=>a+b,0)/arr.length;
+    const pct = arr=>Math.round(mean(arr)/4*100);
+    const dimensions=[
+      {id:'feel',title:'感情・共感の距離感',color:'#7068db',hint:'高いほど、感情的な共鳴や後悔が少ないと回答する傾向'},
+      {id:'social',title:'対人関係での自己優先',color:'#e68b67',hint:'高いほど、自分の目的を優先すると回答する傾向'},
+      {id:'action',title:'衝動性・リスク志向',color:'#37aaa0',hint:'高いほど、衝動的に行動すると回答する傾向'}
+    ];
+    dimensions.forEach(x=>x.value=pct(groups[x.id]));
+    const total=pct(questions.map((q,i)=>q.reverse?4-answers[i]:answers[i]));
+    // App-specific descriptive bands, not clinical cutoffs or population percentiles.
+    let level,description;
+    if(total<26) {level='今回の回答では、該当する傾向は少なめ';description='共感やルールを大切にし、他人の気持ち・行動の結果を考えると回答した項目が比較的多いようです。';}
+    else if(total<56) {level='今回の回答では、一部に特徴がみられる';description='状況によって自分を優先したり、衝動的に判断したりする面があると回答しています。誰にでも起こり得る傾向です。';}
+    else {level='今回の回答では、特徴が比較的多くみられる';description='共感の距離感や対人面の自己優先、衝動性について、該当すると答えた項目が多いようです。これだけで性格や診断名を決めることはできません。';}
+    const sorted=[...dimensions].sort((a,b)=>b.value-a.value);
+    const insight=sorted[0].value===sorted[2].value?'3つの傾向はほぼ同じ程度でした。どの場面で違う反応になるかを振り返ってみると、新しい発見があるかもしれません。':`もっとも数値が高かったのは「${sorted[0].title}」です。ただし、1つの傾向が強いことと、心理的な障害があることは別です。`;
+    return {total,level,description,dimensions,insight};
+  }
+  function showResult() {
+    if(answers.some(x=>x===null)) return;
+    const result=computeReport();
+    $('score').textContent=result.total;
+    $('level').textContent=result.level;
+    $('description').textContent=result.description;
+    const bars=$('bars');bars.replaceChildren();
+    result.dimensions.forEach(d=>{
+      const section=document.createElement('div');section.className='bar-section';
+      const title=document.createElement('div');title.className='bar-title';
+      const name=document.createElement('span');name.textContent=d.title;
+      const output=document.createElement('output');output.textContent=d.value+' / 100';
+      title.append(name,output);
+      const track=document.createElement('div');track.className='bar-track';
+      const fill=document.createElement('span');fill.style.background=d.color;fill.style.width=d.value+'%';track.append(fill);
+      const hint=document.createElement('p');hint.className='bar-note';hint.textContent=d.hint;
+      section.append(title,track,hint);bars.append(section);
+    });
+    $('insight').textContent=result.insight;
+    latestReport=`【サイコパス傾向チェック／娯楽用】\n回答傾向スコア：${result.total}/100\n${result.level}\n${result.dimensions.map(d=>`${d.title}：${d.value}/100`).join('\n')}\n\n※このアプリはオリジナルの自己理解用チェックです。医学的な診断・確率・人口平均との差ではありません。`;
+    $('toast').textContent='';
+    show('result');
+  }
+  $('start').addEventListener('click',()=>{current=0;renderQuestion();show('quiz');});
+  $('back').addEventListener('click',()=>{if(current>0){current--;renderQuestion();}});
+  $('next').addEventListener('click',()=>{if(answers[current]===null)return;if(current===questions.length-1)showResult();else {current++;renderQuestion();}});
+  $('restart').addEventListener('click',()=>{answers=Array(questions.length).fill(null);current=0;latestReport='';show('intro');});
+  $('copy').addEventListener('click',async()=>{
+    try {if(!navigator.clipboard||!window.isSecureContext)throw new Error('clipboard unavailable');await navigator.clipboard.writeText(latestReport);$('toast').textContent='結果をコピーしました。';}
+    catch(e){const el=document.createElement('textarea');el.value=latestReport;el.style.cssText='position:fixed;top:-9999px;left:-9999px';document.body.append(el);el.select();let ok=false;try{ok=document.execCommand('copy');}catch(_){}el.remove();$('toast').textContent=ok?'結果をコピーしました。':'コピーできない場合は、ブラウザで開いてお試しください。';}
+  });
+</script>
+</body>
+</html>
