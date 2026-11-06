@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#eef2f8">
-  <meta name="description" content="24問の物語を楽しみながら、8つの行動スタイルを振り返る家族向けの娯楽クイズ。医学的な診断ではありません。">
-  <title>こころの冒険｜ストーリー行動タイプ診断（娯楽用）</title>
+  <meta name="description" content="「○○サイコパス」の爆笑称号が出る24問のストーリークイズ。子どもにもわかる4択・完全ネタ診断。">
+  <title>あなたは何サイコパス？｜爆笑ストーリー診断【ネタ】</title>
   <style>
     :root { color-scheme: light; --ink:#16213a; --muted:#65738b; --line:#e3e8f1; --paper:#fff; --accent:#6359d9; --accent-dark:#4e43b9; --mint:#1ba992; --blush:#e46b78; --bg:#f2f5fa; }
     *,*::before,*::after { box-sizing:border-box; }
@@ -98,42 +98,62 @@
     .extra{background:#f0faf6;border-color:#d9f0e7}
     .extra strong{color:#167c67}
     @media(max-width:370px){.shell{width:calc(100% - 20px)}.result-body{padding:20px 16px 24px}}
+
+    .hero {background:radial-gradient(circle at 92% 5%,#ffe0f3 0,transparent 42%),linear-gradient(145deg,#fff,#f9f6ff)}
+    .result-head {background:radial-gradient(circle at 100% 0%,#702d88 0,transparent 45%),linear-gradient(150deg,#161532,#3e2c67);text-align:center;}
+    .type-emoji {font-size:70px; margin:15px 0 4px;}
+    .dark-pre{font-size:13px;color:#e6d7ff;font-weight:800;margin:5px 0}
+    .result-head .result-label{font-size:clamp(24px,5.5vw,34px);line-height:1.45;color:#fff1a5;margin:7px 0 12px}
+    .comic-line{background:#ffffff20;border:1px dashed #ffffff65;border-radius:13px;padding:12px 14px;margin:19px 0;font-weight:800;font-size:14px;line-height:1.8}
+    .dark-secret{display:inline-block;vertical-align:top;text-align:left;background:#ffffff10;border:1px solid #ffffff24;border-radius:14px;padding:12px 14px;margin:4px 2px;min-width:min(100%,220px);max-width:100%}
+    .dark-secret strong{color:#fff1a5;font-size:12px}
+    .dark-secret p{font-size:13px;color:#fff;line-height:1.6;margin-top:4px}
+    .dark-asterisk{font-size:11px;color:#ddd0f2;margin-top:18px;line-height:1.8}
+    .trait-score{letter-spacing:.02em}
   </style>
 </head>
 <body>
   <main class="shell">
-    <header class="masthead"><div class="logo"><div class="mark" aria-hidden="true">◇</div><span>MIND MIRROR</span></div><span class="tag">家族であそべる・娯楽用</span></header>
+    <header class="masthead"><div class="logo"><div class="mark" aria-hidden="true">◇</div><span>YAMI MIRROR</span></div><span class="tag">🃏 完全ネタ診断</span></header>
     <section id="intro" class="surface hero">
-      <span class="eyebrow">✦ ココロタウンの1日へ、ようこそ！</span>
-      <h1>こころの冒険<br><em>ストーリー診断</em></h1>
-      <p class="lead">あなたが物語の主人公！ 友達のモモ、ソラと学校や公園、お祭りへ。「こんなとき、どうする？」に答えて、<strong>8つの行動スタイル</strong>を見つけよう。</p>
-      <div class="facts"><span class="fact">📖 全24問・物語つき</span><span class="fact">🎯 4択・正解なし</span><span class="fact">📊 8項目を詳しく解説</span><span class="fact">🔒 回答は送信されません</span></div>
-      <button id="start" class="primary" type="button">ものがたりを始める →</button>
-      <p class="notice"><strong>このゲームについて：</strong>オリジナルの娯楽用クイズです。<strong>サイコパスや発達特性・精神疾患を判定するものではありません。</strong>子どもや友達を決めつける目的に使わないでください。</p>
+      <span class="eyebrow">😈 闇の称号を手に入れろ！</span>
+      <h1>あなたは<br><em>何サイコパス？</em></h1>
+      <p class="lead">おやつ事件！ 消えた消しゴム！ お祭りのミステリー！ モモとソラといっしょに24の事件を解決（？）。答えによって<strong>「プリン先取りサイコパス」</strong>や<strong>「脳内会議サイコパス」</strong>などのネタ称号がつくよ。</p>
+      <div class="facts"><span class="fact">📖 ストーリー24問</span><span class="fact">🎯 4択でポチッ</span><span class="fact">👑 おもしろ称号</span><span class="fact">🔍 8つの裏パラメーター</span></div>
+      <button id="start" class="primary" type="button">😈 闇の世界に入る →</button>
+      <p class="notice"><strong>⚠️ 完全にネタのゲームです。</strong> 「サイコパス」はここでは架空の称号に使っているだけ。本当の性格、病気、サイコパスかどうかは判定できません。友達を決めつけたり、からかったりするためには使わないでね。回答は保存・送信されません。</p>
     </section>
     <section id="quiz" class="surface inside hidden" aria-label="質問">
       <div class="progress-top"><span id="count">STORY 01 / 24</span><span class="dim" id="percent">0% 完了</span></div>
       <div class="track" role="progressbar" aria-label="回答進捗" aria-valuemin="0" aria-valuemax="24" aria-valuenow="0" id="progress"><div class="fill" id="progress-fill"></div></div>
-      <div class="q-area"><div class="q-kicker" id="category">気持ち・共感</div><p class="story-scene" id="scene"></p><div class="q-text" id="question" aria-live="polite"></div><p class="q-hint">あなたならどうする？ いちばん近い答えを選んでね。</p><div class="options" id="choices" role="group" aria-label="回答の選択肢"></div></div>
+      <div class="q-area"><div class="q-kicker" id="category">気持ち・共感</div><p class="story-scene" id="scene"></p><div class="q-text" id="question" aria-live="polite"></div><p class="q-hint">あなたならどうする？ 怪しいと思っても、4つから選んでね！</p><div class="options" id="choices" role="group" aria-label="回答の選択肢"></div></div>
       <div class="nav"><button id="back" class="secondary" type="button">戻る</button><button id="next" class="primary" type="button" disabled>次へ <span aria-hidden="true">→</span></button></div>
-      <p class="notice">正解・不正解はありません。ふだんの自分に近いものを選んでね。</p>
+      <p class="notice">🕵️‍♀️ 事件に正解はなし（？）。選び直しOK。あなたの闇をのぞこう。</p>
     </section>
-    <section id="result" class="surface hidden" aria-label="チェック結果" aria-live="polite">
-      <div class="result-head"><div class="small">KOKORO TOWN · YOUR STORY</div>
-        <div class="type-emoji" id="type-emoji">🌈</div>
-        <div class="result-label" id="level">あなたのタイプ</div><p class="result-description" id="description"></p>
+    <section id="result" class="surface hidden" aria-label="ネタ診断の結果" aria-live="polite">
+      <div class="result-head">
+        <div class="small">👑 YAMI MIRROR · 闇の称号発表！</div>
+        <div class="type-emoji" id="type-emoji">👻</div>
+        <div class="dark-pre">きみのネタ称号は……</div>
+        <div class="result-label" id="level">〇〇サイコパス</div>
+        <p class="result-description" id="description"></p>
+        <div class="comic-line" id="comic-line"></div>
+        <div class="dark-secret"><strong>必殺技</strong><p id="special"></p></div>
+        <div class="dark-secret"><strong>弱点</strong><p id="weakness"></p></div>
+        <p class="dark-asterisk">※ ゲームだけの架空の称号。実際の性格や病気の診断ではありません。</p>
       </div>
       <div class="result-body">
-        <h2 style="font-size:20px;margin-bottom:7px">8つの行動スタイル</h2>
-        <p class="section-lead">「これは何？」「今回の回答は？」を、8つの項目ごとに見ることができます。点数はゲーム内だけの目安です。</p>
+        <h2 style="font-size:20px;margin-bottom:7px">🔍 闇の8パラメーター図鑑</h2>
+        <p class="section-lead">「これは何？」「あなたはどんな感じ？」を8つまとめて解説。ゲージは物語で選んだ行動の目安で、良い・悪いを決めるものではないよ。</p>
         <div id="bars"></div>
-        <div class="insight"><strong>📚 今回のストーリーから分かったこと</strong><p id="insight"></p></div>
-        <div class="insight extra"><strong>🧭 もっと楽しむヒント</strong><p id="advice"></p></div>
-        <div class="caution"><strong>診断ではありません。</strong><br>これは物語の回答を独自のルールで集計した娯楽用の結果です。数値は能力や人柄の優劣、精神疾患やサイコパスの確率を示しません。実際の行動は場面や気分でも変わります。発達や行動で心配があるときは、学校や医療・発達相談の専門家にご相談ください。</div>
-        <div class="button-row"><button id="copy" class="primary" type="button">結果をコピー</button><button id="restart" class="secondary" type="button">もう一度あそぶ</button></div><p class="toast" id="toast" role="status"></p>
+        <div class="insight"><strong>🕵️ 事件簿からの報告</strong><p id="insight"></p></div>
+        <div class="insight extra"><strong>🎲 次のミッション</strong><p id="advice"></p></div>
+        <div class="caution"><strong>これはネタ診断です。</strong><br>「〇〇サイコパス」はゲーム内のジョーク称号で、医学・心理学上の診断名ではありません。数値やゲージは、実際の人柄、精神疾患、危険性を示しません。だれかを「サイコパス」と決めつけてからかわないでね。</div>
+        <div class="button-row"><button id="copy" class="primary" type="button">👑 称号をコピー</button><button id="restart" class="secondary" type="button">もう一回あそぶ</button></div>
+        <p class="toast" id="toast" role="status"></p>
       </div>
     </section>
-    <footer class="foot">KOKORO TOWN · 家族で楽しむストーリークイズ · 回答は保存・送信しません</footer>
+    <footer class="foot">YAMI MIRROR · これはネタ診断 · 回答は保存・送信しません</footer>
   </main>
 <script>
 'use strict';
@@ -151,9 +171,9 @@ const traits=[
 // Questions cycle through 8 styles exactly three times.
 const questions=[
  ['朝の教室','教室で、モモがいつもより元気がありません。','どうする？',['「大丈夫？」と聞く','あとで様子を見て話しかける','自分の準備を始める','気にせず遊びに行く'],[3,2,1,0]],
- ['朝の教室','名前のある消しゴムが床に落ちています。','どうする？',['先生や持ち主に渡す','帰りに渡せるように取っておく','机の上に置くだけにする','自分のものにする'],[3,2,1,0]],
+ ['朝の教室','教室で消しゴム消失事件！ 名前入りの消しゴムが床に落ちています。','どうする？',['先生や持ち主に渡す','帰りに渡せるように取っておく','机の上に置くだけにする','自分のものにする'],[3,2,1,0]],
  ['朝の教室','休み時間のチャイム！ 遊びたいけれど、机の上には道具がいっぱい。','どうする？',['すぐ飛び出す','少しだけ片づける','片づけてから遊びに行く','友達が行くならついていく'],[0,1,3,2]],
- ['公園であそぼう','公園のおやつは4個。でも友達は5人います。','どう分ける？',['相談して決める','小さく分ける方法を探す','仲良しの友達を優先する','自分の分を先に取る'],[3,2,1,0]],
+ ['公園であそぼう','公園でおやつ事件発生！ プリンが4個なのに友達は5人。犯人は…空腹？','どう分ける？',['相談して決める','小さく分ける方法を探す','仲良しの友達を優先する','自分の分を先に取る'],[3,2,1,0]],
  ['公園であそぼう','すべり台には列ができています。モモが「先に行こう」と言いました。','どうする？',['順番を待つ','モモにも待とうと伝える','列が短いときだけ割り込む','一緒に割り込む'],[3,2,1,0]],
  ['公園であそぼう','モモから借りたボールが花だんに入ってしまいました。','どうする？',['事情を話して大人に相談する','モモに先に謝る','しばらく黙って考える','知らないふりをする'],[3,2,1,0]],
  ['公園であそぼう','チーム戦です。モモは走るのが苦手。ソラは作戦を考えるのが得意です。','役割はどうする？',['みんなの得意を聞いて決める','やりたい役を順番に聞く','自分の好きな役を先に取る','一人で全部決める'],[3,2,1,0]],
@@ -167,14 +187,52 @@ const questions=[
  ['お祭りに出発','準備で重い箱と小さな袋を運ぶことになりました。','どうする？',['みんなで相談して分担する','まず自分が持てるものを運ぶ','楽なものだけを選ぶ','ほかの人に任せる'],[3,2,1,0]],
  ['お祭りに出発','初めての工作コーナーがあります。うまくできるか分かりません。','どうする？',['やってみる','説明を聞いてからやってみる','友達の完成を見てから決める','いつもの工作だけにする'],[3,2,1,0]],
  ['お祭りの夜','輪投げでモモだけ景品が取れませんでした。笑っているけれど少し残念そう。','どうする？',['「どうだった？」と聞く','別の遊びに誘う','自分の景品を見続ける','そのまま先に進む'],[3,2,1,0]],
- ['お祭りの夜','屋台のおつりが100円多いと気づきました。','どうする？',['すぐ返す','少ししてから返しに行く','聞かれたら返す','そのままもらう'],[3,2,1,0]],
+ ['お祭りの夜','お祭りの屋台で謎のおつり事件！ 100円多いぞ…？','どうする？',['すぐ返す','少ししてから返しに行く','聞かれたら返す','そのままもらう'],[3,2,1,0]],
  ['お祭りの夜','ほしいおもちゃがあります。でも残りのおこづかいは少しだけ。','どうする？',['予算を確認して考える','ほかのお店も見て決める','友達が買うなら買う','すぐ買ってしまう'],[3,2,1,0]],
  ['お祭りの夜','3人が勝ったゲームの景品は2つだけ。1人だけもらえません。','どうする？',['みんなで相談して決める','じゃんけんで決める','仲よしの子に先に渡す','自分が先にもらう'],[3,2,1,0]],
  ['帰り道','信号が赤です。車は見えないけれど、友達が「行っちゃおう」と言います。','どうする？',['青まで待つ','友達にも待とうと言う','周りを見て渡ろうとする','すぐ渡る'],[3,2,1,0]],
  ['帰り道','帰宅してからモモの水筒を間違えて持ち帰ったと気づきました。','どうする？',['家の人に相談して連絡する','明日返せるように準備する','連絡が来たら返す','そのままにしておく'],[3,2,1,0]],
  ['帰り道','次の日はモモが公園、ソラが図書館に行きたいそうです。あなたも希望があります。','どう決める？',['みんなの希望を聞いて相談する','順番に行く方法を考える','自分の希望を強くすすめる','一人で勝手に行く'],[3,2,1,0]],
- ['帰り道','町のイベントで「一言発表してみませんか？」と誘われました。','どうする？',['ドキドキしても挑戦する','短い発表ならやってみる','また今度にする','見ているほうがよい'],[3,2,1,0]]
+ ['帰り道','最後のミッション！ 町のイベントで「ひとこと発表してみませんか？」と誘われました。','どうする？',['ドキドキしても挑戦する','短い発表ならやってみる','また今度にする','見ているほうがよい'],[3,2,1,0]]
 ];
+
+const jokeTitles={
+  empathy:{
+    hi:{emoji:'🧸',title:'おせっかいサイコパス',line:'「大丈夫？」の速度、光より速い。',special:'心配レーダー24時間営業',weak:'自分のランドセルは置き忘れる'},
+    lo:{emoji:'🧊',title:'クールすぎサイコパス',line:'表情はクール。プリンへの情熱は熱い。',special:'ポーカーフェイスLv.99',weak:'友達の「聞いて！」に気づくのが遅い'}},
+  honesty:{
+    hi:{emoji:'📣',title:'正直すぎサイコパス',line:'秘密を言わないでと言われると、口がむずむず。',special:'正直ストレートボール',weak:'サプライズの前に顔に出る'},
+    lo:{emoji:'🕶️',title:'ひみつキープサイコパス',line:'心の金庫、なぜかパスワードは「プリン」。',special:'ひみつ隠しポケット',weak:'宿題の言い訳が毎回同じ'}},
+  thinking:{
+    hi:{emoji:'♟️',title:'脳内会議サイコパス',line:'決める前に、脳内で緊急会議が6回。',special:'3秒で作戦100個',weak:'作戦会議中に休み時間終了'},
+    lo:{emoji:'⚡',title:'ノールック突撃サイコパス',line:'考えるより先に「行ってきまーす！」',special:'秒速スタートダッシュ',weak:'靴を左右逆に履きがち'}},
+  fairness:{
+    hi:{emoji:'⚖️',title:'全員平等サイコパス',line:'プリン1個を17等分しようとする。',special:'じゃんけん裁判所',weak:'くじ引きの説明が長い'},
+    lo:{emoji:'🍮',title:'プリン先取りサイコパス',line:'プリンが消えた？ まず君の口元を確認。',special:'おやつ察知センサー',weak:'プリンのフタだけでバレる'}},
+  rules:{
+    hi:{emoji:'🚨',title:'ルール警察サイコパス',line:'すべり台の列を見た瞬間、巡回開始。',special:'規則ブック無限ページ',weak:'自分で作った遊びにも規則が多い'},
+    lo:{emoji:'🗺️',title:'抜け道ハンターサイコパス',line:'説明書を読む前に裏ルートを探す。',special:'近道発見GPS',weak:'安全確認は先にしよう'}},
+  responsibility:{
+    hi:{emoji:'🙇',title:'秒速ごめんサイコパス',line:'謝るスピードが速すぎて時空がゆがむ。',special:'土下座ではなく即リカバリー',weak:'自分が悪くないのに謝りそう'},
+    lo:{emoji:'🛌',title:'明日から本気サイコパス',line:'「明日やる」を明日も言う天才。',special:'未来の自分へ丸投げ',weak:'未来の自分がちょっと困る'}},
+  cooperation:{
+    hi:{emoji:'📋',title:'学級会サイコパス',line:'遊びを決めるだけで議事録3枚。',special:'全員参加の作戦会議',weak:'会議中におやつの時間が終わる'},
+    lo:{emoji:'🐈',title:'ソロプレイサイコパス',line:'チーム戦なのに一人用BGMが流れる。',special:'マイペース結界',weak:'協力するともっと楽なことも'}},
+  challenge:{
+    hi:{emoji:'🚀',title:'冒険アクセルサイコパス',line:'初めての遊び？ もう申し込み済み。',special:'わくわくエンジン全開',weak:'ヘルメットを忘れずに'},
+    lo:{emoji:'🛡️',title:'安全第一サイコパス',line:'冒険の前にしおりを30ページ読む。',special:'危険察知レーダー',weak:'慎重すぎて見学が3日目'}}
+};
+function getJoke(r){
+  const maxDeviation=Math.max(...r.results.map(t=>Math.abs(t.value-50)));
+  const candidates=r.results.filter(t=>Math.abs(t.value-50)===maxDeviation);
+  // Ties still depend on answers, so different runs can receive different cards.
+  const code=answers.reduce((n,v,i)=>n+(i+1)*(v+1),0);
+  const selected=candidates[code%candidates.length];
+  const mood=selected.value>=50?'hi':'lo';
+  const card=jokeTitles[selected.id][mood];
+  return {...card,trait:selected.name};
+}
+
 let answers=Array(questions.length).fill(null);
 let current=0;
 let reportText='';
@@ -202,7 +260,7 @@ function render(){
  });
  $('back').disabled=current===0;$('back').style.opacity=current===0?'.45':'1';
  $('next').disabled=answers[current]===null;
- $('next').textContent=current===questions.length-1?'結果を見る →':'次のお話へ →';
+ $('next').textContent=current===questions.length-1?'👑 闇の称号を見る →':'次の事件へ →';
 }
 function getReport(){
  const results=traits.map((t,j)=>{
@@ -217,15 +275,19 @@ function getReport(){
 function result(){
  if(answers.some(v=>v===null))return;
  const r=getReport();
- $('type-emoji').textContent=r.top.emoji;
- $('level').textContent=r.top.type+' タイプ';
- $('description').textContent='今回の物語では「'+r.top.name+'」を表す選択が多めでした。物語に付けたタイプ名なので、人柄を決めつけるものではありません。';
+ const joke=getJoke(r);
+ $('type-emoji').textContent=joke.emoji;
+ $('level').textContent=joke.title;
+ $('description').textContent='24の事件で選んだ答えからついた、今回だけの「闇の称号」だよ！';
+ $('comic-line').textContent='💬 闇のひとこと：「'+joke.line+'」';
+ $('special').textContent=joke.special;
+ $('weakness').textContent=joke.weak;
  const area=$('bars');area.replaceChildren();
  r.results.forEach(t=>{
    const section=document.createElement('section');section.className='trait-card';
    const head=document.createElement('div');head.className='trait-top';
    const name=document.createElement('span');name.className='trait-name';name.textContent=t.name;
-   const score=document.createElement('output');score.className='trait-score';score.textContent=t.value+' / 100';
+   const score=document.createElement('output');score.className='trait-score';score.textContent='★'.repeat(Math.round(t.value/20))+'☆'.repeat(5-Math.round(t.value/20));
    head.append(name,score);
    const bar=document.createElement('div');bar.className='bar-track';
    const fill=document.createElement('span');fill.style.background=t.color;fill.style.width=t.value+'%';bar.append(fill);
@@ -234,9 +296,9 @@ function result(){
    const bold=document.createElement('strong');bold.textContent='今回の結果： ';meaning.append(bold,document.createTextNode(t.read));
    section.append(head,bar,definition,meaning);area.append(section);
  });
- $('insight').textContent='今回の答えでは「'+r.top.name+'」と「'+r.second.name+'」を表す行動を選ぶことが多めでした。場面や気分が変わると、違う答えになることもあります。';
- $('advice').textContent='「'+r.last.name+'」について、ほかの選び方も考えてみよう。同じお話を友達の目線で考えたらどうなるかな？ 点数が高い・低いだけでは良い悪いは決まりません。';
- reportText='【こころの冒険・ストーリー行動チェック／娯楽用】\n'+r.top.emoji+' '+r.top.type+' タイプ\n\n'+r.results.map(t=>t.name+' '+t.value+'/100\n'+t.read).join('\n\n')+'\n\n※独自のエンタメ結果です。病気や人柄の判定ではありません。';
+ $('insight').textContent='今回は「'+r.top.name+'」と「'+r.second.name+'」の行動が目立ったよ。もちろん、物語が変われば答えも変わる。闇の正体は…ただの選択肢かも！？';
+ $('advice').textContent='次は家族と「自分ならどうする？」を話し合ってみよう。「'+r.last.name+'」に関係する場面で、別の答えを選んだらどんなストーリーになるかな？';
+ reportText='【あなたは何サイコパス？｜完全ネタ診断】\n'+joke.emoji+' '+joke.title+'\n💬 '+joke.line+'\n必殺技：'+joke.special+'\n弱点：'+joke.weak+'\n\n'+r.results.map(t=>t.name+' '+t.read).join('\n')+'\n\n※架空のジョーク称号。診断・判定ではありません。';
  $('toast').textContent='';show('result');
 }
 $('start').addEventListener('click',()=>{current=0;render();show('quiz');});
