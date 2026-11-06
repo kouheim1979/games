@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#fff8e9">
 <meta property="og:title" content="診断パーク">
-<meta name="description" content="どうぶつタイプ・前世・おにぎりの具・RPG職業など、1分で遊べる無料の診断{{COUNT}}本がそろう「診断パーク」。登録なし・ブラウザーですぐできます。">
+<meta name="description" content="どうぶつタイプ・前世・おにぎりの具・RPG職業など、1分で遊べる無料の診断{{COUNT}}本と1問心理テスト20本がそろう「診断パーク」。登録なし・ブラウザーですぐできます。">
 <title>診断パーク｜1分で遊べる無料診断</title>
 <style>
 :root{--ink:#1f2140;--muted:#5a5f7d;--bg:#fff8e9}
@@ -34,6 +34,13 @@ header p{margin:0;color:var(--muted)}
 .tl{font-size:12.5px;color:var(--muted);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .tar{margin-left:auto;font-weight:900;font-size:20px;color:var(--a)}
 .note{font-size:12px;color:var(--muted);text-align:center;margin:22px 4px 0}
+.feat{display:flex;gap:14px;align-items:center;text-decoration:none;color:var(--ink);background:#c6f2e3;border:3px solid var(--ink);border-radius:22px;padding:16px;box-shadow:5px 6px 0 var(--ink);margin-bottom:22px}
+.feat:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--ink)}
+.feat .te{background:#fff}
+.feat strong{font-size:19px}
+.feat .tg{background:#14a37f}
+.feat .tar{color:#14a37f}
+.sec{font-size:15px;margin:0 0 10px;font-weight:900}
 </style>
 </head>
 <body>
@@ -42,8 +49,10 @@ header p{margin:0;color:var(--muted)}
   <header>
     <span class="kick">SHINDAN PARK / {{COUNT}}本</span>
     <h1>診断パーク</h1>
-    <p>どれも8問・約1分。登録なしで、ブラウザーですぐ遊べます。家族や友だちと結果を見せ合ってみよう。</p>
+    <p>じっくり8問の診断と、パッと1問の心理テスト。登録なしで、ブラウザーですぐ遊べます。家族や友だちと結果を見せ合ってみよう。</p>
   </header>
+  <a class="feat" href="./shinri/"><span class="te" aria-hidden="true">🧠</span><span class="tb"><span class="tg">NEW・1問だけ</span><strong>1問心理テスト 20本</strong><span class="tl">パッと1つ選ぶだけ。何がわかるかは答えてからのおたのしみ。</span></span><span class="tar" aria-hidden="true">→</span></a>
+  <h2 class="sec">8問でじっくり診断</h2>
   <nav class="grid" aria-label="診断の一覧">
 {{CARDS}}
   </nav>

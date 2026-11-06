@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#eafaf4">
+<meta name="description" content="1問だけで答えられる心理テスト20本。直感で選ぶと、あなたの意外な一面がわかるかも。登録なし・無料でブラウザーですぐ遊べる診断パークのアプリです。">
+<title>1問心理テスト｜診断パーク</title>
+<style>
+:root{--ink:#1f2140;--muted:#5a5f7d;--paper:#fff;--accent:#14a37f;--accent2:#c6f2e3;--pop:#ffe05c;--bg:#eafaf4;--shadow:5px 6px 0 var(--ink)}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;min-height:100dvh;color:var(--ink);line-height:1.65;background:var(--bg);
+  background-image:radial-gradient(rgba(31,33,64,.13) 1.3px,transparent 1.3px);background-size:24px 24px;
+  font-family:"Hiragino Maru Gothic ProN","Hiragino Kaku Gothic ProN","Noto Sans JP",Meiryo,sans-serif}
+button{font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
+button:focus-visible,a:focus-visible{outline:4px solid #3f6bff;outline-offset:3px}
+.shell{width:min(100% - 32px,680px);margin:0 auto;padding:18px 0 max(40px,env(safe-area-inset-bottom))}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:18px}
+.back{font-size:13px;font-weight:800;color:var(--ink);text-decoration:none;background:var(--paper);border:2.5px solid var(--ink);border-radius:999px;padding:6px 12px;box-shadow:3px 3px 0 var(--ink);white-space:nowrap}
+.chip{font-size:11px;font-weight:900;background:var(--accent2);border:2px solid var(--ink);border-radius:999px;padding:5px 10px;white-space:nowrap}
+.card{background:var(--paper);border:3px solid var(--ink);border-radius:22px;box-shadow:var(--shadow);padding:22px 20px}
+.head{position:relative;overflow:hidden;margin-bottom:18px}
+.head::after{content:"🧠";position:absolute;right:-4px;top:-12px;font-size:90px;opacity:.15;transform:rotate(12deg)}
+.kick{display:inline-block;font-size:11px;font-weight:900;background:var(--pop);border:2px solid var(--ink);border-radius:999px;padding:4px 10px}
+h1{font-size:clamp(26px,7vw,34px);margin:8px 0 6px;line-height:1.25}
+.head p{margin:0 0 14px;color:var(--muted)}
+.prog{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:800}
+.bar{flex:1;height:12px;border:2.5px solid var(--ink);border-radius:999px;background:var(--paper);overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .3s}
+.btn{display:block;width:100%;border:3px solid var(--ink);border-radius:16px;background:var(--accent);color:#fff;font-weight:900;font-size:17px;padding:14px;box-shadow:4px 4px 0 var(--ink);text-align:center;text-decoration:none}
+.btn.sub{background:var(--paper);color:var(--ink);font-size:15px;padding:12px}
+.btn:active,.opt:active,.tile:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--ink)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:11px;margin-top:18px}
+@media(min-width:560px){.grid{grid-template-columns:repeat(3,1fr)}}
+.tile{position:relative;text-align:left;background:var(--paper);border:3px solid var(--ink);border-radius:16px;padding:12px 12px 11px;box-shadow:3px 3px 0 var(--ink);display:grid;gap:4px;align-content:start;min-height:108px}
+.tile .em{font-size:28px;line-height:1}
+.tile .no{font-size:10.5px;font-weight:900;color:var(--muted)}
+.tile strong{font-size:14px;line-height:1.35}
+.tile.done{background:#f3fbf8}
+.tile.done::after{content:"済";position:absolute;right:8px;top:8px;font-size:11px;font-weight:900;color:#fff;background:var(--accent);border:2px solid var(--ink);border-radius:999px;width:24px;height:24px;display:grid;place-items:center}
+@media(hover:hover){.tile:hover,.opt:hover{background:#fffbe8}}
+.qno{font-size:12px;font-weight:900;color:var(--muted);margin:0}
+.qem{font-size:56px;line-height:1.1;display:inline-grid;place-items:center;width:92px;height:92px;border-radius:26px;background:var(--accent2);border:3px solid var(--ink);box-shadow:4px 4px 0 var(--ink);transform:rotate(-5deg);margin:10px 0 14px}
+.qcenter{text-align:center}
+.scene{font-size:15px;color:var(--muted);margin:0 0 6px;text-align:left}
+.q{font-size:clamp(19px,5vw,23px);line-height:1.45;margin:0 0 6px;text-align:left}
+.hint{font-size:12.5px;font-weight:800;color:var(--accent);margin:0 0 16px;text-align:left}
+.opts{display:grid;gap:11px}
+.opt{text-align:left;background:var(--paper);border:3px solid var(--ink);border-radius:15px;padding:13px 14px;font-size:16px;font-weight:700;box-shadow:3px 3px 0 var(--ink);display:flex;gap:11px;align-items:center}
+.opt b{flex:none;display:grid;place-items:center;width:30px;height:30px;border-radius:9px;background:var(--accent2);border:2px solid var(--ink);font-size:14px}
+.reveal{background:var(--pop);border:2.5px solid var(--ink);border-radius:14px;padding:10px 14px;margin:0 0 16px;font-weight:800;text-align:left}
+.reveal small{display:block;font-size:12px;color:var(--muted)}
+.pick{font-size:13px;font-weight:800;color:var(--muted);margin:0 0 4px}
+.rname{font-size:clamp(23px,6.4vw,30px);line-height:1.3;margin:0 0 12px}
+.desc{text-align:left;margin:0 0 14px}
+.others{text-align:left;border:2.5px solid var(--ink);border-radius:14px;padding:4px 14px;background:#fffdf6;margin-top:6px}
+.others summary{font-weight:900;font-size:14px;padding:8px 0;cursor:pointer}
+.others dl{margin:0 0 10px}
+.others dt{font-weight:900;font-size:14px;margin-top:8px}
+.others dd{margin:2px 0 0;font-size:13.5px;color:var(--muted)}
+.fade{animation:fade .28s ease}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 16px;border-radius:12px;font-size:14px;font-weight:700;opacity:0;pointer-events:none;transition:opacity .2s}
+.toast.on{opacity:1}
+.note{font-size:12px;color:var(--muted);text-align:center;margin:18px 4px 0}
+[hidden]{display:none!important}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="top"><a class="back" href="../">← 診断パーク</a><span class="chip">1問だけ</span></div>
+
+  <section id="list">
+    <div class="card head">
+      <span class="kick">SHINDAN PARK / 心理テスト</span>
+      <h1>1問心理テスト</h1>
+      <p>答えるのは1問だけ。深く考えず、パッと浮かんだものを選んでね。何がわかるテストなのかは、答えたあとのおたのしみ。</p>
+      <div class="prog"><span id="done"></span><div class="bar"><i id="donebar"></i></div></div>
+      <div class="row"><button class="btn" id="random" type="button">🎲 ランダムで1問</button><button class="btn sub" id="reset" type="button">記録をリセット</button></div>
+    </div>
+    <nav class="grid" id="grid" aria-label="心理テストの一覧"></nav>
+  </section>
+
+  <section id="test" class="card qcenter" hidden>
+    <p class="qno" id="qno"></p>
+    <div class="qem" id="qem" aria-hidden="true"></div>
+    <p class="scene" id="scene"></p>
+    <h2 class="q" id="q"></h2>
+    <p class="hint">直感で選んでください</p>
+    <div class="opts" id="opts"></div>
+    <div class="row"><button class="btn sub" id="back1" type="button">一覧へ</button><button class="btn sub" id="skip" type="button">別の問題 →</button></div>
+  </section>
+
+  <section id="result" class="card qcenter" hidden aria-live="polite">
+    <div class="reveal" id="reveal"></div>
+    <p class="pick" id="pick"></p>
+    <h2 class="rname" id="rname"></h2>
+    <p class="desc" id="rdesc"></p>
+    <details class="others"><summary>ほかの選択肢の結果も見る</summary><dl id="others"></dl></details>
+    <div class="row">
+      <button class="btn" id="next" type="button">次のテスト →</button>
+      <button class="btn sub" id="share" type="button">結果をシェア</button>
+    </div>
+    <div class="row"><button class="btn sub" id="back2" type="button">一覧へ</button><a class="btn sub" href="../">診断パーク</a></div>
+  </section>
+
+  <p class="note">※ 遊びの心理テストです。結果は性格や心の状態を判定するものではありません。答えはこの端末の中だけで使い、送信しません。</p>
+</div>
+<div class="toast" id="toast" role="status"></div>
+<script>
+// Each test: [id, emoji, title, scene, question, theme (shown after answering), [[option, result name, result text] x4]]
+const TESTS = [
+['clock','🕰️','ふしぎな時計屋','路地うらの時計屋さんで、店主が「1つだけ差し上げます」と言いました。','どの時計をもらう？','あなたの時間の使い方',[
+ ['ピカピカの腕時計','予定どおりきっちり派','時間を上手にやりくりできるタイプ。やることを決めて動くと、気持ちよく1日がすごせます。'],
+ ['ハトが出てくる鳩時計','楽しみを散りばめる派','1日の中に小さな楽しみを入れるのが上手。休けい上手なので、長くがんばれます。'],
+ ['砂がサラサラ落ちる砂時計','ひとつに集中する派','いくつも同時にやるより、1つにじっくり向き合うのが得意。集中したときのあなたはすごいです。'],
+ ['針が止まった古い時計','自分のペース優先派','時計より自分の気分を信じるタイプ。急がされると苦手ですが、のびのびすると力が出ます。']]],
+['robot','🤖','お手伝いロボット','あなたの家に、何でもしてくれるロボットがやってきました。','最初にお願いする仕事は？','あなたが本当は手放したいこと',[
+ ['毎日の片づけ','こまごました用事','やることが多くて、細かい用事に追われているのかも。全部を完ぺきにしなくても大丈夫です。'],
+ ['朝おこしてもらう','がんばりすぎ','少しつかれがたまっているサイン。しっかり眠る日を作ってあげましょう。'],
+ ['宿題や仕事の手伝い','プレッシャー','「やらなきゃ」の気持ちが重くなっているのかも。だれかに相談するだけでも軽くなります。'],
+ ['話し相手になってもらう','ひとりで考えこむ時間','気持ちを聞いてほしいのかも。身近な人に、今日あったことを話してみて。']]],
+['door','🚪','4つのドア','目の前に色のちがう4つのドアがあります。','あなたが開けたいのは何色のドア？','いまのあなたが求めているもの',[
+ ['赤いドア','刺激とチャレンジ','いまのあなたは、新しいことに挑戦したい気分。ちょっと勇気のいることに手を出すと、毎日がぐっと楽しくなりそう。'],
+ ['青いドア','落ち着きと安心','少しつかれているのかも。ゆっくり休んで、心を落ち着ける時間を作ってあげましょう。'],
+ ['黄色いドア','楽しさと笑い','いまのあなたに必要なのは、思いきり笑うこと。友だちや家族とふざけ合う時間が元気をくれます。'],
+ ['緑のドア','成長と学び','新しく何かを身につけたい時期。本を読んだり、習いごとを始めたりするのにぴったりのタイミングです。']]],
+['animal','🐾','いっしょに暮らすなら','どんな動物でも、1ぴきだけ家族にむかえられます。','どの動物を選ぶ？','あなたが恋人や親友に求めるもの',[
+ ['人なつっこいイヌ','いつもそばにいてくれる安心感','気持ちをまっすぐ伝え合える関係が理想。いっしょにいる時間の長さを大切にするタイプです。'],
+ ['気まぐれなネコ','おたがいの自由を大切にできること','ベタベタしすぎない、ほどよい距離感が心地よいあなた。おたがいの時間を尊重できる相手と長続きします。'],
+ ['ふわふわのウサギ','やさしさと思いやり','あなたが求めるのは、心のやさしさ。小さな変化に気づいてくれる人にひかれます。'],
+ ['しゃべるオウム','会話が楽しいこと','話がはずむことがいちばん大事。冗談を言い合えたり、ずっと話していられる相手が理想です。']]],
+['vending','🥤','町はずれの自動販売機','見たことのない自動販売機に、ボタンが4つだけあります。','どのボタンを押す？','あなたのお金の使い方',[
+ ['いちばん安いボタン','かしこい節約派','ムダづかいをしない堅実なタイプ。ためたお金で、本当にほしいものを手に入れられます。'],
+ ['いちばん高いボタン','ここぞで豪快派','ふだんはそこそこ、ここぞというときにドーンと使うタイプ。思い出に残る使い方が得意です。'],
+ ['「？」と書かれたボタン','ワクワクに使う派','体験や新しいことにお金を使うのが好き。失敗も話のタネにできる人です。'],
+ ['押さずに、となりの友だちにゆずる','人のために使う派','自分より人がよろこぶ顔が見たいタイプ。プレゼント選びの名人です。']]],
+['snowman','⛄','雪だるま','大きな雪だるまがもうすぐ完成します。','最後に付けるのは？','あなたがゆずれないこだわり',[
+ ['にっこり笑った口','みんなが楽しいこと','その場の空気が明るいことが大事。けんかやギスギスが苦手で、笑顔を守ろうとします。'],
+ ['あたたかそうなマフラー','人へのやさしさ','思いやりをいちばん大切にしているタイプ。冷たい言い方には、ちょっと敏感です。'],
+ ['かっこいいバケツの帽子','自分らしさ','人とちがっても、自分の好きをつらぬきたい人。そのこだわりが魅力になっています。'],
+ ['木の枝の両手','最後までやりきること','中途はんぱがきらいで、やるなら最後まで。完成させたときの達成感があなたの原動力です。']]],
+['mirror','🪞','魔法の鏡','魔法の鏡が、1つだけ質問に答えてくれます。','あなたが聞きたいのは？','いま心の中で気になっていること',[
+ ['未来の自分はどうなってる？','将来への期待と不安','先のことを考える時期。不安になったら「いまできる1つ」に集中すると、未来が少しずつ見えてきます。'],
+ ['あの人はわたしをどう思ってる？','人間関係','だれかとの関係が気になっているみたい。思いきって自分の気持ちを伝えてみると、すっきりするかも。'],
+ ['世界一のお宝はどこ？','もっと楽しいこと','毎日に少し刺激が足りないのかも。行ったことのない場所に出かけてみると、新しい発見がありそう。'],
+ ['わたしのいいところは？','自分への自信','がんばっているのに自信が持てていないのかも。今日できたことを3つ書き出してみて。']]],
+['balloon','🎈','風船','あなたは風船を1つ持っています。','風船は何色？','いまのあなたの心のエネルギー',[
+ ['赤','パワー全開','やる気に満ちていて、何でもできそうな状態。新しいことを始めるなら今です。'],
+ ['水色','おだやかで安定','心が落ち着いていて、まわりにもやさしくできる状態。この調子をキープしましょう。'],
+ ['ピンク','だれかに甘えたい','少しさみしさを感じているのかも。好きな人に連絡してみたり、ゆっくりおしゃべりしてみて。'],
+ ['しぼんで色がわからない','ちょっとひと休みが必要','がんばりすぎてエネルギー切れぎみ。今日は早めに寝て、自分をいたわってあげましょう。']]],
+['band','🎺','学校の合奏','クラスで合奏をすることになりました。','どの楽器を担当したい？','グループの中でのあなたのポジション',[
+ ['大だいこ','みんなをささえる土台役','目立たなくても、あなたがいるとチーム全体が安定します。リズムを作る大事な存在です。'],
+ ['トランペット','みんなを引っぱる主役','ここぞの場面で前に出られるタイプ。あなたの一言でグループが動き出します。'],
+ ['トライアングル','ここぞで光るアイデア役','出番は少なくても、印象に残ることを言えるタイプ。グループに新しい風をふかせます。'],
+ ['指揮者','全体をまとめる調整役','みんなの意見を聞いてまとめるのが得意。全体を見わたせる、たよれる存在です。']]],
+['gift','🎁','プレゼントの箱','誕生日に、大きさのちがう箱が届きました。','あなたが開けたいのは？','あなたの「欲ばり度」',[
+ ['いちばん大きい箱','夢は大きく！欲ばりさん','ほしいもの、やりたいことがいっぱい。その欲ばりさが、あなたを前に進める力になっています。'],
+ ['手のひらサイズの小さな箱','中身重視の目きき','量より質。本当に大切なものを見分ける目を持っています。'],
+ ['リボンがかわいい箱','気持ちを大事にするロマンチスト','もらうものより「どんな気持ちでくれたか」が大事なタイプ。思いやりにあふれています。'],
+ ['全部いっぺんに開ける','楽しいことは全部ほしい','楽しいことには全力で飛びこむタイプ。毎日をめいっぱい楽しめる人です。']]],
+['star','🌠','流れ星','夜空に流れ星が見えました。','あなたがとっさに願ったことは？','あなたが本当にほしいもの',[
+ ['家族がずっと元気でいますように','安心できる毎日','あなたにとって一番の幸せは、ふつうの毎日が続くこと。まわりの人を大切にできるあたたかい人です。'],
+ ['お金持ちになれますように','自由に選べる人生','やりたいことを自由に選べる力がほしいタイプ。目標があるほどがんばれます。'],
+ ['夢がかないますように','自分だけの目標','心の中に大切な夢があるあなた。小さな一歩でいいので、今日も前に進んでみて。'],
+ ['願う前に消えちゃった','まだ見つけていない何か','これからワクワクするものと出会う予感。いろいろなことに触れてみると、本当にほしいものが見えてきます。']]],
+['house','🏠','夢の家','どんな家でも1つだけ建てられます。','あなたが建てたい家は？','あなたがいちばん落ち着く人間関係',[
+ ['大家族が住める大きな家','にぎやかな大人数','たくさんの人に囲まれていると元気が出るタイプ。みんなでわいわいするのが一番落ち着きます。'],
+ ['森の中の小さな小屋','少人数の深い関係','本当に気の合う人と少しだけ、が心地よいタイプ。少数精鋭の友だちを大切にします。'],
+ ['海が見えるおしゃれな家','ほどよい距離感','近すぎず遠すぎない関係が好き。会いたいときに会える、そんなつきあいが理想です。'],
+ ['ひみつ基地のある家','気の合う仲間との冒険','同じ趣味の仲間と夢中になれる関係が好き。いっしょに何かを作る友だちが宝物です。']]],
+['umbrella','🌂','わすれもの','友だちの家に何かをわすれてきてしまいました。','わすれたのは何？','あなたが人に見せていない一面',[
+ ['かさ','実は甘えんぼう','しっかり者に見られがちですが、本当はだれかに甘えたい気持ちがあるみたい。'],
+ ['スマホ','実はさみしがりや','ひとりでも平気そうに見えて、本当は人とのつながりを大切にしているタイプです。'],
+ ['ハンカチ','実はとても繊細','明るくふるまっていても、心はとてもやさしく繊細。人の言葉を深く受けとめています。'],
+ ['上着','実はのんびりや','てきぱきして見えても、本当はのんびりしたい気持ちも。たまには思いきりダラダラしてOK。']]],
+['bridge','🌉','川をわたる','向こう岸に行くための方法が4つあります。','どうやってわたる？','あなたの理想の生き方',[
+ ['がんじょうな石の橋','安心できる道をしっかり進む','確かな道をていねいに進む生き方が理想。まわりから信頼される人生をきずけます。'],
+ ['ゆれるつり橋','スリルも楽しむ','少しドキドキするくらいが楽しいタイプ。いろいろな経験が、あなたを大きくします。'],
+ ['ぴょんぴょん飛び石','自分のやり方で進む','人と同じ道より、自分なりのルートを見つけたい人。工夫する力があります。'],
+ ['小舟でのんびり','流れを楽しむ','急がず、そのときどきの景色を楽しむ生き方が理想。心のゆとりがあなたの強みです。']]],
+['shoes','👟','新しいくつ','新しいくつを買いました。','どこに最初にはいていく？','あなたの新しいことへの向き合い方',[
+ ['近所をちょっとお散歩','まずは小さく試す','新しいことは少しずつなれていくタイプ。慎重だけど、確実に自分のものにします。'],
+ ['友だちと遊びに','みんなとシェアしたい','いいことはみんなと分かち合いたいタイプ。新しいことも、人といっしょだともっと楽しめます。'],
+ ['ずっと行きたかった遠くの場所','いきなり大チャレンジ','やると決めたら一気に飛びこむタイプ。行動力で新しい世界を切りひらきます。'],
+ ['特別な日まで大事にとっておく','タイミングを待つ','ここぞというときのために準備を整えるタイプ。じっくり待てるのは強さです。']]],
+['soup','🍜','ラーメン屋さん','はじめて入ったラーメン屋さん。','最初にすることは？','あなたの初対面の人への接し方',[
+ ['スープをひと口飲む','まず相手をよく知る','初対面ではまず相手を観察するタイプ。相手を知ってから、ゆっくり距離を縮めます。'],
+ ['こしょうや調味料を入れる','すぐ自分らしさを出す','初対面でも自分を出せるオープンなタイプ。すぐに打ちとけられます。'],
+ ['写真をとる','場を盛り上げる','最初の会話のきっかけ作りが上手。初対面の場をなごやかにできます。'],
+ ['いきなり麺をすする','考えるより先に仲よくなる','あれこれ考えず、ぐいぐい話しかけられるタイプ。気づけば友だちになっています。']]],
+['bag','🎒','かばんの中身','かばんの中をのぞいてみると…','いちばん多く入っているのは？','あなたの心配性度',[
+ ['もしものための道具いろいろ','しっかり心配性','いろいろな場面を想像して準備できる人。その心配りに助けられている人はたくさんいます。'],
+ ['お菓子や飲み物','ほどほど準備派','必要なものはそろえつつ、楽しむことも忘れない。バランスのいいタイプです。'],
+ ['レシートやメモ','あとで考える派','その場その場で何とかするタイプ。いざというときの対応力があります。'],
+ ['ほぼ空っぽ','心配ゼロの身軽派','なんとかなる！の精神で生きている人。その身軽さがあなたの魅力です。']]],
+['moon','🌙','夜空の月','窓から夜空を見上げると、月が出ていました。','どんな形の月？','いまのあなたの満足度',[
+ ['まんまるの満月','とても満たされている','いまのあなたは心が満ちている状態。そのしあわせを、まわりの人にもおすそ分けしてあげて。'],
+ ['半分の月','まあまあ満足','いいこともあれば、もう少しのこともある。あと半分を楽しみながら満たしていけそう。'],
+ ['細い三日月','これからに期待','まだまだやりたいことがいっぱい。ここから満ちていく、伸びしろたっぷりの時期です。'],
+ ['雲にかくれて見えない','ちょっとモヤモヤ中','少し気持ちが晴れない日かも。好きなことをして、心の雲をはらいましょう。']]],
+['letter','✉️','ひみつの手紙','ポストに差出人不明の手紙が入っていました。','手紙には何と書いてあった？','あなたが心の中で待っていること',[
+ ['「ずっと好きでした」','だれかに認められたい','がんばりをだれかに気づいてほしい気持ちがあるのかも。まずは自分で自分をほめてあげて。'],
+ ['「当選おめでとう！」','うれしいサプライズ','毎日にワクワクを求めています。自分から小さなサプライズを作ってみると楽しいかも。'],
+ ['「ひさしぶり、元気？」','なつかしい人との再会','会いたい人がいるのかも。思いきって連絡してみると、きっと喜ばれます。'],
+ ['「あなたにしかできない仕事があります」','新しい役割','自分の力をもっと発揮したい時期。手をあげてみると、チャンスが回ってきそう。']]],
+['wall','🖌️','白いかべ','真っ白なかべと、ペンキとハケがあります。好きにかいていいそうです。','何をかく？','あなたが人からどう見られているか',[
+ ['大きな太陽','明るいエネルギーの人','まわりからは「元気をくれる人」と思われています。あなたがいると場がぱっと明るくなります。'],
+ ['にっこり笑った顔','話しやすいやさしい人','「この人なら話しかけやすい」と思われています。相談相手に選ばれることも多いはず。'],
+ ['こまかい模様','こだわりのあるセンスの人','「センスがいい」「よく気がつく」と思われています。あなたのていねいさは、ちゃんと伝わっています。'],
+ ['手形をペタペタ','いっしょにいると楽しい人','ノリがよくて楽しい人、と思われています。あなたがいると笑い声がたえません。']]]
+];
+(function(){
+  'use strict';
+  const $ = id => document.getElementById(id);
+  const KEY = 'shindan:shinri1';
+  const load = () => { try { return JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { return {}; } };
+  const save = v => { try { localStorage.setItem(KEY, JSON.stringify(v)); } catch (e) {} };
+  let done = load(), cur = null, order = [], last = null;
+  const byId = Object.fromEntries(TESTS.map((t, i) => [t[0], i]));
+
+  function show(id){ for (const s of ['list','test','result']) $(s).hidden = s !== id; window.scrollTo(0, 0); }
+  function shuffle(a){ for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+
+  function renderList(){
+    const n = Object.keys(done).filter(k => k in byId).length;
+    $('done').textContent = n + ' / ' + TESTS.length + ' 問クリア';
+    $('donebar').style.width = (n / TESTS.length * 100) + '%';
+    const g = $('grid'); g.textContent = '';
+    TESTS.forEach((t, i) => {
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'tile' + (t[0] in done ? ' done' : '');
+      const em = document.createElement('span'); em.className = 'em'; em.textContent = t[1]; em.setAttribute('aria-hidden', 'true');
+      const no = document.createElement('span'); no.className = 'no'; no.textContent = 'Q' + String(i + 1).padStart(2, '0');
+      const s = document.createElement('strong'); s.textContent = t[2];
+      b.append(em, no, s);
+      if (t[0] in done) b.setAttribute('aria-label', t[2] + '（回答済み）');
+      b.addEventListener('click', () => open(i));
+      g.append(b);
+    });
+  }
+  function pickNext(){
+    const left = TESTS.map((_, i) => i).filter(i => !(TESTS[i][0] in done) && i !== cur);
+    const pool = left.length ? left : TESTS.map((_, i) => i).filter(i => i !== cur);
+    return pool[Math.floor(Math.random() * pool.length)];
+  }
+  function open(i){
+    cur = i; const t = TESTS[i];
+    $('qno').textContent = 'Q' + String(i + 1).padStart(2, '0') + '　' + t[2];
+    $('qem').textContent = t[1]; $('scene').textContent = t[3]; $('q').textContent = t[4];
+    const box = $('opts'); box.textContent = '';
+    order = shuffle([0, 1, 2, 3]);
+    order.forEach((oi, k) => {
+      const b = document.createElement('button'); b.type = 'button'; b.className = 'opt';
+      const tag = document.createElement('b'); tag.textContent = 'ABCD'[k]; tag.setAttribute('aria-hidden', 'true');
+      const sp = document.createElement('span'); sp.textContent = t[6][oi][0];
+      b.append(tag, sp); b.addEventListener('click', () => answer(oi)); box.append(b);
+    });
+    show('test');
+    const c = $('test'); c.classList.remove('fade'); void c.offsetWidth; c.classList.add('fade');
+  }
+  function answer(oi){
+    const t = TESTS[cur], o = t[6][oi];
+    done[t[0]] = oi; save(done); last = { t, o };
+    $('reveal').textContent = '';
+    const sm = document.createElement('small'); sm.textContent = 'このテストでわかるのは…';
+    $('reveal').append(sm, document.createTextNode(t[5]));
+    $('pick').textContent = '「' + o[0] + '」を選んだあなたは';
+    $('rname').textContent = o[1]; $('rdesc').textContent = o[2];
+    const dl = $('others'); dl.textContent = '';
+    t[6].forEach((x, k) => {
+      if (k === oi) return;
+      const dt = document.createElement('dt'); dt.textContent = x[0] + ' → ' + x[1];
+      const dd = document.createElement('dd'); dd.textContent = x[2];
+      dl.append(dt, dd);
+    });
+    $('result').querySelector('details').open = false;
+    show('result');
+    const c = $('result'); c.classList.remove('fade'); void c.offsetWidth; c.classList.add('fade');
+  }
+  function toast(msg){ const el = $('toast'); el.textContent = msg; el.classList.add('on'); setTimeout(() => el.classList.remove('on'), 1800); }
+
+  $('random').addEventListener('click', () => open(pickNext()));
+  $('skip').addEventListener('click', () => open(pickNext()));
+  $('next').addEventListener('click', () => open(pickNext()));
+  for (const id of ['back1', 'back2']) $(id).addEventListener('click', () => { renderList(); show('list'); });
+  $('reset').addEventListener('click', () => {
+    if (!Object.keys(done).length) { toast('まだ記録はありません'); return; }
+    if (confirm('回答済みの記録をリセットしますか？')) { done = {}; save(done); renderList(); toast('リセットしました'); }
+  });
+  $('share').addEventListener('click', async () => {
+    if (!last) return;
+    const text = '【診断パーク／1問心理テスト「' + last.t[2] + '」】' + last.t[5] + 'は…「' + last.o[1] + '」でした！';
+    const url = location.href.split('#')[0].split('?')[0];
+    if (navigator.share) { try { await navigator.share({ title: '1問心理テスト', text, url }); return; } catch (e) { if (e && e.name === 'AbortError') return; } }
+    try { await navigator.clipboard.writeText(text + ' ' + url); toast('結果をコピーしました'); }
+    catch (e) { prompt('コピーしてシェアしてください', text + ' ' + url); }
+  });
+  renderList();
+})();
+</script>
+</body>
+</html>

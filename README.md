@@ -42,8 +42,11 @@
 | [tools/study-style](tools/study-style/) | 勉強・仕事スタイル 診断 |
 | [tools/todofuken](tools/todofuken/) | あなたに似ている都道府県 診断 |
 | [tools/sweets](tools/sweets/) | スイーツ診断 |
+| [tools/shinri](tools/shinri/) | 1問心理テスト（20本入り） |
 
 各診断は外部ファイルなしの1ファイルHTMLです。問題と結果は `tools/_src/data/*.txt` に書き、`python3 tools/_src/build.py` で `tools/<id>/index.html` と一覧 `tools/index.html` を作り直します。ビルド時に、全タイプが結果として出るか・ランダム回答で1タイプに偏らないか（各7〜28%）を確認します。前回の結果だけ端末の localStorage に保存し、回答は送信しません。公開ポータル（`portal/catalog.js`）には未掲載です。
+
+`tools/shinri/` は1問で答える心理テスト20本をまとめたアプリで、`tools/shinri/index.html` の `TESTS` を直接編集します（ビルド不要）。設定・質問・結果文はすべてこのサイト用のオリジナルで、ネットで広く出回っている定番の心理テストに似たものは使っていません。
 
 ## まいにち道具箱（公開ポータル）
 
