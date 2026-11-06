@@ -1,5 +1,5 @@
-// おりょうり食堂 v3 — 新しいイラストをオフラインでも利用
-const CACHE = "ryouri-shokudo-v3";
+// おりょうり食堂：完成料理はSVGのまま、素材イラストをオフライン保存
+const CACHE = "ryouri-shokudo-v4";
 const ASSETS = [
   "./",
   "index.html",
@@ -7,15 +7,6 @@ const ASSETS = [
   "icon.svg",
   "icon-192.png",
   "icon-512.png",
-  "assets/asset-map.json",
-  "assets/kids/dishes/onigiri.png",
-  "assets/kids/dishes/medamayaki.png",
-  "assets/kids/dishes/misoshiru.png",
-  "assets/kids/dishes/pancake.png",
-  "assets/kids/dishes/omurice.png",
-  "assets/kids/dishes/curry.png",
-  "assets/kids/dishes/hamburg.png",
-  "assets/kids/dishes/ramen.png",
   "assets/kids/ingredients/ごはん.png",
   "assets/kids/ingredients/しお.png",
   "assets/kids/ingredients/のり.png",
@@ -49,19 +40,15 @@ const ASSETS = [
   "assets/kids/ingredients/チーズ.png",
   "assets/kids/ingredients/ブロッコリー.png",
   "assets/kids/ingredients/りんご.png",
-  "assets/kids/ingredients/とうもろこし.png",
-  "assets/glossy/05_fried_egg_pan.png",
-  "assets/glossy/02_curry_rice.png",
-  "assets/glossy/09_ramen_bowl.png"
+  "assets/kids/ingredients/とうもろこし.png"
 ];
-
-self.addEventListener("install", e => {
-  e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting()));
+self.addEventListener("install",e=>{
+  e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)).then(()=>self.skipWaiting()));
 });
-self.addEventListener("activate", e => {
-  e.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))).then(() => self.clients.claim()));
+self.addEventListener("activate",e=>{
+  e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim()));
 });
-self.addEventListener("fetch", e => {
+self.addEventListener("fetch",e=>{
   const req=e.request;
   if(req.method!=="GET")return;
   const sameOrigin=new URL(req.url).origin===location.origin;
