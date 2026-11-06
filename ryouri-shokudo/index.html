@@ -260,6 +260,31 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
   padding: 10px 18px; border-radius: 999px; font-size: 15px; z-index: 30; opacity: 0; transition: opacity .25s; pointer-events: none; white-space: nowrap; }
 .toast.on { opacity: 1; }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; } }
+/* 絵文字とイラストを切り替えても操作サイズを維持 */
+.illust-img{display:block;object-fit:contain;flex-shrink:0}
+.logo-plate .logo-art{width:116px;height:100px;object-fit:contain}
+.ingredient-art{display:inline-block;width:1.6em;height:1.6em;object-fit:contain;vertical-align:middle}
+.ing .em{display:flex;align-items:center;justify-content:center;min-height:43px}
+.ing .em .ingredient-art{width:42px;height:42px}
+.recipe-chips .ingredient-art,.need .ingredient-art{width:23px;height:23px}
+.item small .ingredient-art{width:21px;height:21px}
+.board .food .ingredient-art{width:100px;height:100px}
+.stove .food .ingredient-art{width:76px;height:76px}
+.bowl-in .ingredient-art{width:38px;height:38px}
+.bit .ingredient-art{width:24px;height:24px}
+.plate-view .base .ingredient-art{width:68px;height:68px}
+.plate-view .bottle .ingredient-art{width:55px;height:55px}
+.illust-options{display:grid;gap:12px}
+.illust-choice{display:block;width:100%;text-align:left;padding:14px;border-radius:18px;border:2px solid var(--line);background:var(--card);box-shadow:var(--shadow);color:var(--ink);transition:border-color .15s,transform .1s}
+.illust-choice[aria-pressed="true"]{border-color:var(--mint);background:var(--mint-soft)}
+.illust-choice:active{transform:scale(.98)}
+.illust-choice:focus-visible{outline:3px solid var(--mustard);outline-offset:3px}
+.illust-choice-head{display:flex;align-items:center;gap:8px;font-weight:900;font-size:17px}
+.illust-choice-head .check{margin-left:auto;color:var(--mint)}
+.illust-choice-desc{display:block;color:var(--muted);font-size:13px;line-height:1.55;margin-top:4px}
+.illust-preview{display:flex;justify-content:center;align-items:center;gap:18px;min-height:86px;margin-top:8px}
+.illust-preview .choice-dish{width:110px;height:84px;object-fit:contain}
+.illust-note{font-size:13px;font-weight:500;line-height:1.6;color:var(--muted);margin:0}
 </style>
 </head>
 <body>
@@ -269,7 +294,7 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
   <section class="screen on" id="sc-title">
     <div class="awning" aria-hidden="true"></div>
     <div class="title-wrap">
-      <div class="logo-plate" aria-hidden="true">🍳</div>
+      <div class="logo-plate" id="t-logo" aria-hidden="true">🍳</div>
       <h1 class="logo">おりょうり<br>食堂<small>KITCHEN SIMULATION</small></h1>
       <div class="title-stats">
         <span class="pill" id="t-day">1日目</span>
@@ -285,6 +310,7 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
       <div class="title-foot">
         <button class="icon-btn" id="b-how" aria-label="あそびかた">❓</button>
         <button class="icon-btn" id="b-sound" aria-label="音のオンオフ">🔊</button>
+        <button class="icon-btn" id="b-settings" aria-label="設定を開く">⚙️</button>
         <button class="icon-btn" id="b-reset" aria-label="データを消す">🗑️</button>
       </div>
     </div>
@@ -342,6 +368,17 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
       <h2>レシピ帳</h2>
     </div>
     <div class="list" id="k-list"></div>
+  </section>
+  <!-- イラスト切り替え設定 -->
+  <section class="screen" id="sc-settings">
+    <div class="head-row">
+      <button class="icon-btn" data-back aria-label="もどる">←</button>
+      <h2>⚙️ せってい</h2>
+    </div>
+    <p class="hint" style="margin:0;color:var(--muted);font-weight:500">おりょうりの絵をえらんでね。設定は自動で保存されるよ。</p>
+    <div class="illust-options" id="illust-options" role="group" aria-label="料理のイラスト"></div>
+    <p class="illust-note">※ セット2にない料理と材料は、セット1のイラストで表示します。</p>
+    <button class="btn wide ghost" id="b-settings-done">← タイトルにもどる</button>
   </section>
 </div>
 
@@ -443,6 +480,20 @@ const RECIPES = [
     { t: 'pour', chip: 'そそぐ', title: 'スープを そそごう', base: '🍝', bottle: '🥣', color: '#E3B04B' } ] }
 ];
 const RID = Object.fromEntries(RECIPES.map(r => [r.id, r]));
+// セット1は全料理/材料の色鉛筆風。セット2は対応する3品だけツヤツヤ画像に切り替える。
+const ILLUST_MODES = ['set1', 'set2', 'original'];
+const GLOSSY_DISH = { medamayaki:'assets/glossy/05_fried_egg_pan.png', curry:'assets/glossy/02_curry_rice.png', ramen:'assets/glossy/09_ramen_bowl.png' };
+const ING_BY_EMOJI = Object.fromEntries(Object.entries(ING).map(([name,emoji]) => [emoji,name]));
+const imgHTML = (src, cls) => '<img class="' + cls + ' illust-img" src="' + src + '" alt="" decoding="async" draggable="false">';
+const ingredientMark = name => save.illustration === 'original' ? ING[name] :
+  imgHTML('assets/kids/ingredients/' + encodeURIComponent(name) + '.png', 'ingredient-art');
+const foodMark = emoji => {
+  if (save.illustration === 'original') return emoji;
+  if (emoji === '🍳') return dishSVG('medamayaki', 'ingredient-art');
+  if (emoji === '🥞') return dishSVG('pancake', 'ingredient-art');
+  const name = ING_BY_EMOJI[emoji];
+  return name ? ingredientMark(name) : emoji;
+};
 const FACES = ['👦', '👧', '🧒', '👩', '👨', '👵', '👴', '🧑', '👱', '🐱', '🐻', '🐰'];
 const TOOLS = [
   { id: 'knife', icon: '🔪', name: 'よく切れる包丁', desc: 'きる・にぎる回数がへるよ', costs: [300, 800, 1600] },
@@ -463,7 +514,11 @@ const DISH = {
   hamburg: PLATE + '<ellipse cx="54" cy="50" rx="29" ry="14" fill="#5F3219"/><ellipse cx="54" cy="46" rx="27" ry="12" fill="#86461F"/><path d="M33 44 Q54 33 75 44 Q70 52 54 52 Q38 52 33 44Z" fill="#4A1E0C" opacity=".9"/><circle cx="88" cy="46" r="6" fill="#3D9A4A"/><circle cx="94" cy="51" r="5" fill="#3D9A4A"/><path d="M82 58 L96 55 L94 61 Z" fill="#F08A24"/>',
   ramen: BOWL('#E7B75A') + '<path d="M28 40 Q34 34 40 40 T52 40 T64 40 T76 40 T88 40" fill="none" stroke="#F8E39A" stroke-width="3"/><path d="M32 46 Q38 40 44 46 T56 46 T68 46" fill="none" stroke="#F8E39A" stroke-width="3"/><circle cx="76" cy="38" r="9" fill="#E8B08A" stroke="#B5703F" stroke-width="2"/><ellipse cx="46" cy="34" rx="8" ry="6" fill="#FFFFFF"/><circle cx="46" cy="34" r="3.5" fill="#F2A91B"/><circle cx="60" cy="44" r="2.4" fill="#4C9A3C"/><circle cx="88" cy="45" r="2.4" fill="#4C9A3C"/><rect x="58" y="30" width="5" height="10" fill="#2A3A2E"/>'
 };
-const dishSVG = (id, cls) => '<svg class="' + (cls || '') + '" viewBox="0 0 120 90" aria-hidden="true">' + DISH[id] + '</svg>';
+const dishSVG = (id, cls, style = save.illustration) => {
+  if (style === 'original') return '<svg class="' + (cls || '') + '" viewBox="0 0 120 90" aria-hidden="true">' + DISH[id] + '</svg>';
+  const src = style === 'set2' && GLOSSY_DISH[id] ? GLOSSY_DISH[id] : 'assets/kids/dishes/' + id + '.png';
+  return imgHTML(src, cls || '');
+};
 
 /* ---------- セーブ ---------- */
 // iPhone の Safari は user-scalable=no を無視するので、ダブルタップ・ピンチの拡大をここで止める
@@ -471,9 +526,9 @@ const dishSVG = (id, cls) => '<svg class="' + (cls || '') + '" viewBox="0 0 120 
 document.addEventListener('dblclick', e => e.preventDefault(), { passive: false });
 
 const KEY = 'ryouri-shokudo:v1';
-const fresh = () => ({ day: 1, money: 0, up: { knife: 0, pan: 0, sign: 0 }, book: {}, sound: true, served: 0, seenHow: false });
+const fresh = () => ({ day: 1, money: 0, up: { knife: 0, pan: 0, sign: 0 }, book: {}, sound: true, illustration: 'set1', served: 0, seenHow: false });
 let save = fresh();
-function load() { try { const s = JSON.parse(localStorage.getItem(KEY)); if (s && typeof s === 'object') save = Object.assign(fresh(), s, { up: Object.assign(fresh().up, s.up || {}) }); } catch (e) {} }
+function load() { try { const s = JSON.parse(localStorage.getItem(KEY)); if (s && typeof s === 'object') { save = Object.assign(fresh(), s, { up: Object.assign(fresh().up, s.up || {}) }); if (!ILLUST_MODES.includes(save.illustration)) save.illustration = 'set1'; } } catch (e) {} }
 function store() { try { localStorage.setItem(KEY, JSON.stringify(save)); } catch (e) {} }
 
 /* ---------- 音（Web Audio） ---------- */
@@ -528,6 +583,26 @@ function renderTitle() {
   $('#t-day').textContent = save.day + '日目';
   $('#t-money').innerHTML = '💰 <span>' + yen(save.money) + '</span>';
   $('#b-sound').textContent = save.sound ? '🔊' : '🔇';
+  $('#t-logo').innerHTML = dishSVG('medamayaki', 'logo-art');
+}
+
+/* ---------- イラスト設定 ---------- */
+function renderSettings() {
+  const options = [
+    { id:'set1', name:'イラストセット1', desc:'子ども向け・色鉛筆風（初期設定）' },
+    { id:'set2', name:'イラストセット2', desc:'ツヤツヤしたイラスト風' },
+    { id:'original', name:'もとの絵文字', desc:'これまでの絵文字とシンプルな料理の絵' }
+  ];
+  $('#illust-options').innerHTML = options.map(o =>
+    '<button type="button" class="illust-choice" data-illust="' + o.id + '" aria-pressed="' + (save.illustration === o.id) + '">' +
+    '<span class="illust-choice-head">' + o.name + (save.illustration === o.id ? '<span class="check">✓ せんたく中</span>' : '') + '</span>' +
+    '<span class="illust-choice-desc">' + o.desc + '</span>' +
+    '<span class="illust-preview">' + dishSVG('curry', 'choice-dish', o.id) + dishSVG('ramen', 'choice-dish', o.id) + '</span></button>'
+  ).join('');
+  $('#illust-options').querySelectorAll('[data-illust]').forEach(btn => btn.onclick = () => {
+    save.illustration = btn.dataset.illust;
+    store(); renderTitle(); renderSettings(); SND.pop();
+  });
 }
 
 /* ---------- 一日の進行 ---------- */
@@ -573,7 +648,7 @@ function nextCustomer() {
   $('#g-stage').innerHTML =
     '<div class="card order">' + dishSVG(r.id, 'order-dish') +
     '<div class="order-name">' + r.name + '</div><div class="order-say">「' + say + '」</div>' +
-    '<div class="recipe-chips">' + r.ings.map(x => '<span class="chip">' + ING[x] + ' ' + x + '</span>').join('') + '</div></div>' +
+    '<div class="recipe-chips">' + r.ings.map(x => '<span class="chip">' + ingredientMark(x) + ' ' + x + '</span>').join('') + '</div></div>' +
     '<button class="btn wide" id="b-cook">👩‍🍳 つくる！</button>';
   $('#b-cook').onclick = () => { SND.pop(); S.phase = 'cook'; runStep(0); };
 }
@@ -618,8 +693,8 @@ function stepSelect(s, r, p) {
   const tiles = shuffle(need.concat(extra));
   let got = 0, miss = 0;
   p.innerHTML = '<h2>ざいりょうを えらぼう</h2><p class="hint">レシピの材料だけをタップしてね</p>' +
-    '<div class="need">' + need.map(x => '<span data-n="' + x + '">' + ING[x] + ' ' + x + '</span>').join('') + '</div>' +
-    '<div class="ing-grid">' + tiles.map(x => '<button class="ing" data-i="' + x + '"><span class="em">' + ING[x] + '</span>' + x + '</button>').join('') + '</div>';
+    '<div class="need">' + need.map(x => '<span data-n="' + x + '">' + ingredientMark(x) + ' ' + x + '</span>').join('') + '</div>' +
+    '<div class="ing-grid">' + tiles.map(x => '<button class="ing" data-i="' + x + '"><span class="em">' + ingredientMark(x) + '</span>' + x + '</button>').join('') + '</div>';
   p.querySelectorAll('.ing').forEach(b => b.onclick = () => {
     const x = b.dataset.i;
     if (need.includes(x)) {
@@ -636,7 +711,7 @@ function stepChop(s, r, p) {
   const n = Math.max(3, s.n - save.up.knife), t0 = performance.now();
   let c = 0;
   p.innerHTML = '<h2>' + s.title + '</h2><p class="hint">まな板をどんどんタップ！</p>' +
-    '<div class="board" id="board"><span class="food">' + s.food + '</span><span class="knife" id="knife">' + s.tool + '</span><div class="bits" id="bits"></div></div>' +
+    '<div class="board" id="board"><span class="food">' + foodMark(s.food) + '</span><span class="knife" id="knife">' + s.tool + '</span><div class="bits" id="bits"></div></div>' +
     '<div class="count" id="cnt">あと' + n + 'かい</div>';
   const board = $('#board'), food = board.querySelector('.food'), knife = $('#knife');
   board.addEventListener('pointerdown', e => {
@@ -645,7 +720,7 @@ function stepChop(s, r, p) {
     knife.classList.add('down'); food.classList.add('hit');
     setTimeout(() => { knife.classList.remove('down'); food.classList.remove('hit'); }, 70);
     if (s.tool === '🔪') { const l = document.createElement('i'); l.className = 'cut'; l.style.left = (24 + 52 * c / (n + 1)) + '%'; board.appendChild(l); }
-    const b = document.createElement('span'); b.className = 'bit'; b.textContent = s.tool === '🔪' ? s.food : '✨';
+    const b = document.createElement('span'); b.className = 'bit'; b.innerHTML = s.tool === '🔪' ? foodMark(s.food) : '✨';
     b.style.left = (40 + rnd(20)) + '%'; b.style.top = '40%';
     b.style.setProperty('--dx', (rnd(160) - 80) + 'px'); b.style.setProperty('--dy', (-40 - rnd(60)) + 'px');
     $('#bits').appendChild(b); setTimeout(() => b.remove(), 650);
@@ -659,7 +734,7 @@ function stepHeat(s, r, p) {
   const w = 4 * save.up.pan, lo = 55 - w, hi = 76 + w;
   let x = 0, on = false, steamT = 0;
   p.innerHTML = '<h2>' + s.title + '</h2><p class="hint">メーターが みどりのところで 火をとめよう</p>' +
-    '<div class="stove"><div class="pan' + (s.pot ? ' pot' : '') + '" id="pan"><span class="food" id="hf">' + s.food + '</span></div><span class="flame" id="flame">🔥🔥🔥</span></div>' +
+    '<div class="stove"><div class="pan' + (s.pot ? ' pot' : '') + '" id="pan"><span class="food" id="hf">' + foodMark(s.food) + '</span></div><span class="flame" id="flame">🔥🔥🔥</span></div>' +
     '<div class="meter"><div class="meter-track"><div class="meter-zone" style="left:' + lo + '%;width:' + (hi - lo) + '%"></div><div class="meter-burn" style="width:8%"></div><div class="meter-needle" id="needle" style="left:0%"></div></div>' +
     '<div class="meter-labels"><span>なま</span><span>ちょうどいい</span><span>こげ</span></div></div>' +
     '<button class="btn wide" id="hb">🔥 火をつける</button>';
@@ -694,7 +769,7 @@ function stepStir(s, r, p) {
   let prog = 0, last = null, done = false, tick = 0;
   p.innerHTML = '<h2>' + s.title + '</h2><p class="hint"><span class="swipe-hint">↻</span> ボウルの中を ぐるぐる なぞろう</p>' +
     '<div class="bowl" id="bowl"><div class="bowl-in" id="bin">' +
-    s.items.map((e, i) => { const a = i / s.items.length * Math.PI * 2; return '<span style="transform:translate(-50%,-50%) translate(' + Math.cos(a) * 52 + 'px,' + Math.sin(a) * 52 + 'px)">' + e + '</span>'; }).join('') +
+    s.items.map((e, i) => { const a = i / s.items.length * Math.PI * 2; return '<span style="transform:translate(-50%,-50%) translate(' + Math.cos(a) * 52 + 'px,' + Math.sin(a) * 52 + 'px)">' + foodMark(e) + '</span>'; }).join('') +
     '</div><span class="spoon" id="spoon" style="left:150px;top:30px">🥄</span></div>' +
     '<div class="ring"><div class="bar"><b id="sbar" style="width:0%"></b></div></div>' +
     '<button class="btn ghost wide" id="sb">↻ ぐるぐる（タップでもOK）</button>';
@@ -727,8 +802,8 @@ function stepPour(s, r, p) {
   const lo = 58 - 2 * save.up.pan, hi = 76 + 2 * save.up.pan;
   let amt = 0, hold = false, done = false;
   p.innerHTML = '<h2>' + s.title + '</h2><p class="hint">おしている間 そそぐよ。みどりで はなしてね</p>' +
-    '<div class="pour-wrap"><div class="plate-view"><span class="bottle" id="bot">' + s.bottle + '</span><span class="stream" id="stream" style="background:' + s.color + '"></span>' +
-    '<div class="plate"><span class="base">' + s.base + '</span><span class="puddle" id="pud" style="background:' + s.color + '"></span></div></div>' +
+    '<div class="pour-wrap"><div class="plate-view"><span class="bottle" id="bot">' + foodMark(s.bottle) + '</span><span class="stream" id="stream" style="background:' + s.color + '"></span>' +
+    '<div class="plate"><span class="base">' + foodMark(s.base) + '</span><span class="puddle" id="pud" style="background:' + s.color + '"></span></div></div>' +
     '<div class="vgauge"><div class="zone" style="bottom:' + lo + '%;height:' + (hi - lo) + '%"></div><div class="fill" id="vfill" style="background:' + s.color + '"></div></div></div>' +
     '<button class="btn wide hold-btn" id="pb">👇 おして そそぐ</button>';
   const btn = $('#pb'), bot = $('#bot'), stream = $('#stream');
@@ -823,7 +898,7 @@ function renderBook() {
   $('#k-list').innerHTML = RECIPES.map(r => {
     const b = save.book[r.id], open = r.unlock <= save.day;
     return '<div class="card item' + (open ? '' : ' locked') + '">' + (open ? dishSVG(r.id, 'mini-dish') : '<span class="big">🔒</span>') +
-      '<div class="txt"><b>' + (open ? r.name : '？？？') + '</b><small>' + (open ? r.ings.map(x => ING[x]).join(' ') + '　<span>' + yen(r.price) + '</span>' : r.unlock + '日目に登場') + '</small>' +
+      '<div class="txt"><b>' + (open ? r.name : '？？？') + '</b><small>' + (open ? r.ings.map(x => ingredientMark(x)).join(' ') + '　<span>' + yen(r.price) + '</span>' : r.unlock + '日目に登場') + '</small>' +
       (b ? '<small><span class="mini-stars">' + '★'.repeat(b.best) + '☆'.repeat(3 - b.best) + '</span>　' + b.count + '回つくった</small>' : open ? '<small>まだつくっていない</small>' : '') + '</div></div>';
   }).join('');
 }
@@ -852,9 +927,11 @@ $('#b-r-shop').onclick = () => { backTo = 'result'; renderShop(); show('shop'); 
 $('#b-r-title').onclick = () => { renderTitle(); show('title'); };
 $('#b-next').onclick = () => { audio(); startDay(); };
 $('#b-how').onclick = () => overlay('how', true);
+$('#b-settings').onclick = () => { backTo = 'title'; renderSettings(); show('settings'); };
+$('#b-settings-done').onclick = () => { renderTitle(); show('title'); };
 $('#b-sound').onclick = () => { save.sound = !save.sound; if (!save.sound) sizzleOff(); store(); renderTitle(); if (save.sound) SND.pop(); };
 $('#b-reset').onclick = () => overlay('confirm', true);
-$('#b-reset-yes').onclick = () => { const snd = save.sound; save = fresh(); save.sound = snd; save.seenHow = true; store(); overlay('confirm', false); renderTitle(); toast('データを消しました'); };
+$('#b-reset-yes').onclick = () => { const snd = save.sound, illustration = save.illustration; save = fresh(); save.sound = snd; save.illustration = illustration; save.seenHow = true; store(); overlay('confirm', false); renderTitle(); toast('データを消しました'); };
 $('#b-pause').onclick = () => pause(true);
 $('#b-resume').onclick = () => pause(false);
 $('#b-quit').onclick = () => { pause(false); S = null; sizzleOff(); renderTitle(); show('title'); };
