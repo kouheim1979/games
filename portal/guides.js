@@ -38,6 +38,12 @@
       ['先点击烤串，再点击有空位的烤架。让同一烤架上出现三根相同烤串，即可烤熟并送给点单的客人。', '注意烤架和客席旁的“下一个”，提前考虑后续订单。三位客人因等待过久而生气就会关店；遇到困难时可使用次数有限的辅助功能。'],
       ['Toca una brocheta y después una parrilla con espacio. Reúne tres iguales en la misma parrilla para cocinarlas y servir los pedidos.', 'Mira las siguientes brochetas y los próximos pedidos. El local cierra si tres clientes pierden la paciencia. Las ayudas tienen usos limitados.']
     ],
+    'ryouri-shokudo': [
+      ['お客さんの注文を見て「つくる！」を押し、材料えらび・切る・焼く・まぜる・かけるの工程を順に進めます。工程ごとの出来ばえで星1〜3つが決まり、売上とチップがもらえます。', '焼く工程はメーターがみどりの範囲で火をとめ、かける工程はみどりの範囲でボタンをはなします。待たせすぎるとチップが出ないので、売上で包丁・フライパン・看板をそろえると楽になります。'],
+      ['Check the order, press Cook, then work through each step: pick ingredients, chop, heat, mix and pour. How well you do each step decides 1–3 stars, plus your sales and tips.', 'Turn off the heat when the meter is in the green, and release the pour button in the green. Customers who wait too long leave no tip, so spend your sales on a knife, pan and sign upgrade.'],
+      ['查看客人的点单后按“开始做”，依次完成选材、切、加热、搅拌、淋酱等步骤。每一步的完成度决定1～3颗星，并获得营业额和小费。', '加热时在指针进入绿色区域时关火，淋酱时在绿色区域松开按钮。让客人等太久就没有小费，可以用营业额升级菜刀、平底锅和招牌。'],
+      ['Mira el pedido, pulsa «A cocinar» y completa cada paso: elegir ingredientes, cortar, cocinar, mezclar y verter. Cada paso decide de 1 a 3 estrellas, además de las ventas y propinas.', 'Apaga el fuego cuando el medidor esté en verde y suelta el botón de verter en verde. Si el cliente espera demasiado no deja propina; usa tus ventas para mejorar cuchillo, sartén y letrero.']
+    ],
     'atama-oshiri': [
       ['指定された最初と最後の文字を使う日本語を考えます。ひとりモードは60秒でたくさん答える遊び、みんなモードはお題を見て口で答える早い者勝ちです。', '身近な食べ物や動物など、種類をひとつ決めると言葉が浮かびやすくなります。慣れてきたら文字数しばりにも挑戦できます。'],
       ['Think of a Japanese word with the specified first and last characters. Solo mode gives you 60 seconds; group mode is a spoken race to answer the prompt.', 'Try a familiar category such as food or animals to find words. Once you are comfortable, try the word-length restriction. The word task uses Japanese.'],

@@ -7,9 +7,9 @@ const root = path.resolve(__dirname, '..');
 const {langs, games, ui} = require('../portal/catalog.js');
 const guides = require('../portal/guides.js');
 
-test('the published collection has 12 distinct games and none of the five exclusions', () => {
-  assert.equal(games.length, 12);
-  assert.equal(new Set(games.map(g => g.id)).size, 12);
+test('the published collection has 13 distinct games and none of the five exclusions', () => {
+  assert.equal(games.length, 13);
+  assert.equal(new Set(games.map(g => g.id)).size, 13);
   for (const id of ['kokon-tozai', 'golden-week', 'lunch-roulette', 'word-wolf', 'pokemon-quiz-app']) {
     assert.ok(!games.some(g => g.id === id), id);
   }
@@ -52,7 +52,7 @@ test('native site-information pages have a readable Japanese fallback and all lo
 });
 test('static fallback links, card count and keys match the curated catalog', () => {
   const html = fs.readFileSync(path.join(root,'portal/portal.html'),'utf8');
-  assert.equal((html.match(/class="mt-game" /g) || []).length, 12);
+  assert.equal((html.match(/class="mt-game" /g) || []).length, 13);
   for (const game of games) assert.ok(html.includes('href="' + game.url + '"'));
   for (const id of ['kokon-tozai','golden-week','lunch-roulette','word-wolf','pokemon-quiz-app']) assert.ok(!html.includes('/' + id + '/'));
   for (const match of html.matchAll(/data-mt-i18n="([^"]+)"/g)) assert.ok(match[1] in ui.ja, match[1]);

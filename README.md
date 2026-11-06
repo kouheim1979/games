@@ -17,6 +17,7 @@
 | [pokemon-quiz-app](pokemon-quiz-app/) | ポケモン当てクイズ & 全国図鑑 |
 | [react-game](react-game/) | 反射神経ゲーム |
 | [rin-harbor](rin-harbor/) | リンハーバー |
+| [ryouri-shokudo](ryouri-shokudo/) | おりょうり食堂（お料理シミュレーション） |
 | [todofuken-draft](todofuken-draft/) | 都道府県ドラフトバトル｜地元も、切り札も。キミが指名。 |
 | [WaterSortPuzzle](WaterSortPuzzle/) | Water Sort Puzzle |
 | [word-wolf](word-wolf/) | ワードウルフ |
@@ -51,7 +52,7 @@ GitHub Pages版: https://kouheim1979.github.io/games/
 
 日本語・英語・簡体字中国語・スペイン語でサイトの案内、検索、ゲーム紹介を切り替えられます。
 
-サイトに載せるゲームは `portal/catalog.js` で管理します。所有者の指示により `kokon-tozai`、`golden-week`、`lunch-roulette`、`word-wolf`、`pokemon-quiz-app` は公開ポータルから除外し、各ゲームの元ファイルは残しています。掲載ゲームは12本です。ワードウルフは `word-wolf2` のみ掲載します。
+サイトに載せるゲームは `portal/catalog.js` で管理します。所有者の指示により `kokon-tozai`、`golden-week`、`lunch-roulette`、`word-wolf`、`pokemon-quiz-app` は公開ポータルから除外し、各ゲームの元ファイルは残しています。掲載ゲームは13本です。ワードウルフは `word-wolf2` のみ掲載します。
 
 ```sh
 node portal/pages.cjs
@@ -74,6 +75,6 @@ node --test tests/portal.test.cjs
 
 ## 広告申請に向けたサイト整備（2026-11-05）
 
-ポケモン作品は権利確認が済んでいないため、公開ポータル・遊び方ページから除外しました。ゲームの元ファイルは保持しています。`portal/guides.js` に掲載12本の遊び方とヒントを4言語で管理し、`portal/pages.cjs` からBlogger用の運営情報・問い合わせ・プライバシー・広告方針・制作方針・遊び方ページを生成します。出力は `deployment/pages/` です。Blogger本文はHTMLビューで置き換え、既存のURLを維持します。変更前の本文は `deployment/pages-before-20261105/` に保存しています。
+ポケモン作品は権利確認が済んでいないため、公開ポータル・遊び方ページから除外しました。ゲームの元ファイルは保持しています。`portal/guides.js` に掲載ゲームの遊び方とヒントを4言語で管理し、`portal/pages.cjs` からBlogger用の運営情報・問い合わせ・プライバシー・広告方針・制作方針・遊び方ページを生成します。出力は `deployment/pages/` です。Blogger本文はHTMLビューで置き換え、既存のURLを維持します。変更前の本文は `deployment/pages-before-20261105/` に保存しています。
 
 サイト側の整備は審査承認を保証しません。AdSense管理画面にサインインして最新の指摘と再審査可能日を確認し、準備の確認後に申請します。申請送信はこのコード変更には含まれません。
