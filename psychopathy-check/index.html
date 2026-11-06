@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#eef2f8">
-  <meta name="description" content="18問で対人スタイル・感情・衝動性について振り返る、娯楽用の心理傾向セルフチェック。医学的な診断ではありません。">
-  <title>サイコパス傾向チェック | 心理スタイル診断（娯楽用）</title>
+  <meta name="description" content="24問の物語を楽しみながら、8つの行動スタイルを振り返る家族向けの娯楽クイズ。医学的な診断ではありません。">
+  <title>こころの冒険｜ストーリー行動タイプ診断（娯楽用）</title>
   <style>
     :root { color-scheme: light; --ink:#16213a; --muted:#65738b; --line:#e3e8f1; --paper:#fff; --accent:#6359d9; --accent-dark:#4e43b9; --mint:#1ba992; --blush:#e46b78; --bg:#f2f5fa; }
     *,*::before,*::after { box-sizing:border-box; }
@@ -80,144 +80,177 @@
     .toast {font-size:12px;text-align:center; min-height:18px;color:#238776;margin-top:12px;}
     @media (prefers-reduced-motion:reduce) {*,*::before,*::after{transition:none!important;scroll-behavior:auto!important;}}
     @media (min-width:580px) {.button-row {flex-direction:row;} .button-row > * {flex:1;} .q-area{padding-top:35px;} }
+
+    .story-scene{font-size:15px;line-height:1.95;background:#f6f8ff;border-left:4px solid #aaa2f6;padding:16px 17px;margin-bottom:15px;border-radius:11px;color:#3d4b68}
+    .q-text{min-height:0;font-size:clamp(19px,4.3vw,24px)}
+    .option{min-height:56px;line-height:1.6}
+    .type-emoji{font-size:52px;line-height:1.3;margin:15px 0 5px}
+    .result-label{font-size:clamp(20px,4.5vw,26px)}
+    .section-lead{font-size:13px;color:#69758a;line-height:1.8;margin-bottom:16px}
+    .trait-card{padding:16px 0 18px;border-bottom:1px solid #e8ebf2}
+    .trait-card:last-child{border:0}
+    .trait-top{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:7px}
+    .trait-name{font-size:16px;font-weight:850}
+    .trait-score{color:#65708a;white-space:nowrap;font-weight:750;font-size:13px}
+    .trait-definition{font-size:13px;color:#59667d;line-height:1.85;margin:9px 0 6px}
+    .trait-meaning{font-size:13px;color:#38445d;line-height:1.85}
+    .trait-meaning strong{color:#4b42a6}
+    .extra{background:#f0faf6;border-color:#d9f0e7}
+    .extra strong{color:#167c67}
+    @media(max-width:370px){.shell{width:calc(100% - 20px)}.result-body{padding:20px 16px 24px}}
   </style>
 </head>
 <body>
   <main class="shell">
-    <header class="masthead"><div class="logo"><div class="mark" aria-hidden="true">◇</div><span>MIND MIRROR</span></div><span class="tag">18歳以上・娯楽用</span></header>
+    <header class="masthead"><div class="logo"><div class="mark" aria-hidden="true">◇</div><span>MIND MIRROR</span></div><span class="tag">家族であそべる・娯楽用</span></header>
     <section id="intro" class="surface hero">
-      <span class="eyebrow">✦ 自分の考え方をのぞいてみよう</span>
-      <h1>サイコパス<em>傾向</em><br>チェック</h1>
-      <p class="lead">もし自分だったら、どう考える？ 18の質問から、<strong>共感・対人スタイル・衝動性</strong>という3つの側面を振り返ります。</p>
-      <div class="facts"><span class="fact">📝 全18問</span><span class="fact">⏱ 約3分</span><span class="fact">🔒 回答は送信されません</span></div>
-      <button id="start" class="primary" type="button">チェックを始める <span aria-hidden="true">→</span></button>
-      <p class="notice">※ このアプリはオリジナルの<strong>娯楽・自己理解用</strong>チェックです。医学的・心理学的に標準化された検査ではなく、「サイコパスかどうか」を判定することはできません。未成年者の評価には使わないでください。</p>
+      <span class="eyebrow">✦ ココロタウンの1日へ、ようこそ！</span>
+      <h1>こころの冒険<br><em>ストーリー診断</em></h1>
+      <p class="lead">あなたが物語の主人公！ 友達のモモ、ソラと学校や公園、お祭りへ。「こんなとき、どうする？」に答えて、<strong>8つの行動スタイル</strong>を見つけよう。</p>
+      <div class="facts"><span class="fact">📖 全24問・物語つき</span><span class="fact">🎯 4択・正解なし</span><span class="fact">📊 8項目を詳しく解説</span><span class="fact">🔒 回答は送信されません</span></div>
+      <button id="start" class="primary" type="button">ものがたりを始める →</button>
+      <p class="notice"><strong>このゲームについて：</strong>オリジナルの娯楽用クイズです。<strong>サイコパスや発達特性・精神疾患を判定するものではありません。</strong>子どもや友達を決めつける目的に使わないでください。</p>
     </section>
     <section id="quiz" class="surface inside hidden" aria-label="質問">
-      <div class="progress-top"><span id="count">QUESTION 01 / 18</span><span class="dim" id="percent">0% 完了</span></div>
-      <div class="track" role="progressbar" aria-label="回答進捗" aria-valuemin="0" aria-valuemax="18" aria-valuenow="0" id="progress"><div class="fill" id="progress-fill"></div></div>
-      <div class="q-area"><div class="q-kicker" id="category">気持ち・共感</div><div class="q-text" id="question" aria-live="polite"></div><p class="q-hint">最も近いものを1つ選んでください。</p><div class="options" id="choices" role="group" aria-label="回答の選択肢"></div></div>
+      <div class="progress-top"><span id="count">STORY 01 / 24</span><span class="dim" id="percent">0% 完了</span></div>
+      <div class="track" role="progressbar" aria-label="回答進捗" aria-valuemin="0" aria-valuemax="24" aria-valuenow="0" id="progress"><div class="fill" id="progress-fill"></div></div>
+      <div class="q-area"><div class="q-kicker" id="category">気持ち・共感</div><p class="story-scene" id="scene"></p><div class="q-text" id="question" aria-live="polite"></div><p class="q-hint">あなたならどうする？ いちばん近い答えを選んでね。</p><div class="options" id="choices" role="group" aria-label="回答の選択肢"></div></div>
       <div class="nav"><button id="back" class="secondary" type="button">戻る</button><button id="next" class="primary" type="button" disabled>次へ <span aria-hidden="true">→</span></button></div>
-      <p class="notice">直感で答えてOK。正解・不正解はありません。</p>
+      <p class="notice">正解・不正解はありません。ふだんの自分に近いものを選んでね。</p>
     </section>
     <section id="result" class="surface hidden" aria-label="チェック結果" aria-live="polite">
-      <div class="result-head"><div class="small">YOUR SELF-REFLECTION REPORT</div><div class="score-row"><span class="score" id="score">0</span><span class="suffix">/ 100 目安スコア</span></div><div class="result-label" id="level">今回の回答傾向</div><p class="result-description" id="description"></p></div>
+      <div class="result-head"><div class="small">KOKORO TOWN · YOUR STORY</div>
+        <div class="type-emoji" id="type-emoji">🌈</div>
+        <div class="result-label" id="level">あなたのタイプ</div><p class="result-description" id="description"></p>
+      </div>
       <div class="result-body">
-        <h2 style="font-size:19px;margin-bottom:17px">3つの傾向</h2>
+        <h2 style="font-size:20px;margin-bottom:7px">8つの行動スタイル</h2>
+        <p class="section-lead">「これは何？」「今回の回答は？」を、8つの項目ごとに見ることができます。点数はゲーム内だけの目安です。</p>
         <div id="bars"></div>
-        <div class="insight"><strong id="insight-title">回答から見える傾向</strong><p id="insight"></p></div>
-        <div class="caution"><strong>この結果について</strong><br>数値と区分はこのアプリ内での便宜的な集計です。一般人口との比較、発症確率、臨床的な判定基準ではありません。自己申告だけで人の性格や行動を確定的に判断することはできません。悩みや対人トラブルが続く場合は、専門家に相談してください。</div>
-        <div class="button-row"><button id="copy" class="primary" type="button">結果をコピー</button><button id="restart" class="secondary" type="button">最初からやり直す</button></div><p class="toast" id="toast" role="status"></p>
+        <div class="insight"><strong>📚 今回のストーリーから分かったこと</strong><p id="insight"></p></div>
+        <div class="insight extra"><strong>🧭 もっと楽しむヒント</strong><p id="advice"></p></div>
+        <div class="caution"><strong>診断ではありません。</strong><br>これは物語の回答を独自のルールで集計した娯楽用の結果です。数値は能力や人柄の優劣、精神疾患やサイコパスの確率を示しません。実際の行動は場面や気分でも変わります。発達や行動で心配があるときは、学校や医療・発達相談の専門家にご相談ください。</div>
+        <div class="button-row"><button id="copy" class="primary" type="button">結果をコピー</button><button id="restart" class="secondary" type="button">もう一度あそぶ</button></div><p class="toast" id="toast" role="status"></p>
       </div>
     </section>
-    <footer class="foot">MIND MIRROR · 一人で振り返るためのエンタメチェック · 入力内容は保存・送信しません</footer>
+    <footer class="foot">KOKORO TOWN · 家族で楽しむストーリークイズ · 回答は保存・送信しません</footer>
   </main>
 <script>
-  'use strict';
-  const questions = [
-    {cat:'感情・共感', text:'相手がつらそうにしていると、自分もその気持ちを感じることがある。', reverse:true, group:'feel'},
-    {cat:'対人スタイル', text:'自分の目的のため、相手に都合のよい情報だけを伝えることがある。', reverse:false, group:'social'},
-    {cat:'行動・衝動性', text:'刺激が欲しくなると、後先をあまり考えずに行動することがある。', reverse:false, group:'action'},
-    {cat:'感情・共感', text:'人を傷つけたと気づいたら、後から後悔する。', reverse:true, group:'feel'},
-    {cat:'対人スタイル', text:'たとえ不利になっても、他人との約束は守ろうとする。', reverse:true, group:'social'},
-    {cat:'行動・衝動性', text:'イライラすると、考えるより先に言い返してしまう。', reverse:false, group:'action'},
-    {cat:'感情・共感', text:'人が困っていても、自分に直接関係なければ気にならない。', reverse:false, group:'feel'},
-    {cat:'対人スタイル', text:'相手を説得するために、事実を大げさに話すことがある。', reverse:false, group:'social'},
-    {cat:'行動・衝動性', text:'大切な決断をする前に、結果をよく考える。', reverse:true, group:'action'},
-    {cat:'感情・共感', text:'自分が悪かったと思えば、素直に謝ることができる。', reverse:true, group:'feel'},
-    {cat:'対人スタイル', text:'うそが見つからなければ、問題ないと感じることがある。', reverse:false, group:'social'},
-    {cat:'行動・衝動性', text:'退屈すると、多少のリスクを取ってでも刺激を求める。', reverse:false, group:'action'},
-    {cat:'感情・共感', text:'自分の利益になるなら、誰かが傷ついても仕方ないと思う。', reverse:false, group:'feel'},
-    {cat:'対人スタイル', text:'何かを伝えるときは、相手の立場や受け取り方を考える。', reverse:true, group:'social'},
-    {cat:'行動・衝動性', text:'周囲に止められても、その場の勢いで行動してしまうことがある。', reverse:false, group:'action'},
-    {cat:'感情・共感', text:'他人の失敗や痛みを見ても、ほとんど何も感じない。', reverse:false, group:'feel'},
-    {cat:'対人スタイル', text:'自分の失敗を、つい他人のせいにしてしまうことがある。', reverse:false, group:'social'},
-    {cat:'行動・衝動性', text:'決められたルールは、自分にメリットがなくても守ろうとする。', reverse:true, group:'action'}
-  ];
-  const labels = ['まったく当てはまらない','あまり当てはまらない','やや当てはまる','とても当てはまる'];
-  let answers = Array(questions.length).fill(null);
-  let current = 0;
-  let latestReport = '';
-  const $ = id => document.getElementById(id);
-  const show = screen => {
-    ['intro','quiz','result'].forEach(x => $(x).classList.toggle('hidden',x!==screen));
-    window.scrollTo({top:0,behavior:'instant'});
-  };
-  function renderQuestion() {
-    const q=questions[current];
-    $('count').textContent = `QUESTION ${String(current+1).padStart(2,'0')} / ${questions.length}`;
-    $('percent').textContent=`${Math.round(answers.filter(x=>x!==null).length/questions.length*100)}% 回答済み`;
-    $('progress').setAttribute('aria-valuenow',answers.filter(x=>x!==null).length);
-    $('progress-fill').style.width=`${answers.filter(x=>x!==null).length/questions.length*100}%`;
-    $('category').textContent=q.cat;
-    $('question').textContent=q.text;
-    $('choices').replaceChildren();
-    labels.forEach((label,i)=>{
-      const btn=document.createElement('button'); btn.type='button';
-      btn.className='option'+(answers[current]===i?' selected':'');
-      btn.setAttribute('aria-pressed',String(answers[current]===i));
-      btn.innerHTML='<span class="radio-mark" aria-hidden="true"></span><span></span>';
-      btn.lastElementChild.textContent=label;
-      btn.addEventListener('click',()=>{answers[current]=i; renderQuestion();});
-      $('choices').append(btn);
-    });
-    $('back').disabled=current===0;
-    $('back').style.opacity=current===0?'.45':'1';
-    $('next').disabled=answers[current]===null;
-    $('next').innerHTML=current===questions.length-1?'結果を見る <span aria-hidden="true">→</span>':'次へ <span aria-hidden="true">→</span>';
-  }
-  function computeReport() {
-    const groups={feel:[],social:[],action:[]};
-    questions.forEach((q,i)=>groups[q.group].push(q.reverse?3-answers[i]:answers[i]));
-    const mean = arr=>arr.reduce((a,b)=>a+b,0)/arr.length;
-    const pct = arr=>Math.round(mean(arr)/3*100);
-    const dimensions=[
-      {id:'feel',title:'感情・共感の距離感',color:'#7068db',hint:'高いほど、感情的な共鳴や後悔が少ないと回答する傾向'},
-      {id:'social',title:'対人関係での自己優先',color:'#e68b67',hint:'高いほど、自分の目的を優先すると回答する傾向'},
-      {id:'action',title:'衝動性・リスク志向',color:'#37aaa0',hint:'高いほど、衝動的に行動すると回答する傾向'}
-    ];
-    dimensions.forEach(x=>x.value=pct(groups[x.id]));
-    const total=pct(questions.map((q,i)=>q.reverse?3-answers[i]:answers[i]));
-    // App-specific descriptive bands, not clinical cutoffs or population percentiles.
-    let level,description;
-    if(total<26) {level='今回の回答では、該当する傾向は少なめ';description='共感やルールを大切にし、他人の気持ち・行動の結果を考えると回答した項目が比較的多いようです。';}
-    else if(total<56) {level='今回の回答では、一部に特徴がみられる';description='状況によって自分を優先したり、衝動的に判断したりする面があると回答しています。誰にでも起こり得る傾向です。';}
-    else {level='今回の回答では、特徴が比較的多くみられる';description='共感の距離感や対人面の自己優先、衝動性について、該当すると答えた項目が多いようです。これだけで性格や診断名を決めることはできません。';}
-    const sorted=[...dimensions].sort((a,b)=>b.value-a.value);
-    const insight=sorted[0].value===sorted[2].value?'3つの傾向はほぼ同じ程度でした。どの場面で違う反応になるかを振り返ってみると、新しい発見があるかもしれません。':`もっとも数値が高かったのは「${sorted[0].title}」です。ただし、1つの傾向が強いことと、心理的な障害があることは別です。`;
-    return {total,level,description,dimensions,insight};
-  }
-  function showResult() {
-    if(answers.some(x=>x===null)) return;
-    const result=computeReport();
-    $('score').textContent=result.total;
-    $('level').textContent=result.level;
-    $('description').textContent=result.description;
-    const bars=$('bars');bars.replaceChildren();
-    result.dimensions.forEach(d=>{
-      const section=document.createElement('div');section.className='bar-section';
-      const title=document.createElement('div');title.className='bar-title';
-      const name=document.createElement('span');name.textContent=d.title;
-      const output=document.createElement('output');output.textContent=d.value+' / 100';
-      title.append(name,output);
-      const track=document.createElement('div');track.className='bar-track';
-      const fill=document.createElement('span');fill.style.background=d.color;fill.style.width=d.value+'%';track.append(fill);
-      const hint=document.createElement('p');hint.className='bar-note';hint.textContent=d.hint;
-      section.append(title,track,hint);bars.append(section);
-    });
-    $('insight').textContent=result.insight;
-    latestReport=`【サイコパス傾向チェック／娯楽用】\n回答傾向スコア：${result.total}/100\n${result.level}\n${result.dimensions.map(d=>`${d.title}：${d.value}/100`).join('\n')}\n\n※このアプリはオリジナルの自己理解用チェックです。医学的な診断・確率・人口平均との差ではありません。`;
-    $('toast').textContent='';
-    show('result');
-  }
-  $('start').addEventListener('click',()=>{current=0;renderQuestion();show('quiz');});
-  $('back').addEventListener('click',()=>{if(current>0){current--;renderQuestion();}});
-  $('next').addEventListener('click',()=>{if(answers[current]===null)return;if(current===questions.length-1)showResult();else {current++;renderQuestion();}});
-  $('restart').addEventListener('click',()=>{answers=Array(questions.length).fill(null);current=0;latestReport='';show('intro');});
-  $('copy').addEventListener('click',async()=>{
-    try {if(!navigator.clipboard||!window.isSecureContext)throw new Error('clipboard unavailable');await navigator.clipboard.writeText(latestReport);$('toast').textContent='結果をコピーしました。';}
-    catch(e){const el=document.createElement('textarea');el.value=latestReport;el.style.cssText='position:fixed;top:-9999px;left:-9999px';document.body.append(el);el.select();let ok=false;try{ok=document.execCommand('copy');}catch(_){}el.remove();$('toast').textContent=ok?'結果をコピーしました。':'コピーできない場合は、ブラウザで開いてお試しください。';}
-  });
+'use strict';
+// This is a fictional self-reflection game, not a validated clinical test.
+const traits=[
+ {id:'empathy',name:'💛 思いやり',color:'#e9a34b',what:'友達の気持ちの変化に、どう気づくかのこと。',lo:'まず自分のことを進める答えが多めでした。友達の様子も見てみよう。',mid:'自分のことも相手のことも考える答えが混ざっていました。',hi:'困っている人を気にかける答えが多めでした。',type:'気持ちによりそう探検家',emoji:'🌻'},
+ {id:'honesty',name:'🪞 正直さ',color:'#649ac9',what:'失敗したときや拾いものをしたとき、どう伝えるか。',lo:'すぐには伝えない選び方が多めでした。安心して話せる相手を見つけるのもよい方法です。',mid:'場面に合わせて伝え方やタイミングを考えていました。',hi:'正直に話す選び方が多めでした。言い方にも気を配れるとすてきです。',type:'まっすぐメッセンジャー',emoji:'🪞'},
+ {id:'thinking',name:'🧠 考えて動く',color:'#8575d9',what:'動く前に「どうなるかな？」と考えるかどうか。',lo:'すぐ行動する答えが多め。勢いはよい面もあるけれど、安全確認も大切です。',mid:'すぐ動くときと考えるときを使い分けていました。',hi:'行動する前に一度考える答えが多めでした。',type:'じっくり作戦家',emoji:'🧭'},
+ {id:'fairness',name:'⚖️ 公平さ',color:'#4fada4',what:'分け方や順番で、みんなのことをどう考えるか。',lo:'自分や仲のよい人を優先する答えが多めでした。ほかの人の気持ちも想像してみよう。',mid:'自分の希望とみんなの公平さの両方を気にしていました。',hi:'みんなが納得できる分け方を考える答えが多めでした。',type:'フェアプレー名人',emoji:'⚖️'},
+ {id:'rules',name:'📏 ルールを守る',color:'#78a0b8',what:'約束や決まりがあるときにどう行動するか。',lo:'その場の希望を優先する答えが多めでした。安全のための決まりは守ろう。',mid:'決まりと自分の希望を比べて考えていました。',hi:'ルールを大切にする答えが多めでした。',type:'約束を守るガイド',emoji:'🛡️'},
+ {id:'responsibility',name:'🎒 責任感',color:'#d58f75',what:'失敗や忘れものに気づいたときに、どうするか。',lo:'あとで考える答えが多めでした。小さなことからやり直してみるのもおすすめです。',mid:'すぐに直すときと後で動くときがありました。',hi:'自分にできることを考え、直そうとする答えが多めでした。',type:'やり直し上手の冒険家',emoji:'🎒'},
+ {id:'cooperation',name:'🤝 チームワーク',color:'#51a987',what:'友達と意見が違うとき、どう力を合わせるか。',lo:'自分の考えで進める答えが多めでした。役割を分けるのも一つの方法です。',mid:'自分の希望も友達の希望も大切にしようとしていました。',hi:'話し合い、協力する答えが多めでした。',type:'みんなのまとめ役',emoji:'🤝'},
+ {id:'challenge',name:'🚀 チャレンジ好き',color:'#d47c9b',what:'初めてのことやドキドキすることに、どう向き合うか。',lo:'慣れた方法を選ぶ答えが多め。安心して進めるのもよい選択です。',mid:'様子を見ながら新しいことを試す答えが多めでした。',hi:'初めてのことに挑戦する答えが多めでした。安全を確認して楽しもう。',type:'わくわくチャレンジャー',emoji:'🚀'}
+];
+// Questions cycle through 8 styles exactly three times.
+const questions=[
+ ['朝の教室','教室で、モモがいつもより元気がありません。','どうする？',['「大丈夫？」と聞く','あとで様子を見て話しかける','自分の準備を始める','気にせず遊びに行く'],[3,2,1,0]],
+ ['朝の教室','名前のある消しゴムが床に落ちています。','どうする？',['先生や持ち主に渡す','帰りに渡せるように取っておく','机の上に置くだけにする','自分のものにする'],[3,2,1,0]],
+ ['朝の教室','休み時間のチャイム！ 遊びたいけれど、机の上には道具がいっぱい。','どうする？',['すぐ飛び出す','少しだけ片づける','片づけてから遊びに行く','友達が行くならついていく'],[0,1,3,2]],
+ ['公園であそぼう','公園のおやつは4個。でも友達は5人います。','どう分ける？',['相談して決める','小さく分ける方法を探す','仲良しの友達を優先する','自分の分を先に取る'],[3,2,1,0]],
+ ['公園であそぼう','すべり台には列ができています。モモが「先に行こう」と言いました。','どうする？',['順番を待つ','モモにも待とうと伝える','列が短いときだけ割り込む','一緒に割り込む'],[3,2,1,0]],
+ ['公園であそぼう','モモから借りたボールが花だんに入ってしまいました。','どうする？',['事情を話して大人に相談する','モモに先に謝る','しばらく黙って考える','知らないふりをする'],[3,2,1,0]],
+ ['公園であそぼう','チーム戦です。モモは走るのが苦手。ソラは作戦を考えるのが得意です。','役割はどうする？',['みんなの得意を聞いて決める','やりたい役を順番に聞く','自分の好きな役を先に取る','一人で全部決める'],[3,2,1,0]],
+ ['公園であそぼう','ソラが初めての安全な遊びを教えてくれました。ちょっと難しそう。','どうする？',['やり方を聞いて挑戦する','友達を見てからやってみる','今日は見学する','いつもの遊びだけにする'],[3,2,1,0]],
+ ['お昼のハプニング','給食で、ソラの大好きなおかずが売り切れました。しょんぼりしています。','どうする？',['「残念だったね」と言う','近くにいて話を聞く','少し気になるけれど何もしない','自分の話を続ける'],[3,2,1,0]],
+ ['お昼のハプニング','給食当番でコップを落としてしまいました。誰も見ていません。','どうする？',['すぐ先生に伝える','片づけてから先生に話す','聞かれたら話す','誰にも話さない'],[3,2,1,0]],
+ ['お昼のハプニング','新しいゲームが始まります。ルールの説明はまだ途中です。','どうする？',['全部聞いてから始める','分からないところだけ確認する','友達を見て合わせる','すぐ始める'],[3,2,1,0]],
+ ['お昼のハプニング','ゲームは接戦！ あなたのチームが勝ったけど、点数が少しあやしいです。','どうする？',['みんなで点数を確かめる','友達に相談する','勝ちにして終わる','自分だけがよければいい'],[3,2,1,0]],
+ ['お祭りに出発','今夜はお祭り。「危ない近道を使わない」とみんなで約束しました。','どうする？',['約束した安全な道を行く','友達にも約束を伝える','近道を少しのぞく','近道を走る'],[3,2,1,0]],
+ ['お祭りに出発','集合時間を友達に伝える係なのに、うっかり忘れていました。','どうする？',['すぐ連絡して謝る','会ったときに説明する','誰かが連絡すると思う','連絡したことにする'],[3,2,1,0]],
+ ['お祭りに出発','準備で重い箱と小さな袋を運ぶことになりました。','どうする？',['みんなで相談して分担する','まず自分が持てるものを運ぶ','楽なものだけを選ぶ','ほかの人に任せる'],[3,2,1,0]],
+ ['お祭りに出発','初めての工作コーナーがあります。うまくできるか分かりません。','どうする？',['やってみる','説明を聞いてからやってみる','友達の完成を見てから決める','いつもの工作だけにする'],[3,2,1,0]],
+ ['お祭りの夜','輪投げでモモだけ景品が取れませんでした。笑っているけれど少し残念そう。','どうする？',['「どうだった？」と聞く','別の遊びに誘う','自分の景品を見続ける','そのまま先に進む'],[3,2,1,0]],
+ ['お祭りの夜','屋台のおつりが100円多いと気づきました。','どうする？',['すぐ返す','少ししてから返しに行く','聞かれたら返す','そのままもらう'],[3,2,1,0]],
+ ['お祭りの夜','ほしいおもちゃがあります。でも残りのおこづかいは少しだけ。','どうする？',['予算を確認して考える','ほかのお店も見て決める','友達が買うなら買う','すぐ買ってしまう'],[3,2,1,0]],
+ ['お祭りの夜','3人が勝ったゲームの景品は2つだけ。1人だけもらえません。','どうする？',['みんなで相談して決める','じゃんけんで決める','仲よしの子に先に渡す','自分が先にもらう'],[3,2,1,0]],
+ ['帰り道','信号が赤です。車は見えないけれど、友達が「行っちゃおう」と言います。','どうする？',['青まで待つ','友達にも待とうと言う','周りを見て渡ろうとする','すぐ渡る'],[3,2,1,0]],
+ ['帰り道','帰宅してからモモの水筒を間違えて持ち帰ったと気づきました。','どうする？',['家の人に相談して連絡する','明日返せるように準備する','連絡が来たら返す','そのままにしておく'],[3,2,1,0]],
+ ['帰り道','次の日はモモが公園、ソラが図書館に行きたいそうです。あなたも希望があります。','どう決める？',['みんなの希望を聞いて相談する','順番に行く方法を考える','自分の希望を強くすすめる','一人で勝手に行く'],[3,2,1,0]],
+ ['帰り道','町のイベントで「一言発表してみませんか？」と誘われました。','どうする？',['ドキドキしても挑戦する','短い発表ならやってみる','また今度にする','見ているほうがよい'],[3,2,1,0]]
+];
+let answers=Array(questions.length).fill(null);
+let current=0;
+let reportText='';
+const $=id=>document.getElementById(id);
+function show(s){['intro','quiz','result'].forEach(x=>$(x).classList.toggle('hidden',s!==x));window.scrollTo({top:0,behavior:'instant'});}
+function render(){
+ const q=questions[current];
+ const answered=answers.filter(v=>v!==null).length;
+ $('count').textContent='STORY '+String(current+1).padStart(2,'0')+' / '+questions.length;
+ $('percent').textContent=Math.round(answered/questions.length*100)+'% 回答済み';
+ $('progress').setAttribute('aria-valuemax',questions.length);
+ $('progress').setAttribute('aria-valuenow',answered);
+ $('progress-fill').style.width=(answered/questions.length*100)+'%';
+ $('category').textContent='第'+(Math.floor(current/4)+1)+'章 · '+q[0];
+ $('scene').textContent=q[1];
+ $('question').textContent=q[2];
+ $('choices').replaceChildren();
+ q[3].forEach((label,i)=>{
+   const btn=document.createElement('button');
+   btn.type='button';btn.className='option'+(answers[current]===i?' selected':'');
+   btn.setAttribute('aria-pressed',String(answers[current]===i));
+   const dot=document.createElement('span');dot.className='radio-mark';dot.setAttribute('aria-hidden','true');
+   const span=document.createElement('span');span.textContent=label;btn.append(dot,span);
+   btn.addEventListener('click',()=>{answers[current]=i;render();});$('choices').append(btn);
+ });
+ $('back').disabled=current===0;$('back').style.opacity=current===0?'.45':'1';
+ $('next').disabled=answers[current]===null;
+ $('next').textContent=current===questions.length-1?'結果を見る →':'次のお話へ →';
+}
+function getReport(){
+ const results=traits.map((t,j)=>{
+   let points=0;
+   for(let i=j;i<questions.length;i+=traits.length) points+=questions[i][4][answers[i]];
+   const value=Math.round(points/9*100);
+   return {...t,value,read:value<=33?t.lo:value<=66?t.mid:t.hi};
+ });
+ const sorted=[...results].sort((a,b)=>b.value-a.value);
+ return {results,top:sorted[0],second:sorted[1],last:sorted[sorted.length-1]};
+}
+function result(){
+ if(answers.some(v=>v===null))return;
+ const r=getReport();
+ $('type-emoji').textContent=r.top.emoji;
+ $('level').textContent=r.top.type+' タイプ';
+ $('description').textContent='今回の物語では「'+r.top.name+'」を表す選択が多めでした。物語に付けたタイプ名なので、人柄を決めつけるものではありません。';
+ const area=$('bars');area.replaceChildren();
+ r.results.forEach(t=>{
+   const section=document.createElement('section');section.className='trait-card';
+   const head=document.createElement('div');head.className='trait-top';
+   const name=document.createElement('span');name.className='trait-name';name.textContent=t.name;
+   const score=document.createElement('output');score.className='trait-score';score.textContent=t.value+' / 100';
+   head.append(name,score);
+   const bar=document.createElement('div');bar.className='bar-track';
+   const fill=document.createElement('span');fill.style.background=t.color;fill.style.width=t.value+'%';bar.append(fill);
+   const definition=document.createElement('p');definition.className='trait-definition';definition.textContent='これは何？ '+t.what;
+   const meaning=document.createElement('p');meaning.className='trait-meaning';
+   const bold=document.createElement('strong');bold.textContent='今回の結果： ';meaning.append(bold,document.createTextNode(t.read));
+   section.append(head,bar,definition,meaning);area.append(section);
+ });
+ $('insight').textContent='今回の答えでは「'+r.top.name+'」と「'+r.second.name+'」を表す行動を選ぶことが多めでした。場面や気分が変わると、違う答えになることもあります。';
+ $('advice').textContent='「'+r.last.name+'」について、ほかの選び方も考えてみよう。同じお話を友達の目線で考えたらどうなるかな？ 点数が高い・低いだけでは良い悪いは決まりません。';
+ reportText='【こころの冒険・ストーリー行動チェック／娯楽用】\n'+r.top.emoji+' '+r.top.type+' タイプ\n\n'+r.results.map(t=>t.name+' '+t.value+'/100\n'+t.read).join('\n\n')+'\n\n※独自のエンタメ結果です。病気や人柄の判定ではありません。';
+ $('toast').textContent='';show('result');
+}
+$('start').addEventListener('click',()=>{current=0;render();show('quiz');});
+$('back').addEventListener('click',()=>{if(current>0){current--;render();}});
+$('next').addEventListener('click',()=>{if(answers[current]===null)return;if(current===questions.length-1)result();else{current++;render();}});
+$('restart').addEventListener('click',()=>{answers=Array(questions.length).fill(null);current=0;reportText='';show('intro');});
+$('copy').addEventListener('click',async()=>{
+ try{if(!navigator.clipboard||!window.isSecureContext)throw Error('no clipboard');await navigator.clipboard.writeText(reportText);$('toast').textContent='結果をコピーしました。';}
+ catch(e){
+  const el=document.createElement('textarea');el.value=reportText;el.style.cssText='position:fixed;top:-9999px;left:-9999px';document.body.append(el);el.select();
+  let ok=false;try{ok=document.execCommand('copy');}catch(_){}
+  el.remove();$('toast').textContent=ok?'結果をコピーしました。':'コピーできないときは、ブラウザで開いてください。';
+ }
+});
 </script>
 </body>
 </html>
