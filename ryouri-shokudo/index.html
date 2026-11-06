@@ -260,20 +260,26 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
   padding: 10px 18px; border-radius: 999px; font-size: 15px; z-index: 30; opacity: 0; transition: opacity .25s; pointer-events: none; white-space: nowrap; }
 .toast.on { opacity: 1; }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; } }
-/* 絵文字とイラストを切り替えても操作サイズを維持 */
+/* 素材イラストを大きく見せる。料理SVGは元のサイズで表示する。 */
 .illust-img{display:block;object-fit:contain;flex-shrink:0}
-.logo-plate .logo-art{width:116px;height:100px;object-fit:contain}
-.ingredient-art{display:inline-block;width:1.6em;height:1.6em;object-fit:contain;vertical-align:middle}
-.ing .em{display:flex;align-items:center;justify-content:center;min-height:43px}
-.ing .em .ingredient-art{width:42px;height:42px}
-.recipe-chips .ingredient-art,.need .ingredient-art{width:23px;height:23px}
-.item small .ingredient-art{width:21px;height:21px}
-.board .food .ingredient-art{width:100px;height:100px}
-.stove .food .ingredient-art{width:76px;height:76px}
-.bowl-in .ingredient-art{width:38px;height:38px}
-.bit .ingredient-art{width:24px;height:24px}
-.plate-view .base .ingredient-art{width:68px;height:68px}
-.plate-view .bottle .ingredient-art{width:55px;height:55px}
+.ingredient-art{display:inline-block;width:1.7em;height:1.7em;object-fit:contain;vertical-align:middle}
+.ing-grid{gap:6px}
+.ing{aspect-ratio:auto;min-height:96px;padding:5px 2px 4px;font-size:12px;gap:1px}
+.ing .em{display:flex;align-items:center;justify-content:center;width:100%;height:66px;line-height:1}
+.ing .em .ingredient-art{width:min(64px,100%);height:min(64px,100%)}
+.recipe-chips .ingredient-art,.need .ingredient-art{width:30px;height:30px}
+.item small .ingredient-art{width:26px;height:26px}
+.board .food .ingredient-art{width:126px;height:126px}
+.stove .food .ingredient-art{width:94px;height:94px}
+.bowl-in .ingredient-art{width:50px;height:50px}
+.bit .ingredient-art{width:28px;height:28px}
+.plate-view .base .ingredient-art{width:78px;height:78px}
+.plate-view .bottle .ingredient-art{width:65px;height:65px}
+@media(max-width:360px){
+  .ing{min-height:89px}
+  .ing .em{height:58px}
+  .ing .em .ingredient-art{width:min(56px,100%);height:min(56px,100%)}
+}
 .illust-options{display:grid;gap:12px}
 .illust-choice{display:block;width:100%;text-align:left;padding:14px;border-radius:18px;border:2px solid var(--line);background:var(--card);box-shadow:var(--shadow);color:var(--ink);transition:border-color .15s,transform .1s}
 .illust-choice[aria-pressed="true"]{border-color:var(--mint);background:var(--mint-soft)}
@@ -283,7 +289,7 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
 .illust-choice-head .check{margin-left:auto;color:var(--mint)}
 .illust-choice-desc{display:block;color:var(--muted);font-size:13px;line-height:1.55;margin-top:4px}
 .illust-preview{display:flex;justify-content:center;align-items:center;gap:18px;min-height:86px;margin-top:8px}
-.illust-preview .choice-dish{width:110px;height:84px;object-fit:contain}
+.illust-preview{font-size:48px}.illust-preview .material-sample{display:inline-flex;align-items:center;justify-content:center;width:70px;height:74px}.illust-preview .ingredient-art{width:68px;height:68px}
 .illust-note{font-size:13px;font-weight:500;line-height:1.6;color:var(--muted);margin:0}
 </style>
 </head>
@@ -375,9 +381,9 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
       <button class="icon-btn" data-back aria-label="もどる">←</button>
       <h2>⚙️ せってい</h2>
     </div>
-    <p class="hint" style="margin:0;color:var(--muted);font-weight:500">おりょうりの絵をえらんでね。設定は自動で保存されるよ。</p>
+    <p class="hint" style="margin:0;color:var(--muted);font-weight:500">ざいりょうの絵をえらんでね。選んだ設定は自動で保存されるよ。</p>
     <div class="illust-options" id="illust-options" role="group" aria-label="料理のイラスト"></div>
-    <p class="illust-note">※ セット2にない料理と材料は、セット1のイラストで表示します。</p>
+    <p class="illust-note">※ 完成した料理の絵は変わりません。セット2には素材専用のイラストがまだないため、現在の切り替え対象から外しています。</p>
     <button class="btn wide ghost" id="b-settings-done">← タイトルにもどる</button>
   </section>
 </div>
@@ -480,17 +486,14 @@ const RECIPES = [
     { t: 'pour', chip: 'そそぐ', title: 'スープを そそごう', base: '🍝', bottle: '🥣', color: '#E3B04B' } ] }
 ];
 const RID = Object.fromEntries(RECIPES.map(r => [r.id, r]));
-// セット1は全料理/材料の色鉛筆風。セット2は対応する3品だけツヤツヤ画像に切り替える。
-const ILLUST_MODES = ['set1', 'set2', 'original'];
-const GLOSSY_DISH = { medamayaki:'assets/glossy/05_fried_egg_pan.png', curry:'assets/glossy/02_curry_rice.png', ramen:'assets/glossy/09_ramen_bowl.png' };
+// 素材イラスト：セット1（色鉛筆風）が初期設定。素材画像のないセット2は選択不可。
+const ILLUST_MODES = ['set1', 'original'];
 const ING_BY_EMOJI = Object.fromEntries(Object.entries(ING).map(([name,emoji]) => [emoji,name]));
 const imgHTML = (src, cls) => '<img class="' + cls + ' illust-img" src="' + src + '" alt="" decoding="async" draggable="false">';
-const ingredientMark = name => save.illustration === 'original' ? ING[name] :
+const ingredientMark = (name, style = save.illustration) => style === 'original' ? ING[name] :
   imgHTML('assets/kids/ingredients/' + encodeURIComponent(name) + '.png', 'ingredient-art');
 const foodMark = emoji => {
   if (save.illustration === 'original') return emoji;
-  if (emoji === '🍳') return dishSVG('medamayaki', 'ingredient-art');
-  if (emoji === '🥞') return dishSVG('pancake', 'ingredient-art');
   const name = ING_BY_EMOJI[emoji];
   return name ? ingredientMark(name) : emoji;
 };
@@ -514,11 +517,9 @@ const DISH = {
   hamburg: PLATE + '<ellipse cx="54" cy="50" rx="29" ry="14" fill="#5F3219"/><ellipse cx="54" cy="46" rx="27" ry="12" fill="#86461F"/><path d="M33 44 Q54 33 75 44 Q70 52 54 52 Q38 52 33 44Z" fill="#4A1E0C" opacity=".9"/><circle cx="88" cy="46" r="6" fill="#3D9A4A"/><circle cx="94" cy="51" r="5" fill="#3D9A4A"/><path d="M82 58 L96 55 L94 61 Z" fill="#F08A24"/>',
   ramen: BOWL('#E7B75A') + '<path d="M28 40 Q34 34 40 40 T52 40 T64 40 T76 40 T88 40" fill="none" stroke="#F8E39A" stroke-width="3"/><path d="M32 46 Q38 40 44 46 T56 46 T68 46" fill="none" stroke="#F8E39A" stroke-width="3"/><circle cx="76" cy="38" r="9" fill="#E8B08A" stroke="#B5703F" stroke-width="2"/><ellipse cx="46" cy="34" rx="8" ry="6" fill="#FFFFFF"/><circle cx="46" cy="34" r="3.5" fill="#F2A91B"/><circle cx="60" cy="44" r="2.4" fill="#4C9A3C"/><circle cx="88" cy="45" r="2.4" fill="#4C9A3C"/><rect x="58" y="30" width="5" height="10" fill="#2A3A2E"/>'
 };
-const dishSVG = (id, cls, style = save.illustration) => {
-  if (style === 'original') return '<svg class="' + (cls || '') + '" viewBox="0 0 120 90" aria-hidden="true">' + DISH[id] + '</svg>';
-  const src = style === 'set2' && GLOSSY_DISH[id] ? GLOSSY_DISH[id] : 'assets/kids/dishes/' + id + '.png';
-  return imgHTML(src, cls || '');
-};
+// 完成料理は従来の大きなSVGを表示。素材設定で変更しない。
+const dishSVG = (id, cls) =>
+  '<svg class="' + (cls || '') + '" viewBox="0 0 120 90" aria-hidden="true">' + DISH[id] + '</svg>';
 
 /* ---------- セーブ ---------- */
 // iPhone の Safari は user-scalable=no を無視するので、ダブルタップ・ピンチの拡大をここで止める
@@ -583,21 +584,20 @@ function renderTitle() {
   $('#t-day').textContent = save.day + '日目';
   $('#t-money').innerHTML = '💰 <span>' + yen(save.money) + '</span>';
   $('#b-sound').textContent = save.sound ? '🔊' : '🔇';
-  $('#t-logo').innerHTML = dishSVG('medamayaki', 'logo-art');
+  $('#t-logo').textContent = '🍳';
 }
 
 /* ---------- イラスト設定 ---------- */
 function renderSettings() {
   const options = [
-    { id:'set1', name:'イラストセット1', desc:'子ども向け・色鉛筆風（初期設定）' },
-    { id:'set2', name:'イラストセット2', desc:'ツヤツヤしたイラスト風' },
-    { id:'original', name:'もとの絵文字', desc:'これまでの絵文字とシンプルな料理の絵' }
+    { id:'set1', name:'イラストセット1', desc:'素材のかわいい色鉛筆風（初期設定）' },
+    { id:'original', name:'もとの絵文字', desc:'材料を元の絵文字で表示' }
   ];
   $('#illust-options').innerHTML = options.map(o =>
     '<button type="button" class="illust-choice" data-illust="' + o.id + '" aria-pressed="' + (save.illustration === o.id) + '">' +
     '<span class="illust-choice-head">' + o.name + (save.illustration === o.id ? '<span class="check">✓ せんたく中</span>' : '') + '</span>' +
     '<span class="illust-choice-desc">' + o.desc + '</span>' +
-    '<span class="illust-preview">' + dishSVG('curry', 'choice-dish', o.id) + dishSVG('ramen', 'choice-dish', o.id) + '</span></button>'
+    '<span class="illust-preview">' + ['にんじん','たまご','じゃがいも'].map(x => '<span class="material-sample">' + ingredientMark(x,o.id) + '</span>').join('') + '</span></button>'
   ).join('');
   $('#illust-options').querySelectorAll('[data-illust]').forEach(btn => btn.onclick = () => {
     save.illustration = btn.dataset.illust;
