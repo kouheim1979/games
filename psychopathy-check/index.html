@@ -134,7 +134,7 @@
     {cat:'対人スタイル', text:'自分の失敗を、つい他人のせいにしてしまうことがある。', reverse:false, group:'social'},
     {cat:'行動・衝動性', text:'決められたルールは、自分にメリットがなくても守ろうとする。', reverse:true, group:'action'}
   ];
-  const labels = ['まったく当てはまらない','あまり当てはまらない','どちらともいえない','やや当てはまる','とても当てはまる'];
+  const labels = ['まったく当てはまらない','あまり当てはまらない','やや当てはまる','とても当てはまる'];
   let answers = Array(questions.length).fill(null);
   let current = 0;
   let latestReport = '';
@@ -168,16 +168,16 @@
   }
   function computeReport() {
     const groups={feel:[],social:[],action:[]};
-    questions.forEach((q,i)=>groups[q.group].push(q.reverse?4-answers[i]:answers[i]));
+    questions.forEach((q,i)=>groups[q.group].push(q.reverse?3-answers[i]:answers[i]));
     const mean = arr=>arr.reduce((a,b)=>a+b,0)/arr.length;
-    const pct = arr=>Math.round(mean(arr)/4*100);
+    const pct = arr=>Math.round(mean(arr)/3*100);
     const dimensions=[
       {id:'feel',title:'感情・共感の距離感',color:'#7068db',hint:'高いほど、感情的な共鳴や後悔が少ないと回答する傾向'},
       {id:'social',title:'対人関係での自己優先',color:'#e68b67',hint:'高いほど、自分の目的を優先すると回答する傾向'},
       {id:'action',title:'衝動性・リスク志向',color:'#37aaa0',hint:'高いほど、衝動的に行動すると回答する傾向'}
     ];
     dimensions.forEach(x=>x.value=pct(groups[x.id]));
-    const total=pct(questions.map((q,i)=>q.reverse?4-answers[i]:answers[i]));
+    const total=pct(questions.map((q,i)=>q.reverse?3-answers[i]:answers[i]));
     // App-specific descriptive bands, not clinical cutoffs or population percentiles.
     let level,description;
     if(total<26) {level='今回の回答では、該当する傾向は少なめ';description='共感やルールを大切にし、他人の気持ち・行動の結果を考えると回答した項目が比較的多いようです。';}
