@@ -120,7 +120,7 @@ def build():
         for c in catalog)
     hub = (SRC / 'hub.html').read_text(encoding='utf-8').replace('{{COUNT}}', str(len(catalog))).replace('{{CARDS}}', cards)
     (TOOLS / 'index.html').write_text(hub, encoding='utf-8')
-    return not failed and len(catalog) == 10
+    return not failed and len(catalog) == 12
 
 
 if __name__ == '__main__':

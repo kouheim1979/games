@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#fff6ec">
+<meta name="description" content="8問に答えて、あなたを犬にたとえると何犬かがわかる無料の遊び診断。柴犬・ゴールデン・トイプードル・ボーダーコリー・チワワ・ハスキーの6タイプ。">
+<title>もしも犬だったら？ 犬種診断｜診断パーク</title>
+<style>
+:root{--ink:#1f2140;--muted:#5a5f7d;--paper:#fff;--accent:#b5651d;--accent2:#ffe2c4;--bg:#fff6ec;--shadow:5px 6px 0 var(--ink)}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;min-height:100dvh;color:var(--ink);line-height:1.65;background:var(--bg);
+  background-image:radial-gradient(rgba(31,33,64,.13) 1.3px,transparent 1.3px);background-size:24px 24px;
+  font-family:"Hiragino Maru Gothic ProN","Hiragino Kaku Gothic ProN","Noto Sans JP",Meiryo,sans-serif}
+button{font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
+button:focus-visible,a:focus-visible{outline:4px solid #3f6bff;outline-offset:3px}
+.shell{width:min(100% - 32px,640px);margin:0 auto;padding:18px 0 max(40px,env(safe-area-inset-bottom))}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:18px}
+.back{font-size:13px;font-weight:800;color:var(--ink);text-decoration:none;background:var(--paper);border:2.5px solid var(--ink);border-radius:999px;padding:6px 12px;box-shadow:3px 3px 0 var(--ink)}
+.chip{font-size:11px;font-weight:900;background:var(--accent2);border:2px solid var(--ink);border-radius:999px;padding:5px 10px;white-space:nowrap}
+.card{background:var(--paper);border:3px solid var(--ink);border-radius:22px;box-shadow:var(--shadow);padding:24px 20px}
+.hero{text-align:center}
+.big{font-size:64px;line-height:1.1;display:inline-grid;place-items:center;width:104px;height:104px;border-radius:28px;background:var(--accent2);border:3px solid var(--ink);box-shadow:4px 4px 0 var(--ink);transform:rotate(-5deg);margin:4px 0 14px}
+h1{font-size:clamp(24px,6.4vw,32px);line-height:1.3;margin:0 0 10px;letter-spacing:.02em}
+.lead{color:var(--muted);margin:0 0 20px;font-size:15px}
+.meta{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:22px}
+.meta span{font-size:12px;font-weight:800;border:2px dashed var(--ink);border-radius:999px;padding:4px 10px}
+.btn{display:block;width:100%;border:3px solid var(--ink);border-radius:16px;background:var(--accent);color:#fff;font-weight:900;font-size:18px;padding:15px;box-shadow:4px 4px 0 var(--ink);text-shadow:0 1px 0 rgba(0,0,0,.2)}
+.btn.sub{background:var(--paper);color:var(--ink);font-size:15px;padding:12px;text-shadow:none}
+.btn:active,.opt:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--ink)}
+.last{margin-top:14px;font-size:13px;color:var(--muted)}
+.bar{height:14px;border:2.5px solid var(--ink);border-radius:999px;background:var(--paper);overflow:hidden;margin:4px 0 10px}
+.bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .3s ease}
+.qhead{display:flex;justify-content:space-between;align-items:center;font-weight:900;font-size:13px;margin-bottom:6px}
+.undo{background:none;border:0;font-size:13px;font-weight:800;color:var(--muted);padding:4px 0;text-decoration:underline}
+.undo:disabled{visibility:hidden}
+.q{font-size:clamp(19px,5vw,23px);line-height:1.45;margin:6px 0 18px}
+.opts{display:grid;gap:11px}
+.opt{text-align:left;background:var(--paper);border:3px solid var(--ink);border-radius:15px;padding:13px 14px;font-size:16px;font-weight:700;box-shadow:3px 3px 0 var(--ink);display:flex;gap:11px;align-items:center}
+.opt b{flex:none;display:grid;place-items:center;width:30px;height:30px;border-radius:9px;background:var(--accent2);border:2px solid var(--ink);font-size:14px}
+@media (hover:hover){.opt:hover{background:#fffbe8}}
+.fade{animation:fade .28s ease}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.rlabel{font-size:13px;font-weight:900;color:var(--muted);margin:0}
+.rname{font-size:clamp(26px,7vw,34px);margin:4px 0 6px;line-height:1.25}
+.catch{display:inline-block;background:var(--accent2);border:2px solid var(--ink);border-radius:10px;padding:3px 10px;font-weight:900;font-size:14px;margin-bottom:14px}
+.desc{text-align:left;margin:0 0 16px}
+.box{text-align:left;border:2.5px solid var(--ink);border-radius:14px;padding:12px 14px;margin:12px 0;background:#fffdf6}
+.box h2{font-size:14px;margin:0 0 6px}
+.box ul{margin:0;padding-left:1.2em}
+.box p{margin:0}
+.scores{display:grid;gap:7px;margin-top:4px}
+.srow{display:grid;grid-template-columns:7.5em 1fr 2.6em;align-items:center;gap:8px;font-size:13px;font-weight:700}
+.srow .sb{height:10px;border-radius:99px;background:#eee;border:1.5px solid var(--ink);overflow:hidden}
+.srow .sb i{display:block;height:100%;background:var(--accent)}
+.srow span:last-child{text-align:right}
+.actions{display:grid;gap:10px;margin-top:18px}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 16px;border-radius:12px;font-size:14px;font-weight:700;opacity:0;pointer-events:none;transition:opacity .2s}
+.toast.on{opacity:1}
+.note{font-size:12px;color:var(--muted);text-align:center;margin:18px 4px 0}
+[hidden]{display:none!important}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="top"><a class="back" href="../">← 診断パーク</a><span class="chip">どうぶつ</span></div>
+
+  <section id="start" class="card hero fade">
+    <div class="big" aria-hidden="true">🐶</div>
+    <h1>もしも犬だったら？ 犬種診断</h1>
+    <p class="lead">もしあなたが犬に生まれたら、どの犬種になる？ 8問で、柴犬からハスキーまで6つの犬種から診断します。</p>
+    <div class="meta"><span id="qcount"></span><span>約1分</span><span>登録なし</span></div>
+    <button class="btn" id="go" type="button">診断スタート</button>
+    <p class="last" id="last" hidden></p>
+  </section>
+
+  <section id="quiz" class="card" hidden>
+    <div class="qhead"><span id="qnum"></span><button class="undo" id="undo" type="button">← ひとつ戻る</button></div>
+    <div class="bar" role="progressbar" aria-valuemin="0" id="bar"><i></i></div>
+    <div id="qwrap"><h2 class="q" id="q"></h2><div class="opts" id="opts"></div></div>
+  </section>
+
+  <section id="result" class="card hero" hidden aria-live="polite">
+    <p class="rlabel">あなたは…</p>
+    <div class="big" id="remoji" aria-hidden="true"></div>
+    <h2 class="rname" id="rname"></h2>
+    <div class="catch" id="rcatch"></div>
+    <p class="desc" id="rdesc"></p>
+    <div class="box"><h2>✨ いいところ</h2><ul id="rgood"></ul></div>
+    <div class="box"><h2>💡 ひとことアドバイス</h2><p id="rtip"></p></div>
+    <div class="box"><h2>🤝 相性のいいタイプ</h2><p id="rmatch"></p></div>
+    <div class="box"><h2>📊 タイプの内訳</h2><div class="scores" id="rscores"></div></div>
+    <div class="actions">
+      <button class="btn" id="share" type="button">結果をシェア</button>
+      <button class="btn sub" id="again" type="button">もう一度やる</button>
+      <a class="btn sub" href="../" style="text-align:center;text-decoration:none">診断パークでほかの診断をやる</a>
+    </div>
+  </section>
+
+  <p class="note">※ 遊びの診断です。結果は性格や能力を判定するものではありません。回答はこの端末の中だけで使い、送信しません。</p>
+</div>
+<div class="toast" id="toast" role="status"></div>
+<script>
+const DATA = {"id": "inu", "title": "もしも犬だったら？ 犬種診断", "types": {"shiba": {"emoji": "🐕", "name": "柴犬タイプ", "short": "柴犬", "catch": "自分の道をゆく、クールで一途な和の犬", "match": "golden", "desc": "マイペースで、自分の世界やこだわりを大切にするタイプ。なれなれしいのは少し苦手ですが、一度心を開いた相手にはとことん一途。口数は少なくても、ちゃんと仲間を見ています。", "good": ["ぶれない", "一途で誠実", "ひとりでもへっちゃら"], "tip": "たまには自分から「ありがとう」をしっぽで伝えてみよう。"}, "golden": {"emoji": "🦮", "name": "ゴールデン・レトリバータイプ", "short": "ゴールデン", "catch": "だれとでも仲よし、やさしさのかたまり", "match": "shiba", "desc": "おおらかで人なつこく、だれにでもやさしくできるタイプ。そばにいるだけで相手をほっとさせる、天性のいやし系です。人の役に立てるとうれしくて、しっぽが止まりません。", "good": ["やさしい", "人なつこい", "包容力がある"], "tip": "人のために動きすぎてつかれたら、ひなたぼっこで休もう。"}, "poodle": {"emoji": "🐩", "name": "トイプードルタイプ", "short": "トイプードル", "catch": "かしこくておしゃれ、注目の的", "match": "border", "desc": "頭の回転が速く、センスのよさも光るタイプ。明るくて表情ゆたかなので、自然とまわりの注目を集めます。新しいことを覚えるのも得意で、どこへ行っても人気者です。", "good": ["センスがいい", "かしこい", "華やか"], "tip": "見た目だけでなく、がんばった中身もどんどんアピールしよう。"}, "border": {"emoji": "🐕‍🦺", "name": "ボーダーコリータイプ", "short": "ボーダーコリー", "catch": "考えて動く、頼れる作戦リーダー", "match": "poodle", "desc": "状況をすばやく読み取り、どう動けばうまくいくかを考えられる頭脳派タイプ。やるべきことがあると生き生きします。みんなを上手にまとめる、チームの司令塔です。", "good": ["判断が速い", "働き者", "まとめ役が得意"], "tip": "ひまな時間もたまには「何もしない」を楽しんでみよう。"}, "chihuahua": {"emoji": "🐶", "name": "チワワタイプ", "short": "チワワ", "catch": "小さな体に大きな勇気、家族思いの守り神", "match": "husky", "desc": "繊細でまわりの変化によく気づくタイプ。人見知りなところもありますが、大切な人のためなら体の大きさなんて関係なく立ち向かえる勇気の持ち主です。家族や仲間をだれよりも大事にします。", "good": ["気配り上手", "勇気がある", "家族思い"], "tip": "こわいときは、信頼できる人のそばで深呼吸しよう。"}, "husky": {"emoji": "🐺", "name": "シベリアン・ハスキータイプ", "short": "ハスキー", "catch": "どこまでも走る、自由な冒険家", "match": "chihuahua", "desc": "体力も好奇心もたっぷりの、元気な冒険家タイプ。知らない場所やはじめての遊びにワクワクし、思い立ったらすぐに走り出します。少しやんちゃでも、その自由さがみんなを笑顔にします。", "good": ["行動力がある", "好奇心旺盛", "ムードを明るくする"], "tip": "走り出す前に、仲間がついてきているかちらっと振り返ろう。"}}, "questions": [{"q": "休みの日の過ごし方は？", "a": [{"t": "一日中、外をかけ回りたい", "p": ["husky"]}, {"t": "家族や友だちとのんびり過ごす", "p": ["golden"]}, {"t": "家で自分の好きなことに没頭する", "p": ["shiba"]}, {"t": "おしゃれして街へおでかけ", "p": ["poodle"]}]}, {"q": "初めて会う人には？", "a": [{"t": "すぐ笑顔で話しかける", "p": ["golden", "poodle"]}, {"t": "しばらく様子を見てから心を開く", "p": ["shiba", "chihuahua"]}, {"t": "どんな人か気になって質問する", "p": ["border"]}, {"t": "気が合えばすぐ一緒に遊びに行く", "p": ["husky"]}]}, {"q": "何かを覚えるときは？", "a": [{"t": "手順を考えて効率よく覚える", "p": ["border"]}, {"t": "見た目やかっこよさから入る", "p": ["poodle"]}, {"t": "自分のやり方でコツコツ続ける", "p": ["shiba"]}, {"t": "体を動かしながら覚える", "p": ["husky"]}]}, {"q": "大切な人がピンチ！ どうする？", "a": [{"t": "相手が強そうでも立ち向かう", "p": ["chihuahua"]}, {"t": "そばにいてずっと励ます", "p": ["golden"]}, {"t": "解決策を考えてすぐ動く", "p": ["border"]}, {"t": "黙って手伝い、恩は語らない", "p": ["shiba"]}]}, {"q": "グループでのあなたの役割は？", "a": [{"t": "まとめ役・作戦係", "p": ["border"]}, {"t": "ムードメーカー", "p": ["poodle", "golden"]}, {"t": "新しい場所を切り開く切り込み隊長", "p": ["husky"]}, {"t": "仲間を守る見張り番", "p": ["chihuahua"]}]}, {"q": "どちらかというと苦手なのは？", "a": [{"t": "大きな音や急な予定変更", "p": ["chihuahua"]}, {"t": "何もすることがないひまな時間", "p": ["border", "husky"]}, {"t": "べたべたしすぎる付き合い", "p": ["shiba"]}, {"t": "ひとりぼっちの時間", "p": ["golden"]}]}, {"q": "まわりからよく言われるのは？", "a": [{"t": "「センスいいね」", "p": ["poodle"]}, {"t": "「家族思いだね」", "p": ["chihuahua"]}, {"t": "「元気すぎ！」", "p": ["husky"]}, {"t": "「いい人だね」", "p": ["golden"]}]}, {"q": "理想のお散歩コースは？", "a": [{"t": "知らない道をどんどん進む冒険コース", "p": ["husky"]}, {"t": "いつもの決まった安心の道", "p": ["shiba", "chihuahua"]}, {"t": "おしゃれなカフェがある並木道", "p": ["poodle"]}, {"t": "広い公園でボール遊び", "p": ["border", "golden"]}]}]};
+(function(){
+  'use strict';
+  const $ = id => document.getElementById(id);
+  const KEY = 'shindan:' + DATA.id;
+  const types = DATA.types, order = Object.keys(types);
+  let idx = 0, picks = [];
+  const store = {
+    get(){ try { return JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) { return null; } },
+    set(v){ try { localStorage.setItem(KEY, JSON.stringify(v)); } catch (e) {} }
+  };
+  const show = id => { for (const s of ['start','quiz','result']) $(s).hidden = s !== id; window.scrollTo(0, 0); };
+  $('qcount').textContent = '全' + DATA.questions.length + '問';
+  const prev = store.get();
+  if (prev && types[prev.type]) {
+    $('last').hidden = false;
+    $('last').textContent = '前回の結果：' + types[prev.type].emoji + ' ' + types[prev.type].name;
+  }
+  function shuffle(a){ for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+  let shuffled = [];
+  function render(){
+    const q = DATA.questions[idx], n = DATA.questions.length;
+    $('qnum').textContent = 'Q' + (idx + 1) + ' / ' + n;
+    $('bar').firstElementChild.style.width = (idx / n * 100) + '%';
+    $('bar').setAttribute('aria-valuemax', n); $('bar').setAttribute('aria-valuenow', idx);
+    $('undo').disabled = idx === 0;
+    $('q').textContent = q.q;
+    const box = $('opts'); box.textContent = '';
+    shuffled[idx] = shuffled[idx] || shuffle(q.a.map((_, i) => i));
+    shuffled[idx].forEach((oi, k) => {
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'opt';
+      const tag = document.createElement('b'); tag.textContent = 'ABCD'[k]; tag.setAttribute('aria-hidden', 'true');
+      const t = document.createElement('span'); t.textContent = q.a[oi].t;
+      b.append(tag, t);
+      b.addEventListener('click', () => choose(oi));
+      box.append(b);
+    });
+    const w = $('qwrap'); w.classList.remove('fade'); void w.offsetWidth; w.classList.add('fade');
+  }
+  function choose(oi){
+    picks[idx] = oi; idx++;
+    if (idx >= DATA.questions.length) finish(); else render();
+  }
+  function tally(){
+    const s = Object.fromEntries(order.map(k => [k, 0]));
+    picks.forEach((oi, qi) => { for (const k of DATA.questions[qi].a[oi].p) s[k] += 1; });
+    return s;
+  }
+  function finish(){
+    const s = tally();
+    const max = Math.max(...Object.values(s));
+    const top = order.filter(k => s[k] === max);
+    // Tie: the type chosen most recently wins, so the final answers decide.
+    let type = top[0];
+    for (let qi = picks.length - 1; qi >= 0 && top.length > 1; qi--) {
+      const hit = DATA.questions[qi].a[picks[qi]].p.find(k => top.includes(k));
+      if (hit) { type = hit; break; }
+    }
+    store.set({ type, at: Date.now() });
+    const r = types[type];
+    $('remoji').textContent = r.emoji; $('rname').textContent = r.name; $('rcatch').textContent = r.catch;
+    $('rdesc').textContent = r.desc; $('rtip').textContent = r.tip;
+    $('rgood').textContent = '';
+    for (const g of r.good) { const li = document.createElement('li'); li.textContent = g; $('rgood').append(li); }
+    const m = types[r.match]; $('rmatch').textContent = m.emoji + ' ' + m.name + '　— ' + m.catch;
+    const total = Object.values(s).reduce((a, b) => a + b, 0) || 1;
+    $('rscores').textContent = '';
+    for (const k of [...order].sort((a, b) => s[b] - s[a])) {
+      const row = document.createElement('div'); row.className = 'srow';
+      const pct = Math.round(s[k] / total * 100);
+      const a = document.createElement('span'); a.textContent = types[k].emoji + ' ' + types[k].short;
+      const bar = document.createElement('div'); bar.className = 'sb'; const fill = document.createElement('i'); fill.style.width = pct + '%'; bar.append(fill);
+      const c = document.createElement('span'); c.textContent = pct + '%';
+      row.append(a, bar, c); $('rscores').append(row);
+    }
+    show('result');
+  }
+  function start(){ idx = 0; picks = []; shuffled = []; show('quiz'); render(); }
+  function toast(msg){ const t = $('toast'); t.textContent = msg; t.classList.add('on'); setTimeout(() => t.classList.remove('on'), 1800); }
+  $('go').addEventListener('click', start);
+  $('again').addEventListener('click', start);
+  $('undo').addEventListener('click', () => { if (idx > 0) { idx--; picks.length = idx; render(); } });
+  $('share').addEventListener('click', async () => {
+    const r = types[store.get().type];
+    const text = '【診断パーク／' + DATA.title + '】わたしは「' + r.emoji + ' ' + r.name + '」でした！ ' + r.catch;
+    const url = location.href.split('#')[0].split('?')[0];
+    if (navigator.share) { try { await navigator.share({ title: DATA.title, text, url }); return; } catch (e) { if (e && e.name === 'AbortError') return; } }
+    try { await navigator.clipboard.writeText(text + ' ' + url); toast('結果をコピーしました'); }
+    catch (e) { prompt('コピーしてシェアしてください', text + ' ' + url); }
+  });
+})();
+</script>
+</body>
+</html>
