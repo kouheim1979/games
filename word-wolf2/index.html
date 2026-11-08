@@ -556,7 +556,7 @@ var BUILTIN_PAIRS=[];
    LOCAL STORAGE キー
 ════════════════════════ */
 var LS_NAMES    = 'ww_names';
-var LS_PAIRS    = 'ww_pairs';
+var LS_PAIRS    = 'ww2_pairs';  /* v1(word-wolf)は ww_pairs にオブジェクト形式で保存するため別キーにする */
 var LS_REVERSAL = 'ww_reversal';
 var LS_HINT     = 'ww_hint';
 var LS_TIMER    = 'ww_timer';
@@ -564,6 +564,25 @@ var LS_WOLF_CNT = 'ww_wolf_count';
 
 function lsGet(k,def){ try{ var v=localStorage.getItem(k); return v!==null?JSON.parse(v):def; }catch(e){ return def; } }
 function lsSet(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
+/* ペアを ["A","B"] 形式にそろえる。v1形式 {citizen,wolf} も受け付け、空のペアは null */
+function normPair(p){
+  var a,b;
+  if(Array.isArray(p)){ a=p[0]; b=p[1]; }
+  else if(p && typeof p==='object'){ a=p.citizen!=null?p.citizen:p[0]; b=p.wolf!=null?p.wolf:p[1]; }
+  else return null;
+  a=String(a==null?'':a).trim(); b=String(b==null?'':b).trim();
+  return (a&&b)?[a,b]:null;
+}
+function normPairs(list){
+  var out=[]; if(!Array.isArray(list)) return out;
+  for(var i=0;i<list.length;i++){ var q=normPair(list[i]); if(q) out.push(q); }
+  return out;
+}
+/* ゲームで使えるペア一覧（空・壊れたペアを除外） */
+function playablePairs(){
+  var ps=normPairs(S.wordPairs);
+  return ps.length>0?ps:BUILTIN_PAIRS;
+}
 
 /* ════════════════════════
    STATE
@@ -610,7 +629,7 @@ function loadOneJSON(filename){
         if(data.categories){
           for(var i=0;i<data.categories.length;i++){
             var cat = data.categories[i];
-            if(cat.pairs) for(var j=0;j<cat.pairs.length;j++) pairs.push(cat.pairs[j]);
+            if(cat.pairs) for(var j=0;j<cat.pairs.length;j++){ var np=normPair(cat.pairs[j]); if(np) pairs.push(np); }
           }
         }
         if(pairs.length > 0) jsonLoaded[filename] = pairs;
@@ -634,6 +653,7 @@ function mergeLoadedJSON(){
   /* localStorageに保存済みの編集内容がある場合：
      編集済みペアを優先し、JSONにしかない新規ペアを末尾に追加 */
   var lsPairs = lsGet(LS_PAIRS, null);
+  lsPairs = lsPairs===null ? null : normPairs(lsPairs);
   if(lsPairs !== null && lsPairs.length > 0){
     var base = lsPairs.slice();
     for(var k=0;k<allFromJSON.length;k++){
@@ -923,7 +943,7 @@ function startGame(){
   S.playerCount=S.playerNames.length;
   lsSet(LS_NAMES,S.playerNames);
 
-  var pairs=S.wordPairs.length>0?S.wordPairs:BUILTIN_PAIRS;
+  var pairs=playablePairs();
   var pair=pairs[Math.floor(Math.random()*pairs.length)];
   if(Math.random()<0.5){S.citizenWord=pair[0];S.wolfWord=pair[1];}
   else{S.citizenWord=pair[1];S.wolfWord=pair[0];}
@@ -995,6 +1015,11 @@ function onDealPrimaryAction(){
 
 function openOverlay(idx){
   var word=S.roles[idx]==='wolf'?S.wolfWord:S.citizenWord;
+  if(!word){ /* 念のため：お題が空なら引き直す */
+    var pr=playablePairs(), pk=pr[Math.floor(Math.random()*pr.length)];
+    if(pk && Math.random()<0.5){S.citizenWord=pk[0];S.wolfWord=pk[1];}else if(pk){S.citizenWord=pk[1];S.wolfWord=pk[0];}
+    word=S.roles[idx]==='wolf'?S.wolfWord:S.citizenWord;
+  }
   var roleHintEl=document.getElementById('overlay-role');
   document.getElementById('overlay-name').textContent=S.playerNames[idx];
   document.getElementById('overlay-word').textContent=word;
@@ -1223,7 +1248,7 @@ function redealFromOverlay(){
    同じお題が連続しないよう除外して選ぶ
 ════════════════════════ */
 function redealGame(){
-  var pairs=S.wordPairs.length>0?S.wordPairs:BUILTIN_PAIRS;
+  var pairs=playablePairs();
   var candidates=[];
   for(var i=0;i<pairs.length;i++){
     var p=pairs[i];
