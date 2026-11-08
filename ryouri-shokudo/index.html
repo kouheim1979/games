@@ -292,6 +292,7 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
 .illust-preview{font-size:48px}.illust-preview .material-sample{display:inline-flex;align-items:center;justify-content:center;width:70px;height:74px}.illust-preview .ingredient-art{width:68px;height:68px}
 .illust-note{font-size:13px;font-weight:500;line-height:1.6;color:var(--muted);margin:0}
 </style>
+<script src="ingredients-reviewed.js?v=20261108"></script>
 </head>
 <body>
 <div class="app">
@@ -491,7 +492,7 @@ const ILLUST_MODES = ['set1', 'original'];
 const ING_BY_EMOJI = Object.fromEntries(Object.entries(ING).map(([name,emoji]) => [emoji,name]));
 const imgHTML = (src, cls) => '<img class="' + cls + ' illust-img" src="' + src + '" alt="" decoding="async" draggable="false">';
 const ingredientMark = (name, style = save.illustration) => style === 'original' ? ING[name] :
-  imgHTML('assets/kids/ingredients/' + encodeURIComponent(name) + '.png', 'ingredient-art');
+  (window.shokudoReviewedIngredient?.(name) || imgHTML('assets/kids/ingredients/' + encodeURIComponent(name) + '.png', 'ingredient-art'));
 const foodMark = emoji => {
   if (save.illustration === 'original') return emoji;
   const name = ING_BY_EMOJI[emoji];
