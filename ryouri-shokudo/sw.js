@@ -1,8 +1,9 @@
 // おりょうり食堂：完成料理はSVGのまま、素材イラストをオフライン保存
-const CACHE = "ryouri-shokudo-v4";
+const CACHE = "ryouri-shokudo-v5";
 const ASSETS = [
   "./",
   "index.html",
+  "ingredients-reviewed.js",
   "manifest.webmanifest",
   "icon.svg",
   "icon-192.png",
