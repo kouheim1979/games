@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#100b18">
+  <meta name="description" content="引いたユニットが次のガチャを回す。10連・50連、天井、フィーバーで加速する無料のブラウザーガチャゲーム。">
+  <title>DOPAMINE OVERDRIVE | ドーパミン・オーバードライブ</title>
+  <link rel="icon" href="./assets/icon.png" type="image/png">
+  <link rel="preload" href="./assets/barlow-condensed-black-italic.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="./style.css">
+  <script type="module" src="./game.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="shell topbar-inner">
+      <a class="brand" href="./" aria-label="ドーパミン・オーバードライブ">
+        <img src="./assets/icon.png" alt="" width="34" height="34">
+        <span class="brand-full">DOPAMINE<span class="brand-accent">/</span>OD</span>
+        <span class="brand-short" aria-hidden="true">D<span class="brand-accent">/</span>OD</span>
+      </a>
+      <div class="top-actions">
+        <div class="wallet" aria-label="所持コアと欠片">
+          <div class="wallet-chip"><i class="gem core-gem" aria-hidden="true"></i><span class="wallet-label">コア</span><strong id="balance" aria-hidden="true">5,200</strong><span class="visually-hidden" id="balance-exact">5,200</span></div>
+          <div class="wallet-chip"><i class="gem shard-gem" aria-hidden="true"></i><span class="wallet-label">欠片</span><strong id="shards" aria-hidden="true">0</strong><span class="visually-hidden" id="shards-exact">0</span></div>
+        </div>
+        <button type="button" class="tool-button help-button" id="help-button" aria-label="遊び方と設定"><span aria-hidden="true">?</span></button>
+      </div>
+    </div>
+  </header>
+  <main class="shell">
+    <div class="navline">
+      <div class="tabs" role="tablist" aria-label="ゲーム画面">
+        <button type="button" class="tab" role="tab" id="tab-summon" aria-controls="summon-panel" aria-selected="true"><i aria-hidden="true" class="tab-symbol">✦</i> 召喚炉</button>
+        <button type="button" class="tab" role="tab" id="tab-collection" aria-controls="collection-panel" aria-selected="false" tabindex="-1"><i aria-hidden="true" class="tab-symbol">▦</i> 図鑑 <span class="tab-count" id="tab-count">0/12</span></button>
+        <button type="button" class="tab" role="tab" id="tab-lab" aria-controls="lab-panel" aria-selected="false" tabindex="-1"><i aria-hidden="true" class="tab-symbol">ϟ</i> 研究所</button>
+      </div>
+      <a class="game-link" href="../">ゲーム一覧 <span aria-hidden="true">↗</span></a>
+    </div>
+
+    <section class="dashboard" id="summon-panel" role="tabpanel" aria-labelledby="tab-summon">
+      <div class="main-column">
+        <div class="hero">
+          <img class="hero-art" src="./assets/reactor.webp" width="1280" height="853" alt="" fetchpriority="high">
+          <div class="hero-copy">
+            <p class="hero-eyebrow"><span class="live-dot" aria-hidden="true"></span> 異界ユニット召喚</p>
+            <h1>DOPAMINE<span>OVERDRIVE</span></h1>
+            <p class="hero-text">引いたユニットがコアを生む。<br>集めて、強化して、もう一回。</p>
+          </div>
+          <button type="button" class="featured-unit" data-unit="nemesis">
+            <img src="./assets/nemesis.webp" alt="" width="44" height="44">
+            <span><b><span aria-hidden="true">Ω</span> 最高レア</b><strong>ネメシス</strong></span>
+            <span class="feature-arrow" aria-hidden="true">↗</span>
+          </button>
+        </div>
+
+        <section class="summon-console surface" aria-labelledby="summon-title">
+          <div class="section-bar">
+            <div class="section-name"><h2 id="summon-title">ユニット召喚</h2><span class="inline-note">10連ごとにSR以上1体</span></div>
+            <button type="button" class="text-button" id="rates-button">排出率 <span aria-hidden="true">↗</span></button>
+          </div>
+          <div class="draw-actions" aria-label="召喚回数">
+            <button type="button" class="draw-button one-draw" data-draw="1"><strong>1<span>回引く</span></strong><small><i class="gem core-gem" aria-hidden="true"></i> 100</small></button>
+            <button type="button" class="draw-button ten-draw" data-draw="10"><strong>10<span>連ガチャ</span></strong><small><i class="gem core-gem" aria-hidden="true"></i> 900</small></button>
+            <button type="button" class="draw-button fifty-draw" data-draw="50"><strong>50<span>連ガチャ</span></strong><small><i class="gem core-gem" aria-hidden="true"></i> 4,250</small></button>
+          </div>
+        </section>
+
+        <section class="latest-section" aria-labelledby="latest-heading">
+          <div class="section-bar latest-bar">
+            <div class="section-name"><h2 id="latest-heading">ピックアップ</h2><span class="inline-note" id="latest-count">Ω・SSR</span></div>
+            <button type="button" class="text-button" id="latest-button">図鑑を見る <span aria-hidden="true">↗</span></button>
+          </div>
+          <div class="latest-grid" id="latest-grid"></div>
+        </section>
+      </div>
+
+      <aside class="side-column" aria-label="召喚炉の状態">
+        <section class="meter-card surface" aria-labelledby="pity-title">
+          <div class="meter-heading"><span class="meter-symbol pity-symbol" aria-hidden="true">◇</span><h2 id="pity-title">天井カウンター</h2></div>
+          <div class="meter-figure"><strong id="pity-value">0</strong><span> / 50</span></div>
+          <div class="meter-track pity-track" id="pity-track" role="progressbar" aria-labelledby="pity-title" aria-valuemin="0" aria-valuemax="50" aria-valuenow="0"><span id="pity-fill"></span></div>
+          <p id="pity-message">あと50回以内にSSR以上確定</p>
+        </section>
+        <section class="meter-card fever-card surface" id="fever-card" aria-labelledby="fever-title">
+          <div class="meter-heading"><span class="meter-symbol fever-symbol" aria-hidden="true">ϟ</span><h2 id="fever-title">フィーバー</h2><span class="fever-live" id="fever-live" hidden>発動中</span></div>
+          <div class="meter-figure"><strong id="fever-value">0</strong><span id="fever-unit"> / 30</span></div>
+          <div class="meter-track fever-track" id="fever-track" role="progressbar" aria-labelledby="fever-title" aria-valuemin="0" aria-valuemax="30" aria-valuenow="0"><span id="fever-fill"></span></div>
+          <p id="fever-message">30回引くたびに発電3倍＋650コア</p>
+        </section>
+        <section class="meter-card power-card surface" aria-labelledby="power-title">
+          <div class="meter-heading"><span class="meter-symbol power-symbol" aria-hidden="true">✦</span><h2 id="power-title">コア発電</h2></div>
+          <div class="meter-figure power-figure"><strong id="production">6</strong><span> コア / 秒</span></div>
+          <button type="button" class="pulse-button" id="pulse-button"><span>手動チャージ</span><strong id="pulse-value">+126</strong></button>
+        </section>
+        <section class="history-card surface" aria-labelledby="history-title">
+          <div class="section-bar"><h2 id="history-title">召喚ログ</h2><span class="inline-note"><span id="pull-count">0</span>回</span></div>
+          <ol class="history-list" id="history-list"></ol>
+          <p class="history-empty" id="history-empty">召喚結果がここに残ります。</p>
+        </section>
+      </aside>
+    </section>
+
+    <section id="collection-panel" role="tabpanel" aria-labelledby="tab-collection" hidden>
+      <div class="secondary-heading">
+        <div><h1>ユニット図鑑</h1><p>同じユニットを引くとレベルが上がり、欠片も手に入ります。</p></div>
+        <div class="collection-count"><strong id="collection-count">0</strong><span> / 12 解放</span></div>
+      </div>
+      <div class="filter-row" role="group" aria-label="図鑑の表示">
+        <button type="button" data-filter="all" aria-pressed="true">全ユニット</button>
+        <button type="button" data-filter="owned" aria-pressed="false">入手済み</button>
+        <button type="button" data-filter="missing" aria-pressed="false">未入手</button>
+      </div>
+      <div class="collection-grid" id="collection-grid"></div>
+      <p class="empty-state surface" id="collection-empty" hidden>該当するユニットがいません。</p>
+    </section>
+
+    <section id="lab-panel" role="tabpanel" aria-labelledby="tab-lab" hidden>
+      <div class="secondary-heading"><div><h1>研究所</h1><p>欠片を使って発電を強化。未入手のユニットは図鑑で交換できます。</p></div></div>
+      <div class="lab-grid">
+        <section class="upgrade-card surface" aria-labelledby="upgrade-title">
+          <div class="meter-heading"><span class="meter-symbol power-symbol" aria-hidden="true">✦</span><h2 id="upgrade-title">コア発電炉の強化</h2></div>
+          <p class="lab-level" id="reactor-level">Lv.1</p>
+          <p>強化するたびに、すべてのコア発電量が1.35倍。</p>
+          <div class="upgrade-output"><strong id="upgrade-current">6</strong><span aria-hidden="true">→</span><strong id="upgrade-next">8.1</strong><span>コア / 秒</span></div>
+          <button type="button" class="primary-button upgrade-button" id="upgrade-button"><span>発電炉を強化</span><strong id="upgrade-price">40 欠片</strong></button>
+        </section>
+        <section class="goals-card surface" aria-labelledby="goals-title">
+          <div class="section-bar"><h2 id="goals-title">実績ボーナス</h2><span class="inline-note" id="goals-count">0 / 6</span></div>
+          <ul class="goal-list" id="goals-list"></ul>
+        </section>
+      </div>
+    </section>
+    <footer class="footer"><span>ゲーム内コアのみ・課金なし</span><span id="save-status">端末に自動保存</span></footer>
+  </main>
+
+  <dialog class="dialog info-dialog" id="info-dialog" aria-labelledby="info-title">
+    <div class="dialog-inner">
+      <div class="dialog-bar"><h2 id="info-title"></h2><button type="button" class="tool-button close-button" data-close aria-label="閉じる">×</button></div>
+      <div id="help-view" hidden>
+        <ol class="help-list">
+          <li><strong>コアで召喚。</strong> 5,200コアでスタート。10連と50連はまとめて引くとお得です。</li>
+          <li><strong>ユニットが自動で発電。</strong> 同じユニットを2・4・8体と集めるごとにレベルアップ。離れている間も最大8時間ぶん貯まります。</li>
+          <li><strong>欠片を使って強化。</strong> 重複で得た欠片は、研究所の発電炉強化や図鑑のユニット交換に使えます。</li>
+        </ol>
+        <div class="settings">
+          <label><span>効果音</span><input type="checkbox" id="sound-option"></label>
+          <label><span>演出を軽くする</span><input type="checkbox" id="quiet-option"></label>
+        </div>
+        <p class="muted keyboard-help">キーボードでは 1 / 2 / 3 で1回・10連・50連。</p>
+      </div>
+      <div id="rates-view" hidden>
+        <table class="rate-table"><thead><tr><th scope="col">レア度</th><th scope="col">基本排出率</th><th scope="col">ユニット</th></tr></thead><tbody id="rates-body"></tbody></table>
+        <div class="rate-rules">
+          <p><strong>10連・50連</strong> 10枚ごとに、先の9枚にSR以上がなければ10枚目はSR以上。SR 72.22%、SSR 23.33%、Ω 4.44%。</p>
+          <p><strong>天井</strong> SSR以上を引かずに49回経過すると、次はSSR 84%、Ω 16%。SSR以上を引くたびにカウンターが0に戻ります。</p>
+          <p>同じレア度のユニットは均等に抽選されます。保証が重なった場合は天井が優先されます。</p>
+        </div>
+      </div>
+      <div id="unit-view" hidden></div>
+    </div>
+  </dialog>
+
+  <dialog class="dialog reveal-dialog" id="reveal-dialog" aria-labelledby="reveal-title">
+    <div class="reveal-inner">
+      <div class="dialog-bar reveal-bar">
+        <div><p class="reveal-kicker" id="reveal-kicker"></p><h2 id="reveal-title">召喚結果</h2></div>
+        <button type="button" class="tool-button close-button" data-close aria-label="閉じる">×</button>
+      </div>
+      <div class="charge-scene" id="charge-scene" hidden>
+        <div class="charge-ring ring-outer" aria-hidden="true"></div>
+        <div class="charge-ring ring-inner" aria-hidden="true"></div>
+        <div class="charge-crystal" aria-hidden="true"></div>
+        <button type="button" class="text-button skip-button" id="skip-button">演出をスキップ <span aria-hidden="true">»</span></button>
+      </div>
+      <div id="reveal-results" hidden>
+        <div class="rewards" id="rewards"></div>
+        <div class="rarity-summary" id="rarity-summary" aria-label="レア度別の獲得数"></div>
+        <div class="reveal-grid" id="reveal-grid"></div>
+        <button type="button" class="text-button" id="show-all" hidden>全50枚を見る</button>
+        <div class="replay">
+          <span class="replay-balance"><i class="gem core-gem" aria-hidden="true"></i> 残り <strong id="reveal-balance">0</strong> コア</span>
+          <div class="replay-buttons" aria-label="もう一度引く">
+            <button type="button" class="draw-button one-draw" data-draw="1"><strong>1<span>回</span></strong><small>100</small></button>
+            <button type="button" class="draw-button ten-draw" data-draw="10"><strong>10<span>連</span></strong><small>900</small></button>
+            <button type="button" class="draw-button fifty-draw" data-draw="50"><strong>50<span>連</span></strong><small>4,250</small></button>
+          </div>
+          <button type="button" class="pulse-button replay-pulse" id="reveal-pulse" hidden>手動チャージ <strong id="reveal-pulse-value">+126</strong></button>
+        </div>
+      </div>
+      <div class="particle-field" id="particle-field" aria-hidden="true"></div>
+    </div>
+  </dialog>
+  <div class="notice" id="notice" role="status" aria-live="polite"></div>
+</body>
+</html>
