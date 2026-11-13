@@ -13,6 +13,7 @@
 | [kotowaza](kotowaza/) | ことばクエスト 〜慣用句・ことわざ・古事成語バトル〜 |
 | [lunch-roulette](lunch-roulette/) | ランチルーレット |
 | [nazonazo-kids](nazonazo-kids/) | 小4なぞなぞ探偵団 |
+| [neon-cascade](neon-cascade/) | NEON CASCADE（ネオン・カスケード） |
 | [nihon-meguri-47](nihon-meguri-47/) | 日本めぐり47 ｜ 都道府県クイズ |
 | [pokemon-quiz-app](pokemon-quiz-app/) | ポケモン当てクイズ & 全国図鑑 |
 | [react-game](react-game/) | 反射神経ゲーム |
@@ -24,7 +25,7 @@
 | [word-wolf2](word-wolf2/) | ワードウルフ |
 | [yakitori](yakitori/) | やきとり ならべ |
 
-各ゲームは元のリポジトリからコピーしたものです（`atama-oshiri` と `yakitori` は `launch-roulette` リポジトリ内から）。
+初期収録のゲームは元のリポジトリからコピーしたものです（`atama-oshiri` と `yakitori` は `launch-roulette` リポジトリ内から）。
 
 ## 診断パーク（tools/）
 

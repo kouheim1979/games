@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b0c15">
+  <meta name="description" content="同じ色をなぞって連鎖を起こす、60秒のブラウザアクションパズル。">
+  <title>NEON CASCADE | ネオン・カスケード</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23171d26'/%3E%3Cpath d='M36 8 14 36h16l-3 20 23-29H33z' fill='%23d3fa73'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="game.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../" aria-label="まいにち道具箱のゲーム一覧" data-label="back">
+        <span class="brand-mark" aria-hidden="true"><i class="bolt"></i></span>
+        <span>NEON <b>CASCADE</b></span>
+      </a>
+      <div class="header-actions">
+        <button type="button" class="quiet-button" id="sound" aria-pressed="true">
+          <span class="sound-icon" aria-hidden="true"></span><span id="sound-label">サウンド</span>
+        </button>
+        <button type="button" class="quiet-button" id="open-help">
+          <span class="question-icon" aria-hidden="true">?</span><span data-text="help">遊び方</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="play-area" aria-label="NEON CASCADE">
+      <div class="hud">
+        <div class="hud-stat score-stat"><span data-text="score">スコア</span><strong id="score">0</strong></div>
+        <div class="hud-stat best-stat"><span data-text="best">ベスト</span><strong id="best">—</strong></div>
+        <div class="hud-stat clock-stat" id="clock-stat">
+          <span class="clock-icon" id="clock-icon" aria-hidden="true"><i></i></span>
+          <div><span data-text="time">残り時間</span><strong id="clock">1:00</strong></div>
+        </div>
+      </div>
+
+      <div class="board-shell" id="board-shell">
+        <div class="board-top">
+          <span class="mode-status"><i aria-hidden="true"></i><span id="board-mode">60秒アタック</span></span>
+          <button type="button" class="pause-button" id="pause" disabled>
+            <span class="pause-icon" aria-hidden="true"></span><span data-text="pause">一時停止</span>
+          </button>
+        </div>
+        <div class="board-stage" id="stage" data-phase="menu">
+          <canvas id="board-art" aria-hidden="true"></canvas>
+          <div class="board-grid" id="grid" role="group" aria-label="パズル盤面" aria-describedby="board-description" data-label="board" inert></div>
+          <div class="board-toast" id="board-toast" aria-hidden="true" hidden></div>
+          <div class="overlay" id="overlay">
+            <div class="overlay-card" id="menu-panel">
+              <div class="splash-icon" aria-hidden="true"><i class="bolt"></i></div>
+              <h1 class="wordmark"><span>NEON</span><em>CASCADE</em></h1>
+              <p class="overlay-copy" id="mode-intro">同じ色を3つ以上なぞって、60秒でハイスコアへ。</p>
+              <button type="button" class="primary-button" id="start"><span class="play-icon" aria-hidden="true"></span><span data-text="start">プレイ開始</span></button>
+            </div>
+            <div class="overlay-card" id="pause-panel" hidden>
+              <div class="splash-icon pause-emblem" aria-hidden="true"><span class="pause-icon"></span></div>
+              <h2 data-text="paused">一時停止中</h2>
+              <div class="overlay-actions">
+                <button type="button" class="primary-button" id="resume"><span class="play-icon" aria-hidden="true"></span><span data-text="resume">再開</span></button>
+                <button type="button" class="secondary-button" id="quit" data-text="quit">今回を終了</button>
+              </div>
+            </div>
+            <div class="overlay-card upgrade-card" id="upgrade-panel" hidden>
+              <h2 data-text="upgrade">強化を1つ選択</h2>
+              <p class="overlay-copy" data-text="upgradeNote">効果はこのプレイ中ずっと続きます。</p>
+              <div class="upgrade-options" id="upgrades"></div>
+            </div>
+            <div class="overlay-card result-card" id="result-panel" hidden>
+              <div class="result-grade" id="result-grade" aria-hidden="true">A</div>
+              <h2 id="result-title" data-text="result">タイムアップ</h2>
+              <strong class="result-score" id="result-score">0</strong>
+              <p class="result-detail" id="result-detail"></p>
+              <div class="overlay-actions">
+                <button type="button" class="primary-button" id="retry"><span class="play-icon" aria-hidden="true"></span><span data-text="retry">もう一度</span></button>
+                <button type="button" class="secondary-button" id="copy" data-text="copy">スコアをコピー</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="board-bottom">
+          <p id="board-description" data-text="boardHint">同じ色を3つ以上つなぐ。ななめもOK。</p>
+          <span class="path-count" id="path-count" aria-hidden="true" hidden></span>
+        </div>
+      </div>
+
+      <div class="drive-panel" id="drive-panel">
+        <span class="drive-icon" aria-hidden="true"><i class="bolt"></i></span>
+        <div class="drive-readout">
+          <div class="drive-heading"><b data-text="drive">オーバードライブ</b><span id="charge-label">0%</span></div>
+          <div class="drive-meter" role="progressbar" id="drive-meter" aria-label="オーバードライブの充電" aria-valuenow="0" data-label="charge"><span id="charge-bar"></span></div>
+        </div>
+        <button type="button" class="drive-button" id="activate" disabled><span data-text="activate">発動</span><kbd>Space</kbd></button>
+      </div>
+    </section>
+
+    <aside class="side-area" aria-label="モードとプレイ状況" data-label="side">
+      <section class="panel mode-panel" aria-labelledby="mode-heading">
+        <h2 id="mode-heading" data-text="mode">ゲームモード</h2>
+        <div class="mode-list" role="group" aria-labelledby="mode-heading">
+          <button type="button" class="mode-choice" data-mode="sprint" aria-pressed="true">
+            <span class="mode-icon mode-sprint" aria-hidden="true"><i class="bolt"></i></span>
+            <span class="mode-info"><strong data-text="sprint">60秒アタック</strong><small data-text="sprintDetail">毎回違う盤面でスコアに挑戦</small></span>
+            <span class="mode-radio" aria-hidden="true"></span>
+          </button>
+          <button type="button" class="mode-choice" data-mode="daily" aria-pressed="false">
+            <span class="mode-icon mode-daily" aria-hidden="true"><i></i></span>
+            <span class="mode-info"><strong data-text="daily">デイリー</strong><small id="daily-date">今日の共通盤面</small></span>
+            <span class="mode-radio" aria-hidden="true"></span>
+          </button>
+          <button type="button" class="mode-choice" data-mode="practice" aria-pressed="false">
+            <span class="mode-icon mode-practice" aria-hidden="true">∞</span>
+            <span class="mode-info"><strong data-text="practice">練習</strong><small data-text="practiceDetail">時間を気にせず連鎖を試す</small></span>
+            <span class="mode-radio" aria-hidden="true"></span>
+          </button>
+        </div>
+      </section>
+
+      <section class="panel combo-panel" aria-labelledby="combo-heading">
+        <div class="combo-heading"><h2 id="combo-heading" data-text="combo">コンボ</h2><strong id="combo-multiplier">×1.0</strong></div>
+        <div class="combo-meter" aria-hidden="true"><span id="combo-bar"></span></div>
+        <div class="combo-stats">
+          <div><span data-text="longest">最長チェーン</span><strong id="longest">—</strong></div>
+          <div><span data-text="cleared">消したピース</span><strong id="cleared">0</strong></div>
+        </div>
+      </section>
+
+      <section class="panel guide-panel" aria-labelledby="guide-heading">
+        <h2 id="guide-heading" data-text="rules">連鎖のコツ</h2>
+        <div class="guide-row"><span class="guide-symbol guide-chain" aria-hidden="true"><i></i><i></i><i></i></span><p data-text="tipChain">3つ以上つなぐと、同じ色をまとめて消せる。</p></div>
+        <div class="guide-row"><span class="guide-symbol guide-core" aria-hidden="true">✦</span><p data-text="tipCore">5つ以上で爆発コア。コアをタップして起爆。</p></div>
+        <div class="guide-row"><span class="guide-symbol guide-drive" aria-hidden="true"><i class="bolt"></i></span><p data-text="tipDrive">ゲージ満タンで、6秒間の得点が2倍。</p></div>
+      </section>
+    </aside>
+  </main>
+
+  <footer class="site-footer">
+    <a href="../" data-text="back">ゲーム一覧</a>
+    <label class="language"><span data-text="language">言語</span>
+      <select id="language" aria-label="言語" data-label="language">
+        <option value="ja" lang="ja">日本語</option><option value="en" lang="en">English</option>
+        <option value="zh" lang="zh-CN">简体中文</option><option value="es" lang="es">Español</option>
+      </select>
+    </label>
+  </footer>
+
+  <dialog class="help-dialog" id="help" aria-labelledby="help-title">
+    <div class="dialog-heading"><h2 id="help-title" data-text="help">遊び方</h2><button type="button" class="close-button" id="close-help" aria-label="閉じる" data-label="close">×</button></div>
+    <ol class="instructions">
+      <li data-text="helpChain">同じ色を3つ以上、指かマウスでなぞって離します。ななめにもつながり、1つ前のピースに戻ると取り消せます。</li>
+      <li data-text="helpCore">5つ以上で最後に爆発コアが残ります。コアは単独タップでも起爆でき、爆風に当たったコアも連鎖します。</li>
+      <li data-text="helpDrive">素早く続けて消すとコンボで得点アップ。ゲージが満タンになったら、発動ボタンで全コアが爆発し、6秒間の得点が2倍になります。</li>
+      <li data-text="helpUpgrade">5回目と12回目にピースを消すと強化を選べます。選んでいる間はタイマーが止まります。</li>
+    </ol>
+    <div class="keyboard-help"><strong data-text="keyboard">キーボード</strong><p data-text="helpKeys">Enterで選択・確定、矢印キーで移動、Q・E・Z・Cでななめ、Spaceで発動、Escで取り消し・一時停止。</p></div>
+    <label class="effects-option"><span data-text="lowEffects">演出を控えめにする</span><input id="low-effects" type="checkbox"></label>
+  </dialog>
+  <p class="sr-only" id="announcement" role="status"></p>
+  <noscript><p class="no-script">プレイするには JavaScript を有効にしてください。</p></noscript>
+</body>
+</html>
