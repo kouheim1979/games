@@ -53,10 +53,18 @@ test('native site-information pages have a readable Japanese fallback and all lo
   const privacy = fs.readFileSync(path.join(root,'deployment/pages/privacy.html'),'utf8');
   for (const required of ['localStorage','Cookie','My Ad Center','YourAdChoices','GitHub','Supabase','mailto:']) assert.ok(privacy.includes(required));
 });
-test('static fallback links, card count and keys match the curated catalog', () => {
+test('static cards link to every game and its logo', () => {
   const html = fs.readFileSync(path.join(root,'portal/portal.html'),'utf8');
   assert.equal((html.match(/class="mt-game" /g) || []).length, 17);
-  for (const game of games) assert.ok(html.includes('href="' + game.url + '"'));
+  for (const game of games) {
+    const cardStart = html.indexOf(`data-mt-card="${game.id}">`);
+    assert.ok(cardStart >= 0, game.id);
+    const card = html.slice(cardStart, html.indexOf('</article>', cardStart));
+    assert.ok(card.includes(`href="${game.url}"`), game.id);
+    const logo = `portal/logos/${game.id}.webp`;
+    assert.ok(card.includes(`src="https://kouheim1979.github.io/games/${logo}" alt=""`), game.id);
+    assert.ok(fs.statSync(path.join(root, logo)).isFile(), game.id);
+  }
   for (const id of ['kokon-tozai','golden-week','lunch-roulette','word-wolf','pokemon-quiz-app']) assert.ok(!html.includes('/' + id + '/'));
   for (const match of html.matchAll(/data-mt-i18n="([^"]+)"/g)) assert.ok(match[1] in ui.ja, match[1]);
   assert.ok(html.includes('aria-labelledby="mt-player-title"'));

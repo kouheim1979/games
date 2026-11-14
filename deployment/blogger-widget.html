@@ -104,13 +104,9 @@ body .centered{max-width:1140px!important;width:calc(100% - 40px)!important;padd
 .mt-feature { display:block; position:relative; padding:24px 26px 22px; background:#e9eade; border:1px solid #cdd2c2; transform:rotate(1deg); overflow:hidden; }
 .mt-feature:hover { color:var(--mt-ink)!important; }
 .mt-feature-top { display:flex; justify-content:space-between; gap:10px; font:10px/1.5 ui-monospace,monospace; color:var(--mt-muted); }
-.mt-feature-visual { height:174px; display:flex; justify-content:center; align-items:center; gap:17px; margin:10px 0 18px; }
-.mt-bottle { display:flex; flex-direction:column-reverse; height:124px; width:47px; border:2px solid #344a3b; border-top:0; border-radius:0 0 18px 18px; padding:5px; gap:3px; transform:rotate(-8deg); background:#f8f6ef80; box-shadow:4px 7px 0 #273d3410; }
-.mt-bottle:before { content:''; position:absolute; top:-8px; left:-3px; width:49px; height:8px; border:2px solid #344a3b; border-radius:4px; background:#e9eade; }
-.mt-bottle:nth-child(2) { transform:translateY(-10px); }
-.mt-bottle:nth-child(3) { transform:rotate(8deg); }
-.mt-bottle i { display:block; height:24px; border-radius:2px; flex-shrink:0; }
-.mt-purple { background:#a19ab8; }.mt-orange { background:#ce8a68; }.mt-lime { background:#a2b18b; }
+.mt-feature-visual { height:174px; display:grid; place-items:center; margin:10px 0 18px; }
+.mt-game-logo { display:block; width:100px; height:100px; object-fit:contain; }
+.mt-feature-visual .mt-game-logo { width:166px; height:166px; }
 .mt-feature h3 { font:500 21px/1.3 Georgia,serif; color:var(--mt-ink); }
 .mt-feature p { font-size:12px; color:var(--mt-muted); margin-top:6px; }
 .mt-feature-bottom { display:flex; justify-content:space-between; gap:15px; font-size:12px; margin-top:17px; padding-top:12px; border-top:1px solid #c5ccbc; }
@@ -132,16 +128,65 @@ body .centered{max-width:1140px!important;width:calc(100% - 40px)!important;padd
 .mt-searchbox button { position:absolute; right:1px; top:1px; width:40px; height:41px; border:0; background:transparent; color:var(--mt-muted); font-size:20px; }
 .mt-gamegrid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:24px; }
 .mt-game { min-width:0; border:1px solid var(--mt-line); background:#fffdf7; display:flex; flex-direction:column; }
-.mt-card-art { height:123px; position:relative; display:flex; align-items:center; justify-content:center; overflow:hidden; border-bottom:1px solid var(--mt-line); color:#374638; }
-.mt-card-art:before,.mt-card-art:after { content:''; position:absolute; border:1px solid currentColor; opacity:.12; width:118px; height:118px; border-radius:50%; }
-.mt-card-art:before { left:-18px; bottom:-55px; }.mt-card-art:after { right:-38px; top:-52px; width:150px; height:150px; }
-.mt-card-art>span { position:relative; z-index:1; font:500 48px/1 Georgia,'Times New Roman',serif; letter-spacing:-.04em; transform:rotate(-6deg); }
-.mt-card-art>small { position:absolute; right:14px; bottom:10px; font:9px/1.5 ui-monospace,monospace; opacity:.6; }
-.mt-violet { background:#e8e4ed; color:#6a5b7d; }.mt-green { background:#e4e9d8; color:#4c6245; }.mt-blue { background:#dfe9ea; color:#486575; }.mt-rose { background:#efdfda; color:#965e56; }.mt-amber { background:#f0e6cb; color:#8f743f; }
+.mt-game .mt-card-heading { margin:0; }
+.mt-card-art {
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  min-height:168px;
+  padding:13px 12px 15px;
+  text-align:center;
+  background:radial-gradient(ellipse at 50% 35%,var(--mt-logo-halo,#ffffffb3),transparent 75%),var(--mt-logo-paper);
+  border-bottom:1px solid var(--mt-line);
+}
+.mt-card-heading .mt-card-art,.mt-card-heading .mt-card-art:hover { color:var(--mt-logo-ink); }
+.mt-card-art:hover .mt-card-wordmark { text-decoration:underline; text-underline-offset:.19em; }
+.mt-card-wordmark {
+  font:800 20px/1.3 ui-rounded,"Hiragino Maru Gothic ProN","Avenir Next",system-ui,sans-serif;
+  letter-spacing:-.025em;
+  overflow-wrap:anywhere;
+  text-wrap:balance;
+}
+.mt-violet { --mt-logo-paper:#eae2f4; --mt-logo-ink:#4d3977; }
+.mt-green { --mt-logo-paper:#e5ead6; --mt-logo-ink:#304d38; }
+.mt-blue { --mt-logo-paper:#dfedf2; --mt-logo-ink:#204761; }
+.mt-rose { --mt-logo-paper:#f5e0d8; --mt-logo-ink:#763820; }
+.mt-amber { --mt-logo-paper:#f5e8cb; --mt-logo-ink:#6c3c21; }
+[data-mt-card="todofuken-draft"] .mt-card-art { --mt-logo-paper:#f3e6cf; --mt-logo-ink:#7c3029; }
+[data-mt-card="rin-harbor"] .mt-card-art { --mt-logo-paper:#dceee6; --mt-logo-ink:#144c47; }
+[data-mt-card="word-wolf2"] .mt-card-art { --mt-logo-paper:#eedfeb; --mt-logo-ink:#5a2d5f; }
+[data-mt-card="Chroma-sort"] .mt-card-art { --mt-logo-paper:#e0e4fc; --mt-logo-ink:#383b88; }
+[data-mt-card="jintori"] .mt-card-art { --mt-logo-paper:#d9ecdf; --mt-logo-ink:#1e4d43; }
+[data-mt-card="kotowaza"] .mt-card-art { --mt-logo-paper:#f7ead4; --mt-logo-ink:#7a4330; }
+[data-mt-card="react-game"] .mt-card-art { --mt-logo-paper:#e0eee9; --mt-logo-ink:#244f55; }
+[data-mt-card="ketahazure"] .mt-card-art { --mt-logo-paper:#f7ddc7; --mt-logo-ink:#8b3029; }
+[data-mt-card="hitori-shiritori"] .mt-card-art { --mt-logo-paper:#e5eedb; --mt-logo-ink:#315b3b; }
+[data-mt-card="dopamine-overdrive"] .mt-card-art {
+  --mt-logo-paper:#201733; --mt-logo-halo:#5a367b; --mt-logo-ink:#fff2c9;
+}
+[data-mt-card="neon-cascade"] .mt-card-art {
+  --mt-logo-paper:#151f36; --mt-logo-halo:#304964; --mt-logo-ink:#d8fb90;
+}
+[data-mt-card="dopamine-overdrive"] .mt-card-wordmark,
+[data-mt-card="neon-cascade"] .mt-card-wordmark { font-size:18px; font-weight:900; letter-spacing:.015em; }
+[data-mt-card="nihon-meguri-47"] .mt-card-wordmark,
+[data-mt-card="kotowaza"] .mt-card-wordmark,
+[data-mt-card="ketahazure"] .mt-card-wordmark { font-family:"Hiragino Mincho ProN","Yu Mincho","Noto Serif CJK JP",Georgia,serif; }
+[data-mt-card="ketahazure"] .mt-card-wordmark { font-size:26px; letter-spacing:.08em; }
+@media(max-width:700px) {
+  .mt-feature-visual .mt-game-logo { width:131px; height:131px; }
+  .mt-card-art { min-height:144px; padding:10px 7px 12px; }
+  .mt-card-art .mt-game-logo { width:82px; height:82px; }
+  .mt-card-wordmark { font-size:15px; }
+  [data-mt-card="dopamine-overdrive"] .mt-card-wordmark,
+  [data-mt-card="neon-cascade"] .mt-card-wordmark { font-size:14px; }
+  [data-mt-card="ketahazure"] .mt-card-wordmark { font-size:22px; }
+}
 .mt-card-body { flex:1; padding:20px 20px 16px; display:flex; flex-direction:column; }
 .mt-card-tag { font:10px/1.6 ui-monospace,monospace; color:var(--mt-rust); margin-bottom:11px; }
-.mt-game h3 { font-size:18px; line-height:1.55; font-weight:600; color:var(--mt-ink); letter-spacing:-.02em; }
-.mt-game h3 a:hover { text-decoration:underline; text-underline-offset:4px; }
 .mt-original-title { font-size:11px; color:var(--mt-muted); margin-top:3px; }
 .mt-card-description { color:var(--mt-muted); font-size:13px; margin-top:10px!important; margin-bottom:18px!important; }
 .mt-card-bottom { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:auto; padding-top:13px; border-top:1px solid #e4e6db; }
@@ -201,8 +246,8 @@ body.mt-standalone { margin:0; background:var(--mt-paper); }
 body.mt-standalone>.mt-portal { padding:0 24px; }
 @media(min-width:1500px) { .mt-hero { gap:80px; } }
 @media(max-width:900px) { .mt-gamegrid { gap:18px; }.mt-hero { gap:30px; }.mt-card-body { padding:17px 16px 12px; }.mt-toolgrid { grid-template-columns:repeat(2,minmax(0,1fr)); }.mt-filters { gap:5px; }.mt-searchbox { max-width:none; } }
-@media(max-width:700px) { .mt-hero { grid-template-columns:1fr; gap:28px; padding:30px 0 34px; }.mt-hero h2 { font-size:clamp(30px,6.8vw,42px); }.mt-hero .mt-intro { max-width:none; }.mt-feature { transform:none; padding:20px; }.mt-feature-visual { height:135px; margin:4px 0 13px; }.mt-bottle { height:108px; width:43px; }.mt-bottle:before { width:45px; }.mt-bottle i { height:20px; }.mt-gamegrid { grid-template-columns:repeat(2,minmax(0,1fr)); }.mt-controls { display:block; }.mt-searchbox { margin-top:13px; min-width:0; }.mt-section-heading { padding-top:22px; gap:12px; }.mt-section-heading h2 { font-size:25px; }.mt-card-art { height:103px; }.mt-card-art>span { font-size:40px; }.mt-game h3 { font-size:16px; }.mt-card-description { font-size:12px; }.mt-card-bottom { align-items:start; flex-direction:column; gap:4px; }.mt-playlink { width:100%; justify-content:space-between; }.mt-tools { padding:24px 20px; margin:35px 0; }.mt-tools h2 { font-size:23px; }.mt-helpgrid { grid-template-columns:1fr; gap:22px; }.mt-helpgrid>div { display:grid; grid-template-columns:28px 1fr; column-gap:12px; }.mt-step { grid-row:span 2; padding-top:3px; }.mt-help h3 { margin-bottom:4px; }.mt-footer { flex-direction:column; gap:18px; }.mt-footer-links { justify-content:start; max-width:none; }.mt-indexline { font-size:9px; padding:14px 0; }.mt-languagebar { margin:14px auto 7px; gap:3px; }.mt-languagebar button { padding:7px 11px; }#mt-player { width:100%; height:100dvh; max-height:100dvh; border:0; border-radius:0; }.mt-player-header { padding:10px 12px 7px; gap:12px; }#mt-player-title { font-size:17px; }#mt-player-description { display:none; }.mt-player-tools { padding:0 12px 8px; }.mt-player-tools>span { flex-basis:100%; padding:0; }#mt-frame-hint { padding:6px 12px; }.mt-player-tools>a,.mt-player-tools>button { font-size:11px!important; min-height:36px; } }
-@media(max-width:400px) { .mt-card-body { padding:14px 12px 10px; }.mt-gamegrid { gap:12px; }.mt-card-art { height:91px; }.mt-game h3 { font-size:15px; }.mt-filters button { padding:7px 10px; font-size:11px; }.mt-result { font-size:10px; }.mt-section-heading h2 { font-size:23px; }.mt-indexline { letter-spacing:.04em; }.mt-languagebar button { padding:6px 10px; }.mt-toolgrid { grid-template-columns:1fr; gap:18px; }.mt-facts { gap:5px 13px; font-size:10px; } }
+@media(max-width:700px) { .mt-hero { grid-template-columns:1fr; gap:28px; padding:30px 0 34px; }.mt-hero h2 { font-size:clamp(30px,6.8vw,42px); }.mt-hero .mt-intro { max-width:none; }.mt-feature { transform:none; padding:20px; }.mt-feature-visual { height:135px; margin:4px 0 13px; }.mt-gamegrid { grid-template-columns:repeat(2,minmax(0,1fr)); }.mt-controls { display:block; }.mt-searchbox { margin-top:13px; min-width:0; }.mt-section-heading { padding-top:22px; gap:12px; }.mt-section-heading h2 { font-size:25px; }.mt-card-description { font-size:12px; }.mt-card-bottom { align-items:start; flex-direction:column; gap:4px; }.mt-playlink { width:100%; justify-content:space-between; }.mt-tools { padding:24px 20px; margin:35px 0; }.mt-tools h2 { font-size:23px; }.mt-helpgrid { grid-template-columns:1fr; gap:22px; }.mt-helpgrid>div { display:grid; grid-template-columns:28px 1fr; column-gap:12px; }.mt-step { grid-row:span 2; padding-top:3px; }.mt-help h3 { margin-bottom:4px; }.mt-footer { flex-direction:column; gap:18px; }.mt-footer-links { justify-content:start; max-width:none; }.mt-indexline { font-size:9px; padding:14px 0; }.mt-languagebar { margin:14px auto 7px; gap:3px; }.mt-languagebar button { padding:7px 11px; }#mt-player { width:100%; height:100dvh; max-height:100dvh; border:0; border-radius:0; }.mt-player-header { padding:10px 12px 7px; gap:12px; }#mt-player-title { font-size:17px; }#mt-player-description { display:none; }.mt-player-tools { padding:0 12px 8px; }.mt-player-tools>span { flex-basis:100%; padding:0; }#mt-frame-hint { padding:6px 12px; }.mt-player-tools>a,.mt-player-tools>button { font-size:11px!important; min-height:36px; } }
+@media(max-width:400px) { .mt-card-body { padding:14px 12px 10px; }.mt-gamegrid { gap:12px; }.mt-filters button { padding:7px 10px; font-size:11px; }.mt-result { font-size:10px; }.mt-section-heading h2 { font-size:23px; }.mt-indexline { letter-spacing:.04em; }.mt-languagebar button { padding:6px 10px; }.mt-toolgrid { grid-template-columns:1fr; gap:18px; }.mt-facts { gap:5px 13px; font-size:10px; } }
 @media(prefers-reduced-motion:reduce) { .mt-portal * { scroll-behavior:auto!important; } }
 .mt-howto { border-top:1px solid var(--mt-line); margin:12px 0; font-size:12px; color:var(--mt-muted); }
 .mt-howto summary { cursor:pointer; padding:10px 0; color:var(--mt-ink); font-weight:600; }
@@ -227,12 +272,8 @@ body.mt-standalone>.mt-portal { padding:0 24px; }
       <div class="mt-facts"><span data-mt-i18n="free">すべて無料</span><span data-mt-i18n="browser">ブラウザーで遊べる</span></div>
     </div>
     <a class="mt-feature" data-mt-game="WaterSortPuzzle" href="https://kouheim1979.github.io/games/WaterSortPuzzle/">
-      <div class="mt-feature-top"><span data-mt-i18n="featured">今日のひとやすみ</span><span aria-hidden="true">PICK / 01</span></div>
-      <div class="mt-feature-visual" aria-hidden="true">
-        <div class="mt-bottle"><i class="mt-purple"></i><i class="mt-orange"></i><i class="mt-lime"></i><i class="mt-purple"></i></div>
-        <div class="mt-bottle"><i class="mt-lime"></i><i class="mt-lime"></i><i class="mt-lime"></i></div>
-        <div class="mt-bottle"><i class="mt-orange"></i><i class="mt-purple"></i><i class="mt-orange"></i></div>
-      </div>
+      <div class="mt-feature-top"><span data-mt-i18n="featured">今日のひとやすみ</span></div>
+      <div class="mt-feature-visual"><img class="mt-game-logo" src="https://kouheim1979.github.io/games/portal/logos/WaterSortPuzzle.webp" alt="" width="256" height="256" loading="eager" decoding="async"></div>
       <h3 data-mt-i18n="featureDetail">Water Sort Puzzle</h3><p data-mt-i18n="featureCopy">色をそろえて、気持ちをほどく。</p>
       <div class="mt-feature-bottom"><span data-mt-i18n="featurePlay">このパズルで遊ぶ</span><span aria-hidden="true">↗</span></div>
     </a>
@@ -244,56 +285,141 @@ body.mt-standalone>.mt-portal { padding:0 24px; }
       <div class="mt-searchbox"><label for="mt-search" class="mt-sr" data-mt-i18n="search">ゲーム名・キーワードで検索</label><input type="search" id="mt-search" autocomplete="off" placeholder="ゲーム名・キーワードで検索" aria-label="ゲーム名・キーワードで検索"><button id="mt-clear" type="button" aria-label="検索をクリア" hidden>×</button></div>
     </div>
     <div class="mt-gamegrid"><article class="mt-game" data-mt-card="WaterSortPuzzle">
-      <a class="mt-card-art mt-violet" href="https://kouheim1979.github.io/games/WaterSortPuzzle/" data-mt-game="WaterSortPuzzle" aria-label="Water Sort Puzzle"><span aria-hidden="true">◒</span><small aria-hidden="true">01 / PLAY</small></a>
-      <div class="mt-card-body"><div class="mt-card-tag"><span data-mt-i18n="puzzle">パズル</span></div><h3><a data-mt-game="WaterSortPuzzle" href="https://kouheim1979.github.io/games/WaterSortPuzzle/" data-mt-title="WaterSortPuzzle">Water Sort Puzzle</a></h3><div class="mt-original-title" data-mt-original-title="WaterSortPuzzle" lang="ja" hidden>Water Sort Puzzle</div><p class="mt-card-description" data-mt-description="WaterSortPuzzle">色水を注いで、同じ色をひとつの瓶に。ゆっくり考えたい日のパズル。</p><details class="mt-howto"><summary data-mt-i18n="how">遊び方</summary><p data-mt-steps="WaterSortPuzzle">移したい瓶、移し先の瓶の順にタップします。一番上で連続している同じ色の水を、空の瓶か同じ色の上へ注ぎ、瓶ごとに一色にそろえます。</p><p data-mt-tip="WaterSortPuzzle">空き瓶は水を一時的に逃がす場所です。目先の色だけをまとめず、次に動かせる場所を残してみましょう。困ったらゲーム内の遊び方を確認できます。</p></details><div class="mt-card-bottom"><span data-mt-i18n="original" class="mt-card-language">ゲーム画面も4言語</span><a class="mt-playlink" href="https://kouheim1979.github.io/games/WaterSortPuzzle/" data-mt-game="WaterSortPuzzle"><span data-mt-i18n="play">遊ぶ</span><span aria-hidden="true">↗</span></a></div></div>
+      <h3 class="mt-card-heading">
+        <a class="mt-card-art mt-violet" href="https://kouheim1979.github.io/games/WaterSortPuzzle/" data-mt-game="WaterSortPuzzle">
+          <img class="mt-game-logo" src="https://kouheim1979.github.io/games/portal/logos/WaterSortPuzzle.webp" alt="" width="256" height="256" loading="lazy" decoding="async">
+          <span class="mt-card-wordmark" data-mt-title="WaterSortPuzzle">Water Sort Puzzle</span>
+        </a>
+      </h3>
+      <div class="mt-card-body"><div class="mt-card-tag"><span data-mt-i18n="puzzle">パズル</span></div><div class="mt-original-title" data-mt-original-title="WaterSortPuzzle" lang="ja" hidden>Water Sort Puzzle</div><p class="mt-card-description" data-mt-description="WaterSortPuzzle">色水を注いで、同じ色をひとつの瓶に。ゆっくり考えたい日のパズル。</p><details class="mt-howto"><summary data-mt-i18n="how">遊び方</summary><p data-mt-steps="WaterSortPuzzle">移したい瓶、移し先の瓶の順にタップします。一番上で連続している同じ色の水を、空の瓶か同じ色の上へ注ぎ、瓶ごとに一色にそろえます。</p><p data-mt-tip="WaterSortPuzzle">空き瓶は水を一時的に逃がす場所です。目先の色だけをまとめず、次に動かせる場所を残してみましょう。困ったらゲーム内の遊び方を確認できます。</p></details><div class="mt-card-bottom"><span data-mt-i18n="original" class="mt-card-language">ゲーム画面も4言語</span><a class="mt-playlink" href="https://kouheim1979.github.io/games/WaterSortPuzzle/" data-mt-game="WaterSortPuzzle"><span data-mt-i18n="play">遊ぶ</span><span aria-hidden="true">↗</span></a></div></div>
     </article><article class="mt-game" data-mt-card="todofuken-draft">
-      <a class="mt-card-art mt-green" href="https://kouheim1979.github.io/games/todofuken-draft/" data-mt-game="todofuken-draft" aria-label="都道府県ドラフトバトル"><span aria-hidden="true">47</span><small aria-hidden="true">02 / PLAY</small></a>
-      <div class="mt-card-body"><div class="mt-card-tag"><span data-mt-i18n="party">みんなで</span></div><h3><a data-mt-game="todofuken-draft" href="https://kouheim1979.github.io/games/todofuken-draft/" data-mt-title="todofuken-draft">都道府県ドラフトバトル</a></h3><div class="mt-original-title" data-mt-original-title="todofuken-draft" lang="ja" hidden>都道府県ドラフトバトル</div><p class="mt-card-description" data-mt-description="todofuken-draft">47都道府県を指名して、自分だけのチームづくり。CPUとも、みんなとも。</p><details class="mt-howto"><summary data-mt-i18n="how">遊び方</summary><p data-mt-steps="todofuken-draft">ひとりならCPU戦、みんななら1台を交代で使うモードを選びます。人数と指名数を決め、県カードを指名したら、作戦会議で並び順を決めて対戦します。</p><p data-mt-tip="todofuken-draft">総合値だけでなく、今回勝負する能力を見て選ぶと作戦が変わります。県の能力値はゲーム用の設定で、実際の統計や住民の能力を表す数値ではありません。</p></details><div class="mt-card-bottom"><span data-mt-i18n="original" class="mt-card-language">ゲーム画面も4言語</span><a class="mt-playlink" href="https://kouheim1979.github.io/games/todofuken-draft/" data-mt-game="todofuken-draft"><span data-mt-i18n="play">遊ぶ</span><span aria-hidden="true">↗</span></a></div></div>
+      <h3 class="mt-card-heading">
+        <a class="mt-card-art mt-green" href="https://kouheim1979.github.io/games/todofuken-draft/" data-mt-game="todofuken-draft">
+          <img class="mt-game-logo" src="https://kouheim1979.github.io/games/portal/logos/todofuken-draft.webp" alt="" width="256" height="256" loading="lazy" decoding="async">
+          <span class="mt-card-wordmark" data-mt-title="todofuken-draft">都道府県ドラフトバトル</span>
+        </a>
+      </h3>
+      <div class="mt-card-body"><div class="mt-card-tag"><span data-mt-i18n="party">みんなで</span></div><div class="mt-original-title" data-mt-original-title="todofuken-draft" lang="ja" hidden>都道府県ドラフトバトル</div><p class="mt-card-description" data-mt-description="todofuken-draft">47都道府県を指名して、自分だけのチームづくり。CPUとも、みんなとも。</p><details class="mt-howto"><summary data-mt-i18n="how">遊び方</summary><p data-mt-steps="todofuken-draft">ひとりならCPU戦、みんななら1台を交代で使うモードを選びます。人数と指名数を決め、県カードを指名したら、作戦会議で並び順を決めて対戦します。</p><p data-mt-tip="todofuken-draft">総合値だけでなく、今回勝負する能力を見て選ぶと作戦が変わります。県の能力値はゲーム用の設定で、実際の統計や住民の能力を表す数値ではありません。</p></details><div class="mt-card-bottom"><span data-mt-i18n="original" class="mt-card-language">ゲーム画面も4言語</span><a class="mt-playlink" href="https://kouheim1979.github.io/games/todofuken-draft/" data-mt-game="todofuken-draft"><span data-mt-i18n="play">遊ぶ</span><span aria-hidden="true">↗</span></a></div></div>
     </article><article class="mt-game" data-mt-card="rin-harbor">
-      <a class="mt-card-art mt-blue" href="https://kouheim1979.github.io/games/rin-harbor/" data-mt-game="rin-harbor" aria-label="リンハーバー"><span aria-hidden="true">⚓</span><small aria-hidden="true">03 / PLAY</small></a>
-      <div class="mt-card-body"><div class="mt-card-tag"><span data-mt-i18n="puzzle">パズル</span></div><h3><a data-mt-game="rin-harbor" href="https://kouheim1979.github.io/games/rin-harbor/" data-mt-title="rin-harbor">リンハーバー</a></h3><div class="mt-original-title" data-mt-original-title="rin-harbor" lang="ja" hidden>リンハーバー</div><p class="mt-card-description" data-mt-description="rin-harbor">アイテムを合成して、港の物語を進めよう。リンと楽しむ小さな冒険。</p><details class="mt-howto"><summary data-mt-i18n="how">遊び方</summary><p data-mt-steps="rin-harbor">同じ種類・同じレベルのアイテムを合成し、注文に必要な品をつくって納品します。アイテムを1回タップすると名前とレベルを確認できます。</p><p data-mt-tip="rin-harbor">注文の絵を押すと、必要な屋台と合成の順番がわかります。盤面が狭くなったら倉庫も活用しましょう。記録を残したいときはゲーム内のバックアップを確認してください。</p></details><div class="mt-card-bottom"><span data-mt-i18n="original" class="mt-card-language">ゲーム画面も4言語</span><a class="mt-playlink" href="https://kouheim1979.github.io/games/rin-harbor/" data-mt-game="rin-harbor"><span data-mt-i18n="play">遊ぶ</span><span aria-hidden="true">↗</span></a></div></div>
+      <h3 class="mt-card-heading">
+        <a class="mt-card-art mt-blue" href="https://kouheim1979.github.io/games/rin-harbor/" data-mt-game="rin-harbor">
+          <img class="mt-game-logo" src="https://kouheim1979.github.io/games/portal/logos/rin-harbor.webp" alt="" width="256" height="256" loading="lazy" decoding="async">
+          <span class="mt-card-wordmark" data-mt-title="rin-harbor">リンハーバー</span>
+        </a>
+      </h3>
+      <div class="mt-card-body"><div class="mt-card-tag"><span data-mt-i18n="puzzle">パズル</span></div><div class="mt-original-title" data-mt-original-title="rin-harbor" lang="ja" hidden>リンハーバー</div><p class="mt-card-description" data-mt-description="rin-harbor">アイテムを合成して、港の物語を進めよう。リンと楽しむ小さな冒険。</p><details class="mt-howto"><summary data-mt-i18n="how">遊び方</summary><p data-mt-steps="rin-harbor">同じ種類・同じレベルのアイテムを合成し、注文に必要な品をつくって納品します。アイテムを1回タップすると名前とレベルを確認できます。</p><p data-mt-tip="rin-harbor">注文の絵を押すと、必要な屋台と合成の順番がわかります。盤面が狭くなったら倉庫も活用しましょう。記録を残したいときはゲーム内のバックアップを確認してください。</p></details><div class="mt-card-bottom"><span data-mt-i18n="original" class="mt-card-language">ゲーム画面も4言語</span><a class="mt-playlink" href="https://kouheim1979.github.io/games/rin-harbor/" data-mt-game="rin-harbor"><span data-mt-i18n="play">遊ぶ</span><span aria-hidden="true">↗</span></a></div></div>
     </article><article class="mt-game" data-mt-card="word-wolf2">
-      <a class="mt-card-art mt-amber" href="https://kouheim1979.github.io/games/word-wolf2/" data-mt-game="word-wolf2" aria-label="ワードウルフ 2"><span aria-hidden="true">W₂</span><small aria-hidden="true">04 / PLAY</small></a>
-      <div class="mt-card-body"><div class="mt-card-tag"><span data-mt-i18n="party">みんなで</span></div><h3><a data-mt-game="word-wolf2" href="https://kouheim1979.github.io/games/word-wolf2/" data-mt-title="word-wolf2">ワードウルフ 2</a></h3><div class="mt-original-title" data-mt-original-title="word-wolf2" lang="ja" hidden>ワードウルフ 2</div><p class="mt-card-description" data-mt-description="word-wolf2">もうひとつのワードウルフ。お題を確認したら、みんなで話し合おう。</p><details class="mt-howto"><summary data-mt-i18n="how">遊び方</summary><p data-mt-steps="word-wolf2">参加者とウルフの人数を設定し、1台を回して自分のお題だけを確認します。お題そのものを言わずに話し合い、違うお題を持っていそうな人へ投票します。</p><p data-mt-tip="word-wolf2">最初は広い特徴から話すと、お題がすぐにばれず会話が続きます。大逆転モードを使うと、追放後にウルフが市民のお題を当てるチャンスがあります。</p></details><div class="mt-card-bottom"><span data-mt-i18n="original" class="mt-card-language">ゲーム画面も4言語</span><a class="mt-playlink" href="https://kouheim1979.github.io/games/word-wolf2/" data-mt-game="word-wolf2"><span data-mt-i18n="play">遊ぶ</span><span aria-hidden="true">↗</span></a></div></div>
+      <h3 class="mt-card-heading">
+        <a class="mt-card-art mt-amber" href="https://kouheim1979.github.io/games/word-wolf2/" data-mt-game="word-wolf2">
+          <img class="mt-game-logo" src="https://kouheim1979.github.io/games/portal/logos/word-wolf2.webp" alt="" width="256" height="256" loading="lazy" decoding="async">
+          <span class="mt-card-wordmark" data-mt-title="word-wolf2">ワードウルフ 2</span>
+        </a>
+      </h3>
+      <div class="mt-card-body"><div class="mt-card-tag"><span data-mt-i18n="party">みんなで</span></div><div class="mt-original-title" data-mt-original-title="word-wolf2" lang="ja" hidden>ワードウルフ 2</div><p class="mt-card-description" data-mt-description="word-wolf2">もうひとつのワードウルフ。お題を確認したら、みんなで話し合おう。</p><details class="mt-howto"><summary data-mt-i18n="how">遊び方</summary><p data-mt-steps="word-wolf2">参加者とウルフの人数を設定し、1台を回して自分のお題だけを確認します。お題そのものを言わずに話し合い、違うお題を持っていそうな人へ投票します。</p><p data-mt-tip="word-wolf2">最初は広い特徴から話すと、お題がすぐにばれず会話が続きます。大逆転モードを使うと、追放後にウルフが市民のお題を当てるチャンスがあります。</p></details><div class="mt-card-bottom"><span data-mt-i18n="original" class="mt-card-language">ゲーム画面も4言語</span><a class="mt-playlink" href="https://kouheim1979.github.io/games/word-wolf2/" data-mt-game="word-wolf2"><span data-mt-i18n="play">遊ぶ</span><span aria-hidden="true">↗</span></a></div></div>
     </article><article class="mt-game" data-mt-card="Chroma-sort">
-      <a class="mt-card-art mt-violet" href="https://kouheim1979.github.io/games/Chroma-sort/" data-mt-game="Chroma-sort" aria-label="Chroma Sort"><span aria-hidden="true">▦</span><small aria-hidden="true">05 / PLAY</small></a>
-      <div class="mt-card-body"><div class="mt-card-tag"><span data-mt-i18n="puzzle">パズル</span></div><h3><a data-mt-game="Chroma-sort" href="https://kouheim1979.github.io/games/Chroma-sort/" data-mt-title="Chroma-sort">Chroma Sort</a></h3><div class="mt-original-title" data-mt-original-title="Chroma-sort" lang="ja" hidden>Chroma Sort</div><p class="mt-card-description" data-mt-description="Chroma-sort">色の並びを見ながら整理するソートパズル。次の一手を考えよう。</p><details class="mt-howto"><summary data-mt-i18n="how">遊び方</summary><p data-mt-steps="Chroma-sort">画面に並ぶ色を見比べ、ゲーム内の案内に沿って移動先を選び、色を整理します。最初は取り組みやすい難易度で、動かせる場所を確かめながら進めましょう。</p><p data-mt-tip="Chroma-sort">色の数や並びを一度に覚えようとせず、まず一色の行き先に注目してみましょう。途中で動かせなくなったら、別の動かし方を考えるのもパズルの楽しみです。</p></details><div class="mt-card-bottom"><span data-mt-i18n="original" class="mt-card-language">ゲーム画面も4言語</span><a class="mt-playlink" href="https://kouheim1979.github.io/games/Chroma-sort/" data-mt-game="Chroma-sort"><span data-mt-i18n="play">遊ぶ</span><span aria-hidden="true">↗</span></a></div></div>
+      <h3 class="mt-card-heading">
+        <a class="mt-card-art mt-violet" href="https://kouheim1979.github.io/games/Chroma-sort/" data-mt-game="Chroma-sort">
+          <img class="mt-game-logo" src="https://kouheim1979.github.io/games/portal/logos/Chroma-sort.webp" alt="" width="256" height="256" loading="lazy" decoding="async">
+          <span class="mt-card-wordmark" data-mt-title="Chroma-sort">Chroma Sort</span>
+        </a>
+      </h3>
+      <div class="mt-card-body"><div class="mt-card-tag"><span data-mt-i18n="puzzle">パズル</span></div><div class="mt-original-title" data-mt-original-title="Chroma-sort" lang="ja" hidden>Chroma Sort</div><p class="mt-card-description" data-mt-description="Chroma-sort">色の並びを見ながら整理するソートパズル。次の一手を考えよう。</p><details class="mt-howto"><summary data-mt-i18n="how">遊び方</summary><p data-mt-steps="Chroma-sort">画面に並ぶ色を見比べ、ゲーム内の案内に沿って移動先を選び、色を整理します。最初は取り組みやすい難易度で、動かせる場所を確かめながら進めましょう。</p><p data-mt-tip="Chroma-sort">色の数や並びを一度に覚えようとせず、まず一色の行き先に注目してみましょう。途中で動かせなくなったら、別の動かし方を考えるのもパズルの楽しみです。</p></details><div class="mt-card-bottom"><span data-mt-i18n="original" class="mt-card-language">ゲーム画面も4言語</span><a class="mt-playlink" href="https://kouheim1979.github.io/games/Chroma-sort/" data-mt-game="Chroma-sort"><span data-mt-i18n="play">遊ぶ</span><span aria-hidden="true">↗</span></a></div></div>
     </article><article class="mt-game" data-mt-card="yakitori">
-      <a class="mt-card-art mt-amber" href="https://kouheim1979.github.io/games/yakitori/" data-mt-game="yakitori" aria-label="やきとり ならべ"><span aria-hidden="true">≋</span><small aria-hidden="true">06 / PLAY</small></a>
-      <div class="mt-card-body"><div class="mt-card-tag"><span data-mt-i18n="puzzle">パズル</span></div><h3><a data-mt-game="yakitori" href="https://kouheim1979.github.io/games/yakitori/" data-mt-title="yakitori">やきとり ならべ</a></h3><div class="mt-original-title" data-mt-original-title="yakitori" lang="ja" hidden>やきとり ならべ</div><p class="mt-card-description" data-mt-description="yakitori">焼き台の串を入れ替えて3本そろえ、お客さんの注文に届けよう。</p><details class="mt-howto"><summary data-mt-i18n="how">遊び方</summary><p data-mt-steps="yakitori">串をタップしてから移動先の焼き台をタップし、空き場所へ移します。同じ焼き台に同じ串を3本そろえると、焼き上がってお客さんの注文に届きます。</p><p data-mt-tip="yakitori">焼き台と客席の「つぎ」を見て、先の注文も考えると運びやすくなります。待たせすぎて3人を怒らせると閉店です。困ったときは回数制限つきの補助を使えます。</p></details><div class="mt-card-bottom"><span data-mt-i18n="original" class="mt-card-language">ゲーム画面も4言語</span><a class="mt-playlink" href="https://kouheim1979.github.io/games/yakitori/" data-mt-game="yakitori"><span data-mt-i18n="play">遊ぶ</span><span aria-hidden="true">↗</span></a></div></div>
+      <h3 class="mt-card-heading">
+        <a class="mt-card-art mt-amber" href="https://kouheim1979.github.io/games/yakitori/" data-mt-game="yakitori">
+          <img class="mt-game-logo" src="https://kouheim1979.github.io/games/portal/logos/yakitori.webp" alt="" width="256" height="256" loading="lazy" decoding="async">
+          <span class="mt-card-wordmark" data-mt-title="yakitori">やきとり ならべ</span>
+        </a>
+      </h3>
+      <div class="mt-card-body"><div class="mt-card-tag"><span data-mt-i18n="puzzle">パズル</span></div><div class="mt-original-title" data-mt-original-title="yakitori" lang="ja" hidden>やきとり ならべ</div><p class="mt-card-description" data-mt-description="yakitori">焼き台の串を入れ替えて3本そろえ、お客さんの注文に届けよう。</p><details class="mt-howto"><summary data-mt-i18n="how">遊び方</summary><p data-mt-steps="yakitori">串をタップしてから移動先の焼き台をタップし、空き場所へ移します。同じ焼き台に同じ串を3本そろえると、焼き上がってお客さんの注文に届きます。</p><p data-mt-tip="yakitori">焼き台と客席の「つぎ」を見て、先の注文も考えると運びやすくなります。待たせすぎて3人を怒らせると閉店です。困ったときは回数制限つきの補助を使えます。</p></details><div class="mt-card-bottom"><span data-mt-i18n="original" class="mt-card-language">ゲーム画面も4言語</span><a class="mt-playlink" href="https://kouheim1979.github.io/games/yakitori/" data-mt-game="yakitori"><span data-mt-i18n="play">遊ぶ</span><span aria-hidden="true">↗</span></a></div></div>
     </article><article class="mt-game" data-mt-card="ryouri-shokudo">
-      <a class="mt-card-art mt-rose" href="https://kouheim1979.github.io/games/ryouri-shokudo/" data-mt-game="ryouri-shokudo" aria-label="おりょうり食堂"><span aria-hidden="true">♨</span><small aria-hidden="true">07 / PLAY</small></a>
-      <div class="mt-card-body"><div class="mt-card-tag"><span data-mt-i18n="casual">気軽に</span></div><h3><a data-mt-game="ryouri-shokudo" href="https://kouheim1979.github.io/games/ryouri-shokudo/" data-mt-title="ryouri-shokudo">おりょうり食堂</a></h3><div class="mt-original-title" data-mt-original-title="ryouri-shokudo" lang="ja" hidden>おりょうり食堂</div><p class="mt-card-description" data-mt-description="ryouri-shokudo">注文を聞いて、材料えらび・切る・焼く・まぜる・盛りつけ。星3つの料理をめざす食堂シミュレーション。</p><details class="mt-howto"><summary data-mt-i18n="how">遊び方</summary><p data-mt-steps="ryouri-shokudo">お客さんの注文を見て「つくる！」を押し、材料えらび・切る・焼く・まぜる・かけるの工程を順に進めます。工程ごとの出来ばえで星1〜3つが決まり、売上とチップがもらえます。</p><p data-mt-tip="ryouri-shokudo">焼く工程はメーターがみどりの範囲で火をとめ、かける工程はみどりの範囲でボタンをはなします。待たせすぎるとチップが出ないので、売上で包丁・フライパン・看板をそろえると楽になります。</p></details><div class="mt-card-bottom"><span data-mt-i18n="original" class="mt-card-language">ゲーム画面も4言語</span><a class="mt-playlink" href="https://kouheim1979.github.io/games/ryouri-shokudo/" data-mt-game="ryouri-shokudo"><span data-mt-i18n="play">遊ぶ</span><span aria-hidden="true">↗</span></a></div></div>
+      <h3 class="mt-card-heading">
+        <a class="mt-card-art mt-rose" href="https://kouheim1979.github.io/games/ryouri-shokudo/" data-mt-game="ryouri-shokudo">
+          <img class="mt-game-logo" src="https://kouheim1979.github.io/games/portal/logos/ryouri-shokudo.webp" alt="" width="256" height="256" loading="lazy" decoding="async">
+          <span class="mt-card-wordmark" data-mt-title="ryouri-shokudo">おりょうり食堂</span>
+        </a>
+      </h3>
+      <div class="mt-card-body"><div class="mt-card-tag"><span data-mt-i18n="casual">気軽に</span></div><div class="mt-original-title" data-mt-original-title="ryouri-shokudo" lang="ja" hidden>おりょうり食堂</div><p class="mt-card-description" data-mt-description="ryouri-shokudo">注文を聞いて、材料えらび・切る・焼く・まぜる・盛りつけ。星3つの料理をめざす食堂シミュレーション。</p><details class="mt-howto"><summary data-mt-i18n="how">遊び方</summary><p data-mt-steps="ryouri-shokudo">お客さんの注文を見て「つくる！」を押し、材料えらび・切る・焼く・まぜる・かけるの工程を順に進めます。工程ごとの出来ばえで星1〜3つが決まり、売上とチップがもらえます。</p><p data-mt-tip="ryouri-shokudo">焼く工程はメーターがみどりの範囲で火をとめ、かける工程はみどりの範囲でボタンをはなします。待たせすぎるとチップが出ないので、売上で包丁・フライパン・看板をそろえると楽になります。</p></details><div class="mt-card-bottom"><span data-mt-i18n="original" class="mt-card-language">ゲーム画面も4言語</span><a class="mt-playlink" href="https://kouheim1979.github.io/games/ryouri-shokudo/" data-mt-game="ryouri-shokudo"><span data-mt-i18n="play">遊ぶ</span><span aria-hidden="true">↗</span></a></div></div>
     </article><article class="mt-game" data-mt-card="atama-oshiri">
-      <a class="mt-card-art mt-blue" href="https://kouheim1979.github.io/games/atama-oshiri/" data-mt-game="atama-oshiri" aria-label="あたまとおしり"><span aria-hidden="true">あ…ん</span><small aria-hidden="true">08 / PLAY</small></a>
-      <div class="mt-card-body"><div class="mt-card-tag"><span data-mt-i18n="party">みんなで</span></div><h3><a data-mt-game="atama-oshiri" href="https://kouheim1979.github.io/games/atama-oshiri/" data-mt-title="atama-oshiri">あたまとおしり</a></h3><div class="mt-original-title" data-mt-original-title="atama-oshiri" lang="ja" hidden>あたまとおしり</div><p class="mt-card-description" data-mt-description="atama-oshiri">最初と最後の文字をヒントに、間をつなぐ日本語を考えよう。</p><details class="mt-howto"><summary data-mt-i18n="how">遊び方</summary><p data-mt-steps="atama-oshiri">指定された最初と最後の文字を使う日本語を考えます。ひとりモードは60秒でたくさん答える遊び、みんなモードはお題を見て口で答える早い者勝ちです。</p><p data-mt-tip="atama-oshiri">身近な食べ物や動物など、種類をひとつ決めると言葉が浮かびやすくなります。慣れてきたら文字数しばりにも挑戦できます。</p></details><div class="mt-card-bottom"><span data-mt-i18n="original" class="mt-card-language">ゲーム画面も4言語</span><a class="mt-playlink" href="https://kouheim1979.github.io/games/atama-oshiri/" data-mt-game="atama-oshiri"><span data-mt-i18n="play">遊ぶ</span><span aria-hidden="true">↗</span></a></div></div>
+      <h3 class="mt-card-heading">
+        <a class="mt-card-art mt-blue" href="https://kouheim1979.github.io/games/atama-oshiri/" data-mt-game="atama-oshiri">
+          <img class="mt-game-logo" src="https://kouheim1979.github.io/games/portal/logos/atama-oshiri.webp" alt="" width="256" height="256" loading="lazy" decoding="async">
+          <span class="mt-card-wordmark" data-mt-title="atama-oshiri">あたまとおしり</span>
+        </a>
+      </h3>
+      <div class="mt-card-body"><div class="mt-card-tag"><span data-mt-i18n="party">みんなで</span></div><div class="mt-original-title" data-mt-original-title="atama-oshiri" lang="ja" hidden>あたまとおしり</div><p class="mt-card-description" data-mt-description="atama-oshiri">最初と最後の文字をヒントに、間をつなぐ日本語を考えよう。</p><details class="mt-howto"><summary data-mt-i18n="how">遊び方</summary><p data-mt-steps="atama-oshiri">指定された最初と最後の文字を使う日本語を考えます。ひとりモードは60秒でたくさん答える遊び、みんなモードはお題を見て口で答える早い者勝ちです。</p><p data-mt-tip="atama-oshiri">身近な食べ物や動物など、種類をひとつ決めると言葉が浮かびやすくなります。慣れてきたら文字数しばりにも挑戦できます。</p></details><div class="mt-card-bottom"><span data-mt-i18n="original" class="mt-card-language">ゲーム画面も4言語</span><a class="mt-playlink" href="https://kouheim1979.github.io/games/atama-oshiri/" data-mt-game="atama-oshiri"><span data-mt-i18n="play">遊ぶ</span><span aria-hidden="true">↗</span></a></div></div>
     </article><article class="mt-game" data-mt-card="nihon-meguri-47">
-      <a class="mt-card-art mt-green" href="https://kouheim1979.github.io/games/nihon-meguri-47/" data-mt-game="nihon-meguri-47" aria-label="日本めぐり47"><span aria-hidden="true">日</span><small aria-hidden="true">09 / PLAY</small></a>
-      <div class="mt-card-body"><div class="mt-card-tag"><span data-mt-i18n="learn">学び・クイズ</span></div><h3><a data-mt-game="nihon-meguri-47" href="https://kouheim1979.github.io/games/nihon-meguri-47/" data-mt-title="nihon-meguri-47">日本めぐり47</a></h3><div class="mt-original-title" data-mt-original-title="nihon-meguri-47" lang="ja" hidden>日本めぐり47</div><p class="mt-card-description" data-mt-description="nihon-meguri-47">県庁所在地、名所、名物。4択クイズで日本の都道府県をめぐろう。</p><details class="mt-howto"><summary data-mt-i18n="how">遊び方</summary><p data-mt-steps="nihon-meguri-47">県庁所在地・名所・ご当地グルメなどからジャンルを選び、4つの選択肢から答えます。1回10問で、時間を気にせず解説を読みながら進められます。</p><p data-mt-tip="nihon-meguri-47">ふりがなを切り替えられるので、漢字が難しいときにも試せます。間違えた問題は復習し、答えだけでなく解説の地名や特徴も振り返ってみましょう。</p></details><div class="mt-card-bottom"><span data-mt-i18n="original" class="mt-card-language">ゲーム画面も4言語</span><a class="mt-playlink" href="https://kouheim1979.github.io/games/nihon-meguri-47/" data-mt-game="nihon-meguri-47"><span data-mt-i18n="play">遊ぶ</span><span aria-hidden="true">↗</span></a></div></div>
+      <h3 class="mt-card-heading">
+        <a class="mt-card-art mt-green" href="https://kouheim1979.github.io/games/nihon-meguri-47/" data-mt-game="nihon-meguri-47">
+          <img class="mt-game-logo" src="https://kouheim1979.github.io/games/portal/logos/nihon-meguri-47.webp" alt="" width="256" height="256" loading="lazy" decoding="async">
+          <span class="mt-card-wordmark" data-mt-title="nihon-meguri-47">日本めぐり47</span>
+        </a>
+      </h3>
+      <div class="mt-card-body"><div class="mt-card-tag"><span data-mt-i18n="learn">学び・クイズ</span></div><div class="mt-original-title" data-mt-original-title="nihon-meguri-47" lang="ja" hidden>日本めぐり47</div><p class="mt-card-description" data-mt-description="nihon-meguri-47">県庁所在地、名所、名物。4択クイズで日本の都道府県をめぐろう。</p><details class="mt-howto"><summary data-mt-i18n="how">遊び方</summary><p data-mt-steps="nihon-meguri-47">県庁所在地・名所・ご当地グルメなどからジャンルを選び、4つの選択肢から答えます。1回10問で、時間を気にせず解説を読みながら進められます。</p><p data-mt-tip="nihon-meguri-47">ふりがなを切り替えられるので、漢字が難しいときにも試せます。間違えた問題は復習し、答えだけでなく解説の地名や特徴も振り返ってみましょう。</p></details><div class="mt-card-bottom"><span data-mt-i18n="original" class="mt-card-language">ゲーム画面も4言語</span><a class="mt-playlink" href="https://kouheim1979.github.io/games/nihon-meguri-47/" data-mt-game="nihon-meguri-47"><span data-mt-i18n="play">遊ぶ</span><span aria-hidden="true">↗</span></a></div></div>
     </article><article class="mt-game" data-mt-card="jintori">
-      <a class="mt-card-art mt-green" href="https://kouheim1979.github.io/games/jintori/" data-mt-game="jintori" aria-label="日本地図ウルフ"><span aria-hidden="true">⌖</span><small aria-hidden="true">10 / PLAY</small></a>
-      <div class="mt-card-body"><div class="mt-card-tag"><span data-mt-i18n="learn">学び・クイズ</span></div><h3><a data-mt-game="jintori" href="https://kouheim1979.github.io/games/jintori/" data-mt-title="jintori">日本地図ウルフ</a></h3><div class="mt-original-title" data-mt-original-title="jintori" lang="ja" hidden>日本地図ウルフ</div><p class="mt-card-description" data-mt-description="jintori">お題のランキングをヒントに、地図から都道府県を選ぶ陣取りクイズ。</p><details class="mt-howto"><summary data-mt-i18n="how">遊び方</summary><p data-mt-steps="jintori">画面のお題と順位を手がかりに、日本地図で該当すると思う都道府県を選びます。問題が進むたびに、お題と地図の両方を確認しましょう。</p><p data-mt-tip="jintori">不正解で選んだ県も、次の問題以降に再び選べます。ランキングはゲーム内の条件や出典とあわせて読み、最新の公的順位と同じだと決めつけないでください。</p></details><div class="mt-card-bottom"><span data-mt-i18n="original" class="mt-card-language">ゲーム画面も4言語</span><a class="mt-playlink" href="https://kouheim1979.github.io/games/jintori/" data-mt-game="jintori"><span data-mt-i18n="play">遊ぶ</span><span aria-hidden="true">↗</span></a></div></div>
+      <h3 class="mt-card-heading">
+        <a class="mt-card-art mt-green" href="https://kouheim1979.github.io/games/jintori/" data-mt-game="jintori">
+          <img class="mt-game-logo" src="https://kouheim1979.github.io/games/portal/logos/jintori.webp" alt="" width="256" height="256" loading="lazy" decoding="async">
+          <span class="mt-card-wordmark" data-mt-title="jintori">日本地図ウルフ</span>
+        </a>
+      </h3>
+      <div class="mt-card-body"><div class="mt-card-tag"><span data-mt-i18n="learn">学び・クイズ</span></div><div class="mt-original-title" data-mt-original-title="jintori" lang="ja" hidden>日本地図ウルフ</div><p class="mt-card-description" data-mt-description="jintori">お題のランキングをヒントに、地図から都道府県を選ぶ陣取りクイズ。</p><details class="mt-howto"><summary data-mt-i18n="how">遊び方</summary><p data-mt-steps="jintori">画面のお題と順位を手がかりに、日本地図で該当すると思う都道府県を選びます。問題が進むたびに、お題と地図の両方を確認しましょう。</p><p data-mt-tip="jintori">不正解で選んだ県も、次の問題以降に再び選べます。ランキングはゲーム内の条件や出典とあわせて読み、最新の公的順位と同じだと決めつけないでください。</p></details><div class="mt-card-bottom"><span data-mt-i18n="original" class="mt-card-language">ゲーム画面も4言語</span><a class="mt-playlink" href="https://kouheim1979.github.io/games/jintori/" data-mt-game="jintori"><span data-mt-i18n="play">遊ぶ</span><span aria-hidden="true">↗</span></a></div></div>
     </article><article class="mt-game" data-mt-card="kotowaza">
-      <a class="mt-card-art mt-rose" href="https://kouheim1979.github.io/games/kotowaza/" data-mt-game="kotowaza" aria-label="ことばクエスト"><span aria-hidden="true">言</span><small aria-hidden="true">11 / PLAY</small></a>
-      <div class="mt-card-body"><div class="mt-card-tag"><span data-mt-i18n="learn">学び・クイズ</span></div><h3><a data-mt-game="kotowaza" href="https://kouheim1979.github.io/games/kotowaza/" data-mt-title="kotowaza">ことばクエスト</a></h3><div class="mt-original-title" data-mt-original-title="kotowaza" lang="ja" hidden>ことばクエスト</div><p class="mt-card-description" data-mt-description="kotowaza">慣用句・ことわざ・故事成語をクイズで学ぶ、ことばの冒険。</p><details class="mt-howto"><summary data-mt-i18n="how">遊び方</summary><p data-mt-steps="kotowaza">慣用句・ことわざ・故事成語などのモードを選び、10問のクイズに答えます。意味を選ぶ問題だけでなく、場面に合う言葉を考える問題もあります。</p><p data-mt-tip="kotowaza">結果を見たら言葉図鑑や復習モードへ。間違えた表現を自分の言葉で説明したり、日常の例文をひとつ考えたりすると、意味を振り返りやすくなります。</p></details><div class="mt-card-bottom"><span data-mt-i18n="original" class="mt-card-language">ゲーム画面も4言語</span><a class="mt-playlink" href="https://kouheim1979.github.io/games/kotowaza/" data-mt-game="kotowaza"><span data-mt-i18n="play">遊ぶ</span><span aria-hidden="true">↗</span></a></div></div>
+      <h3 class="mt-card-heading">
+        <a class="mt-card-art mt-rose" href="https://kouheim1979.github.io/games/kotowaza/" data-mt-game="kotowaza">
+          <img class="mt-game-logo" src="https://kouheim1979.github.io/games/portal/logos/kotowaza.webp" alt="" width="256" height="256" loading="lazy" decoding="async">
+          <span class="mt-card-wordmark" data-mt-title="kotowaza">ことばクエスト</span>
+        </a>
+      </h3>
+      <div class="mt-card-body"><div class="mt-card-tag"><span data-mt-i18n="learn">学び・クイズ</span></div><div class="mt-original-title" data-mt-original-title="kotowaza" lang="ja" hidden>ことばクエスト</div><p class="mt-card-description" data-mt-description="kotowaza">慣用句・ことわざ・故事成語をクイズで学ぶ、ことばの冒険。</p><details class="mt-howto"><summary data-mt-i18n="how">遊び方</summary><p data-mt-steps="kotowaza">慣用句・ことわざ・故事成語などのモードを選び、10問のクイズに答えます。意味を選ぶ問題だけでなく、場面に合う言葉を考える問題もあります。</p><p data-mt-tip="kotowaza">結果を見たら言葉図鑑や復習モードへ。間違えた表現を自分の言葉で説明したり、日常の例文をひとつ考えたりすると、意味を振り返りやすくなります。</p></details><div class="mt-card-bottom"><span data-mt-i18n="original" class="mt-card-language">ゲーム画面も4言語</span><a class="mt-playlink" href="https://kouheim1979.github.io/games/kotowaza/" data-mt-game="kotowaza"><span data-mt-i18n="play">遊ぶ</span><span aria-hidden="true">↗</span></a></div></div>
     </article><article class="mt-game" data-mt-card="nazonazo-kids">
-      <a class="mt-card-art mt-amber" href="https://kouheim1979.github.io/games/nazonazo-kids/" data-mt-game="nazonazo-kids" aria-label="小4なぞなぞ探偵団"><span aria-hidden="true">？</span><small aria-hidden="true">12 / PLAY</small></a>
-      <div class="mt-card-body"><div class="mt-card-tag"><span data-mt-i18n="learn">学び・クイズ</span></div><h3><a data-mt-game="nazonazo-kids" href="https://kouheim1979.github.io/games/nazonazo-kids/" data-mt-title="nazonazo-kids">小4なぞなぞ探偵団</a></h3><div class="mt-original-title" data-mt-original-title="nazonazo-kids" lang="ja" hidden>小4なぞなぞ探偵団</div><p class="mt-card-description" data-mt-description="nazonazo-kids">なぞなぞを解いて名探偵に。解説を読みながら、小4の学習にもつなげよう。</p><details class="mt-howto"><summary data-mt-i18n="how">遊び方</summary><p data-mt-steps="nazonazo-kids">表示されたなぞなぞを読み、答えを考えて進めます。ひとつの言葉に別の意味がないか、問題の読み方を変えられないかも試してみましょう。</p><p data-mt-tip="nazonazo-kids">答えがわかったら、解説で「なぜその答えになるのか」も確認します。家族と遊ぶときは、すぐ正解を教えずにヒントを少しずつ出すと会話が広がります。</p></details><div class="mt-card-bottom"><span data-mt-i18n="original" class="mt-card-language">ゲーム画面も4言語</span><a class="mt-playlink" href="https://kouheim1979.github.io/games/nazonazo-kids/" data-mt-game="nazonazo-kids"><span data-mt-i18n="play">遊ぶ</span><span aria-hidden="true">↗</span></a></div></div>
+      <h3 class="mt-card-heading">
+        <a class="mt-card-art mt-amber" href="https://kouheim1979.github.io/games/nazonazo-kids/" data-mt-game="nazonazo-kids">
+          <img class="mt-game-logo" src="https://kouheim1979.github.io/games/portal/logos/nazonazo-kids.webp" alt="" width="256" height="256" loading="lazy" decoding="async">
+          <span class="mt-card-wordmark" data-mt-title="nazonazo-kids">小4なぞなぞ探偵団</span>
+        </a>
+      </h3>
+      <div class="mt-card-body"><div class="mt-card-tag"><span data-mt-i18n="learn">学び・クイズ</span></div><div class="mt-original-title" data-mt-original-title="nazonazo-kids" lang="ja" hidden>小4なぞなぞ探偵団</div><p class="mt-card-description" data-mt-description="nazonazo-kids">なぞなぞを解いて名探偵に。解説を読みながら、小4の学習にもつなげよう。</p><details class="mt-howto"><summary data-mt-i18n="how">遊び方</summary><p data-mt-steps="nazonazo-kids">表示されたなぞなぞを読み、答えを考えて進めます。ひとつの言葉に別の意味がないか、問題の読み方を変えられないかも試してみましょう。</p><p data-mt-tip="nazonazo-kids">答えがわかったら、解説で「なぜその答えになるのか」も確認します。家族と遊ぶときは、すぐ正解を教えずにヒントを少しずつ出すと会話が広がります。</p></details><div class="mt-card-bottom"><span data-mt-i18n="original" class="mt-card-language">ゲーム画面も4言語</span><a class="mt-playlink" href="https://kouheim1979.github.io/games/nazonazo-kids/" data-mt-game="nazonazo-kids"><span data-mt-i18n="play">遊ぶ</span><span aria-hidden="true">↗</span></a></div></div>
     </article><article class="mt-game" data-mt-card="react-game">
-      <a class="mt-card-art mt-rose" href="https://kouheim1979.github.io/games/react-game/" data-mt-game="react-game" aria-label="反射神経ゲーム"><span aria-hidden="true">ϟ</span><small aria-hidden="true">13 / PLAY</small></a>
-      <div class="mt-card-body"><div class="mt-card-tag"><span data-mt-i18n="casual">気軽に</span></div><h3><a data-mt-game="react-game" href="https://kouheim1979.github.io/games/react-game/" data-mt-title="react-game">反射神経ゲーム</a></h3><div class="mt-original-title" data-mt-original-title="react-game" lang="ja" hidden>反射神経ゲーム</div><p class="mt-card-description" data-mt-description="react-game">合図を見逃さずタップ。自分の反応の速さに挑戦しよう。</p><details class="mt-howto"><summary data-mt-i18n="how">遊び方</summary><p data-mt-steps="react-game">スタートしたら合図を待ち、「タップ！」と出たときだけ押します。早押しや別の表示への反応は失敗になるので、速さだけでなく見極めも大切です。</p><p data-mt-tip="react-game">フェイントに引っかからずに押せた回の記録を比べてみましょう。端末やブラウザーの遅延にも左右される遊びの記録で、医学的な反応速度の検査ではありません。</p></details><div class="mt-card-bottom"><span data-mt-i18n="original" class="mt-card-language">ゲーム画面も4言語</span><a class="mt-playlink" href="https://kouheim1979.github.io/games/react-game/" data-mt-game="react-game"><span data-mt-i18n="play">遊ぶ</span><span aria-hidden="true">↗</span></a></div></div>
+      <h3 class="mt-card-heading">
+        <a class="mt-card-art mt-rose" href="https://kouheim1979.github.io/games/react-game/" data-mt-game="react-game">
+          <img class="mt-game-logo" src="https://kouheim1979.github.io/games/portal/logos/react-game.webp" alt="" width="256" height="256" loading="lazy" decoding="async">
+          <span class="mt-card-wordmark" data-mt-title="react-game">反射神経ゲーム</span>
+        </a>
+      </h3>
+      <div class="mt-card-body"><div class="mt-card-tag"><span data-mt-i18n="casual">気軽に</span></div><div class="mt-original-title" data-mt-original-title="react-game" lang="ja" hidden>反射神経ゲーム</div><p class="mt-card-description" data-mt-description="react-game">合図を見逃さずタップ。自分の反応の速さに挑戦しよう。</p><details class="mt-howto"><summary data-mt-i18n="how">遊び方</summary><p data-mt-steps="react-game">スタートしたら合図を待ち、「タップ！」と出たときだけ押します。早押しや別の表示への反応は失敗になるので、速さだけでなく見極めも大切です。</p><p data-mt-tip="react-game">フェイントに引っかからずに押せた回の記録を比べてみましょう。端末やブラウザーの遅延にも左右される遊びの記録で、医学的な反応速度の検査ではありません。</p></details><div class="mt-card-bottom"><span data-mt-i18n="original" class="mt-card-language">ゲーム画面も4言語</span><a class="mt-playlink" href="https://kouheim1979.github.io/games/react-game/" data-mt-game="react-game"><span data-mt-i18n="play">遊ぶ</span><span aria-hidden="true">↗</span></a></div></div>
     </article><article class="mt-game" data-mt-card="ketahazure">
-      <a class="mt-card-art mt-amber" href="https://kouheim1979.github.io/games/ketahazure/" data-mt-game="ketahazure" aria-label="桁外れ"><span aria-hidden="true">桁</span><small aria-hidden="true">14 / PLAY</small></a>
-      <div class="mt-card-body"><div class="mt-card-tag"><span data-mt-i18n="casual">気軽に</span></div><h3><a data-mt-game="ketahazure" href="https://kouheim1979.github.io/games/ketahazure/" data-mt-title="ketahazure">桁外れ</a></h3><div class="mt-original-title" data-mt-original-title="ketahazure" lang="ja" hidden>桁外れ</div><p class="mt-card-description" data-mt-description="ketahazure">玉を落として数を育てる縁日ゲーム。札を選んで、さらに大きな桁へ。</p><details class="mt-howto"><summary data-mt-i18n="how">遊び方</summary><p data-mt-steps="ketahazure">玉を落として数を増やします。</p><p data-mt-tip="ketahazure">札が出たら、使いたい札をタップします。</p></details><div class="mt-card-bottom"><span data-mt-i18n="japaneseGame" class="mt-card-language">ゲーム画面は日本語</span><a class="mt-playlink" href="https://kouheim1979.github.io/games/ketahazure/" data-mt-game="ketahazure"><span data-mt-i18n="play">遊ぶ</span><span aria-hidden="true">↗</span></a></div></div>
+      <h3 class="mt-card-heading">
+        <a class="mt-card-art mt-amber" href="https://kouheim1979.github.io/games/ketahazure/" data-mt-game="ketahazure">
+          <img class="mt-game-logo" src="https://kouheim1979.github.io/games/portal/logos/ketahazure.webp" alt="" width="256" height="256" loading="lazy" decoding="async">
+          <span class="mt-card-wordmark" data-mt-title="ketahazure">桁外れ</span>
+        </a>
+      </h3>
+      <div class="mt-card-body"><div class="mt-card-tag"><span data-mt-i18n="casual">気軽に</span></div><div class="mt-original-title" data-mt-original-title="ketahazure" lang="ja" hidden>桁外れ</div><p class="mt-card-description" data-mt-description="ketahazure">玉を落として数を育てる縁日ゲーム。札を選んで、さらに大きな桁へ。</p><details class="mt-howto"><summary data-mt-i18n="how">遊び方</summary><p data-mt-steps="ketahazure">玉を落として数を増やします。</p><p data-mt-tip="ketahazure">札が出たら、使いたい札をタップします。</p></details><div class="mt-card-bottom"><span data-mt-i18n="japaneseGame" class="mt-card-language">ゲーム画面は日本語</span><a class="mt-playlink" href="https://kouheim1979.github.io/games/ketahazure/" data-mt-game="ketahazure"><span data-mt-i18n="play">遊ぶ</span><span aria-hidden="true">↗</span></a></div></div>
     </article><article class="mt-game" data-mt-card="dopamine-overdrive">
-      <a class="mt-card-art mt-violet" href="https://kouheim1979.github.io/games/dopamine-overdrive/" data-mt-game="dopamine-overdrive" aria-label="DOPAMINE OVERDRIVE（ドーパミン・オーバードライブ）"><span aria-hidden="true">✦</span><small aria-hidden="true">15 / PLAY</small></a>
-      <div class="mt-card-body"><div class="mt-card-tag"><span data-mt-i18n="casual">気軽に</span></div><h3><a data-mt-game="dopamine-overdrive" href="https://kouheim1979.github.io/games/dopamine-overdrive/" data-mt-title="dopamine-overdrive">DOPAMINE OVERDRIVE（ドーパミン・オーバードライブ）</a></h3><div class="mt-original-title" data-mt-original-title="dopamine-overdrive" lang="ja" hidden>DOPAMINE OVERDRIVE（ドーパミン・オーバードライブ）</div><p class="mt-card-description" data-mt-description="dopamine-overdrive">ガチャでユニットを集め、次のガチャを回す資源を増やそう。</p><details class="mt-howto"><summary data-mt-i18n="how">遊び方</summary><p data-mt-steps="dopamine-overdrive">ガチャを回してユニットを集めます。</p><p data-mt-tip="dopamine-overdrive">資源がたまったら10連や50連を選べます。</p></details><div class="mt-card-bottom"><span data-mt-i18n="japaneseGame" class="mt-card-language">ゲーム画面は日本語</span><a class="mt-playlink" href="https://kouheim1979.github.io/games/dopamine-overdrive/" data-mt-game="dopamine-overdrive"><span data-mt-i18n="play">遊ぶ</span><span aria-hidden="true">↗</span></a></div></div>
+      <h3 class="mt-card-heading">
+        <a class="mt-card-art mt-violet" href="https://kouheim1979.github.io/games/dopamine-overdrive/" data-mt-game="dopamine-overdrive">
+          <img class="mt-game-logo" src="https://kouheim1979.github.io/games/portal/logos/dopamine-overdrive.webp" alt="" width="256" height="256" loading="lazy" decoding="async">
+          <span class="mt-card-wordmark" data-mt-title="dopamine-overdrive">DOPAMINE OVERDRIVE（ドーパミン・オーバードライブ）</span>
+        </a>
+      </h3>
+      <div class="mt-card-body"><div class="mt-card-tag"><span data-mt-i18n="casual">気軽に</span></div><div class="mt-original-title" data-mt-original-title="dopamine-overdrive" lang="ja" hidden>DOPAMINE OVERDRIVE（ドーパミン・オーバードライブ）</div><p class="mt-card-description" data-mt-description="dopamine-overdrive">ガチャでユニットを集め、次のガチャを回す資源を増やそう。</p><details class="mt-howto"><summary data-mt-i18n="how">遊び方</summary><p data-mt-steps="dopamine-overdrive">ガチャを回してユニットを集めます。</p><p data-mt-tip="dopamine-overdrive">資源がたまったら10連や50連を選べます。</p></details><div class="mt-card-bottom"><span data-mt-i18n="japaneseGame" class="mt-card-language">ゲーム画面は日本語</span><a class="mt-playlink" href="https://kouheim1979.github.io/games/dopamine-overdrive/" data-mt-game="dopamine-overdrive"><span data-mt-i18n="play">遊ぶ</span><span aria-hidden="true">↗</span></a></div></div>
     </article><article class="mt-game" data-mt-card="neon-cascade">
-      <a class="mt-card-art mt-green" href="https://kouheim1979.github.io/games/neon-cascade/" data-mt-game="neon-cascade" aria-label="NEON CASCADE（ネオン・カスケード）"><span aria-hidden="true">ϟ</span><small aria-hidden="true">16 / PLAY</small></a>
-      <div class="mt-card-body"><div class="mt-card-tag"><span data-mt-i18n="puzzle">パズル</span></div><h3><a data-mt-game="neon-cascade" href="https://kouheim1979.github.io/games/neon-cascade/" data-mt-title="neon-cascade">NEON CASCADE（ネオン・カスケード）</a></h3><div class="mt-original-title" data-mt-original-title="neon-cascade" lang="ja" hidden>NEON CASCADE（ネオン・カスケード）</div><p class="mt-card-description" data-mt-description="neon-cascade">同じ色をなぞって連鎖を狙う、60秒のアクションパズル。</p><details class="mt-howto"><summary data-mt-i18n="how">遊び方</summary><p data-mt-steps="neon-cascade">同じ色を3つ以上なぞります。</p><p data-mt-tip="neon-cascade">60秒のスコアに挑戦できます。</p></details><div class="mt-card-bottom"><span data-mt-i18n="japaneseGame" class="mt-card-language">ゲーム画面は日本語</span><a class="mt-playlink" href="https://kouheim1979.github.io/games/neon-cascade/" data-mt-game="neon-cascade"><span data-mt-i18n="play">遊ぶ</span><span aria-hidden="true">↗</span></a></div></div>
+      <h3 class="mt-card-heading">
+        <a class="mt-card-art mt-green" href="https://kouheim1979.github.io/games/neon-cascade/" data-mt-game="neon-cascade">
+          <img class="mt-game-logo" src="https://kouheim1979.github.io/games/portal/logos/neon-cascade.webp" alt="" width="256" height="256" loading="lazy" decoding="async">
+          <span class="mt-card-wordmark" data-mt-title="neon-cascade">NEON CASCADE（ネオン・カスケード）</span>
+        </a>
+      </h3>
+      <div class="mt-card-body"><div class="mt-card-tag"><span data-mt-i18n="puzzle">パズル</span></div><div class="mt-original-title" data-mt-original-title="neon-cascade" lang="ja" hidden>NEON CASCADE（ネオン・カスケード）</div><p class="mt-card-description" data-mt-description="neon-cascade">同じ色をなぞって連鎖を狙う、60秒のアクションパズル。</p><details class="mt-howto"><summary data-mt-i18n="how">遊び方</summary><p data-mt-steps="neon-cascade">同じ色を3つ以上なぞります。</p><p data-mt-tip="neon-cascade">60秒のスコアに挑戦できます。</p></details><div class="mt-card-bottom"><span data-mt-i18n="japaneseGame" class="mt-card-language">ゲーム画面は日本語</span><a class="mt-playlink" href="https://kouheim1979.github.io/games/neon-cascade/" data-mt-game="neon-cascade"><span data-mt-i18n="play">遊ぶ</span><span aria-hidden="true">↗</span></a></div></div>
     </article><article class="mt-game" data-mt-card="hitori-shiritori">
-      <a class="mt-card-art mt-blue" href="https://kouheim1979.github.io/games/hitori-shiritori/" data-mt-game="hitori-shiritori" aria-label="ひとりしりとり"><span aria-hidden="true">し</span><small aria-hidden="true">17 / PLAY</small></a>
-      <div class="mt-card-body"><div class="mt-card-tag"><span data-mt-i18n="learn">学び・クイズ</span></div><h3><a data-mt-game="hitori-shiritori" href="https://kouheim1979.github.io/games/hitori-shiritori/" data-mt-title="hitori-shiritori">ひとりしりとり</a></h3><div class="mt-original-title" data-mt-original-title="hitori-shiritori" lang="ja" hidden>ひとりしりとり</div><p class="mt-card-description" data-mt-description="hitori-shiritori">ことばカードをつないで、ひとりで遊べるしりとり。</p><details class="mt-howto"><summary data-mt-i18n="how">遊び方</summary><p data-mt-steps="hitori-shiritori">前のことばの最後の文字から始まるカードを選びます。</p><p data-mt-tip="hitori-shiritori">手元のカードを見比べながら、ことばをつなぎます。</p></details><div class="mt-card-bottom"><span data-mt-i18n="japaneseGame" class="mt-card-language">ゲーム画面は日本語</span><a class="mt-playlink" href="https://kouheim1979.github.io/games/hitori-shiritori/" data-mt-game="hitori-shiritori"><span data-mt-i18n="play">遊ぶ</span><span aria-hidden="true">↗</span></a></div></div>
+      <h3 class="mt-card-heading">
+        <a class="mt-card-art mt-blue" href="https://kouheim1979.github.io/games/hitori-shiritori/" data-mt-game="hitori-shiritori">
+          <img class="mt-game-logo" src="https://kouheim1979.github.io/games/portal/logos/hitori-shiritori.webp" alt="" width="256" height="256" loading="lazy" decoding="async">
+          <span class="mt-card-wordmark" data-mt-title="hitori-shiritori">ひとりしりとり</span>
+        </a>
+      </h3>
+      <div class="mt-card-body"><div class="mt-card-tag"><span data-mt-i18n="learn">学び・クイズ</span></div><div class="mt-original-title" data-mt-original-title="hitori-shiritori" lang="ja" hidden>ひとりしりとり</div><p class="mt-card-description" data-mt-description="hitori-shiritori">ことばカードをつないで、ひとりで遊べるしりとり。</p><details class="mt-howto"><summary data-mt-i18n="how">遊び方</summary><p data-mt-steps="hitori-shiritori">前のことばの最後の文字から始まるカードを選びます。</p><p data-mt-tip="hitori-shiritori">手元のカードを見比べながら、ことばをつなぎます。</p></details><div class="mt-card-bottom"><span data-mt-i18n="japaneseGame" class="mt-card-language">ゲーム画面は日本語</span><a class="mt-playlink" href="https://kouheim1979.github.io/games/hitori-shiritori/" data-mt-game="hitori-shiritori"><span data-mt-i18n="play">遊ぶ</span><span aria-hidden="true">↗</span></a></div></div>
     </article></div>
     <div id="mt-empty" class="mt-empty" hidden><p data-mt-i18n="empty">見つかりませんでした。別のことばで探してみてください。</p><button id="mt-reset" type="button" data-mt-i18n="reset">すべて表示</button></div>
     <p data-mt-i18n="originalNote" class="mt-language-note">サイトの案内とゲーム紹介は4言語で読めます。ゲーム画面の対応言語はカードに表示しています。問題文やお題は日本語です。</p>
@@ -429,58 +555,58 @@ for(const button of document.querySelectorAll('[data-print]')) button.addEventLi
 (function () {
   'use strict';
   const langs = ['ja', 'en', 'zh', 'es'];
-  const entry = (id, icon, color, groups, titles, descriptions, localizedGame = true) => ({
-    id, icon, color, groups, localizedGame,
+  const entry = (id, color, groups, titles, descriptions, localizedGame = true) => ({
+    id, color, groups, localizedGame,
     title: Object.fromEntries(langs.map((lang, i) => [lang, titles[i]])),
     description: Object.fromEntries(langs.map((lang, i) => [lang, descriptions[i]])),
     url: 'https://kouheim1979.github.io/games/' + id + '/'
   });
   // This is the owner's curated collection, not every directory in the repo.
   const games = [
-    entry('WaterSortPuzzle', '\u25d2', 'violet', ['puzzle'],
+    entry('WaterSortPuzzle', 'violet', ['puzzle'],
       ['Water Sort Puzzle', 'Water Sort Puzzle', '\u5f69\u6c34\u5206\u7c7b\u62fc\u56fe', 'Water Sort Puzzle'],
       ['\u8272\u6c34\u3092\u6ce8\u3044\u3067\u3001\u540c\u3058\u8272\u3092\u3072\u3068\u3064\u306e\u74f6\u306b\u3002\u3086\u3063\u304f\u308a\u8003\u3048\u305f\u3044\u65e5\u306e\u30d1\u30ba\u30eb\u3002', 'Pour, sort and bring matching colors together. A quiet puzzle for a little thinking time.', '\u5012\u51fa\u5f69\u6c34\uff0c\u628a\u76f8\u540c\u989c\u8272\u96c6\u4e2d\u5230\u4e00\u4e2a\u74f6\u5b50\u91cc\u3002\u9759\u4e0b\u5fc3\u6765\uff0c\u4eab\u53d7\u601d\u8003\u7684\u4e50\u8da3\u3002', 'Vierte y agrupa los colores en sus frascos. Un rompecabezas para pensar con calma.']),
-    entry('todofuken-draft', '47', 'green', ['party', 'learn'],
+    entry('todofuken-draft', 'green', ['party', 'learn'],
       ['\u90fd\u9053\u5e9c\u770c\u30c9\u30e9\u30d5\u30c8\u30d0\u30c8\u30eb', 'Prefecture Draft Battle', '\u90fd\u9053\u5e9c\u53bf\u9009\u79c0\u5bf9\u6218', 'Batalla de prefecturas'],
       ['47\u90fd\u9053\u5e9c\u770c\u3092\u6307\u540d\u3057\u3066\u3001\u81ea\u5206\u3060\u3051\u306e\u30c1\u30fc\u30e0\u3065\u304f\u308a\u3002CPU\u3068\u3082\u3001\u307f\u3093\u306a\u3068\u3082\u3002', 'Draft Japanese prefectures to build your own team. Play against the CPU or with a group.', '\u4ece\u65e5\u672c47\u4e2a\u90fd\u9053\u5e9c\u53bf\u4e2d\u9009\u79c0\uff0c\u7ec4\u5efa\u81ea\u5df1\u7684\u961f\u4f0d\u3002\u53ef\u6311\u6218\u7535\u8111\uff0c\u4e5f\u53ef\u591a\u4eba\u6e38\u73a9\u3002', 'Elige prefecturas de Jap\u00f3n y crea tu equipo. Juega contra la CPU o con m\u00e1s personas.']),
-    entry('rin-harbor', '\u2693', 'blue', ['puzzle'],
+    entry('rin-harbor', 'blue', ['puzzle'],
       ['\u30ea\u30f3\u30cf\u30fc\u30d0\u30fc', 'Rin Harbor', '\u7433\u7684\u6e2f\u6e7e', 'Rin Harbor'],
       ['\u30a2\u30a4\u30c6\u30e0\u3092\u5408\u6210\u3057\u3066\u3001\u6e2f\u306e\u7269\u8a9e\u3092\u9032\u3081\u3088\u3046\u3002\u30ea\u30f3\u3068\u697d\u3057\u3080\u5c0f\u3055\u306a\u5192\u967a\u3002', 'Merge items and follow the story of a harbor. A little adventure with Rin.', '\u5408\u6210\u7269\u54c1\uff0c\u63a8\u52a8\u6e2f\u6e7e\u7684\u6545\u4e8b\u3002\u548c\u7433\u4e00\u8d77\u5c55\u5f00\u5c0f\u5c0f\u7684\u5192\u9669\u3002', 'Combina objetos y avanza en la historia del puerto. Una peque\u00f1a aventura junto a Rin.']),
-    entry('word-wolf2', 'W\u2082', 'amber', ['party'],
+    entry('word-wolf2', 'amber', ['party'],
       ['\u30ef\u30fc\u30c9\u30a6\u30eb\u30d5 2', 'Word Wolf 2', '\u8bcd\u8bed\u72fc\u4eba 2', 'Word Wolf 2'],
       ['\u3082\u3046\u3072\u3068\u3064\u306e\u30ef\u30fc\u30c9\u30a6\u30eb\u30d5\u3002\u304a\u984c\u3092\u78ba\u8a8d\u3057\u305f\u3089\u3001\u307f\u3093\u306a\u3067\u8a71\u3057\u5408\u304a\u3046\u3002', 'Another version of Word Wolf. Check your word, then start the group discussion.', '\u8bcd\u8bed\u72fc\u4eba\u7684\u53e6\u4e00\u7248\u672c\u3002\u786e\u8ba4\u81ea\u5df1\u7684\u8bcd\u8bed\u540e\uff0c\u548c\u5927\u5bb6\u4e00\u8d77\u8ba8\u8bba\u3002', 'Otra versi\u00f3n de Word Wolf. Mira tu palabra y empieza la conversaci\u00f3n en grupo.']),
-    entry('Chroma-sort', '\u25a6', 'violet', ['puzzle'],
+    entry('Chroma-sort', 'violet', ['puzzle'],
       ['Chroma Sort', 'Chroma Sort', 'Chroma \u8272\u5f69\u5206\u7c7b', 'Chroma Sort'],
       ['\u8272\u306e\u4e26\u3073\u3092\u898b\u306a\u304c\u3089\u6574\u7406\u3059\u308b\u30bd\u30fc\u30c8\u30d1\u30ba\u30eb\u3002\u6b21\u306e\u4e00\u624b\u3092\u8003\u3048\u3088\u3046\u3002', 'A sorting puzzle built around color. Look at the arrangement and plan your next move.', '\u89c2\u5bdf\u989c\u8272\u7684\u6392\u5217\uff0c\u6574\u7406\u51fa\u6b63\u786e\u7684\u7ec4\u5408\u3002\u60f3\u597d\u4e0b\u4e00\u6b65\u518d\u884c\u52a8\u3002', 'Un puzle de clasificaci\u00f3n por colores. Observa la disposici\u00f3n y planea tu siguiente paso.']),
-    entry('yakitori', '\u224b', 'amber', ['puzzle'],
+    entry('yakitori', 'amber', ['puzzle'],
       ['\u3084\u304d\u3068\u308a \u306a\u3089\u3079', 'Yakitori Match', '\u70e4\u4e32\u6392\u5217', 'Combina brochetas'],
       ['\u713c\u304d\u53f0\u306e\u4e32\u3092\u5165\u308c\u66ff\u3048\u30663\u672c\u305d\u308d\u3048\u3001\u304a\u5ba2\u3055\u3093\u306e\u6ce8\u6587\u306b\u5c4a\u3051\u3088\u3046\u3002', 'Swap skewers on the grill, match three and serve your customers.', '\u4ea4\u6362\u70e4\u67b6\u4e0a\u7684\u70e4\u4e32\uff0c\u51d1\u9f50\u4e09\u4e32\uff0c\u5b8c\u6210\u5ba2\u4eba\u7684\u8ba2\u5355\u3002', 'Intercambia brochetas, junta tres iguales y sirve los pedidos de tus clientes.']),
-    entry('ryouri-shokudo', '\u2668', 'rose', ['casual'],
+    entry('ryouri-shokudo', 'rose', ['casual'],
       ['\u304a\u308a\u3087\u3046\u308a\u98df\u5802', 'Little Kitchen Diner', '\u6599\u7406\u5c0f\u98df\u5802', 'Peque\u00f1o comedor'],
       ['\u6ce8\u6587\u3092\u805e\u3044\u3066\u3001\u6750\u6599\u3048\u3089\u3073\u30fb\u5207\u308b\u30fb\u713c\u304f\u30fb\u307e\u305c\u308b\u30fb\u76db\u308a\u3064\u3051\u3002\u661f3\u3064\u306e\u6599\u7406\u3092\u3081\u3056\u3059\u98df\u5802\u30b7\u30df\u30e5\u30ec\u30fc\u30b7\u30e7\u30f3\u3002', 'Take orders, then pick, chop, cook, mix and pour. A diner simulation where you aim for three-star dishes.', '\u542c\u5ba2\u4eba\u70b9\u5355\uff0c\u9009\u6750\u3001\u5207\u83dc\u3001\u52a0\u70ed\u3001\u6405\u62cc\u3001\u88c5\u76d8\u3002\u4ee5\u4e09\u661f\u6599\u7406\u4e3a\u76ee\u6807\u7684\u98df\u5802\u6a21\u62df\u6e38\u620f\u3002', 'Toma pedidos y elige, corta, cocina, mezcla y sirve. Un simulador de comedor para lograr platos de tres estrellas.']),
-    entry('atama-oshiri', '\u3042\u2026\u3093', 'blue', ['party', 'learn'],
+    entry('atama-oshiri', 'blue', ['party', 'learn'],
       ['\u3042\u305f\u307e\u3068\u304a\u3057\u308a', 'First & Last', '\u8bcd\u8bed\u7684\u9996\u4e0e\u5c3e', 'Principio y final'],
       ['\u6700\u521d\u3068\u6700\u5f8c\u306e\u6587\u5b57\u3092\u30d2\u30f3\u30c8\u306b\u3001\u9593\u3092\u3064\u306a\u3050\u65e5\u672c\u8a9e\u3092\u8003\u3048\u3088\u3046\u3002', 'Use the first and last character as clues to think of a Japanese word.', '\u6839\u636e\u5f00\u5934\u548c\u7ed3\u5c3e\u7684\u6587\u5b57\uff0c\u60f3\u51fa\u8fde\u63a5\u5b83\u4eec\u7684\u65e5\u8bed\u8bcd\u8bed\u3002', 'Piensa en una palabra japonesa a partir de su primer y \u00faltimo car\u00e1cter.']),
-    entry('nihon-meguri-47', '\u65e5', 'green', ['learn'],
+    entry('nihon-meguri-47', 'green', ['learn'],
       ['\u65e5\u672c\u3081\u3050\u308a47', 'Discover Japan 47', '\u7545\u6e38\u65e5\u672c47', 'Descubre Jap\u00f3n 47'],
       ['\u770c\u5e81\u6240\u5728\u5730\u3001\u540d\u6240\u3001\u540d\u7269\u30024\u629e\u30af\u30a4\u30ba\u3067\u65e5\u672c\u306e\u90fd\u9053\u5e9c\u770c\u3092\u3081\u3050\u308d\u3046\u3002', 'Explore Japan through multiple-choice questions on prefectural capitals, sights and local specialties.', '\u901a\u8fc7\u56db\u9009\u4e00\u95ee\u7b54\uff0c\u4e86\u89e3\u65e5\u672c\u5404\u5730\u7684\u9996\u5e9c\u3001\u540d\u80dc\u548c\u7279\u4ea7\u3002', 'Recorre Jap\u00f3n con preguntas de opci\u00f3n m\u00faltiple sobre capitales, lugares y especialidades locales.']),
-    entry('jintori', '\u2316', 'green', ['learn'],
+    entry('jintori', 'green', ['learn'],
       ['\u65e5\u672c\u5730\u56f3\u30a6\u30eb\u30d5', 'Japan Map Wolf', '\u65e5\u672c\u5730\u56fe\u72fc\u4eba', 'Lobo del mapa de Jap\u00f3n'],
       ['\u304a\u984c\u306e\u30e9\u30f3\u30ad\u30f3\u30b0\u3092\u30d2\u30f3\u30c8\u306b\u3001\u5730\u56f3\u304b\u3089\u90fd\u9053\u5e9c\u770c\u3092\u9078\u3076\u9663\u53d6\u308a\u30af\u30a4\u30ba\u3002', 'Use ranking clues to choose prefectures on a map of Japan.', '\u6839\u636e\u6392\u540d\u63d0\u793a\uff0c\u5728\u65e5\u672c\u5730\u56fe\u4e0a\u9009\u62e9\u90fd\u9053\u5e9c\u53bf\uff0c\u6311\u6218\u9886\u5730\u95ee\u7b54\u3002', 'Usa las pistas de clasificaci\u00f3n para elegir prefecturas en el mapa de Jap\u00f3n.']),
-    entry('kotowaza', '\u8a00', 'rose', ['learn'],
+    entry('kotowaza', 'rose', ['learn'],
       ['\u3053\u3068\u3070\u30af\u30a8\u30b9\u30c8', 'Japanese Phrase Quest', '\u65e5\u8bed\u8bcd\u53e5\u4efb\u52a1', 'Aventura de expresiones'],
       ['\u6163\u7528\u53e5\u30fb\u3053\u3068\u308f\u3056\u30fb\u6545\u4e8b\u6210\u8a9e\u3092\u30af\u30a4\u30ba\u3067\u5b66\u3076\u3001\u3053\u3068\u3070\u306e\u5192\u967a\u3002', 'Explore Japanese idioms, proverbs and classical expressions through quizzes.', '\u901a\u8fc7\u95ee\u7b54\u5b66\u4e60\u65e5\u8bed\u60ef\u7528\u8bed\u3001\u8c1a\u8bed\u548c\u5178\u6545\u6210\u8bed\uff0c\u5c55\u5f00\u8bed\u8a00\u5192\u9669\u3002', 'Aprende modismos, refranes y expresiones cl\u00e1sicas japonesas con cuestionarios.']),
-    entry('nazonazo-kids', '\uff1f', 'amber', ['learn'],
+    entry('nazonazo-kids', 'amber', ['learn'],
       ['\u5c0f4\u306a\u305e\u306a\u305e\u63a2\u5075\u56e3', 'Kids\u2019 Riddle Detectives', '\u5c0f\u5b66\u751f\u8c1c\u8bed\u4fa6\u63a2\u56e2', 'Detectives de acertijos'],
       ['\u306a\u305e\u306a\u305e\u3092\u89e3\u3044\u3066\u540d\u63a2\u5075\u306b\u3002\u89e3\u8aac\u3092\u8aad\u307f\u306a\u304c\u3089\u3001\u5c0f4\u306e\u5b66\u7fd2\u306b\u3082\u3064\u306a\u3052\u3088\u3046\u3002', 'Solve riddles and become a detective. Explanations connect the puzzles with Japanese grade-four learning.', '\u89e3\u5f00\u8c1c\u8bed\uff0c\u6210\u4e3a\u5c0f\u4fa6\u63a2\u3002\u9605\u8bfb\u89e3\u8bf4\uff0c\u5de9\u56fa\u65e5\u672c\u5c0f\u5b66\u56db\u5e74\u7ea7\u7684\u77e5\u8bc6\u3002', 'Resuelve acertijos y convi\u00e9rtete en detective. Las explicaciones se relacionan con el cuarto curso de primaria en Jap\u00f3n.']),
-    entry('react-game', '\u03df', 'rose', ['casual'],
+    entry('react-game', 'rose', ['casual'],
       ['\u53cd\u5c04\u795e\u7d4c\u30b2\u30fc\u30e0', 'Reaction Time', '\u53cd\u5e94\u901f\u5ea6\u6e38\u620f', 'Tiempo de reacci\u00f3n'],
       ['\u5408\u56f3\u3092\u898b\u9003\u3055\u305a\u30bf\u30c3\u30d7\u3002\u81ea\u5206\u306e\u53cd\u5fdc\u306e\u901f\u3055\u306b\u6311\u6226\u3057\u3088\u3046\u3002', 'Watch for the signal and tap. Challenge your reaction speed.', '\u770b\u51c6\u4fe1\u53f7\uff0c\u8fc5\u901f\u70b9\u51fb\uff0c\u6311\u6218\u81ea\u5df1\u7684\u53cd\u5e94\u901f\u5ea6\u3002', 'Espera la se\u00f1al y toca. Pon a prueba tu velocidad de reacci\u00f3n.']),
 
-    entry("ketahazure", "\u6841", "amber", ["casual"], ["\u6841\u5916\u308c", "Ketahazure", "\u6841\u5916\u308c\uff1a\u6570\u5b57\u843d\u7403", "Ketahazure"], ["\u7389\u3092\u843d\u3068\u3057\u3066\u6570\u3092\u80b2\u3066\u308b\u7e01\u65e5\u30b2\u30fc\u30e0\u3002\u672d\u3092\u9078\u3093\u3067\u3001\u3055\u3089\u306b\u5927\u304d\u306a\u6841\u3078\u3002", "Drop balls, pick upgrade cards and grow your numbers.", "\u6295\u4e0b\u5c0f\u7403\uff0c\u9009\u62e9\u5347\u7ea7\u5361\uff0c\u8ba9\u6570\u5b57\u8d8a\u53d8\u8d8a\u5927\u3002", "Deja caer bolas, elige cartas de mejora y haz crecer tus n\u00fameros."], false),
-    entry("dopamine-overdrive", "\u2726", "violet", ["casual"], ["DOPAMINE OVERDRIVE\uff08\u30c9\u30fc\u30d1\u30df\u30f3\u30fb\u30aa\u30fc\u30d0\u30fc\u30c9\u30e9\u30a4\u30d6\uff09", "DOPAMINE OVERDRIVE", "DOPAMINE OVERDRIVE", "DOPAMINE OVERDRIVE"], ["\u30ac\u30c1\u30e3\u3067\u30e6\u30cb\u30c3\u30c8\u3092\u96c6\u3081\u3001\u6b21\u306e\u30ac\u30c1\u30e3\u3092\u56de\u3059\u8cc7\u6e90\u3092\u5897\u3084\u305d\u3046\u3002", "Collect units through draws and earn resources for more pulls.", "\u62bd\u53d6\u89d2\u8272\uff0c\u79ef\u7d2f\u8d44\u6e90\u7ee7\u7eed\u62bd\u5361\u3002", "Colecciona unidades y re\u00fane recursos para m\u00e1s tiradas."], false),
-    entry("neon-cascade", "\u03df", "green", ["puzzle", "casual"], ["NEON CASCADE\uff08\u30cd\u30aa\u30f3\u30fb\u30ab\u30b9\u30b1\u30fc\u30c9\uff09", "NEON CASCADE", "NEON CASCADE", "NEON CASCADE"], ["\u540c\u3058\u8272\u3092\u306a\u305e\u3063\u3066\u9023\u9396\u3092\u72d9\u3046\u300160\u79d2\u306e\u30a2\u30af\u30b7\u30e7\u30f3\u30d1\u30ba\u30eb\u3002", "Trace matching colors to trigger cascades in a 60-second puzzle.", "\u8fde\u63a5\u76f8\u540c\u989c\u8272\uff0c\u572860\u79d2\u5185\u89e6\u53d1\u8fde\u9501\u3002", "Une colores iguales y provoca reacciones en cadena en 60 segundos."], false),
-    entry("hitori-shiritori", "\u3057", "blue", ["learn"], ["\u3072\u3068\u308a\u3057\u308a\u3068\u308a", "Solo Shiritori", "\u5355\u4eba\u65e5\u8bed\u63a5\u9f99", "Shiritori en solitario"], ["\u3053\u3068\u3070\u30ab\u30fc\u30c9\u3092\u3064\u306a\u3044\u3067\u3001\u3072\u3068\u308a\u3067\u904a\u3079\u308b\u3057\u308a\u3068\u308a\u3002", "Link Japanese word cards in a solo game of shiritori.", "\u8fde\u63a5\u65e5\u8bed\u8bcd\u8bed\u5361\uff0c\u72ec\u81ea\u73a9\u8bcd\u8bed\u63a5\u9f99\u3002", "Encadena cartas de palabras japonesas en una partida individual de shiritori."], false)
+    entry("ketahazure", "amber", ["casual"], ["\u6841\u5916\u308c", "Ketahazure", "\u6841\u5916\u308c\uff1a\u6570\u5b57\u843d\u7403", "Ketahazure"], ["\u7389\u3092\u843d\u3068\u3057\u3066\u6570\u3092\u80b2\u3066\u308b\u7e01\u65e5\u30b2\u30fc\u30e0\u3002\u672d\u3092\u9078\u3093\u3067\u3001\u3055\u3089\u306b\u5927\u304d\u306a\u6841\u3078\u3002", "Drop balls, pick upgrade cards and grow your numbers.", "\u6295\u4e0b\u5c0f\u7403\uff0c\u9009\u62e9\u5347\u7ea7\u5361\uff0c\u8ba9\u6570\u5b57\u8d8a\u53d8\u8d8a\u5927\u3002", "Deja caer bolas, elige cartas de mejora y haz crecer tus n\u00fameros."], false),
+    entry("dopamine-overdrive", "violet", ["casual"], ["DOPAMINE OVERDRIVE\uff08\u30c9\u30fc\u30d1\u30df\u30f3\u30fb\u30aa\u30fc\u30d0\u30fc\u30c9\u30e9\u30a4\u30d6\uff09", "DOPAMINE OVERDRIVE", "DOPAMINE OVERDRIVE", "DOPAMINE OVERDRIVE"], ["\u30ac\u30c1\u30e3\u3067\u30e6\u30cb\u30c3\u30c8\u3092\u96c6\u3081\u3001\u6b21\u306e\u30ac\u30c1\u30e3\u3092\u56de\u3059\u8cc7\u6e90\u3092\u5897\u3084\u305d\u3046\u3002", "Collect units through draws and earn resources for more pulls.", "\u62bd\u53d6\u89d2\u8272\uff0c\u79ef\u7d2f\u8d44\u6e90\u7ee7\u7eed\u62bd\u5361\u3002", "Colecciona unidades y re\u00fane recursos para m\u00e1s tiradas."], false),
+    entry("neon-cascade", "green", ["puzzle", "casual"], ["NEON CASCADE\uff08\u30cd\u30aa\u30f3\u30fb\u30ab\u30b9\u30b1\u30fc\u30c9\uff09", "NEON CASCADE", "NEON CASCADE", "NEON CASCADE"], ["\u540c\u3058\u8272\u3092\u306a\u305e\u3063\u3066\u9023\u9396\u3092\u72d9\u3046\u300160\u79d2\u306e\u30a2\u30af\u30b7\u30e7\u30f3\u30d1\u30ba\u30eb\u3002", "Trace matching colors to trigger cascades in a 60-second puzzle.", "\u8fde\u63a5\u76f8\u540c\u989c\u8272\uff0c\u572860\u79d2\u5185\u89e6\u53d1\u8fde\u9501\u3002", "Une colores iguales y provoca reacciones en cadena en 60 segundos."], false),
+    entry("hitori-shiritori", "blue", ["learn"], ["\u3072\u3068\u308a\u3057\u308a\u3068\u308a", "Solo Shiritori", "\u5355\u4eba\u65e5\u8bed\u63a5\u9f99", "Shiritori en solitario"], ["\u3053\u3068\u3070\u30ab\u30fc\u30c9\u3092\u3064\u306a\u3044\u3067\u3001\u3072\u3068\u308a\u3067\u904a\u3079\u308b\u3057\u308a\u3068\u308a\u3002", "Link Japanese word cards in a solo game of shiritori.", "\u8fde\u63a5\u65e5\u8bed\u8bcd\u8bed\u5361\uff0c\u72ec\u81ea\u73a9\u8bcd\u8bed\u63a5\u9f99\u3002", "Encadena cartas de palabras japonesas en una partida individual de shiritori."], false)
   ];
   const ui = {
     ja: {
@@ -777,10 +903,6 @@ for(const button of document.querySelectorAll('[data-print]')) button.addEventLi
       $$('[data-mt-original-title]').forEach(el => {
         const game = games.find(g => g.id === el.dataset.mtOriginalTitle);
         el.hidden = lang === 'ja' || game.title.ja === game.title[lang];
-      });
-      $$('.mt-card-art[data-mt-game]').forEach(link => {
-        const game = games.find(g => g.id === link.dataset.mtGame);
-        if (game) link.setAttribute('aria-label', game.title[lang]);
       });
       $('.mt-filters')?.setAttribute('aria-label', t('games'));
       $('.mt-footer-links')?.setAttribute('aria-label', t('about'));

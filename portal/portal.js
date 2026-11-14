@@ -171,10 +171,6 @@
         const game = games.find(g => g.id === el.dataset.mtOriginalTitle);
         el.hidden = lang === 'ja' || game.title.ja === game.title[lang];
       });
-      $$('.mt-card-art[data-mt-game]').forEach(link => {
-        const game = games.find(g => g.id === link.dataset.mtGame);
-        if (game) link.setAttribute('aria-label', game.title[lang]);
-      });
       $('.mt-filters')?.setAttribute('aria-label', t('games'));
       $('.mt-footer-links')?.setAttribute('aria-label', t('about'));
       $$('[data-mt-lang]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.mtLang === lang)));

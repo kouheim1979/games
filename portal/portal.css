@@ -29,13 +29,9 @@
 .mt-feature { display:block; position:relative; padding:24px 26px 22px; background:#e9eade; border:1px solid #cdd2c2; transform:rotate(1deg); overflow:hidden; }
 .mt-feature:hover { color:var(--mt-ink)!important; }
 .mt-feature-top { display:flex; justify-content:space-between; gap:10px; font:10px/1.5 ui-monospace,monospace; color:var(--mt-muted); }
-.mt-feature-visual { height:174px; display:flex; justify-content:center; align-items:center; gap:17px; margin:10px 0 18px; }
-.mt-bottle { display:flex; flex-direction:column-reverse; height:124px; width:47px; border:2px solid #344a3b; border-top:0; border-radius:0 0 18px 18px; padding:5px; gap:3px; transform:rotate(-8deg); background:#f8f6ef80; box-shadow:4px 7px 0 #273d3410; }
-.mt-bottle:before { content:''; position:absolute; top:-8px; left:-3px; width:49px; height:8px; border:2px solid #344a3b; border-radius:4px; background:#e9eade; }
-.mt-bottle:nth-child(2) { transform:translateY(-10px); }
-.mt-bottle:nth-child(3) { transform:rotate(8deg); }
-.mt-bottle i { display:block; height:24px; border-radius:2px; flex-shrink:0; }
-.mt-purple { background:#a19ab8; }.mt-orange { background:#ce8a68; }.mt-lime { background:#a2b18b; }
+.mt-feature-visual { height:174px; display:grid; place-items:center; margin:10px 0 18px; }
+.mt-game-logo { display:block; width:100px; height:100px; object-fit:contain; }
+.mt-feature-visual .mt-game-logo { width:166px; height:166px; }
 .mt-feature h3 { font:500 21px/1.3 Georgia,serif; color:var(--mt-ink); }
 .mt-feature p { font-size:12px; color:var(--mt-muted); margin-top:6px; }
 .mt-feature-bottom { display:flex; justify-content:space-between; gap:15px; font-size:12px; margin-top:17px; padding-top:12px; border-top:1px solid #c5ccbc; }
@@ -57,16 +53,65 @@
 .mt-searchbox button { position:absolute; right:1px; top:1px; width:40px; height:41px; border:0; background:transparent; color:var(--mt-muted); font-size:20px; }
 .mt-gamegrid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:24px; }
 .mt-game { min-width:0; border:1px solid var(--mt-line); background:#fffdf7; display:flex; flex-direction:column; }
-.mt-card-art { height:123px; position:relative; display:flex; align-items:center; justify-content:center; overflow:hidden; border-bottom:1px solid var(--mt-line); color:#374638; }
-.mt-card-art:before,.mt-card-art:after { content:''; position:absolute; border:1px solid currentColor; opacity:.12; width:118px; height:118px; border-radius:50%; }
-.mt-card-art:before { left:-18px; bottom:-55px; }.mt-card-art:after { right:-38px; top:-52px; width:150px; height:150px; }
-.mt-card-art>span { position:relative; z-index:1; font:500 48px/1 Georgia,'Times New Roman',serif; letter-spacing:-.04em; transform:rotate(-6deg); }
-.mt-card-art>small { position:absolute; right:14px; bottom:10px; font:9px/1.5 ui-monospace,monospace; opacity:.6; }
-.mt-violet { background:#e8e4ed; color:#6a5b7d; }.mt-green { background:#e4e9d8; color:#4c6245; }.mt-blue { background:#dfe9ea; color:#486575; }.mt-rose { background:#efdfda; color:#965e56; }.mt-amber { background:#f0e6cb; color:#8f743f; }
+.mt-game .mt-card-heading { margin:0; }
+.mt-card-art {
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  min-height:168px;
+  padding:13px 12px 15px;
+  text-align:center;
+  background:radial-gradient(ellipse at 50% 35%,var(--mt-logo-halo,#ffffffb3),transparent 75%),var(--mt-logo-paper);
+  border-bottom:1px solid var(--mt-line);
+}
+.mt-card-heading .mt-card-art,.mt-card-heading .mt-card-art:hover { color:var(--mt-logo-ink); }
+.mt-card-art:hover .mt-card-wordmark { text-decoration:underline; text-underline-offset:.19em; }
+.mt-card-wordmark {
+  font:800 20px/1.3 ui-rounded,"Hiragino Maru Gothic ProN","Avenir Next",system-ui,sans-serif;
+  letter-spacing:-.025em;
+  overflow-wrap:anywhere;
+  text-wrap:balance;
+}
+.mt-violet { --mt-logo-paper:#eae2f4; --mt-logo-ink:#4d3977; }
+.mt-green { --mt-logo-paper:#e5ead6; --mt-logo-ink:#304d38; }
+.mt-blue { --mt-logo-paper:#dfedf2; --mt-logo-ink:#204761; }
+.mt-rose { --mt-logo-paper:#f5e0d8; --mt-logo-ink:#763820; }
+.mt-amber { --mt-logo-paper:#f5e8cb; --mt-logo-ink:#6c3c21; }
+[data-mt-card="todofuken-draft"] .mt-card-art { --mt-logo-paper:#f3e6cf; --mt-logo-ink:#7c3029; }
+[data-mt-card="rin-harbor"] .mt-card-art { --mt-logo-paper:#dceee6; --mt-logo-ink:#144c47; }
+[data-mt-card="word-wolf2"] .mt-card-art { --mt-logo-paper:#eedfeb; --mt-logo-ink:#5a2d5f; }
+[data-mt-card="Chroma-sort"] .mt-card-art { --mt-logo-paper:#e0e4fc; --mt-logo-ink:#383b88; }
+[data-mt-card="jintori"] .mt-card-art { --mt-logo-paper:#d9ecdf; --mt-logo-ink:#1e4d43; }
+[data-mt-card="kotowaza"] .mt-card-art { --mt-logo-paper:#f7ead4; --mt-logo-ink:#7a4330; }
+[data-mt-card="react-game"] .mt-card-art { --mt-logo-paper:#e0eee9; --mt-logo-ink:#244f55; }
+[data-mt-card="ketahazure"] .mt-card-art { --mt-logo-paper:#f7ddc7; --mt-logo-ink:#8b3029; }
+[data-mt-card="hitori-shiritori"] .mt-card-art { --mt-logo-paper:#e5eedb; --mt-logo-ink:#315b3b; }
+[data-mt-card="dopamine-overdrive"] .mt-card-art {
+  --mt-logo-paper:#201733; --mt-logo-halo:#5a367b; --mt-logo-ink:#fff2c9;
+}
+[data-mt-card="neon-cascade"] .mt-card-art {
+  --mt-logo-paper:#151f36; --mt-logo-halo:#304964; --mt-logo-ink:#d8fb90;
+}
+[data-mt-card="dopamine-overdrive"] .mt-card-wordmark,
+[data-mt-card="neon-cascade"] .mt-card-wordmark { font-size:18px; font-weight:900; letter-spacing:.015em; }
+[data-mt-card="nihon-meguri-47"] .mt-card-wordmark,
+[data-mt-card="kotowaza"] .mt-card-wordmark,
+[data-mt-card="ketahazure"] .mt-card-wordmark { font-family:"Hiragino Mincho ProN","Yu Mincho","Noto Serif CJK JP",Georgia,serif; }
+[data-mt-card="ketahazure"] .mt-card-wordmark { font-size:26px; letter-spacing:.08em; }
+@media(max-width:700px) {
+  .mt-feature-visual .mt-game-logo { width:131px; height:131px; }
+  .mt-card-art { min-height:144px; padding:10px 7px 12px; }
+  .mt-card-art .mt-game-logo { width:82px; height:82px; }
+  .mt-card-wordmark { font-size:15px; }
+  [data-mt-card="dopamine-overdrive"] .mt-card-wordmark,
+  [data-mt-card="neon-cascade"] .mt-card-wordmark { font-size:14px; }
+  [data-mt-card="ketahazure"] .mt-card-wordmark { font-size:22px; }
+}
 .mt-card-body { flex:1; padding:20px 20px 16px; display:flex; flex-direction:column; }
 .mt-card-tag { font:10px/1.6 ui-monospace,monospace; color:var(--mt-rust); margin-bottom:11px; }
-.mt-game h3 { font-size:18px; line-height:1.55; font-weight:600; color:var(--mt-ink); letter-spacing:-.02em; }
-.mt-game h3 a:hover { text-decoration:underline; text-underline-offset:4px; }
 .mt-original-title { font-size:11px; color:var(--mt-muted); margin-top:3px; }
 .mt-card-description { color:var(--mt-muted); font-size:13px; margin-top:10px!important; margin-bottom:18px!important; }
 .mt-card-bottom { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:auto; padding-top:13px; border-top:1px solid #e4e6db; }
@@ -126,8 +171,8 @@ body.mt-standalone { margin:0; background:var(--mt-paper); }
 body.mt-standalone>.mt-portal { padding:0 24px; }
 @media(min-width:1500px) { .mt-hero { gap:80px; } }
 @media(max-width:900px) { .mt-gamegrid { gap:18px; }.mt-hero { gap:30px; }.mt-card-body { padding:17px 16px 12px; }.mt-toolgrid { grid-template-columns:repeat(2,minmax(0,1fr)); }.mt-filters { gap:5px; }.mt-searchbox { max-width:none; } }
-@media(max-width:700px) { .mt-hero { grid-template-columns:1fr; gap:28px; padding:30px 0 34px; }.mt-hero h2 { font-size:clamp(30px,6.8vw,42px); }.mt-hero .mt-intro { max-width:none; }.mt-feature { transform:none; padding:20px; }.mt-feature-visual { height:135px; margin:4px 0 13px; }.mt-bottle { height:108px; width:43px; }.mt-bottle:before { width:45px; }.mt-bottle i { height:20px; }.mt-gamegrid { grid-template-columns:repeat(2,minmax(0,1fr)); }.mt-controls { display:block; }.mt-searchbox { margin-top:13px; min-width:0; }.mt-section-heading { padding-top:22px; gap:12px; }.mt-section-heading h2 { font-size:25px; }.mt-card-art { height:103px; }.mt-card-art>span { font-size:40px; }.mt-game h3 { font-size:16px; }.mt-card-description { font-size:12px; }.mt-card-bottom { align-items:start; flex-direction:column; gap:4px; }.mt-playlink { width:100%; justify-content:space-between; }.mt-tools { padding:24px 20px; margin:35px 0; }.mt-tools h2 { font-size:23px; }.mt-helpgrid { grid-template-columns:1fr; gap:22px; }.mt-helpgrid>div { display:grid; grid-template-columns:28px 1fr; column-gap:12px; }.mt-step { grid-row:span 2; padding-top:3px; }.mt-help h3 { margin-bottom:4px; }.mt-footer { flex-direction:column; gap:18px; }.mt-footer-links { justify-content:start; max-width:none; }.mt-indexline { font-size:9px; padding:14px 0; }.mt-languagebar { margin:14px auto 7px; gap:3px; }.mt-languagebar button { padding:7px 11px; }#mt-player { width:100%; height:100dvh; max-height:100dvh; border:0; border-radius:0; }.mt-player-header { padding:10px 12px 7px; gap:12px; }#mt-player-title { font-size:17px; }#mt-player-description { display:none; }.mt-player-tools { padding:0 12px 8px; }.mt-player-tools>span { flex-basis:100%; padding:0; }#mt-frame-hint { padding:6px 12px; }.mt-player-tools>a,.mt-player-tools>button { font-size:11px!important; min-height:36px; } }
-@media(max-width:400px) { .mt-card-body { padding:14px 12px 10px; }.mt-gamegrid { gap:12px; }.mt-card-art { height:91px; }.mt-game h3 { font-size:15px; }.mt-filters button { padding:7px 10px; font-size:11px; }.mt-result { font-size:10px; }.mt-section-heading h2 { font-size:23px; }.mt-indexline { letter-spacing:.04em; }.mt-languagebar button { padding:6px 10px; }.mt-toolgrid { grid-template-columns:1fr; gap:18px; }.mt-facts { gap:5px 13px; font-size:10px; } }
+@media(max-width:700px) { .mt-hero { grid-template-columns:1fr; gap:28px; padding:30px 0 34px; }.mt-hero h2 { font-size:clamp(30px,6.8vw,42px); }.mt-hero .mt-intro { max-width:none; }.mt-feature { transform:none; padding:20px; }.mt-feature-visual { height:135px; margin:4px 0 13px; }.mt-gamegrid { grid-template-columns:repeat(2,minmax(0,1fr)); }.mt-controls { display:block; }.mt-searchbox { margin-top:13px; min-width:0; }.mt-section-heading { padding-top:22px; gap:12px; }.mt-section-heading h2 { font-size:25px; }.mt-card-description { font-size:12px; }.mt-card-bottom { align-items:start; flex-direction:column; gap:4px; }.mt-playlink { width:100%; justify-content:space-between; }.mt-tools { padding:24px 20px; margin:35px 0; }.mt-tools h2 { font-size:23px; }.mt-helpgrid { grid-template-columns:1fr; gap:22px; }.mt-helpgrid>div { display:grid; grid-template-columns:28px 1fr; column-gap:12px; }.mt-step { grid-row:span 2; padding-top:3px; }.mt-help h3 { margin-bottom:4px; }.mt-footer { flex-direction:column; gap:18px; }.mt-footer-links { justify-content:start; max-width:none; }.mt-indexline { font-size:9px; padding:14px 0; }.mt-languagebar { margin:14px auto 7px; gap:3px; }.mt-languagebar button { padding:7px 11px; }#mt-player { width:100%; height:100dvh; max-height:100dvh; border:0; border-radius:0; }.mt-player-header { padding:10px 12px 7px; gap:12px; }#mt-player-title { font-size:17px; }#mt-player-description { display:none; }.mt-player-tools { padding:0 12px 8px; }.mt-player-tools>span { flex-basis:100%; padding:0; }#mt-frame-hint { padding:6px 12px; }.mt-player-tools>a,.mt-player-tools>button { font-size:11px!important; min-height:36px; } }
+@media(max-width:400px) { .mt-card-body { padding:14px 12px 10px; }.mt-gamegrid { gap:12px; }.mt-filters button { padding:7px 10px; font-size:11px; }.mt-result { font-size:10px; }.mt-section-heading h2 { font-size:23px; }.mt-indexline { letter-spacing:.04em; }.mt-languagebar button { padding:6px 10px; }.mt-toolgrid { grid-template-columns:1fr; gap:18px; }.mt-facts { gap:5px 13px; font-size:10px; } }
 @media(prefers-reduced-motion:reduce) { .mt-portal * { scroll-behavior:auto!important; } }
 .mt-howto { border-top:1px solid var(--mt-line); margin:12px 0; font-size:12px; color:var(--mt-muted); }
 .mt-howto summary { cursor:pointer; padding:10px 0; color:var(--mt-ink); font-weight:600; }

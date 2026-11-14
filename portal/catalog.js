@@ -1,58 +1,58 @@
 (function () {
   'use strict';
   const langs = ['ja', 'en', 'zh', 'es'];
-  const entry = (id, icon, color, groups, titles, descriptions, localizedGame = true) => ({
-    id, icon, color, groups, localizedGame,
+  const entry = (id, color, groups, titles, descriptions, localizedGame = true) => ({
+    id, color, groups, localizedGame,
     title: Object.fromEntries(langs.map((lang, i) => [lang, titles[i]])),
     description: Object.fromEntries(langs.map((lang, i) => [lang, descriptions[i]])),
     url: 'https://kouheim1979.github.io/games/' + id + '/'
   });
   // This is the owner's curated collection, not every directory in the repo.
   const games = [
-    entry('WaterSortPuzzle', '◒', 'violet', ['puzzle'],
+    entry('WaterSortPuzzle', 'violet', ['puzzle'],
       ['Water Sort Puzzle', 'Water Sort Puzzle', '彩水分类拼图', 'Water Sort Puzzle'],
       ['色水を注いで、同じ色をひとつの瓶に。ゆっくり考えたい日のパズル。', 'Pour, sort and bring matching colors together. A quiet puzzle for a little thinking time.', '倒出彩水，把相同颜色集中到一个瓶子里。静下心来，享受思考的乐趣。', 'Vierte y agrupa los colores en sus frascos. Un rompecabezas para pensar con calma.']),
-    entry('todofuken-draft', '47', 'green', ['party', 'learn'],
+    entry('todofuken-draft', 'green', ['party', 'learn'],
       ['都道府県ドラフトバトル', 'Prefecture Draft Battle', '都道府县选秀对战', 'Batalla de prefecturas'],
       ['47都道府県を指名して、自分だけのチームづくり。CPUとも、みんなとも。', 'Draft Japanese prefectures to build your own team. Play against the CPU or with a group.', '从日本47个都道府县中选秀，组建自己的队伍。可挑战电脑，也可多人游玩。', 'Elige prefecturas de Japón y crea tu equipo. Juega contra la CPU o con más personas.']),
-    entry('rin-harbor', '⚓', 'blue', ['puzzle'],
+    entry('rin-harbor', 'blue', ['puzzle'],
       ['リンハーバー', 'Rin Harbor', '琳的港湾', 'Rin Harbor'],
       ['アイテムを合成して、港の物語を進めよう。リンと楽しむ小さな冒険。', 'Merge items and follow the story of a harbor. A little adventure with Rin.', '合成物品，推动港湾的故事。和琳一起展开小小的冒险。', 'Combina objetos y avanza en la historia del puerto. Una pequeña aventura junto a Rin.']),
-    entry('word-wolf2', 'W₂', 'amber', ['party'],
+    entry('word-wolf2', 'amber', ['party'],
       ['ワードウルフ 2', 'Word Wolf 2', '词语狼人 2', 'Word Wolf 2'],
       ['もうひとつのワードウルフ。お題を確認したら、みんなで話し合おう。', 'Another version of Word Wolf. Check your word, then start the group discussion.', '词语狼人的另一版本。确认自己的词语后，和大家一起讨论。', 'Otra versión de Word Wolf. Mira tu palabra y empieza la conversación en grupo.']),
-    entry('Chroma-sort', '▦', 'violet', ['puzzle'],
+    entry('Chroma-sort', 'violet', ['puzzle'],
       ['Chroma Sort', 'Chroma Sort', 'Chroma 色彩分类', 'Chroma Sort'],
       ['色の並びを見ながら整理するソートパズル。次の一手を考えよう。', 'A sorting puzzle built around color. Look at the arrangement and plan your next move.', '观察颜色的排列，整理出正确的组合。想好下一步再行动。', 'Un puzle de clasificación por colores. Observa la disposición y planea tu siguiente paso.']),
-    entry('yakitori', '≋', 'amber', ['puzzle'],
+    entry('yakitori', 'amber', ['puzzle'],
       ['やきとり ならべ', 'Yakitori Match', '烤串排列', 'Combina brochetas'],
       ['焼き台の串を入れ替えて3本そろえ、お客さんの注文に届けよう。', 'Swap skewers on the grill, match three and serve your customers.', '交换烤架上的烤串，凑齐三串，完成客人的订单。', 'Intercambia brochetas, junta tres iguales y sirve los pedidos de tus clientes.']),
-    entry('ryouri-shokudo', '♨', 'rose', ['casual'],
+    entry('ryouri-shokudo', 'rose', ['casual'],
       ['おりょうり食堂', 'Little Kitchen Diner', '料理小食堂', 'Pequeño comedor'],
       ['注文を聞いて、材料えらび・切る・焼く・まぜる・盛りつけ。星3つの料理をめざす食堂シミュレーション。', 'Take orders, then pick, chop, cook, mix and pour. A diner simulation where you aim for three-star dishes.', '听客人点单，选材、切菜、加热、搅拌、装盘。以三星料理为目标的食堂模拟游戏。', 'Toma pedidos y elige, corta, cocina, mezcla y sirve. Un simulador de comedor para lograr platos de tres estrellas.']),
-    entry('atama-oshiri', 'あ…ん', 'blue', ['party', 'learn'],
+    entry('atama-oshiri', 'blue', ['party', 'learn'],
       ['あたまとおしり', 'First & Last', '词语的首与尾', 'Principio y final'],
       ['最初と最後の文字をヒントに、間をつなぐ日本語を考えよう。', 'Use the first and last character as clues to think of a Japanese word.', '根据开头和结尾的文字，想出连接它们的日语词语。', 'Piensa en una palabra japonesa a partir de su primer y último carácter.']),
-    entry('nihon-meguri-47', '日', 'green', ['learn'],
+    entry('nihon-meguri-47', 'green', ['learn'],
       ['日本めぐり47', 'Discover Japan 47', '畅游日本47', 'Descubre Japón 47'],
       ['県庁所在地、名所、名物。4択クイズで日本の都道府県をめぐろう。', 'Explore Japan through multiple-choice questions on prefectural capitals, sights and local specialties.', '通过四选一问答，了解日本各地的首府、名胜和特产。', 'Recorre Japón con preguntas de opción múltiple sobre capitales, lugares y especialidades locales.']),
-    entry('jintori', '⌖', 'green', ['learn'],
+    entry('jintori', 'green', ['learn'],
       ['日本地図ウルフ', 'Japan Map Wolf', '日本地图狼人', 'Lobo del mapa de Japón'],
       ['お題のランキングをヒントに、地図から都道府県を選ぶ陣取りクイズ。', 'Use ranking clues to choose prefectures on a map of Japan.', '根据排名提示，在日本地图上选择都道府县，挑战领地问答。', 'Usa las pistas de clasificación para elegir prefecturas en el mapa de Japón.']),
-    entry('kotowaza', '言', 'rose', ['learn'],
+    entry('kotowaza', 'rose', ['learn'],
       ['ことばクエスト', 'Japanese Phrase Quest', '日语词句任务', 'Aventura de expresiones'],
       ['慣用句・ことわざ・故事成語をクイズで学ぶ、ことばの冒険。', 'Explore Japanese idioms, proverbs and classical expressions through quizzes.', '通过问答学习日语惯用语、谚语和典故成语，展开语言冒险。', 'Aprende modismos, refranes y expresiones clásicas japonesas con cuestionarios.']),
-    entry('nazonazo-kids', '？', 'amber', ['learn'],
+    entry('nazonazo-kids', 'amber', ['learn'],
       ['小4なぞなぞ探偵団', 'Kids’ Riddle Detectives', '小学生谜语侦探团', 'Detectives de acertijos'],
       ['なぞなぞを解いて名探偵に。解説を読みながら、小4の学習にもつなげよう。', 'Solve riddles and become a detective. Explanations connect the puzzles with Japanese grade-four learning.', '解开谜语，成为小侦探。阅读解说，巩固日本小学四年级的知识。', 'Resuelve acertijos y conviértete en detective. Las explicaciones se relacionan con el cuarto curso de primaria en Japón.']),
-    entry('react-game', 'ϟ', 'rose', ['casual'],
+    entry('react-game', 'rose', ['casual'],
       ['反射神経ゲーム', 'Reaction Time', '反应速度游戏', 'Tiempo de reacción'],
       ['合図を見逃さずタップ。自分の反応の速さに挑戦しよう。', 'Watch for the signal and tap. Challenge your reaction speed.', '看准信号，迅速点击，挑战自己的反应速度。', 'Espera la señal y toca. Pon a prueba tu velocidad de reacción.']),
 
-    entry("ketahazure", "桁", "amber", ["casual"], ["桁外れ", "Ketahazure", "桁外れ：数字落球", "Ketahazure"], ["玉を落として数を育てる縁日ゲーム。札を選んで、さらに大きな桁へ。", "Drop balls, pick upgrade cards and grow your numbers.", "投下小球，选择升级卡，让数字越变越大。", "Deja caer bolas, elige cartas de mejora y haz crecer tus números."], false),
-    entry("dopamine-overdrive", "✦", "violet", ["casual"], ["DOPAMINE OVERDRIVE（ドーパミン・オーバードライブ）", "DOPAMINE OVERDRIVE", "DOPAMINE OVERDRIVE", "DOPAMINE OVERDRIVE"], ["ガチャでユニットを集め、次のガチャを回す資源を増やそう。", "Collect units through draws and earn resources for more pulls.", "抽取角色，积累资源继续抽卡。", "Colecciona unidades y reúne recursos para más tiradas."], false),
-    entry("neon-cascade", "ϟ", "green", ["puzzle", "casual"], ["NEON CASCADE（ネオン・カスケード）", "NEON CASCADE", "NEON CASCADE", "NEON CASCADE"], ["同じ色をなぞって連鎖を狙う、60秒のアクションパズル。", "Trace matching colors to trigger cascades in a 60-second puzzle.", "连接相同颜色，在60秒内触发连锁。", "Une colores iguales y provoca reacciones en cadena en 60 segundos."], false),
-    entry("hitori-shiritori", "し", "blue", ["learn"], ["ひとりしりとり", "Solo Shiritori", "单人日语接龙", "Shiritori en solitario"], ["ことばカードをつないで、ひとりで遊べるしりとり。", "Link Japanese word cards in a solo game of shiritori.", "连接日语词语卡，独自玩词语接龙。", "Encadena cartas de palabras japonesas en una partida individual de shiritori."], false)
+    entry("ketahazure", "amber", ["casual"], ["桁外れ", "Ketahazure", "桁外れ：数字落球", "Ketahazure"], ["玉を落として数を育てる縁日ゲーム。札を選んで、さらに大きな桁へ。", "Drop balls, pick upgrade cards and grow your numbers.", "投下小球，选择升级卡，让数字越变越大。", "Deja caer bolas, elige cartas de mejora y haz crecer tus números."], false),
+    entry("dopamine-overdrive", "violet", ["casual"], ["DOPAMINE OVERDRIVE（ドーパミン・オーバードライブ）", "DOPAMINE OVERDRIVE", "DOPAMINE OVERDRIVE", "DOPAMINE OVERDRIVE"], ["ガチャでユニットを集め、次のガチャを回す資源を増やそう。", "Collect units through draws and earn resources for more pulls.", "抽取角色，积累资源继续抽卡。", "Colecciona unidades y reúne recursos para más tiradas."], false),
+    entry("neon-cascade", "green", ["puzzle", "casual"], ["NEON CASCADE（ネオン・カスケード）", "NEON CASCADE", "NEON CASCADE", "NEON CASCADE"], ["同じ色をなぞって連鎖を狙う、60秒のアクションパズル。", "Trace matching colors to trigger cascades in a 60-second puzzle.", "连接相同颜色，在60秒内触发连锁。", "Une colores iguales y provoca reacciones en cadena en 60 segundos."], false),
+    entry("hitori-shiritori", "blue", ["learn"], ["ひとりしりとり", "Solo Shiritori", "单人日语接龙", "Shiritori en solitario"], ["ことばカードをつないで、ひとりで遊べるしりとり。", "Link Japanese word cards in a solo game of shiritori.", "连接日语词语卡，独自玩词语接龙。", "Encadena cartas de palabras japonesas en una partida individual de shiritori."], false)
   ];
   const ui = {
     ja: {
