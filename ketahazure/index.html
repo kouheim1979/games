@@ -56,15 +56,25 @@ const KETA_IDX = UNITS.length;            // 無量大数の次＝桁外れ
 const unitName = u => u >= KETA_IDX ? '桁外れ' : UNITS[u];
 function unitIdx(v) { if (!(v >= 1e4)) return 0; return Math.min(KETA_IDX, Math.floor(Math.log10(v) / 4 + 1e-9)); }
 function commas(n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
-function fmtN(v, short) {
+// 「5万5千」「12億3千万」のように、上の単位に千の位をつけて読む（小数は使わない）。up なら切り上げ（ノルマ用）、そうでなければ切り捨て（得点用）
+function readJa(m, u, up) {
+  let a, b = 0;
+  if (m >= 1000) a = up ? Math.ceil(m - 1e-6) : Math.floor(m + 1e-6);
+  else { const t = up ? Math.ceil(m * 10 - 1e-6) : Math.floor(m * 10 + 1e-6); a = Math.floor(t / 10); b = t % 10; }
+  if (a < 1) { a = 1; b = 0; }
+  if (a >= 10000) { u++; a = 1; b = 0; if (u >= KETA_IDX) return '10の72乗'; }
+  return a + UNITS[u] + (b ? b + '千' + UNITS[u - 1] : '');
+}
+function fmtN(v, short, up) {
   if (!(v === v) || v < 0) v = 0;
-  if (v < 1e4) return commas(Math.floor(v + 1e-6));
+  if (v < 1e4) return commas(up ? Math.ceil(v - 1e-6) : Math.floor(v + 1e-6));
   let u = unitIdx(v);
   if (u >= KETA_IDX) {                       // 無量大数をこえたら「10の何乗」で書く
     const e = Math.floor(Math.log10(v) + 1e-9);
     return short ? '10の' + e + '乗' : (v / Math.pow(10, e)).toFixed(2) + '×10の' + e + '乗';
   }
   let m = v / Math.pow(10, u * 4);
+  if (!short) return readJa(m, u, up);
   if (m >= 9999.5) { u++; m = 1; if (u >= KETA_IDX) return short ? '10の72乗' : '1.00×10の72乗'; }
   let s;
   if (short) s = m >= 100 ? String(Math.round(m)) : m >= 10 ? m.toFixed(1) : m.toFixed(2);
@@ -72,7 +82,7 @@ function fmtN(v, short) {
   return s + UNITS[u];
 }
 const fmt = v => fmtN(v, false), fmtS = v => fmtN(v, true);
-const fmtQ = v => fmt(v).replace(/(\.\d*?)0+(?=[^\d]|$)/, '$1').replace(/\.(?=[^\d]|$)/, '');     // きりのいい数は「22万」のように短く
+const fmtQ = v => fmtN(v, false, true).replace(/(\.\d*?)0+(?=[^\d]|$)/, '$1').replace(/\.(?=[^\d]|$)/, '');     // ノルマ用。切り上げて、きりのいい数は「22万」のように短く
 function roundSig(v, n) { if (!(v > 0)) return 0; const p = Math.pow(10, Math.floor(Math.log10(v)) - (n - 1)); return Math.round(v / p) * p; }
 
 // ───────── 調整用の数字 ─────────
@@ -278,7 +288,7 @@ function startStage(n) {
   if (!G.headless) setBanner('ステージ ' + n, 'ノルマ ' + fmtQ(G.quota), 1.7);
 }
 function newBall(x, v) {
-  return { x, y: L.launchY, vx: rnd(-25, 25), vy: 0, v, lastPeg: -1, used: null, tr: [], born: G.t, fever: false, re: 0, wallOk: true, h: 0, ghost: false, dead: false, tp: false, low: L.launchY, lowT: G.t };
+  return { x, y: L.launchY, vx: rnd(-25, 25), vy: 0, v, lastPeg: -1, used: null, tr: [], born: G.t, fever: false, wallOk: true, h: 0, ghost: false, dead: false, tp: false, low: L.launchY, lowT: G.t };
 }
 function dropBall(x) {
   if (G.phase !== 'play' || G.ballsLeft <= 0 || G.dropCd > 0) return false;
@@ -293,7 +303,7 @@ function dropBall(x) {
 function addGauge(n) { const f = G.fever; if (!f.on) f.gauge = Math.min(f.need, f.gauge + n); }
 function cloneBall(b, side) {
   return { x: b.x, y: b.y, vx: b.vx + side * rnd(130, 230), vy: Math.min(b.vy, 0) - rnd(80, 180), v: b.v, lastPeg: b.lastPeg,
-    used: Object.assign({}, b.used), tr: [], born: G.t, fever: b.fever, re: b.re, wallOk: b.wallOk, h: b.h, ghost: false, dead: false, tp: false, low: b.y, lowT: G.t };
+    used: Object.assign({}, b.used), tr: [], born: G.t, fever: b.fever, wallOk: b.wallOk, h: b.h, ghost: false, dead: false, tp: false, low: b.y, lowT: G.t };
 }
 function hitPeg(p, b, chain) {
   const R = G.rel, live = G.phase === 'play', fev = G.fever.on, T = PT[p.type];
@@ -441,10 +451,6 @@ function land(b, k) {
   if (gain > G.stats.bestHit) G.stats.bestHit = gain;
   G.rate = Math.min(1e250, G.rate * (1 + (BAL.rateStep + 0.03 * (R.oikaze || 0)) * (G.fever.on ? BAL.feverRate : 1) / (1 + G.landed / BAL.rateSoft)));
   G.landed++;
-  if (R.okawari && b.re < 2 && Math.random() < 0.2 * R.okawari && G.balls.length + G.spawn.length < BAL.maxBalls) {
-    const nb = newBall(rnd(60, W - 60), b.v); nb.fever = b.fever; nb.re = b.re + 1; G.spawn.push(nb);
-    if (!G.headless) fxText(b.x, L.pocketTop - 30, 'おかわり', C.take, 17);
-  }
   if (!G.headless) {
     const frac = gain / G.quota, tier = frac < 0.02 ? 0 : frac < 0.1 ? 1 : frac < 0.3 ? 2 : frac < 1 ? 3 : 4;
     const cx = WALL_L + (k + 0.5) * PW;
@@ -578,7 +584,6 @@ const CARDS = [
   { id: 'suki', k: 'rel', rar: 1, max: 2, name: '祭り好き', g: '好', desc: '祭ゲージが25%早くたまる。' },
   { id: 'shime', k: 'rel', rar: 1, max: 3, name: '締めの一発', g: '締', desc: '最後の持ち玉は、値が10倍から始まる。' },
   { id: 'rensa', k: 'rel', rar: 1, max: 2, name: '連鎖', g: '連', desc: '50コンボごとに「勢い」が1.1倍になる。' },
-  { id: 'okawari', k: 'rel', rar: 2, max: 2, core: 1, name: 'おかわり', g: '再', desc: '桝に入った玉が20%の確率で、値をもったままもう一度落ちる。' },
   { id: 'twin', k: 'rel', rar: 2, max: 2, name: 'ふたご玉', g: '双', desc: '1回で落ちる玉が1つ増える。' },
   { id: 'kayaku', k: 'rel', rar: 2, max: 2, name: '火薬ましまし', g: '薬', desc: '爆発の届く範囲が一回り広くなる。', can: () => countType('b') > 0 },
   { id: 'fukuri', k: 'rel', rar: 2, max: 2, core: 1, name: '複利', g: '利', desc: 'ステージを突破するたび、乗算ちょうちん2つがひとりでにLv+1。', can: () => countType('x') >= 2 },

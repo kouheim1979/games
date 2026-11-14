@@ -31,7 +31,6 @@ window.SIM = (() => {
       case 'lvx': return nx >= 5 ? 60 + nx * 2 : 20 + nx * 3;
       case 'X3': return 48; case 'x4': return 40; case 'x2': return 30; case 'kaiso': return 45;
       case 'fukuri': return nx >= 4 ? 55 : 30;
-      case 'okawari': return 50;
       case 'crit': return 34 + nm;
       case 'w1': return nm >= 6 ? 46 : 18;
       case 'b1': case 'b2': return nm >= 5 ? 30 + nm * 1.5 + (c.id === 'b2' ? 6 : 0) : 12;
