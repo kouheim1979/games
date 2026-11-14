@@ -19,7 +19,8 @@ const DIRECTIONS = {
 };
 const PREFIX = 'neon-cascade:v1:';
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
-const narrowLayout = matchMedia('(max-width: 660px)');
+const compactViewport = matchMedia('(max-width: 660px) and (min-height: 395px)');
+const playArea = document.querySelector('.play-area');
 const modeButtons = [...document.querySelectorAll('[data-mode]')];
 const number = new Intl.NumberFormat(locale);
 const colorNames = tr('colors');
@@ -42,6 +43,7 @@ let toastUntil = 0;
 let lastHud = {};
 let soundOn = read(`${PREFIX}sound`) !== 'off';
 let reduced = false;
+let lockedScroll = null;
 
 setupLanguage(elements.language);
 
@@ -92,6 +94,25 @@ function gameTime(now) {
   return elapsed + (phase === 'playing' ? now - runningFrom : 0);
 }
 
+function syncPageLock() {
+  const root = document.documentElement;
+  const shouldLock = compactViewport.matches && ['playing', 'pause', 'upgrade'].includes(phase);
+  if (shouldLock && lockedScroll === null) {
+    const bounds = playArea.getBoundingClientRect();
+    // Bring the full play area into view if the round was started partway down the page.
+    lockedScroll = bounds.top < 0 || bounds.bottom > root.clientHeight
+      ? Math.max(0, window.scrollY + bounds.top)
+      : window.scrollY;
+    root.style.setProperty('--locked-page-top', `${-lockedScroll}px`);
+    root.setAttribute('data-round-lock', '');
+  } else if (!shouldLock && lockedScroll !== null) {
+    root.removeAttribute('data-round-lock');
+    root.style.removeProperty('--locked-page-top');
+    window.scrollTo(0, lockedScroll);
+    lockedScroll = null;
+  }
+}
+
 function changePhase(next, now) {
   if (phase === 'playing') elapsed += now - runningFrom;
   if (next === 'playing') runningFrom = now;
@@ -104,6 +125,7 @@ function changePhase(next, now) {
     elements[`${name}-panel`].hidden = next !== name;
   }
   for (const button of modeButtons) button.disabled = next !== 'menu' && next !== 'result';
+  syncPageLock();
 }
 
 function updateBoard(result) {
@@ -512,12 +534,7 @@ elements.upgrades.addEventListener('click', (event) => {
 });
 
 for (const button of modeButtons) {
-  button.addEventListener('click', (event) => {
-    enterMenu(button.dataset.mode);
-    if (narrowLayout.matches && event.detail > 0) {
-      document.querySelector('.play-area').scrollIntoView({ block: 'start', behavior: reduced ? 'instant' : 'smooth' });
-    }
-  });
+  button.addEventListener('click', () => enterMenu(button.dataset.mode));
 }
 
 elements.sound.addEventListener('click', () => {
@@ -541,6 +558,7 @@ elements['low-effects'].addEventListener('change', () => {
   updateEffects();
 });
 reducedMotion.addEventListener('change', updateEffects);
+compactViewport.addEventListener('change', syncPageLock);
 document.addEventListener('visibilitychange', () => { if (document.hidden) pauseRound(false); });
 
 elements.copy.addEventListener('click', async () => {
