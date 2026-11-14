@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>そろばんゲーム</title>
+<style>
+  :root { --bg:#fdf6e9; --ink:#3b2a1a; --accent:#5b8def; --muted:#8a7b6a; }
+  * { box-sizing:border-box; }
+  body {
+    margin:0; min-height:100vh; padding:16px;
+    font-family: system-ui, -apple-system, "Hiragino Sans", "Yu Gothic", sans-serif;
+    background:var(--bg); color:var(--ink);
+    display:flex; flex-direction:column; align-items:center;
+  }
+  h1 { font-size:1.4rem; margin:8px 0 12px; }
+  .panel {
+    width:100%; max-width:560px; background:#fff; border-radius:14px;
+    padding:14px; margin-bottom:12px; box-shadow:0 2px 8px rgba(0,0,0,.08);
+  }
+  .row { display:flex; gap:8px; flex-wrap:wrap; align-items:center; justify-content:center; }
+  button {
+    font:inherit; padding:10px 16px; border:none; border-radius:10px;
+    background:var(--accent); color:#fff; cursor:pointer;
+  }
+  button.sub { background:#9aa5b1; }
+  button:disabled { opacity:.5; cursor:default; }
+  select { font:inherit; padding:6px 8px; border-radius:8px; }
+  #label { text-align:center; font-size:.9rem; color:var(--muted); min-height:1.2em; }
+  #prompt { text-align:center; font-size:2.2rem; font-weight:700; min-height:2.6rem; font-variant-numeric:tabular-nums; }
+  #msg { text-align:center; font-weight:700; min-height:1.5em; margin-bottom:6px; }
+  .ok { color:#2e8b57; } .ng { color:#d33; }
+  #abacus { width:100%; height:auto; display:block; touch-action:manipulation; user-select:none; -webkit-user-select:none; }
+  .bead { cursor:pointer; }
+  #stat { text-align:center; font-size:.95rem; color:var(--muted); margin-top:8px; min-height:1.2em; }
+</style>
+</head>
+<body>
+<h1>🧮 そろばんゲーム</h1>
+
+<div class="panel">
+  <div class="row">
+    <button id="modeRead">数をつくる練習</button>
+    <button id="modeCalc">たし算・ひき算クイズ（10問）</button>
+  </div>
+  <div class="row" style="margin-top:10px">
+    <label>けた数
+      <select id="digits">
+        <option value="1">1けた</option>
+        <option value="2" selected>2けた</option>
+        <option value="3">3けた</option>
+        <option value="4">4けた</option>
+      </select>
+    </label>
+  </div>
+</div>
+
+<div class="panel">
+  <div id="label"></div>
+  <div id="prompt">下のボタンでモードを選んでね</div>
+  <div id="msg"></div>
+  <svg id="abacus" viewBox="0 0 330 280" role="img" aria-label="そろばん"></svg>
+  <div class="row" style="margin-top:10px">
+    <button id="check">こたえる</button>
+    <button id="reset" class="sub">リセット</button>
+  </div>
+  <div id="stat"></div>
+</div>
+
+<script>
+(function () {
+  const RODS = 5;                       // 桁数（万〜一の5桁）
+  const QUESTIONS = 10;
+  const PLACE_LABELS = ['万', '千', '百', '十', '一'];
+
+  const rods = Array.from({ length: RODS }, () => ({ h: 0, e: 0 })); // h: 天(0/1), e: 地(0〜4)
+
+  const svg = document.getElementById('abacus');
+  const labelEl = document.getElementById('label');
+  const promptEl = document.getElementById('prompt');
+  const msgEl = document.getElementById('msg');
+  const statEl = document.getElementById('stat');
+  const digitsSel = document.getElementById('digits');
+
+  let mode = null;          // 'read' | 'calc' | null
+  let waiting = false;      // 判定後の待ち時間
+  let timer = null;
+  let target = 0;           // 読み取り練習の目標値
+  let score = 0;            // 読み取り練習の正解数
+  let answer = 0;           // 計算クイズの答え
+  let qNo = 0;              // 計算クイズの回答済み数
+  let correctCount = 0;
+  let startTime = 0;
+
+  const rnd = (lo, hi) => lo + Math.floor(Math.random() * (hi - lo + 1));
+  const cx = k => 49 + k * 58;
+  const placeValue = k => 10 ** (RODS - 1 - k);
+
+  function getValue() {
+    return rods.reduce((sum, r, k) => sum + (r.h * 5 + r.e) * placeValue(k), 0);
+  }
+
+  function setValue(n) {
+    rods.forEach((r, k) => {
+      const d = Math.floor(n / placeValue(k)) % 10;
+      r.h = d >= 5 ? 1 : 0;
+      r.e = d % 5;
+    });
+    draw();
+  }
+
+  function bead(x, y, type, k, i, color) {
+    return `<ellipse class="bead" data-t="${type}" data-k="${k}" data-i="${i}" ` +
+           `cx="${x}" cy="${y}" rx="20" ry="8.5" fill="${color}" stroke="#4a2e12" stroke-width="1.2"/>`;
+  }
+
+  function draw() {
+    let s = '<rect x="8" y="8" width="314" height="254" rx="12" fill="#c08a4b"/>';
+    s += '<rect x="8" y="92" width="314" height="14" fill="#8a5a2b"/>';
+    for (let k = 0; k < RODS; k++) {
+      const x = cx(k);
+      const r = rods[k];
+      s += `<line x1="${x}" y1="22" x2="${x}" y2="252" stroke="#6b4420" stroke-width="3"/>`;
+      // 天の玉（ビーム上側）：ビーム側に寄せると5
+      s += bead(x, r.h ? 80 : 40, 'h', k, 0, '#f3c64a');
+      // 地の玉（ビーム下側）：上から e 個がビーム側に寄る
+      for (let i = 0; i < 4; i++) {
+        const active = i < r.e;
+        const cy = active ? 119 + 18 * i : 119 + 18 * (4 + i);
+        s += bead(x, cy, 'e', k, i, '#e8452f');
+      }
+      s += `<text x="${x}" y="272" text-anchor="middle" font-size="14" fill="#3b2a1a">${PLACE_LABELS[k]}</text>`;
+    }
+    svg.innerHTML = s;
+  }
+
+  function showMsg(text, cls) {
+    msgEl.textContent = text;
+    msgEl.className = cls || '';
+  }
+
+  function updateStat() {
+    if (mode === 'read') statEl.textContent = `練習の正解：${score}問`;
+    else if (mode === 'calc') statEl.textContent = `正解 ${correctCount} / 回答 ${qNo}`;
+    else statEl.textContent = '';
+  }
+
+  function digitRange() {
+    const d = +digitsSel.value;
+    return { lo: d === 1 ? 1 : 10 ** (d - 1), hi: 10 ** d - 1 };
+  }
+
+  // ---- 数をつくる練習 ----
+  function startRead() {
+    mode = 'read';
+    score = 0;
+    newRead();
+  }
+
+  function newRead() {
+    const { lo, hi } = digitRange();
+    target = rnd(lo, hi);
+    labelEl.textContent = 'この数をそろばんでつくろう';
+    promptEl.textContent = target;
+    setValue(0);
+    showMsg('', '');
+    updateStat();
+  }
+
+  function checkRead(manual) {
+    if (getValue() === target) {
+      score++;
+      waiting = true;
+      showMsg('せいかい！', 'ok');
+      updateStat();
+      timer = setTimeout(() => { waiting = false; newRead(); }, 700);
+    } else if (manual) {
+      showMsg('ちがうよ、もう一度！', 'ng');
+    }
+  }
+
+  // ---- 計算クイズ ----
+  function startCalc() {
+    mode = 'calc';
+    qNo = 0;
+    correctCount = 0;
+    startTime = Date.now();
+    nextCalc();
+  }
+
+  function nextCalc() {
+    if (qNo >= QUESTIONS) return finishCalc();
+    const { lo, hi } = digitRange();
+    let a = rnd(lo, hi);
+    let b = rnd(lo, hi);
+    const plus = Math.random() < 0.5;
+    if (!plus && a < b) [a, b] = [b, a];   // ひき算は答えが負にならないように
+    answer = plus ? a + b : a - b;
+    labelEl.textContent = `問題 ${qNo + 1} / ${QUESTIONS}`;
+    promptEl.textContent = `${a} ${plus ? '＋' : '−'} ${b} ＝ ?`;
+    setValue(0);
+    showMsg('', '');
+    updateStat();
+  }
+
+  function judgeCalc() {
+    waiting = true;
+    qNo++;
+    if (getValue() === answer) {
+      correctCount++;
+      showMsg('せいかい！', 'ok');
+    } else {
+      showMsg(`ざんねん… 答えは ${answer}`, 'ng');
+    }
+    updateStat();
+    timer = setTimeout(() => { waiting = false; nextCalc(); }, 1200);
+  }
+
+  function finishCalc() {
+    mode = null;
+    waiting = false;
+    const sec = ((Date.now() - startTime) / 1000).toFixed(1);
+    labelEl.textContent = 'けっか';
+    promptEl.textContent = `${correctCount} / ${QUESTIONS}`;
+    showMsg(`${sec}秒で終わり！` + (correctCount === QUESTIONS ? ' パーフェクト！' : ''), 'ok');
+    updateStat();
+  }
+
+  // ---- イベント ----
+  svg.addEventListener('click', ev => {
+    const t = ev.target.dataset && ev.target.dataset.t;
+    if (!t || waiting || !mode) return;
+    const k = +ev.target.dataset.k;
+    const r = rods[k];
+    if (t === 'h') {
+      r.h ^= 1;
+    } else {
+      const i = +ev.target.dataset.i;
+      r.e = i < r.e ? i : i + 1;
+    }
+    draw();
+    if (mode === 'read') checkRead(false);
+  });
+
+  document.getElementById('modeRead').addEventListener('click', () => {
+    clearTimeout(timer); waiting = false;
+    startRead();
+  });
+
+  document.getElementById('modeCalc').addEventListener('click', () => {
+    clearTimeout(timer); waiting = false;
+    startCalc();
+  });
+
+  document.getElementById('check').addEventListener('click', () => {
+    if (waiting || !mode) return;
+    if (mode === 'read') checkRead(true);
+    else judgeCalc();
+  });
+
+  document.getElementById('reset').addEventListener('click', () => {
+    if (!waiting) showMsg('', '');
+    setValue(0);
+  });
+
+  digitsSel.addEventListener('change', () => {
+    if (mode === 'read' && !waiting) { clearTimeout(timer); newRead(); }
+  });
+
+  draw();
+})();
+</script>
+</body>
+</html>

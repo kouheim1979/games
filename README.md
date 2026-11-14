@@ -21,6 +21,7 @@
 | [react-game](react-game/) | 反射神経ゲーム |
 | [rin-harbor](rin-harbor/) | リンハーバー |
 | [ryouri-shokudo](ryouri-shokudo/) | おりょうり食堂（お料理シミュレーション） |
+| [soroban](soroban/) | そろばんゲーム |
 | [todofuken-draft](todofuken-draft/) | 都道府県ドラフトバトル｜地元も、切り札も。キミが指名。 |
 | [WaterSortPuzzle](WaterSortPuzzle/) | Water Sort Puzzle |
 | [word-wolf](word-wolf/) | ワードウルフ |
