@@ -79,7 +79,11 @@
       ['Start and wait. Press only when the “Tap!” cue appears; pressing early or reacting to a feint is a failure. Recognizing the right signal matters as well as speed.', 'Compare successful attempts without falling for feints. Device and browser delay affect the result. This is a game, not a medical reaction-time assessment.'],
       ['开始后等待信号，只有出现“点击！”的提示时才按。提前按或被假动作骗到都会失败，因此看准信号和速度同样重要。', '可以比较没有被假动作骗到的成功记录。成绩会受到设备和浏览器延迟影响，这只是游戏，不是医学反应速度测试。'],
       ['Empieza y espera. Pulsa solo cuando aparezca la señal de tocar; adelantarte o caer en una distracción supone un fallo. Reconocer la señal también importa.', 'Compara los intentos acertados. La latencia del dispositivo y del navegador afecta al resultado: es un juego, no una evaluación médica de reflejos.']
-    ]
+    ],
+    "ketahazure": [["玉を落として数を増やします。", "札が出たら、使いたい札をタップします。"], ["Drop balls to grow your number.", "Tap the card you want when rewards appear."], ["投下小球，增加数字。", "出现奖励时，点击想要的卡牌。"], ["Deja caer bolas para aumentar tu número.", "Cuando aparezcan las recompensas, toca la carta que quieras."]],
+    "dopamine-overdrive": [["ガチャを回してユニットを集めます。", "資源がたまったら10連や50連を選べます。"], ["Draw to collect units.", "Save resources for batches of 10 or 50 pulls."], ["抽卡收集角色。", "积累资源后可选择十连或五十连。"], ["Haz tiradas para conseguir unidades.", "Ahorra recursos para hacer 10 o 50 tiradas de una vez."]],
+    "neon-cascade": [["同じ色を3つ以上なぞります。", "60秒のスコアに挑戦できます。"], ["Trace at least three tiles of the same color.", "Try beating your score in the 60-second mode."], ["划过至少三个同色方块。", "在60秒模式挑战自己的最高分。"], ["Traza un camino por al menos tres fichas del mismo color.", "Intenta superar tu puntuación en el modo de 60 segundos."]],
+    "hitori-shiritori": [["前のことばの最後の文字から始まるカードを選びます。", "手元のカードを見比べながら、ことばをつなぎます。"], ["Choose a card that starts with the last character of the previous word.", "Compare the cards in your hand to keep the chain going."], ["选择以前一个词的最后一个假名开头的卡牌。", "比较手中的卡牌，继续接龙。"], ["Elige una carta que empiece con el último carácter de la palabra anterior.", "Compara tus cartas para continuar la cadena."]]
   };
   const langs = ['ja','en','zh','es'];
   const guides = Object.fromEntries(Object.entries(rows).map(([id, translations]) => [id,

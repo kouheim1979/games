@@ -27,7 +27,7 @@
 | [word-wolf2](word-wolf2/) | ワードウルフ |
 | [yakitori](yakitori/) | やきとり ならべ |
 
-初期収録のゲームは元のリポジトリからコピーしたものです（`atama-oshiri` と `yakitori` は `launch-roulette` リポジトリ内から）。`ketahazure` はこのリポジトリで作った新作で、公開ポータル（`portal/catalog.js`）と多言語化（`i18n/`）には未対応です。
+初期収録のゲームは元のリポジトリからコピーしたものです（`atama-oshiri` と `yakitori` は `launch-roulette` リポジトリ内から）。`ketahazure` はこのリポジトリで作った新作で、公開ポータル（`portal/catalog.js`）に掲載しています。ゲーム画面は日本語です。
 
 ## 診断パーク（tools/）
 
