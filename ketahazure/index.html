@@ -780,15 +780,10 @@ function clearReward() {
 }
 function stageClear() {
   if (G.phase !== 'play') return;
-  const R = G.rel, ratio = G.score / G.quota, left = Math.min(G.ballsLeft, 3);
+  const ratio = G.score / G.quota, left = Math.min(G.ballsLeft, 3);
   const { jump, oneShot, cards } = clearReward();
   G.rerolls += left;
-  let ups = 0;
-  const fuku = () => { const xs = G.pegs.filter(p => p.type === 'x' && p.lv < lvCap()); for (let k = 0; k < 2 * R.fukuri && xs.length; k++) { addLv(pick(xs), 1); ups++; } };
-  if (R.fukuri) fuku();
-  G.clearInfo = { ratio, left, jump, oneShot, cards, ups }; G.picksLeft = cards; G.nextStage = G.stage + 1 + jump;
-  for (let j = 0; j < jump && R.fukuri; j++) fuku();
-  G.clearInfo.ups = ups;
+  G.clearInfo = { ratio, left, jump, oneShot, cards }; G.picksLeft = cards; G.nextStage = G.stage + 1 + jump;
   G.phase = 'clear'; G.clearT = 0; G.balls.length = 0; G.spawn.length = 0; G.fever.on = false; G.aim.on = false;
   saveBest();
   if (!G.headless) {
@@ -824,8 +819,8 @@ const CARDS = [
   { id: 'x2', k: 'peg', t: 'x', n: 2, rar: 0, core: 1, grow: 1, w: 1.6 },
   { id: 'x4', k: 'peg', t: 'x', n: 4, rar: 1, core: 1, grow: 1 },
   { id: 'X3', k: 'peg', t: 'x', n: 3, lv: 2, rar: 2, core: 1, grow: 1 },
-  { id: 's1', k: 'peg', t: 's', n: 1, rar: 1 },
-  { id: 's2', k: 'peg', t: 's', n: 2, rar: 2 },
+  { id: 's1', k: 'peg', t: 's', n: 1, rar: 3 },
+  { id: 's2', k: 'peg', t: 's', n: 2, rar: 3 },
   { id: 'f2', k: 'peg', t: 'f', n: 2, rar: 0 },
   { id: 'g2', k: 'peg', t: 'g', n: 2, rar: 1, core: 1 },
   { id: 'd2', k: 'peg', t: 'd', n: 2, rar: 1, core: 1 },
@@ -833,11 +828,11 @@ const CARDS = [
   { id: 'b2', k: 'peg', t: 'b', n: 2, rar: 2, core: 1 },
   { id: 'z1', k: 'peg', t: 'z', n: 1, rar: 1, core: 1 },
   { id: 'z2', k: 'peg', t: 'z', n: 2, rar: 2, core: 1 },
-  { id: 'w1', k: 'peg', t: 'w', n: 1, rar: 2, core: 1 },
+  { id: 'w1', k: 'peg', t: 'w', n: 1, rar: 3, core: 1 },
   // お守り（持っているあいだ、ずっと効く）
   { id: 'ball', k: 'rel', rar: 0, max: 5, name: '玉ぶくろ', g: '玉', desc: '持ち玉が1つ増える。' },
   { id: 'oikaze', k: 'rel', rar: 0, max: 4, name: '追い風', g: '風', desc: '桝に入るたびの「勢い」の伸びが3%ふえる。' },
-  { id: 'odama', k: 'rel', rar: 0, max: 9, name: '大玉', g: '大', desc: '玉がはじめから持つ値が4倍になる。' },
+  { id: 'odama', k: 'rel', rar: 3, max: 9, name: '大玉', g: '大', desc: '玉がはじめから持つ値が4倍になる。' },
   { id: 'nail', k: 'rel', rar: 0, max: 9, name: 'みがいた釘', g: '釘', desc: 'ふつうの釘の加点が3倍になる。' },
   { id: 'masu', k: 'rel', rar: 0, max: 9, name: '桝の底上げ', g: '桝', desc: 'すべての桝の倍率が1ずつ上がる。' },
   { id: 'keiki', k: 'rel', rar: 0, max: 9, name: '景気づけ', g: '景', desc: 'ステージ開始時の「勢い」が0.5高くなる。' },
@@ -848,16 +843,14 @@ const CARDS = [
   { id: 'suki', k: 'rel', rar: 1, max: 2, name: '祭り好き', g: '好', desc: '祭ゲージが25%早くたまる。' },
   { id: 'shime', k: 'rel', rar: 1, max: 3, name: '締めの一発', g: '締', desc: '最後の持ち玉は、値が10倍から始まる。' },
   { id: 'rensa', k: 'rel', rar: 1, max: 2, name: '連鎖', g: '連', desc: '50コンボごとに「勢い」が1.1倍になる。' },
-  { id: 'twin', k: 'rel', rar: 2, max: 2, name: 'ふたご玉', g: '双', desc: '1回で落ちる玉が1つ増える。' },
+  { id: 'twin', k: 'rel', rar: 3, max: 2, name: 'ふたご玉', g: '双', desc: '1回で落ちる玉が1つ増える。' },
   { id: 'kayaku', k: 'rel', rar: 2, max: 2, name: '火薬ましまし', g: '薬', desc: '爆発の届く範囲が一回り広くなる。', can: () => countType('b') > 0 },
-  { id: 'fukuri', k: 'rel', rar: 2, max: 2, core: 1, name: '複利', g: '利', desc: 'ステージを突破するたび、乗算ちょうちん2つがひとりでにLv+1。', can: () => countType('x') >= 2 },
   { id: 'zenya', k: 'rel', rar: 1, max: 1, name: '前夜祭', g: '宵', desc: 'ステージが始まるとき、祭ゲージが半分たまっている。' },
   // その場で効く
   { id: 'lvx', k: 'now', rar: 2, core: 1, w: 1.3, name: '総仕上げ', g: '仕', desc: 'すべての乗算ちょうちんが Lv+1。', can: () => countType('x') >= 3 },
   { id: 'lvx2', k: 'now', rar: 3, core: 1, name: '大仕上げ', g: '極', desc: 'すべての乗算ちょうちんが Lv+2。', can: () => countType('x') >= 3 },
   { id: 'lva', k: 'now', rar: 0, name: '加点みがき', g: '磨', desc: 'すべての加点ちょうちんが Lv+2。', can: () => countType('a') >= 2 },
   { id: 'lv4', k: 'now', rar: 1, core: 1, name: '手入れ', g: '手', desc: 'ちょうちん4つのLvが上がる（どれになるかはおまかせ）。', can: () => specials() >= 4 },
-  { id: 'kaiso', k: 'now', rar: 2, core: 1, name: '大改装', g: '改', desc: 'ふつうの釘5本が、乗算ちょうちんに変わる（場所はおまかせ）。', can: () => countType('n') >= 5 },
   { id: 'reroll', k: 'now', rar: 0, name: '選び直し券', g: '券', desc: '札の「選び直し」が2回ふえる。' }
 ];
 const NOW = {
@@ -865,7 +858,6 @@ const NOW = {
   lvx2() { for (const p of G.pegs) if (p.type === 'x') addLv(p, 2); },
   lva() { for (const p of G.pegs) if (p.type === 'a') addLv(p, 2); },
   lv4() { const c = G.pegs.filter(p => p.type !== 'n'), up = 1 + Math.floor(doneStages() / 8); for (let k = 0; k < 4 && c.length; k++) { const j = (Math.random() * c.length) | 0; addLv(c[j], up); c.splice(j, 1); } },
-  kaiso() { for (let k = 0; k < 5; k++) { const p = suggestPeg('x', true); if (p) setPeg(p, 'x', pegLv('x')); } },
   reroll() { G.rerolls += 2; }
 };
 const rarW = (r, s) => r === 0 ? 60 : r === 1 ? 20 + 2.5 * s : r === 2 ? 3 + 1.8 * s : 0.3 + 0.45 * s;
@@ -1419,7 +1411,6 @@ function drawClear() {
     lines.push(bonuses.join('　'));
   }
   if (ci.left) lines.push('のこり玉 ' + ci.left + ' → 選び直し +' + ci.left);
-  if (ci.ups) lines.push('複利で乗算ちょうちん ' + ci.ups + ' つが育った');
   lines.forEach((s, i) => T(s, W / 2, cy + 126 + i * 30, { size: 18, w: 600, align: 'center' }));
   ctx.globalAlpha = 1;
   if (t > 0.7) T('画面にふれて次へ', W / 2, cy + 250, { size: 18, w: 700, align: 'center', col: C.dim, alpha: 0.55 + 0.45 * Math.sin(G.rt * 4) });
