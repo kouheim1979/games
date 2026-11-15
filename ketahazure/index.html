@@ -752,7 +752,7 @@ function update(dt) {
         f.spawnT -= dt;
         while (f.spawnT <= 0 && f.count < f.total) { f.spawnT += 0.2; f.count++; const b = newBall(rnd(44, W - 44), ballV0(), f.firstShot); b.fever = true; G.balls.push(b); }
       } else if (!G.balls.some(b => b.fever)) { f.on = false; f.gauge = 0; f.firstShot = true; f.need = feverNeed(); }
-    } else if (f.gauge >= f.need && G.balls.length > 0 && f.inStage < 5) startFever();
+    } else if (f.gauge >= f.need && G.balls.length > 0) startFever();
     if (G.comboT > 0) { G.comboT -= dt; if (G.comboT <= 0) G.combo = 0; }
     if (G.balls.length === 0 && !f.on && G.ballsLeft === 0) {
       G.endT += dt;
