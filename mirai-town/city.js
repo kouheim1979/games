@@ -25,7 +25,7 @@ function resize(){
  w=nw;h=nh;dpr=Math.min(2,window.devicePixelRatio||1);
  canvas.width=Math.round(nw*dpr);canvas.height=Math.round(nh*dpr);
  scale=clamp(w/820,.7,1.35);
- if(w<550)scale=clamp(w/490,.72,.86);
+ if(w<550)scale=clamp(w/390,.90,1.12);
 }
 function iso(a,b){return{x:(a-b)*tileW/2,y:(a+b)*tileH/2};}
 function rect(x,y,width,height,color){context.fillStyle=color;context.fillRect(x,y,width,height);}
@@ -80,7 +80,7 @@ function tree(x,y,t,small){
  circle(x-4,y-34,4,'#b1e5a4');
 }
 function drawTile(a,b,t){
- var p=iso(a,b),road=a===4||b===4||a===7&&b<=7,park=(a===2&&b===5)||(a===1&&b===6);
+ var p=iso(a,b),road=a===4||b===4,park=(a===2&&b===5)||(a===1&&b===6);
  var c=road?((a+b)%2?'#9eafb1':'#a8babd'):park?'#69c99b':((a+b)%3?'#9cda93':'#a9df98');
  poly([[p.x,p.y-tileH/2],[p.x+tileW/2,p.y],[p.x,p.y+tileH/2],[p.x-tileW/2,p.y]],c,'#ffffff4d',1);
  if(road){
