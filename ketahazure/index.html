@@ -83,6 +83,17 @@ canvas:focus-visible{outline:2px solid var(--kin);outline-offset:-2px}
 #tutorial-dialog{width:min(410px,calc(100% - 24px))}
 #tutorial-player{display:block;width:100%;height:auto;max-height:66dvh;border-radius:8px;background:#0b0e22}
 #tutorial-error{color:#ffd19c;font-size:14px;line-height:1.5}
+.board-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.board-options button{
+  display:grid;align-content:start;gap:6px;padding:8px;border:1px solid #77739a;border-radius:9px;
+  color:var(--hakuji);background:#25294b;text-align:left;font-family:var(--font-body);cursor:pointer
+}
+.board-options button[aria-pressed="true"]{border-color:var(--kin);background:#30304e}
+.board-options button:focus-visible{outline:2px solid var(--kin);outline-offset:2px}
+.board-options canvas{width:100%;height:auto;touch-action:auto;border-radius:6px;background:#10142e}
+.board-options strong{font:900 18px/1.3 var(--font-display)}
+.board-options span{color:#ddd6ec;font-size:12px;line-height:1.5}
+.board-options button[aria-pressed="true"] strong::after{content:"選択中";margin-left:6px;color:var(--kin);font:700 11px var(--font-body)}
 noscript{position:fixed;inset:0;display:grid;place-items:center;padding:24px;text-align:center;line-height:1.8}
 </style>
 </head>
@@ -133,7 +144,17 @@ noscript{position:fixed;inset:0;display:grid;place-items:center;padding:24px;tex
   </header>
   <div class="book-scroll">
     <video id="tutorial-player" controls playsinline preload="none" width="480" height="854" aria-label="札の選び方と一発突破のチュートリアル動画"></video>
+    <p class="lantern-note">お守りとすぐに効く札は「この札を取る」で確定します。ちょうちんは置き終わる前に「キャンセル」で札選びへ戻れます。</p>
     <p id="tutorial-error" hidden>動画を読み込めませんでした。ページを読み込み直して、もう一度お試しください。</p>
+  </div>
+</dialog>
+<dialog class="help-dialog" id="board-picker" aria-labelledby="board-picker-title">
+  <header class="book-header book-heading">
+    <h1 id="board-picker-title">盤面を選ぶ</h1>
+    <button type="button" id="board-picker-close" autofocus>とじる</button>
+  </header>
+  <div class="book-scroll">
+    <div class="board-options" id="board-options" role="group" aria-label="盤面"></div>
   </div>
 </dialog>
 <template id="book-entry">
@@ -217,7 +238,7 @@ const fmtQ = v => fmtN(v, false, true).replace(/(\.\d*?)0+(?=[^\d]|$)/, '$1').re
 const BAL = {
   ballV0: 10, nailAdd: 10, addVal: 60, rateStep: 0.06, feverNeed: 30, feverBalls: 6, feverAdd: 2, feverRate: 1, balls: 5, maxJump: 1, rateSoft: 200,
   g: 1500, maxBalls: 140, noFail: false, jumpMul: 100, xLvDiv: 5, qLate: 3.7, qAcc: 0.125,
-  growBase: 1.2, growStep: 0.1, festivalGauge: 6, festivalValue: 30
+  growBase: 1.2, growStep: 0.1, festivalGauge: 6, festivalValue: 30, maxSplitPegs: 4
 };
 // ノルマの表（10の何乗か）。自動プレイで測った伸び方に合わせてある。23ステージ目からは式でのばす
 const QT = [3.5, 3.7, 3.85, 4.0, 4.15, 4.3, 4.5, 4.75, 5.05, 5.4, 5.8, 6.3, 6.9, 7.6, 8.4, 9.3, 10.5, 12.2, 14.4, 17.1, 20.3, 23.75];
@@ -228,11 +249,31 @@ const W = 540; let H = 960;
 const ROWS = 10, PEG_R = 11, BALL_R = 9.5, WALL_L = 6, WALL_R = 534, NPOCK = 7, PW = (WALL_R - WALL_L) / NPOCK;
 // 釘は千鳥に並べる。広い段の両端は壁にぴったり付ける（壁とのすき間に玉がはさまらないように）
 const X_WIDE = WALL_L + PEG_R, SX = (WALL_R - WALL_L - 2 * PEG_R) / 7, X_NARROW = X_WIDE + SX / 2;
+const HOURGLASS_WIDTHS = [1, 1, 0.94, 0.82, 0.73, 0.73, 0.79, 0.88, 0.96, 1];
+const RIVER_WIDTHS = [1, 1, 0.94, 0.86, 0.79, 0.79, 0.80, 0.82, 0.92, 1];
+const RIVER_OFFSETS = [0, 0, 10, 28, 48, 24, -25, -40, -17, 0];
+const FORK_OFFSETS = [0, 0, 0, 0, 14, 22, 28, 36, 39, 42];
+const BOARDS = [
+  { id: 'classic', name: '千鳥', desc: '釘が交互に並ぶ基本の盤面。', shape: x => x },
+  { id: 'hourglass', name: 'ひょうたん', desc: '釘が中ほどで中央に集まる。', shape: (x, r) => W / 2 + (x - W / 2) * HOURGLASS_WIDTHS[r] },
+  { id: 'river', name: '川くだり', desc: '釘の列が左右にうねる。', shape: (x, r) => W / 2 + (x - W / 2) * RIVER_WIDTHS[r] + RIVER_OFFSETS[r] },
+  { id: 'fork', name: '二また', desc: '後半は釘が左右に分かれる。', shape: (x, r) => {
+    const offset = FORK_OFFSETS[r], d = x - W / 2;
+    const side = d === 0 ? (r % 4 === 1 ? -1 : 1) : Math.sign(d);
+    return W / 2 + d * (1 - offset / (W / 2 - X_WIDE)) + side * offset;
+  } }
+].map(({ shape, ...board }) => ({
+  ...board,
+  rows: Array.from({ length: ROWS }, (_, r) => Array.from({ length: r % 2 ? 7 : 8 },
+    (_, c) => shape((r % 2 ? X_NARROW : X_WIDE) + SX * c, r)))
+}));
+const boardById = id => BOARDS.find(board => board.id === id) || BOARDS[0];
 const L = { hud: 0, launchY: 192, row0: 252, rowGap: 57, pocketTop: 821, pocketBot: 881, trayY: 889, trayH: 71 };
 const cv = document.getElementById('c'), ctx = cv.getContext('2d');
 const cardBook = document.getElementById('card-book');
 const lanternGuide = document.getElementById('lantern-guide');
 const tutorialDialog = document.getElementById('tutorial-dialog');
+const boardPicker = document.getElementById('board-picker');
 let scale = 1, dpr = 1, SS = 2, SPR = {}, BG = null;
 
 // ───────── ちょうちんの種類 ─────────
@@ -256,17 +297,17 @@ const HEAT = ['#f5f0e6', '#ffe9a8', '#f7c85a', '#ff9a3d', '#ff5a36', '#ff4fa3', 
 // ───────── 状態 ─────────
 const G = {
   phase: 'title', t: 0, rt: 0, acc: 0, stage: 0, score: 0, shown: 0, quota: 1,
-  ballsLeft: 0, ballsMax: 0, balls: [], spawn: [], pegs: [], grid: [], pockets: [],
+  ballsLeft: 0, ballsMax: 0, balls: [], spawn: [], pegs: [], grid: [], pockets: [], board: BOARDS[0],
   rate: 1, combo: 0, comboT: 0, landed: 0,
   fever: { gauge: 0, need: BAL.feverNeed, on: false, count: 0, total: 0, spawnT: 0, inStage: 0, firstShot: true },
-  rel: {}, relOrder: [], rerolls: 1, offer: null, peek: false, placing: null, hover: null, picks: [], picksLeft: 0, nextStage: 0,
+  rel: {}, relOrder: [], rerolls: 1, offer: null, pendingCard: null, peek: false, placing: null, hover: null, picks: [], picksLeft: 0, nextStage: 0,
   cleared: false, firstShotScore: 0, endT: 0, clearT: 0, clearInfo: null, overT: 0, ended: false, newRec: false,
   stats: { bestHit: 0, hits: 0, fevers: 0 }, runBest: 0, unitIdx: 0, stamps: [], banner: null,
   speed: 1, paused: false, help: 0, quitArm: 0, hitstop: 0, shake: 0, flash: 0, dropCd: 0, demoT: 0,
   aim: { x: W / 2, on: false, snap: false }, headless: false
 };
 const SAVE_KEY = 'ketahazure.v1';
-const SAVE = { best: 0, bestStage: 0, runs: 0, sound: true, speed: 1, seen: false, cleared: false };
+const SAVE = { best: 0, bestStage: 0, runs: 0, sound: true, speed: 1, seen: false, cleared: false, board: BOARDS[0].id };
 const RANK_KEY = 'ketahazure.ranking.v1', RANK_LIMIT = 10;
 function readRanking() {
   try {
@@ -299,7 +340,7 @@ function loadSave() { try { const s = JSON.parse(localStorage.getItem(SAVE_KEY) 
 function saveSave() { try { localStorage.setItem(SAVE_KEY, JSON.stringify(SAVE)); } catch (e) { /* 同上 */ } }
 
 // ───────── 音（Web Audio で合成。素材ファイルなし） ─────────
-const AU = { ctx: null, out: null, nb: null, last: {}, step: 0, next: 0, mute: false };
+const AU = { ctx: null, out: null, nb: null, last: {}, step: 0, festivalStep: 0, next: 0, mute: false };
 function auInit() {
   if (AU.ctx || G.headless) return;
   try {
@@ -347,17 +388,40 @@ const S = {
   cash(t) { if (!lim('c', 35)) return; const f = nf(9 + Math.min(5, t)); tone('sine', f * 2, f * 2, 0.28, 0.12); tone('sine', f * 5.4, f * 5.4, 0.12, 0.04); },
   big() { if (!lim('B', 120)) return; tone('sine', 170, 45, 0.45, 0.6); noise(0.12, 0.25, 2200, 0, 1); },
   stamp() { tone('sine', 120, 36, 0.7, 0.8); noise(0.18, 0.35, 1400, 0, 0.8); tone('sine', 392, 392, 1.2, 0.12, 0.02); tone('sine', 587.3, 587.3, 1.2, 0.07, 0.02); },
-  fever() { for (let i = 0; i < 8; i++) tone('triangle', nf(5 + i), nf(5 + i), 0.14, 0.14, i * 0.06); },
   clear() { [5, 7, 9, 10, 12, 14].forEach((n, i) => tone('triangle', nf(n), nf(n), 0.3, 0.16, i * 0.09)); tone('sine', 150, 50, 0.5, 0.5, 0.54); },
   over() { [9, 7, 5, 3, 0].forEach((n, i) => tone('triangle', nf(n), nf(n) * 0.97, 0.4, 0.14, i * 0.16)); },
   ui() { tone('triangle', 700, 700, 0.06, 0.1); },
   place() { tone('sine', 600, 900, 0.1, 0.14); noise(0.04, 0.1, 3000, 0, 2); },
   card() { noise(0.08, 0.12, 1800, 0, 1.2); tone('triangle', 880, 880, 0.1, 0.08, 0.03); }
 };
-// 祭り囃子ふうの伴奏。場の熱さ（lv）で楽器がふえる
-const DON = [1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0], KA = [0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1], KANE = [1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 1, 0];
-const MEL = [9, -1, 10, 9, 7, -1, 5, 7, 9, -1, 12, 10, 9, -1, 7, -1, 5, -1, 7, 9, 10, -1, 9, 7, 5, 7, 9, -1, 5, -1, -1, -1];
+const DON = [1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0], KA = [0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1];
 const KOTO = [0, -1, -1, 4, -1, -1, 7, -1, -1, -1, 5, -1, 2, -1, -1, -1, 0, -1, -1, 5, -1, -1, 9, -1, -1, -1, 7, -1, 4, -1, -1, -1];
+const CHINDON_DRUM = [2, 0, 0, 1, 0, 0, 1, 0, 2, 0, 0, 1, 0, 2, 0, 0];
+const CHINDON_GONG = [0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 1];
+const CHINDON_REED = [
+  8, -1, 7, 6, 7, -1, 9, -1, 10, 9, 7, -1, 6, 7, 5, -1,
+  8, 8, 9, -1, 12, 10, 9, -1, 7, 6, 5, -1, 7, -1, 5, -1
+];
+function playChindonBeat(delay, stepTime) {
+  const step = AU.festivalStep, i = step % 16, drum = CHINDON_DRUM[i];
+  if (drum) {
+    tone('sine', drum === 2 ? 158 : 191, 62, 0.18, drum === 2 ? 0.38 : 0.23, delay);
+    noise(0.045, 0.12, 960, delay, 1.5);
+  }
+  if (KA[i] && !drum) noise(0.05, 0.16, 3000, delay, 2);
+  if (CHINDON_GONG[i]) {
+    tone('sine', 1570, 1540, 0.20, 0.12, delay);
+    tone('sine', 2540, 2500, 0.13, 0.06, delay);
+  }
+  const note = CHINDON_REED[step];
+  if (note >= 0) {
+    const pitch = nf(note), held = CHINDON_REED[(step + 1) % CHINDON_REED.length] < 0;
+    const length = stepTime * (held ? 1.75 : 0.90);
+    tone('triangle', pitch * 0.987, pitch, length, 0.19, delay, 0.022);
+    tone('square', pitch, pitch, length * 0.92, 0.035, delay, 0.028);
+  }
+  AU.festivalStep = (step + 1) % CHINDON_REED.length;
+}
 function musicLevel() {
   if (cardBook.open || G.paused || G.help || G.phase === 'title' || G.phase === 'over') return 0;
   if (G.phase !== 'play') return 0.5;
@@ -367,32 +431,38 @@ function musicLevel() {
 function seqTick() {
   const c = AU.ctx; if (!c) return;
   if (c.state !== 'running' || !SAVE.sound || document.hidden) { AU.next = c.currentTime + 0.1; return; }
-  const lv = musicLevel(), spb = 60 / (lv === 3 ? 164 : lv === 2 ? 140 : 120) / 4;
+  const lv = musicLevel(), spb = 60 / (lv === 3 ? 152 : lv === 2 ? 140 : 120) / 4;
   if (AU.next < c.currentTime) AU.next = c.currentTime + 0.02;
   while (AU.next < c.currentTime + 0.12) {
     const d = AU.next - c.currentTime, s = AU.step, s16 = s % 16;
-    if (lv >= 1 && DON[s16]) { tone('sine', lv === 3 ? 150 : 120, 42, 0.22, lv === 3 ? 0.4 : 0.24, d); if (lv >= 2) noise(0.03, 0.08, 1800, d, 1); }
-    if (lv >= 2 && KA[s16]) noise(0.035, lv === 3 ? 0.16 : 0.09, 3400, d, 4);
     if (lv === 3) {
-      if (KANE[s16]) tone('sine', 2637, 2637, 0.07, 0.035, d);
-      const m = MEL[s]; if (m >= 0) { const f = nf(m + 5); tone('square', f, f, spb * 1.8, 0.03, d, 0.02); tone('sine', f, f, spb * 1.8, 0.05, d, 0.02); }
-    } else if (lv > 0) { const k = KOTO[s]; if (k >= 0) tone('triangle', nf(k), nf(k) * 0.998, 0.5, lv >= 1 ? 0.07 : 0.045, d); }
-    AU.step = (s + 1) % 32; AU.next += spb;
+      playChindonBeat(d, spb);
+    } else {
+      if (lv >= 1 && DON[s16]) { tone('sine', 120, 42, 0.22, 0.24, d); if (lv >= 2) noise(0.03, 0.08, 1800, d, 1); }
+      if (lv >= 2 && KA[s16]) noise(0.035, 0.09, 3400, d, 4);
+      const k = KOTO[s]; if (lv > 0 && k >= 0) tone('triangle', nf(k), nf(k) * 0.998, 0.5, lv >= 1 ? 0.07 : 0.045, d);
+      AU.step = (s + 1) % KOTO.length;
+    }
+    AU.next += spb;
   }
 }
 function buzz(ms) { try { if (!G.headless && SAVE.sound && navigator.vibrate) navigator.vibrate(ms); } catch (e) { /* 対応していない端末 */ } }
 
 // ───────── 盤面 ─────────
 function buildBoard() {
-  G.pegs = []; G.grid = []; let i = 0;
-  for (let r = 0; r < ROWS; r++) {
-    const n = r % 2 ? 7 : 8, row = [];
-    for (let c = 0; c < n; c++) { const p = { i: i++, r, c, x: 0, y: 0, type: 'n', lv: 1, grow: 0, flash: 0, sw: 0, swv: 0 }; row.push(p); G.pegs.push(p); }
-    G.grid.push(row);
-  }
+  G.board = boardById(SAVE.board);
+  let i = 0;
+  G.grid = G.board.rows.map((row, r) => row.map((x, c) =>
+    ({ i: i++, r, c, x, y: 0, type: 'n', lv: 1, grow: 0, flash: 0, sw: 0, swv: 0 })));
+  G.pegs = G.grid.flat();
   placePegs();
 }
-function placePegs() { for (const p of G.pegs) { p.x = (p.r % 2 ? X_NARROW : X_WIDE) + SX * p.c; p.y = L.row0 + L.rowGap * p.r; } }
+function placePegs() { for (const p of G.pegs) p.y = L.row0 + L.rowGap * p.r; }
+function pegInRow(row, x) {
+  let c = 0;
+  while (c + 1 < row.length && x * 2 >= row[c].x + row[c + 1].x) c++;
+  return row[c];
+}
 function layout() {
   const ex = H - 960;
   L.hud = Math.round(ex * 0.3);
@@ -444,7 +514,7 @@ function startStage(n) {
   G.ballsMax = BAL.balls + (G.rel.ball || 0); G.ballsLeft = G.ballsMax;
   G.cleared = false; G.firstShotScore = 0; G.endT = 0; G.balls.length = 0; G.spawn.length = 0; G.acc = 0;
   const f = G.fever; f.inStage = 0; f.on = false; f.firstShot = true; f.need = feverNeed(); f.gauge = Math.min(Math.max(f.gauge, G.rel.zenya ? f.need / 2 : 0), f.need);
-  G.placing = null; G.hover = null; G.offer = null; G.dropCd = 0.35;
+  G.placing = null; G.hover = null; G.offer = null; G.pendingCard = null; G.dropCd = 0.35;
   computePockets(); G.aim.x = aimClamp(dropSpot().x); G.aim.on = false;
   G.phase = 'play';
   if (!G.headless) setBanner('ステージ ' + n, 'ノルマ ' + fmtQ(G.quota), 1.7);
@@ -572,20 +642,17 @@ function stepBalls(h) {
     if (!b.ghost) {
       const r = Math.round((b.y - L.row0) / L.rowGap);
       if (r >= 0 && r < ROWS) {
-        const row = G.grid[r], c = Math.round((b.x - (r % 2 ? X_NARROW : X_WIDE)) / SX);
-        if (c >= 0 && c < row.length) {
-          const p = row[c], dx = b.x - p.x, dy = b.y - p.y, d2 = dx * dx + dy * dy;
-          if (d2 < rr2) {
-            const d = Math.sqrt(d2) || 0.01, nx = dx / d, ny = dy / d;
-            b.x = p.x + nx * rr; b.y = p.y + ny * rr;
-            const vn = b.vx * nx + b.vy * ny;
-            if (vn < 0) {
-              const out = Math.max(150, -vn * (0.5 + Math.random() * 0.14));
-              b.vx += (out - vn) * nx + (Math.random() - 0.5) * 70; b.vy += (out - vn) * ny;
-              if (b.lastPeg !== p.i) {                 // 同じ釘の上ではずんでも、数えるのは1回
-                b.lastPeg = p.i; b.wallOk = true; hitPeg(p, b, null);
-                if (b.tp) { b.tp = false; continue; }
-              }
+        const p = pegInRow(G.grid[r], b.x), dx = b.x - p.x, dy = b.y - p.y, d2 = dx * dx + dy * dy;
+        if (d2 < rr2) {
+          const d = Math.sqrt(d2) || 0.01, nx = dx / d, ny = dy / d;
+          b.x = p.x + nx * rr; b.y = p.y + ny * rr;
+          const vn = b.vx * nx + b.vy * ny;
+          if (vn < 0) {
+            const out = Math.max(150, -vn * (0.5 + Math.random() * 0.14));
+            b.vx += (out - vn) * nx + (Math.random() - 0.5) * 70; b.vy += (out - vn) * ny;
+            if (b.lastPeg !== p.i) {                 // 同じ釘の上ではずんでも、数えるのは1回
+              b.lastPeg = p.i; b.wallOk = true; hitPeg(p, b, null);
+              if (b.tp) { b.tp = false; continue; }
             }
           }
         }
@@ -658,7 +725,9 @@ function startFever() {
   // ゲージを最初の投入の玉だけでためた祭りは、その投入につながる。
   f.firstShot = f.firstShot && (G.ballsLeft === G.ballsMax - 1 || G.balls.some(ball => ball.firstShot)); G.stats.fevers++;
   if (!G.headless) {
-    setBanner('お祭りだ', '玉がふってくる', 1.3, C.momo); S.fever(); addShake(8); G.flash = 0.4; buzz(60);
+    AU.festivalStep = 0;
+    if (AU.ctx) { AU.next = AU.ctx.currentTime + 0.02; seqTick(); }
+    setBanner('お祭りだ', '玉がふってくる', 1.3, C.momo); addShake(8); G.flash = 0.4; buzz(60);
     for (let i = 0; i < 4; i++) later(i * 0.18, () => firework(rnd(60, W - 60), L.hud + rnd(60, 200), pick([C.momo, C.kin, C.asagi, C.shu])));
   }
 }
@@ -731,7 +800,7 @@ function afterClear() {
   if (G.unitIdx >= KETA_IDX && !G.ended) { G.ended = true; SAVE.cleared = true; if (!G.headless) saveSave(); G.phase = 'ending'; G.clearT = 0; return; }
   openReward();
 }
-function openReward() { G.offer = makeOffer(3); G.peek = false; G.phase = 'reward'; }
+function openReward() { G.offer = makeOffer(3); G.pendingCard = null; G.peek = false; G.phase = 'reward'; }
 function gameOver() {
   saveBest();
   G.phase = 'over'; G.overT = 0; G.balls.length = 0; G.aim.on = false;
@@ -739,6 +808,7 @@ function gameOver() {
 }
 function toTitle() {
   G.phase = 'title'; G.paused = false; G.help = 0; G.balls.length = 0; G.spawn.length = 0; G.stamps.length = 0; G.banner = null; G.rel = {}; G.relOrder = [];
+  G.pendingCard = null; G.placing = null; G.hover = null;
   buildBoard(); demoBoard(); G.pockets = BASE_POCKETS.map(m => ({ mult: m, flash: 0 }));
 }
 function cycleSpeed() { G.speed = G.speed === 1 ? 2 : G.speed === 2 ? 4 : 1; SAVE.speed = G.speed; saveSave(); }
@@ -802,11 +872,16 @@ const doneStages = () => Math.max(1, (G.nextStage || G.stage + 1) - 1);
 const lvCap = () => Math.max(3, doneStages() + 1);       // ちょうちんのLvは、これから遊ぶステージの数まで
 const addLv = (p, n) => { p.lv = Math.min(lvCap(), p.lv + n); p.flash = 1; };
 const pegLv = (t, base) => (base || 1) + Math.floor(doneStages() / (t === 'x' ? BAL.xLvDiv : t === 'a' ? 4 : 10));
+const canAddPeg = type => type !== 's' || countType('s') < BAL.maxSplitPegs;
+function hasPlacement(type) {
+  const cap = lvCap(), canAdd = canAddPeg(type);
+  return G.pegs.some(p => p.type === type ? p.lv < cap : canAdd);
+}
 function pegDesc(t, lv) {
   switch (t) {
     case 'a': return `当たった玉の値に +${fmtS(BAL.addVal * lv)}。上のほうに置くと、あとの掛け算がよく効く。`;
     case 'x': return `当たった玉の値を${fmtS(xMul(lv))}倍にする。重ねるとLvが上がり、${lv > 1 ? 'さらに' : '3倍、4倍、6倍と'}強くなる。`;
-    case 's': return `当たった玉が${lv + 1}つに分かれる。値はどれもそのまま。`;
+    case 's': return `当たった玉が${lv + 1}つに分かれる。値はそのまま。盤面に${BAL.maxSplitPegs}個まで。`;
     case 'z': return `当たると雷が飛び、はなれたちょうちん${2 + lv}つを発動する（Lv1の強さで）。`;
     case 'g': return `値を${BAL.growBase}倍にする。当たるたびに倍率が${(BAL.growStep * lv).toFixed(1)}ずつ育ち、ずっと残る。`;
     case 'w': return lv > 1 ? `当たった玉を一番上へもどす。値をもったまま落ち直す。1つの玉に${lv}回まで。` : PT.w.desc;
@@ -823,7 +898,8 @@ function instCard(c) {
   return o;
 }
 function makeOffer(n) {
-  const pool = CARDS.filter(c => (c.k !== 'rel' || relHas(c.id) < c.max) && (!c.can || c.can())), out = [];
+  const pool = CARDS.filter(c => (c.k !== 'rel' || relHas(c.id) < c.max) &&
+    (c.k !== 'peg' || hasPlacement(c.t)) && (!c.can || c.can())), out = [];
   for (let s = 0; s < n; s++) {
     const free = c => !out.includes(c) && !(c.t && out.some(o => o.t === c.t));
     let cand = pool.filter(c => free(c) && (s > 0 || c.core));
@@ -837,16 +913,32 @@ function makeOffer(n) {
   for (let i = out.length - 1; i > 0; i--) { const j = (Math.random() * (i + 1)) | 0; const t = out[i]; out[i] = out[j]; out[j] = t; }
   return out.map(instCard);
 }
+const isOffered = o => G.phase === 'reward' && !G.peek && o && G.offer?.includes(o);
+function selectCard(o) {
+  if (!isOffered(o)) return;
+  if (o.c.k === 'peg') takeCard(o);
+  else G.pendingCard = o;
+}
 function takeCard(o) {
-  if (G.phase !== 'reward' || G.peek || !o || !G.offer.includes(o)) return;
-  const c = o.c; G.picks.push(c.id);
+  if (!isOffered(o)) return;
+  const c = o.c;
+  if (c.k === 'peg' && !hasPlacement(c.t)) return;
+  G.pendingCard = null;
   S.card();
-  if (c.k === 'peg') { G.placing = { type: c.t, lv: o.lv, left: o.n, name: PT[c.t].name, sug: null }; G.phase = 'place'; G.hover = null; return; }
+  if (c.k === 'peg') {
+    G.placing = { card: c, type: c.t, lv: o.lv, left: o.n, sug: null, changes: new Map() };
+    G.phase = 'place'; G.hover = null;
+    return;
+  }
   if (c.k === 'rel') { if (!G.rel[c.id]) G.relOrder.push(c); G.rel[c.id] = relHas(c.id) + 1; } else NOW[c.id]();
+  G.picks.push(c.id);
   if (!G.headless) G.flash = 0.2;
   nextStage();
 }
-function reroll() { if (G.phase !== 'reward' || G.peek || G.rerolls <= 0) return; G.rerolls--; G.offer = makeOffer(3); S.card(); }
+function reroll() {
+  if (G.phase !== 'reward' || G.peek || G.rerolls <= 0) return;
+  G.rerolls--; G.pendingCard = null; G.offer = makeOffer(3); S.card();
+}
 
 // ───────── ちょうちんを置く ─────────
 // 落とす場所の真下にある釘は、どの玉もほぼ必ず当たる「特等席」。上2段の釘がその候補になる
@@ -870,18 +962,18 @@ function traffic(p, a) {
 const BAND = { a: [0, 2], s: [0, 2], x: [3, 9], g: [3, 9], d: [3, 9], b: [2, 9], z: [1, 6], w: [7, 9], f: [1, 6] };
 // 「おまかせ」と「おすすめ」の置き場所。足し算と分裂は上、掛け算は下。よく当たる釘から先に埋めて、うまったら重ねる
 function suggestPeg(type, onlyNail) {
-  const a = dropSpot(), cap = lvCap(), band = BAND[type] || [0, 9], lv = G.placing ? G.placing.lv : 1;
+  const a = dropSpot(), cap = lvCap(), band = BAND[type] || [0, 9], lv = G.placing ? G.placing.lv : 1, canAdd = canAddPeg(type);
   let best = null, bs = -1;
   for (let pass = 0; pass < 2 && !best; pass++) {
     for (const p of G.pegs) {
-      if (p.type !== 'n' && (onlyNail || p.type !== type || p.lv >= cap)) continue;
+      if (p.type === 'n' ? !canAdd : onlyNail || p.type !== type || p.lv >= cap) continue;
       if (pass === 0 && (p.r < band[0] || p.r > band[1])) continue;
       let sc = traffic(p, a) * (p.type === 'n' ? 1 + lv : Math.min(lv, cap - p.lv)) + Math.random() * 0.004;
       if (type === 'b') { let nb = 0; for (const q of G.pegs) if (q !== p && isMul(q)) { const dx = q.x - p.x, dy = q.y - p.y; if (dx * dx + dy * dy < 76 * 76) nb++; } sc *= 1 + nb; }
       if (sc > bs) { bs = sc; best = p; }
     }
   }
-  return best || G.pegs.find(p => p.type !== type) || G.pegs[0];
+  return best || (canAdd && !onlyNail ? G.pegs.find(p => p.type !== type) : null);
 }
 const aimClamp = x => clamp(x, WALL_L + BALL_R + 6, WALL_R - BALL_R - 6);
 // ねらいは上2段の釘の真上に吸いつく（指でも特等席をねらえるように）
@@ -890,17 +982,38 @@ function aimSnap(x) {
   for (const p of G.grid[0].concat(G.grid[1])) { const d = Math.abs(p.x - x); if (d < bd) { bd = d; bx = p.x; } }
   G.aim.snap = bx !== x; return aimClamp(bx);
 }
+function placementBlock(p, type) {
+  if (p.type === type && p.lv >= lvCap()) return 'Lvの上限';
+  if (p.type !== type && !canAddPeg(type)) return '分裂は' + BAL.maxSplitPegs + '個まで';
+  return '';
+}
 function placeAt(p) {
   const P = G.placing; if (!P || G.phase !== 'place' || !p) return;
-  if (p.type === P.type) {
-    if (p.lv >= lvCap()) { fxText(p.x, p.y - 24, 'Lvの上限', C.haku, 16); return; }       // 上限のちょうちんには重ねられない
-    addLv(p, P.lv);
-  } else setPeg(p, P.type, P.lv);
+  const block = placementBlock(p, P.type);
+  if (block) { fxText(p.x, p.y - 24, block, C.haku, 16); return; }
+  if (!P.changes.has(p)) P.changes.set(p, { type: p.type, lv: p.lv, grow: p.grow, flash: p.flash });
+  if (p.type === P.type) addLv(p, P.lv);
+  else setPeg(p, P.type, P.lv);
   P.left--; P.sug = null;
   if (!G.headless) { S.place(); spark(p.x, p.y, PT[P.type].col, 14, 200, 0.5, 2.6); ring(p.x, p.y, PT[P.type].col, 34, 0.3, 3); }
-  if (P.left <= 0) nextStage();
+  if (P.left <= 0 || !hasPlacement(P.type)) {
+    G.picks.push(P.card.id);
+    nextStage();
+  }
 }
-function autoPlace() { let guard = 60; while (G.phase === 'place' && G.placing && G.placing.left > 0 && guard-- > 0) placeAt(suggestPeg(G.placing.type)); }
+function cancelPlacement() {
+  if (G.phase !== 'place' || !G.placing) return;
+  for (const [peg, old] of G.placing.changes) Object.assign(peg, old);
+  G.placing = null; G.hover = null; G.phase = 'reward';
+}
+function autoPlace() {
+  let guard = 60;
+  while (G.phase === 'place' && guard-- > 0) {
+    const peg = suggestPeg(G.placing.type);
+    if (!peg) return;
+    placeAt(peg);
+  }
+}
 function nextStage() {            // 札が残っていれば、もう1枚えらぶ
   G.placing = null; G.hover = null;
   if (--G.picksLeft > 0) openReward(); else startStage(G.nextStage || G.stage + 1);
@@ -1279,7 +1392,8 @@ function drawTitle() {
   button('help', W / 2 - 175, y1 + 288, 136, 52, 'あそびかた', { size: 19 }, () => { G.help = 1; G.helpStart = false; });
   button('title-book', W / 2 - 29, y1 + 288, 114, 52, '札図鑑', { size: 19 }, openCardBook);
   button('sound', W / 2 + 95, y1 + 288, 80, 52, '音 ' + (SAVE.sound ? '入' : '切'), { size: 19 }, toggleSound);
-  button('ranking', W / 2 - 160, y1 + 352, 320, 52, 'ランキング', { size: 19 }, openRanking);
+  button('ranking', 50, y1 + 352, 214, 58, 'ランキング', { size: 19 }, openRanking);
+  button('boards', 276, y1 + 352, 214, 58, '盤面 ' + G.board.name + ' ▾', { size: 19 }, openBoardPicker);
 }
 function drawClear() {
   UI.regs.length = 0;
@@ -1306,13 +1420,14 @@ function drawCard(o, i, x, y, w, h) {
   const c = o.c, rc = RAR_COL[c.rar], ink = shade(rc, -0.3), peg = c.k === 'peg';
   const cx = x + w / 2, cy = y + 102, id = 'card' + i;
   const press = UI.down?.id === id && inside(UI.px, UI.py, { x, y, w, h });
+  const selected = G.pendingCard === o;
   ctx.save();
   RR(x, y + 7, w, h, 9); ctx.fillStyle = 'rgba(0,0,0,.4)'; ctx.fill();
   if (press) ctx.translate(0, 3);
   const paper = ctx.createLinearGradient(x, y, x + w, y + h);
   paper.addColorStop(0, '#fff7e5'); paper.addColorStop(0.56, C.washi); paper.addColorStop(1, '#e7d3ac');
   RR(x, y, w, h, 8); ctx.fillStyle = paper; ctx.fill();
-  ctx.strokeStyle = press ? C.kin : '#a58c60'; ctx.lineWidth = press ? 4 : 2; ctx.stroke();
+  ctx.strokeStyle = press || selected ? C.kin : '#a58c60'; ctx.lineWidth = press || selected ? 4 : 2; ctx.stroke();
   RR(x + 6, y + 6, w - 12, h - 12, 5); ctx.strokeStyle = rc; ctx.lineWidth = 2; ctx.stroke();
   RR(x + 11, y + 11, w - 22, h - 22, 3); ctx.strokeStyle = rgba(rc, 0.38); ctx.lineWidth = 1; ctx.stroke();
 
@@ -1343,7 +1458,7 @@ function drawCard(o, i, x, y, w, h) {
   ctx.moveTo(cx, y + h - 23); ctx.lineTo(cx + 4, y + h - 18); ctx.lineTo(cx, y + h - 13); ctx.lineTo(cx - 4, y + h - 18);
   ctx.closePath(); ctx.fill();
   ctx.restore();
-  UI.regs.push({ id, x, y, w, h, fn: () => takeCard(o) });
+  UI.regs.push({ id, x, y, w, h, fn: () => selectCard(o) });
 }
 function drawBoardPreview() {
   const y = L.hud, cards = G.relOrder;
@@ -1379,9 +1494,15 @@ function drawReward() {
   const left = (W - G.offer.length * (cw + gap) + gap) / 2;
   T('ステージ ' + G.stage + ' 突破　札 あと ' + G.picksLeft + '枚（全' + ci.cards + '枚）', W / 2, y - 112, { size: 17, w: 800, align: 'center', col: C.kin });
   T('札を1枚えらぶ', W / 2, y - 64, { size: 39, fam: F_D, w: 900, align: 'center' });
-  T('ほしい札を押すと決まります', W / 2, y - 30, { size: 18, w: 700, align: 'center', col: C.dim });
+  T(G.pendingCard ? G.pendingCard.name + 'を選択中' : 'ほしい札を押して選びます', W / 2, y - 30,
+    { size: 18, w: 700, align: 'center', col: G.pendingCard ? C.kin : C.dim });
   G.offer.forEach((o, i) => drawCard(o, i, left + i * (cw + gap), y, cw, ch));
   const by = y + ch + 32;
+  if (G.pendingCard) {
+    button('cancel-card', 22, by, 198, 56, 'キャンセル', { size: 19 }, () => { G.pendingCard = null; });
+    button('confirm-card', 232, by, 286, 56, 'この札を取る', { size: 20, kind: 'primary' }, () => takeCard(G.pendingCard));
+    return;
+  }
   button('reroll', 22, by, 198, 56, '選び直す（のこり' + G.rerolls + '）', { size: 16, disabled: G.rerolls <= 0 }, reroll);
   button('peek', 232, by, 162, 56, '盤面を見る', { size: 18 }, () => { G.peek = true; });
   button('reward-book', 406, by, 112, 56, '札図鑑', { size: 18 }, openCardBook);
@@ -1389,6 +1510,7 @@ function drawReward() {
 function drawPlace() {
   const P = G.placing; if (!P) return;
   const y = L.launchY - 30, h = G.hover;
+  const block = h ? placementBlock(h, P.type) : '';
   if (!P.sug) P.sug = suggestPeg(P.type);
   const sg = P.sug;
   if (sg && sg !== h) {
@@ -1397,20 +1519,24 @@ function drawPlace() {
     T('おすすめ', clamp(sg.x, 44, W - 44), sg.y + 36, { size: 13, w: 800, align: 'center', col: C.kin, stroke: C.sumi, sw: 4 });
   }
   if (h) {
-    ctx.strokeStyle = C.haku; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(h.x, h.y, 20 + 2 * Math.sin(G.rt * 10), 0, TAU); ctx.stroke();
-    const bx = clamp(h.x, 50, W - 50), by2 = h.y - 78;
-    ctx.beginPath(); ctx.arc(bx, by2, 38, 0, TAU); ctx.fillStyle = 'rgba(11,14,34,.92)'; ctx.fill(); ctx.strokeStyle = C.kin; ctx.lineWidth = 2; ctx.stroke();
-    ctx.drawImage(pegSprite(P.type, h.type === P.type ? Math.min(lvCap(), h.lv + P.lv) : P.lv), bx - 42, by2 - 42, 84, 84);
+    ctx.strokeStyle = block ? C.shu : C.haku; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(h.x, h.y, 20 + 2 * Math.sin(G.rt * 10), 0, TAU); ctx.stroke();
+    if (!block) {
+      const bx = clamp(h.x, 50, W - 50), by2 = h.y - 78;
+      ctx.beginPath(); ctx.arc(bx, by2, 38, 0, TAU); ctx.fillStyle = 'rgba(11,14,34,.92)'; ctx.fill(); ctx.strokeStyle = C.kin; ctx.lineWidth = 2; ctx.stroke();
+      ctx.drawImage(pegSprite(P.type, h.type === P.type ? Math.min(lvCap(), h.lv + P.lv) : P.lv), bx - 42, by2 - 42, 84, 84);
+    }
   }
   RR(12, y, W - 24, 62, 10); ctx.fillStyle = 'rgba(11,14,34,.94)'; ctx.fill(); ctx.strokeStyle = rgba(C.kin, 0.5); ctx.lineWidth = 1.5; ctx.stroke();
   ctx.drawImage(pegSprite(P.type, P.lv), 16, y + 3, 56, 56);
-  T(P.name + 'を置く場所にふれる', 76, y + 27, { size: 19, w: 800 });
+  T(PT[P.type].name + 'を置く場所にふれる', 76, y + 27, { size: 19, w: 800 });
   const cap = lvCap(), nl = h ? Math.min(cap, h.lv + P.lv) : 0;
-  const msg = !h ? 'ふれたまま動かすと場所をえらべる' : h.type === 'n' ? 'ここに置く' : h.type !== P.type ? PT[h.type].name + ' と入れかえる'
-    : h.lv >= cap ? 'Lvの上限（いまは Lv' + cap + ' まで）' : '重ねて Lv' + nl + ' に強化' + (P.type === 'x' ? '（' + fmtS(xMul(nl)) + '倍）' : '') + (nl >= cap ? ' 上限' : '');
+  const hint = P.type === 's' ? '盤面の分裂 ' + countType('s') + ' / ' + BAL.maxSplitPegs + '個' : 'ふれたまま動かすと場所をえらべる';
+  const msg = block || (!h ? hint : h.type === 'n' ? 'ここに置く' : h.type !== P.type ? PT[h.type].name + ' と入れかえる'
+    : '重ねて Lv' + nl + ' に強化' + (P.type === 'x' ? '（' + fmtS(xMul(nl)) + '倍）' : '') + (nl >= cap ? ' 上限' : ''));
   T(msg, 76, y + 51, { size: 16, w: 600, col: h ? C.kin : C.dim });
   T('あと ' + P.left, W - 28, y + 39, { size: 20, w: 900, align: 'right', col: C.kin });
-  button('auto', 20, L.trayY + 6, W - 40, 56, 'おまかせで置く', { size: 20 }, autoPlace);
+  button('cancel-place', 20, L.trayY + 6, 172, 56, 'キャンセル', { size: 19 }, cancelPlacement);
+  button('auto', 204, L.trayY + 6, W - 224, 56, 'おまかせで置く', { size: 20 }, autoPlace);
   if (L.trayY + 100 <= H) T('足し算は上、掛け算は下。重ねられるのは Lv' + lvCap() + ' まで', W / 2, L.trayY + 90, { size: 15, w: 600, align: 'center', col: C.dim });
 }
 function drawOver() {
@@ -1464,7 +1590,7 @@ function drawPause() {
 }
 const HELP1 = ['画面にふれて左右に動かし、指をはなすと玉が落ちる。', '玉は釘やちょうちんに当たるたびに値がふえ、下の桝に入ると得点になる。',
   '桝に入るたびに「勢い」が上がる。あとから落とす玉ほど高得点。', '突破で札1枚。最初の投入から増えた玉も含め、1投目の合計がノルマ以上で一発突破の札を1枚追加。次のノルマの100倍以上なら飛び級でさらに1枚。',
-  'ちょうちんは好きな場所に置ける。上で足して、下で掛けるのがコツ。落とす場所の真下は、どの玉も当たる特等席。', '万、億、兆と桁を上げて、無量大数の先にある「桁外れ」を目指そう。'];
+  'ちょうちんは好きな場所に置ける。分裂は盤面に' + BAL.maxSplitPegs + '個まで。上で足して、下で掛けるのがコツ。真下の釘がよく当たる特等席。', '万、億、兆と桁を上げて、無量大数の先にある「桁外れ」を目指そう。'];
 function openRanking() {
   ranking = rankLists([...rankingEntries().values()]);
   G.help = 3;
@@ -1512,6 +1638,41 @@ function drawHelp() {
     G.help = 0; SAVE.seen = true; saveSave(); if (G.helpStart) { G.helpStart = false; startRun(); }
   });
 }
+
+// ───────── 盤面を選ぶ ─────────
+function openBoardPicker() {
+  const options = document.getElementById('board-options');
+  const buttons = BOARDS.map(board => {
+    const button = document.createElement('button'), image = document.createElement('canvas');
+    const name = document.createElement('strong'), desc = document.createElement('span');
+    button.type = 'button';
+    button.setAttribute('aria-pressed', String(G.board.id === board.id));
+    image.width = 240; image.height = 152;
+    image.setAttribute('aria-hidden', 'true');
+    const preview = image.getContext('2d');
+    board.rows.forEach((row, r) => row.forEach((x, c) => {
+      const split = r === 1 && c === 3;
+      preview.beginPath();
+      preview.arc(12 + x / W * 216, 13 + r * 14, split ? 4.4 : 2.8, 0, TAU);
+      preview.fillStyle = split ? C.take : C.kin;
+      preview.fill();
+    }));
+    name.textContent = board.name;
+    desc.textContent = board.desc;
+    button.append(image, name, desc);
+    button.addEventListener('click', () => {
+      SAVE.board = board.id;
+      saveSave();
+      toTitle();
+      boardPicker.close();
+    });
+    return button;
+  });
+  options.replaceChildren(...buttons);
+  boardPicker.showModal();
+}
+document.getElementById('board-picker-close').addEventListener('click', () => boardPicker.close());
+boardPicker.addEventListener('close', () => cv.focus({ preventScroll: true }));
 
 // ───────── ちょうちんのデモ ─────────
 // Lv1の効果が見えるように、短い例を本編と独立した盤面で再生する。
@@ -1798,11 +1959,12 @@ cv.addEventListener('pointercancel', e => pointerEnd(e, true));
 cv.addEventListener('contextmenu', e => e.preventDefault());
 cv.addEventListener('click', () => { auInit(); auResume(); });
 window.addEventListener('keydown', e => {
-  if (cardBook.open || lanternGuide.open || tutorialDialog.open) return;
+  if (cardBook.open || lanternGuide.open || tutorialDialog.open || boardPicker.open) return;
   const k = e.key, go = k === ' ' || k === 'Enter';
   if (k === 'Escape' || k === 'p') {
     if (G.help) G.help = 0;
-    else if (k === 'Escape' && G.phase === 'reward' && G.peek) G.peek = false;
+    else if (k === 'Escape' && G.phase === 'reward') { if (G.peek) G.peek = false; else G.pendingCard = null; }
+    else if (k === 'Escape' && G.phase === 'place' && !G.paused) cancelPlacement();
     else if (G.phase === 'play' || G.phase === 'place') G.paused = !G.paused;
     return;
   }
@@ -1817,7 +1979,8 @@ window.addEventListener('keydown', e => {
   } else if (G.phase === 'title') { if (go) pressStart(); }
   else if (G.phase === 'clear') { if (go && G.clearT > 0.7) afterClear(); }
   else if (G.phase === 'reward') {
-    if (!G.peek && !e.repeat && /^[1-3]$/.test(k)) { auInit(); auResume(); takeCard(G.offer[Number(k) - 1]); }
+    if (!G.peek && !e.repeat && /^[1-3]$/.test(k)) { auInit(); auResume(); selectCard(G.offer[Number(k) - 1]); }
+    if (!e.repeat && go) takeCard(G.pendingCard);
   }
   else if (G.phase === 'place') { if (go) autoPlace(); }
   else if (G.phase === 'over') { if (go) startRun(); }
@@ -1847,7 +2010,7 @@ function frame(ts) {
     }
     return;
   }
-  if (cardBook.open || tutorialDialog.open) return;
+  if (cardBook.open || tutorialDialog.open || boardPicker.open) return;
   G.rt += rdt;
   if (G.phase === 'play' && !G.paused) {               // こま落ちが続く端末では、絵の細かさを一段ずつ下げる
     slow = rdt > 0.03 ? slow + 1 : Math.max(0, slow - 1);

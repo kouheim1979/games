@@ -36,7 +36,7 @@ function bootGame() {
   };
   window.window = window;
   gameScript.runInNewContext(window);
-  const { G, L, UI, CARDS, api } = window.KETA;
+  const { G, L, UI, CARDS, SAVE, api } = window.KETA;
   api.startRun();
 
   function drop(x = 119) {
@@ -83,11 +83,13 @@ function bootGame() {
       render();
       assert.ok(labels.some(text => text.includes('札 あと ' + left + '枚')));
       tap('card0');
+      render();
+      tap('confirm-card');
     }
     assert.equal(G.phase, 'play');
     assert.equal(G.stage, nextStage);
   }
-  return { G, api, drop, settle, render, collect, labels };
+  return { G, L, CARDS, SAVE, api, drop, settle, render, tap, collect, labels };
 }
 
 test('a landing just below the quota displays a lower score and awards no extra card', () => {
@@ -214,4 +216,102 @@ test('each stage awards its first ball and the flyover bonus independently', () 
   settle([drop(), drop()], [G.quota * 0.49, G.quota * 0.49]);
   collect(1, 6);
   assert.equal(G.picks.length, 8);
+});
+
+test('a tapped charm can be cancelled without using a reward or changing the run', () => {
+  const { G, CARDS, api, render, tap } = bootGame();
+  api.stageClear();
+  api.afterClear();
+  const charm = CARDS.find(card => card.id === 'ball');
+  const offer = G.offer = [{ c: charm, name: charm.name, desc: charm.desc, g: charm.g }];
+  const left = G.picksLeft;
+  render();
+  tap('card0');
+  assert.equal(G.pendingCard, offer[0]);
+  assert.equal(G.rel.ball, undefined);
+  render();
+  tap('cancel-card');
+  assert.equal(G.pendingCard, null);
+  assert.equal(G.offer, offer);
+  assert.equal(G.picksLeft, left);
+  assert.equal(G.picks.length, 0);
+  render();
+  tap('card0');
+  render();
+  tap('confirm-card');
+  assert.equal(G.rel.ball, 1);
+  assert.equal(G.stage, 2);
+});
+
+test('cancelling a partially placed lantern card restores all affected pegs', () => {
+  const { G, CARDS, api, render, tap } = bootGame();
+  api.stageClear();
+  api.afterClear();
+  const card = CARDS.find(entry => entry.id === 'x4');
+  const offer = G.offer = [{ c: card, name: '乗算ちょうちん', desc: '×2', lv: 1, n: 4 }];
+  const upgrade = G.pegs.find(peg => peg.type === 'x');
+  const replace = G.pegs.find(peg => peg.type === 'n');
+  Object.assign(replace, { type: 'g', lv: 2, grow: 0.9 });
+  const left = G.picksLeft, original = { ...upgrade }, other = { ...replace };
+  render();
+  tap('card0');
+  api.placeAt(upgrade);
+  api.placeAt(upgrade);
+  api.placeAt(replace);
+  assert.equal(G.placing.left, 1);
+  render();
+  tap('cancel-place');
+  assert.deepEqual({ ...upgrade }, original);
+  assert.deepEqual({ ...replace }, other);
+  assert.equal(G.phase, 'reward');
+  assert.equal(G.offer, offer);
+  assert.equal(G.picksLeft, left);
+  assert.equal(G.picks.length, 0);
+});
+
+test('manual and automatic placement cap split lanterns at four while allowing upgrades', () => {
+  const { G, CARDS, api, render, tap, labels } = bootGame();
+  const [second, third, fourth, blocked] = G.pegs.filter(peg => peg.type === 'n');
+  second.type = third.type = 's';
+  api.stageClear();
+  api.afterClear();
+  const card = CARDS.find(entry => entry.id === 's2');
+  G.offer = [{ c: card, name: '分裂ちょうちん', desc: '', lv: 1, n: 2 }];
+  render();
+  tap('card0');
+  api.placeAt(fourth);
+  api.placeAt(blocked);
+  assert.equal(api.countType('s'), 4);
+  assert.equal(blocked.type, 'n');
+  assert.equal(G.placing.left, 1);
+  assert.equal(api.suggestPeg('s').type, 's');
+  render();
+  assert.ok(labels.includes('盤面の分裂 4 / 4個'));
+  tap('auto');
+  assert.equal(G.stage, 2);
+  assert.equal(api.countType('s'), 4);
+  assert.ok(G.pegs.some(peg => peg.type === 's' && peg.lv === 2));
+  for (const peg of G.pegs) if (peg.type === 's') peg.lv = 3;
+  assert.equal(api.suggestPeg('s'), null);
+  assert.ok(api.makeOffer(CARDS.length).every(o => o.c.t !== 's'));
+});
+
+test('every board has distinct peg positions and detects collisions at those positions', () => {
+  const { G, SAVE, api, drop } = bootGame();
+  const layouts = new Set();
+  for (const board of ['classic', 'hourglass', 'river', 'fork']) {
+    SAVE.board = board;
+    api.startRun();
+    assert.equal(G.board.id, board);
+    assert.equal(G.pegs.length, 75);
+    layouts.add(G.pegs.map(peg => peg.x).join(','));
+    const peg = G.grid[7][3], ball = drop(peg.x);
+    Object.assign(ball, { x: peg.x, y: peg.y - 22, vx: 0, vy: 380 });
+    api.update(1 / 60);
+    assert.equal(ball.lastPeg, peg.i);
+  }
+  assert.equal(layouts.size, 4);
+  SAVE.board = 'unknown';
+  api.startRun();
+  assert.equal(G.board.id, 'classic');
 });
