@@ -97,6 +97,7 @@
   <button type="button" class="city-diverse" data-action="buy-fund">🌍 いろいろ会社に<br>100コイン投資</button>
   <button type="button" class="city-next" data-action="next">📅 1か月<br>すすめる</button>
 </div>
+<div class="city-fast-tools"><button type="button" data-action="buy-shop-300">🍭 おかし屋に＋300コイン</button><button type="button" data-action="buy-fund-300">🌍 いろいろ会社に＋300コイン</button></div>
 <div class="city-education">🏡 この街は投資を学ぶためのフィクションです。実際には株を買っても、そのお金が直接お店に入るわけではありません。</div>
 <div class="town-scene" id="townScene" role="img" aria-label="投資したお金にあわせて育つ、アニメーションつきのお店"></div><div id="shopEvolution" class="shop-evolution" aria-live="polite" aria-atomic="true"></div><div class="town-stage-row"><strong id="shopStage">Lv.1 おみせのたね</strong><span id="shopNext">あと100コインで進化！</span></div><div class="shop-stage-track"><div id="shopStageFill"></div></div><div class="town-scene-tip" id="townSceneTip">🌍 いろいろ会社セットに投資すると、右側にもお店ができるよ！</div><h3 class="town-subtitle">🏘️ まちのスポット</h3><div class="town-grid" id="townGrid"></div><div class="smallfoot">※ 建物の成長はゲームの演出だよ。実際の株を買っても、そのお金が直接お店に入るとは限らないよ。</div></section>
   <div class="layout">
@@ -337,7 +338,7 @@
     const shopLevel=shopStageFor(state.shop)+1;
     const badges=[c>=500?'🪙 いざという時の貯金マスター':null,state.fund>0?'🌍 分散投資のチャレンジャー':null,state.shop>0?'🍭 お店の応援団':null,correct===3?'🦉 クイズ全問正解':null].filter(Boolean);
     setDialog(`<div class="dialog-emoji">${win?'🏆🎊':'🌱✨'}</div><h2 class="dialog-title" id="dialogTitle">${win?'みらいタウン完成！':'12か月、おつかれさま！'}</h2><p class="dialog-text">${win?'目標の4,200コインを達成したよ！':'目標に届かなくても、新しい発見ができたね！'}<br>貯金にも投資にも、それぞれいいところがあるよ。</p><p class="result-shop">🏪 おかし屋さんは <strong>レベル ${shopLevel}</strong> まで成長！</p><div class="result-stats"><div class="result-stat"><small>最後のお金の合計</small><strong>${num(t)} コイン</strong></div><div class="result-stat"><small>貯金だけなら4,800コイン</small><strong class="${profit>=0?'pos':'neg'}">${profit>=0?'+':''}${num(profit)} 差</strong></div><div class="result-stat"><small>さいごに残した貯金</small><strong>${num(c)} コイン</strong></div><div class="result-stat"><small>クイズ正解</small><strong>${correct} / 3 問</strong></div></div><p class="dialog-text" style="margin-bottom:5px">${profit>0?'この1年間は、投資がプラスになったね。でも次も同じとは限らないよ。':profit<0?'この1年間は、投資がマイナスだったね。そんな年もあることを知っておこう。':'貯金を中心にした作戦だったね。安全に残すことも大切な考え方だよ。'}</p><div class="badges">${badges.map(b=>`<span class="achievement">${b}</span>`).join('')||'<span class="achievement">🌟 12か月達成！</span>'}</div><button class="dialog-btn" data-action="restart">もう一回チャレンジ 🔁</button><button class="dialog-btn ghost" data-action="close-result">結果をとじて町を見る</button>`);}
-  function buy(asset){if(state.ended)return;if(state.cash<100){toast('貯金が100コイン必要だよ！');return;}state.cash-=100;state[asset]+=100;save();render();toast(asset==='shop'?'🍭 おかし屋さんの株を100コイン買ったよ！':'🌍 いろいろ会社セットを100コイン買ったよ！');}
+  function buy(asset,amount=100){if(state.ended)return;if(state.cash<amount){toast('貯金が'+num(amount)+'コイン必要だよ！');return;}state.cash-=amount;state[asset]+=amount;save();render();toast((asset==='shop'?'🍭 おかし屋さんの株を':'🌍 いろいろ会社セットを')+num(amount)+'コイン買ったよ！');}
   function sell(asset){if(state.ended)return;if(state[asset]<=0){toast('まだ売れる投資は持っていないよ');return;}const amount=Math.min(100,state[asset]);state[asset]-=amount;state.cash+=amount;save();render();toast(`🪙 ${num(amount)}コインを貯金にもどしたよ！`);}
   function monthNext(){if(state.ended)return;if(!state.started){showIntro();return;}if(state.pendingQuiz!==null){showQuiz();return;}if(state.month>=MAX_MONTH){endGame();return;}
     const possible=events.map((_,i)=>i).filter(i=>!state.used.includes(i));const eventId=possible[Math.floor(Math.random()*possible.length)];const ev=events[eventId];state.used.push(eventId);
@@ -394,7 +395,7 @@
     $('hintText').textContent=hints[Math.min(state.month,hints.length-1)];
     if(state.news){const n=state.news;$('newsMonth').textContent=`${state.month}か月目`;$('newsLabel').textContent=`${n.icon} 今月のできごと`;$('newsTitle').textContent=n.title;$('newsDesc').textContent=n.desc;$('newsDeltas').innerHTML=`<span class="delta ${n.diffShop>0?'pos':n.diffShop<0?'neg':'zero'}">🍭 ${delta(n.diffShop)}</span><span class="delta ${n.diffFund>0?'pos':n.diffFund<0?'neg':'zero'}">🌍 ${delta(n.diffFund)}</span>`;}
     $('history').innerHTML=state.history.length?state.history.slice().reverse().map(h=>`<div class="history-item"><span class="m">${h.month}月</span><span class="detail"><strong>${events[h.eventId]?.title||'ニュース'}</strong><div>🍭 ${delta(h.diffShop)} ／ 🌍 ${delta(h.diffFund)}</div></span><strong>${num(h.total)}</strong></div>`).join(''):'<p class="empty-history">まだニュースはないよ。1か月すすめてみよう！</p>';
-    const paused=state.ended;document.querySelectorAll('[data-action^="buy-"],[data-action^="sell-"]').forEach(btn=>{const [type,asset]=btn.dataset.action.split('-');btn.disabled=paused||(type==='buy'?state.cash<100:state[asset]<=0);});
+    const paused=state.ended;document.querySelectorAll('[data-action^="buy-"],[data-action^="sell-"]').forEach(btn=>{const [type,asset]=btn.dataset.action.split('-');btn.disabled=paused||(type==='buy'?state.cash<(btn.dataset.action.endsWith('-300')?300:100):state[asset]<=0);});
     const nb=$('nextBtn');nb.textContent=state.ended?'🏁 結果をもう一度見る':state.pendingQuiz!==null?'🦉 クイズにチャレンジ！':state.month===11?'▶ 最後の1か月をすすめる（＋300コイン）':`▶ 1か月すすめる（＋300コイン）`;
     const count=Object.keys(state.cityBuilds||{}).length;
     $('cityTicketText').textContent='🎟️ '+(state.cityTickets||0)+'枚';
@@ -410,7 +411,7 @@
   }
   function reset(){if(!confirm('ゲームのきろくを消して、最初からあそぶ？'))return;state=initial();currentCityLot=null;save();render();showIntro();}
   document.addEventListener('click',e=>{const target=e.target.closest('[data-action]');if(!target)return;const action=target.dataset.action;
-    if(action==='buy-shop')buy('shop');else if(action==='buy-fund')buy('fund');else if(action==='sell-shop')sell('shop');else if(action==='sell-fund')sell('fund');else if(action==='next'){if(state.ended)showResult();else monthNext();}
+    if(action==='buy-shop')buy('shop');else if(action==='buy-fund')buy('fund');else if(action==='buy-shop-300')buy('shop',300);else if(action==='buy-fund-300')buy('fund',300);else if(action==='sell-shop')sell('shop');else if(action==='sell-fund')sell('fund');else if(action==='next'){if(state.ended)showResult();else monthNext();}
     else if(action==='intro-start'){state.started=true;save();closeDialog();toast('スタート！まずはお金の使い方を選ぼう 🎈');}
     else if(action==='quiz-answer')answerQuiz(Number(target.dataset.option));
     else if(action==='quiz-skip')skipQuiz();else if(action==='open-quiz')openQuiz();
