@@ -207,13 +207,25 @@ function readRanking() {
   } catch (_) { /* 保存なしでも遊べる */ }
   return SAVE.best > 0 ? [{ id: 'legacy', score: SAVE.best, reached: null }] : [];
 }
-let ranking = [];
+let ranking = { score: [], stage: [] }, rankMode = 'score';
+const byScore = (a, b) => b.score - a.score;
+function rankLists(rows) {
+  return {
+    score: [...rows].sort(byScore).slice(0, RANK_LIMIT),
+    stage: rows.filter(row => Number.isInteger(row.reached) && row.reached > 0)
+      .sort((a, b) => a.reached - b.reached || byScore(a, b)).slice(0, RANK_LIMIT)
+  };
+}
+function rankingEntries() {
+  return new Map([...ranking.score, ...ranking.stage, ...readRanking()].map(row => [row.id, row]));
+}
 function saveRank() {
   if (G.headless || !G.runId || G.runBest <= 0) return;
-  const entries = new Map(ranking.concat(readRanking()).map(row => [row.id, row]));
+  const entries = rankingEntries();
   entries.set(G.runId, { id: G.runId, score: G.runBest, reached: G.reachedStage });
-  ranking = [...entries.values()].sort((a, b) => b.score - a.score).slice(0, RANK_LIMIT);
-  try { localStorage.setItem(RANK_KEY, JSON.stringify(ranking)); } catch (_) { /* 今の画面では表示できる */ }
+  ranking = rankLists([...entries.values()]);
+  const kept = new Map([...ranking.score, ...ranking.stage].map(row => [row.id, row]));
+  try { localStorage.setItem(RANK_KEY, JSON.stringify([...kept.values()])); } catch (_) { /* 今の画面では表示できる */ }
 }
 function loadSave() { try { const s = JSON.parse(localStorage.getItem(SAVE_KEY) || 'null'); if (s && typeof s === 'object') Object.assign(SAVE, s); } catch (e) { /* 保存なしでも遊べる */ } }
 function saveSave() { try { localStorage.setItem(SAVE_KEY, JSON.stringify(SAVE)); } catch (e) { /* 同上 */ } }
@@ -1363,8 +1375,7 @@ const HELP1 = ['画面にふれて左右に動かし、指をはなすと玉が�
   '桝に入るたびに「勢い」が上がる。あとから落とす玉ほど高得点。', '突破で札1枚。玉1個でノルマ以上を出すと、各ステージで一発突破の札が1枚追加。次のノルマの100倍以上なら飛び級でさらに1枚。',
   'ちょうちんは好きな場所に置ける。上で足して、下で掛けるのがコツ。落とす場所の真下は、どの玉も当たる特等席。', '万、億、兆と桁を上げて、無量大数の先にある「桁外れ」を目指そう。'];
 function openRanking() {
-  const entries = new Map(ranking.concat(readRanking()).map(row => [row.id, row]));
-  ranking = [...entries.values()].sort((a, b) => b.score - a.score).slice(0, RANK_LIMIT);
+  ranking = rankLists([...rankingEntries().values()]);
   G.help = 3;
 }
 function drawRanking() {
@@ -1372,19 +1383,22 @@ function drawRanking() {
   ctx.fillStyle = 'rgba(11,14,34,.97)'; ctx.fillRect(0, 0, W, H);
   const y = 76 + (H - 960) * 0.25;
   T('自己ランキング', W / 2, y, { size: 38, fam: F_D, w: 900, align: 'center' });
-  T('順位', 47, y + 58, { size: 17, align: 'center', col: C.dim });
-  T('最高得点', 90, y + 58, { size: 17, col: C.dim });
-  T('桁外れ到達', W - 42, y + 58, { size: 17, align: 'right', col: C.dim });
-  ranking.forEach((row, i) => {
-    const yy = y + 72 + i * 61;
-    RR(24, yy, W - 48, 53, 8);
+  button('rank-score', 24, y + 18, 240, 48, '得点順', { kind: rankMode === 'score' ? 'primary' : undefined }, () => { rankMode = 'score'; });
+  button('rank-stage', 276, y + 18, 240, 48, '到達ステージ順', { kind: rankMode === 'stage' ? 'primary' : undefined }, () => { rankMode = 'stage'; });
+  T('順位', 47, y + 103, { size: 17, align: 'center', col: C.dim });
+  T('最高得点', 90, y + 103, { size: 17, col: C.dim });
+  T('桁外れ到達', W - 42, y + 103, { size: 17, align: 'right', col: C.dim });
+  const rows = ranking[rankMode];
+  rows.forEach((row, i) => {
+    const yy = y + 117 + i * 56;
+    RR(24, yy, W - 48, 49, 8);
     ctx.fillStyle = i === 0 ? 'rgba(247,200,90,.14)' : 'rgba(245,240,230,.07)'; ctx.fill();
     const stage = row.reached > 0 ? 'ステージ ' + row.reached : unitIdx(row.score) < KETA_IDX ? '未到達' : '記録なし';
     T(String(i + 1), 47, yy + 27, { size: 19, align: 'center', base: 'middle', col: C.kin });
     T(fmt(row.score), 90, yy + 27, { size: 23, w: 900, base: 'middle' });
     T(stage, W - 42, yy + 27, { size: 19, align: 'right', base: 'middle', col: row.reached > 0 ? C.kin : C.dim });
   });
-  if (!ranking.length) T('まだプレイ記録がありません', W / 2, y + 126, { size: 20, align: 'center', col: C.dim });
+  if (!rows.length) T(rankMode === 'stage' ? '到達ステージの記録がありません' : 'まだプレイ記録がありません', W / 2, y + 171, { size: 20, align: 'center', col: C.dim });
   button('rank-close', 40, H - 84, W - 80, 62, 'とじる', { kind: 'primary' }, () => { G.help = 0; });
 }
 function drawHelp() {
@@ -1575,7 +1589,7 @@ function frame(ts) {
 // 動作確認と調整のための窓口（ゲームの進行には使わない）
 const KETA = window.KETA = { G, BAL, SAVE, L, PT, CARDS, UI, freeze: false,
   api: { startRun, startStage, dropBall, takeCard, placeAt, autoPlace, suggestPeg, dropSpot, update, makeOffer, stageClear, afterClear, quotaFor, fmt, toTitle, resize, render, countType } };
-loadSave(); ranking = readRanking(); G.speed = [1, 2, 4].includes(SAVE.speed) ? SAVE.speed : 1;
+loadSave(); ranking = rankLists(readRanking()); G.speed = [1, 2, 4].includes(SAVE.speed) ? SAVE.speed : 1;
 resize(); toTitle();
 window.addEventListener('resize', resize);
 if (window.visualViewport) window.visualViewport.addEventListener('resize', resize);
