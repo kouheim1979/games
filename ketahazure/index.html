@@ -529,7 +529,8 @@ function land(b, k) {
   if (G.phase !== 'play') { if (!G.headless) spark(b.x, L.pocketTop + 22, C.kin, 5, 140, 0.4, 2); return; }
   const R = G.rel;
   let gain = b.v * pk.mult * G.rate; if (!(gain < 1e300)) gain = 1e300;
-  const oneShot = !G.cleared && gain >= G.quota;
+  const oneShot = !G.oneShot && gain >= G.quota;
+  if (oneShot) G.oneShot = true;
   G.score = Math.min(1e300, G.score + gain);
   if (gain > G.stats.bestHit) G.stats.bestHit = gain;
   G.rate = Math.min(1e250, G.rate * (1 + (BAL.rateStep + 0.03 * (R.oikaze || 0)) * (G.fever.on ? BAL.feverRate : 1) / (1 + G.landed / BAL.rateSoft)));
@@ -545,7 +546,7 @@ function land(b, k) {
   }
   checkUnits();
   if (!G.cleared && G.score >= G.quota) {
-    G.cleared = true; G.oneShot = oneShot;
+    G.cleared = true;
     if (!G.headless) { setBanner('ノルマ達成', G.ballsLeft > 0 ? 'のこりの玉は落としても、次へ進んでもいい' : '', 1.5, C.kin); S.clear(); G.flash = 0.35; }
   }
 }
@@ -1359,7 +1360,7 @@ function drawPause() {
   });
 }
 const HELP1 = ['画面にふれて左右に動かし、指をはなすと玉が落ちる。', '玉は釘やちょうちんに当たるたびに値がふえ、下の桝に入ると得点になる。',
-  '桝に入るたびに「勢い」が上がる。あとから落とす玉ほど高得点。', '突破で札1枚。一発突破と飛び級はそれぞれ追加1枚。飛び級は得点が次のステージのノルマの100倍以上。',
+  '桝に入るたびに「勢い」が上がる。あとから落とす玉ほど高得点。', '突破で札1枚。玉1個でノルマ以上を出すと、各ステージで一発突破の札が1枚追加。次のノルマの100倍以上なら飛び級でさらに1枚。',
   'ちょうちんは好きな場所に置ける。上で足して、下で掛けるのがコツ。落とす場所の真下は、どの玉も当たる特等席。', '万、億、兆と桁を上げて、無量大数の先にある「桁外れ」を目指そう。'];
 function openRanking() {
   const entries = new Map(ranking.concat(readRanking()).map(row => [row.id, row]));
