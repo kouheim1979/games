@@ -13,6 +13,7 @@ var w=900,h=540,dpr=1,scale=1,zoom=1,panX=0,panY=0;
 var frame=0,last=0,lastPaint=0,animated=true,particles=[],constructionStart=0,constructionUntil=0,rippleUntil=0;
 var lastLevel=-1,lastFund=-1,lastMonth=-1,lastShop=-1;
 var selected='shop',shopLevels=['空き地','キャンディ屋台','おかしショップ','スイーツカフェ','スイーツビル'];
+var tourStart=0,tourDuration=10000;
 var fullMap=9,tileW=86,tileH=43;
 var buildPlots=[{x:3,y:3},{x:6,y:2},{x:3,y:7},{x:8,y:6}],buildMoments={},activeLot=-1;
 var colors={sky:'#a9e1ff',road:'#abb9bb',street:'#677e89',leaf:'#67bc8a',soil:'#b6a27a'};
@@ -333,6 +334,19 @@ function effects(dt){
  }
 }
 function paint(now){
+ if(tourStart>0){
+  var progress=clamp((now-tourStart)/tourDuration,0,1);
+  if(progress>=1){tourStart=0;zoom=1;panX=0;panY=0;selected='shop';}
+  else{
+    var u=progress*Math.PI*2;
+    panX=clamp(-55*Math.sin(u),-220,220);
+    panY=clamp(30*Math.sin(u*1.5),-150,150);
+    zoom=1+.19*Math.sin(Math.PI*progress);
+    if(progress<.28)selected='shop';
+    else if(progress<.60)selected='fund';
+    else selected='shop';
+  }
+ }
  if(now-lastPaint<(w<600?30:16)){frame=requestAnimationFrame(paint);return;}
  lastPaint=now;
  if(!document.hidden){
@@ -428,6 +442,7 @@ function selectAt(px,py){
 }
 var pointer=null;
 canvas.addEventListener('pointerdown',function(e){
+ tourStart=0;
  pointer={id:e.pointerId,x:e.clientX,y:e.clientY,lastX:e.clientX,lastY:e.clientY,move:0};
  if(e.pointerType==='mouse'&&canvas.setPointerCapture)canvas.setPointerCapture(e.pointerId);
 });
@@ -450,6 +465,7 @@ canvas.addEventListener('pointerup',function(e){
 });
 canvas.addEventListener('pointercancel',function(){pointer=null;});
 canvas.addEventListener('keydown',function(e){
+ tourStart=0;
  var amount=18;
  if(e.key==='ArrowLeft'){panX=clamp(panX-amount,-260,260);e.preventDefault();}
  if(e.key==='ArrowRight'){panX=clamp(panX+amount,-260,260);e.preventDefault();}
@@ -459,8 +475,17 @@ canvas.addEventListener('keydown',function(e){
 });
 document.querySelectorAll('[data-city-zoom]').forEach(function(b){
  b.addEventListener('click',function(){
-   if(b.dataset.cityZoom==='reset'){zoom=1;panX=0;panY=0;}
-   else zoom=clamp(zoom+(b.dataset.cityZoom==='in'?.15:-.15),.67,1.85);
+   var cmd=b.dataset.cityZoom;
+   if(cmd==='tour'){
+     tourStart=performance.now();
+     zoom=1;
+     if(hint)hint.textContent='🎥 カメラが街を見学中！車や人、お店や建物の動きを眺めよう。画面をさわると見学を止められるよ。';
+     showSplash('🎥 みらいタウン・ツアー！','車や人が動く街を見てみよう！');
+   }else{
+     tourStart=0;
+     if(cmd==='reset'){zoom=1;panX=0;panY=0;}
+     else zoom=clamp(zoom+(cmd==='in'?.15:-.15),.67,1.85);
+   }
  });
 });
 window.addEventListener('mirai:state',function(e){if(e&&e.detail)nextState(e.detail);});
