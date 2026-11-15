@@ -1,0 +1,67 @@
+/* Mirai Town City Mode 2: animated city is the main playfield */
+.app{max-width:1380px;padding-left:clamp(10px,2vw,28px);padding-right:clamp(10px,2vw,28px)}
+.hero{background:linear-gradient(112deg,#23446f,#266c87 58%,#45a6b1);padding:20px 26px}
+.hero h1{font-size:clamp(22px,3.5vw,34px)}
+.hero .mascot{font-size:60px}
+.city-panel{margin:14px 0 16px;border:1px solid #b9d3d9;border-radius:24px;padding:15px;background:#e6f5f4;box-shadow:0 16px 40px #26496718}
+.city-panel .panel-header{margin:0 1px 11px}
+.city-panel .panel-header h2{font-size:clamp(17px,2.4vw,24px)}
+.city-panel .panel-header .pill{background:#c9ecdf;color:#20614e}
+.city-canvas-wrap{position:relative;width:100%;height:clamp(420px,49vw,650px);border-radius:20px;overflow:hidden;background:linear-gradient(#a9dff5,#e2f5da);border:3px solid #ceeae5;box-shadow:inset 0 3px 20px #274a6520}
+#cityCanvas{display:block;width:100%;height:100%;cursor:grab;touch-action:pan-y;outline-offset:-4px}
+#cityCanvas:active{cursor:grabbing}
+#cityCanvas:focus-visible{outline:4px solid #f1b948}
+.city-hud{position:absolute;z-index:2;pointer-events:none}
+.city-hud-top{top:12px;left:12px;right:12px;display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.city-chip{padding:9px 12px;background:#ffffffeb;box-shadow:0 5px 16px #174c4e28;border:1px solid #ffffff;border-radius:13px;font-weight:900;color:#294664;line-height:1.4;font-size:12px;backdrop-filter:blur(7px)}
+.city-chip strong{font-size:17px;color:#1a6560}
+.city-chip span{display:block;font-size:10px;color:#6a8694}
+.city-hud-bottom{left:12px;bottom:12px;right:12px;display:flex;align-items:flex-end;justify-content:space-between;gap:8px}
+.city-hint{background:#183d58dc;color:white;border-radius:12px;padding:9px 12px;font-size:12px;font-weight:750;max-width:410px;line-height:1.5;backdrop-filter:blur(8px)}
+.city-camera{display:flex;gap:6px;pointer-events:auto}
+.city-camera button{background:#fffef0eb;border:1px solid #b7d9dc;box-shadow:0 2px 6px #385f7e25;border-radius:11px;min-width:39px;height:39px;color:#32657d;font-size:22px;font-weight:900;cursor:pointer}
+.city-camera button:active{transform:scale(.94)}
+.city-info{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:12px 3px 2px}
+.city-info strong{font-size:16px;color:#236e63}
+.city-info .city-level{font-weight:950;color:#a64e79;background:#fff3d9;border-radius:11px;padding:7px 11px}
+.city-info .city-growth{font-size:13px;font-weight:800;color:#4f7b82}
+.city-panel .town-scene,.city-panel .town-grid,.city-panel .town-subtitle,.city-panel .town-scene-tip,.city-panel .shop-stage-track,.city-panel .town-stage-row,.city-panel .smallfoot,.city-panel .shop-evolution{display:none !important}
+.city-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-top:11px}
+.city-actions button{border:0;border-radius:13px;min-height:50px;font-size:14px;font-weight:950;cursor:pointer;box-shadow:0 4px 0 #00000017}
+.city-actions button:active{transform:translateY(3px);box-shadow:0 1px 0 #00000015}
+.city-actions .city-invest{color:#fff;background:linear-gradient(115deg,#ec648f,#d94c84)}
+.city-actions .city-diverse{color:#fff;background:linear-gradient(115deg,#378fb0,#4379c7)}
+.city-actions .city-next{color:#173f62;background:#ffe18a}
+.city-education{font-size:11px;color:#5b7384;line-height:1.5;padding:7px 4px 0}
+.city-mode-tag{font-size:11px;white-space:nowrap;border-radius:9px;background:#fff6cf;padding:6px 10px;font-weight:900;color:#926a2d}
+.layout{margin-top:0}
+.city-panel .panel-header{display:flex}
+.city-screen-reader{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.city-splash{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#13395385;pointer-events:none;opacity:0;transition:opacity .5s ease}
+.city-splash.show{opacity:1}
+.city-splash span{font-size:clamp(25px,4.7vw,56px);font-weight:1000;color:#fff8b4;line-height:1.22;text-align:center;text-shadow:0 5px 18px #10263bcc;animation:citySplash .7s both}
+.city-splash small{font-weight:900;color:white;font-size:16px;margin-top:9px}
+@keyframes citySplash{0%{transform:scale(.5) translateY(20px);opacity:0}65%{transform:scale(1.11);opacity:1}100%{transform:scale(1);opacity:1}}
+@media(min-width:850px){.layout{grid-template-columns:minmax(0,1.5fr) minmax(280px,1fr)}}
+@media(max-width:740px){
+ .hero{padding:17px 15px}.hero .mascot{font-size:40px}
+ .city-panel{margin-top:12px;padding:9px;border-radius:19px}
+ .city-panel .panel-header{padding:3px 5px;margin-bottom:8px}
+ .city-panel .panel-header h2{font-size:16px}
+ .city-canvas-wrap{height:clamp(405px,65vh,570px);border-radius:14px;border-width:2px}
+ .city-hud-top{left:7px;right:7px;top:7px}
+ .city-chip{font-size:10px;padding:6px 9px;border-radius:9px}
+ .city-chip strong{font-size:14px}
+ .city-hud-bottom{left:7px;right:7px;bottom:7px}
+ .city-hint{font-size:10px;padding:8px;max-width:63%}
+ .city-camera button{min-width:34px;height:34px;font-size:20px}
+ .city-info{gap:6px}
+ .city-info strong{font-size:13px}
+ .city-info .city-level{font-size:11px}
+ .city-info .city-growth{font-size:11px}
+ .city-actions{gap:6px}
+ .city-actions button{font-size:11px;line-height:1.3;min-height:52px;padding:6px 4px}
+ .city-mode-tag{font-size:10px}
+}
+@media(max-width:365px){.city-actions button{font-size:10px}.city-hint{max-width:56%}}
+@media(prefers-reduced-motion:reduce){.city-splash.show span{animation:none}.city-splash{transition:none}}
