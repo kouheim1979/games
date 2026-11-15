@@ -192,7 +192,7 @@ const G = {
   rate: 1, combo: 0, comboT: 0, landed: 0,
   fever: { gauge: 0, need: BAL.feverNeed, on: false, count: 0, total: 0, spawnT: 0, inStage: 0 },
   rel: {}, relOrder: [], rerolls: 1, offer: null, peek: false, placing: null, hover: null, picks: [], picksLeft: 0, nextStage: 0,
-  cleared: false, endT: 0, clearT: 0, clearInfo: null, overT: 0, ended: false, newRec: false,
+  cleared: false, oneShot: false, endT: 0, clearT: 0, clearInfo: null, overT: 0, ended: false, newRec: false,
   stats: { bestHit: 0, hits: 0, fevers: 0 }, runBest: 0, unitIdx: 0, stamps: [], banner: null,
   speed: 1, paused: false, help: 0, quitArm: 0, hitstop: 0, shake: 0, flash: 0, dropCd: 0, demoT: 0,
   aim: { x: W / 2, on: false, snap: false }, headless: false
@@ -362,7 +362,7 @@ function startStage(n) {
   G.stage = n; G.quota = quotaFor(n); G.score = 0; G.shown = 0;
   G.rate = 1 + 0.5 * (G.rel.keiki || 0); G.combo = 0; G.comboT = 0; G.landed = 0;
   G.ballsMax = BAL.balls + (G.rel.ball || 0); G.ballsLeft = G.ballsMax;
-  G.cleared = false; G.endT = 0; G.balls.length = 0; G.spawn.length = 0; G.acc = 0;
+  G.cleared = false; G.oneShot = false; G.endT = 0; G.balls.length = 0; G.spawn.length = 0; G.acc = 0;
   const f = G.fever; f.inStage = 0; f.on = false; f.need = feverNeed(); f.gauge = Math.min(Math.max(f.gauge, G.rel.zenya ? f.need / 2 : 0), f.need);
   G.placing = null; G.hover = null; G.offer = null; G.dropCd = 0.35;
   computePockets(); G.aim.x = aimClamp(dropSpot().x); G.aim.on = false;
@@ -529,6 +529,7 @@ function land(b, k) {
   if (G.phase !== 'play') { if (!G.headless) spark(b.x, L.pocketTop + 22, C.kin, 5, 140, 0.4, 2); return; }
   const R = G.rel;
   let gain = b.v * pk.mult * G.rate; if (!(gain < 1e300)) gain = 1e300;
+  const oneShot = !G.cleared && gain >= G.quota;
   G.score = Math.min(1e300, G.score + gain);
   if (gain > G.stats.bestHit) G.stats.bestHit = gain;
   G.rate = Math.min(1e250, G.rate * (1 + (BAL.rateStep + 0.03 * (R.oikaze || 0)) * (G.fever.on ? BAL.feverRate : 1) / (1 + G.landed / BAL.rateSoft)));
@@ -540,11 +541,11 @@ function land(b, k) {
     spark(cx, L.pocketTop + 16, tier >= 2 ? C.kin : '#ffe9a8', 6 + tier * 5, 190 + tier * 40, 0.5, 2.4);
     S.cash(tier);
     if (tier >= 3) { addShake(4 + tier * 2); S.big(); G.hitstop = Math.max(G.hitstop, 0.05); firework(cx, L.pocketTop - 110, pick([C.kin, C.shu, C.asagi, C.momo])); buzz(25); }
-    if (frac >= 1 && !G.cleared) fxText(W / 2, L.row0 + 200, '一発突破', C.shu, 40, 2);
+    if (oneShot) fxText(W / 2, L.row0 + 200, '一発突破　札 +1', C.shu, 40, 2);
   }
   checkUnits();
   if (!G.cleared && G.score >= G.quota) {
-    G.cleared = true;
+    G.cleared = true; G.oneShot = oneShot;
     if (!G.headless) { setBanner('ノルマ達成', G.ballsLeft > 0 ? 'のこりの玉は落としても、次へ進んでもいい' : '', 1.5, C.kin); S.clear(); G.flash = 0.35; }
   }
 }
@@ -603,15 +604,20 @@ function saveBest() {
   if (G.stage > SAVE.bestStage) { SAVE.bestStage = G.stage; ch = true; }
   if (ch && !G.headless) saveSave();
 }
+function clearReward() {
+  let jump = 0;
+  while (jump < BAL.maxJump && G.score >= BAL.jumpMul * quotaFor(G.stage + 1 + jump)) jump++;
+  return { jump, cards: 1 + jump + Number(G.oneShot) };
+}
 function stageClear() {
   if (G.phase !== 'play') return;
   const R = G.rel, ratio = G.score / G.quota, left = Math.min(G.ballsLeft, 3);
+  const { jump, cards } = clearReward();
   G.rerolls += left;
   let ups = 0;
   const fuku = () => { const xs = G.pegs.filter(p => p.type === 'x' && p.lv < lvCap()); for (let k = 0; k < 2 * R.fukuri && xs.length; k++) { addLv(pick(xs), 1); ups++; } };
   if (R.fukuri) fuku();
-  let jump = 0; while (jump < BAL.maxJump && G.score >= BAL.jumpMul * quotaFor(G.stage + 1 + jump)) jump++;   // 次のノルマも100倍以上こえていたら、1ステージ飛び級
-  G.clearInfo = { ratio, left, jump, ups }; G.picksLeft = 1 + jump; G.nextStage = G.stage + 1 + jump;
+  G.clearInfo = { ratio, left, jump, cards, ups }; G.picksLeft = cards; G.nextStage = G.stage + 1 + jump;
   for (let j = 0; j < jump && R.fukuri; j++) fuku();
   G.clearInfo.ups = ups;
   G.phase = 'clear'; G.clearT = 0; G.balls.length = 0; G.spawn.length = 0; G.fever.on = false; G.aim.on = false;
@@ -796,7 +802,7 @@ function placeAt(p) {
   if (P.left <= 0) nextStage();
 }
 function autoPlace() { let guard = 60; while (G.phase === 'place' && G.placing && G.placing.left > 0 && guard-- > 0) placeAt(suggestPeg(G.placing.type)); }
-function nextStage() {            // 札を取りおえたら次のステージへ。飛び級ぶんの札が残っていれば、もう1枚えらぶ
+function nextStage() {            // 札が残っていれば、もう1枚えらぶ
   G.placing = null; G.hover = null;
   if (--G.picksLeft > 0) openReward(); else startStage(G.nextStage || G.stage + 1);
 }
@@ -1081,7 +1087,8 @@ function drawAim() {
 function drawTray() {
   let yy = L.trayY + 6;
   if (G.phase === 'play' && G.cleared && G.ballsLeft > 0 && !G.balls.length && !G.fever.on) {
-    button('next', 20, yy, W - 40, 56, '次へすすむ（のこり玉 ' + G.ballsLeft + '）', { kind: 'primary', size: 20 }, stageClear);
+    const { cards } = clearReward();
+    button('next', 20, yy, W - 40, 56, '次へすすむ　札 ' + cards + '枚（のこり玉 ' + G.ballsLeft + '）', { kind: 'primary', size: 18 }, stageClear);
     yy += 64;
   }
   const rl = G.relOrder;
@@ -1178,8 +1185,13 @@ function drawClear() {
   T('ステージ ' + G.stage, W / 2, cy - 64, { size: 24, w: 700, align: 'center', col: C.kin });
   T(ci.jump ? '飛び級' : '突破', W / 2, cy + 20, { size: 88, fam: F_D, w: 900, align: 'center', col: ci.jump ? C.kin : C.haku });
   T('達成率 ' + pct(ci.ratio), W / 2, cy + 78, { size: 28, w: 900, align: 'center', col: C.kin });
-  const lines = [];
-  if (ci.jump) lines.push('次のノルマも100倍こえた', '1ステージ飛ばして、札を2枚えらべる');
+  const lines = ['もらえる札 ' + ci.cards + '枚'];
+  if (G.oneShot || ci.jump) {
+    const bonuses = [];
+    if (G.oneShot) bonuses.push('一発突破で +1');
+    if (ci.jump) bonuses.push('飛び級で +' + ci.jump);
+    lines.push(bonuses.join('　'));
+  }
   if (ci.left) lines.push('のこり玉 ' + ci.left + ' → 選び直し +' + ci.left);
   if (ci.ups) lines.push('複利で乗算ちょうちん ' + ci.ups + ' つが育った');
   lines.forEach((s, i) => T(s, W / 2, cy + 126 + i * 30, { size: 18, w: 600, align: 'center' }));
@@ -1261,7 +1273,7 @@ function drawReward() {
   ctx.fillStyle = 'rgba(11,14,34,.9)'; ctx.fillRect(0, 0, W, H);
   const ci = G.clearInfo, cw = 156, ch = 458, gap = 14, y = (H - ch) / 2 - 6;
   const left = (W - G.offer.length * (cw + gap) + gap) / 2;
-  T(ci.jump ? '飛び級のごほうび　あと ' + G.picksLeft + ' 枚' : 'ステージ ' + G.stage + ' 突破　達成率 ' + pct(ci.ratio), W / 2, y - 112, { size: 17, w: 800, align: 'center', col: C.kin });
+  T('ステージ ' + G.stage + ' 突破　札 あと ' + G.picksLeft + '枚（全' + ci.cards + '枚）', W / 2, y - 112, { size: 17, w: 800, align: 'center', col: C.kin });
   T('札を1枚えらぶ', W / 2, y - 64, { size: 39, fam: F_D, w: 900, align: 'center' });
   T('ほしい札を押すと決まります', W / 2, y - 30, { size: 18, w: 700, align: 'center', col: C.dim });
   G.offer.forEach((o, i) => drawCard(o, i, left + i * (cw + gap), y, cw, ch));
@@ -1347,7 +1359,7 @@ function drawPause() {
   });
 }
 const HELP1 = ['画面にふれて左右に動かし、指をはなすと玉が落ちる。', '玉は釘やちょうちんに当たるたびに値がふえ、下の桝に入ると得点になる。',
-  '桝に入るたびに「勢い」が上がる。あとから落とす玉ほど高得点。', 'ノルマをこえたら、ほしい札を1回押して受け取る。次のノルマも100倍こえていたら、飛び級で2枚。',
+  '桝に入るたびに「勢い」が上がる。あとから落とす玉ほど高得点。', '突破で札1枚。一発突破と飛び級はそれぞれ追加1枚。飛び級は得点が次のステージのノルマの100倍以上。',
   'ちょうちんは好きな場所に置ける。上で足して、下で掛けるのがコツ。落とす場所の真下は、どの玉も当たる特等席。', '万、億、兆と桁を上げて、無量大数の先にある「桁外れ」を目指そう。'];
 function openRanking() {
   const entries = new Map(ranking.concat(readRanking()).map(row => [row.id, row]));
