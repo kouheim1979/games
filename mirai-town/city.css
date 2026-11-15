@@ -127,3 +127,14 @@ body{background:linear-gradient(170deg,#dff6f1 0%,#f2f9f3 35%,#f6f3e9 100%)}
  .city-life{font-size:11px}
 }
 @media(prefers-reduced-motion:reduce){.city-building-workshop.just-built{animation:none}}
+
+
+/* Camera tour button */
+.city-camera .city-tour-btn{background:linear-gradient(135deg,#ffdd86,#fff5cf);border-color:#f5c46e;color:#714a2b;box-shadow:0 3px 9px #ac7a3859;font-size:19px}
+.city-camera .city-tour-btn:hover{background:#fff0b0}
+@media(max-width:740px){
+ .city-hint{max-width:49%;font-size:9px;line-height:1.4;padding:7px}
+ .city-camera{gap:4px}
+ .city-camera button{min-width:31px;height:32px;font-size:19px;border-radius:9px}
+ .city-camera .city-tour-btn{font-size:16px}
+}
