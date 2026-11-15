@@ -5,7 +5,7 @@
     id, color, groups, localizedGame,
     title: Object.fromEntries(langs.map((lang, i) => [lang, titles[i]])),
     description: Object.fromEntries(langs.map((lang, i) => [lang, descriptions[i]])),
-    url: 'https://kouheim1979.github.io/games/' + id + '/'
+    url: 'https://kouheim1979.github.io/games/' + id + '/' + (id === 'mirai-town' ? '?v=city20261115' : '')
   });
   // This is the owner's curated collection, not every directory in the repo.
   const games = [
