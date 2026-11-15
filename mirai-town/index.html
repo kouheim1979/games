@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#fff8eb">
+<meta name="description" content="小学校4年生から遊べる、貯金・株・分散投資を体験する無料の投資シミュレーションゲーム。">
+<title>みらいタウン｜小学生のための投資ゲーム</title>
+<style>
+:root{--ink:#26334b;--muted:#65728a;--line:#e9e9e6;--cream:#fff8eb;--white:#fff;--blue:#4378ec;--navy:#344d91;--mint:#d9f6e7;--green:#188765;--pink:#ffe5ec;--red:#d74e64;--yellow:#ffdc71;--orange:#ed8937;--shadow:0 14px 34px rgba(51,70,114,.10);--radius:22px}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:linear-gradient(150deg,#fff8e7 0%,#fff9f3 44%,#edf6ff 100%);color:var(--ink);font-family:system-ui,-apple-system,"Hiragino Kaku Gothic ProN","Noto Sans JP",Meiryo,sans-serif;line-height:1.55;min-height:100vh}button{font:inherit;cursor:pointer}button:disabled{cursor:not-allowed;opacity:.42;filter:grayscale(.25)}button:focus-visible{outline:3px solid #1c5cce;outline-offset:3px}.app{max-width:1060px;margin:auto;padding:18px 18px 90px}.topbar{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:2px 0 18px}.brand{display:flex;align-items:center;gap:10px;font-weight:900;font-size:17px;letter-spacing:-.03em}.brand-icon{height:43px;width:43px;display:grid;place-items:center;border-radius:15px;background:#fff;box-shadow:0 4px 15px #ddd7c633;font-size:25px}.top-right{display:flex;align-items:center;gap:8px}.micro{font-size:12px;font-weight:700;color:var(--muted)}.subtle-btn{border:1px solid #e1e7ef;background:#fff;padding:9px 12px;border-radius:12px;color:#566784;font-weight:800;font-size:12px}.hero{background:linear-gradient(115deg,#4166d2,#557fe8 55%,#809cf5);border-radius:28px;padding:24px;color:#fff;position:relative;overflow:hidden;box-shadow:var(--shadow)}.hero:after{content:"";position:absolute;width:210px;height:210px;border-radius:50%;right:-54px;top:-106px;background:#ffffff25}.hero-grid{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center}.eyebrow{margin:0 0 6px;font-weight:800;font-size:12px;letter-spacing:.06em;opacity:.88}.hero h1{font-size:clamp(25px,5vw,37px);letter-spacing:-.05em;line-height:1.3;margin:0 0 9px}.hero p{margin:0;max-width:640px;opacity:.95;font-size:14px;font-weight:600}.mascot{font-size:76px;filter:drop-shadow(0 8px 6px #253b8e40);transform:rotate(-5deg);line-height:1}.hero .progress-info{display:flex;justify-content:space-between;align-items:center;margin-top:23px;margin-bottom:7px;gap:8px;font-size:12px;font-weight:800}.progress-track{height:12px;background:#ffffff56;border-radius:999px;overflow:hidden}.progress-fill{height:100%;width:0%;border-radius:inherit;background:linear-gradient(90deg,#ffdb77,#fff4be);transition:width .4s}.layout{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(280px,1fr);gap:17px;margin-top:17px}.left,.right{display:flex;flex-direction:column;gap:17px;min-width:0}.panel{border-radius:var(--radius);background:#fff;padding:21px;box-shadow:var(--shadow);border:1px solid #f3f0e9}.panel-header{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}.panel h2{margin:0;font-size:18px;letter-spacing:-.035em}.pill{font-size:11px;border-radius:100px;padding:5px 10px;font-weight:900;background:#f2f5f9;color:#6a7790;white-space:nowrap}.goal-amount{font-weight:950;font-size:clamp(30px,6vw,46px);letter-spacing:-.06em;line-height:1.1}.goal-amount small{font-size:13px;margin-left:4px;color:#64718b;letter-spacing:0}.goal-sub{font-size:13px;margin-top:7px;color:var(--muted);font-weight:650}.amount-row{display:flex;justify-content:space-between;align-items:flex-end;gap:8px}.goal-status{font-size:12px;background:#fff3cb;border-radius:12px;padding:7px 10px;color:#8c6411;font-weight:850}.goal-meter{margin-top:12px;background:#eef1f6;height:11px;border-radius:20px;overflow:hidden}.goal-meter>div{height:100%;background:linear-gradient(90deg,#ffb459,#ffcc65);border-radius:inherit;transition:width .3s}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:17px}.stat{background:#f7f9fc;border:1px solid #ecf0f8;padding:12px 10px;border-radius:16px;min-width:0}.stat .caption{font-weight:800;font-size:11px;color:#748098}.stat .number{font-size:clamp(16px,3vw,21px);font-weight:950;letter-spacing:-.055em;margin-top:2px;white-space:nowrap}.stat .number small{font-size:10px;margin-left:2px;color:#8994a6}.stat.bank{background:#fff9e6;border-color:#ffe8a9}.stat.shop{background:#fff3f7;border-color:#ffdee8}.stat.bundle{background:#eaf9f2;border-color:#d3f0e1}.section-intro{color:#66748b;font-size:12px;margin:0 0 14px}.asset{border-radius:19px;border:2px solid #f0f0f4;padding:15px;display:grid;gap:12px;margin-top:11px;transition:transform .2s}.asset.stock{background:#fff8fa;border-color:#ffe4eb}.asset.fund{background:#f3fbf6;border-color:#def2e6}.asset-head{display:flex;gap:11px;align-items:center}.asset-emoji{height:52px;width:52px;display:grid;place-items:center;font-size:31px;border-radius:16px;background:#fff;flex-shrink:0}.asset-main{min-width:0;flex:1}.asset-name{font-size:16px;font-weight:950}.asset-desc{font-size:12px;color:#667489;font-weight:700}.asset-value{font-size:20px;font-weight:950;letter-spacing:-.05em;white-space:nowrap}.risk{font-size:10px;font-weight:900;border-radius:7px;padding:4px 6px;margin-left:4px;white-space:nowrap}.risk-high{color:#c84760;background:#ffe1e8}.risk-med{color:#147f63;background:#d5f1e4}.asset-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px}.action{border:0;border-radius:13px;min-height:47px;padding:8px;font-weight:950;font-size:14px;transition:transform .12s,background .12s}.action:active:not(:disabled){transform:scale(.97)}.buy{background:#3c77e6;color:white}.sell{background:#fff;color:#566984;border:1.5px solid #dce4ef}.next{width:100%;margin-top:15px;background:#283f88;color:#fff;font-size:16px;border:0;padding:17px 12px;border-radius:17px;box-shadow:0 6px 0 #1b2d67;font-weight:950}.next:active:not(:disabled){transform:translateY(3px);box-shadow:0 3px 0 #1b2d67}.next:hover:not(:disabled){background:#324e9e}.hint{display:flex;align-items:flex-start;gap:10px;background:#f3f7ff;border-radius:15px;padding:12px 13px;font-size:12px;color:#526786;font-weight:700;margin-top:13px}.hint-icon{font-size:20px}.news{background:#fffaf0;border-color:#fae9c8}.news-label{font-size:11px;font-weight:900;color:#b87c23;margin-bottom:5px}.news-title{font-weight:900;font-size:16px;line-height:1.5}.news-desc{font-size:12px;color:#6a6c79;margin-top:6px}.news-deltas{display:flex;flex-wrap:wrap;gap:7px;margin-top:11px}.delta{border-radius:9px;padding:6px 9px;font-size:12px;font-weight:900;background:#fff;display:inline-block}.pos{color:#138162}.neg{color:#cf536c}.zero{color:#68788d}.town{background:linear-gradient(180deg,#eef8ff 0%,#f9fcff 100%)}.town-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.building{min-height:116px;background:#fff;border:1px solid #dbe6f1;border-radius:17px;display:flex;justify-content:center;align-items:center;flex-direction:column;padding:10px 4px;gap:1px}.building .emoji{font-size:36px;line-height:1.35}.building strong{font-size:12px}.building span{font-size:11px;color:#7d899b}.building.locked{filter:grayscale(1);opacity:.52}.learning{background:#fff}.knowledge{display:flex;gap:12px;align-items:center}.knowledge-icon{font-size:35px}.knowledge-copy{flex:1;font-size:13px;color:#64718a;font-weight:750}.stars{color:#eaaa27;font-size:20px;letter-spacing:4px;white-space:nowrap}.chart-wrap{height:118px;position:relative;display:flex;align-items:center;justify-content:center}.chart-wrap svg{width:100%;height:100%;overflow:visible}.chart-caption{display:flex;justify-content:space-between;color:#8992a6;font-size:10px;font-weight:800}.footer-note{text-align:center;color:#8691a1;font-size:11px;margin:24px auto;max-width:630px}.toast{position:fixed;bottom:calc(18px + env(safe-area-inset-bottom));left:50%;transform:translate(-50%,20px);background:#2e3e58;color:#fff;border-radius:13px;padding:12px 18px;max-width:min(92vw,430px);width:max-content;z-index:50;opacity:0;pointer-events:none;font-size:13px;font-weight:800;box-shadow:var(--shadow);transition:opacity .22s,transform .22s}.toast.show{opacity:1;transform:translate(-50%,0)}.overlay{position:fixed;inset:0;background:#26334b9c;z-index:40;display:flex;align-items:center;justify-content:center;padding:20px;overflow:auto}.overlay.hidden{display:none}.dialog{background:#fff;border-radius:26px;box-shadow:0 25px 90px #09142c55;padding:26px;max-width:510px;width:100%;max-height:calc(100vh - 40px);overflow:auto}.dialog-emoji{font-size:52px;text-align:center;margin-bottom:7px}.dialog-title{font-size:25px;line-height:1.3;text-align:center;letter-spacing:-.055em;font-weight:950;margin:3px 0 11px}.dialog-text{font-size:14px;color:#65728a;font-weight:700;text-align:center;margin:0 0 16px}.choice{display:block;width:100%;text-align:left;margin:9px 0;border-radius:15px;background:#f7f9fc;border:1.5px solid #e5ebf2;padding:13px 14px;font-size:14px;color:#36475e;font-weight:850}.choice:hover{background:#edf3ff}.choice.correct{border-color:#3faa80;background:#e0f8ed;color:#137653}.choice.wrong{border-color:#df7890;background:#fff0f2;color:#b24057}.choice:disabled{opacity:1;cursor:default}.dialog-feedback{border-radius:14px;background:#eff8ee;padding:13px 14px;font-size:13px;color:#3b6953;margin-top:14px;line-height:1.7;font-weight:800}.dialog-feedback.wrong{background:#fff4e2;color:#94691f}.dialog-btn{background:#386ce1;color:#fff;border:0;border-radius:15px;padding:14px;width:100%;font-size:15px;font-weight:950;margin-top:14px}.dialog-btn.ghost{background:#f0f4f9;color:#51627b;margin-top:8px}.result-stats{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:17px 0}.result-stat{border-radius:15px;background:#f5f7fc;padding:13px}.result-stat small{display:block;font-size:11px;font-weight:800;color:#738099}.result-stat strong{font-size:21px;letter-spacing:-.03em}.badges{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;margin-top:12px}.achievement{font-size:11px;font-weight:900;border-radius:12px;padding:7px 9px;background:#fff1d9;color:#825622}.hidden{display:none !important}.history-list{display:flex;flex-direction:column;gap:9px;max-height:190px;overflow:auto}.history-item{display:flex;gap:8px;border-bottom:1px solid #edf0f4;padding-bottom:7px;font-size:11px;color:#687690;align-items:flex-start}.history-item strong{color:#42526a}.history-item .m{background:#edf3ff;color:#4165ae;min-width:36px;text-align:center;border-radius:8px;padding:3px}.history-item .detail{flex:1}.empty-history{font-size:12px;color:#8995a8;margin:0}.divider{border:0;border-top:1px solid #edf0f4;margin:16px 0}.smallfoot{color:#8290a6;font-size:11px;margin-top:9px}.intro-bullets{display:grid;gap:9px;margin:17px 0}.intro-bullet{display:flex;gap:10px;align-items:center;background:#f7f9fe;padding:10px 12px;border-radius:13px;font-weight:800;font-size:13px}.intro-bullet span{font-size:22px}.try{display:flex;justify-content:center;align-items:center;font-size:12px;color:#64748b;margin-top:9px}.mini-link{background:transparent;border:0;color:#516bbe;text-decoration:underline;font-weight:850;padding:4px}.sparkle{animation:jump .6s ease}@keyframes jump{0%,100%{transform:translateY(0)}40%{transform:translateY(-7px)}}
+@media(min-width:850px){.right .panel{padding:19px}.hero{padding:27px 31px}}@media(max-width:740px){.top-right .micro{display:none}.subtle-btn{white-space:nowrap}.app{padding:11px 12px 65px}.topbar{margin:3px 3px 12px}.brand{font-size:14px}.brand-icon{height:37px;width:37px;font-size:23px}.hero{padding:21px 18px;border-radius:23px}.hero h1{font-size:26px}.mascot{font-size:58px}.layout{grid-template-columns:1fr;gap:13px;margin-top:13px}.left,.right{gap:13px}.right{display:contents}.goal{order:1}.invest{order:2}.news{order:3}.town{order:4}.learning{order:5}.chart-panel{order:6}.history-panel{order:7}.panel{padding:17px;border-radius:20px}.stats{gap:6px}.stat{padding:10px 8px}.stat .caption{font-size:10px}.stat .number{font-size:17px}.asset-value{font-size:18px}.asset-desc{font-size:11px}.asset-name{font-size:14px}.risk{font-size:9px}.asset-emoji{width:47px;height:47px;font-size:26px}.town-grid{grid-template-columns:repeat(4,1fr);gap:6px}.building{min-height:99px}.building .emoji{font-size:29px}.building strong{font-size:10px}.building span{font-size:9px}.dialog{padding:20px}.dialog-title{font-size:22px}}
+@media(max-width:370px){.town-grid{grid-template-columns:repeat(2,1fr)}.goal-status{display:none}.asset-head{gap:8px}.asset-name{font-size:13px}.asset-value{font-size:16px}.brand{font-size:12px}}
+@media(prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="brand"><div class="brand-icon" aria-hidden="true">🌱</div><span>みらいタウン <span style="color:#7690b7">INVEST LAB</span></span></div>
+    <div class="top-right"><span class="micro">小4からあそべる！</span><button class="subtle-btn" type="button" data-action="reset">↻ はじめから</button></div>
+  </header>
+  <section class="hero">
+    <div class="hero-grid"><div><p class="eyebrow">おこづかいで未来をそだてよう</p><h1>コインでそだてる！<br>みらいタウン 🏡</h1><p>お金を「ためる？」「投資する？」<br>12か月の冒険で、町を大きくしてみよう！</p></div><div class="mascot" aria-hidden="true">🐿️</div></div>
+    <div class="progress-info"><span id="monthText">0 / 12か月</span><span id="nextGoal">めざせ 4,200コイン！</span></div>
+    <div class="progress-track" role="progressbar" aria-label="ゲームの進み具合" aria-valuemin="0" aria-valuemax="12" aria-valuenow="0" id="monthProgress"><div class="progress-fill" id="progressFill"></div></div>
+  </section>
+  <div class="layout">
+    <main class="left">
+      <section class="panel goal" aria-labelledby="goalHeader">
+        <div class="panel-header"><h2 id="goalHeader">🏆 今のお金とゴール</h2><span class="pill" id="goalPill">目標 4,200コイン</span></div>
+        <div class="amount-row"><div><div class="goal-amount"><span id="totalAmount">1,200</span><small>コイン</small></div><div class="goal-sub" id="totalDesc">貯金と投資のぜんぶを足した金額</div></div><span class="goal-status" id="goalStatus">あと 3,000</span></div>
+        <div class="goal-meter"><div id="goalFill" style="width:28.6%"></div></div>
+        <div class="stats">
+          <div class="stat bank"><div class="caption">🪙 ちょきん</div><div class="number"><span id="cashValue">1,200</span><small>コイン</small></div></div>
+          <div class="stat shop"><div class="caption">🍭 おみせの株</div><div class="number"><span id="shopValue">0</span><small>コイン</small></div></div>
+          <div class="stat bundle"><div class="caption">🌍 いろいろセット</div><div class="number"><span id="fundValue">0</span><small>コイン</small></div></div>
+        </div>
+      </section>
+      <section class="panel invest" aria-labelledby="investHeader">
+        <div class="panel-header"><h2 id="investHeader">💡 今月のお金の使い方</h2><span class="pill">100コインずつ</span></div>
+        <p class="section-intro">ちょきんはそのまま持っておけるよ。投資に回したお金は、増えることも減ることもあるよ。</p>
+        <div class="asset stock">
+          <div class="asset-head"><div class="asset-emoji" aria-hidden="true">🍭</div><div class="asset-main"><div class="asset-name">おかし屋さんの株 <span class="risk risk-high">変化 大</span></div><div class="asset-desc">ひとつのお店を応援するよ！</div></div><div class="asset-value"><span id="shopVal2">0</span><span style="font-size:11px"> コイン</span></div></div>
+          <div class="asset-actions"><button type="button" class="action buy" data-action="buy-shop">＋100 買う</button><button type="button" class="action sell" data-action="sell-shop">−100 もどす</button></div>
+        </div>
+        <div class="asset fund">
+          <div class="asset-head"><div class="asset-emoji" aria-hidden="true">🌍</div><div class="asset-main"><div class="asset-name">いろいろ会社セット <span class="risk risk-med">変化 小さめ</span></div><div class="asset-desc">たくさんの会社に分けて投資！</div></div><div class="asset-value"><span id="fundVal2">0</span><span style="font-size:11px"> コイン</span></div></div>
+          <div class="asset-actions"><button type="button" class="action buy" data-action="buy-fund">＋100 買う</button><button type="button" class="action sell" data-action="sell-fund">−100 もどす</button></div>
+        </div>
+        <button class="next" type="button" id="nextBtn" data-action="next">▶ 1か月すすめる（＋300コイン）</button>
+        <div class="hint"><span class="hint-icon" aria-hidden="true">🦉</span><span id="hintText">まずはどちらかの投資を100コイン買ってみよう。買わずに貯金するのも作戦だよ！</span></div>
+      </section>
+    </main>
+    <aside class="right">
+      <section class="panel news" aria-labelledby="newsHeader"><div class="panel-header"><h2 id="newsHeader">📰 まちのニュース</h2><span class="pill" id="newsMonth">スタート</span></div><div class="news-label" id="newsLabel">まずは準備！</div><div class="news-title" id="newsTitle">どんなことが起こるかな？</div><div class="news-desc" id="newsDesc">投資の後に「1か月すすめる」を押すと、ニュースが届くよ。</div><div class="news-deltas" id="newsDeltas"></div></section>
+      <section class="panel town" aria-labelledby="townHeader"><div class="panel-header"><h2 id="townHeader">🏘️ そだつ！ みらいタウン</h2><span class="pill" id="townPill">1 / 4 スポット</span></div><div class="town-grid" id="townGrid"></div><div class="smallfoot">お金の合計がふえると、町のスポットがアンロック！</div></section>
+      <section class="panel learning" aria-labelledby="learningHeader"><div class="panel-header"><h2 id="learningHeader">⭐ お金のはかせクイズ</h2><span class="pill">4・8・12か月目</span></div><div class="knowledge"><div class="knowledge-icon" aria-hidden="true">🦉</div><div class="knowledge-copy">3問のクイズで投資のコツをおぼえよう！<div class="stars" aria-label="クイズ正解数" id="stars">☆☆☆</div></div></div><button id="openQuizBtn" class="subtle-btn hidden" style="margin-top:11px;width:100%;background:#f3f7ff" data-action="open-quiz">まだのクイズにちょうせん ▶</button></section>
+      <section class="panel chart-panel" aria-labelledby="chartHeader"><div class="panel-header"><h2 id="chartHeader">📈 お金の成長グラフ</h2><span class="pill">12か月</span></div><div id="chart" class="chart-wrap" role="img" aria-label="これまでのコインの合計の推移"></div><div class="chart-caption"><span>スタート</span><span>12か月目</span></div><div class="smallfoot">毎月300コインのおこづかいがもらえるよ。</div></section>
+      <section class="panel history-panel" aria-labelledby="historyHeader"><div class="panel-header"><h2 id="historyHeader">📓 ぼうけん日記</h2><span class="pill">自動で保存</span></div><div class="history-list" id="history"><p class="empty-history">まだニュースはないよ。1か月すすめてみよう！</p></div></section>
+    </aside>
+  </div>
+  <footer class="footer-note">このゲームはフィクションです。本物のお金は使いません。実際の投資では、値動きは予想できず、お金が減ることもあります。ゲーム内の数字は説明用です。</footer>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="overlay hidden" id="overlay" role="dialog" aria-modal="true" aria-labelledby="dialogTitle"><div class="dialog" id="dialog"></div></div>
+<script>
+(()=>{
+  'use strict';
+  const KEY='mirai-town-invest-v1', GOAL=4200, MAX_MONTH=12;
+  const nf=new Intl.NumberFormat('ja-JP');
+  const events=[
+    {icon:'🎪',title:'町に大きなお祭りがやってきた！',desc:'おかし屋さんは大にぎわい。',shop:0.14,fund:0.03},
+    {icon:'☔',title:'雨の日が多くてお客さんが少なめ',desc:'お店はちょっと苦戦したみたい。',shop:-0.13,fund:-0.02},
+    {icon:'🌞',title:'世界の景気が少しよくなった！',desc:'たくさんの会社が元気になったよ。',shop:0.07,fund:0.07},
+    {icon:'📉',title:'世界のお店の売り上げがダウン',desc:'分けて投資しても減ることはあるよ。',shop:-0.06,fund:-0.07},
+    {icon:'🍬',title:'新しいおかしが大ヒット！',desc:'おかし屋さんの株が大きく上がった！',shop:0.22,fund:0.02},
+    {icon:'🔧',title:'おかし屋さんの機械がこわれた！',desc:'ひとつのお店だけに投資すると影響が大きいね。',shop:-0.23,fund:0.01},
+    {icon:'🌍',title:'いろいろな国で新しい商品が人気',desc:'世界の会社セットが少し元気に。',shop:0.02,fund:0.06},
+    {icon:'🌧️',title:'世界で買い物をひかえる人が増えた',desc:'どちらの投資も下がる月があるんだ。',shop:-0.17,fund:-0.08},
+    {icon:'🎉',title:'おかし屋さんの新商品が好評！',desc:'人気が出ると会社の価値が上がることも。',shop:0.17,fund:0.04},
+    {icon:'🧁',title:'おかしブームが落ち着いた',desc:'人気はいつまでも同じとは限らないよ。',shop:-0.11,fund:0.02},
+    {icon:'✈️',title:'世界で旅行に行く人が増えた！',desc:'いろいろな業種の会社が元気になったよ。',shop:0.04,fund:0.09},
+    {icon:'🛒',title:'お買い物をする人が少し増えた',desc:'町にも世界にも、いい影響があったよ。',shop:0.08,fund:0.05},
+    {icon:'🚧',title:'おかし屋さんの前で道路工事！',desc:'通りがかるお客さんが減ってしまった。',shop:-0.16,fund:-0.01},
+    {icon:'💌',title:'お店のファンが増えた！',desc:'応援する人が増えるとお店も元気に。',shop:0.11,fund:0.04},
+    {icon:'🤒',title:'いろいろな会社でトラブル',desc:'分散していても絶対に安心ではないんだ。',shop:-0.07,fund:-0.05},
+    {icon:'☁️',title:'静かな月。でも株は少し動く',desc:'大ニュースがなくても値段は変わるよ。',shop:0.01,fund:-0.01},
+    {icon:'🍩',title:'おかし屋さんの支店ができた！',desc:'新しいお客さんがたくさん集まった。',shop:0.19,fund:0.03},
+    {icon:'🏗️',title:'世界の工場が新しい機械を導入',desc:'いろいろセットが少しずつ成長した。',shop:-0.03,fund:0.08}
+  ];
+  const quiz=[
+    {q:'ひとつのお店が急にお休み！ 影響が小さくなりやすいのは？',a:['ひとつのお店の株','いろいろ会社セット','どちらも絶対に増える'],correct:1,explain:'いろいろな会社に分けることを「分散（ぶんさん）」というよ。ひとつの会社のトラブルをやわらげやすいんだ。'},
+    {q:'100コインを投資したら、次の月はどうなる？',a:['必ず110コインになる','増えることも、減ることもある','必ず100コインのまま'],correct:1,explain:'株や投資のセットは、お金が増えることも減ることもある。絶対にもうかる投資はないよ。'},
+    {q:'明日の遠足に使うお金。どこに置くのがよさそう？',a:['全部をお店の株にする','必要なお金は貯金で残す','お金を借りてもっと投資する'],correct:1,explain:'すぐ使うお金は、値下がりしないように貯金で残そう。投資は余裕のあるお金で考えるのが大切。'}
+  ];
+  const hints=[
+    'まずはどちらかの投資を100コイン買ってみよう。買わずに貯金するのも作戦だよ！',
+    'おかし屋さんの株は、大きく増えることも大きく減ることもあるよ。',
+    'いろいろセットは、たくさんの会社に分けて投資するしくみだよ。',
+    '投資に回す金額を多くするほど、ニュースの影響も大きくなるよ。',
+    '大事なお金は貯金に残し、余裕のあるお金で投資を考えよう。',
+    '値下がりした月も、あわてて売る必要があるとは限らないよ。'
+  ];
+  const buildings=[{money:1200,icon:'🏠',name:'おうち',desc:'1,200コイン'},{money:2100,icon:'🌳',name:'こうえん',desc:'2,100コイン'},{money:3200,icon:'🏫',name:'学校',desc:'3,200コイン'},{money:4200,icon:'🎡',name:'ゆうえんち',desc:'4,200コイン'}];
+  const initial=()=>({month:0,cash:1200,shop:0,fund:0,history:[],used:[],quizCorrect:0,quizAnswered:[],pendingQuiz:null,ended:false,started:false,news:null});
+  const safeNumber=x=>typeof x==='number'&&Number.isFinite(x)&&x>=0&&x<1e9;
+  function load(){try{const a=JSON.parse(localStorage.getItem(KEY));if(!a||!Number.isInteger(a.month)||a.month<0||a.month>12||!['cash','shop','fund'].every(k=>safeNumber(a[k]))||!Array.isArray(a.history)||!Array.isArray(a.used)||!Array.isArray(a.quizAnswered))return initial();return {...initial(),...a};}catch{return initial();}}
+  let state=load(), toastTimer;
+  const $=id=>document.getElementById(id), num=v=>nf.format(Math.round(v)),total=()=>state.cash+state.shop+state.fund;
+  const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(state));}catch{}};
+  function toast(message){const e=$('toast');e.textContent=message;e.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>e.classList.remove('show'),2100);}
+  function delta(v){return `${v>0?'+':''}${num(v)}コイン`}
+  function setDialog(content){$('dialog').innerHTML=content;$('overlay').classList.remove('hidden');document.body.style.overflow='hidden';}
+  function closeDialog(){$('overlay').classList.add('hidden');document.body.style.overflow='';}
+  function endGame(){state.ended=true;state.pendingQuiz=null;save();render();showResult();}
+  function showIntro(){setDialog(`<div class="dialog-emoji">🐿️🏡</div><h2 class="dialog-title" id="dialogTitle">ようこそ、みらいタウンへ！</h2><p class="dialog-text">きみは町をそだてる「お金のたんけん家」！<br>12か月で4,200コインをめざそう。</p><div class="intro-bullets"><div class="intro-bullet"><span>🪙</span>はじめに1,200コイン持っているよ</div><div class="intro-bullet"><span>🎁</span>毎月おこづかい300コインをもらえるよ</div><div class="intro-bullet"><span>📈</span>貯金する？ 株を買う？ 自分で決めよう！</div><div class="intro-bullet"><span>🦉</span>4か月ごとにクイズもあるよ</div></div><button class="dialog-btn" data-action="intro-start">あそびはじめる！ ▶</button><div class="try">実際のお金は使わないよ。操作は無料！</div>`);}
+  function showQuiz(){const id=state.pendingQuiz;if(!Number.isInteger(id)||!quiz[id])return;if(state.quizAnswered.includes(id)){state.pendingQuiz=null;save();if(state.month>=MAX_MONTH)endGame();else closeDialog();return;}const q=quiz[id];setDialog(`<div class="dialog-emoji">🦉✨</div><h2 class="dialog-title" id="dialogTitle">お金のはかせクイズ！</h2><p class="dialog-text">${id+1}問目 / 3問<br><b style="color:#273752;font-size:17px">${q.q}</b></p><div id="quizChoices">${q.a.map((a,i)=>`<button class="choice" type="button" data-action="quiz-answer" data-option="${i}">${['A','B','C'][i]}　${a}</button>`).join('')}</div><div id="quizFeedback"></div><button class="dialog-btn ghost" data-action="quiz-skip">いったん閉じる（あとでチャレンジ）</button>`);}
+  function answerQuiz(option){const id=state.pendingQuiz;if(!Number.isInteger(id)||!quiz[id]||state.quizAnswered.includes(id))return;const q=quiz[id];const correct=option===q.correct;state.quizAnswered.push(id);if(correct)state.quizCorrect++;save();document.querySelectorAll('[data-action="quiz-answer"]').forEach(b=>{b.disabled=true;const n=Number(b.dataset.option);if(n===q.correct)b.classList.add('correct');else if(n===option)b.classList.add('wrong');});$('quizFeedback').innerHTML=`<div class="dialog-feedback ${correct?'':'wrong'}">${correct?'🎉 せいかい！ 星をゲット！':'🌱 おしい！ ここがポイント！'}<br>${q.explain}</div><button class="dialog-btn" data-action="quiz-next">${state.month>=MAX_MONTH?'結果を見る ▶':'ゲームにもどる ▶'}</button>`;const btn=document.querySelector('[data-action="quiz-skip"]');if(btn)btn.classList.add('hidden');render();}
+  function skipQuiz(){state.pendingQuiz=null;save();closeDialog();if(state.month>=MAX_MONTH)endGame();else toast('クイズはあとから挑戦できるよ！');}
+  function openQuiz(){const available=[0,1,2].filter(i=>state.month>=((i+1)*4)&&!state.quizAnswered.includes(i));if(!available.length){toast('まだクイズは出ていないか、すべて挑戦ずみだよ！');return;}state.pendingQuiz=available[0];save();showQuiz();}
+  function showResult(){const t=Math.round(total()),win=t>=GOAL,c=Math.round(state.cash),profit=t-(1200+300*12),correct=state.quizCorrect;
+    const badges=[c>=500?'🪙 いざという時の貯金マスター':null,state.fund>0?'🌍 分散投資のチャレンジャー':null,state.shop>0?'🍭 お店の応援団':null,correct===3?'🦉 クイズ全問正解':null].filter(Boolean);
+    setDialog(`<div class="dialog-emoji">${win?'🏆🎊':'🌱✨'}</div><h2 class="dialog-title" id="dialogTitle">${win?'みらいタウン完成！':'12か月、おつかれさま！'}</h2><p class="dialog-text">${win?'目標の4,200コインを達成したよ！':'目標に届かなくても、新しい発見ができたね！'}<br>貯金にも投資にも、それぞれいいところがあるよ。</p><div class="result-stats"><div class="result-stat"><small>最後のお金の合計</small><strong>${num(t)} コイン</strong></div><div class="result-stat"><small>貯金だけなら4,800コイン</small><strong class="${profit>=0?'pos':'neg'}">${profit>=0?'+':''}${num(profit)} 差</strong></div><div class="result-stat"><small>さいごに残した貯金</small><strong>${num(c)} コイン</strong></div><div class="result-stat"><small>クイズ正解</small><strong>${correct} / 3 問</strong></div></div><p class="dialog-text" style="margin-bottom:5px">${profit>0?'この1年間は、投資がプラスになったね。でも次も同じとは限らないよ。':profit<0?'この1年間は、投資がマイナスだったね。そんな年もあることを知っておこう。':'貯金を中心にした作戦だったね。安全に残すことも大切な考え方だよ。'}</p><div class="badges">${badges.map(b=>`<span class="achievement">${b}</span>`).join('')||'<span class="achievement">🌟 12か月達成！</span>'}</div><button class="dialog-btn" data-action="restart">もう一回チャレンジ 🔁</button><button class="dialog-btn ghost" data-action="close-result">結果をとじて町を見る</button>`);}
+  function buy(asset){if(state.ended)return;if(state.cash<100){toast('貯金が100コイン必要だよ！');return;}state.cash-=100;state[asset]+=100;save();render();toast(asset==='shop'?'🍭 おかし屋さんの株を100コイン買ったよ！':'🌍 いろいろ会社セットを100コイン買ったよ！');}
+  function sell(asset){if(state.ended)return;if(state[asset]<=0){toast('まだ売れる投資は持っていないよ');return;}const amount=Math.min(100,state[asset]);state[asset]-=amount;state.cash+=amount;save();render();toast(`🪙 ${num(amount)}コインを貯金にもどしたよ！`);}
+  function monthNext(){if(state.ended)return;if(!state.started){showIntro();return;}if(state.pendingQuiz!==null){showQuiz();return;}if(state.month>=MAX_MONTH){endGame();return;}
+    const possible=events.map((_,i)=>i).filter(i=>!state.used.includes(i));const eventId=possible[Math.floor(Math.random()*possible.length)];const ev=events[eventId];state.used.push(eventId);
+    const oldShop=state.shop,oldFund=state.fund;state.shop=Math.round(state.shop*(1+ev.shop));state.fund=Math.round(state.fund*(1+ev.fund));const diffShop=state.shop-oldShop,diffFund=state.fund-oldFund;state.cash+=300;state.month++;
+    state.news={...ev,diffShop,diffFund};state.history.push({month:state.month,total:Math.round(total()),eventId,diffShop,diffFund});
+    if([4,8,12].includes(state.month))state.pendingQuiz=state.month/4-1;
+    save();render();toast(`🎁 ${state.month}か月目！ おこづかい＋300コイン`);
+    if(state.pendingQuiz!==null)showQuiz();else if(state.month>=MAX_MONTH)endGame();
+    const news=$('newsHeader');if(news&&window.innerWidth<740)news.scrollIntoView({behavior:'smooth',block:'center'});
+  }
+  function chart(){const arr=[1200,...state.history.map(h=>h.total)],max=Math.max(GOAL,5000,...arr)*1.1,min=0,w=310,h=108,p=7;
+    const x=i=>p+i*(w-2*p)/12,y=v=>h-p-(v-min)/(max-min)*(h-2*p);
+    const points=arr.map((v,i)=>`${x(i)},${y(v)}`).join(' '),last=arr.length-1;const fill=[`${x(0)},${h-p}`,...arr.map((v,i)=>`${x(i)},${y(v)}`),`${x(last)},${h-p}`].join(' ');
+    const goalY=y(GOAL);
+    $('chart').innerHTML=`<svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="graphFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8fb0ff" stop-opacity=".37"/><stop offset="1" stop-color="#8fb0ff" stop-opacity=".03"/></linearGradient></defs><line x1="0" y1="${goalY}" x2="${w}" y2="${goalY}" stroke="#f1bc67" stroke-width="1.5" stroke-dasharray="4,4"/><polygon points="${fill}" fill="url(#graphFill)"/><polyline points="${points}" stroke="#4b79dc" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="${x(last)}" cy="${y(arr[last])}" r="4.5" fill="#4b79dc" stroke="white" stroke-width="2"/><text x="${w-2}" y="${goalY-5}" text-anchor="end" font-size="9" fill="#ba8b42" font-weight="bold">目標</text></svg>`;
+    $('chart').setAttribute('aria-label',`${state.month}か月時点で${num(arr[last])}コイン。目標は${num(GOAL)}コイン。`);
+  }
+  function render(){
+    const t=Math.round(total()),unlocked=buildings.filter(b=>t>=b.money).length;
+    $('monthText').textContent=`${state.month} / 12か月`;$('monthProgress').setAttribute('aria-valuenow',String(state.month));$('progressFill').style.width=`${state.month/12*100}%`;
+    $('totalAmount').textContent=num(t);$('cashValue').textContent=num(state.cash);$('shopValue').textContent=num(state.shop);$('fundValue').textContent=num(state.fund);$('shopVal2').textContent=num(state.shop);$('fundVal2').textContent=num(state.fund);
+    $('goalFill').style.width=`${Math.min(100,t/GOAL*100)}%`;$('goalStatus').textContent=t>=GOAL?'🎉 ゴール達成！':`あと ${num(GOAL-t)}`;
+    $('townPill').textContent=`${unlocked} / 4 スポット`;
+    $('townGrid').innerHTML=buildings.map(b=>`<div class="building ${t<b.money?'locked':''}" aria-label="${b.name}：${t>=b.money?'完成':'まだ'}"><div class="emoji" aria-hidden="true">${t>=b.money?b.icon:'🔒'}</div><strong>${b.name}</strong><span>${t>=b.money?'完成！':b.desc}</span></div>`).join('');
+    $('stars').textContent='★'.repeat(state.quizCorrect)+'☆'.repeat(3-state.quizCorrect);
+    $('openQuizBtn').classList.toggle('hidden',![0,1,2].some(i=>state.month>=(i+1)*4&&!state.quizAnswered.includes(i)));
+    $('hintText').textContent=hints[Math.min(state.month,hints.length-1)];
+    if(state.news){const n=state.news;$('newsMonth').textContent=`${state.month}か月目`;$('newsLabel').textContent=`${n.icon} 今月のできごと`;$('newsTitle').textContent=n.title;$('newsDesc').textContent=n.desc;$('newsDeltas').innerHTML=`<span class="delta ${n.diffShop>0?'pos':n.diffShop<0?'neg':'zero'}">🍭 ${delta(n.diffShop)}</span><span class="delta ${n.diffFund>0?'pos':n.diffFund<0?'neg':'zero'}">🌍 ${delta(n.diffFund)}</span>`;}
+    $('history').innerHTML=state.history.length?state.history.slice().reverse().map(h=>`<div class="history-item"><span class="m">${h.month}月</span><span class="detail"><strong>${events[h.eventId]?.title||'ニュース'}</strong><div>🍭 ${delta(h.diffShop)} ／ 🌍 ${delta(h.diffFund)}</div></span><strong>${num(h.total)}</strong></div>`).join(''):'<p class="empty-history">まだニュースはないよ。1か月すすめてみよう！</p>';
+    const paused=state.ended;document.querySelectorAll('[data-action^="buy-"],[data-action^="sell-"]').forEach(btn=>{const [type,asset]=btn.dataset.action.split('-');btn.disabled=paused||(type==='buy'?state.cash<100:state[asset]<=0);});
+    const nb=$('nextBtn');nb.textContent=state.ended?'🏁 結果をもう一度見る':state.pendingQuiz!==null?'🦉 クイズにチャレンジ！':state.month===11?'▶ 最後の1か月をすすめる（＋300コイン）':`▶ 1か月すすめる（＋300コイン）`;
+    chart();
+  }
+  function reset(){if(!confirm('ゲームのきろくを消して、最初からあそぶ？'))return;state=initial();save();render();showIntro();}
+  document.addEventListener('click',e=>{const target=e.target.closest('[data-action]');if(!target)return;const action=target.dataset.action;
+    if(action==='buy-shop')buy('shop');else if(action==='buy-fund')buy('fund');else if(action==='sell-shop')sell('shop');else if(action==='sell-fund')sell('fund');else if(action==='next'){if(state.ended)showResult();else monthNext();}
+    else if(action==='intro-start'){state.started=true;save();closeDialog();toast('スタート！まずはお金の使い方を選ぼう 🎈');}
+    else if(action==='quiz-answer')answerQuiz(Number(target.dataset.option));
+    else if(action==='quiz-skip')skipQuiz();else if(action==='open-quiz')openQuiz();
+    else if(action==='quiz-next'){state.pendingQuiz=null;save();closeDialog();if(state.month>=MAX_MONTH)endGame();else toast('⭐ かしこさがアップ！');}
+    else if(action==='restart')reset();else if(action==='reset')reset();else if(action==='close-result')closeDialog();
+  });
+  // ゲームを閉じても続きから再開できる。クイズ中に閉じた場合も再表示。
+  if(state.pendingQuiz!==null&&state.quizAnswered.includes(state.pendingQuiz)){state.pendingQuiz=null;save();}
+  render();if(!state.started)showIntro();else if(state.pendingQuiz!==null&&!state.quizAnswered.includes(state.pendingQuiz))showQuiz();else if(state.month>=MAX_MONTH&&state.ended)showResult();else if(state.month>=MAX_MONTH)endGame();
+})();
+</script>
+</body>
+</html>
