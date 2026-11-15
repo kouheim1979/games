@@ -60,8 +60,8 @@
 @keyframes townEvolve{0%{height:0;opacity:0;transform:translateY(-10px)}14%,70%{height:23px;opacity:1;transform:translateY(0)}100%{height:0;opacity:0;transform:translateY(-10px)}}
 @media(prefers-reduced-motion:reduce){.town-scene.rain::after,.town-scene.party::after{animation:none !important}.shop-evolution.active{animation:none !important;height:auto;opacity:1}}
 </style>
-<link rel="stylesheet" href="./city.css?v=20261115.3">
-<script src="./city.js?v=20261115.3" defer></script>
+<link rel="stylesheet" href="./city.css?v=20261115.5">
+<script src="./city.js?v=20261115.5" defer></script>
 </head>
 <body>
 <div class="app">
@@ -319,7 +319,7 @@
 }
   const initial=()=>({month:0,cash:1200,shop:0,fund:0,history:[],used:[],quizCorrect:0,quizAnswered:[],pendingQuiz:null,ended:false,started:false,news:null,cityTickets:0,cityBuilds:{}});
   const safeNumber=x=>typeof x==='number'&&Number.isFinite(x)&&x>=0&&x<1e9;
-  function load(){try{const a=JSON.parse(localStorage.getItem(KEY));if(!a||!Number.isInteger(a.month)||a.month<0||a.month>12||!['cash','shop','fund'].every(k=>safeNumber(a[k]))||!Array.isArray(a.history)||!Array.isArray(a.used)||!Array.isArray(a.quizAnswered))return initial();return {...initial(),...a,cityTickets:Number.isInteger(a.cityTickets)&&a.cityTickets>=0&&a.cityTickets<=24?a.cityTickets:0,cityBuilds:(a.cityBuilds&&typeof a.cityBuilds==='object'&&!Array.isArray(a.cityBuilds))?Object.fromEntries(Object.entries(a.cityBuilds).filter(([k,v])=>/^[0-3]$/.test(k)&&['park','house','library','bakery'].includes(v))):{}};}catch{return initial();}}
+  function load(){try{const a=JSON.parse(localStorage.getItem(KEY));if(!a||!Number.isInteger(a.month)||a.month<0||a.month>12||!['cash','shop','fund'].every(k=>safeNumber(a[k]))||!Array.isArray(a.history)||!Array.isArray(a.used)||!Array.isArray(a.quizAnswered))return initial();return {...initial(),...a,cityTickets:Number.isInteger(a.cityTickets)&&a.cityTickets>=0&&a.cityTickets<=24?a.cityTickets:Math.min(12,a.month),cityBuilds:(a.cityBuilds&&typeof a.cityBuilds==='object'&&!Array.isArray(a.cityBuilds))?Object.fromEntries(Object.entries(a.cityBuilds).filter(([k,v])=>/^[0-3]$/.test(k)&&['park','house','library','bakery'].includes(v))):{}};}catch{return initial();}}
   let state=load(), toastTimer;
   const $=id=>document.getElementById(id), num=v=>nf.format(Math.round(v)),total=()=>state.cash+state.shop+state.fund;
   const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(state));}catch{}};
