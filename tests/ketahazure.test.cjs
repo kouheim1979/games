@@ -130,7 +130,7 @@ test('a second drop never earns the one-shot bonus, including when it lands firs
   settle([drop()], [100]);
   settle([drop()], [G.quota]);
   render();
-  assert.ok(labels.includes('1玉目の得点 100'));
+  assert.ok(labels.includes('1投目の合計 100'));
   assert.ok(!labels.includes('一発突破　札 +1枚'));
   collect(1, 2);
 
@@ -148,34 +148,56 @@ test('a second drop never earns the one-shot bonus, including when it lands firs
   collect(2, 4);
 });
 
-test('extra balls do not take the first ball’s place', () => {
-  const { G, api, drop, settle, collect } = bootGame();
+test('a single launch counts its split balls and all of its twin balls', () => {
+  const { G, api, drop, settle, render, labels, collect } = bootGame();
   const peg = G.grid[1][3], ball = drop(peg.x);
   assert.equal(peg.type, 's');
   Object.assign(ball, { y: peg.y - 22, vx: 0, vy: 380 });
   api.update(1 / 60);
   assert.equal(G.balls.length, 2);
   const splitBall = G.balls.find(other => other !== ball);
-  settle([splitBall], [G.quota]);
-  settle([ball], [100]);
-  collect(1, 2);
+  settle([ball], [190]);
+  assert.equal(G.firstShotScore, 190);
+  settle([splitBall], [(7406 - G.score) / G.rate]);
+  assert.equal(G.ballsLeft, 4);
+  assert.equal(G.firstShotScore, 7406);
+  render();
+  assert.ok(labels.includes('一発突破　札 +1枚'));
+  collect(2, 2);
 
   G.rel.twin = 1;
   const twin = drop(), original = G.balls[0];
   assert.equal(G.balls.length, 2);
-  settle([twin], [G.quota]);
-  settle([original], [100]);
-  collect(1, 3);
+  settle([twin, original], [G.quota * 0.49, G.quota * 0.49]);
+  collect(2, 3);
+});
 
-  G.rel.twin = 0;
+test('festival balls count when the first launch filled the gauge on its own', () => {
+  const { G, api, drop, settle, collect } = bootGame();
+  function charge(ball) {
+    const peg = G.grid[0][0];
+    // 玉が釘を打ったときに残り1目盛りをため、通常の更新処理で祭りを始める。
+    G.fever.gauge = G.fever.need - 1;
+    Object.assign(ball, { x: peg.x, y: peg.y - 22, vx: 0, vy: 380 });
+    api.update(1 / 60);
+    assert.ok(G.fever.on);
+    Object.assign(G.fever, { total: 1, spawnT: 0 });
+    api.update(1 / 60);
+    return G.balls.find(other => other.fever);
+  }
+
   const first = drop();
-  Object.assign(G.fever, { on: true, count: 0, total: 1, spawnT: 0 });
-  api.update(1 / 60);
-  const festivalBall = G.balls.find(other => other.fever);
+  const festivalBall = charge(first);
   assert.ok(festivalBall);
-  settle([festivalBall], [G.quota]);
-  settle([first], [100]);
-  collect(1, 4);
+  settle([first, festivalBall], [G.quota * 0.49, G.quota * 0.49]);
+  collect(2, 2);
+
+  const early = drop(), late = drop();
+  const laterFestivalBall = charge(late);
+  assert.ok(laterFestivalBall);
+  settle([early, late, laterFestivalBall], [100, 100, G.quota]);
+  assert.equal(G.firstShotScore, 100);
+  collect(1, 3);
 });
 
 test('each stage awards its first ball and the flyover bonus independently', () => {

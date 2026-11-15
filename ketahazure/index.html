@@ -200,9 +200,9 @@ const G = {
   phase: 'title', t: 0, rt: 0, acc: 0, stage: 0, score: 0, shown: 0, quota: 1,
   ballsLeft: 0, ballsMax: 0, balls: [], spawn: [], pegs: [], grid: [], pockets: [],
   rate: 1, combo: 0, comboT: 0, landed: 0,
-  fever: { gauge: 0, need: BAL.feverNeed, on: false, count: 0, total: 0, spawnT: 0, inStage: 0 },
+  fever: { gauge: 0, need: BAL.feverNeed, on: false, count: 0, total: 0, spawnT: 0, inStage: 0, firstShot: true },
   rel: {}, relOrder: [], rerolls: 1, offer: null, peek: false, placing: null, hover: null, picks: [], picksLeft: 0, nextStage: 0,
-  cleared: false, firstBallScore: null, endT: 0, clearT: 0, clearInfo: null, overT: 0, ended: false, newRec: false,
+  cleared: false, firstShotScore: 0, endT: 0, clearT: 0, clearInfo: null, overT: 0, ended: false, newRec: false,
   stats: { bestHit: 0, hits: 0, fevers: 0 }, runBest: 0, unitIdx: 0, stamps: [], banner: null,
   speed: 1, paused: false, help: 0, quitArm: 0, hitstop: 0, shake: 0, flash: 0, dropCd: 0, demoT: 0,
   aim: { x: W / 2, on: false, snap: false }, headless: false
@@ -374,7 +374,7 @@ function startRun() {
   Object.assign(G, { stage: 0, nextStage: 0, picksLeft: 0, rel: {}, relOrder: [], rerolls: 1, picks: [], runBest: 0, unitIdx: 0, ended: false, newRec: false,
     stamps: [], banner: null, paused: false, help: 0, balls: [], spawn: [], quitArm: 0 });
   G.stats = { bestHit: 0, hits: 0, fevers: 0 };
-  G.fever = { gauge: 0, need: BAL.feverNeed, on: false, count: 0, total: 0, spawnT: 0, inStage: 0 };
+  G.fever = { gauge: 0, need: BAL.feverNeed, on: false, count: 0, total: 0, spawnT: 0, inStage: 0, firstShot: true };
   G.reachedStage = null;
   G.runId = window.crypto?.randomUUID?.() || Date.now() + '-' + Math.random();
   SAVE.runs++; if (!G.headless) saveSave();
@@ -384,15 +384,15 @@ function startStage(n) {
   G.stage = n; G.quota = quotaFor(n); G.score = 0; G.shown = 0;
   G.rate = 1 + 0.5 * (G.rel.keiki || 0); G.combo = 0; G.comboT = 0; G.landed = 0;
   G.ballsMax = BAL.balls + (G.rel.ball || 0); G.ballsLeft = G.ballsMax;
-  G.cleared = false; G.firstBallScore = null; G.endT = 0; G.balls.length = 0; G.spawn.length = 0; G.acc = 0;
-  const f = G.fever; f.inStage = 0; f.on = false; f.need = feverNeed(); f.gauge = Math.min(Math.max(f.gauge, G.rel.zenya ? f.need / 2 : 0), f.need);
+  G.cleared = false; G.firstShotScore = 0; G.endT = 0; G.balls.length = 0; G.spawn.length = 0; G.acc = 0;
+  const f = G.fever; f.inStage = 0; f.on = false; f.firstShot = true; f.need = feverNeed(); f.gauge = Math.min(Math.max(f.gauge, G.rel.zenya ? f.need / 2 : 0), f.need);
   G.placing = null; G.hover = null; G.offer = null; G.dropCd = 0.35;
   computePockets(); G.aim.x = aimClamp(dropSpot().x); G.aim.on = false;
   G.phase = 'play';
   if (!G.headless) setBanner('ステージ ' + n, 'ノルマ ' + fmtQ(G.quota), 1.7);
 }
-function newBall(x, v, firstBall = false) {
-  return { x, y: L.launchY, vx: rnd(-25, 25), vy: 0, v, firstBall, lastPeg: -1, used: null, tr: [], born: G.t, fever: false, wallOk: true, h: 0, ghost: false, dead: false, tp: false, low: L.launchY, lowT: G.t };
+function newBall(x, v, firstShot = false) {
+  return { x, y: L.launchY, vx: rnd(-25, 25), vy: 0, v, firstShot, lastPeg: -1, used: null, tr: [], born: G.t, fever: false, wallOk: true, h: 0, ghost: false, dead: false, tp: false, low: L.launchY, lowT: G.t };
 }
 function dropBall(x) {
   if (G.phase !== 'play' || G.ballsLeft <= 0 || G.dropCd > 0) return false;
@@ -402,15 +402,20 @@ function dropBall(x) {
   let v = ballV0(); if (G.ballsLeft === 0 && G.rel.shime) v *= Math.pow(10, G.rel.shime);
   for (let i = 0; i < n; i++) {
     const ballX = aimClamp(x + (i - (n - 1) / 2) * 26);
-    G.balls.push(newBall(ballX, v, firstDrop && i === 0));
+    G.balls.push(newBall(ballX, v, firstDrop));
   }
   S.drop(); return true;
 }
 
 // ───────── 当たったときの効果 ─────────
-function addGauge(n) { const f = G.fever; if (!f.on) f.gauge = Math.min(f.need, f.gauge + n); }
+function addGauge(n, b) {
+  const f = G.fever;
+  if (f.on || f.gauge >= f.need) return;
+  if (!b.firstShot) f.firstShot = false;
+  f.gauge = Math.min(f.need, f.gauge + n);
+}
 function cloneBall(b, side) {
-  return { x: b.x, y: b.y, vx: b.vx + side * rnd(130, 230), vy: Math.min(b.vy, 0) - rnd(80, 180), v: b.v, firstBall: false, lastPeg: b.lastPeg,
+  return { x: b.x, y: b.y, vx: b.vx + side * rnd(130, 230), vy: Math.min(b.vy, 0) - rnd(80, 180), v: b.v, firstShot: b.firstShot, lastPeg: b.lastPeg,
     used: Object.assign({}, b.used), tr: [], born: G.t, fever: b.fever, wallOk: b.wallOk, h: b.h, ghost: false, dead: false, tp: false, low: b.y, lowT: G.t };
 }
 function hitPeg(p, b, chain) {
@@ -418,7 +423,7 @@ function hitPeg(p, b, chain) {
   p.flash = 1; p.swv += (b.vx >= 0 ? 1 : -1) * rnd(2.5, 5);
   if (!chain) { G.combo++; G.comboT = 1.5; }
   if (live) {
-    G.stats.hits++; addGauge(1);
+    G.stats.hits++; addGauge(1, b);
     if (!chain && R.rensa && G.combo % 50 === 0) { G.rate = Math.min(1e250, G.rate * Math.pow(1.1, R.rensa)); fxText(W - 96, L.launchY - 36, '連鎖 勢い↑', C.asagi, 17); }
   }
   const twice = !!R.crit && Math.random() < 0.15 * R.crit, lv = chain ? 1 : p.lv;   // 爆発や雷で発動したときは Lv1 の強さ
@@ -429,7 +434,7 @@ function hitPeg(p, b, chain) {
     case 'x': { let m = xMul(lv); if (twice) m *= m; b.v *= m; str = '×' + fmtS(m); big = m >= 8; S.mul(lv); break; }
     case 'g': { let m = 1.2 + p.grow; if (chain && m > 2) m = 2; p.grow += 0.1 * p.lv; str = '×' + m.toFixed(1); if (twice) m *= m; b.v *= m; S.mul(2); break; }
     case 'd': { let s = 0; for (let j = 0; j < lv; j++) s += 1 + ((Math.random() * 6) | 0); big = s >= 6 * lv; if (twice) s *= s; b.v *= s; str = '×' + s; S.dice(big); break; }
-    case 'f': { if (live) addGauge(6 * lv); b.v += 30; str = '祭+' + 6 * lv; S.fes(); break; }
+    case 'f': { if (live) addGauge(6 * lv, b); b.v += 30; str = '祭+' + 6 * lv; S.fes(); break; }
     case 's': {
       if (b.used && b.used[p.i]) break;
       (b.used || (b.used = {}))[p.i] = 1;
@@ -549,7 +554,7 @@ function stepBalls(h) {
   let w = 0; for (let i = 0; i < bs.length; i++) if (!bs[i].dead) bs[w++] = bs[i];
   bs.length = w;
 }
-const hasOneShot = () => G.firstBallScore !== null && G.firstBallScore >= G.quota;
+const hasOneShot = () => scoreAtLeast(G.firstShotScore, G.quota);
 function land(b, k) {
   b.dead = true;
   const pk = G.pockets[k]; pk.flash = 1;
@@ -557,7 +562,8 @@ function land(b, k) {
   const R = G.rel;
   let gain = b.v * pk.mult * G.rate; if (!(gain < 1e300)) gain = 1e300;
   if (gain < G.quota && scoreAtLeast(gain, G.quota)) gain = G.quota;
-  if (b.firstBall) G.firstBallScore = gain;
+  const hadOneShot = hasOneShot();
+  if (b.firstShot) G.firstShotScore = Math.min(1e300, G.firstShotScore + gain);
   G.score = Math.min(1e300, G.score + gain);
   if (gain > G.stats.bestHit) G.stats.bestHit = gain;
   G.rate = Math.min(1e250, G.rate * (1 + (BAL.rateStep + 0.03 * (R.oikaze || 0)) * (G.fever.on ? BAL.feverRate : 1) / (1 + G.landed / BAL.rateSoft)));
@@ -572,7 +578,7 @@ function land(b, k) {
     spark(cx, L.pocketTop + 16, tier >= 2 ? C.kin : '#ffe9a8', 6 + tier * 5, 190 + tier * 40, 0.5, 2.4);
     S.cash(tier);
     if (tier >= 3) { addShake(4 + tier * 2); S.big(); G.hitstop = Math.max(G.hitstop, 0.05); firework(cx, L.pocketTop - 110, pick([C.kin, C.shu, C.asagi, C.momo])); buzz(25); }
-    if (b.firstBall && hasOneShot()) fxText(W / 2, L.row0 + 200, '一発突破　札 +1', C.shu, 40, 2);
+    if (!hadOneShot && hasOneShot()) fxText(W / 2, L.row0 + 200, '一発突破　札 +1', C.shu, 40, 2);
   }
   checkUnits();
   if (!G.cleared && scoreAtLeast(G.score, G.quota)) {
@@ -590,7 +596,9 @@ function checkUnits() {
   while (G.unitIdx < u) { G.unitIdx++; if (!G.headless) G.stamps.push({ u: G.unitIdx, t: 0, hit: false }); }
 }
 function startFever() {
-  const f = G.fever; f.on = true; f.count = 0; f.total = BAL.feverBalls + 6 * (G.rel.omatsuri || 0); f.spawnT = 0.45; f.inStage++; G.stats.fevers++;
+  const f = G.fever; f.on = true; f.count = 0; f.total = BAL.feverBalls + 6 * (G.rel.omatsuri || 0); f.spawnT = 0.45; f.inStage++;
+  // ゲージを最初の投入の玉だけでためた祭りは、その投入につながる。
+  f.firstShot = f.firstShot && (G.ballsLeft === G.ballsMax - 1 || G.balls.some(ball => ball.firstShot)); G.stats.fevers++;
   if (!G.headless) {
     setBanner('お祭りだ', '玉がふってくる', 1.3, C.momo); S.fever(); addShake(8); G.flash = 0.4; buzz(60);
     for (let i = 0; i < 4; i++) later(i * 0.18, () => firework(rnd(60, W - 60), L.hud + rnd(60, 200), pick([C.momo, C.kin, C.asagi, C.shu])));
@@ -614,8 +622,8 @@ function update(dt) {
     if (f.on) {
       if (f.count < f.total) {
         f.spawnT -= dt;
-        while (f.spawnT <= 0 && f.count < f.total) { f.spawnT += 0.2; f.count++; const b = newBall(rnd(44, W - 44), ballV0()); b.fever = true; G.balls.push(b); }
-      } else if (!G.balls.some(b => b.fever)) { f.on = false; f.gauge = 0; f.need = feverNeed(); }
+        while (f.spawnT <= 0 && f.count < f.total) { f.spawnT += 0.2; f.count++; const b = newBall(rnd(44, W - 44), ballV0(), f.firstShot); b.fever = true; G.balls.push(b); }
+      } else if (!G.balls.some(b => b.fever)) { f.on = false; f.gauge = 0; f.firstShot = true; f.need = feverNeed(); }
     } else if (f.gauge >= f.need && G.balls.length > 0 && f.inStage < 5) startFever();
     if (G.comboT > 0) { G.comboT -= dt; if (G.comboT <= 0) G.combo = 0; }
     if (G.balls.length === 0 && !f.on && G.ballsLeft === 0) {
@@ -1074,9 +1082,9 @@ function drawFx() {
 function drawHud() {
   const y0 = L.hud, f = G.fever;
   T('ステージ ' + G.stage, 16, y0 + 37, { size: 22, w: 800 });
-  if (G.firstBallScore !== null) {
+  if (G.ballsLeft < G.ballsMax) {
     const oneShot = hasOneShot();
-    const label = oneShot ? '一発突破　札 +1枚' : '1玉目の得点 ' + fmt(G.firstBallScore);
+    const label = oneShot ? '一発突破　札 +1枚' : '1投目の合計 ' + fmt(G.firstShotScore);
     T(label, W - 176, y0 + 36, { size: 15, w: 800, align: 'right', col: oneShot ? C.kin : C.dim });
   }
   button('spd', W - 16 - 60 - 8 - 70, y0 + 8, 70, 42, '速×' + G.speed, { size: 17 }, cycleSpeed);
@@ -1397,7 +1405,7 @@ function drawPause() {
   });
 }
 const HELP1 = ['画面にふれて左右に動かし、指をはなすと玉が落ちる。', '玉は釘やちょうちんに当たるたびに値がふえ、下の桝に入ると得点になる。',
-  '桝に入るたびに「勢い」が上がる。あとから落とす玉ほど高得点。', '突破で札1枚。各ステージで最初に落とした持ち玉が1個でノルマ以上なら、札を1枚追加。次のノルマの100倍以上なら飛び級でさらに1枚。',
+  '桝に入るたびに「勢い」が上がる。あとから落とす玉ほど高得点。', '突破で札1枚。最初の投入から増えた玉も含め、1投目の合計がノルマ以上で一発突破の札を1枚追加。次のノルマの100倍以上なら飛び級でさらに1枚。',
   'ちょうちんは好きな場所に置ける。上で足して、下で掛けるのがコツ。落とす場所の真下は、どの玉も当たる特等席。', '万、億、兆と桁を上げて、無量大数の先にある「桁外れ」を目指そう。'];
 function openRanking() {
   ranking = rankLists([...rankingEntries().values()]);
