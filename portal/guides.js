@@ -3,7 +3,7 @@
   // Written from the games' current instructions and source, not inferred from their names.
   const rows = {
     'mirai-town': [
-      ['最初に1200コインを受け取り、毎月300コインのおこづかいが入ります。貯金・おかし屋さんの株・いろいろ会社セットから選んで買い、12か月の町の変化を体験します。', '毎月ニュースで値段が上下します。4・8・12か月目のクイズにも挑戦。増え方だけでなく、損をする可能性や分けて持つ意味も考えてみましょう。実際のお金は使いません。'],
+      ['街の大きな画面で車や人が動くのを見ながら遊びます。初めに1200コイン、毎月300コインを受け取り、おかし屋さんやいろいろ会社セットに投資すると建物が成長します。', '街をタップすると建物の説明が出ます。＋と−で街の表示を調整できます。毎月ニュースで投資額が上下し、4・8・12か月目にはクイズがあります。実際のお金は使いません。'],
       ['Start with 1,200 coins and receive 300 more each month. Choose between savings, candy-shop shares and a diversified set of companies, then play through a year.', 'Monthly news changes prices. Try the quizzes in months 4, 8 and 12, and notice that investing can lose value as well as gain it. No real money is involved.'],
       ['从1200金币开始，每月再获得300金币。选择储蓄、糖果店股票或多家公司组合，体验12个月的小镇变化。', '每月的新闻会让价格上涨或下跌。第4、8、12个月有小测验。留意投资可能亏损，也思考分散投资的意义。本游戏不使用真钱。'],
       ['Comienza con 1200 monedas y recibe 300 cada mes. Elige entre ahorros, acciones de una tienda de dulces o una cesta de empresas y juega doce meses.', 'Las noticias mensuales hacen subir o bajar los precios. Responde preguntas en los meses 4, 8 y 12 y aprende que una inversión también puede perder valor. No se usa dinero real.']
