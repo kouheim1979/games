@@ -65,3 +65,65 @@
 }
 @media(max-width:365px){.city-actions button{font-size:10px}.city-hint{max-width:56%}}
 @media(prefers-reduced-motion:reduce){.city-splash.show span{animation:none}.city-splash{transition:none}}
+
+
+/* City Builder v4 — town is the center of the game */
+body{background:linear-gradient(170deg,#dff6f1 0%,#f2f9f3 35%,#f6f3e9 100%)}
+.app{padding-top:12px}
+.topbar{background:#ffffffcf;box-shadow:0 8px 24px #1f68691b;border:1px solid #e6efec;padding:10px 15px;border-radius:17px}
+.hero{background:linear-gradient(117deg,#163e64,#145c75 60%,#2a8b87);box-shadow:0 15px 38px #12506b32}
+.city-panel{background:#fff;box-shadow:0 15px 48px #194e6730;border:1px solid #e7eef0;padding:14px}
+.city-panel .panel-header h2{font-weight:1000;color:#1d465b;letter-spacing:-.04em}
+.city-canvas-wrap{background:#b4dfde;box-shadow:0 11px 26px #164b6e38;border:3px solid #a0c9d9}
+.city-chip{border:1px solid #fff9;box-shadow:0 8px 24px #16486727;min-width:114px}
+.city-hint{background:#123f5deb;box-shadow:0 4px 15px #07354e44}
+.city-info{padding:12px 4px 0}
+.city-info .city-life{display:inline-flex;align-items:center;gap:3px;background:#e6f8f1;color:#1e796e;padding:8px 11px;border-radius:12px;font-size:12px;font-weight:900}
+.city-info .city-life strong{font-size:15px;color:#087a72}
+.city-actions{margin-top:13px;gap:10px}
+.city-actions button{border-radius:15px;min-height:58px;box-shadow:0 5px 0 #001c2425;transition:transform .12s}
+.city-actions .city-invest{background:linear-gradient(135deg,#ff9cae,#d94b8b)}
+.city-actions .city-diverse{background:linear-gradient(135deg,#5db9c4,#337bac)}
+.city-actions .city-next{background:linear-gradient(135deg,#ffe49a,#facb65);color:#5c491d}
+.city-actions button:disabled{filter:grayscale(.9);opacity:.4;cursor:not-allowed}
+.city-building-workshop{background:linear-gradient(130deg,#f4fbff,#eef9f5 64%,#fff6e6);border:1.5px solid #cce8e4;border-radius:19px;padding:12px 14px 14px;margin:13px 0 1px;box-shadow:0 4px 15px #225d6c0b}
+.city-workshop-top{display:flex;gap:10px;align-items:center;justify-content:space-between}
+.city-workshop-heading{display:flex;align-items:center;gap:9px;min-width:0}
+.city-workshop-heading>div{min-width:0}
+.city-workshop-icon{display:grid;place-items:center;width:44px;height:44px;background:#fff;box-shadow:0 3px 9px #2a637122;border-radius:12px;font-size:25px;flex-shrink:0}
+.city-workshop-heading strong{display:block;color:#24516e;font-size:clamp(14px,2vw,17px);font-weight:950}
+.city-workshop-heading small{display:block;color:#627d8c;line-height:1.45;font-size:10px;font-weight:730}
+.city-ticket{background:#fff0bb;color:#8a5d23;box-shadow:0 3px 9px #ac7c2320;padding:9px 12px;border-radius:12px;white-space:nowrap;font-size:16px;font-weight:1000}
+.city-lot-status{color:#42758a;background:#ffffffb7;border:1px dashed #a9d3d4;border-radius:11px;padding:9px 12px;margin:11px 0 10px;font-size:12px;font-weight:900;line-height:1.45}
+.city-build-buttons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}
+.city-build-buttons button{padding:11px 4px 9px;border-radius:13px;background:white;border:2px solid #daebeb;color:#34576e;min-width:0;display:flex;flex-direction:column;align-items:center;gap:4px;min-height:69px;font-size:26px;box-shadow:0 4px 10px #20567713;cursor:pointer;transition:transform .12s,background .12s,border-color .12s}
+.city-build-buttons button span{font-size:12px;font-weight:900}
+.city-build-buttons button:not(:disabled):hover{transform:translateY(-3px);border-color:#6fbdb2;background:#f0fff8}
+.city-build-buttons button:not(:disabled):active{transform:translateY(1px)}
+.city-build-buttons button:disabled{opacity:.43;filter:grayscale(.68);cursor:not-allowed}
+.city-building-workshop.just-built{animation:workshopShine .85s ease-out}
+@keyframes workshopShine{0%{box-shadow:0 0 0 0 #ffc64caa}60%{box-shadow:0 0 0 9px #ffc64c00}100%{box-shadow:0 0 0 0 transparent}}
+.city-education{background:#f8fafb;border-radius:10px;margin-top:12px;padding:10px 12px;font-size:10px}
+.city-panel .city-splash{z-index:4}
+@media(min-width:850px){.city-panel{padding:20px}.city-canvas-wrap{height:clamp(540px,52vw,700px)}}
+@media(max-width:740px){
+ .hero{padding:12px 15px}.hero h1{font-size:21px}.hero .eyebrow{font-size:10px}
+ .hero .hero-grid p:not(.eyebrow){font-size:11px}
+ .hero .progress-info{margin-top:11px}
+ .city-panel{padding:9px}
+ .city-canvas-wrap{height:clamp(430px,68vh,650px);border-width:2px}
+ .city-building-workshop{padding:10px;margin-top:10px;border-radius:14px}
+ .city-workshop-icon{height:36px;width:36px;font-size:21px}
+ .city-workshop-heading strong{font-size:13px}
+ .city-workshop-heading small{font-size:9px}
+ .city-ticket{font-size:13px;padding:7px 8px}
+ .city-lot-status{font-size:11px;padding:7px 9px;margin:8px 0}
+ .city-build-buttons{gap:6px}
+ .city-build-buttons button{font-size:21px;min-height:59px;padding:7px 2px}
+ .city-build-buttons button span{font-size:10px}
+ .city-actions{gap:6px;margin-top:9px}
+ .city-actions button{font-size:12px;min-height:57px}
+ .city-education{font-size:9px}
+ .city-life{font-size:11px}
+}
+@media(prefers-reduced-motion:reduce){.city-building-workshop.just-built{animation:none}}
