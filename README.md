@@ -11,6 +11,7 @@
 | [hitori-shiritori](hitori-shiritori/) | ひとりしりとり |
 | [jintori](jintori/) | 完璧な日本地図ウルフ |
 | [ketahazure](ketahazure/) | 桁外れ |
+| [ketahazure2](ketahazure2/) | 桁外れ2 |
 | [kokon-tozai](kokon-tozai/) | 古今東西ドライブ |
 | [kotowaza](kotowaza/) | ことばクエスト 〜慣用句・ことわざ・古事成語バトル〜 |
 | [lunch-roulette](lunch-roulette/) | ランチルーレット |
@@ -27,7 +28,7 @@
 | [word-wolf2](word-wolf2/) | ワードウルフ |
 | [yakitori](yakitori/) | やきとり ならべ |
 
-初期収録のゲームは元のリポジトリからコピーしたものです（`atama-oshiri` と `yakitori` は `launch-roulette` リポジトリ内から）。`ketahazure` はこのリポジトリで作った新作で、公開ポータル（`portal/catalog.js`）に掲載しています。ゲーム画面は日本語です。
+初期収録のゲームは元のリポジトリからコピーしたものです（`atama-oshiri` と `yakitori` は `launch-roulette` リポジトリ内から）。`ketahazure` はこのリポジトリで作った新作で、公開ポータル（`portal/catalog.js`）に掲載しています。 `ketahazure2` は釘を自分で置く続編です。ゲーム画面は日本語です。
 
 ## 診断パーク（tools/）
 
