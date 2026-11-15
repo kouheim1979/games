@@ -282,33 +282,32 @@ test('releasing outside the board or cancelling pointer capture preserves the ba
   }
 });
 
-test('manual and automatic placement cap split lanterns at four while allowing upgrades', () => {
-  const { G, CARDS, api, render, tap, labels } = bootGame();
-  const [second, third, fourth, blocked] = G.pegs.filter(peg => peg.type === 'n');
-  second.type = third.type = 's';
+test('upper-rarity split cards allow manual and automatic placement beyond four lanterns', () => {
+  const { G, CARDS, api, render, tap } = bootGame();
+  const [second, third, fourth, fifth] = G.pegs.filter(peg => peg.type === 'n');
+  second.type = third.type = fourth.type = 's';
+  for (const peg of G.pegs) if (peg.type === 's') peg.lv = 3;
   api.stageClear();
   api.afterClear();
   const card = CARDS.find(entry => entry.id === 's2');
+  assert.equal(CARDS.find(entry => entry.id === 's1').rar, 1);
+  assert.equal(card.rar, 2);
+  assert.equal(api.countType('s'), 4);
+  assert.ok(api.makeOffer(CARDS.length).some(o => o.c.t === 's'));
   G.offer = [{ c: card, name: '分裂ちょうちん', desc: '', lv: 1, n: 2 }];
   render();
   tap('card0');
   assert.equal(G.phase, 'place');
   assert.deepEqual(Array.from(G.picks), ['s2']);
-  api.placeAt(fourth);
-  api.placeAt(blocked);
-  assert.equal(api.countType('s'), 4);
-  assert.equal(blocked.type, 'n');
+  api.placeAt(fifth);
+  assert.equal(fifth.type, 's');
+  assert.equal(api.countType('s'), 5);
   assert.equal(G.placing.left, 1);
-  assert.equal(api.suggestPeg('s').type, 's');
+  fifth.lv = 3;
   render();
-  assert.ok(labels.includes('盤面の分裂 4 / 4個'));
   tap('auto');
   assert.equal(G.stage, 2);
-  assert.equal(api.countType('s'), 4);
-  assert.ok(G.pegs.some(peg => peg.type === 's' && peg.lv === 2));
-  for (const peg of G.pegs) if (peg.type === 's') peg.lv = 3;
-  assert.equal(api.suggestPeg('s'), null);
-  assert.ok(api.makeOffer(CARDS.length).every(o => o.c.t !== 's'));
+  assert.equal(api.countType('s'), 6);
 });
 
 test('every board has distinct peg positions and detects collisions at those positions', () => {

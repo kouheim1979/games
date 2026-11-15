@@ -238,7 +238,7 @@ const fmtQ = v => fmtN(v, false, true).replace(/(\.\d*?)0+(?=[^\d]|$)/, '$1').re
 const BAL = {
   ballV0: 10, nailAdd: 10, addVal: 60, rateStep: 0.06, feverNeed: 30, feverBalls: 6, feverAdd: 2, feverRate: 1, balls: 5, maxJump: 1, rateSoft: 200,
   g: 1500, maxBalls: 140, noFail: false, jumpMul: 100, xLvDiv: 5, qLate: 3.7, qAcc: 0.125,
-  growBase: 1.2, growStep: 0.1, festivalGauge: 6, festivalValue: 30, maxSplitPegs: 4
+  growBase: 1.2, growStep: 0.1, festivalGauge: 6, festivalValue: 30
 };
 // ノルマの表（10の何乗か）。自動プレイで測った伸び方に合わせてある。23ステージ目からは式でのばす
 const QT = [3.5, 3.7, 3.85, 4.0, 4.15, 4.3, 4.5, 4.75, 5.05, 5.4, 5.8, 6.3, 6.9, 7.6, 8.4, 9.3, 10.5, 12.2, 14.4, 17.1, 20.3, 23.75];
@@ -824,8 +824,8 @@ const CARDS = [
   { id: 'x2', k: 'peg', t: 'x', n: 2, rar: 0, core: 1, grow: 1, w: 1.6 },
   { id: 'x4', k: 'peg', t: 'x', n: 4, rar: 1, core: 1, grow: 1 },
   { id: 'X3', k: 'peg', t: 'x', n: 3, lv: 2, rar: 2, core: 1, grow: 1 },
-  { id: 's1', k: 'peg', t: 's', n: 1, rar: 0 },
-  { id: 's2', k: 'peg', t: 's', n: 2, rar: 1 },
+  { id: 's1', k: 'peg', t: 's', n: 1, rar: 1 },
+  { id: 's2', k: 'peg', t: 's', n: 2, rar: 2 },
   { id: 'f2', k: 'peg', t: 'f', n: 2, rar: 0 },
   { id: 'g2', k: 'peg', t: 'g', n: 2, rar: 1, core: 1 },
   { id: 'd2', k: 'peg', t: 'd', n: 2, rar: 1, core: 1 },
@@ -873,16 +873,15 @@ const doneStages = () => Math.max(1, (G.nextStage || G.stage + 1) - 1);
 const lvCap = () => Math.max(3, doneStages() + 1);       // ちょうちんのLvは、これから遊ぶステージの数まで
 const addLv = (p, n) => { p.lv = Math.min(lvCap(), p.lv + n); p.flash = 1; };
 const pegLv = (t, base) => (base || 1) + Math.floor(doneStages() / (t === 'x' ? BAL.xLvDiv : t === 'a' ? 4 : 10));
-const canAddPeg = type => type !== 's' || countType('s') < BAL.maxSplitPegs;
 function hasPlacement(type) {
-  const cap = lvCap(), canAdd = canAddPeg(type);
-  return G.pegs.some(p => p.type === type ? p.lv < cap : canAdd);
+  const cap = lvCap();
+  return G.pegs.some(p => p.type !== type || p.lv < cap);
 }
 function pegDesc(t, lv) {
   switch (t) {
     case 'a': return `当たった玉の値に +${fmtS(BAL.addVal * lv)}。上のほうに置くと、あとの掛け算がよく効く。`;
     case 'x': return `当たった玉の値を${fmtS(xMul(lv))}倍にする。重ねるとLvが上がり、${lv > 1 ? 'さらに' : '3倍、4倍、6倍と'}強くなる。`;
-    case 's': return `当たった玉が${lv + 1}つに分かれる。値はそのまま。盤面に${BAL.maxSplitPegs}個まで。`;
+    case 's': return `当たった玉が${lv + 1}つに分かれる。値はそのまま。`;
     case 'z': return `当たると雷が飛び、はなれたちょうちん${2 + lv}つを発動する（Lv1の強さで）。`;
     case 'g': return `値を${BAL.growBase}倍にする。当たるたびに倍率が${(BAL.growStep * lv).toFixed(1)}ずつ育ち、ずっと残る。`;
     case 'w': return lv > 1 ? `当たった玉を一番上へもどす。値をもったまま落ち直す。1つの玉に${lv}回まで。` : PT.w.desc;
@@ -956,18 +955,18 @@ function traffic(p, a) {
 const BAND = { a: [0, 2], s: [0, 2], x: [3, 9], g: [3, 9], d: [3, 9], b: [2, 9], z: [1, 6], w: [7, 9], f: [1, 6] };
 // 「おまかせ」と「おすすめ」の置き場所。足し算と分裂は上、掛け算は下。よく当たる釘から先に埋めて、うまったら重ねる
 function suggestPeg(type, onlyNail) {
-  const a = dropSpot(), cap = lvCap(), band = BAND[type] || [0, 9], lv = G.placing ? G.placing.lv : 1, canAdd = canAddPeg(type);
+  const a = dropSpot(), cap = lvCap(), band = BAND[type] || [0, 9], lv = G.placing ? G.placing.lv : 1;
   let best = null, bs = -1;
   for (let pass = 0; pass < 2 && !best; pass++) {
     for (const p of G.pegs) {
-      if (p.type === 'n' ? !canAdd : onlyNail || p.type !== type || p.lv >= cap) continue;
+      if (p.type !== 'n' && (onlyNail || p.type !== type || p.lv >= cap)) continue;
       if (pass === 0 && (p.r < band[0] || p.r > band[1])) continue;
       let sc = traffic(p, a) * (p.type === 'n' ? 1 + lv : Math.min(lv, cap - p.lv)) + Math.random() * 0.004;
       if (type === 'b') { let nb = 0; for (const q of G.pegs) if (q !== p && isMul(q)) { const dx = q.x - p.x, dy = q.y - p.y; if (dx * dx + dy * dy < 76 * 76) nb++; } sc *= 1 + nb; }
       if (sc > bs) { bs = sc; best = p; }
     }
   }
-  return best || (canAdd && !onlyNail ? G.pegs.find(p => p.type !== type) : null);
+  return best || (!onlyNail ? G.pegs.find(p => p.type !== type) : null);
 }
 const aimClamp = x => clamp(x, WALL_L + BALL_R + 6, WALL_R - BALL_R - 6);
 // ねらいは上2段の釘の真上に吸いつく（指でも特等席をねらえるように）
@@ -978,7 +977,6 @@ function aimSnap(x) {
 }
 function placementBlock(p, type) {
   if (p.type === type && p.lv >= lvCap()) return 'Lvの上限';
-  if (p.type !== type && !canAddPeg(type)) return '分裂は' + BAL.maxSplitPegs + '個まで';
   return '';
 }
 function placeAt(p) {
@@ -1533,7 +1531,7 @@ function drawPlace() {
   drawPegImage(ctx, P.type, P.lv, 44, y + 31, 56);
   T(PT[P.type].name + 'を置く場所にふれる', 76, y + 27, { size: 19, w: 800 });
   const cap = lvCap(), nl = h ? Math.min(cap, h.lv + P.lv) : 0;
-  const hint = P.type === 's' ? '盤面の分裂 ' + countType('s') + ' / ' + BAL.maxSplitPegs + '個' : 'ふれたまま動かすと場所をえらべる';
+  const hint = 'ふれたまま動かすと場所をえらべる';
   const msg = block || (!h ? hint : h.type === 'n' ? 'ここに置く' : h.type !== P.type ? PT[h.type].name + ' と入れかえる'
     : '重ねて Lv' + nl + ' に強化' + (P.type === 'x' ? '（' + fmtS(xMul(nl)) + '倍）' : '') + (nl >= cap ? ' 上限' : ''));
   T(msg, 76, y + 51, { size: 16, w: 600, col: h ? C.kin : C.dim });
@@ -1592,7 +1590,7 @@ function drawPause() {
 }
 const HELP1 = ['画面にふれて左右に動かし、指をはなすと玉が落ちる。キャンセルするときは、指を画面下のエリアまで動かしてからはなす。', '玉は釘やちょうちんに当たるたびに値がふえ、下の桝に入ると得点になる。',
   '桝に入るたびに「勢い」が上がる。あとから落とす玉ほど高得点。', '突破で札1枚。最初の投入から増えた玉も含め、1投目の合計がノルマ以上で一発突破の札を1枚追加。次のノルマの100倍以上なら飛び級でさらに1枚。',
-  'ちょうちんは好きな場所に置ける。分裂は盤面に' + BAL.maxSplitPegs + '個まで。上で足して、下で掛けるのがコツ。真下の釘がよく当たる特等席。', '万、億、兆と桁を上げて、無量大数の先にある「桁外れ」を目指そう。'];
+  'ちょうちんは好きな場所に置ける。上で足して、下で掛けるのがコツ。真下の釘がよく当たる特等席。', '万、億、兆と桁を上げて、無量大数の先にある「桁外れ」を目指そう。'];
 function openRanking() {
   ranking = rankLists([...rankingEntries().values()]);
   G.help = 3;
