@@ -2,6 +2,12 @@
   'use strict';
   // Written from the games' current instructions and source, not inferred from their names.
   const rows = {
+    'mirai-town': [
+      ['最初に1200コインを受け取り、毎月300コインのおこづかいが入ります。貯金・おかし屋さんの株・いろいろ会社セットから選んで買い、12か月の町の変化を体験します。', '毎月ニュースで値段が上下します。4・8・12か月目のクイズにも挑戦。増え方だけでなく、損をする可能性や分けて持つ意味も考えてみましょう。実際のお金は使いません。'],
+      ['Start with 1,200 coins and receive 300 more each month. Choose between savings, candy-shop shares and a diversified set of companies, then play through a year.', 'Monthly news changes prices. Try the quizzes in months 4, 8 and 12, and notice that investing can lose value as well as gain it. No real money is involved.'],
+      ['从1200金币开始，每月再获得300金币。选择储蓄、糖果店股票或多家公司组合，体验12个月的小镇变化。', '每月的新闻会让价格上涨或下跌。第4、8、12个月有小测验。留意投资可能亏损，也思考分散投资的意义。本游戏不使用真钱。'],
+      ['Comienza con 1200 monedas y recibe 300 cada mes. Elige entre ahorros, acciones de una tienda de dulces o una cesta de empresas y juega doce meses.', 'Las noticias mensuales hacen subir o bajar los precios. Responde preguntas en los meses 4, 8 y 12 y aprende que una inversión también puede perder valor. No se usa dinero real.']
+    ],
     WaterSortPuzzle: [
       ['移したい瓶、移し先の瓶の順にタップします。一番上で連続している同じ色の水を、空の瓶か同じ色の上へ注ぎ、瓶ごとに一色にそろえます。', '空き瓶は水を一時的に逃がす場所です。目先の色だけをまとめず、次に動かせる場所を残してみましょう。困ったらゲーム内の遊び方を確認できます。'],
       ['Tap a source bottle, then a destination. The matching layers at the top pour into an empty bottle or onto the same color. Sort each bottle into one color.', 'Keep room to move. An empty bottle can hold water temporarily while you uncover another color. Open the in-game help if you need the full rules.'],
