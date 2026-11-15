@@ -125,17 +125,61 @@ test('the displayed quota and mathematically equal pocket scores qualify at the 
   collect(2, 2);
 });
 
-test('split balls are scored individually and one-shot bonuses reset each stage', () => {
+test('a second drop never earns the one-shot bonus, including when it lands first', () => {
+  const { G, drop, settle, render, collect, labels } = bootGame();
+  settle([drop()], [100]);
+  settle([drop()], [G.quota]);
+  render();
+  assert.ok(labels.includes('1玉目の得点 100'));
+  assert.ok(!labels.includes('一発突破　札 +1枚'));
+  collect(1, 2);
+
+  const first = drop(), second = drop();
+  settle([second], [G.quota]);
+  assert.equal(G.cleared, true);
+  render();
+  assert.ok(!labels.includes('一発突破　札 +1枚'));
+  settle([first], [100]);
+  collect(1, 3);
+
+  const firstOfStage3 = drop(), secondOfStage3 = drop();
+  settle([secondOfStage3], [G.quota]);
+  settle([firstOfStage3], [G.quota]);
+  collect(2, 4);
+});
+
+test('extra balls do not take the first ball’s place', () => {
   const { G, api, drop, settle, collect } = bootGame();
   const peg = G.grid[1][3], ball = drop(peg.x);
   assert.equal(peg.type, 's');
   Object.assign(ball, { y: peg.y - 22, vx: 0, vy: 380 });
   api.update(1 / 60);
   assert.equal(G.balls.length, 2);
-  settle([...G.balls], [G.quota * 0.49, G.quota * 0.49]);
-  assert.equal(G.cleared, true);
+  const splitBall = G.balls.find(other => other !== ball);
+  settle([splitBall], [G.quota]);
+  settle([ball], [100]);
+  collect(1, 2);
 
-  // 後続の玉も対象。何個達成しても、同じステージで追加する札は1枚。
+  G.rel.twin = 1;
+  const twin = drop(), original = G.balls[0];
+  assert.equal(G.balls.length, 2);
+  settle([twin], [G.quota]);
+  settle([original], [100]);
+  collect(1, 3);
+
+  G.rel.twin = 0;
+  const first = drop();
+  Object.assign(G.fever, { on: true, count: 0, total: 1, spawnT: 0 });
+  api.update(1 / 60);
+  const festivalBall = G.balls.find(other => other.fever);
+  assert.ok(festivalBall);
+  settle([festivalBall], [G.quota]);
+  settle([first], [100]);
+  collect(1, 4);
+});
+
+test('each stage awards its first ball and the flyover bonus independently', () => {
+  const { G, api, drop, settle, collect } = bootGame();
   settle([drop(), drop()], [G.quota, G.quota]);
   collect(2, 2);
 
