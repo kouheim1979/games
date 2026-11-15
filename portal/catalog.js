@@ -9,6 +9,9 @@
   });
   // This is the owner's curated collection, not every directory in the repo.
   const games = [
+    entry('mirai-town', 'green', ['learn'],
+      ['コインでそだてる！みらいタウン', 'Mirai Town: Grow Your Coins', '未来小镇：让金币成长', 'Villa Futuro: Haz crecer tus monedas'],
+      ['小4から遊べる投資ゲーム。貯金・株・分散投資を選び、12か月のニュースやクイズで学ぼう。', 'An investing game for children: choose savings, shares or diversified funds and learn from 12 months of events and quizzes.', '面向小学四年级的理财游戏。体验储蓄、股票和分散投资，用12个月的事件与问答学习。', 'Un juego de inversión para niños: elige ahorros, acciones o fondos diversificados y aprende con doce meses de noticias y preguntas.'], false),
     entry('WaterSortPuzzle', 'violet', ['puzzle'],
       ['Water Sort Puzzle', 'Water Sort Puzzle', '彩水分类拼图', 'Water Sort Puzzle'],
       ['色水を注いで、同じ色をひとつの瓶に。ゆっくり考えたい日のパズル。', 'Pour, sort and bring matching colors together. A quiet puzzle for a little thinking time.', '倒出彩水，把相同颜色集中到一个瓶子里。静下心来，享受思考的乐趣。', 'Vierte y agrupa los colores en sus frascos. Un rompecabezas para pensar con calma.']),
