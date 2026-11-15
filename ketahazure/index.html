@@ -116,25 +116,36 @@ const shade = (h, k) => { const c = hex(h).map(v => Math.round(k < 0 ? v * (1 + 
 // ───────── 数の読み方（命数法） ─────────
 const UNITS = ['', '万', '億', '兆', '京', '垓', '𥝱', '穣', '溝', '澗', '正', '載', '極', '恒河沙', '阿僧祇', '那由他', '不可思議', '無量大数'];
 const KETA_IDX = UNITS.length;            // 無量大数の次＝桁外れ
+// 倍率の計算で生じる浮動小数点の誤差を、境界の比較で吸収する。
+const scoreAtLeast = (score, goal) => goal - score <= goal * (4 * Number.EPSILON);
+const displayInt = (value, up) => {
+  const error = value * Number.EPSILON;
+  return up ? Math.ceil(value - error) : Math.floor(value + error);
+};
 const unitName = u => u >= KETA_IDX ? '桁外れ' : UNITS[u];
 function unitIdx(v) { if (!(v >= 1e4)) return 0; return Math.min(KETA_IDX, Math.floor(Math.log10(v) / 4 + 1e-9)); }
 function commas(n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
 // 「5万5千」「12億3千万」のように、上の単位に千の位をつけて読む（小数は使わない）。up なら切り上げ（ノルマ用）、そうでなければ切り捨て（得点用）
 function readJa(m, u, up) {
   let a, b = 0;
-  if (m >= 1000) a = up ? Math.ceil(m - 1e-6) : Math.floor(m + 1e-6);
-  else { const t = up ? Math.ceil(m * 10 - 1e-6) : Math.floor(m * 10 + 1e-6); a = Math.floor(t / 10); b = t % 10; }
+  if (m >= 1000) a = displayInt(m, up);
+  else { const t = displayInt(m * 10, up); a = Math.floor(t / 10); b = t % 10; }
   if (a < 1) { a = 1; b = 0; }
   if (a >= 10000) { u++; a = 1; b = 0; if (u >= KETA_IDX) return '10の72乗'; }
   return a + UNITS[u] + (b ? b + '千' + UNITS[u - 1] : '');
 }
 function fmtN(v, short, up) {
   if (!(v === v) || v < 0) v = 0;
-  if (v < 1e4) return commas(up ? Math.ceil(v - 1e-6) : Math.floor(v + 1e-6));
+  if (v < 1e4) return commas(displayInt(v, up));
   let u = unitIdx(v);
+  if (!short && !scoreAtLeast(v, 10 ** (u * 4))) u--;
   if (u >= KETA_IDX) {                       // 無量大数をこえたら「10の何乗」で書く
-    const e = Math.floor(Math.log10(v) + 1e-9);
-    return short ? '10の' + e + '乗' : (v / Math.pow(10, e)).toFixed(2) + '×10の' + e + '乗';
+    let e = Math.floor(Math.log10(v) + 1e-9);
+    if (short) return '10の' + e + '乗';
+    if (!scoreAtLeast(v, 10 ** e)) e--;
+    const cents = displayInt(v / (10 ** e) * 100, up);
+    if (cents >= 1000) return '1.00×10の' + (e + 1) + '乗';
+    return (cents / 100).toFixed(2) + '×10の' + e + '乗';
   }
   let m = v / Math.pow(10, u * 4);
   if (!short) return readJa(m, u, up);
@@ -146,7 +157,6 @@ function fmtN(v, short, up) {
 }
 const fmt = v => fmtN(v, false), fmtS = v => fmtN(v, true);
 const fmtQ = v => fmtN(v, false, true).replace(/(\.\d*?)0+(?=[^\d]|$)/, '$1').replace(/\.(?=[^\d]|$)/, '');     // ノルマ用。切り上げて、きりのいい数は「22万」のように短く
-function roundSig(v, n) { if (!(v > 0)) return 0; const p = Math.pow(10, Math.floor(Math.log10(v)) - (n - 1)); return Math.round(v / p) * p; }
 
 // ───────── 調整用の数字 ─────────
 const BAL = {
@@ -192,7 +202,7 @@ const G = {
   rate: 1, combo: 0, comboT: 0, landed: 0,
   fever: { gauge: 0, need: BAL.feverNeed, on: false, count: 0, total: 0, spawnT: 0, inStage: 0 },
   rel: {}, relOrder: [], rerolls: 1, offer: null, peek: false, placing: null, hover: null, picks: [], picksLeft: 0, nextStage: 0,
-  cleared: false, oneShot: false, endT: 0, clearT: 0, clearInfo: null, overT: 0, ended: false, newRec: false,
+  cleared: false, stageBestHit: 0, endT: 0, clearT: 0, clearInfo: null, overT: 0, ended: false, newRec: false,
   stats: { bestHit: 0, hits: 0, fevers: 0 }, runBest: 0, unitIdx: 0, stamps: [], banner: null,
   speed: 1, paused: false, help: 0, quitArm: 0, hitstop: 0, shake: 0, flash: 0, dropCd: 0, demoT: 0,
   aim: { x: W / 2, on: false, snap: false }, headless: false
@@ -354,7 +364,7 @@ function computePockets() {
 
 // ───────── ステージの流れ ─────────
 function quotaLog(n) { if (n <= QT.length) return QT[n - 1]; const m = n - QT.length; return QT[QT.length - 1] + BAL.qLate * m + BAL.qAcc * m * (m - 1); }
-function quotaFor(n) { return roundSig(Math.pow(10, Math.min(300, quotaLog(n))), 2); }
+function quotaFor(n) { return Number((10 ** Math.min(300, quotaLog(n))).toPrecision(2)); }
 const ballV0 = () => BAL.ballV0 * (G.rel.odama ? Math.pow(4, G.rel.odama) : 1);
 function feverNeed() { return Math.max(10, Math.round(BAL.feverNeed * Math.pow(1.6, G.fever.inStage) * (G.rel.suki ? Math.pow(0.75, G.rel.suki) : 1))); }
 function setBanner(a, b, dur, col) { G.banner = { a, b, t: 0, dur, col }; }
@@ -374,7 +384,7 @@ function startStage(n) {
   G.stage = n; G.quota = quotaFor(n); G.score = 0; G.shown = 0;
   G.rate = 1 + 0.5 * (G.rel.keiki || 0); G.combo = 0; G.comboT = 0; G.landed = 0;
   G.ballsMax = BAL.balls + (G.rel.ball || 0); G.ballsLeft = G.ballsMax;
-  G.cleared = false; G.oneShot = false; G.endT = 0; G.balls.length = 0; G.spawn.length = 0; G.acc = 0;
+  G.cleared = false; G.stageBestHit = 0; G.endT = 0; G.balls.length = 0; G.spawn.length = 0; G.acc = 0;
   const f = G.fever; f.inStage = 0; f.on = false; f.need = feverNeed(); f.gauge = Math.min(Math.max(f.gauge, G.rel.zenya ? f.need / 2 : 0), f.need);
   G.placing = null; G.hover = null; G.offer = null; G.dropCd = 0.35;
   computePockets(); G.aim.x = aimClamp(dropSpot().x); G.aim.on = false;
@@ -535,29 +545,35 @@ function stepBalls(h) {
   let w = 0; for (let i = 0; i < bs.length; i++) if (!bs[i].dead) bs[w++] = bs[i];
   bs.length = w;
 }
+const hasOneShot = () => G.stageBestHit >= G.quota;
 function land(b, k) {
   b.dead = true;
   const pk = G.pockets[k]; pk.flash = 1;
   if (G.phase !== 'play') { if (!G.headless) spark(b.x, L.pocketTop + 22, C.kin, 5, 140, 0.4, 2); return; }
   const R = G.rel;
   let gain = b.v * pk.mult * G.rate; if (!(gain < 1e300)) gain = 1e300;
-  const oneShot = !G.oneShot && gain >= G.quota;
-  if (oneShot) G.oneShot = true;
+  if (gain < G.quota && scoreAtLeast(gain, G.quota)) gain = G.quota;
+  const oneShot = !hasOneShot() && gain >= G.quota;
+  G.stageBestHit = Math.max(G.stageBestHit, gain);
   G.score = Math.min(1e300, G.score + gain);
   if (gain > G.stats.bestHit) G.stats.bestHit = gain;
   G.rate = Math.min(1e250, G.rate * (1 + (BAL.rateStep + 0.03 * (R.oikaze || 0)) * (G.fever.on ? BAL.feverRate : 1) / (1 + G.landed / BAL.rateSoft)));
   G.landed++;
   if (!G.headless) {
     const frac = gain / G.quota, tier = frac < 0.02 ? 0 : frac < 0.1 ? 1 : frac < 0.3 ? 2 : frac < 1 ? 3 : 4;
-    const cx = WALL_L + (k + 0.5) * PW;
-    fxText(cx, L.pocketTop - 8, '+' + fmtS(gain), tier >= 2 ? C.kin : C.haku, 17 + tier * 4, tier >= 2 ? 1.5 : 1);
+    const cx = WALL_L + (k + 0.5) * PW, size = 17 + tier * 4;
+    const points = '+' + fmt(gain);
+    ctx.font = `900 ${size * 1.1}px ${F_B}`;
+    const inset = Math.min(W / 2, ctx.measureText(points).width / 2 + 4);
+    fxText(clamp(cx, inset, W - inset), L.pocketTop - 8, points, tier >= 2 ? C.kin : C.haku, size, tier >= 2 ? 1.5 : 1);
     spark(cx, L.pocketTop + 16, tier >= 2 ? C.kin : '#ffe9a8', 6 + tier * 5, 190 + tier * 40, 0.5, 2.4);
     S.cash(tier);
     if (tier >= 3) { addShake(4 + tier * 2); S.big(); G.hitstop = Math.max(G.hitstop, 0.05); firework(cx, L.pocketTop - 110, pick([C.kin, C.shu, C.asagi, C.momo])); buzz(25); }
     if (oneShot) fxText(W / 2, L.row0 + 200, '一発突破　札 +1', C.shu, 40, 2);
   }
   checkUnits();
-  if (!G.cleared && G.score >= G.quota) {
+  if (!G.cleared && scoreAtLeast(G.score, G.quota)) {
+    G.score = Math.max(G.score, G.quota);
     G.cleared = true;
     if (!G.headless) { setBanner('ノルマ達成', G.ballsLeft > 0 ? 'のこりの玉は落としても、次へ進んでもいい' : '', 1.5, C.kin); S.clear(); G.flash = 0.35; }
   }
@@ -619,18 +635,19 @@ function saveBest() {
 }
 function clearReward() {
   let jump = 0;
-  while (jump < BAL.maxJump && G.score >= BAL.jumpMul * quotaFor(G.stage + 1 + jump)) jump++;
-  return { jump, cards: 1 + jump + Number(G.oneShot) };
+  while (jump < BAL.maxJump && scoreAtLeast(G.score, BAL.jumpMul * quotaFor(G.stage + 1 + jump))) jump++;
+  const oneShot = hasOneShot();
+  return { jump, oneShot, cards: 1 + jump + Number(oneShot) };
 }
 function stageClear() {
   if (G.phase !== 'play') return;
   const R = G.rel, ratio = G.score / G.quota, left = Math.min(G.ballsLeft, 3);
-  const { jump, cards } = clearReward();
+  const { jump, oneShot, cards } = clearReward();
   G.rerolls += left;
   let ups = 0;
   const fuku = () => { const xs = G.pegs.filter(p => p.type === 'x' && p.lv < lvCap()); for (let k = 0; k < 2 * R.fukuri && xs.length; k++) { addLv(pick(xs), 1); ups++; } };
   if (R.fukuri) fuku();
-  G.clearInfo = { ratio, left, jump, cards, ups }; G.picksLeft = cards; G.nextStage = G.stage + 1 + jump;
+  G.clearInfo = { ratio, left, jump, oneShot, cards, ups }; G.picksLeft = cards; G.nextStage = G.stage + 1 + jump;
   for (let j = 0; j < jump && R.fukuri; j++) fuku();
   G.clearInfo.ups = ups;
   G.phase = 'clear'; G.clearT = 0; G.balls.length = 0; G.spawn.length = 0; G.fever.on = false; G.aim.on = false;
@@ -1054,6 +1071,11 @@ function drawFx() {
 function drawHud() {
   const y0 = L.hud, f = G.fever;
   T('ステージ ' + G.stage, 16, y0 + 37, { size: 22, w: 800 });
+  if (G.stageBestHit > 0) {
+    const oneShot = hasOneShot();
+    const label = oneShot ? '一発突破　札 +1枚' : '玉1個の最高 ' + fmt(G.stageBestHit);
+    T(label, W - 176, y0 + 36, { size: 15, w: 800, align: 'right', col: oneShot ? C.kin : C.dim });
+  }
   button('spd', W - 16 - 60 - 8 - 70, y0 + 8, 70, 42, '速×' + G.speed, { size: 17 }, cycleSpeed);
   button('menu', W - 16 - 60, y0 + 8, 60, 42, '', { icon: (x, y, w, h) => { ctx.fillStyle = C.haku; for (let i = -1; i <= 1; i++) ctx.fillRect(x + w / 2 - 11, y + h / 2 - 1.5 + i * 7, 22, 3); } }, () => { G.paused = true; G.quitArm = 0; G.aim.on = false; });
   const sc = fmt(G.shown);
@@ -1199,9 +1221,9 @@ function drawClear() {
   T(ci.jump ? '飛び級' : '突破', W / 2, cy + 20, { size: 88, fam: F_D, w: 900, align: 'center', col: ci.jump ? C.kin : C.haku });
   T('達成率 ' + pct(ci.ratio), W / 2, cy + 78, { size: 28, w: 900, align: 'center', col: C.kin });
   const lines = ['もらえる札 ' + ci.cards + '枚'];
-  if (G.oneShot || ci.jump) {
+  if (ci.oneShot || ci.jump) {
     const bonuses = [];
-    if (G.oneShot) bonuses.push('一発突破で +1');
+    if (ci.oneShot) bonuses.push('一発突破で +1');
     if (ci.jump) bonuses.push('飛び級で +' + ci.jump);
     lines.push(bonuses.join('　'));
   }
@@ -1372,7 +1394,7 @@ function drawPause() {
   });
 }
 const HELP1 = ['画面にふれて左右に動かし、指をはなすと玉が落ちる。', '玉は釘やちょうちんに当たるたびに値がふえ、下の桝に入ると得点になる。',
-  '桝に入るたびに「勢い」が上がる。あとから落とす玉ほど高得点。', '突破で札1枚。玉1個でノルマ以上を出すと、各ステージで一発突破の札が1枚追加。次のノルマの100倍以上なら飛び級でさらに1枚。',
+  '桝に入るたびに「勢い」が上がる。あとから落とす玉ほど高得点。', '突破で札1枚。桝に入った玉1個の得点がノルマ以上で、一発突破の札が1枚追加。次のノルマの100倍以上なら飛び級でさらに1枚。',
   'ちょうちんは好きな場所に置ける。上で足して、下で掛けるのがコツ。落とす場所の真下は、どの玉も当たる特等席。', '万、億、兆と桁を上げて、無量大数の先にある「桁外れ」を目指そう。'];
 function openRanking() {
   ranking = rankLists([...rankingEntries().values()]);
