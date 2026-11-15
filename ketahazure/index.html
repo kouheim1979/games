@@ -23,11 +23,74 @@ body{background:var(--sumi);color:var(--hakuji);font-family:var(--font-body);ove
   background:radial-gradient(120% 80% at 50% 0%,var(--yoiyami),var(--sumi))}
 canvas{display:block;touch-action:none;outline:none}
 canvas:focus-visible{outline:2px solid var(--kin);outline-offset:-2px}
+#card-book{
+  width:min(530px,calc(100% - 24px));height:min(740px,calc(100% - 24px));max-height:none;
+  max-width:none;margin:auto;padding:0;border:1px solid #9c8050;border-radius:14px;background:#171b36;
+  color:var(--hakuji);overflow:hidden
+}
+#card-book[open]{display:flex;flex-direction:column}
+#card-book::backdrop{background:rgba(11,14,34,.78)}
+.book-header{padding:14px 14px 12px;border-bottom:1px solid #66583c}
+.book-heading{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.book-heading h1{font:900 28px/1.2 var(--font-display);margin:0}
+.book-total{font-size:12px;color:var(--kin);margin:4px 0 0}
+.book-header button{
+  min-height:44px;padding:6px 10px;border:1px solid #826e50;border-radius:8px;
+  color:var(--hakuji);background:#262946;font:700 14px/1.35 var(--font-body);cursor:pointer
+}
+.book-header button:focus-visible{outline:2px solid var(--kin);outline-offset:2px}
+.book-filters{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin-top:12px}
+.book-filters button{padding-inline:4px}
+.book-filters button[aria-pressed="true"]{color:var(--sumi);background:var(--kin);border-color:var(--kin)}
+.book-scroll{flex:1;min-height:0;overflow:auto;overscroll-behavior:contain;padding:12px 14px 18px}
+.book-note{margin:0 0 10px;color:#ddd6ec;font-size:13px;line-height:1.6}
+.book-list{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.book-card{
+  display:grid;grid-template-columns:42px minmax(0,1fr);gap:10px;align-items:start;padding:10px;
+  background:#f6ecd9;color:#2a2233;border:1px solid #a58c60;border-left:4px solid var(--rarity);border-radius:8px
+}
+.book-card.is-selected{outline:2px solid #a55d24;outline-offset:-4px;background:#fff4d4}
+.book-glyph{
+  display:grid;place-items:center;width:42px;height:42px;border-radius:8px;
+  background:var(--glyph-bg);color:var(--glyph-ink);font:900 24px/1 var(--font-display)
+}
+.book-name{display:flex;align-items:center;flex-wrap:wrap;gap:4px 8px}
+.book-name h2{margin:0;font:900 16px/1.4 var(--font-display)}
+.book-rarity{border:1px solid currentColor;border-radius:4px;color:var(--rarity);font-size:12px;font-weight:800;padding:1px 4px}
+.book-meta{margin:3px 0 0;font-size:12px;font-weight:700;color:#574564}
+.book-effect{margin:5px 0 0;font-size:14px;line-height:1.6}
 noscript{position:fixed;inset:0;display:grid;place-items:center;padding:24px;text-align:center;line-height:1.8}
 </style>
 </head>
 <body>
 <div id="wrap"><canvas id="c" tabindex="0" aria-label="桁外れ ゲーム画面。画面にふれて指をはなすと玉が落ちます。"></canvas></div>
+<dialog id="card-book" aria-labelledby="book-title">
+  <header class="book-header">
+    <div class="book-heading">
+      <div><h1 id="book-title">札図鑑</h1><p class="book-total" id="book-total"></p></div>
+      <button type="button" id="book-close" autofocus>とじる</button>
+    </div>
+    <div class="book-filters" role="group" aria-label="札の種類">
+      <button type="button" data-book-kind="peg" aria-pressed="true">ちょうちん</button>
+      <button type="button" data-book-kind="rel" aria-pressed="false">お守り</button>
+      <button type="button" data-book-kind="now" aria-pressed="false">すぐに効く</button>
+    </div>
+  </header>
+  <div class="book-scroll">
+    <p class="book-note" hidden>ちょうちん札の基準のLvと個数です。進行に応じて強くなる札もあります。</p>
+    <ul class="book-list"></ul>
+  </div>
+</dialog>
+<template id="book-entry">
+  <li class="book-card">
+    <span class="book-glyph" aria-hidden="true"></span>
+    <div>
+      <div class="book-name"><h2></h2><span class="book-rarity"></span></div>
+      <p class="book-meta" hidden></p>
+      <p class="book-effect"></p>
+    </div>
+  </li>
+</template>
 <noscript>このゲームは JavaScript を使います。ブラウザーの設定で JavaScript を有効にしてください。</noscript>
 <script>
 (() => {
@@ -101,6 +164,7 @@ const ROWS = 10, PEG_R = 11, BALL_R = 9.5, WALL_L = 6, WALL_R = 534, NPOCK = 7, 
 const X_WIDE = WALL_L + PEG_R, SX = (WALL_R - WALL_L - 2 * PEG_R) / 7, X_NARROW = X_WIDE + SX / 2;
 const L = { hud: 0, launchY: 192, row0: 252, rowGap: 57, pocketTop: 821, pocketBot: 881, trayY: 889, trayH: 71 };
 const cv = document.getElementById('c'), ctx = cv.getContext('2d');
+const cardBook = document.getElementById('card-book');
 let scale = 1, dpr = 1, SS = 2, SPR = {}, BG = null;
 
 // ───────── ちょうちんの種類 ─────────
@@ -199,7 +263,7 @@ const DON = [1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0], KA = [0, 0, 1, 0, 
 const MEL = [9, -1, 10, 9, 7, -1, 5, 7, 9, -1, 12, 10, 9, -1, 7, -1, 5, -1, 7, 9, 10, -1, 9, 7, 5, 7, 9, -1, 5, -1, -1, -1];
 const KOTO = [0, -1, -1, 4, -1, -1, 7, -1, -1, -1, 5, -1, 2, -1, -1, -1, 0, -1, -1, 5, -1, -1, 9, -1, -1, -1, 7, -1, 4, -1, -1, -1];
 function musicLevel() {
-  if (G.paused || G.help || G.phase === 'title' || G.phase === 'over') return 0;
+  if (cardBook.open || G.paused || G.help || G.phase === 'title' || G.phase === 'over') return 0;
   if (G.phase !== 'play') return 0.5;
   if (G.fever.on) return 3;
   return (G.rate >= 3 || G.balls.length >= 6) ? 2 : 1;
@@ -545,7 +609,7 @@ function gameOver() {
   if (!G.headless) S.over();
 }
 function toTitle() {
-  G.phase = 'title'; G.paused = false; G.help = 0; G.balls.length = 0; G.spawn.length = 0; G.stamps.length = 0; G.banner = null; G.rel = {};
+  G.phase = 'title'; G.paused = false; G.help = 0; G.balls.length = 0; G.spawn.length = 0; G.stamps.length = 0; G.banner = null; G.rel = {}; G.relOrder = [];
   buildBoard(); demoBoard(); G.pockets = BASE_POCKETS.map(m => ({ mult: m, flash: 0 }));
 }
 function cycleSpeed() { G.speed = G.speed === 1 ? 2 : G.speed === 2 ? 4 : 1; SAVE.speed = G.speed; saveSave(); }
@@ -653,7 +717,7 @@ function takeCard(o) {
   if (!G.headless) G.flash = 0.2;
   nextStage();
 }
-function reroll() { if (G.phase !== 'reward' || G.rerolls <= 0) return; G.rerolls--; G.offer = makeOffer(3); S.card(); }
+function reroll() { if (G.phase !== 'reward' || G.peek || G.rerolls <= 0) return; G.rerolls--; G.offer = makeOffer(3); S.card(); }
 
 // ───────── ちょうちんを置く ─────────
 // 落とす場所の真下にある釘は、どの玉もほぼ必ず当たる「特等席」。上2段の釘がその候補になる
@@ -1077,8 +1141,9 @@ function drawTitle() {
   T(SAVE.best > 0 ? 'これまでの最高　' + fmt(SAVE.best) : '万、億、兆。その先の「桁外れ」まで', W / 2, y1, { size: 19, w: 700, align: 'center' });
   drawLadder(y1 + 16, unitIdx(SAVE.best), 0);
   button('start', W / 2 - 160, y1 + 204, 320, 70, 'はじめる', { kind: 'primary', size: 26 }, pressStart);
-  button('help', W / 2 - 160, y1 + 288, 196, 52, 'あそびかた', { size: 19 }, () => { G.help = 1; G.helpStart = false; });
-  button('sound', W / 2 + 46, y1 + 288, 114, 52, '音 ' + (SAVE.sound ? '入' : '切'), { size: 19 }, toggleSound);
+  button('help', W / 2 - 175, y1 + 288, 136, 52, 'あそびかた', { size: 19 }, () => { G.help = 1; G.helpStart = false; });
+  button('title-book', W / 2 - 29, y1 + 288, 114, 52, '札図鑑', { size: 19 }, openCardBook);
+  button('sound', W / 2 + 95, y1 + 288, 80, 52, '音 ' + (SAVE.sound ? '入' : '切'), { size: 19 }, toggleSound);
 }
 function drawClear() {
   UI.regs.length = 0;
@@ -1139,13 +1204,35 @@ function drawCard(o, i, x, y, w, h) {
   ctx.restore();
   UI.regs.push({ id, x, y, w, h, fn: () => takeCard(o) });
 }
+function drawBoardPreview() {
+  const y = L.hud, cards = G.relOrder;
+  const columns = clamp(cards.length, 1, 9), cellW = Math.min(74, (W - 52) / columns);
+  const rows = Math.max(1, Math.ceil(cards.length / columns));
+  UI.regs.length = 0;
+  T('盤面を見ています', 24, y + 38, { size: 24, fam: F_D, w: 900 });
+  T('ステージ ' + G.stage, W - 24, y + 37, { size: 17, w: 800, align: 'right', col: C.kin });
+  T('得点 ' + fmt(G.score), 24, y + 61, { size: 16, w: 800, col: C.kin });
+  T('ノルマ ' + fmtQ(G.quota), W - 24, y + 61, { size: 16, w: 800, align: 'right', col: C.dim });
+  RR(16, y + 70, W - 32, 36 + rows * 52, 10);
+  ctx.fillStyle = 'rgba(11,14,34,.91)'; ctx.fill();
+  ctx.strokeStyle = rgba(C.kin, 0.5); ctx.lineWidth = 1.5; ctx.stroke();
+  T('持っているお守り', 28, y + 94, { size: 17, w: 800, col: C.kin });
+  if (cards.length) {
+    T('印を押すと効果を確認', W - 28, y + 94, { size: 15, align: 'right', col: C.dim });
+    cards.forEach((card, i) => {
+      const left = 26 + (i % columns) * cellW, top = y + 101 + Math.floor(i / columns) * 52;
+      button('held-' + card.id, left, top, cellW - 4, 48, '', { icon: (x, sy, w) => {
+        T(card.g, x + w / 2, sy + 17, { size: 23, fam: F_D, w: 900, align: 'center', base: 'middle', col: C.kin });
+        T('×' + relHas(card.id), x + w / 2, sy + 38, { size: 13, w: 800, align: 'center' });
+      } }, () => openCardBook('rel', card.id));
+    });
+  } else T('まだありません', 28, y + 128, { size: 19, col: C.dim });
+  const by = L.trayY + 6;
+  button('peek', 22, by, 308, 56, '札にもどる', { kind: 'primary', size: 21 }, () => { G.peek = false; });
+  button('peek-book', 342, by, 176, 56, '札図鑑', { size: 19 }, () => openCardBook('rel'));
+}
 function drawReward() {
   UI.regs.length = 0;
-  if (G.peek) {
-    T('盤面を見ています', W / 2, L.launchY + 6, { size: 18, w: 700, align: 'center', col: C.dim });
-    button('peek', W / 2 - 150, L.trayY + 6, 300, 56, '札にもどる', { size: 21 }, () => { G.peek = false; });
-    return;
-  }
   ctx.fillStyle = 'rgba(11,14,34,.9)'; ctx.fillRect(0, 0, W, H);
   const ci = G.clearInfo, cw = 156, ch = 458, gap = 14, y = (H - ch) / 2 - 6;
   const left = (W - G.offer.length * (cw + gap) + gap) / 2;
@@ -1154,8 +1241,9 @@ function drawReward() {
   T('ほしい札を押すと決まります', W / 2, y - 30, { size: 18, w: 700, align: 'center', col: C.dim });
   G.offer.forEach((o, i) => drawCard(o, i, left + i * (cw + gap), y, cw, ch));
   const by = y + ch + 32;
-  button('reroll', 22, by, 240, 56, '選び直す（のこり' + G.rerolls + '）', { size: 18, disabled: G.rerolls <= 0 }, reroll);
-  button('peek', W - 22 - 240, by, 240, 56, '盤面を見る', { size: 18 }, () => { G.peek = true; });
+  button('reroll', 22, by, 198, 56, '選び直す（のこり' + G.rerolls + '）', { size: 16, disabled: G.rerolls <= 0 }, reroll);
+  button('peek', 232, by, 162, 56, '盤面を見る', { size: 18 }, () => { G.peek = true; });
+  button('reward-book', 406, by, 112, 56, '札図鑑', { size: 18 }, openCardBook);
 }
 function drawPlace() {
   const P = G.placing; if (!P) return;
@@ -1225,7 +1313,8 @@ function drawPause() {
   const x = 90, w = W - 180; let y = H * 0.25;
   T('ひとやすみ', W / 2, y, { size: 44, fam: F_D, w: 900, align: 'center' }); y += 50;
   button('resume', x, y, w, 66, 'つづける', { kind: 'primary', size: 23 }, () => { G.paused = false; }); y += 82;
-  button('phelp', x, y, w, 54, 'あそびかた', {}, () => { G.help = 1; G.helpStart = false; }); y += 66;
+  button('phelp', x, y, (w - 12) / 2, 54, 'あそびかた', {}, () => { G.help = 1; G.helpStart = false; });
+  button('pause-book', x + (w + 12) / 2, y, (w - 12) / 2, 54, '札図鑑', {}, openCardBook); y += 66;
   button('psound', x, y, w, 54, '音 ' + (SAVE.sound ? '入' : '切'), {}, toggleSound); y += 66;
   button('quit', x, y, w, 54, G.quitArm > 0 ? 'もう一度おすと終了' : 'やめてタイトルへ', {}, () => {
     if (G.quitArm > 0) { G.runBest = Math.max(G.runBest, G.score); saveBest(); toTitle(); } else G.quitArm = 3;
@@ -1265,6 +1354,53 @@ function drawHelp() {
     G.help = 0; SAVE.seen = true; saveSave(); if (G.helpStart) { G.helpStart = false; startRun(); }
   });
 }
+// ───────── 札図鑑 ─────────
+const bookTabs = cardBook.querySelectorAll('[data-book-kind]');
+const bookList = cardBook.querySelector('.book-list');
+const bookScroll = cardBook.querySelector('.book-scroll');
+const bookEntry = document.getElementById('book-entry').content.firstElementChild;
+function showBookKind(kind) {
+  const cards = CARDS.filter(card => card.k === kind);
+  if (kind === 'rel') cards.sort((a, b) => Number(relHas(b.id) > 0) - Number(relHas(a.id) > 0));
+  const rows = cards.map(card => {
+    const row = bookEntry.cloneNode(true), peg = PT[card.t], rarity = shade(RAR_COL[card.rar], -0.26);
+    const glyph = row.querySelector('.book-glyph'), meta = row.querySelector('.book-meta');
+    row.id = 'book-card-' + card.id;
+    row.style.setProperty('--rarity', rarity);
+    glyph.style.setProperty('--glyph-bg', peg ? peg.col : rarity);
+    glyph.style.setProperty('--glyph-ink', peg ? peg.ink : C.haku);
+    glyph.textContent = peg ? peg.glyph : card.g;
+    row.querySelector('h2').textContent = peg ? peg.name : card.name;
+    row.querySelector('.book-rarity').textContent = RAR[card.rar];
+    row.querySelector('.book-effect').textContent = peg ? pegDesc(card.t, card.lv || 1) : card.desc;
+    if (peg) meta.textContent = '基準 Lv' + (card.lv || 1) + ' ×' + card.n;
+    if (card.k === 'rel') {
+      const held = relHas(card.id);
+      meta.textContent = (held ? '所持 ' + held + '枚　' : '') + '上限 ' + card.max + '枚';
+    }
+    meta.hidden = !meta.textContent;
+    return row;
+  });
+  bookList.replaceChildren(...rows);
+  for (const tab of bookTabs) tab.setAttribute('aria-pressed', String(tab.dataset.bookKind === kind));
+  cardBook.querySelector('.book-note').hidden = kind !== 'peg';
+  bookScroll.scrollTop = 0;
+}
+function openCardBook(kind = 'peg', selectedId) {
+  if (cardBook.open) return;
+  showBookKind(kind);
+  cardBook.showModal();
+  if (selectedId) {
+    const row = document.getElementById('book-card-' + selectedId);
+    row.classList.add('is-selected');
+    row.scrollIntoView({ block: 'nearest' });
+  }
+}
+document.getElementById('book-total').textContent = '全' + CARDS.length + '種';
+document.getElementById('book-close').addEventListener('click', () => cardBook.close());
+cardBook.addEventListener('close', () => cv.focus({ preventScroll: true }));
+for (const tab of bookTabs) tab.addEventListener('click', () => showBookKind(tab.dataset.bookKind));
+
 function render() {
   UI.regs.length = 0;
   ctx.setTransform(cv.width / W, 0, 0, cv.height / H, 0, 0);
@@ -1277,7 +1413,7 @@ function render() {
   else if (ph === 'play') { drawHud(); drawPlayInfo(); drawAim(); drawTray(); drawBanner(); }
   else if (ph === 'place') { drawHud(); drawPlace(); }
   else if (ph === 'clear') { drawHud(); drawClear(); }
-  else if (ph === 'reward') { drawHud(); drawReward(); }
+  else if (ph === 'reward') { if (G.peek) drawBoardPreview(); else { drawHud(); drawReward(); } }
   else if (ph === 'over') drawOver();
   else if (ph === 'ending') drawEnding();
   drawStamp();
@@ -1319,8 +1455,14 @@ cv.addEventListener('pointercancel', e => pointerEnd(e, true));
 cv.addEventListener('contextmenu', e => e.preventDefault());
 cv.addEventListener('click', () => { auInit(); auResume(); });
 window.addEventListener('keydown', e => {
+  if (cardBook.open) return;
   const k = e.key, go = k === ' ' || k === 'Enter';
-  if (k === 'Escape' || k === 'p') { if (G.help) G.help = 0; else if (G.phase === 'play' || G.phase === 'place') G.paused = !G.paused; return; }
+  if (k === 'Escape' || k === 'p') {
+    if (G.help) G.help = 0;
+    else if (k === 'Escape' && G.phase === 'reward' && G.peek) G.peek = false;
+    else if (G.phase === 'play' || G.phase === 'place') G.paused = !G.paused;
+    return;
+  }
   if (G.paused || G.help) return;
   if (go) { e.preventDefault(); auInit(); auResume(); }
   if (G.phase === 'play') {
@@ -1355,6 +1497,7 @@ function frame(ts) {
   requestAnimationFrame(frame);
   if (KETA.freeze) return;
   const rdt = Math.min(0.05, Math.max(0.001, (ts - lastTs) / 1000 || 0.016)); lastTs = ts;
+  if (cardBook.open) return;
   G.rt += rdt;
   if (G.phase === 'play' && !G.paused) {               // こま落ちが続く端末では、絵の細かさを一段ずつ下げる
     slow = rdt > 0.03 ? slow + 1 : Math.max(0, slow - 1);
