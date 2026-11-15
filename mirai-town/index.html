@@ -12,6 +12,39 @@
 @media(min-width:850px){.right .panel{padding:19px}.hero{padding:27px 31px}}@media(max-width:740px){.top-right .micro{display:none}.subtle-btn{white-space:nowrap}.app{padding:11px 12px 65px}.topbar{margin:3px 3px 12px}.brand{font-size:14px}.brand-icon{height:37px;width:37px;font-size:23px}.hero{padding:21px 18px;border-radius:23px}.hero h1{font-size:26px}.mascot{font-size:58px}.layout{grid-template-columns:1fr;gap:13px;margin-top:13px}.left,.right{gap:13px}.right{display:contents}.goal{order:1}.invest{order:2}.news{order:3}.town{order:4}.learning{order:5}.chart-panel{order:6}.history-panel{order:7}.panel{padding:17px;border-radius:20px}.stats{gap:6px}.stat{padding:10px 8px}.stat .caption{font-size:10px}.stat .number{font-size:17px}.asset-value{font-size:18px}.asset-desc{font-size:11px}.asset-name{font-size:14px}.risk{font-size:9px}.asset-emoji{width:47px;height:47px;font-size:26px}.town-grid{grid-template-columns:repeat(4,1fr);gap:6px}.building{min-height:99px}.building .emoji{font-size:29px}.building strong{font-size:10px}.building span{font-size:9px}.dialog{padding:20px}.dialog-title{font-size:22px}}
 @media(max-width:370px){.town-grid{grid-template-columns:repeat(2,1fr)}.goal-status{display:none}.asset-head{gap:8px}.asset-name{font-size:13px}.asset-value{font-size:16px}.brand{font-size:12px}}
 @media(prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important}}
+
+/* 投資の結果がアニメで見える、手描き風のまち */
+.town-scene{width:100%;overflow:hidden;border:2px solid #c7e4e6;border-radius:20px;background:#dff7fb;aspect-ratio:640 / 320;box-shadow:inset 0 -8px 15px #387a6712;position:relative}
+.town-scene svg{width:100%;height:100%;display:block}
+.town-scene .scene-cloud{animation:townCloud 8s ease-in-out infinite alternate}
+.town-scene .c-two{animation-duration:12s;animation-delay:-2s}
+.town-scene .scene-sun{animation:townSun 3s ease-in-out infinite alternate;transform-origin:88px 64px}
+.town-scene .walker-one{animation:townWalk 14s linear infinite}
+.town-scene .walker-two{animation:townWalk 19s linear infinite;animation-delay:-8s}
+.town-scene .town-car{animation:townCar 13s linear infinite;animation-delay:-5s}
+.town-scene .shop-stage{transform-origin:336px 267px;animation:townGrow .6s cubic-bezier(.16,1.3,.34,1) both}
+.town-scene .scene-sparkles{animation:townSparkle 1.8s ease-in-out infinite alternate;transform-origin:320px 130px}
+.town-scene .coin-pop{opacity:0}
+.town-scene.flash .coin-pop{animation:townCoin .9s ease-out both}
+.town-scene.flash .coin-two{animation-delay:.15s}
+.town-stage-row{display:flex;justify-content:space-between;align-items:center;gap:9px;margin:12px 1px 8px}
+.town-stage-row strong{font-size:14px;color:#274d87}
+.town-stage-row span{font-size:11px;font-weight:850;color:#ae6687;text-align:right}
+.shop-stage-track{background:#e5edf6;border-radius:100px;height:11px;overflow:hidden}
+.shop-stage-track>div{height:100%;width:0;background:linear-gradient(90deg,#ffa7b8,#f076ad);border-radius:inherit;transition:width .45s ease}
+.town-scene-tip{font-size:11px;line-height:1.5;margin:9px 0 13px;color:#58718a;font-weight:750}
+.town-subtitle{font-size:13px;color:#496888;margin:14px 0 10px}
+.town .smallfoot{line-height:1.5}
+@keyframes townCloud{from{transform:translateX(-12px)}to{transform:translateX(18px)}}
+@keyframes townSun{from{transform:scale(.95)}to{transform:scale(1.08)}}
+@keyframes townWalk{from{transform:translateX(-25px)}to{transform:translateX(670px)}}
+@keyframes townCar{from{transform:translateX(-110px)}to{transform:translateX(740px)}}
+@keyframes townGrow{from{opacity:.25;transform:scale(.7) translateY(16px)}to{opacity:1;transform:scale(1) translateY(0)}}
+@keyframes townSparkle{from{opacity:.22;transform:scale(.86)}to{opacity:1;transform:scale(1.13)}}
+@keyframes townCoin{0%{opacity:0;transform:translateY(30px) scale(.3)}45%{opacity:1;transform:translateY(-16px) scale(1.2)}100%{opacity:0;transform:translateY(-60px) scale(.65)}}
+@media(max-width:740px){.goal{order:1}.town{order:2}.invest{order:3}.news{order:4}.learning{order:5}.chart-panel{order:6}.history-panel{order:7}.town-scene{border-radius:16px}.town-stage-row strong{font-size:13px}}
+@media(prefers-reduced-motion:reduce){.town-scene *{animation:none !important;transition:none !important}}
+
 </style>
 </head>
 <body>
@@ -21,7 +54,7 @@
     <div class="top-right"><span class="micro">小4からあそべる！</span><button class="subtle-btn" type="button" data-action="reset">↻ はじめから</button></div>
   </header>
   <section class="hero">
-    <div class="hero-grid"><div><p class="eyebrow">おこづかいで未来をそだてよう</p><h1>コインでそだてる！<br>みらいタウン 🏡</h1><p>お金を「ためる？」「投資する？」<br>12か月の冒険で、町を大きくしてみよう！</p></div><div class="mascot" aria-hidden="true">🐿️</div></div>
+    <div class="hero-grid"><div><p class="eyebrow">おこづかいで未来をそだてよう</p><h1>コインでそだてる！<br>みらいタウン 🏡</h1><p>お金を「ためる？」「投資する？」<br>12か月の冒険で、お店を大きくしてみよう！</p></div><div class="mascot" aria-hidden="true">🐿️</div></div>
     <div class="progress-info"><span id="monthText">0 / 12か月</span><span id="nextGoal">めざせ 4,200コイン！</span></div>
     <div class="progress-track" role="progressbar" aria-label="ゲームの進み具合" aria-valuemin="0" aria-valuemax="12" aria-valuenow="0" id="monthProgress"><div class="progress-fill" id="progressFill"></div></div>
   </section>
@@ -54,7 +87,7 @@
     </main>
     <aside class="right">
       <section class="panel news" aria-labelledby="newsHeader"><div class="panel-header"><h2 id="newsHeader">📰 まちのニュース</h2><span class="pill" id="newsMonth">スタート</span></div><div class="news-label" id="newsLabel">まずは準備！</div><div class="news-title" id="newsTitle">どんなことが起こるかな？</div><div class="news-desc" id="newsDesc">投資の後に「1か月すすめる」を押すと、ニュースが届くよ。</div><div class="news-deltas" id="newsDeltas"></div></section>
-      <section class="panel town" aria-labelledby="townHeader"><div class="panel-header"><h2 id="townHeader">🏘️ そだつ！ みらいタウン</h2><span class="pill" id="townPill">1 / 4 スポット</span></div><div class="town-grid" id="townGrid"></div><div class="smallfoot">お金の合計がふえると、町のスポットがアンロック！</div></section>
+      <section class="panel town" aria-labelledby="townHeader"><div class="panel-header"><h2 id="townHeader">🎬 アニメでそだつ！ みらいタウン</h2><span class="pill" id="townPill">1 / 4 スポット</span></div><div class="town-scene" id="townScene" role="img" aria-label="投資したお金にあわせて育つ、アニメーションつきのお店"></div><div class="town-stage-row"><strong id="shopStage">Lv.1 おみせのたね</strong><span id="shopNext">あと100コインで進化！</span></div><div class="shop-stage-track"><div id="shopStageFill"></div></div><div class="town-scene-tip" id="townSceneTip">🌍 いろいろ会社セットに投資すると、右側にもお店ができるよ！</div><h3 class="town-subtitle">🏘️ まちのスポット</h3><div class="town-grid" id="townGrid"></div><div class="smallfoot">※ 建物の成長はゲームの演出だよ。実際の株を買っても、そのお金が直接お店に入るとは限らないよ。</div></section>
       <section class="panel learning" aria-labelledby="learningHeader"><div class="panel-header"><h2 id="learningHeader">⭐ お金のはかせクイズ</h2><span class="pill">4・8・12か月目</span></div><div class="knowledge"><div class="knowledge-icon" aria-hidden="true">🦉</div><div class="knowledge-copy">3問のクイズで投資のコツをおぼえよう！<div class="stars" aria-label="クイズ正解数" id="stars">☆☆☆</div></div></div><button id="openQuizBtn" class="subtle-btn hidden" style="margin-top:11px;width:100%;background:#f3f7ff" data-action="open-quiz">まだのクイズにちょうせん ▶</button></section>
       <section class="panel chart-panel" aria-labelledby="chartHeader"><div class="panel-header"><h2 id="chartHeader">📈 お金の成長グラフ</h2><span class="pill">12か月</span></div><div id="chart" class="chart-wrap" role="img" aria-label="これまでのコインの合計の推移"></div><div class="chart-caption"><span>スタート</span><span>12か月目</span></div><div class="smallfoot">毎月300コインのおこづかいがもらえるよ。</div></section>
       <section class="panel history-panel" aria-labelledby="historyHeader"><div class="panel-header"><h2 id="historyHeader">📓 ぼうけん日記</h2><span class="pill">自動で保存</span></div><div class="history-list" id="history"><p class="empty-history">まだニュースはないよ。1か月すすめてみよう！</p></div></section>
@@ -103,6 +136,137 @@
     '値下がりした月も、あわてて売る必要があるとは限らないよ。'
   ];
   const buildings=[{money:1200,icon:'🏠',name:'おうち',desc:'1,200コイン'},{money:2100,icon:'🌳',name:'こうえん',desc:'2,100コイン'},{money:3200,icon:'🏫',name:'学校',desc:'3,200コイン'},{money:4200,icon:'🎡',name:'ゆうえんち',desc:'4,200コイン'}];
+  const shopStageFor=function shopStageFor(amount){return amount>=1200?4:amount>=700?3:amount>=300?2:amount>=100?1:0;};
+  const fundStageFor=function fundStageFor(amount){return amount>=700?3:amount>=300?2:amount>=100?1:0;};
+  function townSceneSVG(stage,fundTier){
+  const candy=`<g aria-hidden="true"><path d="M298 228l20-12 22 12-22 12Z" fill="#ffc4df" stroke="#d56a9a" stroke-width="2"/><path d="M307 218l-7-5-8 4 7 10Z" fill="#ffd36a"/><path d="M331 220l9-8 8 5-6 11Z" fill="#ffd36a"/><circle cx="318" cy="227" r="8" fill="#ec79ac"/><path d="M314 224l7 6" stroke="#fff" stroke-width="2"/></g>`;
+  const awning=(x,y,width)=>`<g><rect x="${x}" y="${y}" width="${width}" height="21" rx="5" fill="#ffe8ef"/><path d="M${x} ${y+16}h${width}v9q-10 16-21 0q-10 16-20 0q-10 16-20 0q-10 16-20 0q-10 16-20 0q-10 16-20 0q-10 16-20 0q-10 16-20 0q-10 16-20 0q-10 16-20 0Z" fill="#ee7fa9" opacity=".92"/></g>`;
+  const glazing=(x,y)=>`<rect x="${x}" y="${y}" width="44" height="40" rx="5" fill="#a4edff" stroke="#fdfdfd" stroke-width="6"/><path d="M${x+22} ${y}v40M${x} ${y+20}h44" stroke="#fff" stroke-width="4"/>`;
+  let store='';
+  if(stage===0){
+    store=`<g class="shop-stage">
+      <ellipse cx="333" cy="264" rx="111" ry="11" fill="#5a986c" opacity=".18"/>
+      <path d="M269 260h125" stroke="#f4d3a9" stroke-width="9" stroke-linecap="round" stroke-dasharray="14 10"/>
+      <rect x="287" y="200" width="93" height="61" rx="10" fill="#ffe3ac" stroke="#e2b47c" stroke-width="4"/>
+      <rect x="295" y="211" width="78" height="39" rx="7" fill="#fff5e1"/>
+      <text x="333" y="233" text-anchor="middle" font-size="13" font-weight="900" fill="#b4796f">おみせの</text>
+      <text x="333" y="246" text-anchor="middle" font-size="11" font-weight="900" fill="#b4796f">たね 🌱</text>
+      <path d="M278 190h111l-17-20h-76Z" fill="#fff8ee" stroke="#e6b781" stroke-width="4"/>
+      <circle cx="269" cy="247" r="7" fill="#f9a9b9"/><circle cx="393" cy="251" r="6" fill="#ffda7f"/>
+    </g>`;
+  }else if(stage===1){
+    store=`<g class="shop-stage">
+      <ellipse cx="337" cy="268" rx="128" ry="11" fill="#5a986c" opacity=".16"/>
+      <rect x="262" y="215" width="157" height="47" rx="8" fill="#f9a96d" stroke="#d37b5d" stroke-width="5"/>
+      <path d="M252 213l12-50h154l13 50Z" fill="#fff8e9" stroke="#e88da5" stroke-width="4"/>
+      <path d="M267 167h26l-5 44h-32ZM319 167h28l6 44h-32ZM374 167h24l12 44h-31Z" fill="#f17c9b"/>
+      <path d="M253 213h178" stroke="#e88da5" stroke-width="6"/>
+      <rect x="299" y="225" width="82" height="30" rx="8" fill="#fff1d8"/>
+      <text x="340" y="245" text-anchor="middle" font-size="16" font-weight="900" fill="#b35379">おかしや</text>
+      <circle cx="282" cy="265" r="17" fill="#615b75"/><circle cx="398" cy="265" r="17" fill="#615b75"/>
+      <circle cx="282" cy="265" r="7" fill="#fff"/><circle cx="398" cy="265" r="7" fill="#fff"/>
+      <path d="M349 161v-23" stroke="#bd6e81" stroke-width="4"/><circle cx="349" cy="134" r="13" fill="#ffef92" stroke="#e9a24f" stroke-width="3"/>
+      ${candy}
+    </g>`;
+  }else if(stage===2){
+    store=`<g class="shop-stage">
+      <ellipse cx="334" cy="270" rx="140" ry="12" fill="#5a986c" opacity=".18"/>
+      <rect x="235" y="116" width="203" height="151" rx="10" fill="#ffe9b4" stroke="#cb9378" stroke-width="5"/>
+      <path d="M228 119l18-34h181l18 34Z" fill="#ff8aa9" stroke="#d96e8d" stroke-width="5"/>
+      <rect x="271" y="128" width="129" height="29" rx="10" fill="#fff5f2"/>
+      <text x="336" y="149" text-anchor="middle" font-size="17" font-weight="900" fill="#c55281">SWEET SHOP</text>
+      ${awning(233,169,207)}
+      <rect x="254" y="207" width="85" height="61" rx="5" fill="#8fdbed" stroke="#fff" stroke-width="7"/>
+      <path d="M295 207v61" stroke="#fff" stroke-width="5"/>
+      <rect x="361" y="209" width="54" height="59" rx="6" fill="#eea1ab" stroke="#fff" stroke-width="5"/>
+      <circle cx="402" cy="238" r="4" fill="#ffedaa"/>
+      ${candy}
+    </g>`;
+  }else if(stage===3){
+    store=`<g class="shop-stage">
+      <ellipse cx="333" cy="270" rx="147" ry="12" fill="#5a986c" opacity=".19"/>
+      <rect x="222" y="77" width="225" height="193" rx="10" fill="#ffe4bd" stroke="#c78393" stroke-width="5"/>
+      <path d="M211 82l30-32h190l26 32Z" fill="#fc7ea9" stroke="#db638b" stroke-width="5"/>
+      <rect x="251" y="96" width="168" height="33" rx="9" fill="#fff5d4"/>
+      <text x="335" y="118" text-anchor="middle" font-size="18" font-weight="900" fill="#c04f80">SWEETS CAFE</text>
+      ${glazing(248,139)}${glazing(307,139)}${glazing(366,139)}
+      ${awning(223,194,225)}
+      <rect x="247" y="225" width="94" height="46" rx="5" fill="#a8f1ff" stroke="#fff" stroke-width="6"/>
+      <rect x="366" y="222" width="52" height="49" rx="5" fill="#ec9ea4" stroke="#fff" stroke-width="5"/>
+      <circle cx="408" cy="246" r="4" fill="#fff4bb"/>
+      <path d="M186 258v-31m-17 16h35" stroke="#947a7f" stroke-width="6" stroke-linecap="round"/>
+      <circle cx="186" cy="224" r="15" fill="#ffeea1"/>
+      ${candy}
+    </g>`;
+  }else{
+    store=`<g class="shop-stage">
+      <ellipse cx="336" cy="269" rx="158" ry="13" fill="#5a986c" opacity=".2"/>
+      <rect x="214" y="49" width="239" height="220" rx="11" fill="#fee3ba" stroke="#cd7795" stroke-width="6"/>
+      <path d="M202 57l16-30h234l15 30Z" fill="#ed6d9d" stroke="#cc5b87" stroke-width="6"/>
+      <rect x="237" y="63" width="192" height="35" rx="10" fill="#fff7ca"/>
+      <text x="333" y="87" text-anchor="middle" font-size="20" font-weight="900" fill="#b84c88">SWEET PALACE</text>
+      ${glazing(235,111)}${glazing(311,111)}${glazing(387,111)}
+      ${glazing(235,164)}${glazing(311,164)}${glazing(387,164)}
+      ${awning(213,206,241)}
+      <rect x="241" y="238" width="105" height="33" rx="6" fill="#a2ecff" stroke="#fff" stroke-width="6"/>
+      <rect x="368" y="236" width="55" height="35" rx="5" fill="#f5a2ad" stroke="#fff" stroke-width="5"/>
+      <path d="M333 26v-20" stroke="#d65b8d" stroke-width="5"/><circle cx="333" cy="8" r="9" fill="#ffcd56"/>
+      <path d="M468 144l24-21 24 21" fill="none" stroke="#fff2a1" stroke-width="6" stroke-linecap="round"/>
+      ${candy}
+    </g>`;
+  }
+  let friend='';
+  if(fundTier===0){ friend=`<g><path d="M497 260h82" stroke="#a1cba5" stroke-width="6" stroke-dasharray="8 8"/><path d="M538 264v-30" stroke="#7fa682" stroke-width="5"/><circle cx="538" cy="226" r="19" fill="#92dba1"/><circle cx="524" cy="238" r="11" fill="#6fca91"/></g>`;}
+  if(fundTier===1){ friend=`<g class="friend-shop"><rect x="494" y="211" width="95" height="55" rx="6" fill="#cee7ff" stroke="#8ab1d3" stroke-width="4"/><path d="M490 214l14-24h77l12 24Z" fill="#8fabea"/><rect x="518" y="229" width="22" height="37" fill="#acf1fa" stroke="white" stroke-width="4"/><text x="542" y="207" font-size="13" fill="#fff" text-anchor="middle" font-weight="bold">BOOK</text></g>`;}
+  if(fundTier===2){friend=`<g class="friend-shop"><rect x="490" y="160" width="101" height="106" rx="7" fill="#caecf7" stroke="#82acd3" stroke-width="5"/><path d="M485 163l14-24h83l15 24Z" fill="#799ed5"/><rect x="506" y="175" width="25" height="30" rx="4" fill="#fff" opacity=".8"/><rect x="545" y="175" width="25" height="30" rx="4" fill="#fff" opacity=".8"/><rect x="520" y="223" width="39" height="43" rx="5" fill="#a8e6e3" stroke="#fff" stroke-width="5"/><text x="540" y="153" font-size="12" text-anchor="middle" font-weight="bold" fill="white">BOOK &amp; CAFE</text></g>`;}
+  if(fundTier>=3){friend=`<g class="friend-shop"><rect x="489" y="106" width="105" height="160" rx="7" fill="#bdddf6" stroke="#6d9cc4" stroke-width="5"/><path d="M483 109l13-19h91l13 19Z" fill="#5f95bc"/><rect x="505" y="127" width="22" height="25" rx="3" fill="#e6fbfe"/><rect x="551" y="127" width="22" height="25" rx="3" fill="#e6fbfe"/><rect x="505" y="169" width="22" height="25" rx="3" fill="#e6fbfe"/><rect x="551" y="169" width="22" height="25" rx="3" fill="#e6fbfe"/><rect x="520" y="222" width="43" height="44" rx="4" fill="#a6e9f4" stroke="#fff" stroke-width="5"/><text x="541" y="99" font-size="10" font-weight="900" text-anchor="middle" fill="#4778a2">みんなのビル</text></g>`;}
+  return `<svg viewBox="0 0 640 320" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <defs><linearGradient id="tSky" x1="0" x2=".1" y1="0" y2="1"><stop stop-color="#9adfff"/><stop offset="1" stop-color="#e8fbff"/></linearGradient><linearGradient id="tRoad" x1="0" x2="0" y1="0" y2="1"><stop stop-color="#b6c3c9"/><stop offset="1" stop-color="#889dab"/></linearGradient></defs>
+    <rect width="640" height="320" fill="url(#tSky)"/>
+    <circle class="scene-sun" cx="88" cy="64" r="32" fill="#ffe382"/>
+    <g class="scene-cloud c-one" fill="#fff"><ellipse cx="133" cy="50" rx="31" ry="16"/><ellipse cx="111" cy="44" rx="24" ry="18"/><ellipse cx="157" cy="45" rx="24" ry="19"/></g>
+    <g class="scene-cloud c-two" fill="#fff" opacity=".88"><ellipse cx="475" cy="57" rx="36" ry="12"/><ellipse cx="455" cy="50" rx="20" ry="17"/><ellipse cx="493" cy="49" rx="22" ry="15"/></g>
+    <path d="M0 214q96-33 181-6q91-25 168 6q89-35 164-11q59-14 127 12v75H0Z" fill="#aedfbc"/>
+    <rect x="0" y="263" width="640" height="17" fill="#70cda4"/>
+    <rect x="0" y="280" width="640" height="40" fill="url(#tRoad)"/>
+    <path d="M0 300h640" stroke="#fff3cf" stroke-width="4" stroke-dasharray="29 20" opacity=".85"/>
+    <g><path d="M63 264v-42" stroke="#956f59" stroke-width="10"/><circle cx="62" cy="204" r="31" fill="#4dbca0"/><circle cx="42" cy="223" r="22" fill="#55caa4"/><circle cx="82" cy="224" r="23" fill="#67d0a6"/><circle cx="54" cy="202" r="7" fill="#aaf1bc" opacity=".7"/></g>
+    ${friend}${store}
+    <g class="town-walker walker-one"><circle cx="0" cy="245" r="10" fill="#e6ad88"/><path d="M-8 259v15m16-15v15" stroke="#614d78" stroke-width="5" stroke-linecap="round"/><rect x="-10" y="253" width="20" height="16" rx="6" fill="#fd83b1"/><path d="M-10 243q8-20 19-2" fill="#55354d"/></g>
+    <g class="town-walker walker-two"><circle cx="0" cy="247" r="9" fill="#c98e63"/><path d="M-7 259v14m14-14v14" stroke="#47618c" stroke-width="5" stroke-linecap="round"/><rect x="-9" y="255" width="18" height="13" rx="5" fill="#ffe183"/><path d="M-10 241h18" stroke="#564b48" stroke-width="5"/></g>
+    <g class="town-car"><rect x="-55" y="294" width="68" height="18" rx="7" fill="#ff9c85"/><path d="M-40 293l13-16h25l10 16Z" fill="#ffc8a8"/><circle cx="-39" cy="313" r="8" fill="#516078"/><circle cx="-2" cy="313" r="8" fill="#516078"/></g>
+    <g class="coin-pop"><circle cx="205" cy="142" r="14" fill="#ffdc69" stroke="#eeb65c" stroke-width="4"/><text x="205" y="148" text-anchor="middle" font-weight="bold" font-size="15" fill="#bb8433">★</text></g>
+    <g class="coin-pop coin-two"><circle cx="437" cy="112" r="12" fill="#ffdc69" stroke="#eeb65c" stroke-width="4"/><text x="437" y="118" text-anchor="middle" font-weight="bold" font-size="13" fill="#bb8433">★</text></g>
+    <g class="scene-sparkles"><text x="207" y="93" font-size="28" fill="#f4bf58">✦</text><text x="477" y="139" font-size="23" fill="#f4bf58">✦</text></g>
+  </svg>`;
+}
+  function renderTownScene(){
+  const amount=state.shop;
+  const level=shopStageFor(amount), friends=fundStageFor(state.fund);
+  const scene=$('townScene');
+  const oldLevel=Number(scene.dataset.shopStage ?? -1);
+  const oldFriends=Number(scene.dataset.fundTier ?? -1);
+  const oldAmount=Number(scene.dataset.amount ?? amount);
+  if(level!==oldLevel||friends!==oldFriends){
+    scene.innerHTML=townSceneSVG(level,friends);
+    scene.dataset.shopStage=String(level);
+    scene.dataset.fundTier=String(friends);
+  }
+  if(oldLevel>=0&&(level>oldLevel||amount>oldAmount)){
+    scene.classList.remove('flash');
+    void scene.offsetWidth;
+    scene.classList.add('flash');
+  }
+  scene.dataset.amount=String(amount);
+  const levels=[{min:0,name:'おみせのたね'},{min:100,name:'キャンディ屋台'},{min:300,name:'おかしショップ'},{min:700,name:'スイーツカフェ'},{min:1200,name:'スイーツビル'}];
+  const now=levels[level],next=levels[level+1];
+  $('shopStage').textContent=`Lv.${level+1} ${now.name}`;
+  $('shopNext').textContent=next?`あと ${num(next.min-amount)} コインで進化！`:'🏆 最高レベル！';
+  const base=now.min,progress=next?Math.max(0,Math.min(100,100*(amount-base)/(next.min-base))):100;
+  $('shopStageFill').style.width=progress+'%';
+  $('townScene').setAttribute('aria-label',`おかし屋さんは${now.name}。おかし屋の株の評価額は${num(amount)}コイン。いろいろ会社セットの評価額は${num(state.fund)}コイン。`);
+  $('townSceneTip').textContent=friends?`🌍 いろいろ会社セットにも投資して、右側に仲間のお店が登場！`:'🌍 いろいろ会社セットに投資すると、右側にもお店ができるよ！';
+}
   const initial=()=>({month:0,cash:1200,shop:0,fund:0,history:[],used:[],quizCorrect:0,quizAnswered:[],pendingQuiz:null,ended:false,started:false,news:null});
   const safeNumber=x=>typeof x==='number'&&Number.isFinite(x)&&x>=0&&x<1e9;
   function load(){try{const a=JSON.parse(localStorage.getItem(KEY));if(!a||!Number.isInteger(a.month)||a.month<0||a.month>12||!['cash','shop','fund'].every(k=>safeNumber(a[k]))||!Array.isArray(a.history)||!Array.isArray(a.used)||!Array.isArray(a.quizAnswered))return initial();return {...initial(),...a};}catch{return initial();}}
@@ -114,7 +278,7 @@
   function setDialog(content){$('dialog').innerHTML=content;$('overlay').classList.remove('hidden');document.body.style.overflow='hidden';}
   function closeDialog(){$('overlay').classList.add('hidden');document.body.style.overflow='';}
   function endGame(){state.ended=true;state.pendingQuiz=null;save();render();showResult();}
-  function showIntro(){setDialog(`<div class="dialog-emoji">🐿️🏡</div><h2 class="dialog-title" id="dialogTitle">ようこそ、みらいタウンへ！</h2><p class="dialog-text">きみは町をそだてる「お金のたんけん家」！<br>12か月で4,200コインをめざそう。</p><div class="intro-bullets"><div class="intro-bullet"><span>🪙</span>はじめに1,200コイン持っているよ</div><div class="intro-bullet"><span>🎁</span>毎月おこづかい300コインをもらえるよ</div><div class="intro-bullet"><span>📈</span>貯金する？ 株を買う？ 自分で決めよう！</div><div class="intro-bullet"><span>🦉</span>4か月ごとにクイズもあるよ</div></div><button class="dialog-btn" data-action="intro-start">あそびはじめる！ ▶</button><div class="try">実際のお金は使わないよ。操作は無料！</div>`);}
+  function showIntro(){setDialog(`<div class="dialog-emoji">🐿️🏡</div><h2 class="dialog-title" id="dialogTitle">ようこそ、みらいタウンへ！</h2><p class="dialog-text">きみは町をそだてる「お金のたんけん家」！<br>12か月で4,200コインをめざして、お店をそだてよう。</p><div class="intro-bullets"><div class="intro-bullet"><span>🪙</span>はじめに1,200コイン持っているよ</div><div class="intro-bullet"><span>🎁</span>毎月おこづかい300コインをもらえるよ</div><div class="intro-bullet"><span>📈</span>貯金する？ 株を買ってお店を大きくする？ 自分で決めよう！</div><div class="intro-bullet"><span>🦉</span>4か月ごとにクイズもあるよ</div></div><button class="dialog-btn" data-action="intro-start">あそびはじめる！ ▶</button><div class="try">実際のお金は使わないよ。操作は無料！</div>`);}
   function showQuiz(){const id=state.pendingQuiz;if(!Number.isInteger(id)||!quiz[id])return;if(state.quizAnswered.includes(id)){state.pendingQuiz=null;save();if(state.month>=MAX_MONTH)endGame();else closeDialog();return;}const q=quiz[id];setDialog(`<div class="dialog-emoji">🦉✨</div><h2 class="dialog-title" id="dialogTitle">お金のはかせクイズ！</h2><p class="dialog-text">${id+1}問目 / 3問<br><b style="color:#273752;font-size:17px">${q.q}</b></p><div id="quizChoices">${q.a.map((a,i)=>`<button class="choice" type="button" data-action="quiz-answer" data-option="${i}">${['A','B','C'][i]}　${a}</button>`).join('')}</div><div id="quizFeedback"></div><button class="dialog-btn ghost" data-action="quiz-skip">いったん閉じる（あとでチャレンジ）</button>`);}
   function answerQuiz(option){const id=state.pendingQuiz;if(!Number.isInteger(id)||!quiz[id]||state.quizAnswered.includes(id))return;const q=quiz[id];const correct=option===q.correct;state.quizAnswered.push(id);if(correct)state.quizCorrect++;save();document.querySelectorAll('[data-action="quiz-answer"]').forEach(b=>{b.disabled=true;const n=Number(b.dataset.option);if(n===q.correct)b.classList.add('correct');else if(n===option)b.classList.add('wrong');});$('quizFeedback').innerHTML=`<div class="dialog-feedback ${correct?'':'wrong'}">${correct?'🎉 せいかい！ 星をゲット！':'🌱 おしい！ ここがポイント！'}<br>${q.explain}</div><button class="dialog-btn" data-action="quiz-next">${state.month>=MAX_MONTH?'結果を見る ▶':'ゲームにもどる ▶'}</button>`;const btn=document.querySelector('[data-action="quiz-skip"]');if(btn)btn.classList.add('hidden');render();}
   function skipQuiz(){state.pendingQuiz=null;save();closeDialog();if(state.month>=MAX_MONTH)endGame();else toast('クイズはあとから挑戦できるよ！');}
@@ -147,6 +311,7 @@
     $('goalFill').style.width=`${Math.min(100,t/GOAL*100)}%`;$('goalStatus').textContent=t>=GOAL?'🎉 ゴール達成！':`あと ${num(GOAL-t)}`;
     $('townPill').textContent=`${unlocked} / 4 スポット`;
     $('townGrid').innerHTML=buildings.map(b=>`<div class="building ${t<b.money?'locked':''}" aria-label="${b.name}：${t>=b.money?'完成':'まだ'}"><div class="emoji" aria-hidden="true">${t>=b.money?b.icon:'🔒'}</div><strong>${b.name}</strong><span>${t>=b.money?'完成！':b.desc}</span></div>`).join('');
+    renderTownScene();
     $('stars').textContent='★'.repeat(state.quizCorrect)+'☆'.repeat(3-state.quizCorrect);
     $('openQuizBtn').classList.toggle('hidden',![0,1,2].some(i=>state.month>=(i+1)*4&&!state.quizAnswered.includes(i)));
     $('hintText').textContent=hints[Math.min(state.month,hints.length-1)];
