@@ -97,10 +97,13 @@ noscript{position:fixed;inset:0;display:grid;place-items:center;padding:24px;tex
 'use strict';
 
 // ───────── 小道具 ─────────
+const balanceMode = new URLSearchParams(window.location.search).get('dev') === 'balance';
+let balanceRandom = null;
+const random = () => balanceRandom ? balanceRandom() : Math.random();
 const TAU = Math.PI * 2;
-const rnd = (a = 1, b) => b === undefined ? Math.random() * a : a + Math.random() * (b - a);
+const rnd = (a = 1, b) => b === undefined ? random() * a : a + random() * (b - a);
 const clamp = (v, a, b) => v < a ? a : v > b ? b : v;
-const pick = a => a[(Math.random() * a.length) | 0];
+const pick = a => a[(random() * a.length) | 0];
 const outCubic = t => 1 - Math.pow(1 - t, 3);
 const REDUCED = !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
 
@@ -426,14 +429,14 @@ function hitPeg(p, b, chain) {
     G.stats.hits++; addGauge(1, b);
     if (!chain && R.rensa && G.combo % 50 === 0) { G.rate = Math.min(1e250, G.rate * Math.pow(1.1, R.rensa)); fxText(W - 96, L.launchY - 36, '連鎖 勢い↑', C.asagi, 17); }
   }
-  const twice = !!R.crit && Math.random() < 0.15 * R.crit, lv = chain ? 1 : p.lv;   // 爆発や雷で発動したときは Lv1 の強さ
+  const twice = !!R.crit && random() < 0.15 * R.crit, lv = chain ? 1 : p.lv;   // 爆発や雷で発動したときは Lv1 の強さ
   let str = '', big = false;
   switch (p.type) {
     case 'n': { b.v += BAL.nailAdd * (R.nail ? Math.pow(3, R.nail) : 1) * (fev ? BAL.feverAdd : 1) * (twice ? 2 : 1); if (!chain) S.hit(G.combo); break; }
     case 'a': { const a = BAL.addVal * lv * (fev ? BAL.feverAdd : 1) * (twice ? 2 : 1); b.v += a; str = '+' + fmtS(a); S.add(); break; }
     case 'x': { let m = xMul(lv); if (twice) m *= m; b.v *= m; str = '×' + fmtS(m); big = m >= 8; S.mul(lv); break; }
     case 'g': { let m = 1.2 + p.grow; if (chain && m > 2) m = 2; p.grow += 0.1 * p.lv; str = '×' + m.toFixed(1); if (twice) m *= m; b.v *= m; S.mul(2); break; }
-    case 'd': { let s = 0; for (let j = 0; j < lv; j++) s += 1 + ((Math.random() * 6) | 0); big = s >= 6 * lv; if (twice) s *= s; b.v *= s; str = '×' + s; S.dice(big); break; }
+    case 'd': { let s = 0; for (let j = 0; j < lv; j++) s += 1 + ((random() * 6) | 0); big = s >= 6 * lv; if (twice) s *= s; b.v *= s; str = '×' + s; S.dice(big); break; }
     case 'f': { if (live) addGauge(6 * lv, b); b.v += 30; str = '祭+' + 6 * lv; S.fes(); break; }
     case 's': {
       if (b.used && b.used[p.i]) break;
@@ -465,7 +468,7 @@ function hitPeg(p, b, chain) {
       S.zap(); str = 'ピカッ';
       for (let k = 0; k < 2 + p.lv && ch.n < 160; k++) {
         let q;
-        if (cand.length) { const j = (Math.random() * cand.length) | 0; q = cand[j]; cand[j] = cand[cand.length - 1]; cand.pop(); }
+        if (cand.length) { const j = (random() * cand.length) | 0; q = cand[j]; cand[j] = cand[cand.length - 1]; cand.pop(); }
         else { q = pick(G.pegs); }
         if (ch.seen.has(q.i)) continue;
         ch.seen.add(q.i); ch.n++;
@@ -522,8 +525,8 @@ function stepBalls(h) {
             b.x = p.x + nx * rr; b.y = p.y + ny * rr;
             const vn = b.vx * nx + b.vy * ny;
             if (vn < 0) {
-              const out = Math.max(150, -vn * (0.5 + Math.random() * 0.14));
-              b.vx += (out - vn) * nx + (Math.random() - 0.5) * 70; b.vy += (out - vn) * ny;
+              const out = Math.max(150, -vn * (0.5 + random() * 0.14));
+              b.vx += (out - vn) * nx + (random() - 0.5) * 70; b.vy += (out - vn) * ny;
               if (b.lastPeg !== p.i) {                 // 同じ釘の上ではずんでも、数えるのは1回
                 b.lastPeg = p.i; b.wallOk = true; hitPeg(p, b, null);
                 if (b.tp) { b.tp = false; continue; }
@@ -1567,7 +1570,7 @@ cv.addEventListener('pointercancel', e => pointerEnd(e, true));
 cv.addEventListener('contextmenu', e => e.preventDefault());
 cv.addEventListener('click', () => { auInit(); auResume(); });
 window.addEventListener('keydown', e => {
-  if (cardBook.open) return;
+  if (balanceMode || cardBook.open) return;
   const k = e.key, go = k === ' ' || k === 'Enter';
   if (k === 'Escape' || k === 'p') {
     if (G.help) G.help = 0;
@@ -1622,6 +1625,29 @@ function frame(ts) {
 // 動作確認と調整のための窓口（ゲームの進行には使わない）
 const KETA = window.KETA = { G, BAL, SAVE, L, PT, CARDS, UI, freeze: false,
   api: { startRun, startStage, dropBall, takeCard, placeAt, autoPlace, suggestPeg, dropSpot, update, makeOffer, stageClear, afterClear, quotaFor, fmt, toTitle, resize, render, countType } };
+if (balanceMode) {
+  G.headless = true;
+  const top = L.launchY - 30, height = L.pocketBot + 8 - top;
+  import('./simulator.js').then(({ mountSimulator }) => mountSimulator({
+    G, PT, BAL, canvas: cv, width: W, top, height, launchY: L.launchY,
+    minX: Math.ceil(aimClamp(0)), maxX: Math.floor(aimClamp(W)),
+    buildBoard, starterBoard, setPeg, startStage, dropBall, dropSpot, update, updateFx, pegDesc, fmt, fmtQ, clearReward,
+    withRandom(generator, action) {
+      balanceRandom = generator;
+      try { return action(); } finally { balanceRandom = null; }
+    },
+    drawBoard() {
+      const sy = cv.height / height;
+      ctx.setTransform(cv.width / W, 0, 0, sy, 0, -top * sy);
+      ctx.clearRect(0, top, W, height);
+      drawPockets(); drawPegs(); drawBalls();
+    }
+  })).catch(error => {
+    console.error(error);
+    document.body.textContent = 'シミュレーターを読み込めませんでした。ページを再読み込みしてください。';
+  });
+  return;
+}
 loadSave(); ranking = rankLists(readRanking()); G.speed = [1, 2, 4].includes(SAVE.speed) ? SAVE.speed : 1;
 resize(); toTitle();
 window.addEventListener('resize', resize);

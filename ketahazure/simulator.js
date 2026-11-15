@@ -1,0 +1,594 @@
+const STORAGE_KEY = 'ketahazure.balance.v1';
+const MAX_STAGE = 99;
+const MAX_LEVEL = 99;
+const MAX_SHOTS = 20;
+const MAX_SEED = 0xffffffff;
+const TRIALS = 30;
+const TICK = 1 / 60;
+const THROW_LIMIT = 120 / TICK;
+const boardNames = ['A', 'B'];
+const scoreNumbers = new Intl.NumberFormat('ja-JP', { maximumFractionDigits: 2 });
+
+function scoreText(value) {
+  return value < 1e9 ? scoreNumbers.format(value) : value.toExponential(5);
+}
+
+function boundedInt(value, fallback, min, max) {
+  if (value == null || value === '' || !Number.isFinite(Number(value))) return fallback;
+  return Math.min(max, Math.max(min, Math.round(Number(value))));
+}
+
+// 各試行で独立した乱数列を作る。描画や実時間には依存しない。
+function seededRandom(seed) {
+  let state = seed >>> 0;
+  return () => {
+    state = (state + 0x6d2b79f5) | 0;
+    let n = Math.imul(state ^ (state >>> 15), state | 1);
+    n ^= n + Math.imul(n ^ (n >>> 7), n | 61);
+    return ((n ^ (n >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+const markup = `
+<header class="lab-header">
+  <div class="lab-brand">
+    <span class="lab-emblem" aria-hidden="true">桁</span>
+    <div><p>桁外れ</p><h1>開発者用シミュレーター</h1></div>
+  </div>
+  <a class="game-link" href="./">ゲーム本編 <span aria-hidden="true">↗</span></a>
+</header>
+<main class="lab-grid">
+  <section class="lab-card editor" aria-labelledby="editor-title">
+    <h2 id="editor-title">盤面編成</h2>
+    <div class="switcher" role="group" aria-label="編集する盤面">
+      <button type="button" data-board="0" data-lock aria-pressed="true">盤面 A</button>
+      <button type="button" data-board="1" data-lock aria-pressed="false">盤面 B</button>
+    </div>
+    <p class="hint">種類と Lv を選び、盤面の釘をタップして配置します。</p>
+    <div class="palette" role="group" aria-label="ちょうちんの種類"></div>
+    <label class="level-control" for="peg-level"><span>配置する Lv</span><input id="peg-level" type="number" inputmode="numeric" min="1" max="${MAX_LEVEL}" value="1" data-lock></label>
+    <p class="effect" id="peg-effect"></p>
+    <div class="edit-actions">
+      <button id="undo" type="button" data-lock>元に戻す</button>
+      <button id="copy-board" type="button" data-lock></button>
+      <button id="empty-board" type="button" data-lock>釘だけにする</button>
+      <button id="starter-board" type="button" data-lock>本編の初期配置</button>
+    </div>
+    <p class="edit-note" id="edit-note" role="status"></p>
+  </section>
+
+  <section class="lab-card board-card" aria-labelledby="board-title">
+    <div class="section-title">
+      <h2 id="board-title">盤面 A</h2><span class="board-count" id="board-count"></span>
+    </div>
+    <div class="launch-controls">
+      <label for="drop-position">落下位置 <output id="drop-position-label" for="drop-position"></output></label>
+      <button id="suggest-position" type="button" data-lock>おすすめ位置</button>
+      <input id="drop-position" type="range" step="1" data-lock>
+    </div>
+    <div class="board-plate" id="board-plate">
+      <div class="drop-track" aria-hidden="true"></div>
+      <div class="aim-marker" aria-hidden="true"></div>
+      <div class="pins" role="group" aria-label="盤面の釘"></div>
+    </div>
+    <div class="play-actions">
+      <button id="drop-one" class="primary" type="button">1玉落とす</button>
+      <button id="drop-all" type="button">全玉を試す</button>
+    </div>
+    <div class="play-options">
+      <label for="speed">再生速度</label>
+      <select id="speed">
+        <option value="1">×1</option><option value="2" selected>×2</option><option value="4">×4</option><option value="8">×8</option>
+      </select>
+      <button id="reset-trial" type="button">試行をリセット</button>
+    </div>
+  </section>
+
+  <div class="report">
+    <section class="lab-card results" aria-labelledby="results-title">
+      <div class="section-title"><h2 id="results-title">試行結果</h2><span id="trial-status" class="trial-status" role="status"></span></div>
+      <dl class="score-block">
+        <div><dt>得点</dt><dd id="score">0</dd></div>
+        <div><dt>ノルマ</dt><dd id="quota"></dd></div>
+      </dl>
+      <progress id="quota-progress" max="1" value="0" aria-label="ノルマ達成率"></progress>
+      <dl class="stat-grid">
+        <div><dt>1投目の合計</dt><dd id="first-score">0</dd></div>
+        <div><dt>一発突破</dt><dd id="one-shot">—</dd></div>
+        <div><dt>残りの持ち玉</dt><dd id="remaining-shots"></dd></div>
+        <div><dt>札の枚数</dt><dd id="reward">—</dd></div>
+        <div><dt>当たり・連動</dt><dd id="hits">0</dd></div>
+        <div><dt>祭りの発生</dt><dd id="fevers">0</dd></div>
+      </dl>
+    </section>
+    <section class="lab-card conditions" aria-labelledby="conditions-title">
+      <h2 id="conditions-title">試行条件</h2>
+      <div class="condition-grid">
+        <label for="stage">ステージ<input id="stage" type="number" inputmode="numeric" min="1" max="${MAX_STAGE}" data-lock></label>
+        <label for="shots">持ち玉<input id="shots" type="number" inputmode="numeric" min="1" max="${MAX_SHOTS}" data-lock></label>
+        <label for="seed">乱数シード<input id="seed" type="number" inputmode="numeric" min="0" max="${MAX_SEED}" data-lock></label>
+      </div>
+      <p class="hint">同じ盤面・落下位置・シードで結果を再現できます。玉と祭りが落ち切ってから次を投入します。</p>
+    </section>
+    <section class="lab-card compare" aria-labelledby="compare-title">
+      <h2 id="compare-title">盤面 A/B の比較</h2>
+      <p class="hint">同じ条件で各盤面を ${TRIALS} 回ずつ試します。すべての玉を現在の落下位置から投入します。</p>
+      <div class="compare-actions">
+        <button id="compare" class="outline" type="button">A / B を比較</button>
+        <button id="cancel-comparison" type="button" hidden>中止</button>
+      </div>
+      <div id="compare-progress" hidden>
+        <progress id="batch-progress" max="${TRIALS * 2}" value="0" aria-label="比較の進捗"></progress>
+        <p class="hint" id="progress-label"></p>
+      </div>
+      <div id="comparison" hidden>
+        <table aria-label="盤面ごとの比較結果">
+          <thead><tr><th scope="col">指標</th><th scope="col">盤面 A</th><th scope="col">盤面 B</th></tr></thead>
+          <tbody id="comparison-rows"></tbody>
+        </table>
+      </div>
+      <p class="compare-note" id="compare-note" role="status"></p>
+    </section>
+  </div>
+</main>
+`;
+
+export async function mountSimulator(engine) {
+  const { G, PT, BAL, canvas, width, top, height, launchY, minX, maxX } = engine;
+  const style = document.createElement('link');
+  style.rel = 'stylesheet';
+  style.href = new URL('./simulator.css', import.meta.url);
+  await new Promise((resolve, reject) => {
+    style.onload = resolve;
+    style.onerror = () => reject(new Error('simulator.css failed to load'));
+    document.head.append(style);
+  });
+  document.title = '桁外れ｜開発者用シミュレーター';
+  document.body.classList.add('balance-mode');
+  document.body.innerHTML = markup;
+
+  const byId = id => document.getElementById(id);
+  const plate = byId('board-plate'), palette = document.querySelector('.palette');
+  const range = byId('drop-position'), level = byId('peg-level');
+  const dropOne = byId('drop-one'), dropAll = byId('drop-all'), reset = byId('reset-trial');
+  const compare = byId('compare'), cancel = byId('cancel-comparison');
+  plate.style.aspectRatio = width + ' / ' + height;
+  plate.style.setProperty('--launch-y', (launchY - top) / height * 100 + '%');
+  canvas.removeAttribute('tabindex');
+  canvas.setAttribute('aria-hidden', 'true');
+  canvas.removeAttribute('aria-label');
+  plate.prepend(canvas);
+  range.min = minX;
+  range.max = maxX;
+
+  engine.buildBoard();
+  const slots = G.pegs.map(({ r, c, x, y }) => ({ r, c, x, y }));
+  function starterLayout() {
+    engine.buildBoard();
+    engine.withRandom(seededRandom(24680), engine.starterBoard);
+    return G.pegs.map(p => p.type === 'n' ? null : { type: p.type, lv: p.lv });
+  }
+
+  const initial = starterLayout();
+  const defaults = { boards: [initial, initial.slice()], active: 0, stage: 1, shots: BAL.balls, x: width / 2, seed: 12345 };
+  let stored = {};
+  try { stored = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; } catch (_) { /* 保存できない環境でも使える */ }
+  function readBoard(board, fallback) {
+    if (!Array.isArray(board) || board.length !== slots.length) return fallback;
+    return board.map(p => p && p.type !== 'n' && Object.hasOwn(PT, p.type)
+      ? { type: p.type, lv: boundedInt(p.lv, 1, 1, MAX_LEVEL) }
+      : null);
+  }
+  const setup = {
+    ...defaults,
+    active: stored.active === 1 ? 1 : 0,
+    boards: defaults.boards.map((board, i) => readBoard(stored.boards?.[i], board)),
+    stage: boundedInt(stored.stage, defaults.stage, 1, MAX_STAGE),
+    shots: boundedInt(stored.shots, defaults.shots, 1, MAX_SHOTS),
+    x: boundedInt(stored.x, defaults.x, minX, maxX),
+    seed: boundedInt(stored.seed, defaults.seed, 0, MAX_SEED)
+  };
+  const histories = [[], []];
+  let brush = 'x', brushLevel = 1, lastPeg = -1;
+  let trial, playback, batch, frameId = 0;
+  const pins = [];
+  const lockable = [...document.querySelectorAll('[data-lock]')];
+
+  function saveSetup() {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(setup)); } catch (_) { /* 保存できない環境でも使える */ }
+  }
+
+  function invalidateComparison() {
+    byId('comparison').hidden = true;
+    byId('compare-note').textContent = '';
+  }
+
+  function setStatus(text, tone = '') {
+    const status = byId('trial-status');
+    status.textContent = text;
+    status.dataset.tone = tone;
+  }
+
+  function display(id, value) {
+    const field = byId(id);
+    if (field.textContent !== value) field.textContent = value;
+  }
+
+  function renderMetrics() {
+    const { oneShot, jump, cards } = engine.clearReward();
+    display('score', engine.fmt(G.score));
+    display('quota', engine.fmtQ(G.quota));
+    display('first-score', engine.fmt(G.firstShotScore));
+    const firstShot = trial.firstSettled ? '未達' : playback ? '計測中' : '—';
+    display('one-shot', oneShot ? '達成' : firstShot);
+    byId('score').title = scoreText(G.score);
+    byId('first-score').title = scoreText(G.firstShotScore);
+    display('reward', G.cleared ? cards + '枚' + (jump ? '・飛び級' : '') : '—');
+    display('remaining-shots', G.ballsLeft + ' / ' + G.ballsMax);
+    display('hits', G.stats.hits.toLocaleString('ja-JP') + ' 回');
+    display('fevers', G.stats.fevers + ' 回');
+    const bar = byId('quota-progress');
+    const progress = Math.min(1, G.score / G.quota);
+    if (bar.value !== progress) bar.value = progress;
+  }
+
+  function renderBoard() {
+    const density = Math.min(window.devicePixelRatio || 1, 2);
+    const w = Math.round(plate.clientWidth * density), h = Math.round(plate.clientHeight * density);
+    if (!w || !h) return;
+    if (canvas.width !== w) canvas.width = w;
+    if (canvas.height !== h) canvas.height = h;
+    engine.drawBoard();
+  }
+
+  function setAim(x) {
+    if (setup.x === x) return;
+    setup.x = x;
+    refreshAim();
+    invalidateComparison();
+    saveSetup();
+  }
+
+  function refreshAim() {
+    range.value = setup.x;
+    const position = Math.round(setup.x / width * 100);
+    display('drop-position-label', position + '%');
+    range.setAttribute('aria-valuetext', '左端から ' + position + '%');
+    plate.style.setProperty('--aim-x', setup.x / width * 100 + '%');
+  }
+
+  function newTrial(board, seed) {
+    engine.buildBoard();
+    board.forEach((lantern, i) => {
+      if (!lantern) return;
+      engine.setPeg(G.pegs[i], lantern.type, lantern.lv);
+      G.pegs[i].flash = 0;
+    });
+    Object.assign(G, {
+      t: 0, nextStage: 0, unitIdx: 0, reachedStage: null, runBest: 0, rel: {}, pockets: [],
+      balls: [], spawn: [], aim: { x: setup.x, on: false, snap: false },
+      stats: { bestHit: 0, hits: 0, fevers: 0 },
+      fever: { gauge: 0, need: BAL.feverNeed, on: false, count: 0, total: 0, spawnT: 0, inStage: 0, firstShot: true }
+    });
+    engine.startStage(setup.stage);
+    G.ballsLeft = G.ballsMax = setup.shots;
+    return { random: seededRandom(seed), ticks: 0, timedOut: false, firstSettled: false };
+  }
+
+  function readyTrial() {
+    playback = null;
+    trial = newTrial(setup.boards[setup.active], setup.seed);
+    renderMetrics();
+    renderBoard();
+    setStatus('待機中');
+    updateControls();
+  }
+
+  function updateControls() {
+    const busy = Boolean(playback || batch);
+    for (const control of lockable) control.disabled = busy;
+    level.disabled = busy || brush === 'n';
+    byId('undo').disabled = busy || histories[setup.active].length === 0;
+    plate.dataset.busy = String(busy);
+    for (const pin of pins) pin.setAttribute('aria-disabled', String(busy));
+    dropOne.disabled = dropAll.disabled = busy || G.ballsLeft === 0 || trial.timedOut;
+    dropAll.textContent = G.ballsLeft >= G.ballsMax ? '全玉を試す' : '残りの玉を試す';
+    reset.disabled = Boolean(batch);
+    compare.disabled = busy;
+    cancel.hidden = !batch;
+    byId('compare-progress').hidden = !batch;
+  }
+
+  function renderEditor() {
+    const board = setup.boards[setup.active], activeName = boardNames[setup.active];
+    for (const button of document.querySelectorAll('[data-board]')) {
+      button.setAttribute('aria-pressed', String(Number(button.dataset.board) === setup.active));
+    }
+    byId('board-title').textContent = '盤面 ' + activeName;
+    byId('board-count').textContent = 'ちょうちん ' + board.filter(Boolean).length + ' / ' + slots.length;
+    byId('copy-board').textContent = '盤面 ' + boardNames[1 - setup.active] + ' に複製';
+    pins.forEach((pin, i) => {
+      const p = slots[i], lantern = board[i];
+      const item = lantern ? PT[lantern.type].name + ' Lv' + lantern.lv : '釘';
+      pin.setAttribute('aria-label', (p.r + 1) + '段目 ' + (p.c + 1) + '列目 ' + item);
+      pin.title = pin.getAttribute('aria-label');
+      pin.classList.toggle('last-peg', i === lastPeg);
+    });
+  }
+
+  function updateBrush() {
+    for (const button of palette.children) button.setAttribute('aria-pressed', String(button.dataset.type === brush));
+    level.disabled = brush === 'n';
+    byId('peg-effect').textContent = brush === 'n' ? 'タップした場所を通常の釘に戻します。' : engine.pegDesc(brush, brushLevel);
+  }
+
+  function replaceBoard(board, note, target = setup.active, editedIndex = -1) {
+    const history = histories[target];
+    history.push(setup.boards[target]);
+    if (history.length > 40) history.shift();
+    setup.boards[target] = board;
+    setup.active = target;
+    lastPeg = editedIndex;
+    refreshAfterEdit(note);
+  }
+
+  function refreshAfterEdit(note) {
+    display('edit-note', note);
+    invalidateComparison();
+    renderEditor();
+    readyTrial();
+    saveSetup();
+  }
+
+  function editPeg(i) {
+    if (batch || playback) return;
+    const board = setup.boards[setup.active].slice();
+    const p = slots[i], placed = brush === 'n' ? null : { type: brush, lv: brushLevel };
+    if (board[i]?.type === placed?.type && board[i]?.lv === placed?.lv) return;
+    board[i] = placed;
+    const name = placed ? PT[placed.type].name + ' Lv' + placed.lv : '釘';
+    replaceBoard(board, (p.r + 1) + '段目 ' + (p.c + 1) + '列目を「' + name + '」に変更。', setup.active, i);
+  }
+
+  for (const type of [...Object.keys(PT).filter(key => key !== 'n'), 'n']) {
+    const info = PT[type];
+    const button = document.createElement('button');
+    const glyph = document.createElement('span');
+    glyph.className = 'palette-glyph';
+    glyph.style.setProperty('--peg', info.col);
+    glyph.style.setProperty('--peg-ink', info.ink);
+    glyph.setAttribute('aria-hidden', 'true');
+    glyph.textContent = info.glyph || '・';
+    button.type = 'button';
+    button.dataset.type = type;
+    button.setAttribute('aria-label', type === 'n' ? '釘に戻す' : info.name);
+    button.append(glyph, type === 'n' ? '釘に戻す' : info.name.replace('ちょうちん', ''));
+    button.addEventListener('click', () => { brush = type; updateBrush(); });
+    palette.append(button);
+    lockable.push(button);
+  }
+
+  const pinLayer = plate.querySelector('.pins');
+  slots.forEach((p, i) => {
+    const pin = document.createElement('button');
+    pin.type = 'button';
+    pin.className = 'pin';
+    pin.style.left = p.x / width * 100 + '%';
+    pin.style.top = (p.y - top) / height * 100 + '%';
+    pin.addEventListener('click', () => editPeg(i));
+    pinLayer.append(pin);
+    pins.push(pin);
+  });
+
+  for (const button of document.querySelectorAll('[data-board]')) {
+    button.addEventListener('click', () => {
+      const active = Number(button.dataset.board);
+      if (setup.active === active) return;
+      setup.active = active;
+      lastPeg = -1;
+      display('edit-note', '');
+      renderEditor();
+      readyTrial();
+      saveSetup();
+    });
+  }
+  level.addEventListener('input', () => {
+    brushLevel = boundedInt(level.value, brushLevel, 1, MAX_LEVEL);
+    updateBrush();
+  });
+  level.addEventListener('change', () => { level.value = brushLevel; });
+  byId('undo').addEventListener('click', () => {
+    setup.boards[setup.active] = histories[setup.active].pop();
+    lastPeg = -1;
+    refreshAfterEdit('ひとつ前の配置に戻しました。');
+  });
+  byId('copy-board').addEventListener('click', () => {
+    const target = 1 - setup.active;
+    replaceBoard(setup.boards[setup.active].slice(), '盤面 ' + boardNames[target] + ' に複製しました。', target);
+  });
+  byId('starter-board').addEventListener('click', () => replaceBoard(initial.slice(), '本編の初期配置に切り替えました。'));
+  byId('empty-board').addEventListener('click', () => replaceBoard(slots.map(() => null), 'ちょうちんをすべて釘に戻しました。'));
+  range.addEventListener('input', () => setAim(range.valueAsNumber));
+  byId('suggest-position').addEventListener('click', () => setAim(boundedInt(engine.dropSpot().x, setup.x, minX, maxX)));
+  const track = plate.querySelector('.drop-track');
+  function seek(event) {
+    const rect = plate.getBoundingClientRect();
+    const x = (event.clientX - rect.left - plate.clientLeft) / plate.clientWidth * width;
+    setAim(boundedInt(x, setup.x, minX, maxX));
+  }
+  track.addEventListener('pointerdown', event => {
+    if (batch || playback || !event.isPrimary || event.button !== 0) return;
+    track.setPointerCapture(event.pointerId);
+    seek(event);
+  });
+  track.addEventListener('pointermove', event => {
+    if (track.hasPointerCapture(event.pointerId) && !batch && !playback) seek(event);
+  });
+
+  for (const [key, min, max] of [['stage', 1, MAX_STAGE], ['shots', 1, MAX_SHOTS], ['seed', 0, MAX_SEED]]) {
+    const input = byId(key);
+    input.value = setup[key];
+    input.addEventListener('change', () => {
+      const value = boundedInt(input.value, setup[key], min, max);
+      input.value = value;
+      if (value === setup[key]) return;
+      setup[key] = value;
+      invalidateComparison();
+      readyTrial();
+      saveSetup();
+    });
+  }
+
+  const step = () => engine.update(TICK);
+  function throwBall(run) {
+    run.ticks = 0;
+    G.dropCd = 0;
+    engine.withRandom(run.random, () => engine.dropBall(setup.x));
+  }
+
+  function advance(run) {
+    engine.withRandom(run.random, step);
+    if (!G.balls.length && !G.spawn.length && !G.fever.on) return true;
+    if (++run.ticks < THROW_LIMIT) return false;
+    run.timedOut = true;
+    return true;
+  }
+
+  function scheduleFrame() {
+    if (!frameId) frameId = requestAnimationFrame(frame);
+  }
+
+  function startPlayback(all) {
+    playback = { all, last: performance.now(), carry: 0 };
+    throwBall(trial);
+    setStatus('投下中', 'busy');
+    updateControls();
+    scheduleFrame();
+  }
+
+  function showTrialStatus() {
+    if (trial.timedOut) setStatus('時間上限', 'warn');
+    else if (G.cleared) setStatus('ノルマ達成', 'pass');
+    else if (!G.ballsLeft) setStatus('ノルマ未達', 'warn');
+    else if (G.ballsLeft === G.ballsMax) setStatus('待機中');
+    else setStatus('次の投下を待機');
+  }
+
+  function playFrame(now) {
+    const speed = Number(byId('speed').value);
+    playback.carry += Math.min((now - playback.last) / 1000, 0.05) * speed;
+    playback.last = now;
+    while (playback.carry >= TICK) {
+      playback.carry -= TICK;
+      if (!advance(trial)) continue;
+      if (G.ballsLeft === G.ballsMax - 1 && !trial.timedOut) trial.firstSettled = true;
+      if (playback.all && G.ballsLeft > 0 && !trial.timedOut) {
+        throwBall(trial);
+        continue;
+      }
+      playback = null;
+      showTrialStatus();
+      updateControls();
+      break;
+    }
+    engine.updateFx(TICK * speed);
+    renderBoard();
+    renderMetrics();
+  }
+
+  function startComparison() {
+    batch = { total: 0, run: null, completed: [[], []], preview: { ...G } };
+    byId('batch-progress').value = 0;
+    display('progress-label', '0 / ' + TRIALS * 2 + ' 試行');
+    invalidateComparison();
+    setStatus('比較中', 'busy');
+    updateControls();
+    scheduleFrame();
+  }
+
+  function stopComparison() {
+    restorePreview();
+    display('compare-note', '比較を中止しました。');
+  }
+
+  function restorePreview() {
+    Object.assign(G, batch.preview);
+    batch = null;
+    showTrialStatus();
+    updateControls();
+    renderBoard();
+  }
+
+  function comparisonFrame() {
+    const deadline = performance.now() + 10;
+    do {
+      const side = batch.total % 2;
+      if (!batch.run) {
+        const seed = (setup.seed + Math.floor(batch.total / 2)) >>> 0;
+        batch.run = newTrial(setup.boards[side], seed);
+        throwBall(batch.run);
+      }
+      if (!advance(batch.run)) continue;
+      if (G.ballsLeft > 0 && !batch.run.timedOut) { throwBall(batch.run); continue; }
+      if (!batch.run.timedOut) {
+        batch.completed[side].push({ score: G.score, clear: G.cleared, oneShot: engine.clearReward().oneShot });
+      }
+      batch.total++;
+      batch.run = null;
+      if (batch.total === TRIALS * 2) {
+        const completed = batch.completed;
+        restorePreview();
+        showComparison(completed);
+        return;
+      }
+    } while (performance.now() < deadline);
+    byId('batch-progress').value = batch.total;
+    display('progress-label', batch.total + ' / ' + TRIALS * 2 + ' 試行');
+  }
+
+  function showComparison(completed) {
+    const summary = completed.map(runs => {
+      const scores = runs.map(row => row.score).sort((a, b) => a - b);
+      const mid = Math.floor(scores.length / 2);
+      const median = scores.length % 2 ? scores[mid] : (scores[mid - 1] + scores[mid]) / 2;
+      const rate = key => Math.round(runs.filter(row => row[key]).length / runs.length * 100) + '%';
+      const values = runs.length
+        ? [rate('clear'), rate('oneShot'), ...[median, scores[0], scores.at(-1)].map(scoreText)]
+        : ['—', '—', '—', '—', '—'];
+      return [runs.length + ' / ' + TRIALS, ...values];
+    });
+    const labels = ['完了した試行', 'クリア率', '一発突破率', '得点中央値', '最低点', '最高点'];
+    const rows = labels.map((label, i) => {
+      const row = document.createElement('tr');
+      const heading = document.createElement('th');
+      heading.scope = 'row';
+      heading.textContent = label;
+      row.append(heading);
+      for (const values of summary) row.insertCell().textContent = values[i];
+      return row;
+    });
+    byId('comparison-rows').replaceChildren(...rows);
+    byId('comparison').hidden = false;
+    display('compare-note', completed.some(runs => runs.length < TRIALS)
+      ? '時間上限に達した試行を除いて集計しました。' : '比較が完了しました。');
+  }
+
+  function frame(now) {
+    frameId = 0;
+    if (batch) comparisonFrame();
+    else if (playback) playFrame(now);
+    if (batch || playback) scheduleFrame();
+  }
+
+  dropOne.addEventListener('click', () => startPlayback(false));
+  dropAll.addEventListener('click', () => startPlayback(true));
+  reset.addEventListener('click', readyTrial);
+  compare.addEventListener('click', startComparison);
+  cancel.addEventListener('click', stopComparison);
+  new ResizeObserver(() => { if (!batch) renderBoard(); }).observe(plate);
+
+  updateBrush();
+  refreshAim();
+  renderEditor();
+  readyTrial();
+}
