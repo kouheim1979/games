@@ -138,3 +138,9 @@ body{background:linear-gradient(170deg,#dff6f1 0%,#f2f9f3 35%,#f6f3e9 100%)}
  .city-camera button{min-width:31px;height:32px;font-size:19px;border-radius:9px}
  .city-camera .city-tour-btn{font-size:16px}
 }
+
+.city-fast-tools{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:10px}
+.city-fast-tools button{font:inherit;background:#fff;border:1.5px solid #d4e5e8;border-radius:12px;padding:10px 8px;box-shadow:0 2px 6px #194d6f0b;color:#406682;font-weight:850;font-size:12px;cursor:pointer;transition:transform .12s}
+.city-fast-tools button:not(:disabled):hover{background:#f1fbff;border-color:#6fb4cb;transform:translateY(-2px)}
+.city-fast-tools button:disabled{opacity:.4;filter:grayscale(1);cursor:not-allowed}
+@media(max-width:740px){.city-fast-tools{gap:6px;margin-top:8px}.city-fast-tools button{font-size:10px;line-height:1.4;padding:9px 4px}}
