@@ -23,13 +23,14 @@ body{background:var(--sumi);color:var(--hakuji);font-family:var(--font-body);ove
   background:radial-gradient(120% 80% at 50% 0%,var(--yoiyami),var(--sumi))}
 canvas{display:block;touch-action:none;outline:none}
 canvas:focus-visible{outline:2px solid var(--kin);outline-offset:-2px}
-#card-book{
-  width:min(530px,calc(100% - 24px));height:min(740px,calc(100% - 24px));max-height:none;
+#card-book,.help-dialog{
+  width:min(530px,calc(100% - 24px));max-height:calc(100% - 24px);
   max-width:none;margin:auto;padding:0;border:1px solid #9c8050;border-radius:14px;background:#171b36;
   color:var(--hakuji);overflow:hidden
 }
-#card-book[open]{display:flex;flex-direction:column}
-#card-book::backdrop{background:rgba(11,14,34,.78)}
+#card-book{height:min(740px,calc(100% - 24px))}
+#card-book[open],.help-dialog[open]{display:flex;flex-direction:column}
+#card-book::backdrop,.help-dialog::backdrop{background:rgba(11,14,34,.78)}
 .book-header{padding:14px 14px 12px;border-bottom:1px solid #66583c}
 .book-heading{display:flex;align-items:center;justify-content:space-between;gap:10px}
 .book-heading h1{font:900 28px/1.2 var(--font-display);margin:0}
@@ -59,6 +60,29 @@ canvas:focus-visible{outline:2px solid var(--kin);outline-offset:-2px}
 .book-rarity{border:1px solid currentColor;border-radius:4px;color:var(--rarity);font-size:12px;font-weight:800;padding:1px 4px}
 .book-meta{margin:3px 0 0;font-size:12px;font-weight:700;color:#574564}
 .book-effect{margin:5px 0 0;font-size:14px;line-height:1.6}
+.help-dialog .book-heading h1{font-size:clamp(20px,5.5vw,27px)}
+.help-dialog .book-heading button{flex:none}
+.lantern-preview{background:#10132b;border:1px solid #66583c;border-radius:11px;overflow:hidden}
+.lantern-heading{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 10px}
+.lantern-heading h2{font:900 19px/1.3 var(--font-display);margin:0}
+.lantern-heading h2 small{color:var(--kin);font:700 12px var(--font-body);white-space:nowrap}
+.lantern-preview canvas{width:100%;height:auto;touch-action:auto;background:radial-gradient(ellipse at center,#2d2a53,#11152f)}
+.lantern-copy{padding:9px 10px 11px}
+.lantern-copy p{margin:0;font-size:14px;line-height:1.5}
+#lantern-example{color:var(--kin);font-weight:800;margin-top:5px}
+.lantern-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin-top:10px}
+.lantern-options button,.lantern-heading button{
+  min-height:44px;padding:4px 8px;border:1px solid #6d6484;border-radius:8px;color:var(--hakuji);
+  background:#232643;font:700 13px/1.35 var(--font-body);cursor:pointer
+}
+.lantern-options button{display:flex;align-items:center;justify-content:center;gap:3px;padding-inline:2px}
+.lantern-options button[aria-pressed="true"]{border-color:var(--lantern);background:#323151}
+.lantern-options button:focus-visible,.lantern-heading button:focus-visible{outline:2px solid var(--kin);outline-offset:2px}
+.lantern-options span{display:grid;place-items:center;width:25px;height:25px;border-radius:45%;background:var(--lantern);color:var(--lantern-ink);font-weight:900}
+.lantern-note{margin:10px 0 0;color:#ddd6ec;font-size:12px;line-height:1.5}
+#tutorial-dialog{width:min(410px,calc(100% - 24px))}
+#tutorial-player{display:block;width:100%;height:auto;max-height:66dvh;border-radius:8px;background:#0b0e22}
+#tutorial-error{color:#ffd19c;font-size:14px;line-height:1.5}
 noscript{position:fixed;inset:0;display:grid;place-items:center;padding:24px;text-align:center;line-height:1.8}
 </style>
 </head>
@@ -79,6 +103,37 @@ noscript{position:fixed;inset:0;display:grid;place-items:center;padding:24px;tex
   <div class="book-scroll">
     <p class="book-note" hidden>ちょうちん札の基準のLvと個数です。進行に応じて強くなる札もあります。</p>
     <ul class="book-list"></ul>
+  </div>
+</dialog>
+<dialog class="help-dialog" id="lantern-guide" aria-labelledby="lantern-title">
+  <header class="book-header book-heading">
+    <h1 id="lantern-title">ちょうちんのデモ</h1>
+    <button type="button" id="lantern-close" autofocus>もどる</button>
+  </header>
+  <div class="book-scroll">
+    <section class="lantern-preview" aria-labelledby="lantern-current">
+      <div class="lantern-heading">
+        <h2><span id="lantern-current"></span> <small>Lv1</small></h2>
+        <button type="button" id="lantern-replay">もう一度</button>
+      </div>
+      <canvas id="lantern-scene" width="720" height="320" aria-hidden="true"></canvas>
+      <div class="lantern-copy" aria-live="polite">
+        <p id="lantern-desc"></p>
+        <p id="lantern-example"></p>
+      </div>
+    </section>
+    <div class="lantern-options" id="lantern-options" role="group" aria-label="デモを見るちょうちん"></div>
+    <p class="lantern-note">分裂・爆発・雷は、同じ玉に対して各ちょうちん1回まで。転送できる回数はLvまでです。</p>
+  </div>
+</dialog>
+<dialog class="help-dialog" id="tutorial-dialog" aria-labelledby="tutorial-title">
+  <header class="book-header book-heading">
+    <h1 id="tutorial-title">札のチュートリアル</h1>
+    <button type="button" id="tutorial-close" autofocus>もどる</button>
+  </header>
+  <div class="book-scroll">
+    <video id="tutorial-player" controls playsinline preload="none" width="480" height="854" aria-label="札の選び方と一発突破のチュートリアル動画"></video>
+    <p id="tutorial-error" hidden>動画を読み込めませんでした。ページを読み込み直して、もう一度お試しください。</p>
   </div>
 </dialog>
 <template id="book-entry">
@@ -161,7 +216,8 @@ const fmtQ = v => fmtN(v, false, true).replace(/(\.\d*?)0+(?=[^\d]|$)/, '$1').re
 // ───────── 調整用の数字 ─────────
 const BAL = {
   ballV0: 10, nailAdd: 10, addVal: 60, rateStep: 0.06, feverNeed: 30, feverBalls: 6, feverAdd: 2, feverRate: 1, balls: 5, maxJump: 1, rateSoft: 200,
-  g: 1500, maxBalls: 140, noFail: false, jumpMul: 100, xLvDiv: 5, qLate: 3.7, qAcc: 0.125
+  g: 1500, maxBalls: 140, noFail: false, jumpMul: 100, xLvDiv: 5, qLate: 3.7, qAcc: 0.125,
+  growBase: 1.2, growStep: 0.1, festivalGauge: 6, festivalValue: 30
 };
 // ノルマの表（10の何乗か）。自動プレイで測った伸び方に合わせてある。23ステージ目からは式でのばす
 const QT = [3.5, 3.7, 3.85, 4.0, 4.15, 4.3, 4.5, 4.75, 5.05, 5.4, 5.8, 6.3, 6.9, 7.6, 8.4, 9.3, 10.5, 12.2, 14.4, 17.1, 20.3, 23.75];
@@ -175,6 +231,8 @@ const X_WIDE = WALL_L + PEG_R, SX = (WALL_R - WALL_L - 2 * PEG_R) / 7, X_NARROW 
 const L = { hud: 0, launchY: 192, row0: 252, rowGap: 57, pocketTop: 821, pocketBot: 881, trayY: 889, trayH: 71 };
 const cv = document.getElementById('c'), ctx = cv.getContext('2d');
 const cardBook = document.getElementById('card-book');
+const lanternGuide = document.getElementById('lantern-guide');
+const tutorialDialog = document.getElementById('tutorial-dialog');
 let scale = 1, dpr = 1, SS = 2, SPR = {}, BG = null;
 
 // ───────── ちょうちんの種類 ─────────
@@ -185,7 +243,7 @@ const PT = {
   s: { name: '分裂ちょうちん', glyph: '分', col: C.take, ink: '#0f2e19', desc: '当たった玉が2つに分かれる。値はどちらもそのまま。' },
   b: { name: '爆発ちょうちん', glyph: '火', col: C.buki, ink: '#3a1c00', desc: '当たると爆発して、まわりの釘とちょうちんをまとめて発動する（Lv1の強さで）。' },
   z: { name: '雷ちょうちん', glyph: '雷', col: C.ina, ink: '#3a3200', desc: '当たると雷が飛び、はなれたちょうちん3つを発動する（Lv1の強さで）。' },
-  g: { name: '育ちちょうちん', glyph: '育', col: C.ruri, ink: '#fff7ec', desc: '値を1.2倍にする。当たるたびに倍率が0.1ずつ育ち、ずっと残る。' },
+  g: { name: '育ちちょうちん', glyph: '育', col: C.ruri, ink: '#fff7ec', desc: `値を${BAL.growBase}倍にする。当たるたびに倍率が${BAL.growStep}ずつ育ち、ずっと残る。` },
   w: { name: '転送ちょうちん', glyph: '転', col: C.fuji, ink: '#231044', desc: '当たった玉を一番上へもどす。値をもったまま、もう一度落ちる。' },
   f: { name: '祭ちょうちん', glyph: '祭', col: C.momo, ink: '#4a0d28', desc: '当たると祭ゲージが大きくたまる。' },
   d: { name: '賽ちょうちん', glyph: '賽', col: C.haku, ink: C.ink, desc: 'サイコロをふり、出た目の数だけ値を掛ける。1倍から6倍まで。' }
@@ -432,9 +490,9 @@ function hitPeg(p, b, chain) {
     case 'n': { b.v += BAL.nailAdd * (R.nail ? Math.pow(3, R.nail) : 1) * (fev ? BAL.feverAdd : 1) * (twice ? 2 : 1); if (!chain) S.hit(G.combo); break; }
     case 'a': { const a = BAL.addVal * lv * (fev ? BAL.feverAdd : 1) * (twice ? 2 : 1); b.v += a; str = '+' + fmtS(a); S.add(); break; }
     case 'x': { let m = xMul(lv); if (twice) m *= m; b.v *= m; str = '×' + fmtS(m); big = m >= 8; S.mul(lv); break; }
-    case 'g': { let m = 1.2 + p.grow; if (chain && m > 2) m = 2; p.grow += 0.1 * p.lv; str = '×' + m.toFixed(1); if (twice) m *= m; b.v *= m; S.mul(2); break; }
+    case 'g': { let m = BAL.growBase + p.grow; if (chain && m > 2) m = 2; p.grow += BAL.growStep * p.lv; str = '×' + m.toFixed(1); if (twice) m *= m; b.v *= m; S.mul(2); break; }
     case 'd': { let s = 0; for (let j = 0; j < lv; j++) s += 1 + ((Math.random() * 6) | 0); big = s >= 6 * lv; if (twice) s *= s; b.v *= s; str = '×' + s; S.dice(big); break; }
-    case 'f': { if (live) addGauge(6 * lv, b); b.v += 30; str = '祭+' + 6 * lv; S.fes(); break; }
+    case 'f': { if (live) addGauge(BAL.festivalGauge * lv, b); b.v += BAL.festivalValue; str = '祭+' + BAL.festivalGauge * lv; S.fes(); break; }
     case 's': {
       if (b.used && b.used[p.i]) break;
       (b.used || (b.used = {}))[p.i] = 1;
@@ -750,9 +808,9 @@ function pegDesc(t, lv) {
     case 'x': return `当たった玉の値を${fmtS(xMul(lv))}倍にする。重ねるとLvが上がり、${lv > 1 ? 'さらに' : '3倍、4倍、6倍と'}強くなる。`;
     case 's': return `当たった玉が${lv + 1}つに分かれる。値はどれもそのまま。`;
     case 'z': return `当たると雷が飛び、はなれたちょうちん${2 + lv}つを発動する（Lv1の強さで）。`;
-    case 'g': return `値を1.2倍にする。当たるたびに倍率が${(0.1 * lv).toFixed(1)}ずつ育ち、ずっと残る。`;
+    case 'g': return `値を${BAL.growBase}倍にする。当たるたびに倍率が${(BAL.growStep * lv).toFixed(1)}ずつ育ち、ずっと残る。`;
     case 'w': return lv > 1 ? `当たった玉を一番上へもどす。値をもったまま落ち直す。1つの玉に${lv}回まで。` : PT.w.desc;
-    case 'f': return `当たると祭ゲージが${6 * lv}たまる（ふつうの釘は1）。`;
+    case 'f': return `祭ゲージを、当たった分の1に加えて${BAL.festivalGauge * lv}ためる。`;
     case 'd': return lv > 1 ? `サイコロを${lv}個ふり、出た目の合計だけ値を掛ける。` : PT.d.desc;
     case 'b': return lv > 1 ? '当たると広く爆発して、まわりの釘とちょうちんをまとめて発動する（Lv1の強さで）。' : PT.b.desc;
   }
@@ -1439,33 +1497,206 @@ function drawHelp() {
   UI.regs.length = 0;
   ctx.fillStyle = 'rgba(11,14,34,.96)'; ctx.fillRect(0, 0, W, H);
   let y = 76 + (H - 960) * 0.25;
-  if (G.help === 1) {
-    T('あそびかた', W / 2, y, { size: 40, fam: F_D, w: 900, align: 'center' }); y += 52;
-    HELP1.forEach((s, i) => {
-      ctx.beginPath(); ctx.arc(46, y + 14, 16, 0, TAU); ctx.fillStyle = C.shu; ctx.fill();
-      T(String(i + 1), 46, y + 15, { size: 18, w: 900, align: 'center', base: 'middle' });
-      ctx.font = `600 20px ${F_B}`; const lines = wrap(s, W - 76 - 28);
-      lines.forEach((ln, j) => T(ln, 76, y + 22 + j * 30, { size: 20, w: 600 }));
-      y += lines.length * 30 + 22;
-    });
-  } else {
-    T('ちょうちん図鑑', W / 2, y, { size: 40, fam: F_D, w: 900, align: 'center' }); y += 30;
-    for (const t of 'axsbzgwfd') {
-      const P = PT[t]; ctx.drawImage(pegSprite(t, 1), 16, y - 6, 56, 56);
-      T(P.name, 78, y + 18, { size: 19, w: 800, col: t === 'x' ? '#ff8a75' : P.col });
-      ctx.font = `500 15.5px ${F_B}`;
-      wrap(P.desc, W - 78 - 20).slice(0, 2).forEach((ln, j) => T(ln, 78, y + 40 + j * 21, { size: 15.5, w: 500, col: '#d9d4e6' }));
-      y += 71;
-    }
-    T('分裂・爆発・雷・転送がはたらくのは、1つの玉につき1回ずつ。', W / 2, y + 16, { size: 15, w: 600, align: 'center', col: C.dim });
-    T('重ねて上げられるLvは、ステージの数まで。', W / 2, y + 38, { size: 15, w: 600, align: 'center', col: C.dim });
-  }
+  T('あそびかた', W / 2, y, { size: 40, fam: F_D, w: 900, align: 'center' }); y += 52;
+  HELP1.forEach((s, i) => {
+    ctx.beginPath(); ctx.arc(46, y + 14, 16, 0, TAU); ctx.fillStyle = C.shu; ctx.fill();
+    T(String(i + 1), 46, y + 15, { size: 18, w: 900, align: 'center', base: 'middle' });
+    ctx.font = `600 20px ${F_B}`; const lines = wrap(s, W - 76 - 28);
+    lines.forEach((ln, j) => T(ln, 76, y + 22 + j * 30, { size: 20, w: 600 }));
+    y += lines.length * 30 + 22;
+  });
   const by = H - 150;
-  button('hpage', 40, by, W - 80, 54, G.help === 1 ? 'ちょうちん図鑑を見る' : 'あそびかたにもどる', {}, () => { G.help = G.help === 1 ? 2 : 1; });
+  button('hpage', 40, by, W / 2 - 46, 54, 'ちょうちんのデモ', { size: 21 }, openLanternGuide);
+  button('hvideo', W / 2 + 6, by, W / 2 - 46, 54, '札の動画を見る', { size: 21 }, openTutorial);
   button('hclose', 40, by + 66, W - 80, 62, G.helpStart ? 'はじめる' : 'とじる', { kind: 'primary', size: 22 }, () => {
     G.help = 0; SAVE.seen = true; saveSave(); if (G.helpStart) { G.helpStart = false; startRun(); }
   });
 }
+
+// ───────── ちょうちんのデモ ─────────
+// Lv1の効果が見えるように、短い例を本編と独立した盤面で再生する。
+const demoScene = document.getElementById('lantern-scene'), demoCtx = demoScene.getContext('2d');
+const lanternOptions = document.getElementById('lantern-options');
+const DEMO_X = 180, DEMO_Y = 79, DEMO_HIT = 0.55, DEMO_SECOND = 1.32;
+const DEMO_INPUT = BAL.ballV0, DEMO_DIE = 4, DEMO_MUL = xMul(1);
+const DEMO_GROW_NEXT = BAL.growBase + BAL.growStep;
+const DEMO_GAUGE = BAL.feverNeed - BAL.festivalGauge - 1;
+const DEMO_SHOTS = {
+  a: { value: DEMO_INPUT + BAL.addVal, label: '+' + BAL.addVal },
+  x: { value: DEMO_INPUT * DEMO_MUL, label: '×' + DEMO_MUL },
+  s: { example: `玉1個（${DEMO_INPUT}） → 玉2個（${DEMO_INPUT}、${DEMO_INPUT}）` },
+  b: {
+    value: (DEMO_INPUT + BAL.nailAdd + BAL.addVal) * DEMO_MUL,
+    label: '近くの釘・加点・乗算が発動',
+    targets: [{ type: 'n', x: 117, y: 65 }, { type: 'a', x: 131, y: 107 }, { type: 'x', x: 235, y: 107 }]
+  },
+  z: {
+    value: (DEMO_INPUT + BAL.addVal) * DEMO_MUL ** 2,
+    label: 'はなれた3つが発動',
+    targets: [{ type: 'a', x: 72, y: 62 }, { type: 'x', x: 279, y: 55 }, { type: 'x', x: 285, y: 113 }]
+  },
+  g: {
+    value: DEMO_INPUT * BAL.growBase, duration: 2.7,
+    example: `1個目は×${BAL.growBase.toFixed(1)}、2個目は×${DEMO_GROW_NEXT.toFixed(1)}`
+  },
+  w: { duration: 2, example: `値${DEMO_INPUT}のまま、一番上から落ち直す` },
+  f: {
+    value: DEMO_INPUT + BAL.festivalValue, duration: 2.3,
+    example: `祭ゲージ ${DEMO_GAUGE} → ${BAL.feverNeed}　玉が${BAL.feverBalls}個降る`
+  },
+  d: { value: DEMO_INPUT * DEMO_DIE, label: '出目 ' + DEMO_DIE }
+};
+let lanternDemo = null;
+const demoProgress = (t, start, duration) => clamp((t - start) / duration, 0, 1);
+function demoPeg(type, x, y, size = 64) {
+  demoCtx.drawImage(pegSprite(type, 1), x - size / 2, y - size / 2, size, size);
+}
+function demoBall(x, y, value, size = 24) {
+  demoCtx.drawImage(ballSprite(0), x - size / 2, y - size / 2, size, size);
+  if (value === undefined) return;
+  const label = fmt(value);
+  demoCtx.strokeStyle = C.sumi;
+  demoCtx.lineWidth = 4;
+  demoCtx.strokeText(label, x, y - 13);
+  demoCtx.fillText(label, x, y - 13);
+}
+function demoRing(x, y, radius, color, opacity) {
+  demoCtx.beginPath();
+  demoCtx.arc(x, y, radius, 0, TAU);
+  demoCtx.strokeStyle = rgba(color, opacity);
+  demoCtx.lineWidth = 2;
+  demoCtx.stroke();
+}
+function drawDemoChain(type, targets, hit, pulse) {
+  if (hit && type === 'b') demoRing(DEMO_X, DEMO_Y, 19 + 55 * outCubic(pulse), C.buki, 0.85 - pulse * 0.55);
+  for (const peg of targets) {
+    if (hit && type === 'z') {
+      const dx = peg.x - DEMO_X, dy = peg.y - DEMO_Y;
+      demoCtx.beginPath();
+      demoCtx.moveTo(DEMO_X, DEMO_Y);
+      demoCtx.lineTo(DEMO_X + dx * 0.35, DEMO_Y + dy * 0.35 - 9);
+      demoCtx.lineTo(DEMO_X + dx * 0.58, DEMO_Y + dy * 0.58 + 8);
+      demoCtx.lineTo(peg.x, peg.y);
+      demoCtx.strokeStyle = rgba(C.ina, 1 - pulse * 0.7);
+      demoCtx.lineWidth = 2;
+      demoCtx.stroke();
+    }
+    if (hit) demoRing(peg.x, peg.y, 16, PT[type].col, 0.9 - pulse * 0.55);
+    demoPeg(peg.type, peg.x, peg.y, 49);
+  }
+}
+function drawDemoFestival(time) {
+  const gauge = DEMO_GAUGE + (BAL.feverNeed - DEMO_GAUGE) * demoProgress(time, DEMO_HIT, 0.26);
+  demoCtx.fillStyle = C.haku;
+  demoCtx.fillText('祭 ' + Math.floor(gauge) + ' / ' + BAL.feverNeed, 62, 25);
+  demoCtx.fillStyle = '#383351';
+  demoCtx.fillRect(16, 31, 92, 6);
+  demoCtx.fillStyle = gauge === BAL.feverNeed ? C.kin : C.momo;
+  demoCtx.fillRect(16, 31, 92 * gauge / BAL.feverNeed, 6);
+  demoCtx.fillStyle = C.haku;
+  for (let i = 0; i < BAL.feverBalls; i++) {
+    const start = DEMO_HIT + 0.29 + 0.1 * i;
+    if (time < start) break;
+    const fall = demoProgress(time, start, 0.8);
+    demoBall(85 + 36 * i, 18 + (96 + 12 * (i % 2)) * fall * fall, undefined, 17);
+  }
+}
+function drawDemoDie(pulse) {
+  demoCtx.save();
+  demoCtx.translate(260, 62);
+  demoCtx.rotate(TAU * outCubic(pulse));
+  RR(-17, -17, 34, 34, 6, demoCtx);
+  demoCtx.fillStyle = C.washi;
+  demoCtx.fill();
+  demoCtx.fillStyle = C.ink;
+  for (const y of [-7, 7]) for (const x of [-7, 7]) {
+    demoCtx.beginPath();
+    demoCtx.arc(x, y, 2.8, 0, TAU);
+    demoCtx.fill();
+  }
+  demoCtx.restore();
+}
+function drawLanternDemo() {
+  const { type, time } = lanternDemo, scene = DEMO_SHOTS[type];
+  const second = type === 'g' && time >= DEMO_SECOND;
+  const shotTime = second ? time - DEMO_SECOND : time;
+  const hit = shotTime >= DEMO_HIT;
+  const pulse = demoProgress(shotTime, DEMO_HIT, 0.56);
+  const fall = demoProgress(shotTime, 0, DEMO_HIT);
+  const exit = demoProgress(shotTime, DEMO_HIT, 0.76);
+  const exitY = 60 + 77 * exit - 20 * Math.sin(exit * Math.PI);
+  demoCtx.setTransform(2, 0, 0, 2, 0, 0);
+  demoCtx.clearRect(0, 0, 360, 160);
+  demoCtx.font = `900 15px ${F_B}`;
+  demoCtx.textAlign = 'center';
+  demoCtx.fillStyle = C.haku;
+  if (scene.targets) drawDemoChain(type, scene.targets, hit, pulse);
+  if (type === 'f') drawDemoFestival(time);
+  if (type === 'd' && hit) drawDemoDie(pulse);
+  if (hit) demoRing(DEMO_X, DEMO_Y, 18 + pulse * 12, PT[type].col, 0.8 - pulse * 0.55);
+  demoPeg(type, DEMO_X, DEMO_Y, 78);
+  if (second) demoBall(DEMO_X - 54, 137, scene.value);
+  if (!hit) {
+    demoBall(DEMO_X, 25 + 35 * fall * fall, DEMO_INPUT);
+  } else if (type === 's') {
+    for (const side of [-1, 1]) demoBall(DEMO_X + side * 58 * outCubic(exit), exitY, DEMO_INPUT);
+  } else if (type === 'w') {
+    demoRing(249, 26, 12 + pulse * 12, C.fuji, 0.87 - pulse * 0.7);
+    const again = demoProgress(time, DEMO_HIT + 0.25, 0.92);
+    demoBall(249 + 21 * again, 26 + 111 * again * again, DEMO_INPUT);
+  } else {
+    const direction = type === 'g' && !second ? -1 : 1;
+    const value = second ? DEMO_INPUT * DEMO_GROW_NEXT : scene.value;
+    demoBall(DEMO_X + direction * 54 * outCubic(exit), exitY, value);
+  }
+}
+function showLanternDemo(type) {
+  const peg = PT[type], scene = DEMO_SHOTS[type], duration = scene.duration || 1.55;
+  lanternDemo = { type, time: REDUCED ? duration : 0, duration };
+  document.getElementById('lantern-current').textContent = peg.name;
+  document.getElementById('lantern-desc').textContent = pegDesc(type, 1);
+  document.getElementById('lantern-example').textContent = scene.example ||
+    `玉の値 ${fmt(DEMO_INPUT)} → ${fmt(scene.value)}（${scene.label}）`;
+  for (const button of lanternOptions.children) button.setAttribute('aria-pressed', String(button.dataset.lantern === type));
+  drawLanternDemo();
+}
+function openLanternGuide() {
+  if (!lanternOptions.childElementCount) {
+    for (const type of Object.keys(DEMO_SHOTS)) {
+      const peg = PT[type], button = document.createElement('button'), glyph = document.createElement('span');
+      button.type = 'button';
+      button.dataset.lantern = type;
+      button.style.setProperty('--lantern', peg.col);
+      button.style.setProperty('--lantern-ink', peg.ink);
+      button.setAttribute('aria-label', peg.name);
+      glyph.setAttribute('aria-hidden', 'true');
+      glyph.textContent = peg.glyph;
+      button.append(glyph, peg.name.replace('ちょうちん', ''));
+      button.addEventListener('click', () => showLanternDemo(type));
+      lanternOptions.append(button);
+    }
+  }
+  lanternGuide.showModal();
+  showLanternDemo(lanternDemo?.type || 'a');
+}
+document.getElementById('lantern-replay').addEventListener('click', () => showLanternDemo(lanternDemo.type));
+document.getElementById('lantern-close').addEventListener('click', () => lanternGuide.close());
+lanternGuide.addEventListener('close', () => cv.focus({ preventScroll: true }));
+
+// ───────── 札のチュートリアル動画 ─────────
+const tutorialPlayer = document.getElementById('tutorial-player');
+function openTutorial() {
+  tutorialDialog.showModal();
+  if (!tutorialPlayer.hasAttribute('src')) tutorialPlayer.src = './ketahazure-card-tutorial.mp4';
+  tutorialPlayer.play().catch(() => {});  // 自動再生できない端末では再生ボタンから観られる。
+}
+document.getElementById('tutorial-close').addEventListener('click', () => tutorialDialog.close());
+tutorialPlayer.addEventListener('error', () => { document.getElementById('tutorial-error').hidden = false; });
+tutorialDialog.addEventListener('close', () => {
+  tutorialPlayer.pause();
+  cv.focus({ preventScroll: true });
+});
+
 // ───────── 札図鑑 ─────────
 const bookTabs = cardBook.querySelectorAll('[data-book-kind]');
 const bookList = cardBook.querySelector('.book-list');
@@ -1567,7 +1798,7 @@ cv.addEventListener('pointercancel', e => pointerEnd(e, true));
 cv.addEventListener('contextmenu', e => e.preventDefault());
 cv.addEventListener('click', () => { auInit(); auResume(); });
 window.addEventListener('keydown', e => {
-  if (cardBook.open) return;
+  if (cardBook.open || lanternGuide.open || tutorialDialog.open) return;
   const k = e.key, go = k === ' ' || k === 'Enter';
   if (k === 'Escape' || k === 'p') {
     if (G.help) G.help = 0;
@@ -1609,7 +1840,14 @@ function frame(ts) {
   requestAnimationFrame(frame);
   if (KETA.freeze) return;
   const rdt = Math.min(0.05, Math.max(0.001, (ts - lastTs) / 1000 || 0.016)); lastTs = ts;
-  if (cardBook.open) return;
+  if (lanternGuide.open) {
+    if (lanternDemo.time < lanternDemo.duration) {
+      lanternDemo.time = Math.min(lanternDemo.duration, lanternDemo.time + rdt);
+      drawLanternDemo();
+    }
+    return;
+  }
+  if (cardBook.open || tutorialDialog.open) return;
   G.rt += rdt;
   if (G.phase === 'play' && !G.paused) {               // こま落ちが続く端末では、絵の細かさを一段ずつ下げる
     slow = rdt > 0.03 ? slow + 1 : Math.max(0, slow - 1);
