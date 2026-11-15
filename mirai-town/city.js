@@ -10,7 +10,7 @@ var splash=document.getElementById('citySplash');
 var state={month:0,cash:1200,shop:0,fund:0,total:1200,news:null,started:false,ended:false};
 try { var old=JSON.parse(localStorage.getItem('mirai-town-invest-v1')||'null'); if(old){state=Object.assign({},state,old);state.total=(old.cash||0)+(old.shop||0)+(old.fund||0);} }catch(_){}
 var w=900,h=540,dpr=1,scale=1,zoom=1,panX=0,panY=0;
-var frame=0,last=0,animated=true,particles=[],constructionUntil=0,rippleUntil=0;
+var frame=0,last=0,lastPaint=0,animated=true,particles=[],constructionStart=0,constructionUntil=0,rippleUntil=0;
 var lastLevel=-1,lastFund=-1,lastMonth=-1,lastShop=-1;
 var selected='shop',shopLevels=['空き地','キャンディ屋台','おかしショップ','スイーツカフェ','スイーツビル'];
 var fullMap=9,tileW=86,tileH=43;
@@ -136,10 +136,12 @@ function drawShop(p,t){
    drawStall(p,t);
    balloon('🍬 キャンディ屋台',p.x,p.y-82,'#fff9df');
  }else{
-   var height=lev===2?60:lev===3?105:157;
+   var fullHeight=lev===2?60:lev===3?105:157;
+   var buildProgress=hasConstruction?clamp((performance.now()-constructionStart)/1700,.2,1):1;
+   var height=fullHeight*buildProgress;
    var wide=lev===2?76:lev===3?93:103;
    prism(p,wide,50,height,lev===4?'#ffc5c6':'#ffe9c2','#ffa1af','#ed839e');
-   windows(p,wide,50,height,lev===2?1:lev===3?2:3,2);
+   if(buildProgress>.52)windows(p,wide,50,height,lev===2?1:lev===3?2:3,2);
    poly([[p.x-wide/2-6,p.y-height+28],[p.x,p.y-height+39],[p.x+wide/2+6,p.y-height+28],[p.x,p.y-height+17]],'#e9558f','#cb4a7d',2);
    var sign=lev===2?'SWEETS':lev===3?'SWEETS CAFE':'SWEET PALACE';
    balloon(sign,p.x,p.y-height-20,'#fff3dc');
@@ -277,6 +279,8 @@ function effects(dt){
  }
 }
 function paint(now){
+ if(now-lastPaint<(w<600?30:16)){frame=requestAnimationFrame(paint);return;}
+ lastPaint=now;
  if(!document.hidden){
   var t=now/1000,dt=clamp((now-last)/1000,0,.08);last=now;
   context.setTransform(dpr,0,0,dpr,0,0);context.clearRect(0,0,w,h);
@@ -323,7 +327,7 @@ function nextState(next){
  if(lastLevel<0){lastLevel=afterLevel;lastFund=fundLevel(state.fund);}
  else{
   if(afterLevel>beforeLevel){
-    constructionUntil=performance.now()+2200;
+    constructionStart=performance.now();constructionUntil=constructionStart+2200;
     addCoins(Math.max(100,state.shop-shopBefore));
     showSplash('🎉 おみせが進化！','Lv.'+(afterLevel+1)+' '+shopLevels[afterLevel]);
   }else if(state.shop>shopBefore){
