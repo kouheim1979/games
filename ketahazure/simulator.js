@@ -49,6 +49,7 @@ const markup = `
     <label class="level-control" for="peg-level"><span>配置する Lv</span><input id="peg-level" type="number" inputmode="numeric" min="1" max="${MAX_LEVEL}" value="1" data-lock></label>
     <p class="effect" id="peg-effect"></p>
     <div class="edit-actions">
+      <button id="fill-board" class="outline fill-board" type="button" data-lock>全部このちょうちんにする</button>
       <button id="undo" type="button" data-lock>元に戻す</button>
       <button id="copy-board" type="button" data-lock></button>
       <button id="empty-board" type="button" data-lock>釘だけにする</button>
@@ -150,6 +151,7 @@ export async function mountSimulator(engine) {
   const byId = id => document.getElementById(id);
   const plate = byId('board-plate'), palette = document.querySelector('.palette');
   const range = byId('drop-position'), level = byId('peg-level');
+  const fillBoard = byId('fill-board');
   const dropOne = byId('drop-one'), dropAll = byId('drop-all'), reset = byId('reset-trial');
   const compare = byId('compare'), cancel = byId('cancel-comparison');
   plate.style.aspectRatio = width + ' / ' + height;
@@ -287,7 +289,7 @@ export async function mountSimulator(engine) {
   function updateControls() {
     const busy = Boolean(playback || batch);
     for (const control of lockable) control.disabled = busy;
-    level.disabled = busy || brush === 'n';
+    level.disabled = fillBoard.disabled = busy || brush === 'n';
     byId('undo').disabled = busy || histories[setup.active].length === 0;
     plate.dataset.busy = String(busy);
     for (const pin of pins) pin.setAttribute('aria-disabled', String(busy));
@@ -318,7 +320,7 @@ export async function mountSimulator(engine) {
 
   function updateBrush() {
     for (const button of palette.children) button.setAttribute('aria-pressed', String(button.dataset.type === brush));
-    level.disabled = brush === 'n';
+    level.disabled = fillBoard.disabled = brush === 'n';
     byId('peg-effect').textContent = brush === 'n' ? 'タップした場所を通常の釘に戻します。' : engine.pegDesc(brush, brushLevel);
   }
 
@@ -397,6 +399,13 @@ export async function mountSimulator(engine) {
     updateBrush();
   });
   level.addEventListener('change', () => { level.value = brushLevel; });
+  fillBoard.addEventListener('click', () => {
+    const board = setup.boards[setup.active];
+    if (board.every(peg => peg?.type === brush && peg.lv === brushLevel)) return;
+    const name = PT[brush].name + ' Lv' + brushLevel;
+    replaceBoard(slots.map(() => ({ type: brush, lv: brushLevel })),
+      '盤面 ' + boardNames[setup.active] + ' を「' + name + '」で埋めました。');
+  });
   byId('undo').addEventListener('click', () => {
     setup.boards[setup.active] = histories[setup.active].pop();
     lastPeg = -1;

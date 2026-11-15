@@ -186,6 +186,7 @@ body.balance-mode {
 }
 .edit-actions, .play-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
 .edit-actions button { background: #1a2038; font-size: 12px; }
+.edit-actions .fill-board { grid-column: 1 / -1; min-height: 44px; }
 
 .board-count { color: var(--muted); font-size: 12px; }
 .launch-controls {
