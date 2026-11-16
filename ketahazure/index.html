@@ -576,7 +576,10 @@ function hitPeg(p, b, chain) {
     G.stats.hits++; addGauge(1, b);
     if (!chain && R.rensa && G.combo % 50 === 0) { G.rate = Math.min(1e250, G.rate * Math.pow(1.1, R.rensa)); fxText(W - 96, L.launchY - 36, '連鎖 勢い↑', C.asagi, 17); }
   }
-  const twice = !!R.crit && Math.random() < 0.15 * R.crit, lv = chain ? 1 : p.lv;   // 爆発や雷で発動したときは Lv1 の強さ
+  // 会心は玉の得点を直接強化する釘・加点・乗算・育ち・賽にだけ判定する。
+  // 分裂・爆発・雷・転送・祭りでは実際に強化しないため、誤った「会心」表示を防ぐ。
+  const critEligible = p.type === 'n' || p.type === 'a' || p.type === 'x' || p.type === 'g' || p.type === 'd';
+  const twice = critEligible && !!R.crit && Math.random() < 0.15 * R.crit, lv = chain ? 1 : p.lv;   // 爆発や雷で発動したときは Lv1 の強さ
   let str = '', big = false;
   switch (p.type) {
     case 'n': { b.v += BAL.nailAdd * (R.nail ? Math.pow(3, R.nail) : 1) * (fev ? BAL.feverAdd : 1) * (twice ? 2 : 1); if (!chain) S.hit(G.combo); break; }
@@ -857,7 +860,7 @@ const CARDS = [
   { id: 'masu', k: 'rel', rar: 1, max: 9, name: '桝の底上げ', g: '桝', desc: 'すべての桝の倍率が1ずつ上がる。' },
   { id: 'keiki', k: 'rel', rar: 2, max: 9, name: '景気づけ', g: '景', desc: 'ステージ開始時の「勢い」が0.5高くなる。' },
   { id: 'hashi', k: 'rel', rar: 1, max: 3, name: '端っこ名人', g: '端', desc: '両端の桝の倍率が2倍になる。' },
-  { id: 'crit', k: 'rel', rar: 2, max: 2, core: 1, name: '会心', g: '会', desc: '15%の確率で、当たった効果が2回分になる。' },
+  { id: 'crit', k: 'rel', rar: 2, max: 2, core: 1, name: '会心', g: '会', desc: '釘・加点・乗算・育ち・賽の得点効果が2回分。1枚で15%、2枚で30%。' },
   { id: 'kabe', k: 'rel', rar: 1, max: 3, core: 1, name: '壁打ち', g: '壁', desc: '玉が壁に当たるたび、値が1.5倍になる（釘をはさんで何度でも）。' },
   { id: 'omatsuri', k: 'rel', rar: 3, max: 4, name: '大祭り', g: '祭', desc: '祭りでふってくる玉が6つ増える。' },
   { id: 'suki', k: 'rel', rar: 2, max: 2, name: '祭り好き', g: '好', desc: '祭ゲージが25%早くたまる。' },
