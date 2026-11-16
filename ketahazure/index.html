@@ -242,6 +242,20 @@ const BAL = {
 };
 // ノルマの表（10の何乗か）。自動プレイで測った伸び方に合わせてある。23ステージ目からは式でのばす
 const QT = [3.5, 3.7, 3.85, 4.0, 4.15, 4.3, 4.5, 4.75, 5.05, 5.4, 5.8, 6.3, 6.9, 7.6, 8.4, 9.3, 10.5, 12.2, 14.4, 17.1, 20.3, 23.75];
+// 難易度。中級は既存のゲームバランスを維持。
+const DIFFICULTIES = {
+  beginner: { label: '初級', quota: 0.72, balls: 1, rerolls: 2, v0: 1.2,
+    xPower: 1.15, addPower: 1.25, growBonus: 0.1, ratePower: 1.12, feverNeed: 0.85,
+    rarityWeights: [0.75, 1, 1.4, 1.8] },
+  normal: { label: '中級', quota: 1, balls: 0, rerolls: 1, v0: 1,
+    xPower: 1, addPower: 1, growBonus: 0, ratePower: 1, feverNeed: 1,
+    rarityWeights: [1, 1, 1, 1] },
+  advanced: { label: '上級', quota: 1.25, balls: 0, rerolls: 1, v0: 1,
+    xPower: 0.92, addPower: 0.9, growBonus: 0, ratePower: 0.92, feverNeed: 1.2,
+    rarityWeights: [1.1, 1, 0.85, 0.7] }
+};
+const difficultyOf = id => DIFFICULTIES[id] || DIFFICULTIES.normal;
+const currentDifficulty = () => difficultyOf(G.mode);
 const STEP = 1 / 180;
 
 // ───────── 画面とレイアウト ─────────
@@ -292,12 +306,12 @@ const PT = {
 };
 const BOMB_R = [0, 76, 126, 166, 212, 260, 310];
 // 乗算ちょうちんの倍率: Lv1から 2, 3, 4, 6, 8, 12, 16, 24, 32 …
-const xMul = lv => lv % 2 ? Math.pow(2, (lv + 1) / 2) : 3 * Math.pow(2, lv / 2 - 1);
+const xMul = lv => (lv % 2 ? Math.pow(2, (lv + 1) / 2) : 3 * Math.pow(2, lv / 2 - 1)) * currentDifficulty().xPower;
 const HEAT = ['#f5f0e6', '#ffe9a8', '#f7c85a', '#ff9a3d', '#ff5a36', '#ff4fa3', '#b796f5'];
 
 // ───────── 状態 ─────────
 const G = {
-  phase: 'title', t: 0, rt: 0, acc: 0, stage: 0, score: 0, shown: 0, quota: 1,
+  phase: 'title', mode: 'normal', t: 0, rt: 0, acc: 0, stage: 0, score: 0, shown: 0, quota: 1,
   ballsLeft: 0, ballsMax: 0, balls: [], spawn: [], pegs: [], grid: [], pockets: [], board: BOARDS[0],
   rate: 1, combo: 0, comboT: 0, landed: 0,
   fever: { gauge: 0, need: BAL.feverNeed, on: false, count: 0, total: 0, spawnT: 0, inStage: 0, firstShot: true },
@@ -308,7 +322,7 @@ const G = {
   aim: { x: W / 2, on: false, snap: false }, headless: false
 };
 const SAVE_KEY = 'ketahazure.v1';
-const SAVE = { best: 0, bestStage: 0, runs: 0, sound: true, speed: 1, seen: false, cleared: false, board: BOARDS[0].id };
+const SAVE = { best: 0, bestStage: 0, runs: 0, sound: true, speed: 1, seen: false, cleared: false, board: BOARDS[0].id, mode: 'normal' };
 const RANK_KEY = 'ketahazure.ranking.v1', RANK_LIMIT = 10;
 function readRanking() {
   try {
@@ -317,13 +331,18 @@ function readRanking() {
   } catch (_) { /* 保存なしでも遊べる */ }
   return SAVE.best > 0 ? [{ id: 'legacy', score: SAVE.best, reached: null }] : [];
 }
-let ranking = { score: [], stage: [] }, rankMode = 'score';
+let ranking = { score: [], stage: [] }, rankMode = 'score', rankDifficulty = 'normal';
+const rankDifficultyOf = row => DIFFICULTIES[row.mode] ? row.mode : 'normal';
 const byScore = (a, b) => b.score - a.score;
 function rankLists(rows) {
+  // 各難易度の上位10件を独立して保存。旧記録は中級に割り当てる。
+  const each = (sorter, eligible = () => true) => Object.keys(DIFFICULTIES).flatMap(mode =>
+    rows.filter(row => rankDifficultyOf(row) === mode && eligible(row))
+      .sort(sorter).slice(0, RANK_LIMIT));
   return {
-    score: [...rows].sort(byScore).slice(0, RANK_LIMIT),
-    stage: rows.filter(row => Number.isInteger(row.reached) && row.reached > 0)
-      .sort((a, b) => a.reached - b.reached || byScore(a, b)).slice(0, RANK_LIMIT)
+    score: each(byScore),
+    stage: each((a, b) => a.reached - b.reached || byScore(a, b),
+      row => Number.isInteger(row.reached) && row.reached > 0)
   };
 }
 function rankingEntries() {
@@ -332,7 +351,7 @@ function rankingEntries() {
 function saveRank() {
   if (G.headless || !G.runId || G.runBest <= 0) return;
   const entries = rankingEntries();
-  entries.set(G.runId, { id: G.runId, score: G.runBest, reached: G.reachedStage });
+  entries.set(G.runId, { id: G.runId, score: G.runBest, reached: G.reachedStage, mode: G.mode });
   ranking = rankLists([...entries.values()]);
   const kept = new Map([...ranking.score, ...ranking.stage].map(row => [row.id, row]));
   try { localStorage.setItem(RANK_KEY, JSON.stringify([...kept.values()])); } catch (_) { /* 今の画面では表示できる */ }
@@ -493,14 +512,16 @@ function computePockets() {
 
 // ───────── ステージの流れ ─────────
 function quotaLog(n) { if (n <= QT.length) return QT[n - 1]; const m = n - QT.length; return QT[QT.length - 1] + BAL.qLate * m + BAL.qAcc * m * (m - 1); }
-function quotaFor(n) { return Number((10 ** Math.min(300, quotaLog(n))).toPrecision(2)); }
-const ballV0 = () => BAL.ballV0 * (G.rel.odama ? Math.pow(4, G.rel.odama) : 1);
-function feverNeed() { return Math.max(10, Math.round(BAL.feverNeed * Math.pow(1.6, G.fever.inStage) * (G.rel.suki ? Math.pow(0.75, G.rel.suki) : 1))); }
+function quotaFor(n) { return Number(Math.min(1e300, 10 ** Math.min(300, quotaLog(n)) * currentDifficulty().quota).toPrecision(2)); }
+const ballV0 = () => BAL.ballV0 * currentDifficulty().v0 * (G.rel.odama ? Math.pow(4, G.rel.odama) : 1);
+function feverNeed() { return Math.max(10, Math.round(BAL.feverNeed * currentDifficulty().feverNeed * Math.pow(1.6, G.fever.inStage) * (G.rel.suki ? Math.pow(0.75, G.rel.suki) : 1))); }
 function setBanner(a, b, dur, col) { G.banner = { a, b, t: 0, dur, col }; }
 
-function startRun() {
+function startRun(mode = SAVE.mode) {
+  G.mode = DIFFICULTIES[mode] ? mode : 'normal';
+  SAVE.mode = G.mode;
   buildBoard(); starterBoard();
-  Object.assign(G, { stage: 0, nextStage: 0, picksLeft: 0, rel: {}, relOrder: [], rerolls: 1, picks: [], runBest: 0, unitIdx: 0, ended: false, newRec: false,
+  Object.assign(G, { stage: 0, nextStage: 0, picksLeft: 0, rel: {}, relOrder: [], rerolls: currentDifficulty().rerolls, picks: [], runBest: 0, unitIdx: 0, ended: false, newRec: false,
     stamps: [], banner: null, paused: false, help: 0, balls: [], spawn: [], quitArm: 0 });
   G.stats = { bestHit: 0, hits: 0, fevers: 0 };
   G.fever = { gauge: 0, need: BAL.feverNeed, on: false, count: 0, total: 0, spawnT: 0, inStage: 0, firstShot: true };
@@ -512,7 +533,7 @@ function startRun() {
 function startStage(n) {
   G.stage = n; G.quota = quotaFor(n); G.score = 0; G.shown = 0;
   G.rate = 1 + 0.5 * (G.rel.keiki || 0); G.combo = 0; G.comboT = 0; G.landed = 0;
-  G.ballsMax = BAL.balls + (G.rel.ball || 0); G.ballsLeft = G.ballsMax;
+  G.ballsMax = BAL.balls + currentDifficulty().balls + (G.rel.ball || 0); G.ballsLeft = G.ballsMax;
   G.cleared = false; G.firstShotScore = 0; G.endT = 0; G.balls.length = 0; G.spawn.length = 0; G.acc = 0;
   const f = G.fever; f.inStage = 0; f.on = false; f.firstShot = true; f.need = feverNeed(); f.gauge = Math.min(Math.max(f.gauge, G.rel.zenya ? f.need / 2 : 0), f.need);
   G.placing = null; G.hover = null; G.offer = null; G.dropCd = 0.35;
@@ -559,9 +580,9 @@ function hitPeg(p, b, chain) {
   let str = '', big = false;
   switch (p.type) {
     case 'n': { b.v += BAL.nailAdd * (R.nail ? Math.pow(3, R.nail) : 1) * (fev ? BAL.feverAdd : 1) * (twice ? 2 : 1); if (!chain) S.hit(G.combo); break; }
-    case 'a': { const a = BAL.addVal * lv * (fev ? BAL.feverAdd : 1) * (twice ? 2 : 1); b.v += a; str = '+' + fmtS(a); S.add(); break; }
+    case 'a': { const a = BAL.addVal * currentDifficulty().addPower * lv * (fev ? BAL.feverAdd : 1) * (twice ? 2 : 1); b.v += a; str = '+' + fmtS(a); S.add(); break; }
     case 'x': { let m = xMul(lv); if (twice) m *= m; b.v *= m; str = '×' + fmtS(m); big = m >= 8; S.mul(lv); break; }
-    case 'g': { let m = BAL.growBase + p.grow; if (chain && m > 2) m = 2; p.grow += BAL.growStep * p.lv; str = '×' + m.toFixed(1); if (twice) m *= m; b.v *= m; S.mul(2); break; }
+    case 'g': { let m = BAL.growBase + currentDifficulty().growBonus + p.grow; if (chain && m > 2) m = 2; p.grow += BAL.growStep * p.lv; str = '×' + m.toFixed(1); if (twice) m *= m; b.v *= m; S.mul(2); break; }
     case 'd': { let s = 0; for (let j = 0; j < lv; j++) s += 1 + ((Math.random() * 6) | 0); big = s >= 6 * lv; if (twice) s *= s; b.v *= s; str = '×' + s; S.dice(big); break; }
     case 'f': { if (live) addGauge(BAL.festivalGauge * lv, b); b.v += BAL.festivalValue; str = '祭+' + BAL.festivalGauge * lv; S.fes(); break; }
     case 's': {
@@ -692,7 +713,7 @@ function land(b, k) {
   if (b.firstShot) G.firstShotScore = Math.min(1e300, G.firstShotScore + gain);
   G.score = Math.min(1e300, G.score + gain);
   if (gain > G.stats.bestHit) G.stats.bestHit = gain;
-  G.rate = Math.min(1e250, G.rate * (1 + (BAL.rateStep + 0.03 * (R.oikaze || 0)) * (G.fever.on ? BAL.feverRate : 1) / (1 + G.landed / BAL.rateSoft)));
+  G.rate = Math.min(1e250, G.rate * (1 + (BAL.rateStep + 0.03 * (R.oikaze || 0)) * currentDifficulty().ratePower * (G.fever.on ? BAL.feverRate : 1) / (1 + G.landed / BAL.rateSoft)));
   G.landed++;
   if (!G.headless) {
     const frac = gain / G.quota, tier = frac < 0.02 ? 0 : frac < 0.1 ? 1 : frac < 0.3 ? 2 : frac < 1 ? 3 : 4;
@@ -859,7 +880,7 @@ const NOW = {
   lv4() { const c = G.pegs.filter(p => p.type !== 'n'), up = 1 + Math.floor(doneStages() / 8); for (let k = 0; k < 4 && c.length; k++) { const j = (Math.random() * c.length) | 0; addLv(c[j], up); c.splice(j, 1); } },
   reroll() { G.rerolls += 2; }
 };
-const rarW = (r, s) => r === 0 ? 60 : r === 1 ? 20 + 2.5 * s : r === 2 ? 3 + 1.8 * s : 0.3 + 0.45 * s;
+const rarW = (r, s) => (r === 0 ? 60 : r === 1 ? 20 + 2.5 * s : r === 2 ? 3 + 1.8 * s : 0.3 + 0.45 * s) * currentDifficulty().rarityWeights[r];
 const doneStages = () => Math.max(1, (G.nextStage || G.stage + 1) - 1);
 const lvCap = () => Math.max(3, doneStages() + 1);       // ちょうちんのLvは、これから遊ぶステージの数まで
 const addLv = (p, n) => { p.lv = Math.min(lvCap(), p.lv + n); p.flash = 1; };
@@ -870,11 +891,11 @@ function hasPlacement(type) {
 }
 function pegDesc(t, lv) {
   switch (t) {
-    case 'a': return `当たった玉の値に +${fmtS(BAL.addVal * lv)}。上のほうに置くと、あとの掛け算がよく効く。`;
+    case 'a': return `当たった玉の値に +${fmtS(BAL.addVal * lv * currentDifficulty().addPower)}。上のほうに置くと、あとの掛け算がよく効く。`;
     case 'x': return `当たった玉の値を${fmtS(xMul(lv))}倍にする。重ねるとLvが上がり、${lv > 1 ? 'さらに' : '3倍、4倍、6倍と'}強くなる。`;
     case 's': return `当たった玉が${lv + 1}つに分かれる。値はそのまま。`;
     case 'z': return `当たると雷が飛び、はなれたちょうちん${2 + lv}つを発動する（Lv1の強さで）。`;
-    case 'g': return `値を${BAL.growBase}倍にする。当たるたびに倍率が${(BAL.growStep * lv).toFixed(1)}ずつ育ち、ずっと残る。`;
+    case 'g': return `値を${(BAL.growBase + currentDifficulty().growBonus).toFixed(1)}倍にする。当たるたびに倍率が${(BAL.growStep * lv).toFixed(1)}ずつ育ち、ずっと残る。`;
     case 'w': return lv > 1 ? `当たった玉を一番上へもどす。値をもったまま落ち直す。1つの玉に${lv}回まで。` : PT.w.desc;
     case 'f': return `祭ゲージを、当たった分の1に加えて${BAL.festivalGauge * lv}ためる。`;
     case 'd': return lv > 1 ? `サイコロを${lv}個ふり、出た目の合計だけ値を掛ける。` : PT.d.desc;
@@ -1240,7 +1261,7 @@ function drawFx() {
 // ───────── 画面ごとの表示 ─────────
 function drawHud() {
   const y0 = L.hud, f = G.fever;
-  T('ステージ ' + G.stage, 16, y0 + 37, { size: 22, w: 800 });
+  T('ステージ ' + G.stage + '　' + currentDifficulty().label, 16, y0 + 37, { size: 22, w: 800 });
   if (G.ballsLeft < G.ballsMax) {
     const oneShot = hasOneShot();
     const label = oneShot ? '一発突破　札 +1枚' : '1投目の合計 ' + fmt(G.firstShotScore);
@@ -1374,7 +1395,13 @@ function drawLadder(y, reach, best) {
   }
   return yy - y;
 }
-function pressStart() { if (!SAVE.seen) { G.help = 1; G.helpStart = true; } else startRun(); }
+function pressStart(mode = SAVE.mode) {
+  G.mode = DIFFICULTIES[mode] ? mode : 'normal';
+  SAVE.mode = G.mode;
+  saveSave();
+  if (!SAVE.seen) { G.help = 1; G.helpStart = true; }
+  else startRun(G.mode);
+}
 function drawTitle() {
   ctx.fillStyle = 'rgba(11,14,34,.78)'; ctx.fillRect(0, 0, W, H);
   const y0 = (H - 790) / 2;
@@ -1387,7 +1414,11 @@ function drawTitle() {
   const y1 = y0 + 400;
   T(SAVE.best > 0 ? 'これまでの最高　' + fmt(SAVE.best) : '万、億、兆。その先の「桁外れ」まで', W / 2, y1, { size: 19, w: 700, align: 'center' });
   drawLadder(y1 + 16, unitIdx(SAVE.best), 0);
-  button('start', W / 2 - 160, y1 + 204, 320, 70, 'はじめる', { kind: 'primary', size: 26 }, pressStart);
+  T('難易度をえらんでスタート', W / 2, y1 + 197, { size: 17, w: 700, align: 'center', col: C.kin });
+  [['beginner', '初級'], ['normal', '中級'], ['advanced', '上級']].forEach(([mode, label], i) => {
+    button('mode-' + mode, 20 + i * 170, y1 + 213, 160, 65, label,
+      { kind: SAVE.mode === mode ? 'primary' : undefined, size: 25 }, () => pressStart(mode));
+  });
   button('help', W / 2 - 175, y1 + 288, 136, 52, 'あそびかた', { size: 19 }, () => { G.help = 1; G.helpStart = false; });
   button('title-book', W / 2 - 29, y1 + 288, 114, 52, '札図鑑', { size: 19 }, openCardBook);
   button('sound', W / 2 + 95, y1 + 288, 80, 52, '音 ' + (SAVE.sound ? '入' : '切'), { size: 19 }, toggleSound);
@@ -1533,7 +1564,7 @@ function drawOver() {
   UI.regs.length = 0;
   ctx.fillStyle = 'rgba(11,14,34,.9)'; ctx.fillRect(0, 0, W, H);
   const y0 = 60 + (H - 960) * 0.35, s = G.stats;
-  T('ここまで', W / 2, y0 + 44, { size: 52, fam: F_D, w: 900, align: 'center' });
+  T('ここまで　' + currentDifficulty().label, W / 2, y0 + 44, { size: 43, fam: F_D, w: 900, align: 'center' });
   T('ステージ ' + G.stage + ' のノルマ ' + fmtQ(G.quota) + ' に届かなかった', W / 2, y0 + 88, { size: 17, w: 600, align: 'center', col: C.dim });
   T('この回の最高', W / 2, y0 + 146, { size: 16, w: 600, align: 'center', col: C.dim });
   const rb = fmt(G.runBest);
@@ -1583,6 +1614,7 @@ const HELP1 = ['画面にふれて左右に動かし、指をはなすと玉が�
   'ちょうちんは好きな場所に置ける。上で足して、下で掛けるのがコツ。真下の釘がよく当たる特等席。', '万、億、兆と桁を上げて、無量大数の先にある「桁外れ」を目指そう。'];
 function openRanking() {
   ranking = rankLists([...rankingEntries().values()]);
+  rankDifficulty = G.phase === 'title' ? SAVE.mode : G.mode;
   G.help = 3;
 }
 function drawRanking() {
@@ -1592,12 +1624,16 @@ function drawRanking() {
   T('自己ランキング', W / 2, y, { size: 38, fam: F_D, w: 900, align: 'center' });
   button('rank-score', 24, y + 18, 240, 48, '得点順', { kind: rankMode === 'score' ? 'primary' : undefined }, () => { rankMode = 'score'; });
   button('rank-stage', 276, y + 18, 240, 48, '到達ステージ順', { kind: rankMode === 'stage' ? 'primary' : undefined }, () => { rankMode = 'stage'; });
-  T('順位', 47, y + 103, { size: 17, align: 'center', col: C.dim });
-  T('最高得点', 90, y + 103, { size: 17, col: C.dim });
-  T('桁外れ到達', W - 42, y + 103, { size: 17, align: 'right', col: C.dim });
-  const rows = ranking[rankMode];
+  Object.entries(DIFFICULTIES).forEach(([mode, difficulty], i) => {
+    button('rank-mode-' + mode, 24 + i * 172, y + 78, 160, 43, difficulty.label,
+      { kind: rankDifficulty === mode ? 'primary' : undefined, size: 18 }, () => { rankDifficulty = mode; });
+  });
+  T('順位', 47, y + 161, { size: 17, align: 'center', col: C.dim });
+  T('最高得点', 90, y + 161, { size: 17, col: C.dim });
+  T('桁外れ到達', W - 42, y + 161, { size: 17, align: 'right', col: C.dim });
+  const rows = ranking[rankMode].filter(row => rankDifficultyOf(row) === rankDifficulty);
   rows.forEach((row, i) => {
-    const yy = y + 117 + i * 56;
+    const yy = y + 175 + i * 56;
     RR(24, yy, W - 48, 49, 8);
     ctx.fillStyle = i === 0 ? 'rgba(247,200,90,.14)' : 'rgba(245,240,230,.07)'; ctx.fill();
     const stage = row.reached > 0 ? 'ステージ ' + row.reached : unitIdx(row.score) < KETA_IDX ? '未到達' : '記録なし';
@@ -1605,7 +1641,7 @@ function drawRanking() {
     T(fmt(row.score), 90, yy + 27, { size: 23, w: 900, base: 'middle' });
     T(stage, W - 42, yy + 27, { size: 19, align: 'right', base: 'middle', col: row.reached > 0 ? C.kin : C.dim });
   });
-  if (!rows.length) T(rankMode === 'stage' ? '到達ステージの記録がありません' : 'まだプレイ記録がありません', W / 2, y + 171, { size: 20, align: 'center', col: C.dim });
+  if (!rows.length) T(rankMode === 'stage' ? '到達ステージの記録がありません' : 'まだプレイ記録がありません', W / 2, y + 229, { size: 20, align: 'center', col: C.dim });
   button('rank-close', 40, H - 84, W - 80, 62, 'とじる', { kind: 'primary' }, () => { G.help = 0; });
 }
 function drawHelp() {
@@ -2032,7 +2068,7 @@ function frame(ts) {
 // 動作確認と調整のための窓口（ゲームの進行には使わない）
 const KETA = window.KETA = { G, BAL, SAVE, L, PT, CARDS, UI, freeze: false,
   api: { startRun, startStage, dropBall, takeCard, placeAt, autoPlace, suggestPeg, dropSpot, update, makeOffer, stageClear, afterClear, quotaFor, fmt, toTitle, resize, render, countType } };
-loadSave(); ranking = rankLists(readRanking()); G.speed = [1, 2, 4].includes(SAVE.speed) ? SAVE.speed : 1;
+loadSave(); SAVE.mode = DIFFICULTIES[SAVE.mode] ? SAVE.mode : 'normal'; G.mode = SAVE.mode; ranking = rankLists(readRanking()); G.speed = [1, 2, 4].includes(SAVE.speed) ? SAVE.speed : 1;
 resize(); toTitle();
 window.addEventListener('resize', resize);
 if (window.visualViewport) window.visualViewport.addEventListener('resize', resize);
