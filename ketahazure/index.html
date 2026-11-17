@@ -349,6 +349,8 @@ const PT = {
 const BOMB_R = [0, 76, 126, 166, 212, 260, 310];
 // 乗算ちょうちんの倍率: Lv1から 2, 3, 4, 6, 8, 12, 16, 24, 32 …
 const xMul = lv => (lv % 2 ? Math.pow(2, (lv + 1) / 2) : 3 * Math.pow(2, lv / 2 - 1)) * currentDifficulty().xPower;
+// 倍率は1.84倍などの小数もあり、得点用のfmtSでは切り捨てて×1と誤表示される。
+const fmtMul = v => v < 100 ? String(Number(v.toFixed(2))) : fmtS(v);
 const HEAT = ['#f5f0e6', '#ffe9a8', '#f7c85a', '#ff9a3d', '#ff5a36', '#ff4fa3', '#b796f5'];
 
 // ───────── 状態 ─────────
@@ -626,7 +628,7 @@ function hitPeg(p, b, chain) {
   switch (p.type) {
     case 'n': { plusBall(b, BAL.nailAdd * (R.nail ? Math.pow(3, R.nail) : 1) * (fev ? BAL.feverAdd : 1) * (twice ? 2 : 1)); if (!chain) S.hit(G.combo); break; }
     case 'a': { const a = BAL.addVal * currentDifficulty().addPower * lv * (fev ? BAL.feverAdd : 1) * (twice ? 2 : 1); plusBall(b, a); str = '+' + fmtS(a); S.add(); break; }
-    case 'x': { let m = xMul(lv); if (twice) m *= m; multiplyBall(b, m); str = '×' + fmtS(m); big = m >= 8; S.mul(lv); break; }
+    case 'x': { let m = xMul(lv); if (twice) m *= m; multiplyBall(b, m); str = '×' + fmtMul(m); big = m >= 8; S.mul(lv); break; }
     case 'g': { let m = BAL.growBase + currentDifficulty().growBonus + p.grow; if (chain && m > 2) m = 2; p.grow += BAL.growStep * p.lv; str = '×' + m.toFixed(1); if (twice) m *= m; multiplyBall(b, m); S.mul(2); break; }
     case 'd': { let s = 0; for (let j = 0; j < lv; j++) s += 1 + ((Math.random() * 6) | 0); big = s >= 6 * lv; if (twice) s *= s; multiplyBall(b, s); str = '×' + s; S.dice(big); break; }
     case 'f': { if (live) addGauge(BAL.festivalGauge * lv, b); plusBall(b, BAL.festivalValue); str = '祭+' + BAL.festivalGauge * lv; S.fes(); break; }
@@ -941,7 +943,7 @@ function hasPlacement(type) {
 function pegDesc(t, lv) {
   switch (t) {
     case 'a': return `当たった玉の値に +${fmtS(BAL.addVal * lv * currentDifficulty().addPower)}。上のほうに置くと、あとの掛け算がよく効く。`;
-    case 'x': return `当たった玉の値を${fmtS(xMul(lv))}倍にする。重ねるとLvが上がり、${lv > 1 ? 'さらに' : '3倍、4倍、6倍と'}強くなる。`;
+    case 'x': return `当たった玉の値を${fmtMul(xMul(lv))}倍にする。重ねるとLvが上がり、${lv > 1 ? 'さらに' : '3倍、4倍、6倍と'}強くなる。`;
     case 's': return `当たった玉が${lv + 1}つに分かれる。値はそのまま。`;
     case 'z': return `当たると雷が飛び、はなれたちょうちん${2 + lv}つを発動する（Lv1の強さで）。`;
     case 'g': return `値を${(BAL.growBase + currentDifficulty().growBonus).toFixed(1)}倍にする。当たるたびに倍率が${(BAL.growStep * lv).toFixed(1)}ずつ育ち、ずっと残る。`;
@@ -1603,7 +1605,7 @@ function drawPlace() {
   const cap = lvCap(), nl = h ? Math.min(cap, h.lv + P.lv) : 0;
   const hint = 'ふれたまま動かすと場所をえらべる';
   const msg = block || (!h ? hint : h.type === 'n' ? 'ここに置く' : h.type !== P.type ? PT[h.type].name + ' と入れかえる'
-    : '重ねて Lv' + nl + ' に強化' + (P.type === 'x' ? '（' + fmtS(xMul(nl)) + '倍）' : '') + (nl >= cap ? ' 上限' : ''));
+    : '重ねて Lv' + nl + ' に強化' + (P.type === 'x' ? '（' + fmtMul(xMul(nl)) + '倍）' : '') + (nl >= cap ? ' 上限' : ''));
   T(msg, 76, y + 51, { size: 16, w: 600, col: h ? C.kin : C.dim });
   T('あと ' + P.left, W - 28, y + 39, { size: 20, w: 900, align: 'right', col: C.kin });
   button('auto', 20, L.trayY + 6, W - 40, 56, 'おまかせで置く', { size: 20 }, autoPlace);
