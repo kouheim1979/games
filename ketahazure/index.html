@@ -1525,7 +1525,7 @@ function drawCard(o, i, x, y, w, h) {
     T(PT[c.t].name.replace('ちょうちん', ''), cx, y + 176, { size: 27, fam: F_D, w: 900, align: 'center', col: C.ink });
     T('ちょうちん', cx, y + 198, { size: 17, fam: F_D, w: 900, align: 'center', col: C.ink });
   } else T(o.name, cx, y + 183, { size: 20, fam: F_D, w: 900, align: 'center', col: C.ink });
-  const kind = peg ? `Lv${o.lv} ×${o.n}` : c.k === 'rel' ? 'お守り' : 'すぐに効く';
+  const kind = peg ? `Lv${o.lv}・${o.n}個` : c.k === 'rel' ? 'お守り' : 'すぐに効く';
   T(kind, cx, y + 225, { size: 16, w: 800, align: 'center', col: ink });
   ctx.fillStyle = rgba(rc, 0.4); ctx.fillRect(x + 18, y + 236, w - 36, 1);
   ctx.font = `600 17px ${F_B}`;
@@ -1961,7 +1961,7 @@ function showBookKind(kind) {
     row.querySelector('h2').textContent = peg ? peg.name : card.name;
     row.querySelector('.book-rarity').textContent = RAR[card.rar];
     row.querySelector('.book-effect').textContent = peg ? pegDesc(card.t, card.lv || 1) : card.desc;
-    if (peg) meta.textContent = '基準 Lv' + (card.lv || 1) + ' ×' + card.n;
+    if (peg) meta.textContent = '基準 Lv' + (card.lv || 1) + '・' + card.n + '個';
     if (card.k === 'rel') {
       const held = relHas(card.id);
       meta.textContent = (held ? '所持 ' + held + '枚　' : '') + '上限 ' + card.max + '枚';
