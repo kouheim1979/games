@@ -7,6 +7,7 @@
 | [atama-oshiri](atama-oshiri/) | あたまとおしり |
 | [Chroma-sort](Chroma-sort/) | Chroma Sort |
 | [dopamine-overdrive](dopamine-overdrive/) | DOPAMINE OVERDRIVE（ドーパミン・オーバードライブ） |
+| [giridoka](giridoka/) | ギリドカ（度胸だめしアクション） |
 | [golden-week](golden-week/) | ドライブひまつぶしBOX |
 | [hitori-shiritori](hitori-shiritori/) | ひとりしりとり |
 | [jintori](jintori/) | 完璧な日本地図ウルフ |
