@@ -752,7 +752,8 @@ function land(b, k) {
   if (G.phase !== 'play') { if (!G.headless) spark(b.x, L.pocketTop + 22, C.kin, 5, 140, 0.4, 2); return; }
   const R = G.rel;
   let gainLog = b.vLog + logOf(pk.mult) + G.rateLog;
-  let gain = fromLog(gainLog);
+  // 普通の桁数では従来と同じ乗算を使い、丸めによる得点差を防ぐ。
+  let gain = gainLog < 280 ? b.v * pk.mult * G.rate : fromLog(gainLog);
   if (gain < G.quota && scoreAtLeast(gain, G.quota)) { gain = G.quota; gainLog = logOf(gain); }
   const hadOneShot = hasOneShot();
   if (b.firstShot) addMagnitude(G, 'firstShotScore', 'firstShotScoreLog', gain, gainLog);
@@ -775,6 +776,7 @@ function land(b, k) {
   checkUnits();
   if (!G.cleared && scoreAtLeast(G.score, G.quota)) {
     G.score = Math.max(G.score, G.quota);
+    G.scoreLog = Math.max(G.scoreLog, logOf(G.quota));
     G.cleared = true;
     if (!G.headless) { setBanner('ノルマ達成', G.ballsLeft > 0 ? 'のこりの玉は落としても、次へ進んでもいい' : '', 1.5, C.kin); S.clear(); G.flash = 0.35; }
   }
