@@ -954,7 +954,7 @@ function pegDesc(t, lv) {
 }
 function instCard(c) {
   const o = { c, n: c.n ? c.n + (c.grow ? Math.floor(doneStages() / 8) : 0) : 0, lv: c.k === 'peg' ? pegLv(c.t, c.lv) : 1 };
-  if (c.k === 'peg') { o.name = PT[c.t].name + (o.lv > 1 ? ' Lv' + o.lv : '') + ' ×' + o.n; o.desc = pegDesc(c.t, o.lv); }
+  if (c.k === 'peg') { o.name = PT[c.t].name + (o.lv > 1 ? ' Lv' + o.lv : '') + ' ' + o.n + '個'; o.desc = pegDesc(c.t, o.lv); }
   else { o.name = c.name; o.desc = c.desc; o.g = c.g; }
   return o;
 }
