@@ -232,6 +232,48 @@ function fmtN(v, short, up) {
   return s + UNITS[u];
 }
 const fmt = v => fmtN(v, false), fmtS = v => fmtN(v, true);
+// JavaScriptの通常の数値では10の300乗付近で得点が止まる。
+// 玉の値・勢い・得点に対し、非常に大きいときだけ対数を併用して保持する。
+const logOf = v => v > 0 ? Math.log10(v) : -Infinity;
+function logSum(a, b) {
+  if (a === -Infinity) return b;
+  if (b === -Infinity) return a;
+  const hi = Math.max(a, b), lo = Math.min(a, b);
+  return hi + Math.log10(1 + Math.pow(10, lo - hi));
+}
+const fromLog = log => log === -Infinity ? 0 : Math.pow(10, Math.min(300, log));
+function fmtMagnitude(value, log, short = false) {
+  if (!Number.isFinite(log) || log < 299) return short ? fmtS(value) : fmt(value);
+  // 対数の小数部から仮数を作る。従来の表示単位を超えても桁を更新する。
+  let power = Math.floor(log), mantissa = Math.pow(10, log - power);
+  if (mantissa >= 9.995) { mantissa /= 10; power++; }
+  return (short ? mantissa.toFixed(1) : mantissa.toFixed(2)) + '×10の' + power + '乗';
+}
+function addMagnitude(obj, field, logField, gain, gainLog) {
+  const oldLog = obj[logField] ?? logOf(obj[field]);
+  if (oldLog < 280 && gainLog < 280) {
+    obj[field] += gain;
+    obj[logField] = logOf(obj[field]);
+  } else {
+    obj[logField] = logSum(oldLog, gainLog);
+    obj[field] = fromLog(obj[logField]);
+  }
+}
+function plusBall(ball, add) { addMagnitude(ball, 'v', 'vLog', add, logOf(add)); }
+function multiplyBall(ball, factor) {
+  if (!(factor > 0)) return;
+  if (ball.vLog < 280 && ball.v * factor < 1e280) {
+    ball.v *= factor;
+    ball.vLog = logOf(ball.v);
+  } else {
+    ball.vLog += logOf(factor);
+    ball.v = fromLog(ball.vLog);
+  }
+}
+function multiplyRate(factor) {
+  G.rateLog += logOf(factor);
+  G.rate = Math.pow(10, Math.min(250, G.rateLog));
+}
 const fmtQ = v => fmtN(v, false, true).replace(/(\.\d*?)0+(?=[^\d]|$)/, '$1').replace(/\.(?=[^\d]|$)/, '');     // ノルマ用。切り上げて、きりのいい数は「22万」のように短く
 
 // ───────── 調整用の数字 ─────────
@@ -313,11 +355,11 @@ const HEAT = ['#f5f0e6', '#ffe9a8', '#f7c85a', '#ff9a3d', '#ff5a36', '#ff4fa3', 
 const G = {
   phase: 'title', mode: 'normal', t: 0, rt: 0, acc: 0, stage: 0, score: 0, shown: 0, quota: 1,
   ballsLeft: 0, ballsMax: 0, balls: [], spawn: [], pegs: [], grid: [], pockets: [], board: BOARDS[0],
-  rate: 1, combo: 0, comboT: 0, landed: 0,
+  rate: 1, rateLog: 0, scoreLog: -Infinity, firstShotScoreLog: -Infinity, combo: 0, comboT: 0, landed: 0,
   fever: { gauge: 0, need: BAL.feverNeed, on: false, count: 0, total: 0, spawnT: 0, inStage: 0, firstShot: true },
   rel: {}, relOrder: [], rerolls: 1, offer: null, peek: false, placing: null, hover: null, picks: [], picksLeft: 0, nextStage: 0,
   cleared: false, firstShotScore: 0, endT: 0, clearT: 0, clearInfo: null, overT: 0, ended: false, newRec: false,
-  stats: { bestHit: 0, hits: 0, fevers: 0 }, runBest: 0, unitIdx: 0, stamps: [], banner: null,
+  stats: { bestHit: 0, bestHitLog: -Infinity, hits: 0, fevers: 0 }, runBest: 0, runBestLog: -Infinity, unitIdx: 0, stamps: [], banner: null,
   speed: 1, paused: false, help: 0, quitArm: 0, hitstop: 0, shake: 0, flash: 0, dropCd: 0, demoT: 0,
   aim: { x: W / 2, on: false, snap: false }, headless: false
 };
@@ -329,11 +371,11 @@ function readRanking() {
     const rows = JSON.parse(localStorage.getItem(RANK_KEY) || 'null');
     if (Array.isArray(rows)) return rows.filter(row => row && typeof row.id === 'string' && Number.isFinite(row.score) && row.score > 0);
   } catch (_) { /* 保存なしでも遊べる */ }
-  return SAVE.best > 0 ? [{ id: 'legacy', score: SAVE.best, reached: null }] : [];
+  return SAVE.best > 0 ? [{ id: 'legacy', score: SAVE.best, scoreLog: SAVE.bestLog ?? logOf(SAVE.best), reached: null }] : [];
 }
 let ranking = { score: [], stage: [] }, rankMode = 'score', rankDifficulty = 'normal';
 const rankDifficultyOf = row => DIFFICULTIES[row.mode] ? row.mode : 'normal';
-const byScore = (a, b) => b.score - a.score;
+const byScore = (a, b) => (b.scoreLog ?? logOf(b.score)) - (a.scoreLog ?? logOf(a.score));
 function rankLists(rows) {
   // 各難易度の上位10件を独立して保存。旧記録は中級に割り当てる。
   const each = (sorter, eligible = () => true) => Object.keys(DIFFICULTIES).flatMap(mode =>
@@ -349,9 +391,9 @@ function rankingEntries() {
   return new Map([...ranking.score, ...ranking.stage, ...readRanking()].map(row => [row.id, row]));
 }
 function saveRank() {
-  if (G.headless || !G.runId || G.runBest <= 0) return;
+  if (G.headless || !G.runId || G.runBestLog === -Infinity) return;
   const entries = rankingEntries();
-  entries.set(G.runId, { id: G.runId, score: G.runBest, reached: G.reachedStage, mode: G.mode });
+  entries.set(G.runId, { id: G.runId, score: G.runBest, scoreLog: G.runBestLog, reached: G.reachedStage, mode: G.mode });
   ranking = rankLists([...entries.values()]);
   const kept = new Map([...ranking.score, ...ranking.stage].map(row => [row.id, row]));
   try { localStorage.setItem(RANK_KEY, JSON.stringify([...kept.values()])); } catch (_) { /* 今の画面では表示できる */ }
@@ -521,9 +563,9 @@ function startRun(mode = SAVE.mode) {
   G.mode = DIFFICULTIES[mode] ? mode : 'normal';
   SAVE.mode = G.mode;
   buildBoard(); starterBoard();
-  Object.assign(G, { stage: 0, nextStage: 0, picksLeft: 0, rel: {}, relOrder: [], rerolls: currentDifficulty().rerolls, picks: [], runBest: 0, unitIdx: 0, ended: false, newRec: false,
+  Object.assign(G, { stage: 0, nextStage: 0, picksLeft: 0, rel: {}, relOrder: [], rerolls: currentDifficulty().rerolls, picks: [], runBest: 0, runBestLog: -Infinity, unitIdx: 0, ended: false, newRec: false,
     stamps: [], banner: null, paused: false, help: 0, balls: [], spawn: [], quitArm: 0 });
-  G.stats = { bestHit: 0, hits: 0, fevers: 0 };
+  G.stats = { bestHit: 0, bestHitLog: -Infinity, hits: 0, fevers: 0 };
   G.fever = { gauge: 0, need: BAL.feverNeed, on: false, count: 0, total: 0, spawnT: 0, inStage: 0, firstShot: true };
   G.reachedStage = null;
   G.runId = window.crypto?.randomUUID?.() || Date.now() + '-' + Math.random();
@@ -531,10 +573,10 @@ function startRun(mode = SAVE.mode) {
   startStage(1);
 }
 function startStage(n) {
-  G.stage = n; G.quota = quotaFor(n); G.score = 0; G.shown = 0;
-  G.rate = 1 + 0.5 * (G.rel.keiki || 0); G.combo = 0; G.comboT = 0; G.landed = 0;
+  G.stage = n; G.quota = quotaFor(n); G.score = 0; G.scoreLog = -Infinity; G.shown = 0;
+  G.rate = 1 + 0.5 * (G.rel.keiki || 0); G.rateLog = logOf(G.rate); G.combo = 0; G.comboT = 0; G.landed = 0;
   G.ballsMax = BAL.balls + currentDifficulty().balls + (G.rel.ball || 0); G.ballsLeft = G.ballsMax;
-  G.cleared = false; G.firstShotScore = 0; G.endT = 0; G.balls.length = 0; G.spawn.length = 0; G.acc = 0;
+  G.cleared = false; G.firstShotScore = 0; G.firstShotScoreLog = -Infinity; G.endT = 0; G.balls.length = 0; G.spawn.length = 0; G.acc = 0;
   const f = G.fever; f.inStage = 0; f.on = false; f.firstShot = true; f.need = feverNeed(); f.gauge = Math.min(Math.max(f.gauge, G.rel.zenya ? f.need / 2 : 0), f.need);
   G.placing = null; G.hover = null; G.offer = null; G.dropCd = 0.35;
   computePockets(); G.aim.x = aimClamp(dropSpot().x); G.aim.on = false;
@@ -542,7 +584,7 @@ function startStage(n) {
   if (!G.headless) setBanner('ステージ ' + n, 'ノルマ ' + fmtQ(G.quota), 1.7);
 }
 function newBall(x, v, firstShot = false) {
-  return { x, y: L.launchY, vx: rnd(-25, 25), vy: 0, v, firstShot, lastPeg: -1, used: null, tr: [], born: G.t, fever: false, wallOk: true, h: 0, ghost: false, dead: false, tp: false, low: L.launchY, lowT: G.t };
+  return { x, y: L.launchY, vx: rnd(-25, 25), vy: 0, v, vLog: logOf(v), firstShot, lastPeg: -1, used: null, tr: [], born: G.t, fever: false, wallOk: true, h: 0, ghost: false, dead: false, tp: false, low: L.launchY, lowT: G.t };
 }
 function dropBall(x) {
   if (G.phase !== 'play' || G.ballsLeft <= 0 || G.dropCd > 0) return false;
@@ -566,7 +608,7 @@ function addGauge(n, b) {
 }
 function cloneBall(b, side) {
   return { x: b.x, y: b.y, vx: b.vx + side * rnd(130, 230), vy: Math.min(b.vy, 0) - rnd(80, 180), v: b.v, firstShot: b.firstShot, lastPeg: b.lastPeg,
-    used: Object.assign({}, b.used), tr: [], born: G.t, fever: b.fever, wallOk: b.wallOk, h: b.h, ghost: false, dead: false, tp: false, low: b.y, lowT: G.t };
+    used: Object.assign({}, b.used), vLog: b.vLog, tr: [], born: G.t, fever: b.fever, wallOk: b.wallOk, h: b.h, ghost: false, dead: false, tp: false, low: b.y, lowT: G.t };
 }
 function hitPeg(p, b, chain) {
   const R = G.rel, live = G.phase === 'play', fev = G.fever.on, T = PT[p.type];
@@ -574,7 +616,7 @@ function hitPeg(p, b, chain) {
   if (!chain) { G.combo++; G.comboT = 1.5; }
   if (live) {
     G.stats.hits++; addGauge(1, b);
-    if (!chain && R.rensa && G.combo % 50 === 0) { G.rate = Math.min(1e250, G.rate * Math.pow(1.1, R.rensa)); fxText(W - 96, L.launchY - 36, '連鎖 勢い↑', C.asagi, 17); }
+    if (!chain && R.rensa && G.combo % 50 === 0) { multiplyRate(Math.pow(1.1, R.rensa)); fxText(W - 96, L.launchY - 36, '連鎖 勢い↑', C.asagi, 17); }
   }
   // 会心は玉の得点を直接強化する釘・加点・乗算・育ち・賽にだけ判定する。
   // 分裂・爆発・雷・転送・祭りでは実際に強化しないため、誤った「会心」表示を防ぐ。
@@ -582,18 +624,18 @@ function hitPeg(p, b, chain) {
   const twice = critEligible && !!R.crit && Math.random() < 0.15 * R.crit, lv = chain ? 1 : p.lv;   // 爆発や雷で発動したときは Lv1 の強さ
   let str = '', big = false;
   switch (p.type) {
-    case 'n': { b.v += BAL.nailAdd * (R.nail ? Math.pow(3, R.nail) : 1) * (fev ? BAL.feverAdd : 1) * (twice ? 2 : 1); if (!chain) S.hit(G.combo); break; }
-    case 'a': { const a = BAL.addVal * currentDifficulty().addPower * lv * (fev ? BAL.feverAdd : 1) * (twice ? 2 : 1); b.v += a; str = '+' + fmtS(a); S.add(); break; }
-    case 'x': { let m = xMul(lv); if (twice) m *= m; b.v *= m; str = '×' + fmtS(m); big = m >= 8; S.mul(lv); break; }
-    case 'g': { let m = BAL.growBase + currentDifficulty().growBonus + p.grow; if (chain && m > 2) m = 2; p.grow += BAL.growStep * p.lv; str = '×' + m.toFixed(1); if (twice) m *= m; b.v *= m; S.mul(2); break; }
-    case 'd': { let s = 0; for (let j = 0; j < lv; j++) s += 1 + ((Math.random() * 6) | 0); big = s >= 6 * lv; if (twice) s *= s; b.v *= s; str = '×' + s; S.dice(big); break; }
-    case 'f': { if (live) addGauge(BAL.festivalGauge * lv, b); b.v += BAL.festivalValue; str = '祭+' + BAL.festivalGauge * lv; S.fes(); break; }
+    case 'n': { plusBall(b, BAL.nailAdd * (R.nail ? Math.pow(3, R.nail) : 1) * (fev ? BAL.feverAdd : 1) * (twice ? 2 : 1)); if (!chain) S.hit(G.combo); break; }
+    case 'a': { const a = BAL.addVal * currentDifficulty().addPower * lv * (fev ? BAL.feverAdd : 1) * (twice ? 2 : 1); plusBall(b, a); str = '+' + fmtS(a); S.add(); break; }
+    case 'x': { let m = xMul(lv); if (twice) m *= m; multiplyBall(b, m); str = '×' + fmtS(m); big = m >= 8; S.mul(lv); break; }
+    case 'g': { let m = BAL.growBase + currentDifficulty().growBonus + p.grow; if (chain && m > 2) m = 2; p.grow += BAL.growStep * p.lv; str = '×' + m.toFixed(1); if (twice) m *= m; multiplyBall(b, m); S.mul(2); break; }
+    case 'd': { let s = 0; for (let j = 0; j < lv; j++) s += 1 + ((Math.random() * 6) | 0); big = s >= 6 * lv; if (twice) s *= s; multiplyBall(b, s); str = '×' + s; S.dice(big); break; }
+    case 'f': { if (live) addGauge(BAL.festivalGauge * lv, b); plusBall(b, BAL.festivalValue); str = '祭+' + BAL.festivalGauge * lv; S.fes(); break; }
     case 's': {
       if (b.used && b.used[p.i]) break;
       (b.used || (b.used = {}))[p.i] = 1;
       let made = 0;
       for (let j = 0; j < p.lv; j++) {
-        if (G.balls.length + G.spawn.length < BAL.maxBalls) { G.spawn.push(cloneBall(b, j % 2 ? -1 : 1)); made++; } else b.v *= 2;
+        if (G.balls.length + G.spawn.length < BAL.maxBalls) { G.spawn.push(cloneBall(b, j % 2 ? -1 : 1)); made++; } else multiplyBall(b, 2);
       }
       str = made ? '分裂' : '×2'; S.split(); break;
     }
@@ -637,7 +679,6 @@ function hitPeg(p, b, chain) {
       str = '転送'; S.warp(); break;
     }
   }
-  if (!(b.v < 1e300)) b.v = 1e300;
   if (!G.headless) {
     if (p.type !== 'n') { if (str) fxText(p.x, p.y - 20, str, T.col, big ? 27 : 19); spark(p.x, p.y, T.col, chain ? 4 : 8, 170, 0.45, 2.4); }
     else if (!chain) spark(b.x, b.y, '#ffe9a8', 3, 120, 0.3, 2);
@@ -647,7 +688,7 @@ function hitPeg(p, b, chain) {
 function wallHit(b) {
   const k = G.rel.kabe;
   if (k && G.phase === 'play' && b.wallOk) {
-    b.wallOk = false; b.v = Math.min(1e300, b.v * (1 + 0.5 * k));
+    b.wallOk = false; multiplyBall(b, 1 + 0.5 * k);
     if (!G.headless) { fxText(clamp(b.x, 40, W - 40), b.y - 14, '×' + (1 + 0.5 * k), C.haku, 17); spark(b.x, b.y, C.haku, 5, 150, 0.35, 2); }
   }
 }
@@ -710,18 +751,19 @@ function land(b, k) {
   const pk = G.pockets[k]; pk.flash = 1;
   if (G.phase !== 'play') { if (!G.headless) spark(b.x, L.pocketTop + 22, C.kin, 5, 140, 0.4, 2); return; }
   const R = G.rel;
-  let gain = b.v * pk.mult * G.rate; if (!(gain < 1e300)) gain = 1e300;
-  if (gain < G.quota && scoreAtLeast(gain, G.quota)) gain = G.quota;
+  let gainLog = b.vLog + logOf(pk.mult) + G.rateLog;
+  let gain = fromLog(gainLog);
+  if (gain < G.quota && scoreAtLeast(gain, G.quota)) { gain = G.quota; gainLog = logOf(gain); }
   const hadOneShot = hasOneShot();
-  if (b.firstShot) G.firstShotScore = Math.min(1e300, G.firstShotScore + gain);
-  G.score = Math.min(1e300, G.score + gain);
-  if (gain > G.stats.bestHit) G.stats.bestHit = gain;
-  G.rate = Math.min(1e250, G.rate * (1 + (BAL.rateStep + 0.03 * (R.oikaze || 0)) * currentDifficulty().ratePower * (G.fever.on ? BAL.feverRate : 1) / (1 + G.landed / BAL.rateSoft)));
+  if (b.firstShot) addMagnitude(G, 'firstShotScore', 'firstShotScoreLog', gain, gainLog);
+  addMagnitude(G, 'score', 'scoreLog', gain, gainLog);
+  if (gainLog > G.stats.bestHitLog) { G.stats.bestHit = gain; G.stats.bestHitLog = gainLog; }
+  multiplyRate(1 + (BAL.rateStep + 0.03 * (R.oikaze || 0)) * currentDifficulty().ratePower * (G.fever.on ? BAL.feverRate : 1) / (1 + G.landed / BAL.rateSoft));
   G.landed++;
   if (!G.headless) {
     const frac = gain / G.quota, tier = frac < 0.02 ? 0 : frac < 0.1 ? 1 : frac < 0.3 ? 2 : frac < 1 ? 3 : 4;
     const cx = WALL_L + (k + 0.5) * PW, size = 17 + tier * 4;
-    const points = '+' + fmt(gain);
+    const points = '+' + fmtMagnitude(gain, gainLog);
     ctx.font = `900 ${size * 1.1}px ${F_B}`;
     const inset = Math.min(W / 2, ctx.measureText(points).width / 2 + 4);
     fxText(clamp(cx, inset, W - inset), L.pocketTop - 8, points, tier >= 2 ? C.kin : C.haku, size, tier >= 2 ? 1.5 : 1);
@@ -789,10 +831,12 @@ function update(dt) {
   }
 }
 function saveBest() {
-  G.runBest = Math.max(G.runBest, G.score);
+  if (G.scoreLog > G.runBestLog) { G.runBest = G.score; G.runBestLog = G.scoreLog; }
   saveRank();
   let ch = false;
-  if (G.runBest > SAVE.best) { SAVE.best = G.runBest; G.newRec = true; ch = true; }
+  if (G.runBestLog > (SAVE.bestLog ?? logOf(SAVE.best))) {
+    SAVE.best = G.runBest; SAVE.bestLog = G.runBestLog; G.newRec = true; ch = true;
+  }
   if (G.stage > SAVE.bestStage) { SAVE.bestStage = G.stage; ch = true; }
   if (ch && !G.headless) saveSave();
 }
@@ -1267,12 +1311,12 @@ function drawHud() {
   T('ステージ ' + G.stage + '　' + currentDifficulty().label, 16, y0 + 37, { size: 22, w: 800 });
   if (G.ballsLeft < G.ballsMax) {
     const oneShot = hasOneShot();
-    const label = oneShot ? '一発突破　札 +1枚' : '1投目の合計 ' + fmt(G.firstShotScore);
+    const label = oneShot ? '一発突破　札 +1枚' : '1投目の合計 ' + fmtMagnitude(G.firstShotScore, G.firstShotScoreLog);
     T(label, W - 176, y0 + 36, { size: 15, w: 800, align: 'right', col: oneShot ? C.kin : C.dim });
   }
   button('spd', W - 16 - 60 - 8 - 70, y0 + 8, 70, 42, '速×' + G.speed, { size: 17 }, cycleSpeed);
   button('menu', W - 16 - 60, y0 + 8, 60, 42, '', { icon: (x, y, w, h) => { ctx.fillStyle = C.haku; for (let i = -1; i <= 1; i++) ctx.fillRect(x + w / 2 - 11, y + h / 2 - 1.5 + i * 7, 22, 3); } }, () => { G.paused = true; G.quitArm = 0; G.aim.on = false; });
-  const sc = fmt(G.shown);
+  const sc = fmtMagnitude(G.scoreLog >= 299 ? G.score : G.shown, G.scoreLog >= 299 ? G.scoreLog : logOf(G.shown));
   T(sc, 16, y0 + 100, { size: [...sc].length > 10 ? 30 : [...sc].length > 8 ? 40 : 48, w: 900, col: C.kin });
   T('ノルマ', W - 16, y0 + 70, { size: 15, w: 600, col: C.dim, align: 'right' });
   const qs = fmtQ(G.quota);
@@ -1286,7 +1330,7 @@ function drawHud() {
   }
   if (G.cleared) T('達成 ' + pct(G.score / G.quota), W / 2, by + 8, { size: 13, w: 900, align: 'center', base: 'middle', col: C.ink });
   T('勢い', 16, y0 + 151, { size: 15, w: 600, col: C.dim });
-  T('×' + (G.rate < 100 ? G.rate.toFixed(2) : fmtS(G.rate)), 54, y0 + 152, { size: 21, w: 900, col: C.asagi });
+  T('×' + (G.rateLog >= 249 ? fmtMagnitude(G.rate, G.rateLog, true) : G.rate < 100 ? G.rate.toFixed(2) : fmtS(G.rate)), 54, y0 + 152, { size: 21, w: 900, col: C.asagi });
   const gx = 196, gw = 160, gy = y0 + 138, fk = f.on ? 1 : clamp(f.gauge / f.need, 0, 1);
   T('祭', gx - 13, gy + 8, { size: 17, fam: F_D, w: 900, align: 'center', base: 'middle', col: C.momo });
   RR(gx, gy, gw, 14, 7); ctx.fillStyle = 'rgba(245,240,230,.1)'; ctx.fill();
@@ -1298,7 +1342,7 @@ function drawHud() {
 function drawPlayInfo() {
   if (G.fever.on && !REDUCED) { ctx.fillStyle = rgba(C.momo, 0.05 + 0.03 * Math.sin(G.rt * 9)); ctx.fillRect(0, 0, W, H); }
   if (G.combo >= 5) T(G.combo + ' コンボ', 18, L.launchY - 14, { size: 17, w: 900, col: C.kin, stroke: 'rgba(11,14,34,.8)', sw: 4 });
-  if (G.balls.length) { let s = 0; for (const b of G.balls) s += b.v; T('落下中 ' + fmtS(s * G.rate), W - 18, L.launchY - 14, { size: 16, w: 800, align: 'right', stroke: 'rgba(11,14,34,.8)', sw: 4 }); }
+  if (G.balls.length) { let s = 0; for (const b of G.balls) s += b.v; T('落下中 ' + fmtMagnitude(s * G.rate, logOf(s) + G.rateLog, true), W - 18, L.launchY - 14, { size: 16, w: 800, align: 'right', stroke: 'rgba(11,14,34,.8)', sw: 4 }); }
 }
 function drawAim() {
   if (G.ballsLeft <= 0) return;
@@ -1415,7 +1459,7 @@ function drawTitle() {
   ctx.restore();
   [...'数がふくらむ縁日玉落とし'].forEach((ch, i) => T(ch, W / 2 + 112, y0 + 52 + i * 25, { size: 20, fam: F_D, w: 700, align: 'center', base: 'middle', col: C.kin }));
   const y1 = y0 + 400;
-  T(SAVE.best > 0 ? 'これまでの最高　' + fmt(SAVE.best) : '万、億、兆。その先の「桁外れ」まで', W / 2, y1, { size: 19, w: 700, align: 'center' });
+  T(SAVE.best > 0 ? 'これまでの最高　' + fmtMagnitude(SAVE.best, SAVE.bestLog ?? logOf(SAVE.best)) : '万、億、兆。その先の「桁外れ」まで', W / 2, y1, { size: 19, w: 700, align: 'center' });
   drawLadder(y1 + 16, unitIdx(SAVE.best), 0);
   T('難易度をえらんでスタート', W / 2, y1 + 197, { size: 17, w: 700, align: 'center', col: C.kin });
   [['beginner', '初級'], ['normal', '中級'], ['advanced', '上級']].forEach(([mode, label], i) => {
@@ -1570,10 +1614,10 @@ function drawOver() {
   T('ここまで　' + currentDifficulty().label, W / 2, y0 + 44, { size: 43, fam: F_D, w: 900, align: 'center' });
   T('ステージ ' + G.stage + ' のノルマ ' + fmtQ(G.quota) + ' に届かなかった', W / 2, y0 + 88, { size: 17, w: 600, align: 'center', col: C.dim });
   T('この回の最高', W / 2, y0 + 146, { size: 16, w: 600, align: 'center', col: C.dim });
-  const rb = fmt(G.runBest);
+  const rb = fmtMagnitude(G.runBest, G.runBestLog);
   T(rb, W / 2, y0 + 206, { size: [...rb].length > 9 ? 40 : 58, w: 900, align: 'center', col: C.kin });
   if (G.newRec) { RR(W / 2 - 74, y0 + 224, 148, 36, 6); ctx.fillStyle = C.shu; ctx.fill(); T('自己最高', W / 2, y0 + 243, { size: 19, fam: F_D, w: 900, align: 'center', base: 'middle' }); }
-  [['いちばんの一発', fmtS(s.bestHit)], ['当てた回数', fmtS(s.hits)], ['祭り', s.fevers + '回']].forEach((r, i) => {
+  [['いちばんの一発', fmtMagnitude(s.bestHit, s.bestHitLog, true)], ['当てた回数', fmtS(s.hits)], ['祭り', s.fevers + '回']].forEach((r, i) => {
     const x = W / 6 + i * (W / 3);
     T(r[0], x, y0 + 300, { size: 14, w: 600, align: 'center', col: C.dim }); T(r[1], x, y0 + 330, { size: 22, w: 900, align: 'center' });
   });
@@ -1641,7 +1685,7 @@ function drawRanking() {
     ctx.fillStyle = i === 0 ? 'rgba(247,200,90,.14)' : 'rgba(245,240,230,.07)'; ctx.fill();
     const stage = row.reached > 0 ? 'ステージ ' + row.reached : unitIdx(row.score) < KETA_IDX ? '未到達' : '記録なし';
     T(String(i + 1), 47, yy + 27, { size: 19, align: 'center', base: 'middle', col: C.kin });
-    T(fmt(row.score), 90, yy + 27, { size: 23, w: 900, base: 'middle' });
+    T(fmtMagnitude(row.score, row.scoreLog ?? logOf(row.score)), 90, yy + 27, { size: 23, w: 900, base: 'middle' });
     T(stage, W - 42, yy + 27, { size: 19, align: 'right', base: 'middle', col: row.reached > 0 ? C.kin : C.dim });
   });
   if (!rows.length) T(rankMode === 'stage' ? '到達ステージの記録がありません' : 'まだプレイ記録がありません', W / 2, y + 229, { size: 20, align: 'center', col: C.dim });
