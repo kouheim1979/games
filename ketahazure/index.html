@@ -347,10 +347,10 @@ const PT = {
   d: { name: '賽ちょうちん', glyph: '賽', col: C.haku, ink: C.ink, desc: 'サイコロをふり、出た目の数だけ値を掛ける。1倍から6倍まで。' }
 };
 const BOMB_R = [0, 76, 126, 166, 212, 260, 310];
-// 乗算ちょうちんの倍率: Lv1から 2, 3, 4, 6, 8, 12, 16, 24, 32 …
-const xMul = lv => (lv % 2 ? Math.pow(2, (lv + 1) / 2) : 3 * Math.pow(2, lv / 2 - 1)) * currentDifficulty().xPower;
-// 倍率は1.84倍などの小数もあり、得点用のfmtSでは切り捨てて×1と誤表示される。
-const fmtMul = v => v < 100 ? String(Number(v.toFixed(2))) : fmtS(v);
+// 乗算ちょうちんは初級・中級・上級のすべてで整数倍にする。
+// 中級の基本倍率: Lv1から 2, 3, 4, 6, 8, 12, 16, 24, 32 …
+const xMul = lv => Math.max(2, Math.round((lv % 2 ? Math.pow(2, (lv + 1) / 2) : 3 * Math.pow(2, lv / 2 - 1)) * currentDifficulty().xPower));
+const fmtMul = v => v < 100 ? String(v) : fmtS(v);
 const HEAT = ['#f5f0e6', '#ffe9a8', '#f7c85a', '#ff9a3d', '#ff5a36', '#ff4fa3', '#b796f5'];
 
 // ───────── 状態 ─────────
@@ -943,7 +943,7 @@ function hasPlacement(type) {
 function pegDesc(t, lv) {
   switch (t) {
     case 'a': return `当たった玉の値に +${fmtS(BAL.addVal * lv * currentDifficulty().addPower)}。上のほうに置くと、あとの掛け算がよく効く。`;
-    case 'x': return `当たった玉の値を${fmtMul(xMul(lv))}倍にする。重ねるとLvが上がり、${lv > 1 ? 'さらに' : '3倍、4倍、6倍と'}強くなる。`;
+    case 'x': return `当たった玉の値を${fmtMul(xMul(lv))}倍にする。重ねるとLvが上がり、倍率が強くなる。`;
     case 's': return `当たった玉が${lv + 1}つに分かれる。値はそのまま。`;
     case 'z': return `当たると雷が飛び、はなれたちょうちん${2 + lv}つを発動する（Lv1の強さで）。`;
     case 'g': return `値を${(BAL.growBase + currentDifficulty().growBonus).toFixed(1)}倍にする。当たるたびに倍率が${(BAL.growStep * lv).toFixed(1)}ずつ育ち、ずっと残る。`;
