@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" role="img" aria-label="ギリドカの爆破リング">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="42%" r="70%">
+      <stop offset="0" stop-color="#31304d"/><stop offset="1" stop-color="#11151f"/>
+    </radialGradient>
+    <radialGradient id="blast" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#ffe99d"/><stop offset=".48" stop-color="#ffab45"/><stop offset="1" stop-color="#e95227"/>
+    </radialGradient>
+  </defs>
+  <rect width="256" height="256" rx="54" fill="url(#bg)"/>
+  <circle cx="128" cy="128" r="86" fill="none" stroke="#f3a33e" stroke-width="8" opacity=".26"/>
+  <circle cx="128" cy="128" r="65" fill="none" stroke="#ffb84f" stroke-width="9" stroke-dasharray="136 18 36 18 90 110" transform="rotate(-20 128 128)"/>
+  <circle cx="128" cy="128" r="46" fill="none" stroke="#ffda84" stroke-width="4" opacity=".72"/>
+  <path d="M128 83 L141 112 L173 116 L150 139 L156 171 L128 154 L100 171 L106 139 L83 116 L115 112 Z" fill="url(#blast)" stroke="#fff2bb" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M64 56l21 15-21 15zM194 81l-23 12 4-26zM205 185l-24-9 19-17zM56 194l12-24 16 20z" fill="#fbd064" stroke="#f68c42" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M128 17v18M128 221v18M17 128h18M221 128h18" stroke="#ffdb8e" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="128" cy="128" r="9" fill="#fff7cf"/>
+</svg>
