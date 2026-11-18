@@ -9,6 +9,9 @@
   });
   // This is the owner's curated collection, not every directory in the repo.
   const games = [
+    entry('giridoka', 'amber', ['casual'],
+      ['ギリドカ', 'Giri Doka: Nerve Test', '极限勇气挑战', 'Giri Doka: prueba de valor'],
+      ['敵をギリギリまで引きつけて一気に爆破！初級・ノーマルで度胸を試すワンタップアクション。', 'Hold to draw enemies close, then release for a chain explosion. Test your nerve in Beginner or Normal mode.', '长按吸引敌人靠近，在最后一刻松手引爆连锁反应。挑战初级或普通模式。', 'Mantén pulsado para atraer enemigos y suelta justo a tiempo para desatar explosiones en cadena. Modo principiante o normal.'], false),
     entry('mirai-town', 'green', ['learn'],
       ['コインでそだてる！みらいタウン', 'Mirai Town: Grow Your Coins', '未来小镇：让金币成长', 'Villa Futuro: Haz crecer tus monedas'],
       ['株でお店を育て、建設チケットで公園・図書館・パン屋を建てよう！ 車や人が動く街づくり投資ゲーム。', 'An animated city-building investing game. Watch shops grow from stalls to towers while learning about risk and diversification.', '一款会动的城市建设投资游戏。投资后看着商店从摊位成长为高楼，学习风险与分散投资。', 'Un juego animado de inversión y ciudad: transforma un puesto en grandes tiendas mientras aprendes sobre riesgo y diversificación.'], false),
