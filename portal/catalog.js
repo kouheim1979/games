@@ -9,6 +9,12 @@
   });
   // This is the owner's curated collection, not every directory in the repo.
   const games = [
+    entry('hoshibaku', 'rose', ['casual'],
+      ['ホシバク！', 'Hoshi Baku!', '星球吞吞怪！', '¡Hoshi Baku!'],
+      ['星を長押しで吸い込み、爆弾の直前で離して得点3倍！30秒のワンボタン宇宙ゲーム。',
+       'Hold to swallow stars, then release just before a bomb for triple points. A 30-second space arcade game.',
+       '长按吞下星星，在炸弹到来前松手可获三倍分数。30秒宇宙街机游戏。',
+       'Mantén pulsado para tragar estrellas y suelta justo antes de la bomba para triplicar puntos. 30 segundos de juego espacial.'], false),
     entry('giridoka', 'amber', ['casual'],
       ['ギリドカ', 'Giri Doka: Nerve Test', '极限勇气挑战', 'Giri Doka: prueba de valor'],
       ['敵をギリギリまで引きつけて一気に爆破！初級・ノーマルで度胸を試すワンタップアクション。', 'Hold to draw enemies close, then release for a chain explosion. Test your nerve in Beginner or Normal mode.', '长按吸引敌人靠近，在最后一刻松手引爆连锁反应。挑战初级或普通模式。', 'Mantén pulsado para atraer enemigos y suelta justo a tiempo para desatar explosiones en cadena. Modo principiante o normal.'], false),

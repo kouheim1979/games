@@ -2,6 +2,12 @@
   'use strict';
   // Written from the games' current instructions and source, not inferred from their names.
   const rows = {
+    'hoshibaku': [
+      ['長押しで星を吸い込み、離すと口の中の点数が確定します。爆弾が口に入る直前の0.46秒で離すと3倍。30秒で高得点を目指しましょう。', '一度に3個吸うごとに倍率アップ。ギリ飲みを3回決めると、5秒間は爆弾も食べられます。結果の対戦コードで友だちと同じ航路に挑戦できます。'],
+      ['Hold to collect stars and release to bank your points. Release within 0.46 seconds before a bomb reaches the mouth for triple points.', 'Every three stars raise the multiplier. Land three close releases to eat bombs during a five-second fever. Share the result code for the same course. The game controls are in Japanese.'],
+      ['长按吞星，松手结算口中的分数。在炸弹到达前0.46秒内松手可获得三倍分数。', '每吞三颗星倍率上升。成功三次极限松手后有五秒狂热时间，可以吞炸弹。用结果代码挑战同一航线。游戏界面为日语。'],
+      ['Mantén pulsado para recoger estrellas y suelta para guardar puntos. Si sueltas en los 0,46 segundos anteriores a la bomba, triplicas la puntuación.', 'Cada tres estrellas sube el multiplicador. Tres aciertos activan cinco segundos para comer bombas. Comparte el código del resultado para jugar la misma ruta. Los controles están en japonés.']
+    ],
     'giridoka': [
       ['タイトル画面で「初級」か「ノーマル」を選びます。画面を長押しすると敵が近づき、離すと爆破。敵が近いほど高倍率になり、最大30倍です。', 'ギリギリを狙いすぎると敵と接触して終了します。早く離しすぎても度胸ゲージが減るので、距離を見ながら爆破しましょう。PCではスペースキーでも操作できます。'],
       ['Choose Beginner or Normal. Hold the screen to draw enemies in, then release to explode them. Closer enemies earn a higher multiplier, up to 30×.', 'Wait too long and a collision ends the run. Release too early too often and your nerve gauge drains. On a computer, you can hold and release the space bar.'],

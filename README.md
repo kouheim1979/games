@@ -63,7 +63,7 @@ GitHub Pages版: https://kouheim1979.github.io/games/
 
 日本語・英語・簡体字中国語・スペイン語でサイトの案内、検索、ゲーム紹介を切り替えられます。
 
-サイトに載せるゲームは `portal/catalog.js` で管理します。所有者の指示により `kokon-tozai`、`golden-week`、`lunch-roulette`、`word-wolf`、`pokemon-quiz-app` は公開ポータルから除外し、各ゲームの元ファイルは残しています。掲載ゲームは19本です。ワードウルフは `word-wolf2` のみ掲載します。
+サイトに載せるゲームは `portal/catalog.js` で管理します。所有者の指示により `kokon-tozai`、`golden-week`、`lunch-roulette`、`word-wolf`、`pokemon-quiz-app` は公開ポータルから除外し、各ゲームの元ファイルは残しています。掲載ゲームは20本です。ワードウルフは `word-wolf2` のみ掲載します。
 
 ```sh
 node portal/pages.cjs

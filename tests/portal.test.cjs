@@ -7,9 +7,9 @@ const root = path.resolve(__dirname, '..');
 const {langs, games, ui} = require('../portal/catalog.js');
 const guides = require('../portal/guides.js');
 
-test('the published collection has 19 distinct games and none of the five exclusions', () => {
-  assert.equal(games.length, 19);
-  assert.equal(new Set(games.map(g => g.id)).size, 17);
+test('the published collection has 20 distinct games and none of the five exclusions', () => {
+  assert.equal(games.length, 20);
+  assert.equal(new Set(games.map(g => g.id)).size, 20);
   for (const id of ['kokon-tozai', 'golden-week', 'lunch-roulette', 'word-wolf', 'pokemon-quiz-app']) {
     assert.ok(!games.some(g => g.id === id), id);
   }
@@ -55,7 +55,7 @@ test('native site-information pages have a readable Japanese fallback and all lo
 });
 test('static cards link to every game and its logo', () => {
   const html = fs.readFileSync(path.join(root,'portal/portal.html'),'utf8');
-  assert.equal((html.match(/class="mt-game" /g) || []).length, 19);
+  assert.equal((html.match(/class="mt-game" /g) || []).length, 20);
   for (const game of games) {
     const cardStart = html.indexOf(`data-mt-card="${game.id}">`);
     assert.ok(cardStart >= 0, game.id);
