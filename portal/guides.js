@@ -2,6 +2,12 @@
   'use strict';
   // Written from the games' current instructions and source, not inferred from their names.
   const rows = {
+    'giridoka': [
+      ['タイトル画面で「初級」か「ノーマル」を選びます。画面を長押しすると敵が近づき、離すと爆破。敵が近いほど高倍率になり、最大30倍です。', 'ギリギリを狙いすぎると敵と接触して終了します。早く離しすぎても度胸ゲージが減るので、距離を見ながら爆破しましょう。PCではスペースキーでも操作できます。'],
+      ['Choose Beginner or Normal. Hold the screen to draw enemies in, then release to explode them. Closer enemies earn a higher multiplier, up to 30×.', 'Wait too long and a collision ends the run. Release too early too often and your nerve gauge drains. On a computer, you can hold and release the space bar.'],
+      ['在标题画面选择初级或普通模式。长按屏幕吸引敌人靠近，松手引爆。敌人越近，得分倍率越高，最高30倍。', '等太久会被敌人撞到而结束；总是太早松手则会耗尽勇气槽。电脑上也可以长按和松开空格键操作。'],
+      ['Elige el modo Principiante o Normal. Mantén pulsado para atraer enemigos y suelta para hacerlos estallar. Cuanto más cerca estén, mayor será el multiplicador, hasta ×30.', 'Si esperas demasiado, una colisión termina la partida. Si sueltas demasiado pronto repetidamente, se agota el medidor de valor. En ordenador puedes usar la barra espaciadora.']
+    ],
     'mirai-town': [
       ['街の大きな画面で車や人が動くのを見ながら遊びます。初めに1200コイン、毎月300コインを受け取り、おかし屋さんやいろいろ会社セットに投資すると建物が成長します。300コインまとめて投資もできます。', '街の光る「＋」をタップして土地を選び、毎月もらえる建設チケットで公園・家・図書館・パン屋を建てられます。🎥はカメラツアー、＋と−は拡大縮小。投資額はニュースで増減し、クイズもあります。実際のお金は使いません。'],
       ['Start with 1,200 coins and receive 300 more each month. Choose between savings, candy-shop shares and a diversified set of companies, then play through a year.', 'Monthly news changes prices. Try the quizzes in months 4, 8 and 12, and notice that investing can lose value as well as gain it. No real money is involved.'],
