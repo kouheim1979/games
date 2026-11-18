@@ -6,7 +6,7 @@ const guides = require('./guides.js');
 const e = value => String(value).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
 const tx = (key, tag = 'span', extra = '') => `<${tag} data-mt-i18n="${key}"${extra}>${e(ui.ja[key].replace('{total}', String(games.length)))}</${tag}>`;
 const categories = ['all', 'puzzle', 'party', 'learn', 'casual'];
-const logo = (id, loading = 'lazy') => `<img class="mt-game-logo" src="https://kouheim1979.github.io/games/portal/logos/${id}.webp" alt="" width="256" height="256" loading="${loading}" decoding="async">`;
+const logo = (id, loading = 'lazy') => `<img class="mt-game-logo" src="https://kouheim1979.github.io/games/portal/logos/${id === 'mirai-town' || id === 'giridoka' ? 'svg' : 'webp'}" alt="" width="256" height="256" loading="${loading}" decoding="async">`;
 const html = `<div class="mt-portal" id="mt-portal" lang="ja">
   <div class="mt-indexline"><span>MAINICHI TOOLBOX / PLAY &amp; LEARN</span>${tx('total')}</div>
   <section class="mt-hero" aria-labelledby="mt-hero-title">
@@ -59,7 +59,7 @@ const catalog = fs.readFileSync(path.join(__dirname,'catalog.js'),'utf8');
 const guideScript = fs.readFileSync(path.join(__dirname,'guides.js'),'utf8');
 const script = fs.readFileSync(path.join(__dirname,'portal.js'),'utf8');
 const standalone = `<!doctype html>
-<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f8f6ef"><meta name="description" content="まいにち道具箱。パズル・家族ゲーム・学びのクイズなど、${games.length}本の無料ブラウザーゲーム。日本語・English・中文・Españolでゲームを探せます。"><title>まいにち道具箱 | 暮らしと学びの無料アプリ</title><link rel="stylesheet" href="./portal/portal.css?v=20261115.1"><script src="./portal/catalog.js?v=20261115.1" defer></script><script src="./portal/guides.js?v=20261114.1" defer></script><script src="./portal/portal.js?v=20261115.1" defer></script></head>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f8f6ef"><meta name="description" content="まいにち道具箱。パズル・家族ゲーム・学びのクイズなど、${games.length}本の無料ブラウザーゲーム。日本語・English・中文・Españolでゲームを探せます。"><title>まいにち道具箱 | 暮らしと学びの無料アプリ</title><link rel="stylesheet" href="./portal/portal.css?v=20261118.1"><script src="./portal/catalog.js?v=20261118.1" defer></script><script src="./portal/guides.js?v=20261118.1" defer></script><script src="./portal/portal.js?v=20261118.1" defer></script></head>
 <body class="mt-standalone"><header id="mt-site-header"><h1>まいにち道具箱</h1><p>暮らしと学びの無料アプリ</p></header>${html}<noscript><p style="padding:20px;text-align:center">ゲーム名のリンクから直接開けます。言語切り替えと検索にはJavaScriptが必要です。</p></noscript></body></html>`;
 fs.writeFileSync(path.join(root,'index.html'), standalone);
 const oldWidgetPath = path.join(root,'deployment/blogger-widget-before-20261104.html');
