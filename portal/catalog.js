@@ -9,6 +9,12 @@
   });
   // This is the owner's curated collection, not every directory in the repo.
   const games = [
+    entry('chaos-evolution', 'violet', ['puzzle', 'casual'],
+      ['カオス進化実験場', 'Chaos Evolution Lab', '混沌进化实验室', 'Laboratorio de evolución caótica'],
+      ['1ミリの配置が大連鎖に！玉を発射して吸収・分裂・進化。禁断のボタンで世界をひっくり返そう。',
+       'Move a ball by a millimeter, launch it and watch chain reactions, splitting and evolution. Dare to press the forbidden button!',
+       '调整一毫米，发射弹珠，触发吸收、分裂与进化的连锁反应。敢按下禁忌按钮吗？',
+       'Mueve un milímetro, lanza la bola y provoca cadenas de absorción, división y evolución. ¡Atrévete a pulsar el botón prohibido!'], false),
     entry('hoshibaku', 'rose', ['casual'],
       ['ホシバク！', 'Hoshi Baku!', '星球吞吞怪！', '¡Hoshi Baku!'],
       ['星を長押しで吸い込み、爆弾の直前で離して得点3倍！30秒のワンボタン宇宙ゲーム。',
