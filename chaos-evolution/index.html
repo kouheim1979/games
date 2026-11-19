@@ -168,7 +168,10 @@ $('shareBtn').addEventListener('click',async()=>{const data=`🧬 カオス進�
 $('soundBtn').addEventListener('click',e=>{muted=!muted;e.currentTarget.textContent=muted?'🔇':'🔊';if(!muted)tone(520,.09,'sine',.05,1.5)});
 $('helpBtn').addEventListener('click',()=>{if(g.phase==='playing'){setToast('連鎖中は禁断のボタンを！',1700);return}alert('【遊び方】\n① 発射位置をスライダーまたは盤面タップで設定。±1mmボタンで微調整。\n② 発射すると玉が落ち、装置で吸収・進化・分裂・爆発。\n③ 玉が飛んでいる間に「押すなよ！」を1回だけ使えます。\n④ 3発の合計スコアに挑戦！次の面で強化も選べます。\n\n※音は右上の🔊でON/OFF。ベストスコアのみ端末に保存します。')});
 window.addEventListener('keydown',e=>{if(e.target.tagName==='INPUT')return;if(e.key==='ArrowLeft'){e.preventDefault();setAim(g.aimX-1)}else if(e.key==='ArrowRight'){e.preventDefault();setAim(g.aimX+1)}else if(e.key===' '||e.key==='Enter'){e.preventDefault();shoot()}else if(e.key.toLowerCase()==='x'){triggerChaos()}});
-// Keep the rendered board fitted to its container. Prevent accidental iOS gesture zoom.\ndocument.addEventListener('gesturestart',e=>e.preventDefault(),{passive:false});\ndocument.addEventListener('gesturechange',e=>e.preventDefault(),{passive:false});\n// Scale the canvas backing store at 2x for sharp pixels only; this is not page zoom.
+// Keep the rendered board fitted to its container. Prevent accidental iOS gesture zoom.
+document.addEventListener('gesturestart',e=>e.preventDefault(),{passive:false});
+document.addEventListener('gesturechange',e=>e.preventDefault(),{passive:false});
+// Scale the canvas backing store at 2x for sharp pixels only; this is not page zoom.
 ctx.setTransform(2,0,0,2,0,0);resetStage(1,false);updateUI();requestAnimationFrame(loop);
 })();
 </script>
