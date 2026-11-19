@@ -769,7 +769,7 @@ function land(b, k) {
     const points = '+' + fmtMagnitude(gain, gainLog);
     ctx.font = `900 ${size * 1.1}px ${F_B}`;
     const inset = Math.min(W / 2, ctx.measureText(points).width / 2 + 4);
-    fxText(clamp(cx, inset, W - inset), L.pocketTop - 8, points, tier >= 2 ? C.kin : C.haku, size, tier >= 2 ? 1.5 : 1);
+    fxText(clamp(cx, inset, W - inset), L.pocketTop - 8, points, tier >= 2 ? C.kin : C.haku, size, tier >= 2 ? 1.5 : 1, true);
     spark(cx, L.pocketTop + 16, tier >= 2 ? C.kin : '#ffe9a8', 6 + tier * 5, 190 + tier * 40, 0.5, 2.4);
     S.cash(tier);
     if (tier >= 3) { addShake(4 + tier * 2); S.big(); G.hitstop = Math.max(G.hitstop, 0.05); firework(cx, L.pocketTop - 110, pick([C.kin, C.shu, C.asagi, C.momo])); buzz(25); }
@@ -1092,9 +1092,19 @@ function firework(x, y, col) {
   noise(0.25, 0.1, 700, 0, 0.7, 'lowpass');
 }
 function ring(x, y, col, to, life, w) { if (!G.headless) rings.push({ x, y, r: 4, to, life, max: life, col, w: w || 3 }); }
-function fxText(x, y, str, col, size, life) {
-  if (G.headless || G.phase === 'title' || floats.length > 46 || textBudget <= 0) return;
-  textBudget--; floats.push({ x: clamp(x, 34, W - 34), y, vy: -70, life: life || 0.9, max: life || 0.9, str, col, size: size || 18 });
+function fxText(x, y, str, col, size, life, scoring = false) {
+  if (G.headless || G.phase === 'title') return;
+  // 後半は連鎖の文字演出が上限に達しやすい。得点の加算表示を優先して残す。
+  if (scoring) {
+    if (floats.length > 46) {
+      const j = floats.findIndex(item => !item.scoring);
+      floats.splice(j < 0 ? 0 : j, 1);
+    }
+  } else {
+    if (floats.length > 46 || textBudget <= 0) return;
+    textBudget--;
+  }
+  floats.push({ x: clamp(x, 34, W - 34), y, vy: -70, life: life || 0.9, max: life || 0.9, str, col, size: size || 18, scoring });
 }
 function bolt(x1, y1, x2, y2) {
   if (G.headless || bolts.length > 30) return;
