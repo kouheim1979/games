@@ -629,7 +629,7 @@ function hitPeg(p, b, chain) {
     case 'n': { plusBall(b, BAL.nailAdd * (R.nail ? Math.pow(3, R.nail) : 1) * (fev ? BAL.feverAdd : 1) * (twice ? 2 : 1)); if (!chain) S.hit(G.combo); break; }
     case 'a': { const a = BAL.addVal * currentDifficulty().addPower * lv * (fev ? BAL.feverAdd : 1) * (twice ? 2 : 1); plusBall(b, a); str = '+' + fmtS(a); S.add(); break; }
     case 'x': { let m = xMul(lv); if (twice) m *= m; multiplyBall(b, m); str = '×' + fmtMul(m); big = m >= 8; S.mul(lv); break; }
-    case 'g': { let m = BAL.growBase + currentDifficulty().growBonus + p.grow; if (chain && m > 2) m = 2; p.grow += BAL.growStep * p.lv; str = '×' + m.toFixed(1); if (twice) m *= m; multiplyBall(b, m); S.mul(2); break; }
+    case 'g': { let m = BAL.growBase + currentDifficulty().growBonus + p.grow; if (chain && m > 2) m = 2; if (twice) m *= m; p.grow += BAL.growStep * p.lv * (twice ? 2 : 1); str = '×' + m.toFixed(twice ? 2 : 1); multiplyBall(b, m); S.mul(2); break; }
     case 'd': { let s = 0; for (let j = 0; j < lv; j++) s += 1 + ((Math.random() * 6) | 0); big = s >= 6 * lv; if (twice) s *= s; multiplyBall(b, s); str = '×' + s; S.dice(big); break; }
     case 'f': { if (live) addGauge(BAL.festivalGauge * lv, b); plusBall(b, BAL.festivalValue); str = '祭+' + BAL.festivalGauge * lv; S.fes(); break; }
     case 's': {
