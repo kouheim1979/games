@@ -1,6 +1,8 @@
 /* Mainichi Toolbox: the shared portal is namespaced to keep the existing tools intact. */
 :root { --mt-ink:#273d34; --mt-paper:#f8f6ef; --mt-line:#d6d9ca; --mt-muted:#58675c; --mt-rust:#a54d31; }
 .mt-portal,.mt-portal *,#mt-player,#mt-player *,.mt-languagebar,.mt-languagebar * { box-sizing:border-box; }
+.mt-portal a,.mt-portal button,.mt-portal input,#mt-player a,#mt-player button,#mt-player iframe { touch-action:manipulation; }
+#mt-player,#mt-frame-wrap { overscroll-behavior:contain; }
 .mt-portal { color:var(--mt-ink); font:15px/1.75 system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; max-width:1100px; margin:auto; text-align:left; }
 .mt-portal [hidden],#mt-player [hidden] { display:none!important; }
 .mt-portal h2,.mt-portal h3,.mt-portal p,.mt-portal figure { margin:0; }
@@ -47,7 +49,7 @@
 .mt-filters button:hover { border-color:var(--mt-ink); }
 .mt-filters .mt-count { font-size:10px; margin-left:5px; opacity:.8; }
 .mt-searchbox { position:relative; flex:1; min-width:235px; max-width:335px; }
-.mt-searchbox input { width:100%; min-height:43px; border:1px solid var(--mt-line); border-radius:0; padding:10px 40px 10px 14px; background:#fffdf6; color:var(--mt-ink); font-size:13px; }
+.mt-searchbox input { width:100%; min-height:43px; border:1px solid var(--mt-line); border-radius:0; padding:10px 40px 10px 14px; background:#fffdf6; color:var(--mt-ink); font-size:16px; }
 .mt-searchbox input::-webkit-search-cancel-button { -webkit-appearance:none; }
 .mt-searchbox input::placeholder { color:#687568; opacity:1; }
 .mt-searchbox button { position:absolute; right:1px; top:1px; width:40px; height:41px; border:0; background:transparent; color:var(--mt-muted); font-size:20px; }
