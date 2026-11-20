@@ -2,6 +2,12 @@
   'use strict';
   // Written from the games' current instructions and source, not inferred from their names.
   const rows = {
+    'tochigi-gunma': [
+      ['栃木県か群馬県かを二択で回答します。難易度と10・20・30問のコースを選んで開始。', '世界遺産・温泉・食べ物・観光名所など全92ネタ。正解後に解説が表示されます。タイマーと音は設定で切り替えられ、最後に間違えた問題を復習できます。'],
+      ['Choose Tochigi or Gunma for each of 92 landmarks, foods, hot springs and historical topics. Select difficulty and a 10, 20 or 30 question round.', 'Read a short fact after each answer and review your mistakes at the end. The game itself is in Japanese.'],
+      ['在栃木县和群马县之间二选一，共有92道地标、美食、温泉及历史题。可选择难度和10、20或30题模式。', '答题后可阅读知识解析，最后复习错题。游戏界面为日语。'],
+      ['Elige Tochigi o Gunma en 92 preguntas sobre lugares, comida, aguas termales e historia. Selecciona dificultad y rondas de 10, 20 o 30.', 'Lee un dato después de cada respuesta y repasa los fallos al terminar. El juego está en japonés.']
+    ],
     'hoshibaku': [
       ['長押しで星を吸い込み、離すと口の中の点数が確定します。爆弾が口に入る直前の0.46秒で離すと3倍。30秒で高得点を目指しましょう。', '一度に3個吸うごとに倍率アップ。ギリ飲みを3回決めると、5秒間は爆弾も食べられます。結果の対戦コードで友だちと同じ航路に挑戦できます。'],
       ['Hold to collect stars and release to bank your points. Release within 0.46 seconds before a bomb reaches the mouth for triple points.', 'Every three stars raise the multiplier. Land three close releases to eat bombs during a five-second fever. Share the result code for the same course. The game controls are in Japanese.'],

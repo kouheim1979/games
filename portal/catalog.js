@@ -9,6 +9,12 @@
   });
   // This is the owner's curated collection, not every directory in the repo.
   const games = [
+    entry('tochigi-gunma', 'green', ['learn', 'party'],
+      ['どっち県!? 栃木 vs 群馬', 'Tochigi or Gunma?', '栃木还是群马？', '¿Tochigi o Gunma?'],
+      ['世界遺産・温泉・ご当地グルメ全92問！ 栃木と群馬のどちらか、二択で当てよう。',
+       '92 quick questions about landmarks, food, hot springs and history in Tochigi and Gunma.',
+       '92道趣味问答：世界遗产、温泉、美食与历史，猜猜属于栃木还是群马。',
+       '92 preguntas sobre monumentos, aguas termales, platos típicos e historia de Tochigi y Gunma.'], false),
     entry('chaos-evolution', 'violet', ['puzzle', 'casual'],
       ['カオス進化実験場', 'Chaos Evolution Lab', '混沌进化实验室', 'Laboratorio de evolución caótica'],
       ['1ミリの配置が大連鎖に！玉を発射して吸収・分裂・進化。禁断のボタンで世界をひっくり返そう。',
