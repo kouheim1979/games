@@ -183,6 +183,7 @@ async function speak(word,statusId){
  try{
   const items=await prepareClip(word,allowUS);
   for(const item of items){if(token!==audioToken)return;try{await playRecording(item,token,status);return}catch(e){}}
+  if(items.some(item=>!item.source)){const alternate=await dictionaryRecording(word,allowUS);for(const item of alternate){if(token!==audioToken)return;try{await playRecording(item,token,status);return}catch(e){}}}
   throw Error('音声ファイルを再生できません');
  }catch(e){
   if(token!==audioToken)return;
