@@ -2,6 +2,12 @@
   'use strict';
   // Written from the games' current instructions and source, not inferred from their names.
   const rows = {
+    'starfall': [
+      ['画面を左右にドラッグして宇宙船を動かすと、自動で弾を発射します。PCでは左右キーまたはA・Dキーで操作できます。', '敵を倒してコンボをつなぎ、3WAY・RAPID・シールド回復を集めましょう。4ウェーブごとにボスが登場。Pキーかボタンで一時停止できます。'],
+      ['Drag left or right to move your spaceship; shots fire automatically. On a computer, use arrow keys or A/D.', 'Chain enemy defeats and collect spread shot, rapid fire and shield recovery. A boss appears every four waves; press P to pause.'],
+      ['左右拖动飞船即可自动开火，电脑可使用方向键或A/D键。', '连续击落敌人获取连击分数，收集散射、连发和护盾恢复道具。每四波出现首领，按P可暂停。'],
+      ['Arrastra a izquierda o derecha para mover la nave: dispara automáticamente. En PC usa las flechas o A/D.', 'Encadena derribos y recoge disparo triple, fuego rápido y escudos. Aparece un jefe cada cuatro oleadas; pulsa P para pausar.']
+    ],
     "nagano-yamanashi": [["問題を見て長野県か山梨県かを選びます。難易度と10・20・30問のコースを選択。","全60問。読み仮名、解説、連続正解ボーナス、間違いの復習があります。"],["Choose the prefecture and select difficulty plus 10, 20 or 30 questions.","Includes 60 questions with readings, explanations, combo points and mistake review."],["选择所属县、难度及10、20或30题。","60题附读音、解析、连击奖励和错题复习。"],["Elige la prefectura, dificultad y 10, 20 o 30 preguntas.","Incluye 60 preguntas con lecturas, explicaciones, rachas y repaso de errores."]],
     "shimane-tottori": [["問題を見て島根県か鳥取県かを選びます。難易度と10・20・30問のコースを選択。","全60問。読み仮名、解説、連続正解ボーナス、間違いの復習があります。"],["Choose the prefecture and select difficulty plus 10, 20 or 30 questions.","Includes 60 questions with readings, explanations, combo points and mistake review."],["选择所属县、难度及10、20或30题。","60题附读音、解析、连击奖励和错题复习。"],["Elige la prefectura, dificultad y 10, 20 o 30 preguntas.","Incluye 60 preguntas con lecturas, explicaciones, rachas y repaso de errores."]],
     'tochigi-gunma': [
