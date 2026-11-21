@@ -6,7 +6,7 @@ const guides = require('./guides.js');
 const e = value => String(value).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
 const tx = (key, tag = 'span', extra = '') => `<${tag} data-mt-i18n="${key}"${extra}>${e(ui.ja[key].replace('{total}', String(games.length)))}</${tag}>`;
 const categories = ['all', 'puzzle', 'party', 'learn', 'casual'];
-const logo = (id, loading = 'lazy') => `<img class="mt-game-logo" src="https://kouheim1979.github.io/games/portal/logos/${id}.${id === 'mirai-town' || id === 'giridoka' ? 'svg' : 'webp'}" alt="" width="256" height="256" loading="${loading}" decoding="async">`;
+const logo = (id, loading = 'lazy') => `<img class="mt-game-logo" src="https://kouheim1979.github.io/games/portal/logos/${id}.${id === 'mirai-town' || id === 'giridoka' || id === 'starfall' ? 'svg' : 'webp'}" alt="" width="256" height="256" loading="${loading}" decoding="async">`;
 const html = `<div class="mt-portal" id="mt-portal" lang="ja">
   <div class="mt-indexline"><span>MAINICHI TOOLBOX / PLAY &amp; LEARN</span>${tx('total')}</div>
   <section class="mt-hero" aria-labelledby="mt-hero-title">
