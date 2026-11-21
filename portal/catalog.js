@@ -9,6 +9,7 @@
   });
   // This is the owner's curated collection, not every directory in the repo.
   const games = [
+    entry('ipa-quiz', 'blue', ['learn'], ["IPA QUEST — 発音記号当てゲーム","IPA QUEST — Phonetics Quiz","IPA QUEST — 英语音标挑战","IPA QUEST — Reto de fonética"], ["英単語と発音記号を4択で学ぼう。音声、3つのモード、難易度別の練習と間違いの復習つき。","Match English words and IPA in a four-choice quiz, with audio, three modes, difficulty levels and mistake review.","四选一学习英语单词与国际音标，支持语音、三种模式、难度选择及错题复习。","Relaciona palabras inglesas y símbolos AFI con cuatro opciones, audio, tres modos, niveles y repaso de errores."], false),
     entry('todofuken-battle', 'amber', ['party', 'learn'],
       ['都道府県バトル', 'Prefecture Conquest', '日本都道府县争霸', 'Conquista de prefecturas'],
       ['好きな県を本拠地に、隣接する県を攻めて領土を拡大。CPU２勢力と24ターンで全国制覇を競おう。',
