@@ -2,6 +2,8 @@
   'use strict';
   // Written from the games' current instructions and source, not inferred from their names.
   const rows = {
+    "nagano-yamanashi": [["問題を見て長野県か山梨県かを選びます。難易度と10・20・30問のコースを選択。","全60問。読み仮名、解説、連続正解ボーナス、間違いの復習があります。"],["Choose the prefecture and select difficulty plus 10, 20 or 30 questions.","Includes 60 questions with readings, explanations, combo points and mistake review."],["选择所属县、难度及10、20或30题。","60题附读音、解析、连击奖励和错题复习。"],["Elige la prefectura, dificultad y 10, 20 o 30 preguntas.","Incluye 60 preguntas con lecturas, explicaciones, rachas y repaso de errores."]],
+    "shimane-tottori": [["問題を見て島根県か鳥取県かを選びます。難易度と10・20・30問のコースを選択。","全60問。読み仮名、解説、連続正解ボーナス、間違いの復習があります。"],["Choose the prefecture and select difficulty plus 10, 20 or 30 questions.","Includes 60 questions with readings, explanations, combo points and mistake review."],["选择所属县、难度及10、20或30题。","60题附读音、解析、连击奖励和错题复习。"],["Elige la prefectura, dificultad y 10, 20 o 30 preguntas.","Incluye 60 preguntas con lecturas, explicaciones, rachas y repaso de errores."]],
     'tochigi-gunma': [
       ['栃木県か群馬県かを二択で回答します。難易度と10・20・30問のコースを選んで開始。', '世界遺産・温泉・食べ物・観光名所など全92ネタ。正解後に解説が表示されます。タイマーと音は設定で切り替えられ、最後に間違えた問題を復習できます。'],
       ['Choose Tochigi or Gunma for each of 92 landmarks, foods, hot springs and historical topics. Select difficulty and a 10, 20 or 30 question round.', 'Read a short fact after each answer and review your mistakes at the end. The game itself is in Japanese.'],
