@@ -2,7 +2,7 @@
   'use strict';
   // Written from the games' current instructions and source, not inferred from their names.
   const rows = {
-    'ipa-quiz': [["画面に表示される発音記号を見てA・Bの音声を再生し、その音を含む方を選びます。","1回10問。回答後に単語と発音のコツを確認し、間違えた音だけ復習できます。"],["Read the IPA symbol, play audio A and B, and choose the example containing that sound.","Ten questions per round. Reveal the words, learn pronunciation tips and review mistakes."],["查看音标，播放A和B，从中选择含有该音的示例。","每轮十题，答题后查看单词和发音技巧并复习错题。"],["Lee el símbolo AFI, escucha A y B, y elige el ejemplo que contiene ese sonido.","Diez preguntas por ronda, con palabras, consejos y repaso de errores."]],
+    'ipa-quiz': [["練習する音を選び、英単語の音声を聞いて、下線部分の発音記号を2択で答えます。","発音記号図鑑で唇・舌の動きを確認できます。英国英語の学習用表記を使用し、間違えた問題だけ復習できます。"],["Choose a sound pair, listen to a word and select the correct IPA symbol for the underlined part.","Study lip and tongue diagrams and review mistakes. Uses traditional British English IPA notation."],["选择一组音标，听单词，从两个选项中选出下划线部分的发音。","学习唇舌示意图并复习错题。采用传统英式英语音标。"],["Elige un par de sonidos, escucha la palabra y selecciona el símbolo AFI de la parte subrayada.","Estudia los diagramas de labios y lengua y repasa errores. Usa la notación tradicional británica."]],
     'starfall': [
       ['画面を左右にドラッグして宇宙船を動かすと、自動で弾を発射します。PCでは左右キーまたはA・Dキーで操作できます。', '敵を倒してコンボをつなぎ、3WAY・RAPID・シールド回復を集めましょう。4ウェーブごとにボスが登場。Pキーかボタンで一時停止できます。'],
       ['Drag left or right to move your spaceship; shots fire automatically. On a computer, use arrow keys or A/D.', 'Chain enemy defeats and collect spread shot, rapid fire and shield recovery. A boss appears every four waves; press P to pause.'],
