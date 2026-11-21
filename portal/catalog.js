@@ -9,6 +9,9 @@
   });
   // This is the owner's curated collection, not every directory in the repo.
   const games = [
+    entry('starfall', 'blue', ['casual'],
+      ['STARFALL — 宇宙防衛戦', 'STARFALL: Galactic Defense', 'STARFALL：银河防卫战', 'STARFALL: Defensa Galáctica'],
+      ['宇宙船を左右に動かして自動連射！敵の編隊と巨大ボスを撃破する爽快シューティング。', 'Move your spaceship and fire automatically. Destroy enemy formations and powerful bosses.', '左右移动飞船自动开火，击落敌方编队和强大的首领。', 'Mueve tu nave y dispara automáticamente para derrotar formaciones enemigas y jefes gigantes.'], false),
     entry("nagano-yamanashi", "violet", ['learn','party'], ["どっち県!? 山梨 vs 長野","Nagano or Yamanashi?","长野还是山梨？","¿Nagano o Yamanashi?"], ["名所・温泉・名産品など全60問！ 長野と山梨のどちらか、二択で当てよう。","60 questions about local food, landmarks, history and hot springs. Choose the right prefecture.","60题地方美食、名胜、历史及温泉问答。","60 preguntas sobre comida local, lugares, historia y aguas termales."], false),
     entry("shimane-tottori", "amber", ['learn','party'], ["どっち県!? 島根 vs 鳥取","Shimane or Tottori?","岛根还是鸟取？","¿Shimane o Tottori?"], ["名所・温泉・名産品など全60問！ 島根と鳥取のどちらか、二択で当てよう。","60 questions about local food, landmarks, history and hot springs. Choose the right prefecture.","60题地方美食、名胜、历史及温泉问答。","60 preguntas sobre comida local, lugares, historia y aguas termales."], false),
     entry('tochigi-gunma', 'green', ['learn', 'party'],
