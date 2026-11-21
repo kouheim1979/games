@@ -2,6 +2,7 @@
   'use strict';
   // Written from the games' current instructions and source, not inferred from their names.
   const rows = {
+    'ipa-quiz': [["モードと難易度を選び、4択で10問に答えます。","答え合わせの後に英語音声を聞き、間違えた問題を復習しましょう。"],["Choose a mode and difficulty, then answer ten multiple-choice questions.","Listen to the word after answering and review your mistakes."],["选择模式和难度，再回答十道四选一题。","答题后听英语发音，复习错题。"],["Elige el modo y la dificultad y responde diez preguntas.","Escucha la pronunciación y repasa tus errores."]],
     'starfall': [
       ['画面を左右にドラッグして宇宙船を動かすと、自動で弾を発射します。PCでは左右キーまたはA・Dキーで操作できます。', '敵を倒してコンボをつなぎ、3WAY・RAPID・シールド回復を集めましょう。4ウェーブごとにボスが登場。Pキーかボタンで一時停止できます。'],
       ['Drag left or right to move your spaceship; shots fire automatically. On a computer, use arrow keys or A/D.', 'Chain enemy defeats and collect spread shot, rapid fire and shield recovery. A boss appears every four waves; press P to pause.'],
