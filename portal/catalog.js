@@ -9,7 +9,7 @@
   });
   // This is the owner's curated collection, not every directory in the repo.
   const games = [
-    entry('ipa-quiz', 'blue', ['learn'], ["IPA QUEST — どっちの発音？","IPA QUEST — Which Sound?","IPA QUEST — 哪个发音？","IPA QUEST — ¿Qué sonido?"], ["発音記号を1つ見て、A・Bの音声から正しい音を選ぶ2択クイズ。似た音を聞き比べ、間違えた音を復習しよう。","See one IPA symbol and choose the matching sound from two audio examples. Compare similar sounds and review mistakes.","看一个国际音标，从A、B两个语音示例中选择正确发音，比较相似音并复习错题。","Mira un símbolo AFI y elige su sonido entre dos ejemplos de audio. Compara sonidos parecidos y repasa errores."], false),
+    entry('ipa-quiz', 'blue', ['learn'], ["IPA QUEST — 発音記号レッスン","IPA QUEST — Phoneme Lessons","IPA QUEST — 音标练习","IPA QUEST — Lecciones de fonética"], ["英単語を聞き、2つの発音記号から正しい方を選ぼう。唇と舌の模式図を使った発音記号図鑑も収録。","Listen to a word and choose between two IPA symbols. Study pronunciation with illustrated lip and tongue guides.","听英语单词，从两个音标中选出正确答案，并通过唇舌示意图学习发音。","Escucha una palabra y elige entre dos símbolos AFI. Aprende con diagramas de labios y lengua."], false),
     entry('todofuken-battle', 'amber', ['party', 'learn'],
       ['都道府県バトル', 'Prefecture Conquest', '日本都道府县争霸', 'Conquista de prefecturas'],
       ['好きな県を本拠地に、隣接する県を攻めて領土を拡大。CPU２勢力と24ターンで全国制覇を競おう。',
