@@ -26,6 +26,7 @@
 | [react-game](react-game/) | 反射神経ゲーム |
 | [rin-harbor](rin-harbor/) | リンハーバー |
 | [ryouri-shokudo](ryouri-shokudo/) | おりょうり食堂（お料理シミュレーション） |
+| [uchu-tabehoudai](uchu-tabehoudai/) | 宇宙食べ放題（ブラックホール成長アクション） |
 | [todofuken-draft](todofuken-draft/) | 都道府県ドラフトバトル｜地元も、切り札も。キミが指名。 |
 | [todofuken-battle](todofuken-battle/) | 都道府県バトル｜47都道府県の領土戦略ゲーム（CPU2勢力／24ターン） |
 | [WaterSortPuzzle](WaterSortPuzzle/) | Water Sort Puzzle |
