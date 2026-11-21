@@ -9,6 +9,12 @@
   });
   // This is the owner's curated collection, not every directory in the repo.
   const games = [
+    entry('todofuken-battle', 'amber', ['party', 'learn'],
+      ['都道府県バトル', 'Prefecture Conquest', '日本都道府县争霸', 'Conquista de prefecturas'],
+      ['好きな県を本拠地に、隣接する県を攻めて領土を拡大。CPU２勢力と24ターンで全国制覇を競おう。',
+       'Choose your home prefecture and conquer neighboring territory in a 24-turn strategy battle against two CPU rivals.',
+       '选择故乡县，进攻相邻区域，在24回合内与两支电脑势力争夺日本版图。',
+       'Elige tu prefectura y conquista territorios vecinos en una batalla estratégica de 24 turnos contra dos rivales.'], false),
     entry('starfall', 'blue', ['casual'],
       ['STARFALL — 宇宙防衛戦', 'STARFALL: Galactic Defense', 'STARFALL：银河防卫战', 'STARFALL: Defensa Galáctica'],
       ['宇宙船を左右に動かして自動連射！敵の編隊と巨大ボスを撃破する爽快シューティング。', 'Move your spaceship and fire automatically. Destroy enemy formations and powerful bosses.', '左右移动飞船自动开火，击落敌方编队和强大的首领。', 'Mueve tu nave y dispara automáticamente para derrotar formaciones enemigas y jefes gigantes.'], false),
