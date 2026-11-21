@@ -5,11 +5,11 @@
     id, color, groups, localizedGame,
     title: Object.fromEntries(langs.map((lang, i) => [lang, titles[i]])),
     description: Object.fromEntries(langs.map((lang, i) => [lang, descriptions[i]])),
-    url: 'https://kouheim1979.github.io/games/' + id + '/' + (id === 'chaos-evolution' ? '?v=20261119.3' : id === 'mirai-town' ? '?v=city20261115v5' : '')
+    url: 'https://kouheim1979.github.io/games/' + id + '/' + (id === 'nagano-yamanashi' ? '?v=20261121-1855' : id === 'chaos-evolution' ? '?v=20261119.3' : id === 'mirai-town' ? '?v=city20261115v5' : '')
   });
   // This is the owner's curated collection, not every directory in the repo.
   const games = [
-    entry("nagano-yamanashi", "violet", ['learn','party'], ["どっち県!? 長野 vs 山梨","Nagano or Yamanashi?","长野还是山梨？","¿Nagano o Yamanashi?"], ["名所・温泉・名産品など全60問！ 長野と山梨のどちらか、二択で当てよう。","60 questions about local food, landmarks, history and hot springs. Choose the right prefecture.","60题地方美食、名胜、历史及温泉问答。","60 preguntas sobre comida local, lugares, historia y aguas termales."], false),
+    entry("nagano-yamanashi", "violet", ['learn','party'], ["どっち県!? 山梨 vs 長野","Nagano or Yamanashi?","长野还是山梨？","¿Nagano o Yamanashi?"], ["名所・温泉・名産品など全60問！ 長野と山梨のどちらか、二択で当てよう。","60 questions about local food, landmarks, history and hot springs. Choose the right prefecture.","60题地方美食、名胜、历史及温泉问答。","60 preguntas sobre comida local, lugares, historia y aguas termales."], false),
     entry("shimane-tottori", "amber", ['learn','party'], ["どっち県!? 島根 vs 鳥取","Shimane or Tottori?","岛根还是鸟取？","¿Shimane o Tottori?"], ["名所・温泉・名産品など全60問！ 島根と鳥取のどちらか、二択で当てよう。","60 questions about local food, landmarks, history and hot springs. Choose the right prefecture.","60题地方美食、名胜、历史及温泉问答。","60 preguntas sobre comida local, lugares, historia y aguas termales."], false),
     entry('tochigi-gunma', 'green', ['learn', 'party'],
       ['どっち県!? 栃木 vs 群馬', 'Tochigi or Gunma?', '栃木还是群马？', '¿Tochigi o Gunma?'],
