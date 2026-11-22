@@ -9,7 +9,7 @@
   });
   // This is the owner's curated collection, not every directory in the repo.
   const games = [
-    entry('eigodoka', 'amber', ['learn', 'casual'], ['エイゴドカ！','EIGO DOKA!','英语爆裂！','¡EIGO DOKA!'], ['英文で世界の法則を書き換え、色の変化と爆発の大連鎖を起こす実験ゲーム。クイズなし。','Write English rules that change the world and trigger color transformations and chain explosions. No quizzes.','用英语改写世界法则，触发颜色变化和连锁爆炸。无需答题。','Cambia las leyes del mundo en inglés y genera transformaciones de color y explosiones en cadena. Sin cuestionarios.'], false),
+    entry('eigodoka', 'amber', ['learn', 'casual'], ['エイゴドカ！','EIGO DOKA!','英语爆裂！','¡EIGO DOKA!'], ['同じ色を3つつなげて爆発！DPを貯めて英語の必殺技を発動。クイズなし。','Match three blocks, earn DP and launch English color spells. No quizzes.','连接三个同色方块引爆，积攒DP发动英语必杀技。无需答题。','Une tres bloques del mismo color, gana DP y activa poderes en inglés. Sin cuestionarios.'], false),
     entry('ipa-quiz', 'blue', ['learn'], ["IPA QUEST — 発音記号レッスン","IPA QUEST — Phoneme Lessons","IPA QUEST — 音标练习","IPA QUEST — Lecciones de fonética"], ["英単語を聞き、2つの発音記号から正しい方を選ぼう。唇と舌の模式図を使った発音記号図鑑も収録。","Listen to a word and choose between two IPA symbols. Study pronunciation with illustrated lip and tongue guides.","听英语单词，从两个音标中选出正确答案，并通过唇舌示意图学习发音。","Escucha una palabra y elige entre dos símbolos AFI. Aprende con diagramas de labios y lengua."], false),
     entry('todofuken-battle', 'amber', ['party', 'learn'],
       ['都道府県バトル', 'Prefecture Conquest', '日本都道府县争霸', 'Conquista de prefecturas'],
