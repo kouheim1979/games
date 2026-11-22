@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#f4f1ea"><title>数学ドカン！｜神奈川県公立高校入試</title>
+<style>
+:root{--cream:#f4f1ea;--ink:#15121a;--red:#ff4328;--yellow:#ffd42a;--gray:#6a6870;--border:3px solid var(--ink)}*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--cream);color:var(--ink);font-family:"Hiragino Sans","Noto Sans JP","Yu Gothic","Meiryo",sans-serif;font-weight:700}body{background-image:radial-gradient(#14121a14 .7px,transparent .7px);background-size:6px 6px}button,select,a{-webkit-tap-highlight-color:transparent;touch-action:manipulation}button{cursor:pointer;color:inherit;font:inherit}button:focus-visible,a:focus-visible,select:focus-visible{outline:3px solid var(--red);outline-offset:3px}[hidden]{display:none!important}.wrap{width:min(100%,490px);margin:auto;padding:17px 15px max(27px,env(safe-area-inset-bottom))}.top{display:flex;align-items:center;justify-content:space-between;font-size:13px}.top a{color:var(--ink);text-decoration:none}.tiny-btn{border:2px solid var(--ink);background:white;box-shadow:2px 2px var(--ink);border-radius:30px;padding:8px 11px}.center{text-align:center}.kicker{display:inline-block;padding:5px 10px;background:var(--ink);color:white;font-size:11px;letter-spacing:.12em;transform:skewX(-8deg)}h1.logo{margin:25px 0 15px;font-size:clamp(43px,13.2vw,69px);font-weight:1000;font-style:italic;letter-spacing:-.09em;transform:rotate(-4deg);text-shadow:3px 3px white;white-space:nowrap}h1.logo b{color:var(--red);-webkit-text-stroke:2px var(--ink);paint-order:stroke fill;text-shadow:4px 4px var(--ink)}.tag{font-size:18px;margin:12px 0 19px;line-height:1.5}.tag b{color:var(--red)}.label{font-size:12px;margin:0 0 8px;letter-spacing:.03em;text-align:left}.setting{margin:14px 0;text-align:left}.options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.options.three{grid-template-columns:repeat(3,minmax(0,1fr))}.options.four{grid-template-columns:repeat(4,minmax(0,1fr))}.opt{background:white;border:3px solid var(--ink);box-shadow:3px 3px var(--ink);min-height:45px;font-size:14px;font-weight:900;padding:9px 4px;text-align:center}.opt[aria-pressed="true"]{background:var(--ink);color:white;box-shadow:3px 3px var(--red)}.opt small{display:block;font-size:10px;opacity:.82;font-weight:700;margin-top:3px}.opt:active,.big:active,.answer:active{transform:translate(2px,2px);box-shadow:1px 1px var(--ink)}select{width:100%;background:white;border:3px solid var(--ink);padding:10px;font-size:16px;color:var(--ink);font-family:inherit;font-weight:800}.big{display:block;width:100%;background:var(--ink);color:white;border:3px solid var(--ink);box-shadow:6px 6px var(--red);padding:15px 7px;font-size:22px;font-style:italic;font-weight:1000;letter-spacing:.03em;margin:18px 0 13px}.big:disabled{opacity:.45;cursor:not-allowed}.panel{margin:12px 0;background:white;border:var(--border);box-shadow:4px 4px var(--ink);padding:12px;text-align:left}.note{font-size:12px;color:var(--gray);font-weight:600;line-height:1.6}.note a{color:var(--ink)}.avail{text-align:center;font-size:12px;color:var(--gray);font-weight:800;margin:10px 0}.notice{background:#fff0bd;border-left:5px solid var(--red);padding:10px;font-size:12px;line-height:1.6;text-align:left}.sub{background:white;border:2px solid var(--ink);padding:10px;font-size:14px;font-weight:900}.hud{display:flex;justify-content:space-between;align-items:end;margin-top:18px}.score{font-size:46px;font-style:italic;font-weight:1000;line-height:1}.streak{font-size:27px;color:var(--red);font-weight:1000}.progress{height:15px;border:3px solid var(--ink);background:white;margin:13px 0}.progress>div{height:100%;background:repeating-linear-gradient(125deg,var(--red) 0 16px,var(--yellow) 16px 23px);transition:width .25s}.meta{display:flex;justify-content:space-between;gap:8px;font-size:12px;font-weight:900;margin:8px 0}.card{border:var(--border);box-shadow:5px 5px var(--ink);background:white;padding:13px;margin:15px 0}.chapter{font-size:12px;font-weight:900;background:var(--ink);color:white;padding:7px 8px;margin:-2px -1px 13px}.formula{font-size:clamp(23px,6vw,31px);font-weight:900;line-height:1.6;white-space:pre-line;overflow-wrap:anywhere;word-break:break-word;margin:14px 3px 18px;min-height:78px;display:flex;align-items:center;justify-content:center;text-align:center}.formula.long{font-size:clamp(17px,4.5vw,21px);line-height:1.6;text-align:left;justify-content:start}.answers{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.answer{min-height:73px;padding:11px 6px;background:var(--cream);border:3px solid var(--ink);box-shadow:3px 3px var(--ink);font-size:clamp(16px,4.4vw,20px);font-weight:900;line-height:1.35;overflow-wrap:anywhere;white-space:pre-line}.answer.good{background:var(--yellow)}.answer.bad{background:#ffccc5;border-color:var(--red)}.answer:disabled{cursor:default;opacity:1}.source{font-size:12px;color:var(--gray);text-align:center;line-height:1.5;margin:12px 0 4px}.source a{color:var(--ink);text-decoration:underline}.flash{font-size:26px;color:var(--red);text-align:center;font-weight:1000;min-height:30px}.feedback{margin:14px 0;padding:12px;background:white;border:3px solid var(--ink);box-shadow:4px 4px var(--red)}.feedback h3{margin:0 0 10px;font-size:22px;color:var(--red)}.feedback p{font-size:14px;line-height:1.8;margin:8px 0;white-space:pre-line}.feedback .wrong{background:#fff0ea;padding:8px;border-left:4px solid var(--red)}.feedback .correct{background:#fff3ba;padding:8px;border-left:4px solid var(--ink)}.feedback .tip{color:var(--gray)}.quit{display:block;margin:17px auto;background:transparent;border:0;font-size:13px;color:var(--gray);font-weight:700}.review details{border-top:2px solid var(--ink);padding:10px 0}.review summary{cursor:pointer;font-weight:900;font-size:14px}.review .mini{font-size:13px;line-height:1.7;white-space:pre-line;margin-top:8px}.review .mini strong{color:var(--red)}.archive{margin:14px 0;border:3px solid var(--ink);box-shadow:4px 4px var(--ink);background:white;padding:12px;text-align:left}.archive h3{margin:0 0 8px;font-size:17px}.linkgrid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:8px 0}.pdf-btn{display:block;text-align:center;text-decoration:none;font-size:14px;font-weight:900;background:var(--yellow);border:2px solid var(--ink);color:var(--ink);padding:12px 6px}.pdf-btn.secondary{background:var(--cream)}.rank{font-size:27px;font-weight:1000;margin:15px 0}.statrow{font-size:16px;font-weight:900;line-height:1.7}.smalllink{color:var(--ink);font-weight:900}@media(max-width:350px){.opt{font-size:12px}.answer{font-size:15px}.formula{font-size:22px}}@media(prefers-reduced-motion:reduce){.progress>div{transition:none}}
+</style></head>
+<body><main class="wrap"><div class="top"><a href="../">← ゲーム一覧</a><button id="mute" class="tiny-btn" aria-label="効果音の切り替え">音 OFF</button></div>
+<section id="home" class="center"><span class="kicker">神奈川県公立高校入試 / 実際の過去問</span><h1 class="logo">数学<b>ドカン！</b></h1><p class="tag">解いて、つないで、<b>得点力を上げろ。</b></p>
+<div class="setting"><p class="label">出題形式</p><div class="options"><button class="opt" data-mode="quick" aria-pressed="true">サクサク4択<small>原問の式・数値で練習</small></button><button class="opt" data-mode="original" aria-pressed="false">原本・全問<small>県の公式PDFで解く</small></button></div></div>
+<div class="setting" id="categorySetting"><p class="label">分野</p><div class="options" id="categories"></div></div>
+<div class="setting"><p class="label">年度</p><select id="year"><option value="all">2024〜2026年度 すべて</option><option value="2026">2026年度（令和8年度）</option><option value="2025">2025年度（令和7年度）</option><option value="2024">2024年度（令和6年度）</option></select></div>
+<div class="setting"><p class="label">検査</p><div class="options three"><button class="opt" data-exam="main" aria-pressed="true">本検査</button><button class="opt" data-exam="extra" aria-pressed="false">追検査</button><button class="opt" data-exam="both" aria-pressed="false">両方</button></div></div>
+<div class="setting" id="countSetting"><p class="label">問題数</p><div class="options four" id="counts"><button class="opt" data-count="5">5問</button><button class="opt" data-count="10" aria-pressed="true">10問</button><button class="opt" data-count="20">20問</button><button class="opt" data-count="all">全問</button></div></div>
+<p class="avail" id="available"></p><button id="start" class="big">数学ドカン！ START</button><button id="retrySaved" class="sub" style="width:100%" hidden>前回のまちがいを復習</button>
+<div class="notice" id="homeNote">サクサク版は実際の過去問をもとに、設問文を短縮したものです。図・資料を要する問題を含む全問は「原本・全問」で確認できます。</div>
+<details class="panel note"><summary>出典・原本との違い</summary><p>神奈川県教育委員会が公開した2024〜2026年度の共通選抜（全日制・本検査と追検査）を参照しています。サクサク版は実際に出題された計算式・数値・条件を使い、説明文を短縮しています。確率問題などは回答ボタン用に選択肢を再構成しています。原文そのままの再録、全設問の網羅を意味しません。図表や正確な問題文は公式PDFをご覧ください。過去問の権利は各権利者に帰属します。</p><a href="https://www.pref.kanagawa.jp/docs/dc4/nyusen/nyusen/gakuryokukensa/mondai.html" target="_blank" rel="noopener">神奈川県教育委員会の公式問題一覧</a></details></section>
+<section id="game" hidden><div class="hud"><div><div class="note">SCORE</div><div class="score" id="score">0</div></div><div style="text-align:right"><div class="note">CHAIN</div><div class="streak" id="streak">0連鎖</div></div></div><div class="meta"><span id="progressLabel"></span><span id="accuracyLabel"></span></div><div class="progress"><div id="bar"></div></div><div id="gameCard" class="card"><div class="chapter" id="chapter"></div><div id="formula" class="formula"></div><div id="answers" class="answers"></div><p class="source" id="source"></p></div><div class="flash" id="flash" aria-live="polite"></div><div id="feedback" class="feedback" hidden><h3>ここを直そう！</h3><p class="wrong" id="wrong"></p><p class="correct" id="correct"></p><p id="explain"></p><p class="tip" id="tip"></p><button id="next" class="big" style="font-size:19px">次の問題へ</button></div><button id="quit" class="quit">タイトルへ戻る</button></section>
+<section id="result" class="center" hidden><span class="kicker">数学ドカン！ 成績発表</span><div class="panel center"><p class="rank" id="rank"></p><div class="note" style="text-align:center">TOTAL SCORE</div><div class="score" id="totalScore"></div><p class="statrow" id="stats"></p><p id="best" class="note"></p></div><button id="again" class="big">もう一回</button><button id="retryWrong" class="sub" style="width:100%;margin-bottom:12px" hidden>今回のまちがいに再挑戦</button><div class="panel review" id="review" hidden></div><button id="goHome" class="sub" style="width:100%">設定画面へ</button></section>
+<section id="original" class="center" hidden><span class="kicker">公式過去問アーカイブ</span><h2>原本で全問チャレンジ</h2><p class="note">各年度とも問1〜問6を掲載。PDFを開き、県の公式正答表で確認してください。図・グラフ・記述も省略せず練習できます。</p><div id="archiveList"></div><button id="originalBack" class="big" style="font-size:18px">設定画面へ戻る</button></section></main>
+<script>
+"use strict";
+const papers={
+"2026-main":{year:2026,exam:"main",pdf:"https://www.pref.kanagawa.jp/documents/131902/3_r8suugaku_zen_mon.pdf",key:"https://www.pref.kanagawa.jp/documents/131902/3_r8suugaku_zen_sei.pdf"},
+"2026-extra":{year:2026,exam:"extra",pdf:"https://www.pref.kanagawa.jp/documents/131902/3_r8sugaku_tuizen_mon.pdf",key:"https://www.pref.kanagawa.jp/documents/131902/3_r8sugaku_tuizen_sei.pdf"},
+"2025-main":{year:2025,exam:"main",pdf:"https://www.pref.kanagawa.jp/documents/118043/3_r7suugaku_zen_mon.pdf",key:"https://www.pref.kanagawa.jp/documents/118043/3_r7suugaku_zen_sei.pdf"},
+"2025-extra":{year:2025,exam:"extra",pdf:"https://www.pref.kanagawa.jp/documents/118043/3_r7suugaku_zen_mon_tui.pdf",key:"https://www.pref.kanagawa.jp/documents/118043/3_r7suugaku_zen_sei_tui.pdf"},
+"2024-main":{year:2024,exam:"main",pdf:"https://www.pref.kanagawa.jp/documents/107635/r6suugaku_zen_mon.pdf",key:"https://www.pref.kanagawa.jp/documents/107635/r6suugaku_zen_sei.pdf"},
+"2024-extra":{year:2024,exam:"extra",pdf:"https://www.pref.kanagawa.jp/documents/107635/r6suugaku_zen_mon_tui.pdf",key:"https://www.pref.kanagawa.jp/documents/107635/r6suugaku_zen_sei_tui.pdf"}
+};
+const bank=[];
+function add(y,e,rows){for(const r of rows){const [part,cat,ask,opts,ans,why,tip]=r;bank.push({id:y+"-"+e+"-"+part,year:y,exam:e,part,cat,ask,opts,ans:ans-1,why,tip,paper:papers[y+"-"+e]});}}
+add(2026,"main",[
+["問1 ア","計算","−8 − 5",["−13","−3","3","13"],1,"負の数から5を引くので、−8−5＝−13。","引き算の符号に注意。"],
+["問1 イ","計算","−2/9 ＋ 3/4",["−35/36","−19/36","19/36","35/36"],3,"分母を36にそろえると、−8/36＋27/36＝19/36。","分母どうしを足さない。"],
+["問1 ウ","計算","(3x＋y)/4 − (2x−3y)/7",["(13x−19y)/28","(13x−5y)/28","(13x＋5y)/28","(13x＋19y)/28"],4,"7(3x＋y)−4(2x−3y)＝13x＋19y。分母は28。","後ろのかっこ全体にマイナスをかける。"],
+["問1 エ","計算","27a²b × 4b ÷ 6a",["18ab²","36ab²","18a²b²","36a²b²"],1,"係数は27×4÷6＝18。文字はa²÷a＝a、b×b＝b²。","a の指数を残しすぎない。"],
+["問1 オ","計算","(√7−3)²＋4(√7−3)",["−3−10√7","4−2√7","14＋2√7","15＋10√7"],2,"前半は16−6√7、後半は4√7−12。合わせて4−2√7。","(a−b)²の中項 −2ab を忘れない。"],
+["問2 ア","方程式","3x＋2y＝6\n(1/5)x−(1/4)y＝5",["x=4, y=−3","x=5, y=−16","x=6, y=−6","x=10, y=−12"],4,"2本目を20倍すると4x−5y＝100。連立するとx＝10、y＝−12。","分母は先に払うと楽。"],
+["問2 イ","方程式","x²＋9x−1＝0",["x=(−9±√85)/2","x=(−9±√77)/2","x=(9±√77)/2","x=(9±√85)/2"],1,"解の公式で判別式は9²−4×1×(−1)＝85。x＝(−9±√85)/2。","bの符号と−4acに注意。"],
+["問2 ウ","関数","y=ax² と y=5x＋1。\nxが2→4で変化の割合が同じ。aは？",["3/5","5/6","6/5","5"],2,"二次関数の変化の割合はa(2＋4)＝6a。一次関数の傾き5に合わせ、a＝5/6。","二次関数の変化の割合はa(x₁＋x₂)。"],
+["問2 エ","方程式","b＝2a、c＝3b、a＋b＋c＝252。aは？",["14","21","28","48"],3,"a＋2a＋6a＝9a＝252。したがってa＝28。","c＝3aではなく、c＝3b＝6a。"],
+["問2 オ","方程式","1050/n が自然数の2乗。\n最小の自然数nは？",["10","21","25","42"],4,"1050＝2×3×5²×7。2×3×7＝42で割ると25＝5²。","平方数になるよう、素因数の奇数個を取り除く。"],
+["問2 カ","図形","二等辺三角形：等辺5cm、底辺6cm。\n底辺の直線を軸に1回転した立体の体積は？",["16π cm³","32π cm³","64π cm³","96π cm³"],2,"高さは√(5²−3²)＝4cm。底辺の半分3cmを高さとする円すい2個なので、2×π×4²×3÷3＝32π。","三角形の高さ4cmが回転体の半径。"],
+["問4 ア","関数","直線y=−x と y=ax² が x=−8 で交わる。aは？",["1/8","1/6","1/4","1/2"],1,"交点は(−8,8)。8＝64aだからa＝1/8。","2つの式に同じ座標を代入する。"]
+]);
+add(2026,"extra",[
+["問1 ア","計算","−7 ＋ (−8)",["−15","−1","1","15"],1,"負の数を足し、−7−8＝−15。","負＋負はさらに負。"],
+["問1 イ","計算","1/9 − 1/2",["−11/18","−7/18","7/18","11/18"],2,"分母18にそろえて2/18−9/18＝−7/18。","通分した分子の引き算。"],
+["問1 ウ","計算","(3x＋2y)/5 − (2x＋3y)/6",["(8x−3y)/30","(8x＋27y)/30","(28x−3y)/30","(28x＋27y)/30"],1,"6(3x＋2y)−5(2x＋3y)＝8x−3y。","−5(2x＋3y) の符号に注意。"],
+["問1 エ","計算","6/√3 ＋ √48",["4√3","5√3","6√3","7√3"],3,"6/√3＝2√3、√48＝4√3。足して6√3。","分母の有理化と根号の整理。"],
+["問1 オ","計算","(x＋6)(x＋4)−(x−7)²",["−24x−25","−4x−25","4x−25","24x−25"],4,"x²＋10x＋24−(x²−14x＋49)＝24x−25。","後半のかっこを引くと符号が反転する。"],
+["問2 ア","方程式","(x−8)²−6(x−4)−16 を因数分解",["(x−4)(x−18)","(x−2)(x−8)","(x＋4)(x−18)","(x＋2)(x−8)"],1,"展開するとx²−22x＋72。積72・和−22の組は−4と−18。","先に正しく展開してから因数分解。"],
+["問2 イ","方程式","7x²−x−2＝0",["x=(−1±√57)/14","x=(−1±√55)/14","x=(1±√55)/14","x=(1±√57)/14"],4,"判別式は(−1)²−4×7×(−2)＝57。x＝(1±√57)/14。","−b＝1。"],
+["問2 ウ","関数","y=ax² の x：−5→−1 で変化の割合が2。aは？",["−1/2","−1/3","1/3","1/2"],2,"変化の割合はa(−5−1)＝−6a。−6a＝2なのでa＝−1/3。","xの値の和は−6。"],
+["問2 エ","方程式","大人1人＋子ども2人で2520円。\n1人料金の比は大人:子ども＝8:3。子ども料金は？",["480円","510円","540円","570円"],3,"合計は8＋3＋3＝14単位。2520÷14＝180円、子どもは3単位で540円。","人数も比の計算に入れる。"],
+["問2 オ","方程式","2<√n<3、√(50−2n) は整数。\nnは？",["5","6","7","8"],3,"nは5〜8。n=7なら50−14＝36で√36＝6。","不等式から候補を4つに絞る。"],
+["問2 カ","図形","1辺6cmの正八面体の表面積",["48√3 cm²","56√3 cm²","64√3 cm²","72√3 cm²"],4,"正三角形1面は(√3/4)×6²＝9√3。8面で72√3。","正八面体の面は正三角形が8枚。"],
+["問4 ア","関数","直線y=2x と y=ax² が x=4 で交わる。aは？",["1/3","1/2","2/3","3/4"],2,"直線上でy＝8。8＝16a より a＝1/2。","交点のxとyを両式へ代入。"],
+["問5 ア","確率・資料","袋P：A,B,C,D\n袋Q：D,E,F\n袋R：F,G,H\n各袋から1枚ずつ引き、同じ文字が出て「異なる文字が2種類」になる確率は？",["5/36","7/36","1/4","1/3"],2,"全36通り。DがP・Qで重なる3通りとFがQ・Rで重なる4通りで、合計7/36。","同じ文字が出るケースを重複なく数える。"],
+["問5 イ","確率・資料","袋P：A,B,C,D／Q：D,E,F／R：F,G,H。\n8等分した円周上の同名3点を結んで直角三角形になる確率は？",["5/12","7/36","1/3","1/2"],1,"円周角が90°になるのは直径を含むとき。36通り中15通りで15/36＝5/12。","直径の両端を含む組を数える。"]
+]);
+add(2025,"main",[
+["問1 ア","計算","−4 ＋ (−11)",["−15","−7","7","15"],1,"−4−11＝−15。","負と負を足すと負が大きくなる。"],
+["問1 イ","計算","1/6 − 4/7",["−31/42","−17/42","17/42","31/42"],2,"7/42−24/42＝−17/42。","通分後の分子の引き算。"],
+["問1 ウ","計算","36a²b² × 6b ÷ 8a",["27ab²","27ab³","48ab²","48ab³"],2,"係数36×6÷8＝27、aは1個、bは3個なので27ab³。","b²×b＝b³。"],
+["問1 エ","計算","(2x＋y)/3 − (x−3y)/5",["(7x−14y)/15","(7x−4y)/15","(7x＋4y)/15","(7x＋14y)/15"],4,"5(2x＋y)−3(x−3y)＝7x＋14y。","−3(x−3y) は−3x＋9y。"],
+["問1 オ","計算","(4＋√3)(4−√3)−2(1−√3)",["5＋2√3","5＋4√3","11＋2√3","11＋4√3"],3,"前半は16−3＝13。後半を引くと−2＋2√3。結果11＋2√3。","和と差の積(a+b)(a−b)=a²−b²。"],
+["問2 ア","方程式","(x−5)²−7(x−5)−18 を因数分解",["(x−14)(x−7)","(x−14)(x−3)","(x−7)(x−4)","(x−4)(x−3)"],2,"t=x−5 とおくとt²−7t−18=(t−9)(t＋2)。戻して(x−14)(x−3)。","かたまりを文字に置き換える。"],
+["問2 イ","方程式","5x²＋7x＋1＝0",["x=(−7±√29)/10","x=(−7±√69)/10","x=(7±√29)/10","x=(7±√69)/10"],1,"判別式49−20＝29。解は(−7±√29)/10。","分母は2a＝10。"],
+["問2 ウ","関数","y=−4x²、xが−5→−1。\n変化の割合は？",["−24","−16","16","24"],4,"yは−100→−4。変化の割合は(−4＋100)÷4＝24。","二次関数でも平均変化率はΔy÷Δx。"],
+["問2 エ","方程式","先週より今週の生産量は10%多い。\n合計567個。今週は？",["270個","283個","284個","297個"],4,"先週x個なら今週1.1x。2.1x＝567→x＝270、今週297。","今週の数量を聞かれている。"],
+["問2 オ","方程式","4<√n<5、√(2n) が整数。\nnは？",["12","18","24","32"],2,"16<n<25。18なら2n＝36で√36＝6。","√nの不等式は2乗して候補を絞る。"],
+["問2 カ","図形","上底の半径2cm、下底3cm、高さ3cmの円すい台の体積は？",["13π cm³","15π cm³","19π cm³","25π cm³"],3,"円すい台の体積はπh(R²＋Rr＋r²)/3。π×3×(9＋6＋4)/3＝19π。","円すい台は大きな円すい−小さな円すいでも計算できる。"],
+["問4 ア","関数","直線y=−x と y=ax² が x=−8 で交わる。aは？",["1/8","1/6","1/4","1/2"],1,"交点は(−8,8)。8＝64aからa＝1/8。","座標を代入する。"]
+]);
+add(2025,"extra",[
+["問1 ア","計算","−10 ＋ (−2)",["−12","−8","8","12"],1,"−10−2＝−12。","負＋負。"],
+["問1 イ","計算","−4/5 ＋ 5/8",["−57/40","−7/40","7/40","57/40"],2,"−32/40＋25/40＝−7/40。","最小公倍数40で通分。"],
+["問1 ウ","計算","(4x＋2y)/3 − (5x−y)/4",["(x−11y)/12","(x−5y)/12","(x＋5y)/12","(x＋11y)/12"],4,"4(4x＋2y)−3(5x−y)＝x＋11y。","後ろのyは引き算で＋になる。"],
+["問1 エ","計算","21/√7 − √28",["−5√7","−√7","√7","5√7"],3,"21/√7＝3√7、√28＝2√7。差は√7。","有理化後、√28を簡単に。"],
+["問1 オ","計算","(x＋8)(x−4)−(x−3)²",["2x−41","2x−23","10x−41","10x−23"],3,"x²＋4x−32−(x²−6x＋9)＝10x−41。","かっこを引くとき符号が反転。"],
+["問2 ア","方程式","0.2x−0.4y＝1\n5x＋6y＝9",["x=−3,y=−4","x=−3,y=−1","x=3,y=−4","x=3,y=−1"],4,"1本目を5倍してx−2y＝5。代入してy＝−1、x＝3。","小数は5倍して消す。"],
+["問2 イ","方程式","2x²−5x＋1＝0",["x=(−5±√17)/4","x=(−5±√33)/4","x=(5±√17)/4","x=(5±√33)/4"],3,"判別式25−8＝17。解は(5±√17)/4。","−b＝5。"],
+["問2 ウ","関数","y=ax² と y=3x。\nx：2→5 で変化の割合が同じ。aは？",["3/7","7/9","9/7","7/3"],1,"二次関数の変化の割合はa(2＋5)＝7a。7a＝3→a＝3/7。","二次関数の変化の割合はa(x₁＋x₂)。"],
+["問2 エ","方程式","歩く速さ70m/分と90m/分、合計13分。\n70m/分の時間が5分長い。全距離は？",["970m","990m","1090m","1110m"],2,"遅い方9分・速い方4分。70×9＋90×4＝990m。","時間の和13分、差5分。"],
+["問2 オ","方程式","2646/nが自然数の平方。\n最小の自然数nは？",["6","14","21","42"],1,"2646÷6＝441＝21²。素因数分解して余分な因数を6で取り除く。","平方数になる最小の除数を考える。"],
+["問2 カ","図形","1辺8cmの正四面体の表面積",["16√3 cm²","32√3 cm²","48√3 cm²","64√3 cm²"],4,"正三角形1面は(√3/4)×8²＝16√3。4面で64√3。","正四面体には正三角形が4枚。"]
+]);
+add(2024,"main",[
+["問1 ア","計算","2 − 8",["−10","−6","6","10"],2,"2−8＝−6。","大きい数を引くので負。"],
+["問1 イ","計算","−4/5 ＋ 1/4",["−21/20","−11/20","11/20","21/20"],2,"−16/20＋5/20＝−11/20。","最小公倍数20。"],
+["問1 ウ","計算","(3x−y)/4 − (5x＋2y)/9",["(7x−17y)/36","(7x−y)/36","(7x＋y)/36","(7x＋17y)/36"],1,"9(3x−y)−4(5x＋2y)＝7x−17y。","かっこの前の−を両方にかける。"],
+["問1 エ","計算","10/√5 ＋ √80",["4√5","4√10","6√5","6√10"],3,"10/√5＝2√5、√80＝4√5。合わせて6√5。","根号の中を整理する。"],
+["問1 オ","計算","(x−2)²−(x＋3)(x−8)",["−x＋20","−x＋28","x＋20","x＋28"],4,"x²−4x＋4−(x²−5x−24)＝x＋28。","マイナスの分配に注意。"],
+["問2 ア","方程式","ax−by＝−10\nbx＋ay＝−11\n解x=3,y=2。a,bは？",["a=−8,b=−1","a=−4,b=−1","a=2,b=−5","a=4,b=−5"],2,"3a−2b＝−10、3b＋2a＝−11。解くとa＝−4、b＝−1。","x,yを代入してa,bの連立方程式へ。"],
+["問2 イ","方程式","3x²−5x−1＝0",["x=(−5±√13)/6","x=(−5±√37)/6","x=(5±√13)/6","x=(5±√37)/6"],4,"判別式25＋12＝37。解は(5±√37)/6。","−4acはプラス12。"],
+["問2 ウ","関数","y=ax²。−3≦x≦2 で 0≦y≦6。\naは？",["2/3","3/2","2","3"],1,"最大|x|＝3だから最大y＝9a＝6。a＝2/3。","2ではなく−3の絶対値が大きい。"],
+["問2 エ","方程式","150円のペンx本、200円のノートy冊。\n合計3000円以下を式にすると？",["150x+200y≧3000","150x+200y>3000","150x+200y≦3000","150x+200y<3000"],3,"『以下』は同じ3000円を含むので≦。","『未満』と『以下』を区別。"],
+["問2 オ","図形","半径6cmの球の体積は？",["36π cm³","144π cm³","162π cm³","288π cm³"],4,"球の体積は4πr³/3。r=6で4×216π/3＝288π。","球の体積の公式を確認。"],
+["問2 カ","計算","x=143、y=47 のとき\nx²−9y² の値は？",["284","384","568","668"],3,"(x−3y)(x＋3y)＝(143−141)(143＋141)＝2×284＝568。","和と差の積に直して暗算できる。"],
+["問3 エ","方程式","4%食塩水300gからag取り出し、その後食塩agを加えたら12%。aは？",["18g","21g","25g","30g"],3,"食塩の量は12−0.04a＋a＝36。0.96a＝24だからa＝25g。","取り出す液には食塩が4%含まれる。"],
+["問4 ア","関数","直線y=−x と y=ax² が x=−6 で交わる。aは？",["1/9","1/6","2/9","1/3"],2,"直線からy＝6。6＝36aなのでa＝1/6。","交点の座標を両方へ代入。"],
+["問5 ア","確率・資料","1〜6のカード。さいころaの約数カードを消し、次にbを消す（無ければ残りの最大を消す）。\n最後に「4だけ」残る確率は？",["1/12","1/9","5/36","1/6"],3,"大・小2つのさいころは36通り。条件を満たすのは(a,b)=(6,1),(6,2),(6,3),(6,5),(6,6)の5通り。","原問の手順の順序を入れ替えない。"],
+["問5 イ","確率・資料","同じカード操作。\n最後に「6」が残る確率は？",["1/3","5/12","1/2","7/12"],2,"36通りを調べると、6が残るのは15通り。15/36＝5/12。","『6だけ』ではなく『6を含む』。"]
+]);
+add(2024,"extra",[
+["問1 ア","計算","7 − (−12)",["−19","−5","5","19"],4,"マイナスを引くと足し算。7＋12＝19。","−(−12) は＋12。"],
+["問1 イ","計算","−2/7 ＋ 3/5",["−31/35","−11/35","11/35","31/35"],3,"−10/35＋21/35＝11/35。","分母35に通分。"],
+["問1 ウ","計算","54a²b × 3b ÷ 9ab",["2ab","2a²b","18ab","18a²b"],3,"係数54×3÷9＝18、a²÷a＝a、b×b÷b＝b。","文字の指数を整理する。"],
+["問1 エ","計算","(3x−y)/2 − (2x＋4y)/3",["(5x−11y)/6","(5x−5y)/6","(13x−11y)/6","(13x−5y)/6"],1,"3(3x−y)−2(2x＋4y)＝5x−11y。","通分後の引き算。"],
+["問1 オ","計算","(3＋√5)(3−√5)−6(1−√5)",["−8＋6√5","−2＋6√5","−8＋12√5","−2＋12√5"],2,"前半9−5＝4、後半−6＋6√5で、−2＋6√5。","和と差の積は4。"],
+["問2 ア","方程式","(x−3)²−4(x−3)−32 を因数分解",["(x−11)(x＋1)","(x−8)(x＋4)","(x＋8)(x−4)","(x＋11)(x−1)"],1,"t=x−3ならt²−4t−32＝(t−8)(t＋4)。戻すと(x−11)(x＋1)。","かたまりで考える。"],
+["問2 イ","方程式","4x²＋6x＋1＝0",["x=(−3±√5)/4","x=(−3±√13)/4","x=(3±√5)/4","x=(3±√13)/4"],1,"解の公式：(-6±√20)/8＝(−3±√5)/4。","根号を簡単にし、約分。"],
+["問2 ウ","関数","y=ax²で x：2→4 の変化の割合が4。\naは？",["1/4","1/3","1/2","2/3"],4,"変化の割合a(2＋4)＝6a＝4なのでa＝2/3。","xの和を使う。"],
+["問2 エ","方程式","大小2つの正方形。辺の差9cm、面積の和305cm²。\n小さい正方形の辺は？",["3cm","5cm","7cm","9cm"],3,"小さい辺をxとしx²＋(x＋9)²＝305。整理して(x＋16)(x−7)＝0なので7cm。","負の解は長さに使えない。"],
+["問2 オ","図形","半径9cm・弧の長さ2πcmの扇形の面積は？",["6π cm²","9π cm²","18π cm²","27π cm²"],2,"扇形の面積は半径×弧の長さ÷2。9×2π÷2＝9π。","中心角がなくても計算できる。"],
+["問2 カ","方程式","√(360/n)が整数となる正の整数nは何個？",["3個","4個","5個","6個"],2,"360＝2³×3²×5。360/nが平方数なら1,4,9,36の4通り。対応するnも4個。","平方数の約数を数える。"]
+]);
+const cats=["すべて","計算","方程式","関数","図形","確率・資料"];
+const state={mode:"quick",cat:"すべて",year:"all",exam:"main",count:"10",sound:false,session:0};
+const $=id=>document.getElementById(id), panels=["home","game","result","original"];
+let current=null,lastWrongIds=[],lastMistakes=[];
+function show(name){panels.forEach(p=>$(p).hidden=p!==name);scrollTo({top:0,behavior:"instant"});}
+function safeGet(k){try{return localStorage.getItem(k)}catch(e){return null}}
+function safeSet(k,v){try{localStorage.setItem(k,v)}catch(e){}}
+function pool(){return bank.filter(q=>(state.cat==="すべて"||q.cat===state.cat)&&(state.year==="all"||String(q.year)===state.year)&&(state.exam==="both"||q.exam===state.exam));}
+function allowedPapers(){return Object.values(papers).filter(p=>(state.year==="all"||String(p.year)===state.year)&&(state.exam==="both"||state.exam===p.exam)).sort((a,b)=>b.year-a.year||(a.exam==="main"?-1:1));}
+function pressed(group,attr,value){document.querySelectorAll("["+attr+"]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset[attr.slice(5)]===String(value))));}
+function setGroup(selector,attr,val){document.querySelectorAll(selector).forEach(b=>b.setAttribute("aria-pressed",String(b.dataset[attr]===String(val))));}
+function renderHome(){
+setGroup("[data-mode]","mode",state.mode);setGroup("[data-exam]","exam",state.exam);setGroup("[data-count]","count",state.count);
+$("categories").replaceChildren();cats.forEach(cat=>{const b=document.createElement("button");b.className="opt";b.textContent=cat;b.setAttribute("aria-pressed",String(cat===state.cat));b.addEventListener("click",()=>{state.cat=cat;renderHome()});$("categories").append(b)});
+$("categorySetting").hidden=state.mode==="original";$("countSetting").hidden=state.mode==="original";
+const n=pool().length;
+$("available").textContent=state.mode==="quick"?"現在の条件で "+n+"問（出題した過去問を短縮）":"対象：公式問題PDF "+allowedPapers().length+"回分・問1〜問6";
+$("start").disabled=state.mode==="quick"?!n:!allowedPapers().length;
+$("start").textContent=state.mode==="quick"?"数学ドカン！ START":"原本の問題を開く";
+$("homeNote").textContent=state.mode==="quick"?"サクサク版は本物の入試から計算式・条件を取り、文を短くしています。図やデータを含む全設問は『原本・全問』で確認できます。":"原本・全問では神奈川県の公式PDFと正答表へ直接アクセスします。著作権のある資料をアプリ内へ再掲載しません。";
+let prev=safeGet("sugakudoka-mistakes");let ids=[];try{ids=JSON.parse(prev||"[]")}catch(e){}
+$("retrySaved").hidden=!ids.some(id=>bank.some(q=>q.id===id));}
+function shuffle(a){const b=a.slice();for(let i=b.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b}
+function play(list){state.session++;current={qs:shuffle(list),idx:0,score:0,streak:0,maxStreak:0,correct:0,misses:[],history:[],session:state.session,waiting:false};show("game");question();}
+function sound(good){if(!state.sound)return;try{const ctx=new(window.AudioContext||window.webkitAudioContext)(),osc=ctx.createOscillator(),gain=ctx.createGain();osc.connect(gain);gain.connect(ctx.destination);osc.type="sine";osc.frequency.value=good?660:190;gain.gain.setValueAtTime(.035,ctx.currentTime);gain.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+.13);osc.start();osc.stop(ctx.currentTime+.15);osc.onended=()=>ctx.close()}catch(e){}}
+function question(){
+if(!current||current.idx>=current.qs.length){finish();return}
+const q=current.qs[current.idx];current.waiting=false;$("feedback").hidden=true;$("flash").textContent="";$("chapter").textContent=q.cat+" / "+q.year+"年度 "+(q.exam==="main"?"本検査":"追検査")+" "+q.part;
+$("formula").textContent=q.ask;$("formula").classList.toggle("long",q.ask.length>66||q.ask.includes("\n"));
+$("score").textContent=current.score.toLocaleString();$("streak").textContent=current.streak+"連鎖";
+$("progressLabel").textContent=(current.idx+1)+" / "+current.qs.length+" 問";$("accuracyLabel").textContent="正解 "+current.correct+"問";
+$("bar").style.width=(100*current.idx/current.qs.length)+"%";
+$("answers").replaceChildren();q.opts.forEach((opt,i)=>{const b=document.createElement("button");b.className="answer";b.textContent=(i+1)+".  "+opt;b.addEventListener("click",()=>answer(i));$("answers").append(b)});
+$("source").replaceChildren();$("source").append("出典："+q.year+"年度 "+(q.exam==="main"?"本検査":"追検査")+" "+q.part+" ／ ");
+const a=document.createElement("a");a.href=q.paper.pdf;a.target="_blank";a.rel="noopener";a.textContent="原本を見る";$("source").append(a);
+}
+function answer(pick){
+if(!current||current.waiting)return;
+const q=current.qs[current.idx];current.waiting=true;
+const good=pick===q.ans;const btns=[...$("answers").children];btns.forEach((b,i)=>{b.disabled=true;if(i===q.ans)b.classList.add("good");if(i===pick&&!good)b.classList.add("bad")});
+current.history.push({q,pick,good});sound(good);
+if(good){current.correct++;current.streak++;current.maxStreak=Math.max(current.maxStreak,current.streak);current.score+=100+Math.min(10,current.streak-1)*20;$("score").textContent=current.score.toLocaleString();$("streak").textContent=current.streak+"連鎖";$("flash").textContent=current.streak>=4?"ドカン！ "+current.streak+"連鎖":"○ 正解！";let sid=current.session;setTimeout(()=>{if(current&&current.session===sid&&current.waiting)advance()},480)}
+else{current.streak=0;current.misses.push(q.id);$("streak").textContent="0連鎖";$("flash").textContent="";$("wrong").textContent="あなたの答え："+q.opts[pick];$("correct").textContent="正解："+q.opts[q.ans];$("explain").textContent="【途中式・考え方】\n"+q.why;$("tip").textContent="【間違えやすい点】\n"+q.tip;$("feedback").hidden=false;}}
+function advance(){if(!current)return;current.idx++;question();}
+function finish(){
+const c=current;if(!c)return;lastWrongIds=[...new Set(c.misses)];lastMistakes=c.history.filter(h=>!h.good);safeSet("sugakudoka-mistakes",JSON.stringify(lastWrongIds));let best=Number(safeGet("sugakudoka-best")||0);if(c.score>best){best=c.score;safeSet("sugakudoka-best",String(best))}
+show("result");$("rank").textContent=c.correct===c.qs.length?"全問正解！ 完全制覇":c.correct/c.qs.length>=.8?"絶好調！":c.correct/c.qs.length>=.6?"いい感じ！":"苦手をつぶそう！";
+$("totalScore").textContent=c.score.toLocaleString();$("stats").textContent=c.correct+" / "+c.qs.length+" 問正解  •  最高"+c.maxStreak+"連鎖";$("best").textContent="自己ベスト："+best.toLocaleString()+"点";
+$("retryWrong").hidden=lastWrongIds.length===0;$("review").hidden=lastMistakes.length===0;
+$("review").replaceChildren();if(lastMistakes.length){const h=document.createElement("h3");h.textContent="間違えた問題の解き直し";$("review").append(h)}
+lastMistakes.forEach(({q,pick})=>{const d=document.createElement("details"),s=document.createElement("summary"),p=document.createElement("p");s.textContent=q.year+" "+q.part+"："+q.ask.replace(/\n/g," ");p.className="mini";p.textContent="自分："+q.opts[pick]+"\n正解："+q.opts[q.ans]+"\n"+q.why+"\n注意："+q.tip;d.append(s,p);$("review").append(d)});
+}
+function archive(){show("original");$("archiveList").replaceChildren();allowedPapers().forEach(p=>{const el=document.createElement("article");el.className="archive";const head=document.createElement("h3");head.textContent=p.year+"年度 "+(p.exam==="main"?"本検査":"追検査")+"（全日制）";const para=document.createElement("p");para.className="note";para.textContent="問1〜問6・図形、確率、資料・グラフを含む公式問題";const links=document.createElement("div");links.className="linkgrid";[[p.pdf,"問題PDF","pdf-btn"],[p.key,"正答表PDF","pdf-btn secondary"]].forEach(x=>{const a=document.createElement("a");a.href=x[0];a.textContent=x[1];a.className=x[2];a.target="_blank";a.rel="noopener";links.append(a)});el.append(head,para,links);$("archiveList").append(el)});}
+document.querySelectorAll("[data-mode]").forEach(b=>b.addEventListener("click",()=>{state.mode=b.dataset.mode;renderHome()}));
+document.querySelectorAll("[data-exam]").forEach(b=>b.addEventListener("click",()=>{state.exam=b.dataset.exam;renderHome()}));
+document.querySelectorAll("[data-count]").forEach(b=>b.addEventListener("click",()=>{state.count=b.dataset.count;renderHome()}));
+$("year").addEventListener("change",e=>{state.year=e.target.value;renderHome()});
+$("start").addEventListener("click",()=>{if(state.mode==="original"){archive();return}const a=pool();const lim=state.count==="all"?a.length:Math.min(Number(state.count),a.length);if(lim)play(shuffle(a).slice(0,lim))});
+$("retrySaved").addEventListener("click",()=>{let ids=[];try{ids=JSON.parse(safeGet("sugakudoka-mistakes")||"[]")}catch(e){}const a=bank.filter(q=>ids.includes(q.id));if(a.length)play(a)});
+$("next").addEventListener("click",advance);
+$("quit").addEventListener("click",()=>{state.session++;current=null;renderHome();show("home")});
+$("again").addEventListener("click",()=>{let a=pool(),lim=state.count==="all"?a.length:Math.min(Number(state.count),a.length);if(lim)play(shuffle(a).slice(0,lim))});
+$("retryWrong").addEventListener("click",()=>{const a=bank.filter(q=>lastWrongIds.includes(q.id));if(a.length)play(a)});
+$("goHome").addEventListener("click",()=>{renderHome();show("home")});
+$("originalBack").addEventListener("click",()=>{renderHome();show("home")});
+$("mute").addEventListener("click",()=>{state.sound=!state.sound;$("mute").textContent=state.sound?"音 ON":"音 OFF"});
+renderHome();
+</script></body></html>
