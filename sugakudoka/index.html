@@ -147,7 +147,7 @@ $("formula").textContent=q.ask;$("formula").classList.toggle("long",q.ask.length
 $("score").textContent=current.score.toLocaleString();$("streak").textContent=current.streak+"連鎖";
 $("progressLabel").textContent=(current.idx+1)+" / "+current.qs.length+" 問";$("accuracyLabel").textContent="正解 "+current.correct+"問";
 $("bar").style.width=(100*current.idx/current.qs.length)+"%";
-$("answers").replaceChildren();q.opts.forEach((opt,i)=>{const b=document.createElement("button");b.className="answer";b.textContent=(i+1)+".  "+opt;b.addEventListener("click",()=>answer(i));$("answers").append(b)});
+$("answers").replaceChildren();q.opts.forEach((opt,i)=>{const b=document.createElement("button");b.className="answer";b.textContent=opt; b.setAttribute("aria-label","選択肢："+opt);b.addEventListener("click",()=>answer(i));$("answers").append(b)});
 $("source").replaceChildren();$("source").append("出典："+q.year+"年度 "+(q.exam==="main"?"本検査":"追検査")+" "+q.part+" ／ ");
 const a=document.createElement("a");a.href=q.paper.pdf;a.target="_blank";a.rel="noopener";a.textContent="原本を見る";$("source").append(a);
 }
