@@ -2,6 +2,7 @@
   'use strict';
   // Written from the games' current instructions and source, not inferred from their names.
   const rows = {
+    'rekidoka': [['歴史カードを正しい時代のすき間にタップで入れる。ボスは4枚を古い順にタップ。','連続正解で倍率上昇。DP満タンで次の正解が3倍。苦手カードも再戦できる。'],['Tap the correct gap in the timeline. Order four cards for each boss.','Build combos and charge DP for triple points. Review mistakes.'],['点击正确的年代空位。按时间顺序点击四张首领卡。','连击积累DP，获得三倍得分，可复习错题。'],['Toca el hueco correcto y ordena cuatro cartas en cada jefe.','Encadena aciertos y carga DP para triplicar puntos. Repasa errores.']],
     'eigodoka': [['英単語を1つ選んで玉をタップするだけ。Doubleは2倍、Explodeは爆破、Absorbは吸収。','爆破でDPを貯めると自動的に次の爆発得点3倍。15ターンで高得点を狙おう。'],['Choose an English verb and tap a ball. Double, Explode or Absorb.','Earn DP through explosions for an automatic triple-score boost.'],['选择动词并点击数字球。','爆炸积攒DP，自动触发三倍得分。'],['Elige un verbo y toca una bola.','Gana DP con explosiones para triplicar automáticamente la puntuación.']],
     'ipa-quiz': [["練習する音を選び、英単語の音声を聞いて、下線部分の発音記号を2択で答えます。","発音記号図鑑で唇・舌の動きを確認できます。英国英語の学習用表記を使用し、間違えた問題だけ復習できます。"],["Choose a sound pair, listen to a word and select the correct IPA symbol for the underlined part.","Study lip and tongue diagrams and review mistakes. Uses traditional British English IPA notation."],["选择一组音标，听单词，从两个选项中选出下划线部分的发音。","学习唇舌示意图并复习错题。采用传统英式英语音标。"],["Elige un par de sonidos, escucha la palabra y selecciona el símbolo AFI de la parte subrayada.","Estudia los diagramas de labios y lengua y repasa errores. Usa la notación tradicional británica."]],
     'starfall': [
