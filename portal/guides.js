@@ -2,6 +2,7 @@
   'use strict';
   // Written from the games' current instructions and source, not inferred from their names.
   const rows = {
+    'eigodoka': [['難易度と出題モードを選んで4択に回答。速い正解はボーナスになります。','5連続正解でフィーバー。10問ごとに強化札を選び、間違えた問題を復習できます。'],['Choose a level and question type, then answer multiple-choice questions. Fast correct answers earn a bonus.','Five correct answers in a row trigger fever. Choose upgrades after each ten questions and review mistakes.'],['选择难度和题型，回答四选一题。快速答对有奖励。','连续答对五题触发爆发，每十题选择强化，最后复习错题。'],['Elige nivel y tipo de pregunta y responde entre cuatro opciones. Las respuestas rápidas correctas dan un extra.','Cinco aciertos seguidos activan el modo fiebre. Elige mejoras cada diez preguntas y repasa los errores.']],
     'ipa-quiz': [["練習する音を選び、英単語の音声を聞いて、下線部分の発音記号を2択で答えます。","発音記号図鑑で唇・舌の動きを確認できます。英国英語の学習用表記を使用し、間違えた問題だけ復習できます。"],["Choose a sound pair, listen to a word and select the correct IPA symbol for the underlined part.","Study lip and tongue diagrams and review mistakes. Uses traditional British English IPA notation."],["选择一组音标，听单词，从两个选项中选出下划线部分的发音。","学习唇舌示意图并复习错题。采用传统英式英语音标。"],["Elige un par de sonidos, escucha la palabra y selecciona el símbolo AFI de la parte subrayada.","Estudia los diagramas de labios y lengua y repasa errores. Usa la notación tradicional británica."]],
     'starfall': [
       ['画面を左右にドラッグして宇宙船を動かすと、自動で弾を発射します。PCでは左右キーまたはA・Dキーで操作できます。', '敵を倒してコンボをつなぎ、3WAY・RAPID・シールド回復を集めましょう。4ウェーブごとにボスが登場。Pキーかボタンで一時停止できます。'],
