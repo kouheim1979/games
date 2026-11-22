@@ -66,10 +66,12 @@ function render(){cancel();const q=queue[index];if(!q){finish();return;}locked=f
      : '<span class="reading-target">'+esc(target)+'</span>';
    $('lead').textContent=q.topic==='読み'?'次の文の下線部の漢字の読みを選びなさい。':'下線部を漢字に直したとき、同じ漢字を使う語はどれ？';
    $('question').textContent=q.topic==='読み'?'正しい読み方はどれ？':'';
+   $('question').hidden=q.topic==='同じ漢字';
  }else{
    $('bigword').textContent=q.word;
    $('lead').textContent='県公式問題の設問を確認して答えよう';
    $('question').textContent=q.prompt;
+   $('question').hidden=false;
  }
  $('pdfBox').hidden=!q.external;
  if(q.external){$('pdfLink').href=q.url;$('answerLink').href=q.answerurl;}
