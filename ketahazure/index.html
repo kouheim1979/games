@@ -700,6 +700,10 @@ function stepBalls(h) {
   const bs = G.balls, g = BAL.g, maxV = 1350, rr = PEG_R + BALL_R, rr2 = rr * rr;
   for (let i = 0; i < bs.length; i++) {
     const b = bs[i]; if (b.dead) continue;
+    // 育ちだけは、同じ玉でも一度接触が離れた後の再命中を数える。
+    // 接触中の重複判定は防ぎ、ほかのちょうちんの従来の判定は維持する。
+    const last = G.pegs[b.lastPeg];
+    if (last?.type === 'g' && Math.hypot(b.x - last.x, b.y - last.y) > rr + 0.5) b.lastPeg = -1;
     b.vy += g * h;
     const sp2 = b.vx * b.vx + b.vy * b.vy; if (sp2 > maxV * maxV) { const k = maxV / Math.sqrt(sp2); b.vx *= k; b.vy *= k; }
     b.x += b.vx * h; b.y += b.vy * h;
@@ -1280,6 +1284,14 @@ function drawPegs() {
   ctx.globalCompositeOperation = 'lighter';
   for (const p of G.pegs) if (p.flash > 0.02) { const r = 24 + p.flash * 18; ctx.globalAlpha = p.flash * 0.9; ctx.drawImage(glow(PT[p.type].col), p.x - r, p.y - r, r * 2, r * 2); }
   ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
+  // 命中時の文字演出が間引かれても、次の命中で使う現在の育ち倍率を確認できる。
+  if (G.phase === 'play' || G.phase === 'place' || G.phase === 'reward') {
+    for (const p of G.pegs) if (p.type === 'g') {
+      const m = BAL.growBase + currentDifficulty().growBonus + p.grow;
+      T('×' + (m < 1000 ? m.toFixed(1) : fmtS(m)), clamp(p.x, 24, W - 24), p.y + 25,
+        { size: 12, w: 900, align: 'center', col: C.haku, stroke: C.sumi, sw: 3 });
+    }
+  }
 }
 function heat(b) { if (G.phase !== 'play') return b.h; const r = b.v * G.rate * 1.5 / G.quota; return r < 0.003 ? 0 : r < 0.02 ? 1 : r < 0.1 ? 2 : r < 0.4 ? 3 : r < 2 ? 4 : r < 20 ? 5 : 6; }
 function drawBalls() {
