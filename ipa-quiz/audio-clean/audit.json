@@ -1,0 +1,6653 @@
+{
+  "checks": "Signal-level checks only, not human or phonetic certification",
+  "count": 391,
+  "words": {
+    "lamb": {
+      "phonemes": "læm",
+      "old_mp3": {
+        "duration_s": 1.1,
+        "peak_dbfs": -10.2,
+        "leading_60ms_rms_dbfs": -176.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.08,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "ram": {
+      "phonemes": "ɹæm",
+      "old_mp3": {
+        "duration_s": 1.1,
+        "peak_dbfs": -8.0,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.93,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "about": {
+      "phonemes": "əbˈWt",
+      "old_mp3": {
+        "duration_s": 1.125,
+        "peak_dbfs": -8.8,
+        "leading_60ms_rms_dbfs": -177.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.13,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "again": {
+      "phonemes": "əɡˈɛn",
+      "old_mp3": {
+        "duration_s": 1.125,
+        "peak_dbfs": -9.0,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.03,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "ago": {
+      "phonemes": "əɡˈQ",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -10.2,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.18,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "alone": {
+      "phonemes": "əlˈQn",
+      "old_mp3": {
+        "duration_s": 1.15,
+        "peak_dbfs": -9.9,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.25,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "around": {
+      "phonemes": "əɹˈWnd",
+      "old_mp3": {
+        "duration_s": 1.3,
+        "peak_dbfs": -7.8,
+        "leading_60ms_rms_dbfs": -176.2,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.3,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "away": {
+      "phonemes": "əwˈA",
+      "old_mp3": {
+        "duration_s": 1.1,
+        "peak_dbfs": -10.1,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.14,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "back": {
+      "phonemes": "bˈak",
+      "old_mp3": {
+        "duration_s": 0.925,
+        "peak_dbfs": -8.2,
+        "leading_60ms_rms_dbfs": -177.2,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.94,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "bad": {
+      "phonemes": "bˈad",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -7.4,
+        "leading_60ms_rms_dbfs": -177.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.98,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "badge": {
+      "phonemes": "bˈaʤ",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -7.9,
+        "leading_60ms_rms_dbfs": -177.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.14,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "bag": {
+      "phonemes": "bˈaɡ",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -8.3,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.99,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "ban": {
+      "phonemes": "bˈan",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -7.8,
+        "leading_60ms_rms_dbfs": -177.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.96,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "bang": {
+      "phonemes": "bˈaŋ",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -7.6,
+        "leading_60ms_rms_dbfs": -177.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.02,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "bat": {
+      "phonemes": "bˈat",
+      "old_mp3": {
+        "duration_s": 0.925,
+        "peak_dbfs": -8.6,
+        "leading_60ms_rms_dbfs": -176.1,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.9,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "batch": {
+      "phonemes": "bˈaʧ",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -8.4,
+        "leading_60ms_rms_dbfs": -177.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.02,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "beach": {
+      "phonemes": "bˈiːʧ",
+      "old_mp3": {
+        "duration_s": 1.125,
+        "peak_dbfs": -9.9,
+        "leading_60ms_rms_dbfs": -176.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.01,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "bear": {
+      "phonemes": "bˈɛː",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -8.7,
+        "leading_60ms_rms_dbfs": -176.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.95,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "beat": {
+      "phonemes": "bˈiːt",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -10.0,
+        "leading_60ms_rms_dbfs": -176.9,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.96,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "bed": {
+      "phonemes": "bˈɛd",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -8.1,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.92,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "beer": {
+      "phonemes": "bˈɪə",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -10.7,
+        "leading_60ms_rms_dbfs": -177.3,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.96,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "beige": {
+      "phonemes": "bˈAʒ",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -8.1,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.01,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "best": {
+      "phonemes": "bˈɛst",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -7.0,
+        "leading_60ms_rms_dbfs": -176.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.01,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "bet": {
+      "phonemes": "bˈɛt",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -7.8,
+        "leading_60ms_rms_dbfs": -176.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.89,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "big": {
+      "phonemes": "bˈɪɡ",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -9.5,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.94,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "bin": {
+      "phonemes": "bˈɪn",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -8.4,
+        "leading_60ms_rms_dbfs": -176.3,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.93,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "bird": {
+      "phonemes": "bˈɜːd",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -9.2,
+        "leading_60ms_rms_dbfs": -177.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.97,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "bit": {
+      "phonemes": "bˈɪt",
+      "old_mp3": {
+        "duration_s": 0.95,
+        "peak_dbfs": -8.8,
+        "leading_60ms_rms_dbfs": -176.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.94,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "boat": {
+      "phonemes": "bˈQt",
+      "old_mp3": {
+        "duration_s": 0.925,
+        "peak_dbfs": -10.1,
+        "leading_60ms_rms_dbfs": -177.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.96,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "book": {
+      "phonemes": "bˈʊk",
+      "old_mp3": {
+        "duration_s": 0.925,
+        "peak_dbfs": -7.7,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.88,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "boot": {
+      "phonemes": "bˈuːt",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -8.6,
+        "leading_60ms_rms_dbfs": -176.9,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.99,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "both": {
+      "phonemes": "bˈQθ",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -9.0,
+        "leading_60ms_rms_dbfs": -177.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.93,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "bout": {
+      "phonemes": "bˈWt",
+      "old_mp3": {
+        "duration_s": 0.925,
+        "peak_dbfs": -9.8,
+        "leading_60ms_rms_dbfs": -176.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.96,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "boy": {
+      "phonemes": "bˈY",
+      "old_mp3": {
+        "duration_s": 0.925,
+        "peak_dbfs": -9.8,
+        "leading_60ms_rms_dbfs": -176.3,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.91,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "breathe": {
+      "phonemes": "bɹˈiːð",
+      "old_mp3": {
+        "duration_s": 1.25,
+        "peak_dbfs": -6.6,
+        "leading_60ms_rms_dbfs": -178.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.12,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "brown": {
+      "phonemes": "bɹˈWn",
+      "old_mp3": {
+        "duration_s": 1.1,
+        "peak_dbfs": -7.4,
+        "leading_60ms_rms_dbfs": -178.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.11,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "buck": {
+      "phonemes": "bˈʌk",
+      "old_mp3": {
+        "duration_s": 0.925,
+        "peak_dbfs": -8.7,
+        "leading_60ms_rms_dbfs": -177.2,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.92,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "bus": {
+      "phonemes": "bˈʌs",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -7.9,
+        "leading_60ms_rms_dbfs": -177.1,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.93,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "bush": {
+      "phonemes": "bˈʊʃ",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -7.2,
+        "leading_60ms_rms_dbfs": -176.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.92,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "but": {
+      "phonemes": "bˌʌt",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -9.7,
+        "leading_60ms_rms_dbfs": -177.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.94,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "buy": {
+      "phonemes": "bˈI",
+      "old_mp3": {
+        "duration_s": 0.925,
+        "peak_dbfs": -8.2,
+        "leading_60ms_rms_dbfs": -177.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.91,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "buzz": {
+      "phonemes": "bˈʌz",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -9.2,
+        "leading_60ms_rms_dbfs": -177.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.98,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "cab": {
+      "phonemes": "kˈab",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -9.2,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.92,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "cage": {
+      "phonemes": "kˈAʤ",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -8.6,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.1,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "came": {
+      "phonemes": "kˈAm",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -8.9,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.04,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "cap": {
+      "phonemes": "kˈap",
+      "old_mp3": {
+        "duration_s": 0.95,
+        "peak_dbfs": -8.9,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.07,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "car": {
+      "phonemes": "kˈɑː",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -8.3,
+        "leading_60ms_rms_dbfs": -178.3,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.11,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "care": {
+      "phonemes": "kˈɛː",
+      "old_mp3": {
+        "duration_s": 0.9,
+        "peak_dbfs": -9.4,
+        "leading_60ms_rms_dbfs": -177.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.97,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "cat": {
+      "phonemes": "kˈat",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -8.2,
+        "leading_60ms_rms_dbfs": -176.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.97,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "catch": {
+      "phonemes": "kˈaʧ",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -8.3,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.05,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "caught": {
+      "phonemes": "kˈɔːt",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -8.5,
+        "leading_60ms_rms_dbfs": -177.3,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.0,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "cave": {
+      "phonemes": "kˈAv",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -9.1,
+        "leading_60ms_rms_dbfs": -177.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.98,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "chair": {
+      "phonemes": "ʧˈɛː",
+      "old_mp3": {
+        "duration_s": 0.95,
+        "peak_dbfs": -8.9,
+        "leading_60ms_rms_dbfs": -176.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.01,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "cheap": {
+      "phonemes": "ʧˈiːp",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -8.5,
+        "leading_60ms_rms_dbfs": -177.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.01,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "cheer": {
+      "phonemes": "ʧˈɪə",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -9.5,
+        "leading_60ms_rms_dbfs": -178.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.98,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "chest": {
+      "phonemes": "ʧˈɛst",
+      "old_mp3": {
+        "duration_s": 1.1,
+        "peak_dbfs": -8.4,
+        "leading_60ms_rms_dbfs": -176.2,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.06,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "chime": {
+      "phonemes": "ʧˈIm",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -9.7,
+        "leading_60ms_rms_dbfs": -176.1,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.01,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "chin": {
+      "phonemes": "ʧˈɪn",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -8.4,
+        "leading_60ms_rms_dbfs": -175.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.93,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "chip": {
+      "phonemes": "ʧˈɪp",
+      "old_mp3": {
+        "duration_s": 0.95,
+        "peak_dbfs": -8.6,
+        "leading_60ms_rms_dbfs": -176.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.93,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "choice": {
+      "phonemes": "ʧˈYs",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -8.6,
+        "leading_60ms_rms_dbfs": -177.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.97,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "choke": {
+      "phonemes": "ʧˈQk",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -9.0,
+        "leading_60ms_rms_dbfs": -177.9,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.95,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "clear": {
+      "phonemes": "klˈɪə",
+      "old_mp3": {
+        "duration_s": 1.1,
+        "peak_dbfs": -11.0,
+        "leading_60ms_rms_dbfs": -178.1,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.06,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "clothe": {
+      "phonemes": "klˈQð",
+      "old_mp3": {
+        "duration_s": 1.2,
+        "peak_dbfs": -9.0,
+        "leading_60ms_rms_dbfs": -178.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.17,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "coat": {
+      "phonemes": "kˈQt",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -8.8,
+        "leading_60ms_rms_dbfs": -176.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.0,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "cod": {
+      "phonemes": "kˈɒd",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -9.1,
+        "leading_60ms_rms_dbfs": -176.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.98,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "coin": {
+      "phonemes": "kˈYn",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -9.0,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.96,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "cold": {
+      "phonemes": "kˈQld",
+      "old_mp3": {
+        "duration_s": 1.125,
+        "peak_dbfs": -9.0,
+        "leading_60ms_rms_dbfs": -177.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.18,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "cook": {
+      "phonemes": "kˈʊk",
+      "old_mp3": {
+        "duration_s": 0.925,
+        "peak_dbfs": -6.4,
+        "leading_60ms_rms_dbfs": -177.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.02,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "cot": {
+      "phonemes": "kˈɒt",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -8.2,
+        "leading_60ms_rms_dbfs": -177.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.01,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "couch": {
+      "phonemes": "kˈWʧ",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -8.6,
+        "leading_60ms_rms_dbfs": -177.3,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.12,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "cup": {
+      "phonemes": "kˈʌp",
+      "old_mp3": {
+        "duration_s": 0.925,
+        "peak_dbfs": -7.8,
+        "leading_60ms_rms_dbfs": -176.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.98,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "curl": {
+      "phonemes": "kˈɜːl",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -9.3,
+        "leading_60ms_rms_dbfs": -178.1,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.01,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "cut": {
+      "phonemes": "kˈʌt",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -8.1,
+        "leading_60ms_rms_dbfs": -176.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.06,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "dark": {
+      "phonemes": "dˈɑːk",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -8.1,
+        "leading_60ms_rms_dbfs": -176.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.98,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "day": {
+      "phonemes": "dˈA",
+      "old_mp3": {
+        "duration_s": 0.9,
+        "peak_dbfs": -10.4,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.89,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "dear": {
+      "phonemes": "dˈɪə",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -9.6,
+        "leading_60ms_rms_dbfs": -176.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.99,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "decision": {
+      "phonemes": "dɪsˈɪʒᵊn",
+      "old_mp3": {
+        "duration_s": 1.5,
+        "peak_dbfs": -9.8,
+        "leading_60ms_rms_dbfs": -177.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.45,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "den": {
+      "phonemes": "dˈɛn",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -9.2,
+        "leading_60ms_rms_dbfs": -176.3,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.91,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "die": {
+      "phonemes": "dˈI",
+      "old_mp3": {
+        "duration_s": 0.9,
+        "peak_dbfs": -8.5,
+        "leading_60ms_rms_dbfs": -176.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.9,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "dip": {
+      "phonemes": "dˈɪp",
+      "old_mp3": {
+        "duration_s": 0.925,
+        "peak_dbfs": -8.5,
+        "leading_60ms_rms_dbfs": -177.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.9,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "dock": {
+      "phonemes": "dˈɒk",
+      "old_mp3": {
+        "duration_s": 0.95,
+        "peak_dbfs": -8.6,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.89,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "door": {
+      "phonemes": "dˈɔː",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -9.4,
+        "leading_60ms_rms_dbfs": -178.3,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.9,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "down": {
+      "phonemes": "dˌWn",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -8.9,
+        "leading_60ms_rms_dbfs": -177.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.06,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "duck": {
+      "phonemes": "dˈʌk",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -8.2,
+        "leading_60ms_rms_dbfs": -176.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.93,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "ear": {
+      "phonemes": "ˈɪə",
+      "old_mp3": {
+        "duration_s": 0.95,
+        "peak_dbfs": -10.9,
+        "leading_60ms_rms_dbfs": -178.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.92,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "face": {
+      "phonemes": "fˈAs",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -7.2,
+        "leading_60ms_rms_dbfs": -176.9,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.95,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "fail": {
+      "phonemes": "fˈAl",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -8.5,
+        "leading_60ms_rms_dbfs": -176.1,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.02,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "fair": {
+      "phonemes": "fˈɛː",
+      "old_mp3": {
+        "duration_s": 0.9,
+        "peak_dbfs": -8.0,
+        "leading_60ms_rms_dbfs": -177.3,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.01,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "fan": {
+      "phonemes": "fˈan",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -7.3,
+        "leading_60ms_rms_dbfs": -176.3,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.91,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "far": {
+      "phonemes": "fˈɑː",
+      "old_mp3": {
+        "duration_s": 0.95,
+        "peak_dbfs": -7.3,
+        "leading_60ms_rms_dbfs": -176.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.07,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "fat": {
+      "phonemes": "fˈat",
+      "old_mp3": {
+        "duration_s": 0.95,
+        "peak_dbfs": -7.8,
+        "leading_60ms_rms_dbfs": -177.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.93,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "father": {
+      "phonemes": "fˈɑːðə",
+      "old_mp3": {
+        "duration_s": 1.125,
+        "peak_dbfs": -8.1,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.11,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "fear": {
+      "phonemes": "fˈɪə",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -9.1,
+        "leading_60ms_rms_dbfs": -173.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.03,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "feel": {
+      "phonemes": "fˈiːl",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -8.6,
+        "leading_60ms_rms_dbfs": -177.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.93,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "ferry": {
+      "phonemes": "fˈɛɹi",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -7.8,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.06,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "fill": {
+      "phonemes": "fˈɪl",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -8.8,
+        "leading_60ms_rms_dbfs": -177.2,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.95,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "fine": {
+      "phonemes": "fˈIn",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -7.1,
+        "leading_60ms_rms_dbfs": -176.2,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.01,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "first": {
+      "phonemes": "fˈɜːst",
+      "old_mp3": {
+        "duration_s": 1.1,
+        "peak_dbfs": -9.0,
+        "leading_60ms_rms_dbfs": -174.3,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.11,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "fish": {
+      "phonemes": "fˈɪʃ",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -8.1,
+        "leading_60ms_rms_dbfs": -177.1,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.96,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "food": {
+      "phonemes": "fˈuːd",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -8.0,
+        "leading_60ms_rms_dbfs": -176.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.05,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "fool": {
+      "phonemes": "fˈuːl",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -9.0,
+        "leading_60ms_rms_dbfs": -177.1,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.0,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "foot": {
+      "phonemes": "fˈʊt",
+      "old_mp3": {
+        "duration_s": 0.95,
+        "peak_dbfs": -7.2,
+        "leading_60ms_rms_dbfs": -177.1,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.92,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "fork": {
+      "phonemes": "fˈɔːk",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -7.9,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.99,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "four": {
+      "phonemes": "fˈɔː",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -9.4,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.0,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "full": {
+      "phonemes": "fˈʊl",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -8.1,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.95,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "game": {
+      "phonemes": "ɡˈAm",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -9.5,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.06,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "gap": {
+      "phonemes": "ɡˈap",
+      "old_mp3": {
+        "duration_s": 0.95,
+        "peak_dbfs": -8.9,
+        "leading_60ms_rms_dbfs": -177.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.94,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "gave": {
+      "phonemes": "ɡˈAv",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -8.6,
+        "leading_60ms_rms_dbfs": -176.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.95,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "get": {
+      "phonemes": "ɡˈɛt",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -8.1,
+        "leading_60ms_rms_dbfs": -177.3,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.89,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "gin": {
+      "phonemes": "ʤˈɪn",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -8.3,
+        "leading_60ms_rms_dbfs": -177.1,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.93,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "girl": {
+      "phonemes": "ɡˈɜːl",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -9.8,
+        "leading_60ms_rms_dbfs": -178.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.895,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "gnat": {
+      "phonemes": "nˈat",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -9.7,
+        "leading_60ms_rms_dbfs": -174.3,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.08,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "go": {
+      "phonemes": "ɡˌQ",
+      "old_mp3": {
+        "duration_s": 0.9,
+        "peak_dbfs": -9.7,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.83,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "goat": {
+      "phonemes": "ɡˈQt",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -9.1,
+        "leading_60ms_rms_dbfs": -176.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.97,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "gold": {
+      "phonemes": "ɡˈQld",
+      "old_mp3": {
+        "duration_s": 1.125,
+        "peak_dbfs": -9.5,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.11,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "good": {
+      "phonemes": "ɡˈʊd",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -9.0,
+        "leading_60ms_rms_dbfs": -177.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.92,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "green": {
+      "phonemes": "ɡɹˈiːn",
+      "old_mp3": {
+        "duration_s": 1.2,
+        "peak_dbfs": -7.9,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.14,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "grin": {
+      "phonemes": "ɡɹˈɪn",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -8.6,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.02,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "grow": {
+      "phonemes": "ɡɹˈQ",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -9.2,
+        "leading_60ms_rms_dbfs": -178.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.1,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "hair": {
+      "phonemes": "hˈɛː",
+      "old_mp3": {
+        "duration_s": 0.875,
+        "peak_dbfs": -8.9,
+        "leading_60ms_rms_dbfs": -176.3,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.88,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "hard": {
+      "phonemes": "hˈɑːd",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -9.4,
+        "leading_60ms_rms_dbfs": -177.1,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.96,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "hat": {
+      "phonemes": "hˈat",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -8.8,
+        "leading_60ms_rms_dbfs": -175.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.93,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "hear": {
+      "phonemes": "hˈɪə",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -10.4,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.97,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "heard": {
+      "phonemes": "hˈɜːd",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -9.4,
+        "leading_60ms_rms_dbfs": -177.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.935,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "horse": {
+      "phonemes": "hˈɔːs",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -8.4,
+        "leading_60ms_rms_dbfs": -177.9,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.0,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "hot": {
+      "phonemes": "hˈɒt",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -8.0,
+        "leading_60ms_rms_dbfs": -175.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.95,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "hut": {
+      "phonemes": "hˈʌt",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -7.7,
+        "leading_60ms_rms_dbfs": -176.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.95,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "jeep": {
+      "phonemes": "ʤˈiːp",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -8.9,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.96,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "jeer": {
+      "phonemes": "ʤˈɪə",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -10.3,
+        "leading_60ms_rms_dbfs": -178.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.98,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "jest": {
+      "phonemes": "ʤˈɛst",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -8.7,
+        "leading_60ms_rms_dbfs": -177.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.04,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "joke": {
+      "phonemes": "ʤˈQk",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -9.4,
+        "leading_60ms_rms_dbfs": -177.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.93,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "lace": {
+      "phonemes": "lˈAs",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -9.7,
+        "leading_60ms_rms_dbfs": -177.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.04,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "lack": {
+      "phonemes": "lˈak",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -9.5,
+        "leading_60ms_rms_dbfs": -177.9,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.11,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "lad": {
+      "phonemes": "lˈad",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -10.1,
+        "leading_60ms_rms_dbfs": -177.3,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.07,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "lag": {
+      "phonemes": "lˈaɡ",
+      "old_mp3": {
+        "duration_s": 1.1,
+        "peak_dbfs": -10.1,
+        "leading_60ms_rms_dbfs": -176.1,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.17,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "lake": {
+      "phonemes": "lˈAk",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -10.1,
+        "leading_60ms_rms_dbfs": -177.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.12,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "lane": {
+      "phonemes": "lˈAn",
+      "old_mp3": {
+        "duration_s": 1.1,
+        "peak_dbfs": -10.5,
+        "leading_60ms_rms_dbfs": -176.2,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.18,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "lap": {
+      "phonemes": "lˈap",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -9.9,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.1,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "lash": {
+      "phonemes": "lˈaʃ",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -9.5,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.09,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "late": {
+      "phonemes": "lˈAt",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -10.0,
+        "leading_60ms_rms_dbfs": -177.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.14,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "law": {
+      "phonemes": "lˈɔː",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -9.8,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.14,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "lay": {
+      "phonemes": "lˈA",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -11.0,
+        "leading_60ms_rms_dbfs": -177.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.13,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "lead": {
+      "phonemes": "lˈiːd",
+      "old_mp3": {
+        "duration_s": 1.125,
+        "peak_dbfs": -8.0,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.05,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "leaf": {
+      "phonemes": "lˈiːf",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -9.5,
+        "leading_60ms_rms_dbfs": -178.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.95,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "leak": {
+      "phonemes": "lˈiːk",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -10.2,
+        "leading_60ms_rms_dbfs": -176.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.0,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "leap": {
+      "phonemes": "lˈiːp",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -10.4,
+        "leading_60ms_rms_dbfs": -178.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.96,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "learn": {
+      "phonemes": "lˈɜːn",
+      "old_mp3": {
+        "duration_s": 1.125,
+        "peak_dbfs": -10.1,
+        "leading_60ms_rms_dbfs": -178.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.13,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "leave": {
+      "phonemes": "lˈiːv",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -9.6,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.91,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "led": {
+      "phonemes": "lˈɛd",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -9.9,
+        "leading_60ms_rms_dbfs": -176.2,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.91,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "leech": {
+      "phonemes": "lˈiːʧ",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -9.1,
+        "leading_60ms_rms_dbfs": -177.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.11,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "let": {
+      "phonemes": "lˈɛt",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -9.5,
+        "leading_60ms_rms_dbfs": -175.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.07,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "lice": {
+      "phonemes": "lˈIs",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -10.4,
+        "leading_60ms_rms_dbfs": -177.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.06,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "lied": {
+      "phonemes": "lˈId",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -9.6,
+        "leading_60ms_rms_dbfs": -177.9,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.16,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "life": {
+      "phonemes": "lˈIf",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -10.5,
+        "leading_60ms_rms_dbfs": -177.9,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.08,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "light": {
+      "phonemes": "lˈIt",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -10.3,
+        "leading_60ms_rms_dbfs": -177.1,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.08,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "lime": {
+      "phonemes": "lˈIm",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -10.2,
+        "leading_60ms_rms_dbfs": -177.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.16,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "line": {
+      "phonemes": "lˈIn",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -9.3,
+        "leading_60ms_rms_dbfs": -176.3,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.18,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "link": {
+      "phonemes": "lˈɪŋk",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -8.3,
+        "leading_60ms_rms_dbfs": -177.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.12,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "lip": {
+      "phonemes": "lˈɪp",
+      "old_mp3": {
+        "duration_s": 0.925,
+        "peak_dbfs": -8.4,
+        "leading_60ms_rms_dbfs": -177.3,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.07,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "list": {
+      "phonemes": "lˈɪst",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -8.5,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.11,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "little": {
+      "phonemes": "lˈɪtᵊl",
+      "old_mp3": {
+        "duration_s": 1.175,
+        "peak_dbfs": -8.2,
+        "leading_60ms_rms_dbfs": -176.1,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.25,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "live": {
+      "phonemes": "lˈIv",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -9.4,
+        "leading_60ms_rms_dbfs": -177.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.09,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "load": {
+      "phonemes": "lˈQd",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -11.0,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.14,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "lobe": {
+      "phonemes": "lˈQb",
+      "old_mp3": {
+        "duration_s": 1.125,
+        "peak_dbfs": -10.3,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.15,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "lock": {
+      "phonemes": "lˈɒk",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -8.3,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.05,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "log": {
+      "phonemes": "lˈɒɡ",
+      "old_mp3": {
+        "duration_s": 1.125,
+        "peak_dbfs": -9.3,
+        "leading_60ms_rms_dbfs": -176.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.13,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "loin": {
+      "phonemes": "lˈYn",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -8.3,
+        "leading_60ms_rms_dbfs": -176.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.16,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "long": {
+      "phonemes": "lˈɒŋ",
+      "old_mp3": {
+        "duration_s": 1.15,
+        "peak_dbfs": -9.1,
+        "leading_60ms_rms_dbfs": -177.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.2,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "look": {
+      "phonemes": "lˈʊk",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -7.8,
+        "leading_60ms_rms_dbfs": -177.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.07,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "loom": {
+      "phonemes": "lˈuːm",
+      "old_mp3": {
+        "duration_s": 1.1,
+        "peak_dbfs": -9.4,
+        "leading_60ms_rms_dbfs": -178.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.15,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "loose": {
+      "phonemes": "lˈuːs",
+      "old_mp3": {
+        "duration_s": 1.1,
+        "peak_dbfs": -9.0,
+        "leading_60ms_rms_dbfs": -176.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.11,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "loot": {
+      "phonemes": "lˈuːt",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -10.6,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.14,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "loud": {
+      "phonemes": "lˈWd",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -10.7,
+        "leading_60ms_rms_dbfs": -177.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.13,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "low": {
+      "phonemes": "lˈQ",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -11.6,
+        "leading_60ms_rms_dbfs": -178.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.14,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "luck": {
+      "phonemes": "lˈʌk",
+      "old_mp3": {
+        "duration_s": 0.95,
+        "peak_dbfs": -9.5,
+        "leading_60ms_rms_dbfs": -176.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.05,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "lump": {
+      "phonemes": "lˈʌmp",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -9.2,
+        "leading_60ms_rms_dbfs": -176.3,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.06,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "lung": {
+      "phonemes": "lˈʌŋ",
+      "old_mp3": {
+        "duration_s": 1.1,
+        "peak_dbfs": -9.7,
+        "leading_60ms_rms_dbfs": -176.2,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.19,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "lush": {
+      "phonemes": "lˈʌʃ",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -9.5,
+        "leading_60ms_rms_dbfs": -176.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.12,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "lust": {
+      "phonemes": "lˈʌst",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -9.5,
+        "leading_60ms_rms_dbfs": -177.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.19,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "mad": {
+      "phonemes": "mˈad",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -11.0,
+        "leading_60ms_rms_dbfs": -178.1,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.06,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "made": {
+      "phonemes": "mˌAd",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -10.3,
+        "leading_60ms_rms_dbfs": -177.9,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.07,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "mail": {
+      "phonemes": "mˈAl",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -10.3,
+        "leading_60ms_rms_dbfs": -178.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.08,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "main": {
+      "phonemes": "mˈAn",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -10.0,
+        "leading_60ms_rms_dbfs": -177.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.09,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "man": {
+      "phonemes": "mˈan",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -9.5,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.12,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "map": {
+      "phonemes": "mˈap",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -10.3,
+        "leading_60ms_rms_dbfs": -176.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.14,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "mash": {
+      "phonemes": "mˈaʃ",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -10.6,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.05,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "mass": {
+      "phonemes": "mˈas",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -10.8,
+        "leading_60ms_rms_dbfs": -178.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.02,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "mat": {
+      "phonemes": "mˈat",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -10.8,
+        "leading_60ms_rms_dbfs": -177.9,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.08,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "measure": {
+      "phonemes": "mˈɛʒə",
+      "old_mp3": {
+        "duration_s": 1.15,
+        "peak_dbfs": -9.8,
+        "leading_60ms_rms_dbfs": -177.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.16,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "meet": {
+      "phonemes": "mˈiːt",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -10.3,
+        "leading_60ms_rms_dbfs": -177.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.99,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "men": {
+      "phonemes": "mˈɛn",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -10.2,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.09,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "mice": {
+      "phonemes": "mˈIs",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -9.9,
+        "leading_60ms_rms_dbfs": -178.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.04,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "might": {
+      "phonemes": "mˌIt",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -9.7,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.09,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "mile": {
+      "phonemes": "mˈIl",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -11.0,
+        "leading_60ms_rms_dbfs": -178.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.07,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "mine": {
+      "phonemes": "mˈIn",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -8.9,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.11,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "mitt": {
+      "phonemes": "mˈɪt",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -8.5,
+        "leading_60ms_rms_dbfs": -177.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.99,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "moist": {
+      "phonemes": "mˈYst",
+      "old_mp3": {
+        "duration_s": 1.1,
+        "peak_dbfs": -8.3,
+        "leading_60ms_rms_dbfs": -177.1,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.13,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "moon": {
+      "phonemes": "mˈuːn",
+      "old_mp3": {
+        "duration_s": 1.15,
+        "peak_dbfs": -9.1,
+        "leading_60ms_rms_dbfs": -178.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.09,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "mud": {
+      "phonemes": "mˈʌd",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -11.0,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.04,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "my": {
+      "phonemes": "mˈI",
+      "old_mp3": {
+        "duration_s": 0.95,
+        "peak_dbfs": -10.9,
+        "leading_60ms_rms_dbfs": -177.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.01,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "nail": {
+      "phonemes": "nˈAl",
+      "old_mp3": {
+        "duration_s": 1.1,
+        "peak_dbfs": -9.9,
+        "leading_60ms_rms_dbfs": -178.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.12,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "nap": {
+      "phonemes": "nˈap",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -10.3,
+        "leading_60ms_rms_dbfs": -177.1,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.12,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "nation": {
+      "phonemes": "nˈAʃᵊn",
+      "old_mp3": {
+        "duration_s": 1.35,
+        "peak_dbfs": -8.5,
+        "leading_60ms_rms_dbfs": -176.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.44,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "near": {
+      "phonemes": "nˌɪə",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -11.0,
+        "leading_60ms_rms_dbfs": -178.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.11,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "neat": {
+      "phonemes": "nˈiːt",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -9.8,
+        "leading_60ms_rms_dbfs": -177.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.02,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "nice": {
+      "phonemes": "nˈIs",
+      "old_mp3": {
+        "duration_s": 1.1,
+        "peak_dbfs": -9.4,
+        "leading_60ms_rms_dbfs": -178.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.11,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "no": {
+      "phonemes": "nˈQ",
+      "old_mp3": {
+        "duration_s": 0.95,
+        "peak_dbfs": -11.2,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.2,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "not": {
+      "phonemes": "nˌɒt",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -9.2,
+        "leading_60ms_rms_dbfs": -175.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.13,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "now": {
+      "phonemes": "nˈW",
+      "old_mp3": {
+        "duration_s": 0.95,
+        "peak_dbfs": -10.2,
+        "leading_60ms_rms_dbfs": -176.1,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.19,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "nurse": {
+      "phonemes": "nˈɜːs",
+      "old_mp3": {
+        "duration_s": 1.1,
+        "peak_dbfs": -9.1,
+        "leading_60ms_rms_dbfs": -178.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.11,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "nut": {
+      "phonemes": "nˈʌt",
+      "old_mp3": {
+        "duration_s": 1.125,
+        "peak_dbfs": -9.7,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.2,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "occasion": {
+      "phonemes": "əkˈAʒᵊn",
+      "old_mp3": {
+        "duration_s": 1.475,
+        "peak_dbfs": -8.8,
+        "leading_60ms_rms_dbfs": -177.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.53,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "ocean": {
+      "phonemes": "ˈQʃᵊn",
+      "old_mp3": {
+        "duration_s": 1.15,
+        "peak_dbfs": -9.1,
+        "leading_60ms_rms_dbfs": -177.9,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.26,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "pack": {
+      "phonemes": "pˈak",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -9.1,
+        "leading_60ms_rms_dbfs": -178.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.98,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "pain": {
+      "phonemes": "pˈAn",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -9.9,
+        "leading_60ms_rms_dbfs": -177.9,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.04,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "pair": {
+      "phonemes": "pˈɛː",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -8.6,
+        "leading_60ms_rms_dbfs": -178.3,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.01,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "palm": {
+      "phonemes": "pˈɑːm",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -9.0,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.93,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "pan": {
+      "phonemes": "pˈan",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -9.7,
+        "leading_60ms_rms_dbfs": -177.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.97,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "pang": {
+      "phonemes": "pˈaŋ",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -9.3,
+        "leading_60ms_rms_dbfs": -177.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.07,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "park": {
+      "phonemes": "pˈɑːk",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -8.8,
+        "leading_60ms_rms_dbfs": -177.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.93,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "pat": {
+      "phonemes": "pˈat",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -9.0,
+        "leading_60ms_rms_dbfs": -177.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.96,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "path": {
+      "phonemes": "pˈɑːθ",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -9.2,
+        "leading_60ms_rms_dbfs": -177.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.98,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "peach": {
+      "phonemes": "pˈiːʧ",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -8.2,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.99,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "pear": {
+      "phonemes": "pˈɛː",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -8.3,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.01,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "pen": {
+      "phonemes": "pˈɛn",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -8.8,
+        "leading_60ms_rms_dbfs": -178.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.91,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "phase": {
+      "phonemes": "fˈAz",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -7.0,
+        "leading_60ms_rms_dbfs": -176.3,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.03,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "pig": {
+      "phonemes": "pˈɪɡ",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -9.0,
+        "leading_60ms_rms_dbfs": -178.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.0,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "pin": {
+      "phonemes": "pˈɪn",
+      "old_mp3": {
+        "duration_s": 0.95,
+        "peak_dbfs": -8.4,
+        "leading_60ms_rms_dbfs": -177.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.93,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "pine": {
+      "phonemes": "pˈIn",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -10.2,
+        "leading_60ms_rms_dbfs": -177.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.04,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "pitch": {
+      "phonemes": "pˈɪʧ",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -8.5,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.97,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "pleasure": {
+      "phonemes": "plˈɛʒə",
+      "old_mp3": {
+        "duration_s": 1.2,
+        "peak_dbfs": -8.5,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.12,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "pool": {
+      "phonemes": "pˈuːl",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -9.5,
+        "leading_60ms_rms_dbfs": -178.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.01,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "pork": {
+      "phonemes": "pˈɔːk",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -7.8,
+        "leading_60ms_rms_dbfs": -178.1,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.98,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "pot": {
+      "phonemes": "pˈɒt",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -8.1,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.97,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "pressure": {
+      "phonemes": "pɹˈɛʃə",
+      "old_mp3": {
+        "duration_s": 1.175,
+        "peak_dbfs": -6.9,
+        "leading_60ms_rms_dbfs": -177.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.15,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "pull": {
+      "phonemes": "pˈʊl",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -7.8,
+        "leading_60ms_rms_dbfs": -178.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.89,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "putt": {
+      "phonemes": "pˈʌt",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -8.6,
+        "leading_60ms_rms_dbfs": -176.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.99,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "race": {
+      "phonemes": "ɹˈAs",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -6.9,
+        "leading_60ms_rms_dbfs": -177.2,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.06,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "rack": {
+      "phonemes": "ɹˈak",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -8.8,
+        "leading_60ms_rms_dbfs": -173.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.98,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "rag": {
+      "phonemes": "ɹˈaɡ",
+      "old_mp3": {
+        "duration_s": 1.15,
+        "peak_dbfs": -8.6,
+        "leading_60ms_rms_dbfs": -173.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.1,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "rain": {
+      "phonemes": "ɹˈAn",
+      "old_mp3": {
+        "duration_s": 1.125,
+        "peak_dbfs": -6.9,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.13,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "rake": {
+      "phonemes": "ɹˈAk",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -8.0,
+        "leading_60ms_rms_dbfs": -176.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.09,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "ran": {
+      "phonemes": "ɹˈan",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -7.8,
+        "leading_60ms_rms_dbfs": -176.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.02,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "rang": {
+      "phonemes": "ɹˈaŋ",
+      "old_mp3": {
+        "duration_s": 1.1,
+        "peak_dbfs": -6.5,
+        "leading_60ms_rms_dbfs": -177.1,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.14,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "rash": {
+      "phonemes": "ɹˈaʃ",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -7.7,
+        "leading_60ms_rms_dbfs": -177.2,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.04,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "rate": {
+      "phonemes": "ɹˈAt",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -7.4,
+        "leading_60ms_rms_dbfs": -177.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.13,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "raw": {
+      "phonemes": "ɹˈɔː",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -8.8,
+        "leading_60ms_rms_dbfs": -178.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.08,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "ray": {
+      "phonemes": "ɹˈA",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -8.4,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.08,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "reach": {
+      "phonemes": "ɹˈiːʧ",
+      "old_mp3": {
+        "duration_s": 1.15,
+        "peak_dbfs": -6.9,
+        "leading_60ms_rms_dbfs": -177.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.11,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "ready": {
+      "phonemes": "ɹˈɛdi",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -7.5,
+        "leading_60ms_rms_dbfs": -176.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.06,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "reap": {
+      "phonemes": "ɹˈiːp",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -7.2,
+        "leading_60ms_rms_dbfs": -176.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.03,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "red": {
+      "phonemes": "ɹˈɛd",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -8.3,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.91,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "reek": {
+      "phonemes": "ɹˈiːk",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -7.2,
+        "leading_60ms_rms_dbfs": -177.3,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.04,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "rhyme": {
+      "phonemes": "ɹˈIm",
+      "old_mp3": {
+        "duration_s": 1.1,
+        "peak_dbfs": -8.1,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.13,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "rice": {
+      "phonemes": "ɹˈIs",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -8.7,
+        "leading_60ms_rms_dbfs": -177.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.08,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "rich": {
+      "phonemes": "ɹˈɪʧ",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -7.3,
+        "leading_60ms_rms_dbfs": -178.2,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.07,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "ride": {
+      "phonemes": "ɹˈId",
+      "old_mp3": {
+        "duration_s": 1.1,
+        "peak_dbfs": -8.3,
+        "leading_60ms_rms_dbfs": -176.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.08,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "ridge": {
+      "phonemes": "ɹˈɪʤ",
+      "old_mp3": {
+        "duration_s": 1.275,
+        "peak_dbfs": -6.8,
+        "leading_60ms_rms_dbfs": -176.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.07,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "right": {
+      "phonemes": "ɹˈIt",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -8.7,
+        "leading_60ms_rms_dbfs": -176.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.04,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "ring": {
+      "phonemes": "ɹˈɪŋ",
+      "old_mp3": {
+        "duration_s": 1.1,
+        "peak_dbfs": -8.3,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.13,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "rink": {
+      "phonemes": "ɹˈɪŋk",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -7.2,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.11,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "rip": {
+      "phonemes": "ɹˈɪp",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -7.4,
+        "leading_60ms_rms_dbfs": -176.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.04,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "rise": {
+      "phonemes": "ɹˈIz",
+      "old_mp3": {
+        "duration_s": 1.15,
+        "peak_dbfs": -8.4,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.13,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "road": {
+      "phonemes": "ɹˈQd",
+      "old_mp3": {
+        "duration_s": 1.125,
+        "peak_dbfs": -8.9,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.08,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "robe": {
+      "phonemes": "ɹˈQb",
+      "old_mp3": {
+        "duration_s": 1.15,
+        "peak_dbfs": -8.9,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.14,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "rock": {
+      "phonemes": "ɹˈɒk",
+      "old_mp3": {
+        "duration_s": 0.925,
+        "peak_dbfs": -8.7,
+        "leading_60ms_rms_dbfs": -177.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.97,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "room": {
+      "phonemes": "ɹˈuːm",
+      "old_mp3": {
+        "duration_s": 1.175,
+        "peak_dbfs": -8.3,
+        "leading_60ms_rms_dbfs": -178.2,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.16,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "root": {
+      "phonemes": "ɹˈuːt",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -7.5,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.13,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "rouge": {
+      "phonemes": "ɹˈuːʒ",
+      "old_mp3": {
+        "duration_s": 1.25,
+        "peak_dbfs": -8.0,
+        "leading_60ms_rms_dbfs": -176.9,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.26,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "round": {
+      "phonemes": "ɹˈWnd",
+      "old_mp3": {
+        "duration_s": 1.2,
+        "peak_dbfs": -7.7,
+        "leading_60ms_rms_dbfs": -177.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.2,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "row": {
+      "phonemes": "ɹˈQ",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -9.0,
+        "leading_60ms_rms_dbfs": -178.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.08,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "rump": {
+      "phonemes": "ɹˈʌmp",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -7.3,
+        "leading_60ms_rms_dbfs": -176.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.98,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "run": {
+      "phonemes": "ɹˈʌn",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -7.3,
+        "leading_60ms_rms_dbfs": -177.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.03,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "rung": {
+      "phonemes": "ɹˈʌŋ",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -7.8,
+        "leading_60ms_rms_dbfs": -176.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.09,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "rush": {
+      "phonemes": "ɹˈʌʃ",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -8.4,
+        "leading_60ms_rms_dbfs": -176.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.02,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "rust": {
+      "phonemes": "ɹˈʌst",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -7.4,
+        "leading_60ms_rms_dbfs": -177.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.08,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "sack": {
+      "phonemes": "sˈak",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -7.8,
+        "leading_60ms_rms_dbfs": -177.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.14,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "safe": {
+      "phonemes": "sˈAf",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -8.2,
+        "leading_60ms_rms_dbfs": -177.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.11,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "sand": {
+      "phonemes": "sˈand",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -6.7,
+        "leading_60ms_rms_dbfs": -177.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.91,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "sap": {
+      "phonemes": "sˈap",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -8.1,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.0,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "sat": {
+      "phonemes": "sˈat",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -8.2,
+        "leading_60ms_rms_dbfs": -177.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.98,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "save": {
+      "phonemes": "sˈAv",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -8.8,
+        "leading_60ms_rms_dbfs": -177.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.98,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "scene": {
+      "phonemes": "sˈiːn",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -8.7,
+        "leading_60ms_rms_dbfs": -178.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.98,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "seal": {
+      "phonemes": "sˈiːl",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -8.2,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.92,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "seat": {
+      "phonemes": "sˈiːt",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -8.7,
+        "leading_60ms_rms_dbfs": -178.2,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.0,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "see": {
+      "phonemes": "sˈiː",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -9.6,
+        "leading_60ms_rms_dbfs": -176.9,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.0,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "seed": {
+      "phonemes": "sˈiːd",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -9.1,
+        "leading_60ms_rms_dbfs": -173.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.98,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "seem": {
+      "phonemes": "sˈiːm",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -8.7,
+        "leading_60ms_rms_dbfs": -177.2,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.965,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "sell": {
+      "phonemes": "sˈɛl",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -9.5,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.96,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "send": {
+      "phonemes": "sˈɛnd",
+      "old_mp3": {
+        "duration_s": 1.1,
+        "peak_dbfs": -7.6,
+        "leading_60ms_rms_dbfs": -176.1,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.0,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "set": {
+      "phonemes": "sˈɛt",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -7.9,
+        "leading_60ms_rms_dbfs": -177.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.96,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "shave": {
+      "phonemes": "ʃˈAv",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -8.9,
+        "leading_60ms_rms_dbfs": -174.2,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.99,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "she": {
+      "phonemes": "ʃiː",
+      "old_mp3": {
+        "duration_s": 0.875,
+        "peak_dbfs": -10.0,
+        "leading_60ms_rms_dbfs": -177.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.91,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "sheep": {
+      "phonemes": "ʃˈiːp",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -8.2,
+        "leading_60ms_rms_dbfs": -177.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.11,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "shell": {
+      "phonemes": "ʃˈɛl",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -9.4,
+        "leading_60ms_rms_dbfs": -177.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.91,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "shine": {
+      "phonemes": "ʃˈIn",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -8.1,
+        "leading_60ms_rms_dbfs": -175.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.01,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "ship": {
+      "phonemes": "ʃˈɪp",
+      "old_mp3": {
+        "duration_s": 0.925,
+        "peak_dbfs": -8.5,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.06,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "shock": {
+      "phonemes": "ʃˈɒk",
+      "old_mp3": {
+        "duration_s": 0.95,
+        "peak_dbfs": -7.5,
+        "leading_60ms_rms_dbfs": -174.3,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.06,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "shop": {
+      "phonemes": "ʃˈɒp",
+      "old_mp3": {
+        "duration_s": 0.925,
+        "peak_dbfs": -7.3,
+        "leading_60ms_rms_dbfs": -177.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.09,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "shore": {
+      "phonemes": "ʃˈɔː",
+      "old_mp3": {
+        "duration_s": 0.95,
+        "peak_dbfs": -8.8,
+        "leading_60ms_rms_dbfs": -177.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.04,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "side": {
+      "phonemes": "sˈId",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -7.3,
+        "leading_60ms_rms_dbfs": -176.2,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.04,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "sin": {
+      "phonemes": "sˈɪn",
+      "old_mp3": {
+        "duration_s": 0.95,
+        "peak_dbfs": -8.4,
+        "leading_60ms_rms_dbfs": -175.9,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.91,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "sing": {
+      "phonemes": "sˈɪŋ",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -8.5,
+        "leading_60ms_rms_dbfs": -178.1,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.08,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "sink": {
+      "phonemes": "sˈɪŋk",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -8.3,
+        "leading_60ms_rms_dbfs": -177.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.09,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "sip": {
+      "phonemes": "sˈɪp",
+      "old_mp3": {
+        "duration_s": 0.95,
+        "peak_dbfs": -8.5,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.06,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "sit": {
+      "phonemes": "sˈɪt",
+      "old_mp3": {
+        "duration_s": 0.95,
+        "peak_dbfs": -7.9,
+        "leading_60ms_rms_dbfs": -177.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.06,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "smooth": {
+      "phonemes": "smˈuːð",
+      "old_mp3": {
+        "duration_s": 1.226,
+        "peak_dbfs": -8.1,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.21,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "snow": {
+      "phonemes": "snˈQ",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -11.0,
+        "leading_60ms_rms_dbfs": -177.1,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.21,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "sock": {
+      "phonemes": "sˈɒk",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -8.3,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.07,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "sofa": {
+      "phonemes": "sˈQfə",
+      "old_mp3": {
+        "duration_s": 1.15,
+        "peak_dbfs": -8.2,
+        "leading_60ms_rms_dbfs": -176.2,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.13,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "soil": {
+      "phonemes": "sˈYl",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -9.3,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.09,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "sore": {
+      "phonemes": "sˈɔː",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -8.7,
+        "leading_60ms_rms_dbfs": -176.9,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.03,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "south": {
+      "phonemes": "sˈWθ",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -8.6,
+        "leading_60ms_rms_dbfs": -177.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.96,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "spoon": {
+      "phonemes": "spˈuːn",
+      "old_mp3": {
+        "duration_s": 1.1,
+        "peak_dbfs": -7.5,
+        "leading_60ms_rms_dbfs": -177.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.03,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "square": {
+      "phonemes": "skwˈɛː",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -8.3,
+        "leading_60ms_rms_dbfs": -174.2,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.96,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "star": {
+      "phonemes": "stˈɑː",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -7.8,
+        "leading_60ms_rms_dbfs": -176.1,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.12,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "stock": {
+      "phonemes": "stˈɒk",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -7.5,
+        "leading_60ms_rms_dbfs": -176.9,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.11,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "store": {
+      "phonemes": "stˈɔː",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -8.8,
+        "leading_60ms_rms_dbfs": -178.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.09,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "stuck": {
+      "phonemes": "stˈʌk",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -7.7,
+        "leading_60ms_rms_dbfs": -177.9,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.14,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "suck": {
+      "phonemes": "sˈʌk",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -8.3,
+        "leading_60ms_rms_dbfs": -177.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.13,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "sue": {
+      "phonemes": "sˈuː",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -9.3,
+        "leading_60ms_rms_dbfs": -176.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.06,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "sum": {
+      "phonemes": "sˈʌm",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -7.9,
+        "leading_60ms_rms_dbfs": -178.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.12,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "sun": {
+      "phonemes": "sˈʌn",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -7.7,
+        "leading_60ms_rms_dbfs": -178.1,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.99,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "sung": {
+      "phonemes": "sˈʌŋ",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -6.9,
+        "leading_60ms_rms_dbfs": -177.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.11,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "talk": {
+      "phonemes": "tˈɔːk",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -7.9,
+        "leading_60ms_rms_dbfs": -178.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.99,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "tan": {
+      "phonemes": "tˈan",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -9.6,
+        "leading_60ms_rms_dbfs": -176.3,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.08,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "tape": {
+      "phonemes": "tˈAp",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -9.0,
+        "leading_60ms_rms_dbfs": -177.1,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.12,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "teacher": {
+      "phonemes": "tˈiːʧə",
+      "old_mp3": {
+        "duration_s": 1.125,
+        "peak_dbfs": -8.7,
+        "leading_60ms_rms_dbfs": -176.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.15,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "team": {
+      "phonemes": "tˈiːm",
+      "old_mp3": {
+        "duration_s": 1.1,
+        "peak_dbfs": -8.9,
+        "leading_60ms_rms_dbfs": -178.2,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.97,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "teen": {
+      "phonemes": "tˈiːn",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -9.6,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.93,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "teeth": {
+      "phonemes": "tˈiːθ",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -8.3,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.02,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "ten": {
+      "phonemes": "tˈɛn",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -9.0,
+        "leading_60ms_rms_dbfs": -176.1,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.97,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "thank": {
+      "phonemes": "θˈaŋk",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -6.8,
+        "leading_60ms_rms_dbfs": -177.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.98,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "that": {
+      "phonemes": "ðat",
+      "old_mp3": {
+        "duration_s": 0.95,
+        "peak_dbfs": -8.6,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.9,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "them": {
+      "phonemes": "ðˌɛm",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -8.8,
+        "leading_60ms_rms_dbfs": -176.3,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.06,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "then": {
+      "phonemes": "ðˈɛn",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -9.0,
+        "leading_60ms_rms_dbfs": -176.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.09,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "thick": {
+      "phonemes": "θˈɪk",
+      "old_mp3": {
+        "duration_s": 0.95,
+        "peak_dbfs": -7.7,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.9,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "thin": {
+      "phonemes": "θˈɪn",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -8.6,
+        "leading_60ms_rms_dbfs": -174.3,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.895,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "thing": {
+      "phonemes": "θˈɪŋ",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -8.3,
+        "leading_60ms_rms_dbfs": -174.2,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.91,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "think": {
+      "phonemes": "θˈɪŋk",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -8.1,
+        "leading_60ms_rms_dbfs": -176.2,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.98,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "this": {
+      "phonemes": "ðˈɪs",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -9.0,
+        "leading_60ms_rms_dbfs": -177.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.93,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "those": {
+      "phonemes": "ðˈQz",
+      "old_mp3": {
+        "duration_s": 1.125,
+        "peak_dbfs": -8.9,
+        "leading_60ms_rms_dbfs": -173.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.05,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "three": {
+      "phonemes": "θɹˈiː",
+      "old_mp3": {
+        "duration_s": 1.125,
+        "peak_dbfs": -7.9,
+        "leading_60ms_rms_dbfs": -177.9,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.1,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "tie": {
+      "phonemes": "tˈI",
+      "old_mp3": {
+        "duration_s": 0.95,
+        "peak_dbfs": -10.2,
+        "leading_60ms_rms_dbfs": -176.3,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.02,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "tip": {
+      "phonemes": "tˈɪp",
+      "old_mp3": {
+        "duration_s": 0.95,
+        "peak_dbfs": -8.4,
+        "leading_60ms_rms_dbfs": -177.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.95,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "ton": {
+      "phonemes": "tˈʌn",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -9.5,
+        "leading_60ms_rms_dbfs": -177.1,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.12,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "tone": {
+      "phonemes": "tˈQn",
+      "old_mp3": {
+        "duration_s": 1.1,
+        "peak_dbfs": -9.7,
+        "leading_60ms_rms_dbfs": -173.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.07,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "tongue": {
+      "phonemes": "tˈʌŋ",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -10.0,
+        "leading_60ms_rms_dbfs": -177.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.13,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "tour": {
+      "phonemes": "tˈʊə",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -10.0,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.97,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "town": {
+      "phonemes": "tˈWn",
+      "old_mp3": {
+        "duration_s": 1.1,
+        "peak_dbfs": -10.0,
+        "leading_60ms_rms_dbfs": -173.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.17,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "toy": {
+      "phonemes": "tˈY",
+      "old_mp3": {
+        "duration_s": 0.925,
+        "peak_dbfs": -8.8,
+        "leading_60ms_rms_dbfs": -176.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.9,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "treasure": {
+      "phonemes": "tɹˈɛʒə",
+      "old_mp3": {
+        "duration_s": 1.2,
+        "peak_dbfs": -7.1,
+        "leading_60ms_rms_dbfs": -174.2,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.19,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "tuck": {
+      "phonemes": "tˈʌk",
+      "old_mp3": {
+        "duration_s": 0.925,
+        "peak_dbfs": -7.6,
+        "leading_60ms_rms_dbfs": -176.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.97,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "turn": {
+      "phonemes": "tˈɜːn",
+      "old_mp3": {
+        "duration_s": 1.175,
+        "peak_dbfs": -8.7,
+        "leading_60ms_rms_dbfs": -176.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.18,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "type": {
+      "phonemes": "tˈIp",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -9.6,
+        "leading_60ms_rms_dbfs": -173.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.09,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "vague": {
+      "phonemes": "vˈAɡ",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -8.4,
+        "leading_60ms_rms_dbfs": -176.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.07,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "van": {
+      "phonemes": "vˈan",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -7.6,
+        "leading_60ms_rms_dbfs": -177.9,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.95,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "vat": {
+      "phonemes": "vˈat",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -9.0,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.95,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "veal": {
+      "phonemes": "vˈiːl",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -9.7,
+        "leading_60ms_rms_dbfs": -178.3,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.92,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "veil": {
+      "phonemes": "vˈAl",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -8.9,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.99,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "very": {
+      "phonemes": "vˈɛɹi",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -9.2,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.11,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "vest": {
+      "phonemes": "vˈɛst",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -6.6,
+        "leading_60ms_rms_dbfs": -176.2,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.93,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "vet": {
+      "phonemes": "vˈɛt",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -7.7,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.93,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "view": {
+      "phonemes": "vjˈuː",
+      "old_mp3": {
+        "duration_s": 0.95,
+        "peak_dbfs": -11.3,
+        "leading_60ms_rms_dbfs": -177.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.98,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "vine": {
+      "phonemes": "vˈIn",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -7.9,
+        "leading_60ms_rms_dbfs": -176.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.04,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "vision": {
+      "phonemes": "vˈɪʒᵊn",
+      "old_mp3": {
+        "duration_s": 1.2,
+        "peak_dbfs": -9.2,
+        "leading_60ms_rms_dbfs": -177.1,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.2,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "voice": {
+      "phonemes": "vˈYs",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -8.8,
+        "leading_60ms_rms_dbfs": -177.1,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.96,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "wail": {
+      "phonemes": "wˈAl",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -9.2,
+        "leading_60ms_rms_dbfs": -178.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.04,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "wait": {
+      "phonemes": "wˈAt",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -8.9,
+        "leading_60ms_rms_dbfs": -177.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.01,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "wake": {
+      "phonemes": "wˈAk",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -9.2,
+        "leading_60ms_rms_dbfs": -175.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.04,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "we": {
+      "phonemes": "wiː",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -8.9,
+        "leading_60ms_rms_dbfs": -177.3,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.12,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "well": {
+      "phonemes": "wˈɛl",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -9.7,
+        "leading_60ms_rms_dbfs": -177.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.93,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "west": {
+      "phonemes": "wˈɛst",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -7.3,
+        "leading_60ms_rms_dbfs": -177.1,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.95,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "wet": {
+      "phonemes": "wˈɛt",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -9.6,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.95,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "wheel": {
+      "phonemes": "wˈiːl",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -9.2,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.9,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "where": {
+      "phonemes": "wˌɛː",
+      "old_mp3": {
+        "duration_s": 0.95,
+        "peak_dbfs": -9.3,
+        "leading_60ms_rms_dbfs": -177.2,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.98,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "white": {
+      "phonemes": "wˈIt",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -10.6,
+        "leading_60ms_rms_dbfs": -177.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.07,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "win": {
+      "phonemes": "wˈɪn",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -7.5,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.94,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "wine": {
+      "phonemes": "wˈIn",
+      "old_mp3": {
+        "duration_s": 1.1,
+        "peak_dbfs": -8.1,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.04,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "wing": {
+      "phonemes": "wˈɪŋ",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -7.2,
+        "leading_60ms_rms_dbfs": -176.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.06,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "wood": {
+      "phonemes": "wˈʊd",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -8.6,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.99,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "word": {
+      "phonemes": "wˈɜːd",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -10.3,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.01,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "wrap": {
+      "phonemes": "ɹˈap",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -8.7,
+        "leading_60ms_rms_dbfs": -177.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.07,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "wrist": {
+      "phonemes": "ɹˈɪst",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -6.5,
+        "leading_60ms_rms_dbfs": -176.9,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.13,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "wrong": {
+      "phonemes": "ɹˈɒŋ",
+      "old_mp3": {
+        "duration_s": 1.125,
+        "peak_dbfs": -8.4,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.04,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "year": {
+      "phonemes": "jˈɪə",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -10.6,
+        "leading_60ms_rms_dbfs": -178.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.99,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "zap": {
+      "phonemes": "zˈap",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -8.6,
+        "leading_60ms_rms_dbfs": -176.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.02,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "zeal": {
+      "phonemes": "zˈiːl",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -9.4,
+        "leading_60ms_rms_dbfs": -178.2,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.92,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "zinc": {
+      "phonemes": "zˈɪŋk",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -7.4,
+        "leading_60ms_rms_dbfs": -177.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.96,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "zip": {
+      "phonemes": "zˈɪp",
+      "old_mp3": {
+        "duration_s": 0.95,
+        "peak_dbfs": -8.6,
+        "leading_60ms_rms_dbfs": -177.1,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.05,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "zoo": {
+      "phonemes": "zˈuː",
+      "old_mp3": {
+        "duration_s": 0.925,
+        "peak_dbfs": -9.8,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.91,
+        "peak_dbfs": -3.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    }
+  }
+}
