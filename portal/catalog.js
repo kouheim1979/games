@@ -9,6 +9,7 @@
   });
   // This is the owner's curated collection, not every directory in the repo.
   const games = [
+    entry('eigodoka', 'amber', ['learn', 'casual'], ['エイゴドカ！','EIGO DOKA!','英语爆裂！','¡EIGO DOKA!'], ['英単語・文法の正解で爆裂コンボ！強化札とフィーバーで最大30倍を目指そう。','Answer English vocabulary and grammar questions to unleash combos, upgrades and up to 30x multipliers.','答对英语单词和语法题，触发连击与强化，挑战30倍倍率。','Responde preguntas de vocabulario y gramática, consigue combos y mejoras hasta x30.'], false),
     entry('ipa-quiz', 'blue', ['learn'], ["IPA QUEST — 発音記号レッスン","IPA QUEST — Phoneme Lessons","IPA QUEST — 音标练习","IPA QUEST — Lecciones de fonética"], ["英単語を聞き、2つの発音記号から正しい方を選ぼう。唇と舌の模式図を使った発音記号図鑑も収録。","Listen to a word and choose between two IPA symbols. Study pronunciation with illustrated lip and tongue guides.","听英语单词，从两个音标中选出正确答案，并通过唇舌示意图学习发音。","Escucha una palabra y elige entre dos símbolos AFI. Aprende con diagramas de labios y lengua."], false),
     entry('todofuken-battle', 'amber', ['party', 'learn'],
       ['都道府県バトル', 'Prefecture Conquest', '日本都道府县争霸', 'Conquista de prefecturas'],
