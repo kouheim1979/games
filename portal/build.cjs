@@ -24,6 +24,14 @@ const html = `<div class="mt-portal" id="mt-portal" lang="ja">
       <div class="mt-feature-bottom">${tx('featurePlay')}<span aria-hidden="true">↗</span></div>
     </a>
   </section>
+  <section class="mt-exam-panel" aria-label="高校入試の勉強アプリ">
+    <div class="mt-exam-copy">
+      <span class="mt-exam-label">神奈川県 公立高校入試</span>
+      <h2>高校入試 <strong>勉強BOX</strong></h2>
+      <p>社会・理科・数学・英語・国語・漢字。勉強用アプリはここにひとまとめ。</p>
+    </div>
+    <a class="mt-exam-open" href="https://kouheim1979.github.io/games/kanagawa-exam/">教科を選んで勉強 <span aria-hidden="true">↗</span></a>
+  </section>
   <section class="mt-library" id="games" aria-labelledby="mt-library-title">
     <div class="mt-section-heading"><div>${tx('library','h2',' id="mt-library-title"')}${tx('libraryIntro','p')}</div><span id="mt-results" class="mt-result" role="status" aria-live="polite">${games.length}本のゲーム</span></div>
     <div class="mt-controls">
