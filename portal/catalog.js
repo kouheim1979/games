@@ -10,7 +10,7 @@
   // This is the owner's curated collection, not every directory in the repo.
   const games = [
     entry('rekidoka', 'amber', ['learn', 'casual'], ['歴史ドカン！','History Boom!','历史大爆发！','¡Explosión histórica!'], ['明治から現代までの歴史カードを時代順に配置。連鎖とDP爆発で高得点を狙う。','Place modern Japanese history cards in order and build explosive combos.','按年代放置日本近现代历史卡片，触发连击。','Ordena cartas de historia moderna japonesa y encadena combos.'], false),
-    entry('eigodoka', 'amber', ['learn', 'casual'], ['英単語ボム！','English Word Bomb!','英语单词炸弹！','¡Bomba de inglés!'], ['落ちる玉を3つつなげて爆破！英単語の技で増幅・交換・爆発を操る落ち物パズル。','Match three falling balls and use English powers to double, swap and explode.','连接三个下落的同色球，使用英语技能增幅、交换和爆炸。','Une tres bolas que caen y usa poderes en inglés para duplicar, intercambiar y explotar.'], false),
+    entry('eigodoka', 'amber', ['learn', 'casual'], ['英単語ボム！','English Word Bomb!','英语单词炸弹！','¡Bomba de inglés!'], ['落ちる英単語を類義語・反義語・発音などでつないで爆破！7種類のルール。','Match falling English words by meaning and pronunciation across seven modes.','按照同义词、反义词或发音连接下落单词，共七种玩法。','Conecta palabras en inglés por significado y pronunciación en siete modos.'], false),
     entry('ipa-quiz', 'blue', ['learn'], ["IPA QUEST — 発音記号レッスン","IPA QUEST — Phoneme Lessons","IPA QUEST — 音标练习","IPA QUEST — Lecciones de fonética"], ["英単語を聞き、2つの発音記号から正しい方を選ぼう。唇と舌の模式図を使った発音記号図鑑も収録。","Listen to a word and choose between two IPA symbols. Study pronunciation with illustrated lip and tongue guides.","听英语单词，从两个音标中选出正确答案，并通过唇舌示意图学习发音。","Escucha una palabra y elige entre dos símbolos AFI. Aprende con diagramas de labios y lengua."], false),
     entry('todofuken-battle', 'amber', ['party', 'learn'],
       ['都道府県バトル', 'Prefecture Conquest', '日本都道府县争霸', 'Conquista de prefecturas'],
