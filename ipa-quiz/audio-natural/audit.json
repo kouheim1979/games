@@ -1,0 +1,7045 @@
+{
+  "checks": "Signal-level checks only, not human or phonetic certification",
+  "count": 391,
+  "contextual_count": 196,
+  "words": {
+    "lamb": {
+      "phonemes": "lˈam",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.1,
+        "peak_dbfs": -10.2,
+        "leading_60ms_rms_dbfs": -176.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.25,
+        "peak_dbfs": -9.6,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "ram": {
+      "phonemes": "ɹˈam",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.1,
+        "peak_dbfs": -8.0,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.35,
+        "peak_dbfs": -7.3,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "about": {
+      "phonemes": "əbˈWt",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.125,
+        "peak_dbfs": -8.8,
+        "leading_60ms_rms_dbfs": -177.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.225,
+        "peak_dbfs": -7.7,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "again": {
+      "phonemes": "əɡˈɛn",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.125,
+        "peak_dbfs": -9.0,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.625,
+        "peak_dbfs": -9.8,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "ago": {
+      "phonemes": "əɡˈQ",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -10.2,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.175,
+        "peak_dbfs": -9.3,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "alone": {
+      "phonemes": "əlˈQn",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.15,
+        "peak_dbfs": -9.9,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.625,
+        "peak_dbfs": -10.8,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "around": {
+      "phonemes": "əɹˈWnd",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.3,
+        "peak_dbfs": -7.8,
+        "leading_60ms_rms_dbfs": -176.2,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.55,
+        "peak_dbfs": -5.7,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "away": {
+      "phonemes": "əwˈA",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.1,
+        "peak_dbfs": -10.1,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.6,
+        "peak_dbfs": -9.7,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "back": {
+      "phonemes": "bˈak",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 0.925,
+        "peak_dbfs": -8.2,
+        "leading_60ms_rms_dbfs": -177.2,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.505,
+        "peak_dbfs": -10.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "bad": {
+      "phonemes": "bˈad",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -7.4,
+        "leading_60ms_rms_dbfs": -177.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.475,
+        "peak_dbfs": -11.7,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "badge": {
+      "phonemes": "bˈaʤ",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -7.9,
+        "leading_60ms_rms_dbfs": -177.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.475,
+        "peak_dbfs": -12.0,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "bag": {
+      "phonemes": "bˈaɡ",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -8.3,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.485,
+        "peak_dbfs": -10.4,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "ban": {
+      "phonemes": "bˈan",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -7.8,
+        "leading_60ms_rms_dbfs": -177.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.475,
+        "peak_dbfs": -12.5,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "bang": {
+      "phonemes": "bˈaŋ",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -7.6,
+        "leading_60ms_rms_dbfs": -177.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.45,
+        "peak_dbfs": -10.9,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "bat": {
+      "phonemes": "bˈat",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 0.925,
+        "peak_dbfs": -8.6,
+        "leading_60ms_rms_dbfs": -176.1,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.475,
+        "peak_dbfs": -10.3,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "batch": {
+      "phonemes": "bˈaʧ",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -8.4,
+        "leading_60ms_rms_dbfs": -177.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.525,
+        "peak_dbfs": -10.0,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "beach": {
+      "phonemes": "bˈiːʧ",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.125,
+        "peak_dbfs": -9.9,
+        "leading_60ms_rms_dbfs": -176.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.525,
+        "peak_dbfs": -10.5,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "bear": {
+      "phonemes": "bˈɛː",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -8.7,
+        "leading_60ms_rms_dbfs": -176.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.425,
+        "peak_dbfs": -11.2,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "beat": {
+      "phonemes": "bˈiːt",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -10.0,
+        "leading_60ms_rms_dbfs": -176.9,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.5,
+        "peak_dbfs": -10.8,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "bed": {
+      "phonemes": "bˈɛd",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -8.1,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.45,
+        "peak_dbfs": -11.5,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "beer": {
+      "phonemes": "bˈɪə",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -10.7,
+        "leading_60ms_rms_dbfs": -177.3,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.45,
+        "peak_dbfs": -12.5,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "beige": {
+      "phonemes": "bˈAʒ",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -8.1,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.55,
+        "peak_dbfs": -11.3,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "best": {
+      "phonemes": "bˈɛst",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -7.0,
+        "leading_60ms_rms_dbfs": -176.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.52,
+        "peak_dbfs": -9.3,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "bet": {
+      "phonemes": "bˈɛt",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -7.8,
+        "leading_60ms_rms_dbfs": -176.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.425,
+        "peak_dbfs": -10.9,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "big": {
+      "phonemes": "bˈɪɡ",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -9.5,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.42,
+        "peak_dbfs": -10.3,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "bin": {
+      "phonemes": "bˈɪn",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -8.4,
+        "leading_60ms_rms_dbfs": -176.3,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.425,
+        "peak_dbfs": -11.0,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "bird": {
+      "phonemes": "bˈɜːd",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -9.2,
+        "leading_60ms_rms_dbfs": -177.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.525,
+        "peak_dbfs": -11.7,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "bit": {
+      "phonemes": "bˈɪt",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 0.95,
+        "peak_dbfs": -8.8,
+        "leading_60ms_rms_dbfs": -176.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.455,
+        "peak_dbfs": -9.4,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "boat": {
+      "phonemes": "bˈQt",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 0.925,
+        "peak_dbfs": -10.1,
+        "leading_60ms_rms_dbfs": -177.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.475,
+        "peak_dbfs": -10.8,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "book": {
+      "phonemes": "bˈʊk",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 0.925,
+        "peak_dbfs": -7.7,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.45,
+        "peak_dbfs": -8.2,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "boot": {
+      "phonemes": "bˈuːt",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -8.6,
+        "leading_60ms_rms_dbfs": -176.9,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.45,
+        "peak_dbfs": -10.2,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "both": {
+      "phonemes": "bˈQθ",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -9.0,
+        "leading_60ms_rms_dbfs": -177.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.5,
+        "peak_dbfs": -9.4,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "bout": {
+      "phonemes": "bˈWt",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 0.925,
+        "peak_dbfs": -9.8,
+        "leading_60ms_rms_dbfs": -176.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.475,
+        "peak_dbfs": -11.5,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "boy": {
+      "phonemes": "bˈY",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 0.925,
+        "peak_dbfs": -9.8,
+        "leading_60ms_rms_dbfs": -176.3,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.45,
+        "peak_dbfs": -11.2,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "breathe": {
+      "phonemes": "bɹˈiːð",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.25,
+        "peak_dbfs": -6.6,
+        "leading_60ms_rms_dbfs": -178.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.55,
+        "peak_dbfs": -10.0,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "brown": {
+      "phonemes": "bɹˈWn",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.1,
+        "peak_dbfs": -7.4,
+        "leading_60ms_rms_dbfs": -178.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.55,
+        "peak_dbfs": -9.7,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "buck": {
+      "phonemes": "bˈʌk",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 0.925,
+        "peak_dbfs": -8.7,
+        "leading_60ms_rms_dbfs": -177.2,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.48,
+        "peak_dbfs": -9.6,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "bus": {
+      "phonemes": "bˈʌs",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -7.9,
+        "leading_60ms_rms_dbfs": -177.1,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.5,
+        "peak_dbfs": -8.9,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "bush": {
+      "phonemes": "bˈʊʃ",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -7.2,
+        "leading_60ms_rms_dbfs": -176.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.495,
+        "peak_dbfs": -9.2,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "but": {
+      "phonemes": "bˌʌt",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -9.7,
+        "leading_60ms_rms_dbfs": -177.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.43,
+        "peak_dbfs": -10.4,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "buy": {
+      "phonemes": "bˈI",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 0.925,
+        "peak_dbfs": -8.2,
+        "leading_60ms_rms_dbfs": -177.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.45,
+        "peak_dbfs": -12.4,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "buzz": {
+      "phonemes": "bˈʌz",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -9.2,
+        "leading_60ms_rms_dbfs": -177.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.525,
+        "peak_dbfs": -11.4,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "cab": {
+      "phonemes": "kˈab",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -9.2,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.48,
+        "peak_dbfs": -11.8,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "cage": {
+      "phonemes": "kˈAʤ",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -8.6,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.45,
+        "peak_dbfs": -11.5,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "came": {
+      "phonemes": "kˈAm",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -8.9,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.475,
+        "peak_dbfs": -11.4,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "cap": {
+      "phonemes": "kˈap",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 0.95,
+        "peak_dbfs": -8.9,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.5,
+        "peak_dbfs": -10.3,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "car": {
+      "phonemes": "kˈɑː",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -8.3,
+        "leading_60ms_rms_dbfs": -178.3,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.425,
+        "peak_dbfs": -10.7,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "care": {
+      "phonemes": "kˈɛː",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 0.9,
+        "peak_dbfs": -9.4,
+        "leading_60ms_rms_dbfs": -177.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.425,
+        "peak_dbfs": -11.0,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "cat": {
+      "phonemes": "kˈat",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -8.2,
+        "leading_60ms_rms_dbfs": -176.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.475,
+        "peak_dbfs": -9.2,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "catch": {
+      "phonemes": "kˈaʧ",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -8.3,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.425,
+        "peak_dbfs": -11.2,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "caught": {
+      "phonemes": "kˈɔːt",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -8.5,
+        "leading_60ms_rms_dbfs": -177.3,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.48,
+        "peak_dbfs": -10.2,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "cave": {
+      "phonemes": "kˈAv",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -9.1,
+        "leading_60ms_rms_dbfs": -177.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.5,
+        "peak_dbfs": -11.2,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "chair": {
+      "phonemes": "ʧˈɛː",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 0.95,
+        "peak_dbfs": -8.9,
+        "leading_60ms_rms_dbfs": -176.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.515,
+        "peak_dbfs": -9.5,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "cheap": {
+      "phonemes": "ʧˈiːp",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -8.5,
+        "leading_60ms_rms_dbfs": -177.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.58,
+        "peak_dbfs": -10.8,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "cheer": {
+      "phonemes": "ʧˈɪə",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -9.5,
+        "leading_60ms_rms_dbfs": -178.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.5,
+        "peak_dbfs": -11.9,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "chest": {
+      "phonemes": "ʧˈɛst",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.1,
+        "peak_dbfs": -8.4,
+        "leading_60ms_rms_dbfs": -176.2,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.55,
+        "peak_dbfs": -9.2,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "chime": {
+      "phonemes": "ʧˈIm",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -9.7,
+        "leading_60ms_rms_dbfs": -176.1,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.175,
+        "peak_dbfs": -7.5,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "chin": {
+      "phonemes": "ʧˈɪn",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -8.4,
+        "leading_60ms_rms_dbfs": -175.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.5,
+        "peak_dbfs": -9.3,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "chip": {
+      "phonemes": "ʧˈɪp",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 0.95,
+        "peak_dbfs": -8.6,
+        "leading_60ms_rms_dbfs": -176.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.525,
+        "peak_dbfs": -8.8,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "choice": {
+      "phonemes": "ʧˈYs",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -8.6,
+        "leading_60ms_rms_dbfs": -177.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.525,
+        "peak_dbfs": -10.4,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "choke": {
+      "phonemes": "ʧˈQk",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -9.0,
+        "leading_60ms_rms_dbfs": -177.9,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.545,
+        "peak_dbfs": -10.6,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "clear": {
+      "phonemes": "klˈɪə",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.1,
+        "peak_dbfs": -11.0,
+        "leading_60ms_rms_dbfs": -178.1,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.5,
+        "peak_dbfs": -12.3,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "clothe": {
+      "phonemes": "klˈQð",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.2,
+        "peak_dbfs": -9.0,
+        "leading_60ms_rms_dbfs": -178.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.575,
+        "peak_dbfs": -9.7,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "coat": {
+      "phonemes": "kˈQt",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -8.8,
+        "leading_60ms_rms_dbfs": -176.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.475,
+        "peak_dbfs": -10.6,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "cod": {
+      "phonemes": "kˈɒd",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -9.1,
+        "leading_60ms_rms_dbfs": -176.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.495,
+        "peak_dbfs": -10.2,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "coin": {
+      "phonemes": "kˈYn",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -9.0,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.5,
+        "peak_dbfs": -10.8,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "cold": {
+      "phonemes": "kˈQld",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.125,
+        "peak_dbfs": -9.0,
+        "leading_60ms_rms_dbfs": -177.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.55,
+        "peak_dbfs": -11.5,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "cook": {
+      "phonemes": "kˈʊk",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 0.925,
+        "peak_dbfs": -6.4,
+        "leading_60ms_rms_dbfs": -177.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.45,
+        "peak_dbfs": -7.9,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "cot": {
+      "phonemes": "kˈɒt",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -8.2,
+        "leading_60ms_rms_dbfs": -177.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.42,
+        "peak_dbfs": -8.8,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "couch": {
+      "phonemes": "kˈWʧ",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -8.6,
+        "leading_60ms_rms_dbfs": -177.3,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.52,
+        "peak_dbfs": -10.3,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "cup": {
+      "phonemes": "kˈʌp",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 0.925,
+        "peak_dbfs": -7.8,
+        "leading_60ms_rms_dbfs": -176.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.45,
+        "peak_dbfs": -9.8,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "curl": {
+      "phonemes": "kˈɜːl",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -9.3,
+        "leading_60ms_rms_dbfs": -178.1,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.55,
+        "peak_dbfs": -11.2,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "cut": {
+      "phonemes": "kˈʌt",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -8.1,
+        "leading_60ms_rms_dbfs": -176.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.425,
+        "peak_dbfs": -9.6,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "dark": {
+      "phonemes": "dˈɑːk",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -8.1,
+        "leading_60ms_rms_dbfs": -176.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.525,
+        "peak_dbfs": -10.4,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "day": {
+      "phonemes": "dˈA",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 0.9,
+        "peak_dbfs": -10.4,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.425,
+        "peak_dbfs": -11.3,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "dear": {
+      "phonemes": "dˈɪə",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -9.6,
+        "leading_60ms_rms_dbfs": -176.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.45,
+        "peak_dbfs": -11.9,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "decision": {
+      "phonemes": "dɪsˈɪʒᵊn",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.5,
+        "peak_dbfs": -9.8,
+        "leading_60ms_rms_dbfs": -177.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.775,
+        "peak_dbfs": -9.2,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "den": {
+      "phonemes": "dˈɛn",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -9.2,
+        "leading_60ms_rms_dbfs": -176.3,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.475,
+        "peak_dbfs": -11.0,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "die": {
+      "phonemes": "dˈI",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 0.9,
+        "peak_dbfs": -8.5,
+        "leading_60ms_rms_dbfs": -176.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.425,
+        "peak_dbfs": -11.8,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "dip": {
+      "phonemes": "dˈɪp",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 0.925,
+        "peak_dbfs": -8.5,
+        "leading_60ms_rms_dbfs": -177.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.45,
+        "peak_dbfs": -9.5,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "dock": {
+      "phonemes": "dˈɒk",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 0.95,
+        "peak_dbfs": -8.6,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.505,
+        "peak_dbfs": -9.5,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "door": {
+      "phonemes": "dˈɔː",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -9.4,
+        "leading_60ms_rms_dbfs": -178.3,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.4,
+        "peak_dbfs": -11.4,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "down": {
+      "phonemes": "dˌWn",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -8.9,
+        "leading_60ms_rms_dbfs": -177.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.49,
+        "peak_dbfs": -12.0,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "duck": {
+      "phonemes": "dˈʌk",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -8.2,
+        "leading_60ms_rms_dbfs": -176.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.475,
+        "peak_dbfs": -9.2,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "ear": {
+      "phonemes": "ˈɪə",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 0.95,
+        "peak_dbfs": -10.9,
+        "leading_60ms_rms_dbfs": -178.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.425,
+        "peak_dbfs": -13.8,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "face": {
+      "phonemes": "fˈAs",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -7.2,
+        "leading_60ms_rms_dbfs": -176.9,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.525,
+        "peak_dbfs": -9.8,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "fail": {
+      "phonemes": "fˈAl",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -8.5,
+        "leading_60ms_rms_dbfs": -176.1,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.125,
+        "peak_dbfs": -7.3,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "fair": {
+      "phonemes": "fˈɛː",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 0.9,
+        "peak_dbfs": -8.0,
+        "leading_60ms_rms_dbfs": -177.3,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.925,
+        "peak_dbfs": -7.5,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "fan": {
+      "phonemes": "fˈan",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -7.3,
+        "leading_60ms_rms_dbfs": -176.3,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.175,
+        "peak_dbfs": -6.4,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "far": {
+      "phonemes": "fˈɑː",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 0.95,
+        "peak_dbfs": -7.3,
+        "leading_60ms_rms_dbfs": -176.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.05,
+        "peak_dbfs": -7.3,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "fat": {
+      "phonemes": "fˈat",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 0.95,
+        "peak_dbfs": -7.8,
+        "leading_60ms_rms_dbfs": -177.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.025,
+        "peak_dbfs": -6.9,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "father": {
+      "phonemes": "fˈɑːðə",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.125,
+        "peak_dbfs": -8.1,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.2,
+        "peak_dbfs": -8.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "fear": {
+      "phonemes": "fˈɪə",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -9.1,
+        "leading_60ms_rms_dbfs": -173.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.125,
+        "peak_dbfs": -8.0,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "feel": {
+      "phonemes": "fˈiːl",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -8.6,
+        "leading_60ms_rms_dbfs": -177.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.25,
+        "peak_dbfs": -7.2,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "ferry": {
+      "phonemes": "fˈɛɹi",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -7.8,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.2,
+        "peak_dbfs": -8.2,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "fill": {
+      "phonemes": "fˈɪl",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -8.8,
+        "leading_60ms_rms_dbfs": -177.2,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.1,
+        "peak_dbfs": -8.2,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "fine": {
+      "phonemes": "fˈIn",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -7.1,
+        "leading_60ms_rms_dbfs": -176.2,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.2,
+        "peak_dbfs": -5.9,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "first": {
+      "phonemes": "fˈɜːst",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.1,
+        "peak_dbfs": -9.0,
+        "leading_60ms_rms_dbfs": -174.3,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.525,
+        "peak_dbfs": -10.2,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "fish": {
+      "phonemes": "fˈɪʃ",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -8.1,
+        "leading_60ms_rms_dbfs": -177.1,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.525,
+        "peak_dbfs": -9.2,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "food": {
+      "phonemes": "fˈuːd",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -8.0,
+        "leading_60ms_rms_dbfs": -176.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.275,
+        "peak_dbfs": -6.7,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "fool": {
+      "phonemes": "fˈuːl",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -9.0,
+        "leading_60ms_rms_dbfs": -177.1,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.25,
+        "peak_dbfs": -8.0,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "foot": {
+      "phonemes": "fˈʊt",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 0.95,
+        "peak_dbfs": -7.2,
+        "leading_60ms_rms_dbfs": -177.1,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.075,
+        "peak_dbfs": -6.7,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "fork": {
+      "phonemes": "fˈɔːk",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -7.9,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.1,
+        "peak_dbfs": -7.6,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "four": {
+      "phonemes": "fˈɔː",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -9.4,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.05,
+        "peak_dbfs": -8.2,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "full": {
+      "phonemes": "fˈʊl",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -8.1,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.075,
+        "peak_dbfs": -7.2,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "game": {
+      "phonemes": "ɡˈAm",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -9.5,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.5,
+        "peak_dbfs": -10.9,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "gap": {
+      "phonemes": "ɡˈap",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 0.95,
+        "peak_dbfs": -8.9,
+        "leading_60ms_rms_dbfs": -177.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.485,
+        "peak_dbfs": -10.7,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "gave": {
+      "phonemes": "ɡˈAv",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -8.6,
+        "leading_60ms_rms_dbfs": -176.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.5,
+        "peak_dbfs": -11.3,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "get": {
+      "phonemes": "ɡˈɛt",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -8.1,
+        "leading_60ms_rms_dbfs": -177.3,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.425,
+        "peak_dbfs": -10.0,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "gin": {
+      "phonemes": "ʤˈɪn",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -8.3,
+        "leading_60ms_rms_dbfs": -177.1,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.475,
+        "peak_dbfs": -10.2,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "girl": {
+      "phonemes": "ɡˈɜːl",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -9.8,
+        "leading_60ms_rms_dbfs": -178.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.51,
+        "peak_dbfs": -12.7,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "gnat": {
+      "phonemes": "nˈat",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -9.7,
+        "leading_60ms_rms_dbfs": -174.3,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.225,
+        "peak_dbfs": -7.4,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "go": {
+      "phonemes": "ɡˌQ",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 0.9,
+        "peak_dbfs": -9.7,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.4,
+        "peak_dbfs": -12.3,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "goat": {
+      "phonemes": "ɡˈQt",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -9.1,
+        "leading_60ms_rms_dbfs": -176.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.525,
+        "peak_dbfs": -10.5,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "gold": {
+      "phonemes": "ɡˈQld",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.125,
+        "peak_dbfs": -9.5,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.55,
+        "peak_dbfs": -10.5,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "good": {
+      "phonemes": "ɡˈʊd",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -9.0,
+        "leading_60ms_rms_dbfs": -177.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.45,
+        "peak_dbfs": -9.8,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "green": {
+      "phonemes": "ɡɹˈiːn",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.2,
+        "peak_dbfs": -7.9,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.6,
+        "peak_dbfs": -8.7,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "grin": {
+      "phonemes": "ɡɹˈɪn",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -8.6,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.525,
+        "peak_dbfs": -9.0,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "grow": {
+      "phonemes": "ɡɹˈQ",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -9.2,
+        "leading_60ms_rms_dbfs": -178.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.5,
+        "peak_dbfs": -10.8,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "hair": {
+      "phonemes": "hˈɛː",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 0.875,
+        "peak_dbfs": -8.9,
+        "leading_60ms_rms_dbfs": -176.3,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.95,
+        "peak_dbfs": -7.9,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "hard": {
+      "phonemes": "hˈɑːd",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -9.4,
+        "leading_60ms_rms_dbfs": -177.1,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.275,
+        "peak_dbfs": -8.9,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "hat": {
+      "phonemes": "hˈat",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -8.8,
+        "leading_60ms_rms_dbfs": -175.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.05,
+        "peak_dbfs": -7.8,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "hear": {
+      "phonemes": "hˈɪə",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -10.4,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.125,
+        "peak_dbfs": -8.5,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "heard": {
+      "phonemes": "hˈɜːd",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -9.4,
+        "leading_60ms_rms_dbfs": -177.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.2,
+        "peak_dbfs": -8.4,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "horse": {
+      "phonemes": "hˈɔːs",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -8.4,
+        "leading_60ms_rms_dbfs": -177.9,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.225,
+        "peak_dbfs": -7.2,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "hot": {
+      "phonemes": "hˈɒt",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -8.0,
+        "leading_60ms_rms_dbfs": -175.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.1,
+        "peak_dbfs": -7.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "hut": {
+      "phonemes": "hˈʌt",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -7.7,
+        "leading_60ms_rms_dbfs": -176.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.125,
+        "peak_dbfs": -7.3,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "jeep": {
+      "phonemes": "ʤˈiːp",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -8.9,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.57,
+        "peak_dbfs": -9.0,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "jeer": {
+      "phonemes": "ʤˈɪə",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -10.3,
+        "leading_60ms_rms_dbfs": -178.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.45,
+        "peak_dbfs": -13.3,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "jest": {
+      "phonemes": "ʤˈɛst",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -8.7,
+        "leading_60ms_rms_dbfs": -177.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.55,
+        "peak_dbfs": -9.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "joke": {
+      "phonemes": "ʤˈQk",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -9.4,
+        "leading_60ms_rms_dbfs": -177.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.05,
+        "peak_dbfs": -7.8,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "lace": {
+      "phonemes": "lˈAs",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -9.7,
+        "leading_60ms_rms_dbfs": -177.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.325,
+        "peak_dbfs": -7.6,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "lack": {
+      "phonemes": "lˈak",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -9.5,
+        "leading_60ms_rms_dbfs": -177.9,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.125,
+        "peak_dbfs": -8.3,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "lad": {
+      "phonemes": "lˈad",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -10.1,
+        "leading_60ms_rms_dbfs": -177.3,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.25,
+        "peak_dbfs": -10.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "lag": {
+      "phonemes": "lˈaɡ",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.1,
+        "peak_dbfs": -10.1,
+        "leading_60ms_rms_dbfs": -176.1,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.25,
+        "peak_dbfs": -8.6,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "lake": {
+      "phonemes": "lˈAk",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -10.1,
+        "leading_60ms_rms_dbfs": -177.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.175,
+        "peak_dbfs": -7.8,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "lane": {
+      "phonemes": "lˈAn",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.1,
+        "peak_dbfs": -10.5,
+        "leading_60ms_rms_dbfs": -176.2,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.35,
+        "peak_dbfs": -8.5,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "lap": {
+      "phonemes": "lˈap",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -9.9,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.1,
+        "peak_dbfs": -9.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "lash": {
+      "phonemes": "lˈaʃ",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -9.5,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.175,
+        "peak_dbfs": -8.3,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "late": {
+      "phonemes": "lˈAt",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -10.0,
+        "leading_60ms_rms_dbfs": -177.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.15,
+        "peak_dbfs": -7.9,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "law": {
+      "phonemes": "lˈɔː",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -9.8,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.125,
+        "peak_dbfs": -8.2,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "lay": {
+      "phonemes": "lˈA",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -11.0,
+        "leading_60ms_rms_dbfs": -177.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.15,
+        "peak_dbfs": -9.7,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "lead": {
+      "phonemes": "lˈiːd",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.125,
+        "peak_dbfs": -8.0,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.375,
+        "peak_dbfs": -8.9,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "leaf": {
+      "phonemes": "lˈiːf",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -9.5,
+        "leading_60ms_rms_dbfs": -178.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.325,
+        "peak_dbfs": -7.4,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "leak": {
+      "phonemes": "lˈiːk",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -10.2,
+        "leading_60ms_rms_dbfs": -176.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.25,
+        "peak_dbfs": -7.8,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "leap": {
+      "phonemes": "lˈiːp",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -10.4,
+        "leading_60ms_rms_dbfs": -178.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.075,
+        "peak_dbfs": -8.4,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "learn": {
+      "phonemes": "lˈɜːn",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.125,
+        "peak_dbfs": -10.1,
+        "leading_60ms_rms_dbfs": -178.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.35,
+        "peak_dbfs": -8.6,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "leave": {
+      "phonemes": "lˈiːv",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -9.6,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.375,
+        "peak_dbfs": -8.8,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "led": {
+      "phonemes": "lˈɛd",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -9.9,
+        "leading_60ms_rms_dbfs": -176.2,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.15,
+        "peak_dbfs": -9.0,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "leech": {
+      "phonemes": "lˈiːʧ",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -9.1,
+        "leading_60ms_rms_dbfs": -177.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.3,
+        "peak_dbfs": -7.9,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "let": {
+      "phonemes": "lˈɛt",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -9.5,
+        "leading_60ms_rms_dbfs": -175.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.075,
+        "peak_dbfs": -7.9,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "lice": {
+      "phonemes": "lˈIs",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -10.4,
+        "leading_60ms_rms_dbfs": -177.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.325,
+        "peak_dbfs": -7.5,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "lied": {
+      "phonemes": "lˈId",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -9.6,
+        "leading_60ms_rms_dbfs": -177.9,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.25,
+        "peak_dbfs": -9.2,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "life": {
+      "phonemes": "lˈIf",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -10.5,
+        "leading_60ms_rms_dbfs": -177.9,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.25,
+        "peak_dbfs": -8.0,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "light": {
+      "phonemes": "lˈIt",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -10.3,
+        "leading_60ms_rms_dbfs": -177.1,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.15,
+        "peak_dbfs": -8.8,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "lime": {
+      "phonemes": "lˈIm",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -10.2,
+        "leading_60ms_rms_dbfs": -177.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.275,
+        "peak_dbfs": -8.4,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "line": {
+      "phonemes": "lˈIn",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -9.3,
+        "leading_60ms_rms_dbfs": -176.3,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.35,
+        "peak_dbfs": -8.4,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "link": {
+      "phonemes": "lˈɪŋk",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -8.3,
+        "leading_60ms_rms_dbfs": -177.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.325,
+        "peak_dbfs": -7.2,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "lip": {
+      "phonemes": "lˈɪp",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 0.925,
+        "peak_dbfs": -8.4,
+        "leading_60ms_rms_dbfs": -177.3,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.05,
+        "peak_dbfs": -8.5,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "list": {
+      "phonemes": "lˈɪst",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -8.5,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.225,
+        "peak_dbfs": -6.7,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "little": {
+      "phonemes": "lˈɪtᵊl",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.175,
+        "peak_dbfs": -8.2,
+        "leading_60ms_rms_dbfs": -176.1,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.375,
+        "peak_dbfs": -7.4,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "live": {
+      "phonemes": "lˈIv",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -9.4,
+        "leading_60ms_rms_dbfs": -177.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.225,
+        "peak_dbfs": -8.9,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "load": {
+      "phonemes": "lˈQd",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -11.0,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.25,
+        "peak_dbfs": -9.4,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "lobe": {
+      "phonemes": "lˈQb",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.125,
+        "peak_dbfs": -10.3,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.3,
+        "peak_dbfs": -9.4,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "lock": {
+      "phonemes": "lˈɒk",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -8.3,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.15,
+        "peak_dbfs": -7.7,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "log": {
+      "phonemes": "lˈɒɡ",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.125,
+        "peak_dbfs": -9.3,
+        "leading_60ms_rms_dbfs": -176.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.35,
+        "peak_dbfs": -7.8,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "loin": {
+      "phonemes": "lˈYn",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -8.3,
+        "leading_60ms_rms_dbfs": -176.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.325,
+        "peak_dbfs": -7.7,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "long": {
+      "phonemes": "lˈɒŋ",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.15,
+        "peak_dbfs": -9.1,
+        "leading_60ms_rms_dbfs": -177.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.375,
+        "peak_dbfs": -7.8,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "look": {
+      "phonemes": "lˈʊk",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -7.8,
+        "leading_60ms_rms_dbfs": -177.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.075,
+        "peak_dbfs": -6.4,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "loom": {
+      "phonemes": "lˈuːm",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.1,
+        "peak_dbfs": -9.4,
+        "leading_60ms_rms_dbfs": -178.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.35,
+        "peak_dbfs": -8.3,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "loose": {
+      "phonemes": "lˈuːs",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.1,
+        "peak_dbfs": -9.0,
+        "leading_60ms_rms_dbfs": -176.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.375,
+        "peak_dbfs": -6.8,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "loot": {
+      "phonemes": "lˈuːt",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -10.6,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.225,
+        "peak_dbfs": -7.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "loud": {
+      "phonemes": "lˈWd",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -10.7,
+        "leading_60ms_rms_dbfs": -177.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.25,
+        "peak_dbfs": -9.6,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "low": {
+      "phonemes": "lˈQ",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -11.6,
+        "leading_60ms_rms_dbfs": -178.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.15,
+        "peak_dbfs": -9.3,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "luck": {
+      "phonemes": "lˈʌk",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 0.95,
+        "peak_dbfs": -9.5,
+        "leading_60ms_rms_dbfs": -176.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.175,
+        "peak_dbfs": -8.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "lump": {
+      "phonemes": "lˈʌmp",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -9.2,
+        "leading_60ms_rms_dbfs": -176.3,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.25,
+        "peak_dbfs": -7.0,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "lung": {
+      "phonemes": "lˈʌŋ",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.1,
+        "peak_dbfs": -9.7,
+        "leading_60ms_rms_dbfs": -176.2,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.3,
+        "peak_dbfs": -8.2,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "lush": {
+      "phonemes": "lˈʌʃ",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -9.5,
+        "leading_60ms_rms_dbfs": -176.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.225,
+        "peak_dbfs": -7.2,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "lust": {
+      "phonemes": "lˈʌst",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -9.5,
+        "leading_60ms_rms_dbfs": -177.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.125,
+        "peak_dbfs": -7.3,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "mad": {
+      "phonemes": "mˈad",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -11.0,
+        "leading_60ms_rms_dbfs": -178.1,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.25,
+        "peak_dbfs": -9.4,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "made": {
+      "phonemes": "mˌAd",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -10.3,
+        "leading_60ms_rms_dbfs": -177.9,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.175,
+        "peak_dbfs": -9.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "mail": {
+      "phonemes": "mˈAl",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -10.3,
+        "leading_60ms_rms_dbfs": -178.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.45,
+        "peak_dbfs": -14.0,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "main": {
+      "phonemes": "mˈAn",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -10.0,
+        "leading_60ms_rms_dbfs": -177.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.45,
+        "peak_dbfs": -12.9,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "man": {
+      "phonemes": "mˈan",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -9.5,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.425,
+        "peak_dbfs": -11.8,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "map": {
+      "phonemes": "mˈap",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -10.3,
+        "leading_60ms_rms_dbfs": -176.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.175,
+        "peak_dbfs": -8.6,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "mash": {
+      "phonemes": "mˈaʃ",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -10.6,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.2,
+        "peak_dbfs": -7.7,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "mass": {
+      "phonemes": "mˈas",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -10.8,
+        "leading_60ms_rms_dbfs": -178.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.25,
+        "peak_dbfs": -7.7,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "mat": {
+      "phonemes": "mˈat",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -10.8,
+        "leading_60ms_rms_dbfs": -177.9,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.175,
+        "peak_dbfs": -8.4,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "measure": {
+      "phonemes": "mˈɛʒə",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.15,
+        "peak_dbfs": -9.8,
+        "leading_60ms_rms_dbfs": -177.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.325,
+        "peak_dbfs": -7.9,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "meet": {
+      "phonemes": "mˈiːt",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -10.3,
+        "leading_60ms_rms_dbfs": -177.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.275,
+        "peak_dbfs": -6.8,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "men": {
+      "phonemes": "mˈɛn",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -10.2,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.425,
+        "peak_dbfs": -12.6,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "mice": {
+      "phonemes": "mˈIs",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -9.9,
+        "leading_60ms_rms_dbfs": -178.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.275,
+        "peak_dbfs": -8.0,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "might": {
+      "phonemes": "mˌIt",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -9.7,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.175,
+        "peak_dbfs": -8.7,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "mile": {
+      "phonemes": "mˈIl",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -11.0,
+        "leading_60ms_rms_dbfs": -178.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.45,
+        "peak_dbfs": -14.4,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "mine": {
+      "phonemes": "mˈIn",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -8.9,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.445,
+        "peak_dbfs": -13.8,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "mitt": {
+      "phonemes": "mˈɪt",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -8.5,
+        "leading_60ms_rms_dbfs": -177.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.225,
+        "peak_dbfs": -7.2,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "moist": {
+      "phonemes": "mˈYst",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.1,
+        "peak_dbfs": -8.3,
+        "leading_60ms_rms_dbfs": -177.1,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.25,
+        "peak_dbfs": -6.6,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "moon": {
+      "phonemes": "mˈuːn",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.15,
+        "peak_dbfs": -9.1,
+        "leading_60ms_rms_dbfs": -178.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.45,
+        "peak_dbfs": -11.8,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "mud": {
+      "phonemes": "mˈʌd",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -11.0,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.325,
+        "peak_dbfs": -8.9,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "my": {
+      "phonemes": "mˈI",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 0.95,
+        "peak_dbfs": -10.9,
+        "leading_60ms_rms_dbfs": -177.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.125,
+        "peak_dbfs": -9.9,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "nail": {
+      "phonemes": "nˈAl",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.1,
+        "peak_dbfs": -9.9,
+        "leading_60ms_rms_dbfs": -178.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.5,
+        "peak_dbfs": -13.6,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "nap": {
+      "phonemes": "nˈap",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -10.3,
+        "leading_60ms_rms_dbfs": -177.1,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.15,
+        "peak_dbfs": -8.4,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "nation": {
+      "phonemes": "nˈAʃᵊn",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.35,
+        "peak_dbfs": -8.5,
+        "leading_60ms_rms_dbfs": -176.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.525,
+        "peak_dbfs": -7.0,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "near": {
+      "phonemes": "nˌɪə",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -11.0,
+        "leading_60ms_rms_dbfs": -178.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.45,
+        "peak_dbfs": -12.9,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "neat": {
+      "phonemes": "nˈiːt",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -9.8,
+        "leading_60ms_rms_dbfs": -177.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.275,
+        "peak_dbfs": -7.7,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "nice": {
+      "phonemes": "nˈIs",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.1,
+        "peak_dbfs": -9.4,
+        "leading_60ms_rms_dbfs": -178.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.35,
+        "peak_dbfs": -8.4,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "no": {
+      "phonemes": "nˈQ",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 0.95,
+        "peak_dbfs": -11.2,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.375,
+        "peak_dbfs": -13.8,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "not": {
+      "phonemes": "nˌɒt",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -9.2,
+        "leading_60ms_rms_dbfs": -175.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.2,
+        "peak_dbfs": -7.3,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "now": {
+      "phonemes": "nˈW",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 0.95,
+        "peak_dbfs": -10.2,
+        "leading_60ms_rms_dbfs": -176.1,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.375,
+        "peak_dbfs": -12.5,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "nurse": {
+      "phonemes": "nˈɜːs",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.1,
+        "peak_dbfs": -9.1,
+        "leading_60ms_rms_dbfs": -178.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.425,
+        "peak_dbfs": -7.3,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "nut": {
+      "phonemes": "nˈʌt",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.125,
+        "peak_dbfs": -9.7,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.175,
+        "peak_dbfs": -7.9,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "occasion": {
+      "phonemes": "əkˈAʒᵊn",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.475,
+        "peak_dbfs": -8.8,
+        "leading_60ms_rms_dbfs": -177.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.725,
+        "peak_dbfs": -10.2,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "ocean": {
+      "phonemes": "ˈQʃᵊn",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.15,
+        "peak_dbfs": -9.1,
+        "leading_60ms_rms_dbfs": -177.9,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.65,
+        "peak_dbfs": -10.7,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "pack": {
+      "phonemes": "pˈak",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -9.1,
+        "leading_60ms_rms_dbfs": -178.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.45,
+        "peak_dbfs": -10.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "pain": {
+      "phonemes": "pˈAn",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -9.9,
+        "leading_60ms_rms_dbfs": -177.9,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.475,
+        "peak_dbfs": -12.3,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "pair": {
+      "phonemes": "pˈɛː",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -8.6,
+        "leading_60ms_rms_dbfs": -178.3,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.425,
+        "peak_dbfs": -11.0,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "palm": {
+      "phonemes": "pˈɑːm",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -9.0,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.5,
+        "peak_dbfs": -11.0,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "pan": {
+      "phonemes": "pˈan",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -9.7,
+        "leading_60ms_rms_dbfs": -177.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.475,
+        "peak_dbfs": -11.4,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "pang": {
+      "phonemes": "pˈaŋ",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -9.3,
+        "leading_60ms_rms_dbfs": -177.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.45,
+        "peak_dbfs": -11.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "park": {
+      "phonemes": "pˈɑːk",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -8.8,
+        "leading_60ms_rms_dbfs": -177.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.5,
+        "peak_dbfs": -10.3,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "pat": {
+      "phonemes": "pˈat",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -9.0,
+        "leading_60ms_rms_dbfs": -177.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.475,
+        "peak_dbfs": -10.4,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "path": {
+      "phonemes": "pˈɑːθ",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -9.2,
+        "leading_60ms_rms_dbfs": -177.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.525,
+        "peak_dbfs": -10.2,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "peach": {
+      "phonemes": "pˈiːʧ",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -8.2,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.52,
+        "peak_dbfs": -10.8,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "pear": {
+      "phonemes": "pˈɛː",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -8.3,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.425,
+        "peak_dbfs": -11.2,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "pen": {
+      "phonemes": "pˈɛn",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -8.8,
+        "leading_60ms_rms_dbfs": -178.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.495,
+        "peak_dbfs": -10.4,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "phase": {
+      "phonemes": "fˈAz",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -7.0,
+        "leading_60ms_rms_dbfs": -176.3,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.575,
+        "peak_dbfs": -11.2,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "pig": {
+      "phonemes": "pˈɪɡ",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -9.0,
+        "leading_60ms_rms_dbfs": -178.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.425,
+        "peak_dbfs": -9.3,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "pin": {
+      "phonemes": "pˈɪn",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 0.95,
+        "peak_dbfs": -8.4,
+        "leading_60ms_rms_dbfs": -177.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.45,
+        "peak_dbfs": -10.5,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "pine": {
+      "phonemes": "pˈIn",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -10.2,
+        "leading_60ms_rms_dbfs": -177.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.475,
+        "peak_dbfs": -11.4,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "pitch": {
+      "phonemes": "pˈɪʧ",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -8.5,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.47,
+        "peak_dbfs": -8.5,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "pleasure": {
+      "phonemes": "plˈɛʒə",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.2,
+        "peak_dbfs": -8.5,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.575,
+        "peak_dbfs": -10.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "pool": {
+      "phonemes": "pˈuːl",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -9.5,
+        "leading_60ms_rms_dbfs": -178.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.53,
+        "peak_dbfs": -11.4,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "pork": {
+      "phonemes": "pˈɔːk",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -7.8,
+        "leading_60ms_rms_dbfs": -178.1,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.525,
+        "peak_dbfs": -9.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "pot": {
+      "phonemes": "pˈɒt",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -8.1,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.45,
+        "peak_dbfs": -9.7,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "pressure": {
+      "phonemes": "pɹˈɛʃə",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.175,
+        "peak_dbfs": -6.9,
+        "leading_60ms_rms_dbfs": -177.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.6,
+        "peak_dbfs": -9.6,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "pull": {
+      "phonemes": "pˈʊl",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -7.8,
+        "leading_60ms_rms_dbfs": -178.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.45,
+        "peak_dbfs": -10.0,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "putt": {
+      "phonemes": "pˈʌt",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -8.6,
+        "leading_60ms_rms_dbfs": -176.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.43,
+        "peak_dbfs": -10.0,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "race": {
+      "phonemes": "ɹˈAs",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -6.9,
+        "leading_60ms_rms_dbfs": -177.2,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.525,
+        "peak_dbfs": -9.4,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "rack": {
+      "phonemes": "ɹˈak",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -8.8,
+        "leading_60ms_rms_dbfs": -173.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.125,
+        "peak_dbfs": -7.6,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "rag": {
+      "phonemes": "ɹˈaɡ",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.15,
+        "peak_dbfs": -8.6,
+        "leading_60ms_rms_dbfs": -173.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.25,
+        "peak_dbfs": -8.0,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "rain": {
+      "phonemes": "ɹˈAn",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.125,
+        "peak_dbfs": -6.9,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.5,
+        "peak_dbfs": -10.5,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "rake": {
+      "phonemes": "ɹˈAk",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -8.0,
+        "leading_60ms_rms_dbfs": -176.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.15,
+        "peak_dbfs": -6.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "ran": {
+      "phonemes": "ɹˈan",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -7.8,
+        "leading_60ms_rms_dbfs": -176.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.275,
+        "peak_dbfs": -6.7,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "rang": {
+      "phonemes": "ɹˈaŋ",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.1,
+        "peak_dbfs": -6.5,
+        "leading_60ms_rms_dbfs": -177.1,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.4,
+        "peak_dbfs": -6.8,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "rash": {
+      "phonemes": "ɹˈaʃ",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -7.7,
+        "leading_60ms_rms_dbfs": -177.2,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.55,
+        "peak_dbfs": -9.8,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "rate": {
+      "phonemes": "ɹˈAt",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -7.4,
+        "leading_60ms_rms_dbfs": -177.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.15,
+        "peak_dbfs": -6.2,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "raw": {
+      "phonemes": "ɹˈɔː",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -8.8,
+        "leading_60ms_rms_dbfs": -178.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.4,
+        "peak_dbfs": -10.5,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "ray": {
+      "phonemes": "ɹˈA",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -8.4,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.425,
+        "peak_dbfs": -11.2,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "reach": {
+      "phonemes": "ɹˈiːʧ",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.15,
+        "peak_dbfs": -6.9,
+        "leading_60ms_rms_dbfs": -177.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.2,
+        "peak_dbfs": -5.8,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "ready": {
+      "phonemes": "ɹˈɛdi",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -7.5,
+        "leading_60ms_rms_dbfs": -176.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.525,
+        "peak_dbfs": -9.8,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "reap": {
+      "phonemes": "ɹˈiːp",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -7.2,
+        "leading_60ms_rms_dbfs": -176.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.125,
+        "peak_dbfs": -5.9,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "red": {
+      "phonemes": "ɹˈɛd",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -8.3,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.475,
+        "peak_dbfs": -11.8,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "reek": {
+      "phonemes": "ɹˈiːk",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -7.2,
+        "leading_60ms_rms_dbfs": -177.3,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.225,
+        "peak_dbfs": -5.9,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "rhyme": {
+      "phonemes": "ɹˈIm",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.1,
+        "peak_dbfs": -8.1,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.565,
+        "peak_dbfs": -10.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "rice": {
+      "phonemes": "ɹˈIs",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -8.7,
+        "leading_60ms_rms_dbfs": -177.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.525,
+        "peak_dbfs": -9.7,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "rich": {
+      "phonemes": "ɹˈɪʧ",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -7.3,
+        "leading_60ms_rms_dbfs": -178.2,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.2,
+        "peak_dbfs": -6.3,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "ride": {
+      "phonemes": "ɹˈId",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.1,
+        "peak_dbfs": -8.3,
+        "leading_60ms_rms_dbfs": -176.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.49,
+        "peak_dbfs": -10.9,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "ridge": {
+      "phonemes": "ɹˈɪʤ",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.275,
+        "peak_dbfs": -6.8,
+        "leading_60ms_rms_dbfs": -176.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.225,
+        "peak_dbfs": -5.5,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "right": {
+      "phonemes": "ɹˈIt",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -8.7,
+        "leading_60ms_rms_dbfs": -176.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.15,
+        "peak_dbfs": -7.7,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "ring": {
+      "phonemes": "ɹˈɪŋ",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.1,
+        "peak_dbfs": -8.3,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.25,
+        "peak_dbfs": -6.2,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "rink": {
+      "phonemes": "ɹˈɪŋk",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -7.2,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.35,
+        "peak_dbfs": -5.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "rip": {
+      "phonemes": "ɹˈɪp",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -7.4,
+        "leading_60ms_rms_dbfs": -176.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.025,
+        "peak_dbfs": -5.9,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "rise": {
+      "phonemes": "ɹˈIz",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.15,
+        "peak_dbfs": -8.4,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.525,
+        "peak_dbfs": -10.6,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "road": {
+      "phonemes": "ɹˈQd",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.125,
+        "peak_dbfs": -8.9,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.55,
+        "peak_dbfs": -12.4,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "robe": {
+      "phonemes": "ɹˈQb",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.15,
+        "peak_dbfs": -8.9,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.325,
+        "peak_dbfs": -7.5,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "rock": {
+      "phonemes": "ɹˈɒk",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 0.925,
+        "peak_dbfs": -8.7,
+        "leading_60ms_rms_dbfs": -177.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.15,
+        "peak_dbfs": -6.9,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "room": {
+      "phonemes": "ɹˈuːm",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.175,
+        "peak_dbfs": -8.3,
+        "leading_60ms_rms_dbfs": -178.2,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.4,
+        "peak_dbfs": -6.3,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "root": {
+      "phonemes": "ɹˈuːt",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -7.5,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.275,
+        "peak_dbfs": -5.0,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "rouge": {
+      "phonemes": "ɹˈuːʒ",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.25,
+        "peak_dbfs": -8.0,
+        "leading_60ms_rms_dbfs": -176.9,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.475,
+        "peak_dbfs": -6.8,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "round": {
+      "phonemes": "ɹˈWnd",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.2,
+        "peak_dbfs": -7.7,
+        "leading_60ms_rms_dbfs": -177.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.525,
+        "peak_dbfs": -9.0,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "row": {
+      "phonemes": "ɹˈQ",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -9.0,
+        "leading_60ms_rms_dbfs": -178.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.125,
+        "peak_dbfs": -8.4,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "rump": {
+      "phonemes": "ɹˈʌmp",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -7.3,
+        "leading_60ms_rms_dbfs": -176.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.275,
+        "peak_dbfs": -5.9,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "run": {
+      "phonemes": "ɹˈʌn",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -7.3,
+        "leading_60ms_rms_dbfs": -177.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.53,
+        "peak_dbfs": -10.3,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "rung": {
+      "phonemes": "ɹˈʌŋ",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -7.8,
+        "leading_60ms_rms_dbfs": -176.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.525,
+        "peak_dbfs": -10.8,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "rush": {
+      "phonemes": "ɹˈʌʃ",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -8.4,
+        "leading_60ms_rms_dbfs": -176.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.225,
+        "peak_dbfs": -6.4,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "rust": {
+      "phonemes": "ɹˈʌst",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -7.4,
+        "leading_60ms_rms_dbfs": -177.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.2,
+        "peak_dbfs": -6.8,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "sack": {
+      "phonemes": "sˈak",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -7.8,
+        "leading_60ms_rms_dbfs": -177.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.025,
+        "peak_dbfs": -7.5,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "safe": {
+      "phonemes": "sˈAf",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -8.2,
+        "leading_60ms_rms_dbfs": -177.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.125,
+        "peak_dbfs": -6.9,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "sand": {
+      "phonemes": "sˈand",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -6.7,
+        "leading_60ms_rms_dbfs": -177.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.35,
+        "peak_dbfs": -5.9,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "sap": {
+      "phonemes": "sˈap",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -8.1,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.075,
+        "peak_dbfs": -7.2,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "sat": {
+      "phonemes": "sˈat",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -8.2,
+        "leading_60ms_rms_dbfs": -177.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.05,
+        "peak_dbfs": -6.7,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "save": {
+      "phonemes": "sˈAv",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -8.8,
+        "leading_60ms_rms_dbfs": -177.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.1,
+        "peak_dbfs": -6.8,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "scene": {
+      "phonemes": "sˈiːn",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -8.7,
+        "leading_60ms_rms_dbfs": -178.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.25,
+        "peak_dbfs": -6.9,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "seal": {
+      "phonemes": "sˈiːl",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -8.2,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.275,
+        "peak_dbfs": -8.3,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "seat": {
+      "phonemes": "sˈiːt",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -8.7,
+        "leading_60ms_rms_dbfs": -178.2,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.175,
+        "peak_dbfs": -6.6,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "see": {
+      "phonemes": "sˈiː",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -9.6,
+        "leading_60ms_rms_dbfs": -176.9,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.025,
+        "peak_dbfs": -8.4,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "seed": {
+      "phonemes": "sˈiːd",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -9.1,
+        "leading_60ms_rms_dbfs": -173.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.25,
+        "peak_dbfs": -8.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "seem": {
+      "phonemes": "sˈiːm",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -8.7,
+        "leading_60ms_rms_dbfs": -177.2,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.275,
+        "peak_dbfs": -7.0,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "sell": {
+      "phonemes": "sˈɛl",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -9.5,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.1,
+        "peak_dbfs": -8.4,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "send": {
+      "phonemes": "sˈɛnd",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.1,
+        "peak_dbfs": -7.6,
+        "leading_60ms_rms_dbfs": -176.1,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.25,
+        "peak_dbfs": -6.3,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "set": {
+      "phonemes": "sˈɛt",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -7.9,
+        "leading_60ms_rms_dbfs": -177.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.075,
+        "peak_dbfs": -7.6,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "shave": {
+      "phonemes": "ʃˈAv",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -8.9,
+        "leading_60ms_rms_dbfs": -174.2,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.1,
+        "peak_dbfs": -6.9,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "she": {
+      "phonemes": "ʃiː",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 0.875,
+        "peak_dbfs": -10.0,
+        "leading_60ms_rms_dbfs": -177.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.875,
+        "peak_dbfs": -10.3,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "sheep": {
+      "phonemes": "ʃˈiːp",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -8.2,
+        "leading_60ms_rms_dbfs": -177.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.05,
+        "peak_dbfs": -7.3,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "shell": {
+      "phonemes": "ʃˈɛl",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -9.4,
+        "leading_60ms_rms_dbfs": -177.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.075,
+        "peak_dbfs": -8.5,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "shine": {
+      "phonemes": "ʃˈIn",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -8.1,
+        "leading_60ms_rms_dbfs": -175.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.2,
+        "peak_dbfs": -6.7,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "ship": {
+      "phonemes": "ʃˈɪp",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 0.925,
+        "peak_dbfs": -8.5,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.975,
+        "peak_dbfs": -7.6,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "shock": {
+      "phonemes": "ʃˈɒk",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 0.95,
+        "peak_dbfs": -7.5,
+        "leading_60ms_rms_dbfs": -174.3,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.05,
+        "peak_dbfs": -7.0,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "shop": {
+      "phonemes": "ʃˈɒp",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 0.925,
+        "peak_dbfs": -7.3,
+        "leading_60ms_rms_dbfs": -177.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.975,
+        "peak_dbfs": -7.3,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "shore": {
+      "phonemes": "ʃˈɔː",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 0.95,
+        "peak_dbfs": -8.8,
+        "leading_60ms_rms_dbfs": -177.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.0,
+        "peak_dbfs": -7.9,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "side": {
+      "phonemes": "sˈId",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -7.3,
+        "leading_60ms_rms_dbfs": -176.2,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.175,
+        "peak_dbfs": -7.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "sin": {
+      "phonemes": "sˈɪn",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 0.95,
+        "peak_dbfs": -8.4,
+        "leading_60ms_rms_dbfs": -175.9,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.125,
+        "peak_dbfs": -6.4,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "sing": {
+      "phonemes": "sˈɪŋ",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -8.5,
+        "leading_60ms_rms_dbfs": -178.1,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.15,
+        "peak_dbfs": -6.2,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "sink": {
+      "phonemes": "sˈɪŋk",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -8.3,
+        "leading_60ms_rms_dbfs": -177.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.225,
+        "peak_dbfs": -6.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "sip": {
+      "phonemes": "sˈɪp",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 0.95,
+        "peak_dbfs": -8.5,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.0,
+        "peak_dbfs": -8.0,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "sit": {
+      "phonemes": "sˈɪt",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 0.95,
+        "peak_dbfs": -7.9,
+        "leading_60ms_rms_dbfs": -177.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.075,
+        "peak_dbfs": -7.3,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "smooth": {
+      "phonemes": "smˈuːð",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.226,
+        "peak_dbfs": -8.1,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.4,
+        "peak_dbfs": -8.2,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "snow": {
+      "phonemes": "snˈQ",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -11.0,
+        "leading_60ms_rms_dbfs": -177.1,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.15,
+        "peak_dbfs": -8.9,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "sock": {
+      "phonemes": "sˈɒk",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -8.3,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.1,
+        "peak_dbfs": -7.5,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "sofa": {
+      "phonemes": "sˈQfə",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.15,
+        "peak_dbfs": -8.2,
+        "leading_60ms_rms_dbfs": -176.2,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.25,
+        "peak_dbfs": -6.8,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "soil": {
+      "phonemes": "sˈYl",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -9.3,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.15,
+        "peak_dbfs": -8.6,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "sore": {
+      "phonemes": "sˈɔː",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -8.7,
+        "leading_60ms_rms_dbfs": -176.9,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.025,
+        "peak_dbfs": -7.6,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "south": {
+      "phonemes": "sˈWθ",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -8.6,
+        "leading_60ms_rms_dbfs": -177.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.1,
+        "peak_dbfs": -7.6,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "spoon": {
+      "phonemes": "spˈuːn",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.1,
+        "peak_dbfs": -7.5,
+        "leading_60ms_rms_dbfs": -177.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.3,
+        "peak_dbfs": -5.7,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "square": {
+      "phonemes": "skwˈɛː",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -8.3,
+        "leading_60ms_rms_dbfs": -174.2,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.025,
+        "peak_dbfs": -8.5,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "star": {
+      "phonemes": "stˈɑː",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -7.8,
+        "leading_60ms_rms_dbfs": -176.1,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.05,
+        "peak_dbfs": -7.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "stock": {
+      "phonemes": "stˈɒk",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -7.5,
+        "leading_60ms_rms_dbfs": -176.9,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.125,
+        "peak_dbfs": -7.2,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "store": {
+      "phonemes": "stˈɔː",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -8.8,
+        "leading_60ms_rms_dbfs": -178.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.05,
+        "peak_dbfs": -7.8,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "stuck": {
+      "phonemes": "stˈʌk",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -7.7,
+        "leading_60ms_rms_dbfs": -177.9,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.15,
+        "peak_dbfs": -6.7,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "suck": {
+      "phonemes": "sˈʌk",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -8.3,
+        "leading_60ms_rms_dbfs": -177.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.125,
+        "peak_dbfs": -7.7,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "sue": {
+      "phonemes": "sˈuː",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -9.3,
+        "leading_60ms_rms_dbfs": -176.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.0,
+        "peak_dbfs": -8.6,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "sum": {
+      "phonemes": "sˈʌm",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -7.9,
+        "leading_60ms_rms_dbfs": -178.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.175,
+        "peak_dbfs": -4.9,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "sun": {
+      "phonemes": "sˈʌn",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -7.7,
+        "leading_60ms_rms_dbfs": -178.1,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.15,
+        "peak_dbfs": -6.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "sung": {
+      "phonemes": "sˈʌŋ",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -6.9,
+        "leading_60ms_rms_dbfs": -177.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.175,
+        "peak_dbfs": -5.7,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "talk": {
+      "phonemes": "tˈɔːk",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -7.9,
+        "leading_60ms_rms_dbfs": -178.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.5,
+        "peak_dbfs": -10.5,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "tan": {
+      "phonemes": "tˈan",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -9.6,
+        "leading_60ms_rms_dbfs": -176.3,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.48,
+        "peak_dbfs": -11.6,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "tape": {
+      "phonemes": "tˈAp",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -9.0,
+        "leading_60ms_rms_dbfs": -177.1,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.525,
+        "peak_dbfs": -10.4,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "teacher": {
+      "phonemes": "tˈiːʧə",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.125,
+        "peak_dbfs": -8.7,
+        "leading_60ms_rms_dbfs": -176.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.575,
+        "peak_dbfs": -11.9,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "team": {
+      "phonemes": "tˈiːm",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.1,
+        "peak_dbfs": -8.9,
+        "leading_60ms_rms_dbfs": -178.2,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.525,
+        "peak_dbfs": -11.8,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "teen": {
+      "phonemes": "tˈiːn",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -9.6,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.5,
+        "peak_dbfs": -10.7,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "teeth": {
+      "phonemes": "tˈiːθ",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -8.3,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.545,
+        "peak_dbfs": -11.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "ten": {
+      "phonemes": "tˈɛn",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -9.0,
+        "leading_60ms_rms_dbfs": -176.1,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.62,
+        "peak_dbfs": -9.8,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "thank": {
+      "phonemes": "θˈaŋk",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -6.8,
+        "leading_60ms_rms_dbfs": -177.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.5,
+        "peak_dbfs": -8.6,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "that": {
+      "phonemes": "ðat",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 0.95,
+        "peak_dbfs": -8.6,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.465,
+        "peak_dbfs": -11.9,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "them": {
+      "phonemes": "ðˌɛm",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -8.8,
+        "leading_60ms_rms_dbfs": -176.3,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.46,
+        "peak_dbfs": -10.2,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "then": {
+      "phonemes": "ðˈɛn",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -9.0,
+        "leading_60ms_rms_dbfs": -176.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.425,
+        "peak_dbfs": -11.9,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "thick": {
+      "phonemes": "θˈɪk",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 0.95,
+        "peak_dbfs": -7.7,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.05,
+        "peak_dbfs": -6.6,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "thin": {
+      "phonemes": "θˈɪn",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -8.6,
+        "leading_60ms_rms_dbfs": -174.3,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.525,
+        "peak_dbfs": -9.3,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "thing": {
+      "phonemes": "θˈɪŋ",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -8.3,
+        "leading_60ms_rms_dbfs": -174.2,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.05,
+        "peak_dbfs": -8.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "think": {
+      "phonemes": "θˈɪŋk",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -8.1,
+        "leading_60ms_rms_dbfs": -176.2,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.175,
+        "peak_dbfs": -6.3,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "this": {
+      "phonemes": "ðˈɪs",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -9.0,
+        "leading_60ms_rms_dbfs": -177.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.05,
+        "peak_dbfs": -7.6,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "those": {
+      "phonemes": "ðˈQz",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.125,
+        "peak_dbfs": -8.9,
+        "leading_60ms_rms_dbfs": -173.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.525,
+        "peak_dbfs": -9.8,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "three": {
+      "phonemes": "θɹˈiː",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.125,
+        "peak_dbfs": -7.9,
+        "leading_60ms_rms_dbfs": -177.9,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.175,
+        "peak_dbfs": -6.4,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "tie": {
+      "phonemes": "tˈI",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 0.95,
+        "peak_dbfs": -10.2,
+        "leading_60ms_rms_dbfs": -176.3,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.4,
+        "peak_dbfs": -12.3,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "tip": {
+      "phonemes": "tˈɪp",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 0.95,
+        "peak_dbfs": -8.4,
+        "leading_60ms_rms_dbfs": -177.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.0,
+        "peak_dbfs": -7.6,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "ton": {
+      "phonemes": "tˈʌn",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -9.5,
+        "leading_60ms_rms_dbfs": -177.1,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.475,
+        "peak_dbfs": -11.2,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "tone": {
+      "phonemes": "tˈQn",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.1,
+        "peak_dbfs": -9.7,
+        "leading_60ms_rms_dbfs": -173.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.5,
+        "peak_dbfs": -10.8,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "tongue": {
+      "phonemes": "tˈʌŋ",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -10.0,
+        "leading_60ms_rms_dbfs": -177.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.475,
+        "peak_dbfs": -10.9,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "tour": {
+      "phonemes": "tˈʊə",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -10.0,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.425,
+        "peak_dbfs": -11.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "town": {
+      "phonemes": "tˈWn",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.1,
+        "peak_dbfs": -10.0,
+        "leading_60ms_rms_dbfs": -173.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.5,
+        "peak_dbfs": -12.2,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "toy": {
+      "phonemes": "tˈY",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 0.925,
+        "peak_dbfs": -8.8,
+        "leading_60ms_rms_dbfs": -176.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.385,
+        "peak_dbfs": -13.8,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "treasure": {
+      "phonemes": "tɹˈɛʒə",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.2,
+        "peak_dbfs": -7.1,
+        "leading_60ms_rms_dbfs": -174.2,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.6,
+        "peak_dbfs": -10.6,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "tuck": {
+      "phonemes": "tˈʌk",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 0.925,
+        "peak_dbfs": -7.6,
+        "leading_60ms_rms_dbfs": -176.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.5,
+        "peak_dbfs": -10.2,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "turn": {
+      "phonemes": "tˈɜːn",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.175,
+        "peak_dbfs": -8.7,
+        "leading_60ms_rms_dbfs": -176.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.5,
+        "peak_dbfs": -11.6,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "type": {
+      "phonemes": "tˈIp",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -9.6,
+        "leading_60ms_rms_dbfs": -173.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.5,
+        "peak_dbfs": -10.2,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "vague": {
+      "phonemes": "vˈAɡ",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -8.4,
+        "leading_60ms_rms_dbfs": -176.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.55,
+        "peak_dbfs": -11.0,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "van": {
+      "phonemes": "vˈan",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -7.6,
+        "leading_60ms_rms_dbfs": -177.9,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.225,
+        "peak_dbfs": -7.0,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "vat": {
+      "phonemes": "vˈat",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -9.0,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.05,
+        "peak_dbfs": -7.8,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "veal": {
+      "phonemes": "vˈiːl",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -9.7,
+        "leading_60ms_rms_dbfs": -178.3,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.475,
+        "peak_dbfs": -12.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "veil": {
+      "phonemes": "vˈAl",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -8.9,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.45,
+        "peak_dbfs": -12.4,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "very": {
+      "phonemes": "vˈɛɹi",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -9.2,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.5,
+        "peak_dbfs": -10.8,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "vest": {
+      "phonemes": "vˈɛst",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -6.6,
+        "leading_60ms_rms_dbfs": -176.2,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.15,
+        "peak_dbfs": -7.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "vet": {
+      "phonemes": "vˈɛt",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -7.7,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.0,
+        "peak_dbfs": -8.0,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "view": {
+      "phonemes": "vjˈuː",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 0.95,
+        "peak_dbfs": -11.3,
+        "leading_60ms_rms_dbfs": -177.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.05,
+        "peak_dbfs": -9.8,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "vine": {
+      "phonemes": "vˈIn",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -7.9,
+        "leading_60ms_rms_dbfs": -176.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.53,
+        "peak_dbfs": -10.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "vision": {
+      "phonemes": "vˈɪʒᵊn",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.2,
+        "peak_dbfs": -9.2,
+        "leading_60ms_rms_dbfs": -177.1,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.575,
+        "peak_dbfs": -9.5,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "voice": {
+      "phonemes": "vˈYs",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -8.8,
+        "leading_60ms_rms_dbfs": -177.1,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.53,
+        "peak_dbfs": -9.2,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "wail": {
+      "phonemes": "wˈAl",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -9.2,
+        "leading_60ms_rms_dbfs": -178.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.475,
+        "peak_dbfs": -12.3,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "wait": {
+      "phonemes": "wˈAt",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -8.9,
+        "leading_60ms_rms_dbfs": -177.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.125,
+        "peak_dbfs": -7.9,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "wake": {
+      "phonemes": "wˈAk",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -9.2,
+        "leading_60ms_rms_dbfs": -175.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.075,
+        "peak_dbfs": -7.7,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "we": {
+      "phonemes": "wiː",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -8.9,
+        "leading_60ms_rms_dbfs": -177.3,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.375,
+        "peak_dbfs": -12.9,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "well": {
+      "phonemes": "wˈɛl",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -9.7,
+        "leading_60ms_rms_dbfs": -177.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.43,
+        "peak_dbfs": -12.7,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "west": {
+      "phonemes": "wˈɛst",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -7.3,
+        "leading_60ms_rms_dbfs": -177.1,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.15,
+        "peak_dbfs": -7.4,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "wet": {
+      "phonemes": "wˈɛt",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -9.6,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.075,
+        "peak_dbfs": -8.1,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "wheel": {
+      "phonemes": "wˈiːl",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -9.2,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.5,
+        "peak_dbfs": -13.2,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "where": {
+      "phonemes": "wˌɛː",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 0.95,
+        "peak_dbfs": -9.3,
+        "leading_60ms_rms_dbfs": -177.2,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.375,
+        "peak_dbfs": -10.7,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "white": {
+      "phonemes": "wˈIt",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -10.6,
+        "leading_60ms_rms_dbfs": -177.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.5,
+        "peak_dbfs": -12.9,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "win": {
+      "phonemes": "wˈɪn",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -7.5,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.45,
+        "peak_dbfs": -9.7,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "wine": {
+      "phonemes": "wˈIn",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.1,
+        "peak_dbfs": -8.1,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.475,
+        "peak_dbfs": -11.3,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "wing": {
+      "phonemes": "wˈɪŋ",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.075,
+        "peak_dbfs": -7.2,
+        "leading_60ms_rms_dbfs": -176.7,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.45,
+        "peak_dbfs": -9.7,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "wood": {
+      "phonemes": "wˈʊd",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -8.6,
+        "leading_60ms_rms_dbfs": -176.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.475,
+        "peak_dbfs": -10.8,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "word": {
+      "phonemes": "wˈɜːd",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -10.3,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.475,
+        "peak_dbfs": -12.6,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "wrap": {
+      "phonemes": "ɹˈap",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -8.7,
+        "leading_60ms_rms_dbfs": -177.6,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.1,
+        "peak_dbfs": -7.8,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "wrist": {
+      "phonemes": "ɹˈɪst",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.05,
+        "peak_dbfs": -6.5,
+        "leading_60ms_rms_dbfs": -176.9,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.25,
+        "peak_dbfs": -4.2,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "wrong": {
+      "phonemes": "ɹˈɒŋ",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.125,
+        "peak_dbfs": -8.4,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.53,
+        "peak_dbfs": -9.8,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "year": {
+      "phonemes": "jˈɪə",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -10.6,
+        "leading_60ms_rms_dbfs": -178.8,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.475,
+        "peak_dbfs": -12.3,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "zap": {
+      "phonemes": "zˈap",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.0,
+        "peak_dbfs": -8.6,
+        "leading_60ms_rms_dbfs": -176.4,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.075,
+        "peak_dbfs": -7.0,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "zeal": {
+      "phonemes": "zˈiːl",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 0.975,
+        "peak_dbfs": -9.4,
+        "leading_60ms_rms_dbfs": -178.2,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.275,
+        "peak_dbfs": -8.2,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "zinc": {
+      "phonemes": "zˈɪŋk",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 1.025,
+        "peak_dbfs": -7.4,
+        "leading_60ms_rms_dbfs": -177.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.275,
+        "peak_dbfs": -5.5,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "zip": {
+      "phonemes": "zˈɪp",
+      "generation_method": "contextual",
+      "old_mp3": {
+        "duration_s": 0.95,
+        "peak_dbfs": -8.6,
+        "leading_60ms_rms_dbfs": -177.1,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 0.575,
+        "peak_dbfs": -8.7,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    },
+    "zoo": {
+      "phonemes": "zˈuː",
+      "generation_method": "isolated-fallback",
+      "old_mp3": {
+        "duration_s": 0.925,
+        "peak_dbfs": -9.8,
+        "leading_60ms_rms_dbfs": -176.5,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      },
+      "new_wav": {
+        "duration_s": 1.025,
+        "peak_dbfs": -9.2,
+        "leading_60ms_rms_dbfs": -180.0,
+        "trailing_60ms_rms_dbfs": -180.0,
+        "clipped_samples": 0
+      }
+    }
+  }
+}
