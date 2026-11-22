@@ -186,3 +186,12 @@ body.mt-standalone>.mt-portal { padding:0 24px; }
 .mt-info a { color:#83513b; text-decoration:underline; text-underline-offset:3px; }
 .mt-info .mt-info-meta { font-size:12px; color:#667263; border-bottom:1px solid #d8dbd1; padding-bottom:15px; }
 
+
+/* Separate the Kanagawa exam study tools from the game catalogue. */
+.mt-portal .mt-exam-panel{display:flex;align-items:center;justify-content:space-between;gap:22px;border:3px solid #1b1a1b;border-radius:16px;background:#ffd42a;box-shadow:5px 5px 0 #1b1a1b;padding:22px 26px;margin:0 4px 38px;color:#171516}
+.mt-exam-label{display:inline-block;font-size:11px;font-weight:900;letter-spacing:.06em;background:#171516;color:#fff;padding:5px 9px;border-radius:4px}
+.mt-portal .mt-exam-copy h2{font-size:clamp(24px,3vw,33px);font-weight:950;letter-spacing:-.04em;line-height:1.35;margin:9px 0 4px;color:#171516}
+.mt-exam-copy strong{color:#ef3925}.mt-portal .mt-exam-copy p{font-size:13px;font-weight:750;line-height:1.6;margin:3px 0 0;color:#333}
+.mt-portal .mt-exam-open{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-shrink:0;min-height:48px;background:#171516;border:2px solid #171516;border-radius:9px;color:white;text-decoration:none;font-size:13px;font-weight:850;padding:12px 14px}
+.mt-portal .mt-exam-open:hover{background:#ee3e27;border-color:#171516;color:white}
+@media(max-width:650px){.mt-portal .mt-exam-panel{display:block;padding:17px 17px 18px;margin:0 4px 30px}.mt-portal .mt-exam-open{margin-top:15px;justify-content:space-between;width:100%}}
