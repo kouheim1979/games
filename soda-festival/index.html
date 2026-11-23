@@ -1,6 +1,6 @@
 <!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#191c19"><title>千年祭の飲みくらべ | まいにち道具箱</title><style>
-*{box-sizing:border-box}body{margin:0;background:#171a17;color:#f7e6b6;font-family:system-ui,sans-serif;overscroll-behavior:none}main{max-width:620px;margin:auto;padding:12px 14px max(16px,env(safe-area-inset-bottom))}header{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:#c0b998;letter-spacing:.1em}a{color:inherit;text-decoration:none}h1{font-family:serif;font-size:clamp(20px,5vw,28px);margin:12px 0 9px;text-align:center;letter-spacing:.12em}canvas{display:block;width:100%;height:auto;image-rendering:pixelated;background:#8d7863;border:4px ridge #a39670;box-shadow:0 5px 18px #0009}.screen{position:relative}.dialog{position:absolute;left:4%;right:4%;bottom:4%;background:linear-gradient(#30436a,#15223c 80%);border:3px ridge #f1e8c9;box-shadow:2px 3px #12141a;padding:9px 12px;color:#fff3d6;font-size:clamp(12px,3.5vw,17px);text-shadow:1px 2px #121827;min-height:54px;pointer-events:none;white-space:pre-line}.hud{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin:10px 0;background:#242a24;border:1px solid #615c48;padding:8px;text-align:center}.hud small{display:block;font-size:10px;color:#c2b591}.hud strong{font: bold 22px monospace;color:#fff0b9}.meter{height:7px;background:#39382e;border:1px solid #82775a;margin-bottom:12px}.meter i{display:block;height:100%;background:linear-gradient(90deg,#d3a34c,#f8e7a5);width:100%}button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation;-webkit-user-select:none;user-select:none}#hit{width:100%;height:88px;border:3px solid #e8a899;border-radius:12px;background:linear-gradient(#b74d36,#8a2822);box-shadow:0 6px #481a18,inset 0 2px #ef9d7b;font-size:25px;font-weight:900;letter-spacing:.1em;text-shadow:1px 2px #56231a;touch-action:none}#hit.down{transform:translateY(4px);box-shadow:0 2px #481a18,inset 0 2px #ef9d7b}footer{display:flex;align-items:center;justify-content:space-between;margin-top:16px;font-size:12px;color:#c2b998}#sound{background:none;border:1px solid #74705c;padding:6px 10px;border-radius:4px}#sub{text-align:center;font-size:12px;color:#c2b998;margin:10px 0 0}.credit{font-size:10px;text-align:center;color:#9a9786;margin-top:12px}#start{display:block;width:100%;min-height:44px;margin:0 0 9px;background:#364538;border:2px solid #a9ac83;border-radius:6px;color:#f8efd5;font-weight:bold;letter-spacing:.08em}#start:disabled{visibility:hidden}#hit:disabled{background:#403d35;border-color:#696356;box-shadow:0 4px #27261f;color:#a8a292;cursor:default;transform:none}#hit.down:disabled{transform:none}.dialog{background:repeating-linear-gradient(135deg,#28333e 0px,#303b46 2px,#28333e 4px);border:3px ridge #e1dbcf;bottom:2%;left:7%;right:7%}.hud{margin:6px 0}.credit{margin-top:7px}body{background:#1a1a19}main{max-width:550px}header{color:#bcb3a2}h1{margin:8px 0;font-size:21px;letter-spacing:.14em}canvas{border:2px solid #716b5d;box-shadow:0 3px 0 #0c0e0d;image-rendering:pixelated}.dialog{background:linear-gradient(#26313a,#1b222d);border:3px double #eae6d6;box-shadow:2px 2px #222;left:3%;right:3%;bottom:3%;min-height:0;font-family:monospace;line-height:1.45;padding:7px 12px;font-size:clamp(12px,3.6vw,17px)}#start{min-height:38px;background:#464934;border-color:#a9a486;border-radius:3px;letter-spacing:.03em}#hit{height:82px;border-radius:8px;background:linear-gradient(#af5545,#86382f);border-color:#c6977d}#sub{font-size:11px}.hud{border-color:#625d51}.credit{font-size:9px}.screen{background:#15191d;border:2px solid #8d806b;box-shadow:0 3px #08090a}.screen canvas{border:0;box-shadow:none;display:block}.screen .dialog{position:relative;left:auto;right:auto;bottom:auto;margin:0 4px 4px;border:3px double #eee3c7;min-height:62px;background:linear-gradient(#30343e,#151d2b);font-size:clamp(12px,3.5vw,17px);line-height:1.45}.hud{margin-top:10px}#start{border-radius:3px}main{max-width:640px}#hit{height:92px} </style></head><body><main><header><a href="../">‹ まいにち道具箱</a><span>16-BIT FESTIVAL</span></header><h1 id="heading">千年祭の飲みくらべ</h1><button id="start">挑戦する</button><div class="screen"><canvas id="scene" width="320" height="180" aria-label="石畳の祭り広場で飲みくらべ"></canvas><div class="dialog" id="dialog">さあ、飲みくらべだ！
-8秒で8本飲み切れば、5ポイント！</div></div><div class="hud"><div><small>のこり時間</small><strong id="time">8.00</strong></div><div><small>飲んだ本数</small><strong id="count">0 / 8</strong></div><div><small>連打数</small><strong id="taps">0</strong></div></div><div class="meter"><i id="bar"></i></div><button id="hit" disabled>A　連打！</button><p id="sub">Aボタンを連打！ 8回で1本。PCは A / Space / Z</p><footer><span id="best">最高記録 0 本 ／ 銀 0 pt</span><button id="sound">♪ ON</button></footer><p class="credit">1990年代の16bit RPGの飲みくらべに着想を得た非公式ミニゲーム。画像・効果音はオリジナル。</p></main><script>
+*{box-sizing:border-box}body{margin:0;background:#171a17;color:#f7e6b6;font-family:system-ui,sans-serif;overscroll-behavior:none}main{max-width:620px;margin:auto;padding:12px 14px max(16px,env(safe-area-inset-bottom))}header{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:#c0b998;letter-spacing:.1em}a{color:inherit;text-decoration:none}h1{font-family:serif;font-size:clamp(20px,5vw,28px);margin:12px 0 9px;text-align:center;letter-spacing:.12em}canvas{display:block;width:100%;height:auto;image-rendering:pixelated;background:#8d7863;border:4px ridge #a39670;box-shadow:0 5px 18px #0009}.screen{position:relative}.dialog{position:absolute;left:4%;right:4%;bottom:4%;background:linear-gradient(#30436a,#15223c 80%);border:3px ridge #f1e8c9;box-shadow:2px 3px #12141a;padding:9px 12px;color:#fff3d6;font-size:clamp(12px,3.5vw,17px);text-shadow:1px 2px #121827;min-height:54px;pointer-events:none;white-space:pre-line}.hud{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin:10px 0;background:#242a24;border:1px solid #615c48;padding:8px;text-align:center}.hud small{display:block;font-size:10px;color:#c2b591}.hud strong{font: bold 22px monospace;color:#fff0b9}.meter{height:7px;background:#39382e;border:1px solid #82775a;margin-bottom:12px}.meter i{display:block;height:100%;background:linear-gradient(90deg,#d3a34c,#f8e7a5);width:100%}button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation;-webkit-user-select:none;user-select:none}#hit{width:100%;height:88px;border:3px solid #e8a899;border-radius:12px;background:linear-gradient(#b74d36,#8a2822);box-shadow:0 6px #481a18,inset 0 2px #ef9d7b;font-size:25px;font-weight:900;letter-spacing:.1em;text-shadow:1px 2px #56231a;touch-action:none}#hit.down{transform:translateY(4px);box-shadow:0 2px #481a18,inset 0 2px #ef9d7b}footer{display:flex;align-items:center;justify-content:space-between;margin-top:16px;font-size:12px;color:#c2b998}#sound{background:none;border:1px solid #74705c;padding:6px 10px;border-radius:4px}#sub{text-align:center;font-size:12px;color:#c2b998;margin:10px 0 0}.credit{font-size:10px;text-align:center;color:#9a9786;margin-top:12px}#start{display:block;width:100%;min-height:44px;margin:0 0 9px;background:#364538;border:2px solid #a9ac83;border-radius:6px;color:#f8efd5;font-weight:bold;letter-spacing:.08em}#start:disabled{visibility:hidden}#hit:disabled{background:#403d35;border-color:#696356;box-shadow:0 4px #27261f;color:#a8a292;cursor:default;transform:none}#hit.down:disabled{transform:none}.dialog{background:repeating-linear-gradient(135deg,#28333e 0px,#303b46 2px,#28333e 4px);border:3px ridge #e1dbcf;bottom:2%;left:7%;right:7%}.hud{margin:6px 0}.credit{margin-top:7px}body{background:#1a1a19}main{max-width:550px}header{color:#bcb3a2}h1{margin:8px 0;font-size:21px;letter-spacing:.14em}canvas{border:2px solid #716b5d;box-shadow:0 3px 0 #0c0e0d;image-rendering:pixelated}.dialog{background:linear-gradient(#26313a,#1b222d);border:3px double #eae6d6;box-shadow:2px 2px #222;left:3%;right:3%;bottom:3%;min-height:0;font-family:monospace;line-height:1.45;padding:7px 12px;font-size:clamp(12px,3.6vw,17px)}#start{min-height:38px;background:#464934;border-color:#a9a486;border-radius:3px;letter-spacing:.03em}#hit{height:82px;border-radius:8px;background:linear-gradient(#af5545,#86382f);border-color:#c6977d}#sub{font-size:11px}.hud{border-color:#625d51}.credit{font-size:9px}.screen{background:#15191d;border:2px solid #8d806b;box-shadow:0 3px #08090a}.screen canvas{border:0;box-shadow:none;display:block}.screen .dialog{position:relative;left:auto;right:auto;bottom:auto;margin:0 4px 4px;border:3px double #eee3c7;min-height:62px;background:linear-gradient(#30343e,#151d2b);font-size:clamp(12px,3.5vw,17px);line-height:1.45}.hud{margin-top:10px}#start{border-radius:3px}main{max-width:640px}#hit{height:92px} .screen canvas{touch-action:none}#hit{touch-action:none}#dialog{white-space:pre-line} </style></head><body><main><header><a href="../">‹ まいにち道具箱</a><span>16-BIT FESTIVAL</span></header><h1 id="heading">千年祭の飲みくらべ</h1><button id="start">挑戦する</button><div class="screen"><canvas id="scene" width="320" height="180" aria-label="石畳の祭り広場で飲みくらべ"></canvas><div class="dialog" id="dialog">さあ、飲みくらべだ！
+8秒で8本飲み切れば、5ポイント！</div></div><div class="hud"><div><small>のこり時間</small><strong id="time">8.00</strong></div><div><small>飲んだ本数</small><strong id="count">0 / 8</strong></div><div><small>連打数</small><strong id="taps">0</strong></div></div><div class="meter"><i id="bar"></i></div><button id="hit" disabled>A　連打！</button><p id="sub">Aボタンで8回ずつ飲む！ 画面タップもOK ／ PCは A・Space・Z</p><footer><span id="best">最高記録 0 本 ／ 銀 0 pt</span><button id="sound">♪ ON</button></footer><p class="credit">1990年代の16bit RPGの飲みくらべに着想を得た非公式ミニゲーム。画像・効果音はオリジナル。</p></main><script>
 "use strict";
 const $=id=>document.getElementById(id),cv=$("scene"),g=cv.getContext("2d"),bg=document.createElement("canvas");bg.width=320;bg.height=180;const b=bg.getContext("2d");g.imageSmoothingEnabled=false;
 let seed=312;function rand(){seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296}const pick=a=>a[Math.floor(rand()*a.length)];
@@ -48,25 +48,95 @@ const vendor=[
 "......OOOOOOO......",".....OHHHHHHHO.....","....OHhhhhHHHHO....","....OHhssssHHHO....","....OHsslsseHO.....",".....OssSSssO......",".....OOsssssO......","....OwwOsssOwwO....","...OwwwwOOwwwwO....","..OwwwwwwwwwwwWO...","..OSOwwwwwwwwOSO...","..OSOwwWwwwWwOSO...","...OOwWwwwwWwOO....",".....OwwwWwWO......",".....OwwwWwWO......",".....OBBBBBBO......",".....ObbOBBBO......",".....ObbO.BBO......",".....OrrO.OrO......","....OrrrO.OrrO.....","....OOOOO.OOOO....."];
 const palette={O:"#302820",H:"#73291e",h:"#e37032",s:"#e8ae78",l:"#ffe0a1",S:"#ba7954",e:"#352a27",b:"#319ca1",B:"#25556c",r:"#b84b36",w:"#d0b15f",W:"#706638"};
 function person(x,y,rows,pal=palette,flip=false){g.fillStyle="#30291e66";g.fillRect(x+3,y+rows.length-2,16,4);for(let yy=0;yy<rows.length;yy++)for(let xx=0;xx<rows[yy].length;xx++){let k=rows[yy][xx];if(k!==".")rect(g,x+(flip?rows[yy].length-1-xx:xx),y+yy,1,1,pal[k]||"#fff")}}
-function can(x,y,empty=false){rect(g,x+1,y+1,7,12,"#4a3726");rect(g,x,y,6,10,empty?"#a9a495":"#ad4535");rect(g,x+1,y+1,1,8,empty?"#ddd5bc":"#f48e57");rect(g,x+2,y+3,4,4,"#eee0ab");rect(g,x,y,6,2,"#e5dbbe");rect(g,x+1,y,4,1,"#fcf2d7");rect(g,x+1,y+9,5,1,"#bfb59e")}
+
+function can(x,y,empty=false,fill=1){
+  rect(g,x,y,7,2,"#e9e3c9");rect(g,x-1,y+2,9,8,"#302d2b");
+  rect(g,x,y+2,7,7,empty?"#a7a298":"#f4dfb7");
+  rect(g,x+1,y+3,5,5,empty?"#8d8981":"#bd4533");
+  if(!empty){let h=Math.max(0,Math.round(5*fill));rect(g,x+1,y+8-h,5,h,"#c34a31");rect(g,x+2,y+8-h,1,h,"#ff9a59");rect(g,x+1,y+5,5,2,"#f1d99a")}
+  rect(g,x+1,y+9,5,1,"#ddd1ae");rect(g,x+1,y,1,1,"#fff8e7")
+}
 let state="idle",n=0,deadline=0,startAt=0,lastHit=-1000,lastBottle=-1000,remaining=8000,raf=0,points=0,best=0,bestT=Infinity,sound=true,ac;
 try{let s=JSON.parse(localStorage.getItem("festival-record-v2")||"{}");points=s.points||0;best=s.best||0;bestT=s.bestT||Infinity;sound=s.sound!==false}catch{}
 function save(){try{localStorage.setItem("festival-record-v2",JSON.stringify({points,best,bestT:Number.isFinite(bestT)?bestT:null,sound}))}catch{}}
 function audio(){try{ac=ac||new(window.AudioContext||window.webkitAudioContext)();if(ac.state==="suspended")ac.resume().catch(()=>{})}catch{}}
 function beep(f,d=.07,type="triangle",delay=0){if(!sound||!ac)return;try{let o=ac.createOscillator(),a=ac.createGain(),t=ac.currentTime+delay;o.type=type;o.frequency.setValueAtTime(f,t);a.gain.setValueAtTime(.045,t);a.gain.exponentialRampToValueAtTime(.001,t+d);o.connect(a);a.connect(ac.destination);o.start(t);o.stop(t+d)}catch{}}
-function draw(t){g.drawImage(bg,0,0);const phase=Math.sin(t/310);const palGirl={...palette,H:"#8a6223",h:"#edc66c",l:"#fff2bf",r:"#bf6871",b:"#8fbf94",B:"#487f70",w:"#efe3c9"};
-person(153,64+(phase>0?1:0),vendor,{...palette,H:"#76502a",h:"#ce8743",w:"#619391",W:"#365a59",b:"#566878",B:"#3c4857"});
-person(217,77,vendor,{...palette,H:"#7e4626",h:"#d98a55",w:"#7b994a",W:"#3b5a2a",B:"#4b5365"},true);
-person(198,102+(phase<0?1:0),hero,palGirl,true);
-const active=state==="run"&&t-lastHit<130;person(214+(active?1:0),110-(active?1:0),hero);
-for(let i=0;i<8;i++){const done=i<Math.floor(n/8);if(i===Math.floor(n/8)&&state==="run")continue;can(240+(i%2)*14,84+Math.floor(i/2)*14,done)}
-if(state==="run"){if(active){g.save();g.translate(229,121);g.rotate(-Math.PI/2);can(0,0);g.restore();rect(g,226,124,5,2,"#25556c");rect(g,229,121,3,3,"#efb77e")}else can(232,129);if(t-lastBottle<320){let yy=104-(t-lastBottle)/22;rect(g,227,yy,2,5,"#ffed9e");rect(g,225,yy+2,6,1,"#fff9cf")}}
-if(state==="win"){for(let i=0;i<25;i++){let xx=(i*47+t/70*(i%3+1))%320,yy=(i*31+t/17)%170;rect(g,xx,yy,2,3,["#f1d16c","#d65764","#c5e5aa","#c5d9ed"][i%4])}}
+
+let cameraZoom=1, cameraX=160, cameraY=90, focusUntil=0;
+function drinker(t){
+  const x=218, y=113, drinking=state==="run"&&t-lastHit<225;
+  const pulse=Math.floor(t/90)%2, progress=n%8;
+  const phase=!drinking?0:progress<=2?1:progress<=5?2:3;
+  const bob=phase===2?1:pulse&&drinking?1:0;
+  // A 27-pixel-tall, independently drawn side-facing festival visitor.
+  rect(g,x-9,y+15,22,3,"#40382d");rect(g,x-6,y+10,5,6,"#4b3a34");rect(g,x+3,y+10,6,6,"#4b3a34");
+  rect(g,x-5,y+7,5,8,"#364e63");rect(g,x+3,y+7,5,8,"#364e63");
+  rect(g,x-7,y-7,17,17,"#263f4f");rect(g,x-6,y-6,14,13,"#3c86a2");
+  rect(g,x-5,y+5,13,2,"#d9ae63");rect(g,x-5,y-5,2,9,"#70b7c3");
+  rect(g,x-5,y-24-bob,13,17,"#3e302a");rect(g,x-4,y-23-bob,12,14,"#e4b487");
+  rect(g,x+5,y-20-bob,3,9,"#d89e72");rect(g,x+7,y-17-bob,2,2,"#4d3629");
+  rect(g,x+5,y-15-bob,3,1,"#a85b3f");
+  // Hair with SFC-style dark outline and multiple warm shades.
+  rect(g,x-8,y-26-bob,16,5,"#602c1f");rect(g,x-9,y-23-bob,5,10,"#7c321f");
+  rect(g,x-6,y-28-bob,12,4,"#d95f30");rect(g,x-2,y-30-bob,9,5,"#ab4426");
+  rect(g,x+5,y-26-bob,7,6,"#c34a2b");rect(g,x-7,y-22-bob,3,7,"#ee7b38");
+  rect(g,x-5,y-27-bob,4,2,"#ffa65a");rect(g,x+1,y-28-bob,3,2,"#f28b42");
+  rect(g,x-9,y-3,4,9,"#ca946b");
+  // The right arm explicitly moves from the table to the mouth.
+  let handX=x+14, handY=y-3, cupX=x+17, cupY=y-9, tilt=0;
+  if(phase===1){handX=x+13;handY=y-7;cupX=x+16;cupY=y-15;tilt=-0.25}
+  if(phase===2){handX=x+8;handY=y-16-bob;cupX=x+10;cupY=y-24-bob;tilt=-1.12}
+  if(phase===3){handX=x+13;handY=y-9;cupX=x+16;cupY=y-17;tilt=-0.55}
+  rect(g,x+8,y-3,5,4,"#2d6989");rect(g,Math.min(x+12,handX),Math.min(y-2,handY),3,Math.max(3,Math.abs(handY-(y-2))),"#397f9f");
+  rect(g,handX,handY,4,4,"#e3b082");rect(g,handX+3,handY+1,2,2,"#f2cc97");
+  if(state==="run"){
+    g.save();g.translate(cupX,cupY);g.rotate(tilt);can(0,0,false,Math.max(.08,1-progress/8));g.restore();
+    if(phase===2){
+      rect(g,x+6,y-17-bob,2,2,"#faedb0");
+      if(pulse)rect(g,x+7,y-19-bob,1,2,"#dff4e2");
+    }
+  }
+  if(state==="run"&&t-lastBottle<310){
+    let d=(t-lastBottle)/310;
+    rect(g,x+18+d*10,y-21-d*7,3,3,"#f6d78b");
+    rect(g,x+22+d*11,y-16-d*12,2,2,"#f1f0c0");
+  }
+}
+function draw(t){
+  const target=(state==="run"||state==="ready"||t<focusUntil)?1.62:1;
+  cameraZoom+=(target-cameraZoom)*0.082;
+  const targetX=(target>1)?219:160,targetY=(target>1)?105:90;
+  cameraX+=(targetX-cameraX)*0.082;cameraY+=(targetY-cameraY)*0.082;
+  g.clearRect(0,0,320,180);g.save();g.translate(160,90);g.scale(cameraZoom,cameraZoom);g.translate(-cameraX,-cameraY);
+  g.drawImage(bg,0,0);
+  const phase=Math.sin(t/310),palGirl={...palette,H:"#8a6223",h:"#edc66c",l:"#fff2bf",r:"#bf6871",b:"#8fbf94",B:"#487f70",w:"#efe3c9"};
+  person(153,64+(phase>0?1:0),vendor,{...palette,H:"#76502a",h:"#ce8743",w:"#619391",W:"#365a59",b:"#566878",B:"#3c4857"});
+  person(217,77,vendor,{...palette,H:"#7e4626",h:"#d98a55",w:"#7b994a",W:"#3b5a2a",B:"#4b5365"},true);
+  person(198,102+(phase<0?1:0),hero,palGirl,true);
+  for(let i=0;i<8;i++){
+    const done=i<Math.floor(n/8),current=i===Math.floor(n/8)&&state==="run";
+    if(current)continue;
+    can(240+(i%2)*14,84+Math.floor(i/2)*14,done);
+  }
+  drinker(t);
+  // Small blue-and-cream splash pixels emphasize every gulp.
+  if(state==="run"&&t-lastHit<155){
+    const age=(t-lastHit)/155;
+    rect(g,232+age*4,86-age*6,2,3,"#ebf9c4");
+    rect(g,235+age*6,88-age*8,1,2,"#92d6d1");
+  }
+  g.restore();
+  if(state==="win"){
+    for(let i=0;i<27;i++){
+      let xx=(i*47+t/70*(i%3+1))%320,yy=(i*31+t/17)%180;
+      rect(g,xx,yy,2,3,["#f1d16c","#d65764","#c5e5aa","#c5d9ed"][i%4])
+    }
+  }
 }
 function update(t){$("time").textContent=(Math.max(0,remaining)/1000).toFixed(2);$("count").textContent=Math.floor(n/8)+" / 8";$("taps").textContent=n;$("bar").style.width=(Math.max(0,remaining)/80)+"%";$("bar").style.background=remaining<2000?"#dd614b":"";$("best").textContent="最高記録 "+best+" 本"+(best===8&&Number.isFinite(bestT)?" / "+(bestT/1000).toFixed(2)+"秒":"")+" ／ 銀 "+points+" pt";$("sound").textContent=sound?"♪ ON":"♪ OFF"}
-function begin(){if(!["idle","win","lose"].includes(state))return;$("start").disabled=true;$("hit").disabled=true;audio();n=0;remaining=8000;state="ready";startAt=performance.now()+3000;lastHit=-1000;lastBottle=-1000;$("hit").textContent="準備…";$("dialog").textContent="よーい……";update()}
-function finish(win,t){state=win?"win":"lose";let bottles=Math.floor(n/8);best=Math.max(best,bottles);if(win){points+=5;bestT=Math.min(bestT,8000-remaining);$("dialog").textContent="お見事！ 8本飲みきった！\nシルバーポイント 5点 獲得！";[523,659,784,1047].forEach((f,i)=>beep(f,.17,"triangle",i*.11));if(navigator.vibrate)navigator.vibrate([35,50,35])}else{$("dialog").textContent=bottles+"本か！ おしかったな。\nもう一度やってみるか？";beep(196,.2)}$("hit").classList.remove("down");$("hit").disabled=true;$("hit").textContent="終了";$("start").textContent="もう一度挑戦";$("start").disabled=false;save();update()}
+function begin(){if(!["idle","win","lose"].includes(state))return;$("start").disabled=true;$("hit").disabled=true;audio();n=0;remaining=8000;state="ready";startAt=performance.now()+3000;lastHit=-1000;lastBottle=-1000;focusUntil=0;$("hit").textContent="準備…";$("dialog").textContent="よーい……";update()}
+function finish(win,t){state=win?"win":"lose";focusUntil=t+1100;let bottles=Math.floor(n/8);best=Math.max(best,bottles);if(win){points+=5;bestT=Math.min(bestT,8000-remaining);$("dialog").textContent="お見事！ 8本飲みきった！\nシルバーポイント 5点 獲得！";[523,659,784,1047].forEach((f,i)=>beep(f,.17,"triangle",i*.11));if(navigator.vibrate)navigator.vibrate([35,50,35])}else{$("dialog").textContent=bottles+"本か！ おしかったな。\nもう一度やってみるか？";beep(196,.2)}$("hit").classList.remove("down");$("hit").disabled=true;$("hit").textContent="終了";$("start").textContent="もう一度挑戦";$("start").disabled=false;save();update()}
 function hit(){let t=performance.now();if(state!=="run")return;if(t>=deadline){remaining=0;finish(false,t);return}n++;lastHit=t;remaining=deadline-t;beep(200+(n%8)*34,.035,"triangle");if(n%8===0){lastBottle=t;beep(540+n*5,.11);if(n<64)$("dialog").textContent=Math.floor(n/8)+"本 飲んだ！"}if(n===64){finish(true,t)}update(t)}
 let lastNum=0;function loop(t){if(state==="ready"){let num=Math.ceil((startAt-t)/1000);if(num>0){if(num!==lastNum){beep(350,.08);lastNum=num}$("dialog").textContent="よーい…… "+num;$("hit").textContent="準備 "+num}else{state="run";$("hit").disabled=false;deadline=startAt+8000;lastNum=0;$("hit").textContent="A  連打！";$("dialog").textContent="スタート！ Aを連打だ！";beep(780,.14)}}if(state==="run"){remaining=Math.max(0,deadline-t);if(remaining===0)finish(false,t);update(t)}draw(t);raf=requestAnimationFrame(loop)}
-$("start").addEventListener("click",()=>begin());$("hit").addEventListener("pointerdown",e=>{e.preventDefault();if(state!=="run")return;$("hit").classList.add("down");hit()});for(let type of ["pointerup","pointercancel","pointerleave"])$("hit").addEventListener(type,()=>{$("hit").classList.remove("down")});window.addEventListener("keydown",e=>{if(["KeyA","Space","KeyZ"].includes(e.code)&&e.target.id!=="sound"){e.preventDefault();if(!e.repeat)hit()}});$("sound").onclick=()=>{sound=!sound;audio();save();update()};update();requestAnimationFrame(loop);
+$("start").addEventListener("click",()=>begin());cv.style.touchAction="none";cv.addEventListener("pointerdown",e=>{e.preventDefault();hit()});$("hit").addEventListener("pointerdown",e=>{e.preventDefault();if(state!=="run")return;$("hit").classList.add("down");hit()});for(let type of ["pointerup","pointercancel","pointerleave"])$("hit").addEventListener(type,()=>{$("hit").classList.remove("down")});window.addEventListener("keydown",e=>{if(["KeyA","Space","KeyZ"].includes(e.code)&&e.target.id!=="sound"){e.preventDefault();if(!e.repeat)hit()}});$("sound").onclick=()=>{sound=!sound;audio();save();update()};update();requestAnimationFrame(loop);
 </script></body></html>
