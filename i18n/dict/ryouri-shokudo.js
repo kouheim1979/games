@@ -258,5 +258,20 @@ window.I18N_DICT={
 "もりあわせ":["Platter","拼盘","Surtido"],
 "ジュース":["Juice","果汁","Jugo"],
 "にくだんご":["Meatballs","肉丸子","Albóndigas"],
-"だんご":["Dumplings","团子","Bolitas"]
+"だんご":["Dumplings","团子","Bolitas"],
+"しおコショウ":["Salt & pepper","椒盐","Sal y pimienta"],
+"ふる":["Sprinkle","撒","Espolvorear"],
+"しおコショウを ふろう":["Sprinkle salt & pepper","撒上椒盐","Espolvorea sal y pimienta"],
+"{0}を ふろう":["Sprinkle the {0}","撒{0}","Espolvorea: {0}"],
+"びんが みどりのところに きたら タップ！":["Tap when the shaker reaches the green!","瓶子到绿色的地方时点一下！","¡Toca cuando el salero llegue al verde!"],
+"ふる：ゆれるびんが、みどりのところに来たらタップ。めだまやきは、しょうゆかしおコショウか、注文をよく見てね。":["Sprinkle: tap when the swinging shaker reaches the green. For fried eggs, check whether the order says soy sauce or salt & pepper.","撒料：摇摆的瓶子到绿色的地方时点一下。煎蛋要看清点单是酱油还是椒盐哦。","Espolvorear: toca cuando el salero que se balancea llegue al verde. En el huevo frito, mira si piden salsa de soja o sal y pimienta."],
+"「めだまやき、しょうゆでください！」":["“Fried egg with soy sauce, please!”","“请给我淋酱油的煎蛋！”","«¡Huevo frito con salsa de soja, por favor!»"],
+"「めだまやき、しおコショウでください！」":["“Fried egg with salt & pepper, please!”","“请给我撒椒盐的煎蛋！”","«¡Huevo frito con sal y pimienta, por favor!»"],
+"「めだまやき、しょうゆでおねがいします！」":["“One fried egg with soy sauce, please!”","“麻烦来一份淋酱油的煎蛋！”","«¡Un huevo frito con salsa de soja, por favor!»"],
+"「めだまやき、しおコショウでおねがいします！」":["“One fried egg with salt & pepper, please!”","“麻烦来一份撒椒盐的煎蛋！”","«¡Un huevo frito con sal y pimienta, por favor!»"],
+"「めだまやきはしょうゆがいいな！」":["“I like my fried egg with soy sauce!”","“煎蛋还是配酱油好！”","«¡Me gusta el huevo frito con salsa de soja!»"],
+"「めだまやきはしおコショウがいいな！」":["“I like my fried egg with salt & pepper!”","“煎蛋还是配椒盐好！”","«¡Me gusta el huevo frito con sal y pimienta!»"],
+"「やっぱりしょうゆだね！」":["“Soy sauce is the way to go!”","“果然还是酱油好！”","«¡Con salsa de soja, como debe ser!»"],
+"「やっぱりしおコショウだね！」":["“Salt & pepper is the way to go!”","“果然还是椒盐好！”","«¡Con sal y pimienta, como debe ser!»"],
+"ぱらぱら":["Sprinkled","撒撒","Espolvoreado"]
 };
