@@ -6,8 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
 <meta name="description" content="お客さんの注文を聞いて、材料えらび・切る・焼く・まぜる・盛りつけで料理をつくる、お料理シミュレーションゲーム。">
-<meta name="theme-color" content="#FFF4E4" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#221A15" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#24417A" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#16213D" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="おりょうり食堂">
@@ -17,322 +17,573 @@
 <title>おりょうり食堂</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Zen+Maru+Gothic:wght@500;700;900&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Potta+One&family=Zen+Maru+Gothic:wght@500;700;900&display=swap">
 <style>
+/*
+VOICE    町の食堂のあたたかさ。子どもが手でさわれる道具の手ざわり。
+IDEA     タイトルは店の表（瓦・木の看板・藍ののれん・食品サンプル）。ゲームは厨房（白いタイル・まな板・ガス台・染付のボウル）。注文は伝票、評価は判子、お会計はレシート。
+PICTURE  店がまえと、工程ごとの調理台。焼く工程は白い湯気 → 灰色 → 黒い煙と色を変えて立ちのぼる。
+COLOUR / TYPE  藍と白タイルが主、木が支え、朱が差し色。卵色は星とお金、みどりは「ちょうどいい」だけ。Potta One（筆の看板文字）＋ Zen Maru Gothic。
+LAYOUT   480pxまでの1列。上に藍ののれん帯、調理台は中央、リストは左そろえ。
+*/
 :root {
-  --bg: #FFF4E4;
-  --card: #FFFDF8;
-  --ink: #3B2A20;
-  --muted: #8A715F;
-  --line: #EBD9C2;
-  --tomato: #E5533B;
-  --tomato-ink: #FFF7EE;
-  --mint: #4FB08F;
-  --mint-soft: #D9F1E6;
-  --mustard: #F2B33D;
-  --mustard-soft: #FFEDC4;
-  --board: #E9C795;
-  --board-2: #D7AE73;
-  --steel: #4A4441;
-  --shadow: 0 3px 0 rgba(90, 55, 25, .16);
-  --round: "Zen Maru Gothic", "Hiragino Maru Gothic ProN", "BIZ UDPGothic", system-ui, sans-serif;
-  --display: "Dela Gothic One", "Zen Maru Gothic", system-ui, sans-serif;
+  --ground: #F5F6F3; --grout: #E1E5E0;
+  --paper: #FFFFFF; --slip: #FFFBF1; --slip-rule: #F0E2C8;
+  --ink: #1E2945; --muted: #5E6883; --line: #D8DDE7;
+  --ai: #24417A; --ai-deep: #152950; --ai-soft: #E3E9F5; --ai-ink: #24417A; --roof: #2A3656;
+  --shu: #D3392A; --shu-deep: #A02718;
+  --tamago: #F2B33A; --tamago-deep: #A86F0C; --tamago-soft: #FFF0C9;
+  --good: #36985F; --good-soft: #DCEFE2;
+  --wood: #E2BB84; --wood-2: #CD9A5C; --wood-dark: #6E4528; --wood-ink: #3B2615;
+  --wall-1: #D9AE74; --wall-2: #C8965A;
+  --glow-1: #FFE7AE; --glow-2: #F2B560; --glow-3: #B8723A;
+  --stoop-1: #C9C3B8; --stoop-2: #ABA497;
+  --shadow: rgba(30, 41, 69, .13);
+  --round: "Zen Maru Gothic", "Hiragino Maru Gothic ProN", "BIZ UDPGothic", "Noto Sans JP", system-ui, sans-serif;
+  --brush: "Potta One", "Zen Maru Gothic", "Hiragino Maru Gothic ProN", system-ui, sans-serif;
+  color-scheme: light;
 }
-:root:not([data-theme="light"]) { color-scheme: light dark; }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #221A15; --card: #2E241E; --ink: #FBEEDD; --muted: #C2A994; --line: #4A3A2E;
-    --mint-soft: #1F3A30; --mustard-soft: #43361A; --board: #8E6B41; --board-2: #6F5232;
-    --shadow: 0 3px 0 rgba(0, 0, 0, .35);
+    --ground: #121A2D; --grout: #182238;
+    --paper: #1C2541; --slip: #222B48; --slip-rule: #2F3A5A;
+    --ink: #EDF0F8; --muted: #A6AFC7; --line: #2F3A59;
+    --ai: #2C4A88; --ai-deep: #0D1834; --ai-soft: #24335E; --ai-ink: #B9CAF2; --roof: #0C1325;
+    --shu: #E24A36; --shu-deep: #992214;
+    --tamago: #F5C04F; --tamago-deep: #F5C04F; --tamago-soft: #3B3220;
+    --good: #4BB57B; --good-soft: #1C3829;
+    --wood: #8C6238; --wood-2: #74502C; --wood-dark: #3F2715; --wood-ink: #FFF1DC;
+    --wall-1: #5E4128; --wall-2: #4E3520;
+    --glow-1: #FFE09A; --glow-2: #EBA14A; --glow-3: #9A5A26;
+    --stoop-1: #4C505B; --stoop-2: #3A3D46;
+    --shadow: rgba(0, 0, 0, .38);
+    color-scheme: dark;
   }
+}
+:root[data-theme="dark"] {
+  --ground: #121A2D; --grout: #182238;
+  --paper: #1C2541; --slip: #222B48; --slip-rule: #2F3A5A;
+  --ink: #EDF0F8; --muted: #A6AFC7; --line: #2F3A59;
+  --ai: #2C4A88; --ai-deep: #0D1834; --ai-soft: #24335E; --ai-ink: #B9CAF2; --roof: #0C1325;
+  --shu: #E24A36; --shu-deep: #992214;
+  --tamago: #F5C04F; --tamago-deep: #F5C04F; --tamago-soft: #3B3220;
+  --good: #4BB57B; --good-soft: #1C3829;
+  --wood: #8C6238; --wood-2: #74502C; --wood-dark: #3F2715; --wood-ink: #FFF1DC;
+  --wall-1: #5E4128; --wall-2: #4E3520;
+  --glow-1: #FFE09A; --glow-2: #EBA14A; --glow-3: #9A5A26;
+  --stoop-1: #4C505B; --stoop-2: #3A3D46;
+  --shadow: rgba(0, 0, 0, .38);
+  color-scheme: dark;
 }
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
 /* 連打・なぞり・長押しをする場所は、ブラウザーの拡大やスクロールを止める */
 .board, .board *, .bowl, .bowl *, .hold-btn, .hold-btn * { touch-action: none; -webkit-touch-callout: none; }
 html, body { margin: 0; height: 100%; }
 body {
-  background: var(--bg); color: var(--ink); font-family: var(--round); font-weight: 700;
-  -webkit-user-select: none; user-select: none; overscroll-behavior: none;
+  background-color: var(--ground);
+  background-image: linear-gradient(var(--grout) 2px, transparent 2px), linear-gradient(90deg, var(--grout) 2px, transparent 2px);
+  background-size: 46px 46px; background-position: -1px -1px;
+  color: var(--ink); font-family: var(--round); font-weight: 700;
+  -webkit-user-select: none; user-select: none; overscroll-behavior: none; overflow-x: hidden;
   display: flex; justify-content: center;
 }
-button { font: inherit; color: inherit; cursor: pointer; border: 0; background: none; touch-action: manipulation; }
+body[data-screen="title"] { --ground: #E8E3D9; --grout: #D6CEC0; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) body[data-screen="title"] { --ground: #1B1F2A; --grout: #252B39; } }
+:root[data-theme="dark"] body[data-screen="title"] { --ground: #1B1F2A; --grout: #252B39; }
+button { font: inherit; color: inherit; cursor: pointer; border: 0; background: none; padding: 0; }
+:focus-visible { outline: 3px solid var(--tamago); outline-offset: 3px; }
+.sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+.ic { width: 1.25em; height: 1.25em; flex: none; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
 .app { width: 100%; max-width: 480px; min-height: 100%; display: flex; flex-direction: column; position: relative;
   padding: env(safe-area-inset-top, 0) 0 env(safe-area-inset-bottom, 0); }
-.screen { display: none; flex: 1; flex-direction: column; padding: 14px 16px 20px; gap: 12px; }
+.screen { display: none; flex: 1; flex-direction: column; padding: 0 16px 20px; gap: 12px; }
 .screen.on { display: flex; }
 
-/* ---------- 共通パーツ ---------- */
-.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 52px; padding: 0 22px;
-  border-radius: 16px; background: var(--tomato); color: var(--tomato-ink); font-size: 18px; font-weight: 900;
-  box-shadow: 0 4px 0 #B33A27; transition: transform .08s; }
-.btn:active { transform: translateY(3px); box-shadow: 0 1px 0 #B33A27; }
-.btn.mint { background: var(--mint); box-shadow: 0 4px 0 #2F8668; color: #fff; }
-.btn.mint:active { box-shadow: 0 1px 0 #2F8668; }
-.btn.ghost { background: var(--card); color: var(--ink); box-shadow: 0 4px 0 var(--line); border: 2px solid var(--line); }
-.btn.ghost:active { box-shadow: 0 1px 0 var(--line); }
-.btn[disabled] { opacity: .45; pointer-events: none; }
+/* ---------- ボタン ---------- */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 52px; padding: 0 20px;
+  border-radius: 16px; background: var(--shu); color: #fff; font-size: 18px; font-weight: 900; line-height: 1.2; text-align: center;
+  box-shadow: 0 4px 0 var(--shu-deep); transition: transform .08s, box-shadow .08s; }
+.btn:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--shu-deep); }
+.btn.big { min-height: 58px; font-size: 19px; }
 .btn.wide { width: 100%; }
-.card { background: var(--card); border: 2px solid var(--line); border-radius: 20px; box-shadow: var(--shadow); }
-.icon-btn { width: 44px; height: 44px; border-radius: 14px; background: var(--card); border: 2px solid var(--line);
-  font-size: 20px; display: inline-flex; align-items: center; justify-content: center; }
-.coin { color: #C98A10; }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .coin { color: var(--mustard); } }
+.btn.alt { background: var(--ai); box-shadow: 0 4px 0 var(--ai-deep); }
+.btn.alt:active { box-shadow: 0 1px 0 var(--ai-deep); }
+.btn.sub { background: var(--paper); color: var(--ai-ink); border: 2px solid var(--line); box-shadow: 0 4px 0 var(--line); }
+.btn.sub:active { box-shadow: 0 1px 0 var(--line); }
+.btn[disabled] { opacity: .45; pointer-events: none; }
+.icon-btn { width: 44px; height: 44px; flex: none; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;
+  background: var(--paper); border: 2px solid var(--line); color: var(--ai-ink); box-shadow: 0 3px 0 var(--line); }
+.icon-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--line); }
+.icon-btn .ic { width: 22px; height: 22px; }
+.bar-btn { background: rgba(255,255,255,.12); border-color: rgba(255,255,255,.3); color: #fff; box-shadow: none; }
+.bar-btn:active { box-shadow: none; }
+.coin-ic { color: var(--tamago); }
 
-/* ---------- タイトル ---------- */
-.awning { height: 46px; margin: -14px -16px 0; background:
-  repeating-linear-gradient(90deg, var(--tomato) 0 34px, #FFF7EE 34px 68px);
-  position: relative; }
-.awning::after { content: ""; position: absolute; left: 0; right: 0; bottom: -14px; height: 16px;
-  background: radial-gradient(circle at 17px 0, var(--tomato) 16px, transparent 17px) 0 0 / 68px 16px,
-              radial-gradient(circle at 17px 0, #FFF7EE 16px, transparent 17px) 34px 0 / 68px 16px; }
-.title-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; text-align: center; padding-top: 14px; }
-.logo-plate { font-size: 76px; line-height: 1; filter: drop-shadow(0 4px 0 rgba(0,0,0,.08)); animation: bob 2.6s ease-in-out infinite; }
-@keyframes bob { 50% { transform: translateY(-6px) rotate(-3deg); } }
-.logo { font-family: var(--display); font-size: 40px; line-height: 1.15; letter-spacing: .02em; margin: 0; }
-.logo small { display: block; font-family: var(--round); font-size: 14px; color: var(--muted); letter-spacing: .1em; margin-top: 6px; }
-.title-stats { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
-.pill { padding: 6px 14px; border-radius: 999px; background: var(--card); border: 2px solid var(--line); font-size: 15px; }
-.title-menu { width: 100%; display: grid; gap: 12px; margin-top: 6px; }
-.title-sub { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.title-foot { display: flex; justify-content: center; gap: 10px; }
+/* ---------- のれんの帯（各画面の上） ---------- */
+.noren-bar { margin: 0 -16px; padding: 10px 16px 17px; min-height: 66px; background: var(--ai); color: #fff;
+  display: flex; align-items: center; gap: 10px; position: relative;
+  box-shadow: 0 0 0 100vmax var(--ai); clip-path: inset(0 -100vmax); }
+.noren-bar::after { content: ""; position: absolute; left: 14px; right: 14px; bottom: 7px; border-bottom: 2px dashed rgba(255,255,255,.3); }
+.noren-bar h2 { margin: 0; flex: 1; min-width: 0; font-family: var(--brush); font-weight: 400; font-size: 24px; line-height: 1.15; }
+.money { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; font-size: 17px; }
+
+/* ---------- タイトル：店がまえ ---------- */
+.shop { margin: 0 calc(50% - 50vw); }
+.facade { background:
+    repeating-linear-gradient(90deg, transparent 0 34px, rgba(60,30,10,.14) 34px 36px),
+    linear-gradient(var(--wall-1), var(--wall-2)); }
+.roof { height: 30px; background:
+    radial-gradient(circle at 50% 4px, rgba(255,255,255,.16) 3px, transparent 3.5px) 0 17px / 26px 13px repeat-x,
+    radial-gradient(circle at 50% 0, var(--roof) 12.5px, transparent 13px) 0 17px / 26px 13px repeat-x,
+    linear-gradient(var(--roof), var(--roof)) 0 0 / 100% 17px no-repeat; }
+.facade-in { max-width: 480px; margin: 0 auto; padding: 10px 16px 0; }
+.sign { width: fit-content; max-width: 100%; margin: 0 auto; padding: 9px 22px 11px; border-radius: 10px; background: var(--wood-dark);
+  box-shadow: inset 0 0 0 3px rgba(255,236,200,.2), 0 4px 0 rgba(40,22,10,.35); }
+.logo { margin: 0; font-family: var(--brush); font-weight: 400; font-size: clamp(28px, 9.4vw, 40px); line-height: 1.12; letter-spacing: .03em;
+  color: #FFF3DA; text-align: center; text-wrap: balance; text-shadow: 0 2px 0 rgba(0,0,0,.28); }
+.front { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.12fr); gap: 12px; height: clamp(160px, 28vh, 280px); height: clamp(160px, 28svh, 280px); margin-top: 14px; }
+.door { position: relative; overflow: hidden; border: 6px solid var(--wood-dark); border-bottom: 0; border-radius: 6px 6px 0 0;
+  background: radial-gradient(120% 80% at 50% 100%, var(--glow-1), var(--glow-2) 62%, var(--glow-3)); }
+.door::after { content: ""; position: absolute; left: 14%; right: 14%; bottom: 0; height: 22%; border-radius: 6px 6px 0 0;
+  background: linear-gradient(#9B6136, #7A4826); opacity: .55; }
+.noren { position: absolute; left: 0; right: 0; top: 0; height: 66%; display: flex; gap: 3px; padding: 0 2px; z-index: 1; }
+.noren::before { content: ""; position: absolute; left: -2px; right: -2px; top: 0; height: 7px; background: var(--wood-dark); z-index: 2; }
+.noren i { flex: 1; display: flex; align-items: center; justify-content: center; padding-top: 4px; font-style: normal;
+  font-family: var(--brush); font-size: 30px; color: #fff; background: var(--ai); border-radius: 0 0 5px 5px; position: relative;
+  box-shadow: inset 0 -10px 0 rgba(0,0,0,.12); transform-origin: 50% 0; animation: sway 5.2s ease-in-out infinite; }
+.noren i::after { content: ""; position: absolute; left: 5px; right: 5px; bottom: 15px; border-bottom: 2px dashed rgba(255,255,255,.38); }
+.noren i:nth-child(2) { animation-delay: -1.7s; }
+.noren i:nth-child(3) { animation-delay: -3.4s; }
+@keyframes sway { 0%, 100% { transform: rotate(-1deg); } 50% { transform: rotate(1.6deg); } }
+.case { position: relative; overflow: hidden; border: 6px solid var(--wood-dark); border-bottom-width: 12px; border-radius: 6px;
+  background: linear-gradient(#F6FAFB, #E1EBEE); }
+.case::after { content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(115deg, transparent 32%, rgba(255,255,255,.6) 32% 40%, transparent 40% 52%, rgba(255,255,255,.4) 52% 55%, transparent 55%); }
+.case-in { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-rows: 1fr 1fr; height: 100%; }
+.sample { display: flex; flex-direction: column; align-items: center; justify-content: flex-end; min-width: 0; padding: 0 2px 3px; border-bottom: 5px solid #D6B27F; }
+.sample svg { width: 100%; max-width: 80px; height: auto; }
+.price-tag { position: relative; margin-top: -6px; padding: 0 5px; border-radius: 4px; background: #fff; color: #1E2945; font-size: 13px; line-height: 1.35;
+  box-shadow: 0 1px 0 rgba(0,0,0,.18); white-space: nowrap; }
+.sample.empty span { width: 50px; height: 34px; margin-bottom: 8px; border: 2px dashed rgba(30,41,69,.22); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; color: rgba(30,41,69,.4); font-size: 15px; }
+.stoop { height: 16px; background: linear-gradient(var(--stoop-1), var(--stoop-2)); box-shadow: inset 0 3px 0 rgba(255,255,255,.3); }
+.title-body { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 14px; padding-top: 18px; }
+.tags { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.tag { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px 6px 24px; border-radius: 8px; position: relative; font-size: 16px;
+  background: linear-gradient(var(--wood), var(--wood-2)); color: var(--wood-ink); box-shadow: 0 3px 0 var(--wood-dark); }
+.tag::before { content: ""; position: absolute; left: 9px; top: 50%; width: 7px; height: 7px; margin-top: -3.5px; border-radius: 50%; background: var(--wood-dark); opacity: .7; }
+.tag .coin-ic { color: #9A6408; }
+.row2 { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; }
+.row2 .btn { padding: 0 10px; font-size: 16px; }
+.title-foot { display: flex; justify-content: center; gap: 14px; margin-top: 2px; }
 
 /* ---------- ゲーム画面 ---------- */
-.hud { display: flex; align-items: center; gap: 8px; }
-.hud .pill { padding: 6px 12px; }
-.hud .spacer { flex: 1; }
-.queue { display: flex; gap: 4px; align-items: center; font-size: 14px; color: var(--muted); }
-.queue i { width: 10px; height: 10px; border-radius: 50%; background: var(--line); display: inline-block; }
-.queue i.done { background: var(--mint); }
-.queue i.now { background: var(--mustard); transform: scale(1.3); }
-
-.customer { display: flex; align-items: center; gap: 12px; padding: 10px 14px; }
-.face { font-size: 46px; line-height: 1; width: 58px; height: 58px; display: flex; align-items: center; justify-content: center;
-  background: var(--mustard-soft); border-radius: 50%; flex: none; transition: transform .2s; }
+.hud .day { font-family: var(--brush); font-size: 21px; white-space: nowrap; }
+.queue { display: flex; gap: 5px; align-items: center; min-width: 0; overflow: hidden; padding: 4px 3px; }
+.queue i { width: 9px; height: 9px; border-radius: 50%; background: rgba(255,255,255,.28); flex: none; }
+.queue i.done { background: #fff; }
+.queue i.now { background: var(--tamago); box-shadow: 0 0 0 3px rgba(242,179,58,.35); }
+.spacer { flex: 1; }
+.guest { display: flex; align-items: center; gap: 12px; padding: 10px 14px 14px; border-radius: 18px; color: var(--wood-ink);
+  background: repeating-linear-gradient(178deg, transparent 0 9px, rgba(120,70,25,.07) 9px 10px), linear-gradient(var(--wood), var(--wood-2));
+  box-shadow: inset 0 -6px 0 rgba(70,40,15,.2), 0 3px 0 var(--shadow); }
+.face { width: 58px; height: 58px; flex: none; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 40px; line-height: 1;
+  background: var(--paper); box-shadow: 0 0 0 3px rgba(255,255,255,.5), 0 3px 0 rgba(70,40,15,.25); }
 .face.happy { animation: hop .5s ease 2; }
 @keyframes hop { 50% { transform: translateY(-8px); } }
-.patience { flex: 1; }
-.patience-label { display: flex; justify-content: space-between; font-size: 13px; color: var(--muted); margin-bottom: 5px; }
-.bar { height: 12px; border-radius: 999px; background: var(--line); overflow: hidden; }
-.bar > b { display: block; height: 100%; width: 100%; background: var(--mint); border-radius: 999px; transition: background .3s; }
+.patience { flex: 1; min-width: 0; }
+.patience-label { display: flex; justify-content: space-between; gap: 8px; font-size: 14px; margin-bottom: 6px; }
+.bar { height: 12px; border-radius: 999px; background: rgba(0,0,0,.18); overflow: hidden; }
+.bar > b { display: block; height: 100%; width: 100%; border-radius: 999px; background: var(--good); transition: background .3s; }
 
 .stage { flex: 1; display: flex; flex-direction: column; gap: 12px; }
-.order { padding: 18px 16px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 8px; position: relative; }
-.order::before { content: ""; position: absolute; top: -11px; left: 40px; border: 10px solid transparent; border-bottom-color: var(--line); border-top: 0; }
-.order-dish { width: 190px; height: 142px; }
-.order-name { font-size: 26px; font-family: var(--display); }
-.order-say { font-size: 17px; color: var(--muted); }
+.bubble { align-self: flex-start; position: relative; max-width: 100%; margin: 2px 0 0 6px; padding: 8px 14px; border-radius: 16px;
+  font-size: 17px; line-height: 1.4; background: var(--paper); border: 2px solid var(--line); }
+.bubble::before { content: ""; position: absolute; left: 24px; top: -9px; width: 14px; height: 14px; background: var(--paper);
+  border-left: 2px solid var(--line); border-top: 2px solid var(--line); transform: rotate(45deg); }
+.slip { position: relative; display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 18px 16px 16px; border-radius: 4px 4px 12px 12px;
+  background: var(--slip); box-shadow: 0 3px 0 var(--shadow); transform: rotate(-.5deg); }
+.slip::before { content: ""; position: absolute; left: 6px; right: 6px; top: 5px; height: 6px;
+  background: radial-gradient(circle, var(--ground) 2.4px, transparent 3px) 0 0 / 11px 6px repeat-x; }
+.slip-head { align-self: stretch; display: flex; justify-content: space-between; align-items: baseline; gap: 10px; padding: 2px 2px 5px;
+  border-bottom: 2px solid var(--shu); color: var(--shu); font-size: 15px; }
+.order-dish { width: 170px; height: 128px; }
+.order-name { font-family: var(--brush); font-size: 28px; line-height: 1.15; text-align: center; }
 .recipe-chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; }
-.chip { padding: 4px 10px; border-radius: 999px; background: var(--mustard-soft); font-size: 14px; }
+.chip { display: inline-flex; align-items: center; gap: 4px; padding: 3px 11px 3px 6px; border-radius: 999px; font-size: 14px;
+  background: var(--paper); border: 2px solid var(--slip-rule); }
 
-.steps { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; }
-.steps span { padding: 5px 11px; border-radius: 999px; font-size: 13px; background: var(--card); border: 2px solid var(--line); color: var(--muted); }
-.steps span.now { background: var(--mustard); border-color: var(--mustard); color: #3B2A20; }
-.steps span.done { background: var(--mint-soft); border-color: var(--mint); color: var(--mint); }
+.steps { display: flex; gap: 5px; justify-content: center; flex-wrap: wrap; }
+.steps > span { display: inline-flex; align-items: center; gap: 2px; padding: 5px 9px; border-radius: 8px; font-size: 14px;
+  background: var(--paper); border: 2px solid var(--line); color: var(--muted); }
+.steps > span .ic { width: 14px; height: 14px; stroke-width: 3.2; }
+.steps > span.now { background: var(--tamago); border-color: var(--tamago); color: #3B2615; }
+.steps > span.done { background: var(--good-soft); border-color: var(--good); color: var(--good); }
 
-.panel { flex: 1; padding: 16px; display: flex; flex-direction: column; align-items: center; gap: 12px; position: relative; overflow: hidden; }
-.panel h2 { margin: 0; font-size: 22px; font-family: var(--display); text-align: center; font-weight: 400; }
-.panel .hint { margin: 0; color: var(--muted); font-size: 15px; text-align: center; }
+.panel { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 16px 12px 18px; position: relative; overflow: hidden;
+  background: var(--paper); border: 2px solid var(--line); border-radius: 22px; box-shadow: 0 3px 0 var(--shadow); }
+.panel h2 { margin: 0; font-family: var(--brush); font-weight: 400; font-size: 24px; line-height: 1.15; text-align: center; }
+.panel .hint { margin: -4px 0 0; color: var(--muted); font-size: 15px; line-height: 1.45; text-align: center; }
+.panel .hint .ic { vertical-align: -4px; margin-right: 2px; }
 
 /* 材料えらび */
 .need { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
-.need span { padding: 4px 10px; border-radius: 999px; border: 2px dashed var(--line); font-size: 14px; color: var(--muted); }
-.need span.got { border-style: solid; border-color: var(--mint); background: var(--mint-soft); color: var(--mint); }
-.ing-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; width: 100%; max-width: 360px; }
-.ing { aspect-ratio: 1; min-width: 0; overflow: hidden; padding: 2px; line-height: 1.15; overflow-wrap: anywhere; border-radius: 18px; background: var(--bg); border: 2px solid var(--line); display: flex; flex-direction: column;
-  align-items: center; justify-content: center; gap: 2px; font-size: 11px; transition: transform .1s; }
-.ing .em { font-size: 34px; line-height: 1.1; }
-.ing:active { transform: scale(.94); }
-.ing.ok { background: var(--mint-soft); border-color: var(--mint); opacity: .55; pointer-events: none; }
-.ing.ng { animation: shake .35s; border-color: var(--tomato); }
+.need > span { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px 3px 6px; border-radius: 999px; border: 2px dashed var(--line); font-size: 14px; color: var(--muted); }
+.need > span.got { border-style: solid; border-color: var(--good); background: var(--good-soft); color: var(--good); }
+.ing-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; width: 100%; max-width: 372px; }
+.ing { position: relative; min-width: 0; min-height: 98px; padding: 6px 2px 5px; border-radius: 14px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+  background: var(--slip); border: 2px solid var(--wood-2); box-shadow: 0 3px 0 var(--wood-2);
+  font-size: 13px; letter-spacing: -.02em; line-height: 1.15; overflow-wrap: anywhere; transition: transform .1s; }
+.ing .em { display: flex; align-items: center; justify-content: center; width: 100%; height: 62px; font-size: 38px; line-height: 1; }
+.ing .em .ingredient-art { width: min(60px, 100%); height: min(60px, 100%); }
+.ing .nm.long { font-size: 12px; letter-spacing: -.06em; }
+.ing:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--wood-2); }
+.ing.ok { background: var(--good-soft); border-color: var(--good); box-shadow: 0 3px 0 var(--good); pointer-events: none; }
+.ing.ok::after { content: ""; position: absolute; right: 4px; top: 4px; width: 22px; height: 22px; border-radius: 50%;
+  background: var(--good) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center / 15px no-repeat; }
+.ing.ng { animation: shake .35s; border-color: var(--shu); box-shadow: 0 3px 0 var(--shu); }
 @keyframes shake { 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
 
-/* 切る */
-.board { width: 100%; max-width: 330px; height: 190px; border-radius: 22px; position: relative; overflow: hidden;
-  background: repeating-linear-gradient(8deg, var(--board) 0 18px, var(--board-2) 18px 20px); box-shadow: inset 0 -6px 0 rgba(0,0,0,.1);
-  display: flex; align-items: center; justify-content: center; touch-action: none; cursor: pointer; }
-.board .food { font-size: 100px; line-height: 1; position: relative; transition: transform .08s; }
+/* 切る・にぎる：まな板 */
+.board { position: relative; width: 100%; max-width: 330px; height: 196px; border-radius: 22px; overflow: hidden; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  background:
+    radial-gradient(circle at 24px 24px, rgba(90,52,22,.38) 7px, rgba(255,255,255,.25) 7.5px 9px, transparent 9.5px),
+    repeating-linear-gradient(174deg, transparent 0 13px, rgba(150,95,40,.13) 13px 15px, transparent 15px 31px, rgba(150,95,40,.08) 31px 32px),
+    linear-gradient(160deg, #F3D8AA, #E3BE86);
+  box-shadow: inset 0 -8px 0 rgba(120,72,30,.24), 0 4px 0 var(--shadow); }
+.board .food { position: relative; z-index: 1; font-size: 96px; line-height: 1; transition: transform .08s; }
+.board .food .ingredient-art { width: 124px; height: 124px; }
 .board .food.hit { transform: scale(.92) rotate(-4deg); }
-.board .cut { position: absolute; top: 28px; bottom: 28px; width: 3px; background: rgba(255,255,255,.85); border-radius: 2px; transform: rotate(8deg); }
-.board .knife { position: absolute; right: 18px; top: 10px; font-size: 52px; transform-origin: 80% 80%; transition: transform .08s; }
-.board .knife.down { transform: rotate(-35deg) translate(-10px, 14px); }
-.bits { position: absolute; inset: 0; pointer-events: none; }
+.board .cut { position: absolute; z-index: 2; top: 34px; bottom: 34px; width: 3px; border-radius: 2px; background: rgba(255,255,255,.9); transform: rotate(8deg); }
+.knife { position: absolute; z-index: 3; right: 1%; top: 22px; width: 136px; pointer-events: none; transform-origin: 84% 50%; transform: rotate(-16deg);
+  transition: transform .08s; filter: drop-shadow(0 4px 2px rgba(60,35,15,.25)); }
+.knife.down { transform: rotate(5deg) translate(-6px, 28px); }
+.knife svg, .hand svg { display: block; width: 100%; height: auto; }
+.hand { position: absolute; z-index: 3; top: 50%; width: 62px; margin-top: -42px; pointer-events: none; transition: transform .08s; }
+.hand.l { left: 9%; }
+.hand.r { right: 9%; transform: scaleX(-1); }
+.board.press .hand.l { transform: translateX(16px); }
+.board.press .hand.r { transform: scaleX(-1) translateX(16px); }
+.board.press .food { transform: scale(.9, .96); }
+.bits { position: absolute; inset: 0; z-index: 4; pointer-events: none; }
 .bit { position: absolute; font-size: 24px; animation: fly .6s ease-out forwards; }
+.bit .ingredient-art { width: 28px; height: 28px; }
+.spark { display: block; width: 18px; height: 18px; background: var(--tamago); clip-path: polygon(50% 0, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0 50%, 39% 39%); }
 @keyframes fly { to { transform: translate(var(--dx), var(--dy)) rotate(200deg); opacity: 0; } }
-.count { font-family: var(--display); font-size: 34px; }
+.count { font-family: var(--brush); font-size: 30px; line-height: 1.2; }
 
-/* 加熱 */
-.stove { width: 100%; max-width: 330px; height: 200px; position: relative; display: flex; align-items: center; justify-content: center; }
-.pan { width: 210px; height: 120px; border-radius: 50%; background: radial-gradient(ellipse at 50% 40%, #6A625E, var(--steel) 70%);
-  box-shadow: 0 10px 0 #2C2725; position: relative; display: flex; align-items: center; justify-content: center; }
-.pan::after { content: ""; position: absolute; right: -86px; top: 48px; width: 92px; height: 18px; border-radius: 9px; background: #2C2725; }
-.pan.pot { width: 190px; height: 150px; border-radius: 22px 22px 60px 60px; background: linear-gradient(#8E8783, #5C5552); box-shadow: 0 8px 0 #2C2725; }
-.pan.pot::after { right: auto; left: -24px; top: 30px; width: 238px; height: 14px; border-radius: 7px; background: #3D3735; }
-.pan .food { font-size: 70px; line-height: 1; position: relative; z-index: 1; transition: filter .1s; }
-.flame { position: absolute; bottom: 4px; left: 50%; transform: translateX(-50%); font-size: 30px; letter-spacing: -6px; opacity: 0; transition: opacity .2s; }
-.flame.on { opacity: 1; animation: flick .25s infinite alternate; }
-@keyframes flick { to { transform: translateX(-50%) scaleY(1.15); } }
-.steam { position: absolute; font-size: 22px; opacity: 0; animation: rise 1.2s ease-out forwards; z-index: 2; }
-@keyframes rise { 20% { opacity: .9; } to { transform: translateY(-70px) scale(1.6); opacity: 0; } }
+/* 焼く・煮る：ガス台 */
+.stove { position: relative; width: 100%; max-width: 330px; height: 222px; flex: none; border-radius: 20px; overflow: hidden;
+  background:
+    linear-gradient(rgba(0,0,0,.22), transparent 36px),
+    repeating-linear-gradient(90deg, rgba(255,255,255,.05) 0 2px, transparent 2px 7px),
+    linear-gradient(#6E7787, #565E6D);
+  box-shadow: 0 4px 0 var(--shadow); }
+.stove-top { position: absolute; left: 0; right: 0; bottom: 0; height: 58px; background: linear-gradient(#3C424D, #20242C); border-top: 3px solid #5C6370; }
+.knob { position: absolute; bottom: 14px; width: 28px; height: 28px; border-radius: 50%; background: radial-gradient(circle at 40% 35%, #F2F4F7, #B5BCC6); box-shadow: 0 2px 0 rgba(0,0,0,.45); }
+.knob::after { content: ""; position: absolute; left: 50%; top: 3px; width: 4px; height: 11px; margin-left: -2px; border-radius: 2px; background: #2A2E36; transform-origin: 50% 11px; transition: transform .25s; }
+.knob.l { left: 16px; }
+.knob.r { right: 16px; }
+.stove.on .knob.l::after { transform: rotate(-90deg); }
+.burner { position: absolute; left: 50%; bottom: 26px; width: 156px; height: 36px; margin-left: -78px; border-radius: 50%;
+  background: radial-gradient(closest-side, #15181D 52%, #59606B 56% 68%, #2A2E36 72%); }
+.burner::before { content: ""; position: absolute; left: -60px; right: -60px; top: -90px; bottom: -24px; opacity: 0; transition: opacity .3s;
+  background: radial-gradient(closest-side, rgba(255,150,60,.5), transparent); }
+.stove.on .burner::before { opacity: 1; }
+.vessel { position: absolute; z-index: 1; bottom: 42px; }
+.vessel svg { display: block; width: 100%; height: auto; }
+.vessel.pan { width: 246px; left: calc(50% - 102px); }
+.vessel.pot { width: 206px; left: calc(50% - 103px); }
+.vessel .food { position: absolute; display: flex; align-items: center; justify-content: center; line-height: 1; transition: filter .1s; }
+.vessel.pan .food { left: 54px; top: 2px; width: 96px; height: 96px; font-size: 64px; }
+.vessel.pot .food { left: 61px; top: -16px; width: 84px; height: 84px; font-size: 56px; }
+.vessel .food .ingredient-art { width: 86px; height: 86px; }
+.vessel.pot .food .ingredient-art { width: 76px; height: 76px; }
+.vessel .cook-art { width: 112px; height: auto; }
+.flames { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+.flames i { position: absolute; width: 16px; height: 28px; margin-left: -8px; transform-origin: 50% 100%; border-radius: 50% 50% 45% 45% / 65% 65% 35% 35%; opacity: 0; transition: opacity .2s;
+  background: radial-gradient(40% 45% at 50% 80%, #8CC3FF 0 55%, transparent 60%), linear-gradient(to top, #FFD45C, #FF8A2A 55%, rgba(255,90,30,0)); }
+.stove.on .flames i { opacity: .95; animation: flick .22s ease-in-out infinite alternate; }
+@keyframes flick { from { transform: scaleY(.82); } to { transform: scaleY(1.14); } }
+.smoke { position: absolute; left: 50%; bottom: var(--sy, 112px); width: 0; height: 0; z-index: 3; pointer-events: none; }
+.puff { position: absolute; left: 0; top: 0; border-radius: 50%; opacity: 0; pointer-events: none;
+  background: radial-gradient(closest-side, var(--c1), var(--c2) 58%, transparent);
+  animation: puff 1.8s ease-out forwards; }
+@keyframes puff {
+  0% { transform: translate(-50%, -50%) translate(var(--x0), 0) scale(.35); opacity: 0; }
+  16% { opacity: 1; }
+  55% { transform: translate(-50%, -50%) translate(calc(var(--x0) + var(--dx) * .4), calc(var(--dy) * .5)) scale(calc(var(--s1) * .7)); }
+  100% { transform: translate(-50%, -50%) translate(calc(var(--x0) + var(--dx)), var(--dy)) scale(var(--s1)); opacity: 0; }
+}
+.bub { position: absolute; width: 11px; height: 11px; margin: -5px 0 0 -5px; border-radius: 50%; border: 2px solid rgba(255,255,255,.9); background: rgba(255,255,255,.25); animation: bub .7s ease-out forwards; }
+@keyframes bub { 0% { transform: scale(.2); opacity: 0; } 40% { opacity: 1; } 100% { transform: scale(1.35); opacity: 0; } }
 .meter { width: 100%; max-width: 330px; }
 .meter-track { position: relative; height: 26px; border-radius: 13px; overflow: hidden; border: 2px solid var(--line);
-  background: linear-gradient(90deg, #F7E6C6, #F0C98A); }
-.meter-zone { position: absolute; top: 0; bottom: 0; background: var(--mint); opacity: .85; }
-.meter-burn { position: absolute; top: 0; bottom: 0; right: 0; background: #5B3A2A; }
-.meter-needle { position: absolute; top: -4px; bottom: -4px; width: 6px; margin-left: -3px; border-radius: 3px; background: var(--ink); box-shadow: 0 0 0 2px var(--card); }
-.meter-labels { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin-top: 4px; }
+  background: linear-gradient(90deg, #F7EAD0, #EFC98A 70%, #C98A45); }
+.meter-zone { position: absolute; top: 0; bottom: 0; background: var(--good) repeating-linear-gradient(135deg, rgba(255,255,255,.16) 0 6px, transparent 6px 12px); }
+.meter-burn { position: absolute; top: 0; bottom: 0; right: 0; background: #4A2C1E; }
+.meter-needle { position: absolute; top: -3px; bottom: -3px; width: 6px; margin-left: -3px; border-radius: 3px; background: var(--ink); box-shadow: 0 0 0 2px var(--paper); }
+.meter-labels { position: relative; height: 18px; margin-top: 5px; font-size: 13px; color: var(--muted); }
+.meter-labels span { position: absolute; top: 0; white-space: nowrap; }
+.meter-labels .mid { transform: translateX(-50%); color: var(--good); }
+.meter-labels .end { right: 0; }
 
-/* まぜる */
-.bowl { width: 240px; height: 240px; border-radius: 50%; position: relative; touch-action: none; cursor: grab;
-  background: radial-gradient(circle at 50% 45%, #FFFFFF 0 52%, #DCE7EE 53% 62%, #B9CBD7 63% 70%, transparent 71%); }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .bowl { background: radial-gradient(circle at 50% 45%, #E9E4DE 0 52%, #9FB0BC 53% 62%, #7F919E 63% 70%, transparent 71%); } }
+/* まぜる：染付のボウル */
+.bowl { position: relative; flex: none; width: 244px; height: 244px; border-radius: 50%; cursor: grab;
+  background: radial-gradient(circle closest-side, #FFFDF8 0, #F2ECE1 72%, #E2D9CA 78%, #FFFFFF 80% 83%, #2B4A86 83.5% 86%, #FFFFFF 86.5% 89%, #2B4A86 89.5% 90.5%, #FFFFFF 91% 95%, #E6E0D5 96% 98%, transparent 98.5%);
+  box-shadow: 0 9px 0 -3px var(--shadow); }
 .bowl-in { position: absolute; inset: 0; }
-.bowl-in span { position: absolute; font-size: 34px; left: 50%; top: 50%; }
-.spoon { position: absolute; font-size: 46px; pointer-events: none; transition: opacity .2s; }
+.bowl-in span { position: absolute; left: 50%; top: 50%; font-size: 34px; }
+.bowl-in .ingredient-art { width: 52px; height: 52px; }
+.spoon { position: absolute; width: 54px; pointer-events: none; transform: rotate(-28deg); transform-origin: 50% 25%; transition: opacity .2s; }
+.spoon svg { display: block; width: 100%; height: auto; }
 .ring { width: 100%; max-width: 330px; }
-.swipe-hint { font-size: 30px; animation: spin 2.4s linear infinite; display: inline-block; }
-@keyframes spin { to { transform: rotate(360deg); } }
+.ring .bar { background: var(--line); }
 
-/* かける */
-.pour-wrap { display: flex; align-items: flex-end; gap: 16px; }
-.plate-view { width: 220px; height: 170px; position: relative; display: flex; align-items: flex-end; justify-content: center; }
-.plate-view .plate { width: 220px; height: 90px; border-radius: 50%; background: #FFFFFF; border: 3px solid #E8DFD2; position: relative; display: flex; align-items: center; justify-content: center; }
-.plate-view .base { font-size: 56px; position: relative; z-index: 1; top: -16px; }
-.puddle { position: absolute; left: 50%; top: 42%; width: 10px; height: 10px; border-radius: 50%; transform: translate(-50%, -50%) scale(0); z-index: 2; opacity: .72; }
-.bottle { position: absolute; top: 0; left: 50%; font-size: 52px; transform-origin: 50% 80%; transition: transform .2s; z-index: 3; }
+/* かける・そそぐ */
+.pour-wrap { display: flex; align-items: flex-end; justify-content: center; gap: 14px; }
+.pour-scene { position: relative; width: 220px; height: 212px; flex: none; }
+.pour-dish { position: absolute; left: 10px; right: 10px; bottom: 0; }
+.pour-dish svg { display: block; width: 100%; height: auto; }
+.bottle { position: absolute; z-index: 3; top: -4px; left: 50%; font-size: 52px; line-height: 1; transform-origin: 50% 80%; transition: transform .2s; }
+.bottle .ingredient-art { width: 64px; height: 64px; }
 .bottle.tilt { transform: translateX(10px) rotate(-130deg); }
-.stream { position: absolute; left: calc(50% + 2px); top: 46px; width: 6px; height: 0; border-radius: 3px; z-index: 2; transition: height .15s; }
-.vgauge { width: 30px; height: 170px; border-radius: 15px; border: 2px solid var(--line); background: var(--bg); position: relative; overflow: hidden; }
-.vgauge .zone { position: absolute; left: 0; right: 0; background: var(--mint); opacity: .5; }
-.vgauge .fill { position: absolute; left: 0; right: 0; bottom: 0; height: 0; }
-.hold-btn { touch-action: none; }
+.stream { position: absolute; z-index: 2; left: calc(50% + 5px); top: 74px; width: 6px; height: 0; border-radius: 3px; transition: height .15s; }
+.vgauge { position: relative; width: 32px; height: 172px; flex: none; border-radius: 16px; border: 2px solid var(--line); background: var(--paper); overflow: hidden; }
+.vgauge .zone { position: absolute; z-index: 1; left: 0; right: 0; background: rgba(60, 160, 100, .2); border-top: 2px dashed var(--good); border-bottom: 2px dashed var(--good); }
+.vgauge .fill { position: absolute; left: 0; right: 0; bottom: 0; height: 0; opacity: .9; }
+.vgauge::after { content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: repeating-linear-gradient(to top, transparent 0 calc(25% - 2px), var(--muted) calc(25% - 2px) 25%) left / 9px 100% no-repeat; opacity: .5; }
 
-/* 結果フィードバック */
-.flash { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; z-index: 5; }
-.flash b { font-family: var(--display); font-weight: 400; font-size: 40px; color: #fff; padding: 10px 26px; border-radius: 18px;
-  background: var(--mint); box-shadow: 0 5px 0 #2F8668; animation: popin .7s ease forwards; }
-.flash b.mid { background: var(--mustard); box-shadow: 0 5px 0 #C08516; color: #3B2A20; }
-.flash b.low { background: #9C8473; box-shadow: 0 5px 0 #6E5A4C; }
-@keyframes popin { 0% { transform: scale(.4); opacity: 0; } 30% { transform: scale(1.12); opacity: 1; } 70% { transform: scale(1); opacity: 1; } 100% { transform: scale(1); opacity: 0; } }
+/* できばえの判子 */
+.flash { position: absolute; inset: 0; z-index: 5; display: flex; align-items: center; justify-content: center; pointer-events: none; }
+.flash b { font-family: var(--brush); font-weight: 400; font-size: 34px; line-height: 1.1; color: var(--shu); padding: 10px 22px; border-radius: 14px;
+  background: var(--paper); border: 4px solid currentColor; box-shadow: inset 0 0 0 3px var(--paper), inset 0 0 0 5px currentColor, 0 8px 24px var(--shadow);
+  transform: rotate(-7deg); animation: stamp .8s ease forwards; }
+.flash b.mid { color: var(--tamago-deep); }
+.flash b.low { color: var(--muted); }
+@keyframes stamp { 0% { transform: rotate(-7deg) scale(1.7); opacity: 0; } 22% { transform: rotate(-7deg) scale(.94); opacity: 1; } 34% { transform: rotate(-7deg) scale(1); } 78% { opacity: 1; } 100% { transform: rotate(-7deg) scale(1); opacity: 0; } }
 
-/* 提供 */
-.serve { align-items: center; text-align: center; }
-.serve-dish { width: 230px; height: 172px; animation: pop .5s ease; }
+/* 料理を出す */
+.serve { gap: 10px; text-align: center; }
+.serve-dish { width: 210px; height: 158px; animation: pop .5s ease; }
 @keyframes pop { 0% { transform: scale(.6); } 70% { transform: scale(1.06); } }
-.stars { font-size: 44px; letter-spacing: 4px; min-height: 52px; }
-.stars span { display: inline-block; opacity: .2; filter: grayscale(1); }
-.stars span.on { opacity: 1; filter: none; animation: pop .4s ease both; }
-.say { font-size: 19px; }
-.pay { width: 100%; max-width: 300px; display: grid; gap: 6px; font-size: 16px; }
-.pay div { display: flex; justify-content: space-between; border-bottom: 2px dotted var(--line); padding-bottom: 4px; }
-.pay .total { font-size: 20px; border: 0; }
+.stars { display: flex; justify-content: center; gap: 6px; }
+.stars .ic { width: 46px; height: 46px; color: var(--line); stroke-width: 1.4; }
+.stars .ic.on { color: var(--tamago); animation: pop .4s ease both; }
+.serve .bubble { align-self: center; margin: 4px 0 0; }
+.receipt { position: relative; width: 100%; max-width: 300px; display: grid; gap: 6px; margin: 2px 0 12px; padding: 12px 16px 8px; font-size: 16px;
+  background: var(--slip); box-shadow: 0 2px 0 var(--shadow); }
+.receipt::after { content: ""; position: absolute; left: 0; right: 0; top: 100%; height: 9px;
+  background: linear-gradient(135deg, var(--slip) 50%, transparent 50%) 0 0 / 12px 9px repeat-x, linear-gradient(225deg, var(--slip) 50%, transparent 50%) 0 0 / 12px 9px repeat-x; }
+.receipt > div { display: flex; justify-content: space-between; gap: 10px; padding-bottom: 5px; border-bottom: 2px dotted var(--slip-rule); text-align: left; }
+.receipt .total { font-size: 20px; border: 0; }
+.receipt .coin { color: var(--shu); }
 
-/* 一日の結果・お店・レシピ帳 */
-.head-row { display: flex; align-items: center; gap: 10px; }
-.head-row h2 { margin: 0; flex: 1; font-family: var(--display); font-weight: 400; font-size: 24px; }
-.result-big { text-align: center; padding: 20px 16px; display: grid; gap: 10px; }
-.result-big .stamp { font-size: 60px; line-height: 1; }
-.result-big h3 { margin: 0; font-family: var(--display); font-weight: 400; font-size: 26px; }
-.result-rows { display: grid; gap: 8px; padding: 14px 16px; font-size: 17px; }
-.result-rows div { display: flex; justify-content: space-between; }
-.list { display: grid; gap: 10px; }
-.item { display: flex; align-items: center; gap: 12px; padding: 12px 14px; }
-.item .big { font-size: 36px; width: 52px; text-align: center; flex: none; }
-.item .txt { flex: 1; min-width: 0; }
-.item .txt b { display: block; font-size: 17px; }
-.item .txt small { color: var(--muted); font-size: 13px; display: block; margin-top: 2px; }
-.lv { display: flex; gap: 4px; margin-top: 6px; }
-.lv i { width: 18px; height: 8px; border-radius: 4px; background: var(--line); }
-.lv i.on { background: var(--mustard); }
-.item .btn { min-height: 44px; padding: 0 14px; font-size: 15px; }
-.item.locked { opacity: .55; }
-.item .mini-dish { width: 64px; height: 48px; flex: none; }
-.mini-stars { color: var(--mustard); letter-spacing: 1px; }
+/* 一日のおしまい */
+.report { position: relative; display: grid; gap: 12px; padding: 20px 16px 16px; border-radius: 6px; background: var(--slip); box-shadow: 0 3px 0 var(--shadow); }
+.report h3 { margin: 0; padding-right: 96px; min-height: 76px; display: flex; align-items: center; font-family: var(--brush); font-weight: 400; font-size: 30px; line-height: 1.15; text-wrap: balance; }
+.hanko { position: absolute; right: 14px; top: 12px; width: 88px; height: 88px; border-radius: 50%; display: flex; align-items: center; justify-content: center; gap: 1px;
+  color: var(--shu); border: 4px solid currentColor; box-shadow: inset 0 0 0 3px var(--slip), inset 0 0 0 5px currentColor;
+  font-family: var(--brush); font-size: 27px; line-height: 1; transform: rotate(-12deg); animation: stampin .55s ease .15s both; }
+.hanko .ic { width: 22px; height: 22px; stroke-width: 1.4; }
+@keyframes stampin { 0% { transform: rotate(-12deg) scale(1.8); opacity: 0; } 60% { transform: rotate(-12deg) scale(.92); opacity: 1; } 100% { transform: rotate(-12deg) scale(1); opacity: 1; } }
+.report-rows { display: grid; gap: 8px; font-size: 17px; }
+.report-rows > div { display: flex; justify-content: space-between; gap: 10px; padding-bottom: 6px; border-bottom: 2px dotted var(--slip-rule); }
+.report-rows > div:last-child { border: 0; padding-bottom: 0; }
+.report-rows .big { font-size: 20px; }
+.report-rows .coin { color: var(--shu); }
+.report-rows .new { color: var(--good); }
+
+/* お店の道具 */
+.lead { margin: 0; color: var(--muted); font-size: 15px; font-weight: 500; line-height: 1.65; }
+.tools { background: var(--paper); border: 2px solid var(--line); border-radius: 18px; box-shadow: 0 3px 0 var(--shadow); }
+.tool { display: flex; align-items: center; gap: 12px; padding: 14px; }
+.tool + .tool { border-top: 2px dashed var(--line); }
+.tool-ic { width: 52px; height: 52px; flex: none; border-radius: 14px; display: flex; align-items: center; justify-content: center; background: var(--ai-soft); color: var(--ai-ink); }
+.tool-ic .ic { width: 30px; height: 30px; }
+.tool .txt { flex: 1; min-width: 0; }
+.tool .txt b { display: block; font-size: 17px; }
+.tool .txt small { display: block; margin-top: 2px; color: var(--muted); font-size: 13px; font-weight: 500; line-height: 1.45; }
+.lv { display: flex; gap: 4px; margin-top: 7px; }
+.lv i { width: 20px; height: 8px; border-radius: 4px; background: var(--line); }
+.lv i.on { background: var(--tamago); }
+.btn.buy { min-height: 44px; padding: 0 14px; font-size: 15px; flex: none; }
+.max { flex: none; padding: 6px 12px; border-radius: 8px; background: var(--tamago-soft); color: var(--tamago-deep); font-size: 14px; }
+
+/* レシピ帳：お品書きの木札 */
+.menu-board { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; padding: 14px; border-radius: 18px;
+  background: repeating-linear-gradient(90deg, transparent 0 40px, rgba(40,20,5,.14) 40px 42px), linear-gradient(var(--wood-2), var(--wood-dark));
+  box-shadow: inset 0 0 0 3px rgba(0,0,0,.12), 0 3px 0 var(--shadow); }
+.mtag { position: relative; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 16px 8px 12px; border-radius: 6px; text-align: center;
+  background: var(--slip); box-shadow: 0 3px 0 rgba(40,20,5,.35); }
+.mtag::before { content: ""; position: absolute; top: 6px; left: 50%; width: 8px; height: 8px; margin-left: -4px; border-radius: 50%; background: #A0978A; box-shadow: inset 0 1px 0 rgba(255,255,255,.6); }
+.mtag .mini-dish { width: 100%; max-width: 124px; height: auto; }
+.mtag b { font-family: var(--brush); font-weight: 400; font-size: 20px; line-height: 1.15; }
+.mtag .price { color: var(--shu); font-size: 15px; }
+.mtag .ings { display: flex; flex-wrap: wrap; justify-content: center; gap: 2px; min-height: 26px; font-size: 18px; line-height: 1.3; }
+.mtag .ings .ingredient-art { width: 26px; height: 26px; }
+.mtag small { color: var(--muted); font-size: 13px; font-weight: 500; }
+.mini-stars { display: flex; gap: 2px; justify-content: center; }
+.mini-stars .ic { width: 18px; height: 18px; color: var(--line); stroke-width: 1.4; }
+.mini-stars .ic.on { color: var(--tamago); }
+.mtag.locked { justify-content: center; min-height: 196px; background: rgba(255,255,255,.1); color: #FFF3DA; box-shadow: none; border: 2px dashed rgba(255,243,218,.45); }
+.mtag.locked::before { display: none; }
+.mtag.locked .ic { width: 32px; height: 32px; opacity: .85; }
+.mtag.locked small { color: #FFF3DA; opacity: .85; }
+
+/* せってい */
+.illust-options { display: grid; gap: 12px; }
+.illust-choice { display: block; width: 100%; padding: 14px; border-radius: 18px; text-align: left; color: var(--ink);
+  background: var(--paper); border: 2px solid var(--line); box-shadow: 0 3px 0 var(--shadow); transition: border-color .15s, transform .1s; }
+.illust-choice[aria-pressed="true"] { border-color: var(--ai); background: var(--ai-soft); }
+.illust-choice:active { transform: scale(.98); }
+.illust-choice-head { display: flex; align-items: center; gap: 10px; font-size: 17px; font-weight: 900; }
+.radio { width: 20px; height: 20px; flex: none; border-radius: 50%; border: 2px solid var(--line); background: var(--paper); }
+.radio.on { border-color: var(--ai); box-shadow: inset 0 0 0 4px var(--paper); background: var(--ai); }
+.illust-choice-head .check { margin-left: auto; color: var(--ai-ink); font-size: 14px; }
+.illust-choice-desc { display: block; margin-top: 4px; padding-left: 30px; color: var(--muted); font-size: 14px; font-weight: 500; line-height: 1.55; }
+.illust-preview { display: flex; justify-content: center; align-items: center; gap: 18px; min-height: 86px; margin-top: 8px; font-size: 48px; }
+.material-sample { display: inline-flex; align-items: center; justify-content: center; width: 70px; height: 74px; }
+.illust-preview .ingredient-art { width: 68px; height: 68px; }
+.note { margin: 0; color: var(--muted); font-size: 14px; font-weight: 500; line-height: 1.6; }
+
+/* 素材イラスト（共通） */
+.illust-img { display: block; object-fit: contain; flex-shrink: 0; }
+.ingredient-art { display: inline-block; width: 1.7em; height: 1.7em; object-fit: contain; vertical-align: middle; }
+.recipe-chips .ingredient-art, .need .ingredient-art { width: 28px; height: 28px; }
+.bottle .ingredient-art, .bit .ingredient-art { display: block; }
 
 /* オーバーレイ */
-.overlay { position: fixed; inset: 0; background: rgba(40, 25, 15, .55); display: none; align-items: center; justify-content: center; padding: 20px; z-index: 20; }
+.overlay { position: fixed; inset: 0; z-index: 20; display: none; align-items: center; justify-content: center; padding: 20px; background: rgba(14, 20, 38, .58); }
 .overlay.on { display: flex; }
-.sheet { width: 100%; max-width: 420px; max-height: 88vh; overflow: auto; padding: 20px; display: grid; gap: 12px; }
-.sheet h2 { margin: 0; font-family: var(--display); font-weight: 400; font-size: 24px; text-align: center; }
+.sheet { width: 100%; max-width: 420px; max-height: 88vh; overflow: auto; display: grid; gap: 12px; padding: 20px;
+  background: var(--paper); border-radius: 22px; border-top: 12px solid var(--ai); box-shadow: 0 6px 0 var(--shadow); }
+.sheet h2 { margin: 0; font-family: var(--brush); font-weight: 400; font-size: 26px; text-align: center; }
 .sheet p { margin: 0; line-height: 1.7; font-weight: 500; }
+.sheet .center { text-align: center; }
 .how-row { display: flex; gap: 12px; align-items: flex-start; }
-.how-row .big { font-size: 28px; width: 38px; text-align: center; flex: none; }
-.toast { position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: var(--ink); color: var(--bg);
-  padding: 10px 18px; border-radius: 999px; font-size: 15px; z-index: 30; opacity: 0; transition: opacity .25s; pointer-events: none; white-space: nowrap; }
+.how-ic { width: 40px; height: 40px; flex: none; border-radius: 12px; display: flex; align-items: center; justify-content: center; background: var(--ai-soft); color: var(--ai-ink); }
+.how-ic .ic { width: 24px; height: 24px; }
+.how-ic.star { background: var(--tamago-soft); color: var(--tamago); }
+.toast { position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); z-index: 30; transform: translateX(-50%); padding: 10px 18px; border-radius: 999px;
+  background: var(--ai); color: #fff; font-size: 15px; white-space: nowrap; opacity: 0; transition: opacity .25s; pointer-events: none; box-shadow: 0 4px 0 var(--ai-deep); }
 .toast.on { opacity: 1; }
-@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; } }
-/* 素材イラストを大きく見せる。料理SVGは元のサイズで表示する。 */
-.illust-img{display:block;object-fit:contain;flex-shrink:0}
-.ingredient-art{display:inline-block;width:1.7em;height:1.7em;object-fit:contain;vertical-align:middle}
-.ing-grid{gap:6px}
-.ing{aspect-ratio:auto;min-height:96px;padding:5px 2px 4px;font-size:12px;gap:1px}
-.ing .em{display:flex;align-items:center;justify-content:center;width:100%;height:66px;line-height:1}
-.ing .em .ingredient-art{width:min(64px,100%);height:min(64px,100%)}
-.recipe-chips .ingredient-art,.need .ingredient-art{width:30px;height:30px}
-.item small .ingredient-art{width:26px;height:26px}
-.board .food .ingredient-art{width:126px;height:126px}
-.stove .food .ingredient-art{width:94px;height:94px}
-.bowl-in .ingredient-art{width:50px;height:50px}
-.bit .ingredient-art{width:28px;height:28px}
-.plate-view .base .ingredient-art{width:78px;height:78px}
-.plate-view .bottle .ingredient-art{width:65px;height:65px}
-@media(max-width:360px){
-  .ing{min-height:89px}
-  .ing .em{height:58px}
-  .ing .em .ingredient-art{width:min(56px,100%);height:min(56px,100%)}
+
+@media (max-width: 360px) {
+  .ing { min-height: 90px; }
+  .ing .em { height: 56px; }
+  .ing .em .ingredient-art { width: min(54px, 100%); height: min(54px, 100%); }
+  .ing .nm.long { font-size: 11px; }
+  .queue i { width: 7px; height: 7px; }
+  .queue { gap: 3px; }
+  .tool { gap: 10px; padding: 12px; }
+  .tool-ic { width: 40px; height: 40px; }
+  .tool-ic .ic { width: 24px; height: 24px; }
+  .tool .txt b { font-size: 16px; }
+  .btn.buy { padding: 0 10px; }
+  #sb { padding: 0 10px; font-size: 16px; }
+  .noren i { font-size: 26px; }
 }
-.illust-options{display:grid;gap:12px}
-.illust-choice{display:block;width:100%;text-align:left;padding:14px;border-radius:18px;border:2px solid var(--line);background:var(--card);box-shadow:var(--shadow);color:var(--ink);transition:border-color .15s,transform .1s}
-.illust-choice[aria-pressed="true"]{border-color:var(--mint);background:var(--mint-soft)}
-.illust-choice:active{transform:scale(.98)}
-.illust-choice:focus-visible{outline:3px solid var(--mustard);outline-offset:3px}
-.illust-choice-head{display:flex;align-items:center;gap:8px;font-weight:900;font-size:17px}
-.illust-choice-head .check{margin-left:auto;color:var(--mint)}
-.illust-choice-desc{display:block;color:var(--muted);font-size:13px;line-height:1.55;margin-top:4px}
-.illust-preview{display:flex;justify-content:center;align-items:center;gap:18px;min-height:86px;margin-top:8px}
-.illust-preview{font-size:48px}.illust-preview .material-sample{display:inline-flex;align-items:center;justify-content:center;width:70px;height:74px}.illust-preview .ingredient-art{width:68px;height:68px}
-.illust-note{font-size:13px;font-weight:500;line-height:1.6;color:var(--muted);margin:0}
+@media (max-height: 640px) {
+  .order-dish { width: 136px; height: 102px; }
+  .slip { padding-top: 14px; }
+}
+@media (max-width: 340px) {
+  .ing-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .ing .nm.long { font-size: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
 </style>
 <script src="ingredients-reviewed.js?v=20261108"></script>
 </head>
-<body>
+<body data-screen="title">
+<svg class="sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="gBlade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F2F5F9"/><stop offset="1" stop-color="#B2BBC8"/></linearGradient>
+    <radialGradient id="gPan" cx=".45" cy=".4" r=".7"><stop offset="0" stop-color="#4B5159"/><stop offset="1" stop-color="#2A2E35"/></radialGradient>
+    <linearGradient id="gPot" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#7F8792"/><stop offset=".3" stop-color="#D5DAE1"/><stop offset=".65" stop-color="#A9B1BC"/><stop offset="1" stop-color="#78808B"/></linearGradient>
+  </defs>
+  <symbol id="i-bowl" viewBox="0 0 24 24"><path d="M3 12.5h18a9 7.5 0 0 1-18 0Z" fill="currentColor"/><path d="M6.6 12c.8-3 3-4.6 5.4-4.6s4.6 1.6 5.4 4.6"/><path d="M14 3.2 9.8 10M18.8 4.4l-6 6"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M12 6.5C10 5 7 4.4 3.5 4.8v13.4c3.5-.4 6.5.2 8.5 1.7 2-1.5 5-2.1 8.5-1.7V4.8C17 4.4 14 5 12 6.5Z"/><path d="M12 6.5v13.4"/></symbol>
+  <symbol id="i-pan" viewBox="0 0 24 24"><ellipse cx="10" cy="13.2" rx="7.2" ry="6.6" fill="currentColor"/><path d="M16.2 9.4 21.5 5.6" stroke-width="3"/></symbol>
+  <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.4 9.6a2.7 2.7 0 1 1 3.9 2.4c-.8.4-1.3 1-1.3 1.9v.5"/><circle cx="12" cy="17.4" r="1.1" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-sound" viewBox="0 0 24 24"><path d="M4 9.5v5h3.5l4.5 4v-13l-4.5 4Z" fill="currentColor"/><path d="M15.5 9a4.2 4.2 0 0 1 0 6M18.3 6.3a8 8 0 0 1 0 11.4"/></symbol>
+  <symbol id="i-mute" viewBox="0 0 24 24"><path d="M4 9.5v5h3.5l4.5 4v-13l-4.5 4Z" fill="currentColor"/><path d="M16 9.5l5 5M21 9.5l-5 5"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.4" stroke-width="3.4" stroke-dasharray="2.9 2.9" stroke-linecap="butt"/><circle cx="12" cy="12" r="5.4"/><circle cx="12" cy="12" r="1.8" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4.5 7h15M9.5 7V4.6h5V7"/><path d="M6.5 7l1 12.5a1.5 1.5 0 0 0 1.5 1.4h6a1.5 1.5 0 0 0 1.5-1.4l1-12.5"/><path d="M10.2 10.5v6.5M13.8 10.5v6.5"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><rect x="6" y="5" width="4.2" height="14" rx="1.6" fill="currentColor" stroke="none"/><rect x="13.8" y="5" width="4.2" height="14" rx="1.6" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.6v12.8a1 1 0 0 0 1.5.9l10-6.4a1 1 0 0 0 0-1.8l-10-6.4A1 1 0 0 0 8 5.6Z" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M3.5 11 12 4l8.5 7"/><path d="M6 9.5V20h12V9.5"/><path d="M10 20v-5.5h4V20"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M15 4.5 7.5 12l7.5 7.5" stroke-width="2.8"/></symbol>
+  <symbol id="i-coin" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6" stroke-width="5"/></symbol>
+  <symbol id="i-hat" viewBox="0 0 24 24"><path d="M7.2 14.6A4.2 4.2 0 0 1 6.5 6.4 5.2 5.2 0 0 1 12 3.4a5.2 5.2 0 0 1 5.5 3 4.2 4.2 0 0 1-.7 8.2Z" fill="currentColor"/><path d="M7.4 14.6v5h9.2v-5"/></symbol>
+  <symbol id="i-flame" viewBox="0 0 24 24"><path d="M12 2.6c.9 3.4 5.4 5.6 5.4 10.6a5.4 5.4 0 0 1-10.8 0c0-2.6 1.4-4.3 2.7-5.4.1 1.8 1 2.9 2.1 3.3.4-3-.4-5.6.6-8.5Z" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-flame-off" viewBox="0 0 24 24"><path d="M12 2.6c.9 3.4 5.4 5.6 5.4 10.6a5.4 5.4 0 0 1-10.8 0c0-2.6 1.4-4.3 2.7-5.4.1 1.8 1 2.9 2.1 3.3.4-3-.4-5.6.6-8.5Z"/><path d="M4 4l16 16" stroke-width="2.6"/></symbol>
+  <symbol id="i-drop" viewBox="0 0 24 24"><path d="M12 3.2c3.2 4.2 6.2 7.4 6.2 10.9a6.2 6.2 0 0 1-12.4 0c0-3.5 3-6.7 6.2-10.9Z" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-person" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.8" fill="currentColor" stroke="none"/><path d="M4.8 20.2c.9-4.2 3.8-6.4 7.2-6.4s6.3 2.2 7.2 6.4Z" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M19.5 14.6A8 8 0 0 1 9.4 4.5a8 8 0 1 0 10.1 10.1Z" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2" fill="currentColor" stroke="none"/><path d="M12 2.4v2.4M12 19.2v2.4M2.4 12h2.4M19.2 12h2.4M5.2 5.2l1.7 1.7M17.1 17.1l1.7 1.7M5.2 18.8l1.7-1.7M17.1 6.9l1.7-1.7"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 2.9l2.75 5.6 6.15.9-4.45 4.35 1.05 6.1L12 17l-5.5 2.85 1.05-6.1L3.1 9.4l6.15-.9Z" fill="currentColor"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="10.5" rx="2.6" fill="currentColor" stroke="none"/><path d="M8.2 10.5V8a3.8 3.8 0 0 1 7.6 0v2.5"/></symbol>
+  <symbol id="i-knife" viewBox="0 0 24 24"><g transform="rotate(-45 12 12)" fill="currentColor" stroke="none"><path d="M15.6 8.6V15H2.6C1.2 15 .8 13.9 1.6 13.1L5.8 8.6Z"/><rect x="16.6" y="9.9" width="6.8" height="4.2" rx="2.1"/></g></symbol>
+  <symbol id="i-sign" viewBox="0 0 24 24"><path d="M3.5 3.5h17M8 3.5 7 9M16 3.5l1 5.5"/><rect x="3" y="9" width="18" height="11" rx="2.2" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-basket" viewBox="0 0 24 24"><path d="M3.5 10.5h17l-1.8 8.6a1.5 1.5 0 0 1-1.5 1.2H6.8a1.5 1.5 0 0 1-1.5-1.2Z" fill="currentColor" stroke="none"/><path d="M7.5 10.5 10.5 4.5M16.5 10.5 13.5 4.5"/></symbol>
+  <symbol id="i-spoon" viewBox="0 0 24 24"><g transform="rotate(40 12 12)"><ellipse cx="12" cy="6.5" rx="4" ry="5" fill="currentColor" stroke="none"/><path d="M12 11v10.5" stroke-width="2.8"/></g></symbol>
+  <symbol id="i-bottle" viewBox="0 0 24 24"><path d="M10 2.8h4v3.6l2.2 2.8v11a1.2 1.2 0 0 1-1.2 1.2H9a1.2 1.2 0 0 1-1.2-1.2v-11L10 6.4Z" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke-width="2.8"/></symbol>
+  <symbol id="i-rotate" viewBox="0 0 24 24"><path d="M19.5 12a7.5 7.5 0 1 1-2.2-5.3"/><path d="M19.6 3.8v4.6H15"/></symbol>
+</svg>
+
 <div class="app">
 
-  <!-- タイトル -->
+  <!-- タイトル：お店の表 -->
   <section class="screen on" id="sc-title">
-    <div class="awning" aria-hidden="true"></div>
-    <div class="title-wrap">
-      <div class="logo-plate" id="t-logo" aria-hidden="true">🍳</div>
-      <h1 class="logo">おりょうり<br>食堂<small>KITCHEN SIMULATION</small></h1>
-      <div class="title-stats">
-        <span class="pill" id="t-day">1日目</span>
-        <span class="pill coin" id="t-money">💰 0円</span>
-      </div>
-      <div class="title-menu">
-        <button class="btn wide" id="b-start">🍽️ お店をあける</button>
-        <div class="title-sub">
-          <button class="btn ghost" id="b-book">📖 レシピ帳</button>
-          <button class="btn ghost" id="b-shop">🛠️ お店の道具</button>
+    <header class="shop">
+      <div class="facade">
+        <div class="roof" aria-hidden="true"></div>
+        <div class="facade-in">
+          <div class="sign"><h1 class="logo">おりょうり食堂</h1></div>
+          <div class="front" aria-hidden="true">
+            <div class="door"><div class="noren" translate="no"><i>ご</i><i>は</i><i>ん</i></div></div>
+            <div class="case" id="t-case"></div>
+          </div>
         </div>
       </div>
+      <div class="stoop" aria-hidden="true"></div>
+    </header>
+    <div class="title-body">
+      <div class="tags">
+        <span class="tag" id="t-day">1日目</span>
+        <span class="tag"><svg class="ic coin-ic" aria-hidden="true"><use href="#i-coin"/></svg><span id="t-money">0円</span></span>
+      </div>
+      <button class="btn wide big" id="b-start"><svg class="ic" aria-hidden="true"><use href="#i-bowl"/></svg><span>お店をあける</span></button>
+      <div class="row2">
+        <button class="btn sub" id="b-book"><svg class="ic" aria-hidden="true"><use href="#i-book"/></svg><span>レシピ帳</span></button>
+        <button class="btn sub" id="b-shop"><svg class="ic" aria-hidden="true"><use href="#i-pan"/></svg><span>お店の道具</span></button>
+      </div>
       <div class="title-foot">
-        <button class="icon-btn" id="b-how" aria-label="あそびかた">❓</button>
-        <button class="icon-btn" id="b-sound" aria-label="音のオンオフ">🔊</button>
-        <button class="icon-btn" id="b-settings" aria-label="設定を開く">⚙️</button>
-        <button class="icon-btn" id="b-reset" aria-label="データを消す">🗑️</button>
+        <button class="icon-btn" id="b-how" aria-label="あそびかた"><svg class="ic" aria-hidden="true"><use href="#i-help"/></svg></button>
+        <button class="icon-btn" id="b-sound" aria-label="音のオンオフ"><svg class="ic" aria-hidden="true"><use href="#i-sound"/></svg></button>
+        <button class="icon-btn" id="b-settings" aria-label="設定を開く"><svg class="ic" aria-hidden="true"><use href="#i-gear"/></svg></button>
+        <button class="icon-btn" id="b-reset" aria-label="データを消す"><svg class="ic" aria-hidden="true"><use href="#i-trash"/></svg></button>
       </div>
     </div>
   </section>
 
-  <!-- ゲーム -->
+  <!-- ゲーム：厨房 -->
   <section class="screen" id="sc-game">
-    <div class="hud">
-      <span class="pill" id="g-day">1日目</span>
+    <div class="noren-bar hud">
+      <span class="day" id="g-day">1日目</span>
       <span class="queue" id="g-queue"></span>
       <span class="spacer"></span>
-      <span class="pill coin" id="g-money">0円</span>
-      <button class="icon-btn" id="b-pause" aria-label="ひとやすみ">⏸️</button>
+      <span class="money"><svg class="ic coin-ic" aria-hidden="true"><use href="#i-coin"/></svg><span id="g-money">0円</span></span>
+      <button class="icon-btn bar-btn" id="b-pause" aria-label="ひとやすみ"><svg class="ic" aria-hidden="true"><use href="#i-pause"/></svg></button>
     </div>
-    <div class="card customer">
+    <div class="guest">
       <div class="face" id="g-face">🙂</div>
       <div class="patience">
         <div class="patience-label"><span>まちきれない度</span><span id="g-wait">ゆっくり</span></div>
@@ -342,85 +593,86 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
     <div class="stage" id="g-stage"></div>
   </section>
 
-  <!-- 一日の結果 -->
+  <!-- 一日のおしまい -->
   <section class="screen" id="sc-result">
-    <div class="card result-big">
-      <div class="stamp" id="r-stamp">🎉</div>
+    <div class="noren-bar"><h2 id="r-day">1日目</h2></div>
+    <div class="report">
+      <div class="hanko" id="r-stamp"></div>
       <h3 id="r-title">大はんじょう！</h3>
-      <div class="stars" id="r-stars"></div>
+      <div class="report-rows" id="r-rows"></div>
     </div>
-    <div class="card result-rows" id="r-rows"></div>
-    <button class="btn wide" id="b-next">☀️ つぎの日へ</button>
-    <div class="title-sub">
-      <button class="btn ghost" id="b-r-shop">🛠️ お店の道具</button>
-      <button class="btn ghost" id="b-r-title">🏠 タイトル</button>
+    <button class="btn wide big" id="b-next"><svg class="ic" aria-hidden="true"><use href="#i-sun"/></svg><span>つぎの日へ</span></button>
+    <div class="row2">
+      <button class="btn sub" id="b-r-shop"><svg class="ic" aria-hidden="true"><use href="#i-pan"/></svg><span>お店の道具</span></button>
+      <button class="btn sub" id="b-r-title"><svg class="ic" aria-hidden="true"><use href="#i-home"/></svg><span>タイトル</span></button>
     </div>
   </section>
 
   <!-- お店の道具 -->
   <section class="screen" id="sc-shop">
-    <div class="head-row">
-      <button class="icon-btn" data-back aria-label="もどる">←</button>
+    <div class="noren-bar">
+      <button class="icon-btn bar-btn" data-back aria-label="もどる"><svg class="ic" aria-hidden="true"><use href="#i-back"/></svg></button>
       <h2>お店の道具</h2>
-      <span class="pill coin" id="s-money">0円</span>
+      <span class="money"><svg class="ic coin-ic" aria-hidden="true"><use href="#i-coin"/></svg><span id="s-money">0円</span></span>
     </div>
-    <p class="hint" style="margin:0;color:var(--muted);font-weight:500">売上で道具をそろえると、料理がもっとうまくいくよ。</p>
-    <div class="list" id="s-list"></div>
+    <p class="lead">売上で道具をそろえると、料理がもっとうまくいくよ。</p>
+    <div class="tools" id="s-list"></div>
   </section>
 
   <!-- レシピ帳 -->
   <section class="screen" id="sc-book">
-    <div class="head-row">
-      <button class="icon-btn" data-back aria-label="もどる">←</button>
+    <div class="noren-bar">
+      <button class="icon-btn bar-btn" data-back aria-label="もどる"><svg class="ic" aria-hidden="true"><use href="#i-back"/></svg></button>
       <h2>レシピ帳</h2>
     </div>
-    <div class="list" id="k-list"></div>
+    <div class="menu-board" id="k-list"></div>
   </section>
+
   <!-- イラスト切り替え設定 -->
   <section class="screen" id="sc-settings">
-    <div class="head-row">
-      <button class="icon-btn" data-back aria-label="もどる">←</button>
-      <h2>⚙️ せってい</h2>
+    <div class="noren-bar">
+      <button class="icon-btn bar-btn" data-back aria-label="もどる"><svg class="ic" aria-hidden="true"><use href="#i-back"/></svg></button>
+      <h2>せってい</h2>
     </div>
-    <p class="hint" style="margin:0;color:var(--muted);font-weight:500">ざいりょうの絵をえらんでね。選んだ設定は自動で保存されるよ。</p>
+    <p class="lead">ざいりょうの絵をえらんでね。選んだ設定は自動で保存されるよ。</p>
     <div class="illust-options" id="illust-options" role="group" aria-label="料理のイラスト"></div>
-    <p class="illust-note">※ 完成した料理の絵は変わりません。セット2には素材専用のイラストがまだないため、現在の切り替え対象から外しています。</p>
-    <button class="btn wide ghost" id="b-settings-done">← タイトルにもどる</button>
+    <p class="note">※ できあがった料理の絵は、どちらでも同じだよ。</p>
+    <button class="btn sub wide" id="b-settings-done"><svg class="ic" aria-hidden="true"><use href="#i-home"/></svg><span>タイトルにもどる</span></button>
   </section>
 </div>
 
 <!-- あそびかた -->
-<div class="overlay" id="ov-how">
-  <div class="card sheet">
-    <h2>あそびかた</h2>
-    <div class="how-row"><span class="big">🧑</span><p>お客さんの注文を聞いて、料理をつくろう。待たせすぎるとチップがもらえないよ。</p></div>
-    <div class="how-row"><span class="big">🥕</span><p>ざいりょう：レシピにある材料だけをタップしてえらぼう。</p></div>
-    <div class="how-row"><span class="big">🔪</span><p>きる・にぎる：まな板をどんどんタップ！はやいほど高得点。</p></div>
-    <div class="how-row"><span class="big">🔥</span><p>やく・にる：火をつけて、メーターがみどりのところで火をとめよう。</p></div>
-    <div class="how-row"><span class="big">🥄</span><p>まぜる：ボウルの中を指でぐるぐるなぞろう。ボタンでもOK。</p></div>
-    <div class="how-row"><span class="big">🍯</span><p>かける：ボタンをおしている間そそぐよ。みどりのところではなそう。</p></div>
-    <div class="how-row"><span class="big">⭐</span><p>星3つをめざそう！売上で道具を買うと、もっとつくりやすくなるよ。</p></div>
-    <button class="btn wide" data-close>わかった！</button>
+<div class="overlay" id="ov-how" role="dialog" aria-modal="true" aria-labelledby="how-title">
+  <div class="sheet">
+    <h2 id="how-title">あそびかた</h2>
+    <div class="how-row"><span class="how-ic"><svg class="ic" aria-hidden="true"><use href="#i-person"/></svg></span><p>お客さんの注文を聞いて、料理をつくろう。待たせすぎるとチップがもらえないよ。</p></div>
+    <div class="how-row"><span class="how-ic"><svg class="ic" aria-hidden="true"><use href="#i-basket"/></svg></span><p>ざいりょう：レシピにある材料だけをタップしてえらぼう。</p></div>
+    <div class="how-row"><span class="how-ic"><svg class="ic" aria-hidden="true"><use href="#i-knife"/></svg></span><p>きる・にぎる：まな板をどんどんタップ！はやいほど高得点。</p></div>
+    <div class="how-row"><span class="how-ic"><svg class="ic" aria-hidden="true"><use href="#i-flame"/></svg></span><p>やく・にる：火をつけて、メーターがみどりのところで火をとめよう。</p></div>
+    <div class="how-row"><span class="how-ic"><svg class="ic" aria-hidden="true"><use href="#i-spoon"/></svg></span><p>まぜる：ボウルの中を指でぐるぐるなぞろう。ボタンでもOK。</p></div>
+    <div class="how-row"><span class="how-ic"><svg class="ic" aria-hidden="true"><use href="#i-bottle"/></svg></span><p>かける：ボタンをおしている間そそぐよ。みどりのところではなそう。</p></div>
+    <div class="how-row"><span class="how-ic star"><svg class="ic" aria-hidden="true"><use href="#i-star"/></svg></span><p>星3つをめざそう！売上で道具を買うと、もっとつくりやすくなるよ。</p></div>
+    <button class="btn wide big" data-close>わかった！</button>
   </div>
 </div>
 
 <!-- ひとやすみ -->
-<div class="overlay" id="ov-pause">
-  <div class="card sheet">
-    <h2>ひとやすみ中</h2>
-    <p style="text-align:center">お客さんも待っていてくれるよ。</p>
-    <button class="btn wide mint" id="b-resume">▶ つづける</button>
-    <button class="btn wide ghost" id="b-quit">🏠 タイトルへ（この日はやりなおし）</button>
+<div class="overlay" id="ov-pause" role="dialog" aria-modal="true" aria-labelledby="pause-title">
+  <div class="sheet">
+    <h2 id="pause-title">ひとやすみ中</h2>
+    <p class="center">お客さんも待っていてくれるよ。</p>
+    <button class="btn wide big alt" id="b-resume"><svg class="ic" aria-hidden="true"><use href="#i-play"/></svg><span>つづける</span></button>
+    <button class="btn wide sub" id="b-quit"><svg class="ic" aria-hidden="true"><use href="#i-home"/></svg><span>タイトルへ（この日はやりなおし）</span></button>
   </div>
 </div>
 
 <!-- 確認 -->
-<div class="overlay" id="ov-confirm">
-  <div class="card sheet">
-    <h2>データを消す？</h2>
-    <p style="text-align:center">日数・売上・道具・レシピ帳の記録がすべて消えます。</p>
+<div class="overlay" id="ov-confirm" role="dialog" aria-modal="true" aria-labelledby="confirm-title">
+  <div class="sheet">
+    <h2 id="confirm-title">データを消す？</h2>
+    <p class="center">日数・売上・道具・レシピ帳の記録がすべて消えます。</p>
     <button class="btn wide" id="b-reset-yes">消す</button>
-    <button class="btn wide ghost" data-close>やめる</button>
+    <button class="btn wide sub" data-close>やめる</button>
   </div>
 </div>
 
@@ -437,6 +689,7 @@ const rnd = n => Math.floor(Math.random() * n);
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 const shuffle = a => { for (let i = a.length - 1; i > 0; i--) { const j = rnd(i + 1); [a[i], a[j]] = [a[j], a[i]]; } return a; };
 const yen = n => n.toLocaleString('ja-JP') + '円';
+const icon = (name, cls) => '<svg class="ic' + (cls ? ' ' + cls : '') + '" aria-hidden="true" focusable="false"><use href="#i-' + name + '"/></svg>';
 
 /* ---------- データ ---------- */
 const ING = {
@@ -447,49 +700,50 @@ const ING = {
   'シロップ': '🍯', 'いちご': '🍓', 'バナナ': '🍌', 'ぶどう': '🍇', 'ピーマン': '🫑', 'きのこ': '🍄',
   'チーズ': '🧀', 'ブロッコリー': '🥦', 'りんご': '🍎', 'とうもろこし': '🌽'
 };
+// chop の tool：'knife'（包丁）か 'hands'（手でにぎる）。heat の liquid：なべの中の色。
 const RECIPES = [
   { id: 'onigiri', name: 'おにぎり', price: 150, unlock: 1, ings: ['ごはん', 'しお', 'のり'], steps: [
     { t: 'select' },
-    { t: 'chop', chip: 'にぎる', title: 'ぎゅっと にぎろう', food: '🍚', tool: '✊', n: 6 } ] },
+    { t: 'chop', chip: 'にぎる', title: 'ぎゅっと にぎろう', food: '🍚', tool: 'hands', n: 6 } ] },
   { id: 'medamayaki', name: 'めだまやき', price: 200, unlock: 1, ings: ['たまご', 'あぶら', 'しょうゆ'], steps: [
     { t: 'select' },
     { t: 'heat', chip: 'やく', title: 'たまごを やこう', food: '🍳', speed: 26 },
-    { t: 'pour', chip: 'かける', title: 'しょうゆを かけよう', base: '🍳', bottle: '🍶', color: '#5A2D14' } ] },
+    { t: 'pour', chip: 'かける', title: 'しょうゆを かけよう', bottle: '🍶', color: '#5A2D14' } ] },
   { id: 'misoshiru', name: 'みそしる', price: 250, unlock: 2, ings: ['とうふ', 'ねぎ', 'みそ', 'だし'], steps: [
     { t: 'select' },
-    { t: 'chop', chip: 'きる', title: 'とうふを きろう', food: '⬜', tool: '🔪', n: 5 },
-    { t: 'heat', chip: 'にる', title: 'だしを にたてよう', food: '🐟', pot: true, speed: 24 },
+    { t: 'chop', chip: 'きる', title: 'とうふを きろう', food: '⬜', tool: 'knife', n: 5 },
+    { t: 'heat', chip: 'にる', title: 'だしを にたてよう', food: '🐟', pot: true, liquid: '#E8CD93', speed: 24 },
     { t: 'stir', chip: 'とかす', title: 'みそを とかそう', items: ['🟫', '⬜', '🌱', '⬜'], turns: 2 } ] },
   { id: 'pancake', name: 'パンケーキ', price: 400, unlock: 3, ings: ['こむぎこ', 'たまご', 'ぎゅうにゅう', 'バター'], steps: [
     { t: 'select' },
     { t: 'stir', chip: 'まぜる', title: 'きじを まぜよう', items: ['🌾', '🥚', '🥛', '🌾'], turns: 3 },
     { t: 'heat', chip: 'やく', title: 'パンケーキを やこう', food: '🥞', speed: 24 },
-    { t: 'pour', chip: 'かける', title: 'シロップを かけよう', base: '🥞', bottle: '🍯', color: '#B8641C' } ] },
+    { t: 'pour', chip: 'かける', title: 'シロップを かけよう', bottle: '🍯', color: '#B8641C' } ] },
   { id: 'omurice', name: 'オムライス', price: 450, unlock: 4, ings: ['たまご', 'ごはん', 'たまねぎ', 'ケチャップ'], steps: [
     { t: 'select' },
-    { t: 'chop', chip: 'きる', title: 'たまねぎを きざもう', food: '🧅', tool: '🔪', n: 8 },
+    { t: 'chop', chip: 'きる', title: 'たまねぎを きざもう', food: '🧅', tool: 'knife', n: 8 },
     { t: 'heat', chip: 'いためる', title: 'ごはんを いためよう', food: '🍚', speed: 28 },
-    { t: 'pour', chip: 'かける', title: 'ケチャップを かけよう', base: '🥚', bottle: '🍅', color: '#D9342B' } ] },
+    { t: 'pour', chip: 'かける', title: 'ケチャップを かけよう', bottle: '🍅', color: '#D9342B' } ] },
   { id: 'curry', name: 'カレーライス', price: 500, unlock: 5, ings: ['じゃがいも', 'にんじん', 'たまねぎ', 'おにく', 'カレールウ'], steps: [
     { t: 'select' },
-    { t: 'chop', chip: 'きる', title: 'にんじんを きろう', food: '🥕', tool: '🔪', n: 7 },
-    { t: 'heat', chip: 'にる', title: 'ぐつぐつ にこもう', food: '🥔', pot: true, speed: 22 },
+    { t: 'chop', chip: 'きる', title: 'にんじんを きろう', food: '🥕', tool: 'knife', n: 7 },
+    { t: 'heat', chip: 'にる', title: 'ぐつぐつ にこもう', food: '🥔', pot: true, liquid: '#EBC47A', speed: 22 },
     { t: 'stir', chip: 'とかす', title: 'ルウを とかそう', items: ['🍫', '🥕', '🥔', '🥩'], turns: 3 } ] },
   { id: 'hamburg', name: 'ハンバーグ', price: 600, unlock: 6, ings: ['ひきにく', 'たまねぎ', 'パンこ', 'たまご'], steps: [
     { t: 'select' },
-    { t: 'chop', chip: 'きる', title: 'たまねぎを きざもう', food: '🧅', tool: '🔪', n: 8 },
+    { t: 'chop', chip: 'きる', title: 'たまねぎを きざもう', food: '🧅', tool: 'knife', n: 8 },
     { t: 'stir', chip: 'こねる', title: 'たねを こねよう', items: ['🍖', '🧅', '🍞', '🥚'], turns: 3 },
     { t: 'heat', chip: 'やく', title: 'ハンバーグを やこう', food: '🍖', speed: 30 } ] },
   { id: 'ramen', name: 'ラーメン', price: 650, unlock: 7, ings: ['めん', 'スープ', 'チャーシュー', 'ねぎ', 'たまご'], steps: [
     { t: 'select' },
-    { t: 'heat', chip: 'ゆでる', title: 'めんを ゆでよう', food: '🍝', pot: true, speed: 30 },
-    { t: 'chop', chip: 'きる', title: 'ねぎを きざもう', food: '🌱', tool: '🔪', n: 7 },
-    { t: 'pour', chip: 'そそぐ', title: 'スープを そそごう', base: '🍝', bottle: '🥣', color: '#E3B04B' } ] }
+    { t: 'heat', chip: 'ゆでる', title: 'めんを ゆでよう', food: '🍝', pot: true, liquid: '#D5E8EE', speed: 30 },
+    { t: 'chop', chip: 'きる', title: 'ねぎを きざもう', food: '🌱', tool: 'knife', n: 7 },
+    { t: 'pour', chip: 'そそぐ', title: 'スープを そそごう', bottle: '🥣', color: '#E3B04B' } ] }
 ];
 const RID = Object.fromEntries(RECIPES.map(r => [r.id, r]));
 // 素材イラスト：セット1（色鉛筆風）が初期設定。素材画像のないセット2は選択不可。
 const ILLUST_MODES = ['set1', 'original'];
-const ING_BY_EMOJI = Object.fromEntries(Object.entries(ING).map(([name,emoji]) => [emoji,name]));
+const ING_BY_EMOJI = Object.fromEntries(Object.entries(ING).map(([name, emoji]) => [emoji, name]));
 const imgHTML = (src, cls) => '<img class="' + cls + ' illust-img" src="' + src + '" alt="" decoding="async" draggable="false">';
 const ingredientMark = (name, style = save.illustration) => style === 'original' ? ING[name] :
   (window.shokudoReviewedIngredient?.(name) || imgHTML('assets/kids/ingredients/' + encodeURIComponent(name) + '.png', 'ingredient-art'));
@@ -498,29 +752,59 @@ const foodMark = emoji => {
   const name = ING_BY_EMOJI[emoji];
   return name ? ingredientMark(name) : emoji;
 };
+// フライパンの上で焼くもの（絵文字だとフライパンの中にフライパンが出てしまうので、焼く前の姿を描く）
+const COOK_ART = {
+  '🍳': '<svg class="cook-art" viewBox="0 0 110 90" aria-hidden="true"><path d="M18 52C10 36 26 20 44 24C56 12 80 16 86 32C102 36 100 58 84 64C74 78 44 78 34 68C22 70 14 62 18 52Z" fill="#FFFDF6" stroke="#EADCC2" stroke-width="2"/><circle cx="56" cy="46" r="15" fill="#F5AE16"/><circle cx="51" cy="41" r="4.5" fill="#FFE08A"/></svg>',
+  '🥞': '<svg class="cook-art" viewBox="0 0 110 90" aria-hidden="true"><ellipse cx="55" cy="52" rx="44" ry="22" fill="#E6C084"/><ellipse cx="55" cy="48" rx="44" ry="22" fill="#F6E2B3"/><g fill="#E3BE80"><circle cx="40" cy="44" r="2.4"/><circle cx="62" cy="40" r="2"/><circle cx="70" cy="52" r="2.4"/><circle cx="48" cy="55" r="1.8"/></g></svg>'
+};
+const cookMark = emoji => COOK_ART[emoji] || foodMark(emoji);
 const FACES = ['👦', '👧', '🧒', '👩', '👨', '👵', '👴', '🧑', '👱', '🐱', '🐻', '🐰'];
 const TOOLS = [
-  { id: 'knife', icon: '🔪', name: 'よく切れる包丁', desc: 'きる・にぎる回数がへるよ', costs: [300, 800, 1600] },
-  { id: 'pan', icon: '🍳', name: 'じょうぶなフライパン', desc: '火加減の「ちょうどいい」が広がるよ', costs: [300, 800, 1600] },
-  { id: 'sign', icon: '🪧', name: 'かわいい看板', desc: 'チップがふえて、お客さんが待ってくれるよ', costs: [400, 1000, 2000] }
+  { id: 'knife', icon: 'knife', name: 'よく切れる包丁', desc: 'きる・にぎる回数がへるよ', costs: [300, 800, 1600] },
+  { id: 'pan', icon: 'pan', name: 'じょうぶなフライパン', desc: '火加減の「ちょうどいい」が広がるよ', costs: [300, 800, 1600] },
+  { id: 'sign', icon: 'sign', name: 'かわいい看板', desc: 'チップがふえて、お客さんが待ってくれるよ', costs: [400, 1000, 2000] }
 ];
 
 /* ---------- 料理のイラスト（SVG） ---------- */
 const PLATE = '<ellipse cx="60" cy="62" rx="56" ry="20" fill="#E8DFD2"/><ellipse cx="60" cy="58" rx="56" ry="20" fill="#FFFFFF"/><ellipse cx="60" cy="57" rx="40" ry="13" fill="#F6F0E6"/>';
 const BOWL = (soup) => '<ellipse cx="60" cy="80" rx="22" ry="5" fill="#6E2416"/><path d="M14 40 Q18 80 60 80 Q102 80 106 40 Z" fill="#B23A22"/><path d="M22 52 Q60 62 98 52" stroke="#D9573A" stroke-width="3" fill="none"/><ellipse cx="60" cy="40" rx="46" ry="13" fill="#5C1E12"/><ellipse cx="60" cy="41" rx="42" ry="11" fill="' + soup + '"/>';
+const EGG = '<path d="M32 52 Q26 38 44 35 Q56 26 72 33 Q92 33 88 49 Q88 62 64 62 Q38 64 32 52Z" fill="#FFFDF5" stroke="#E9DCC4" stroke-width="1.5"/><circle cx="60" cy="47" r="11" fill="#F5AE16"/><circle cx="56" cy="43" r="3.5" fill="#FFE08A"/>';
+const STACK = '<ellipse cx="60" cy="54" rx="36" ry="10" fill="#C27630"/><ellipse cx="60" cy="50" rx="36" ry="10" fill="#E5A657"/><ellipse cx="60" cy="44" rx="34" ry="10" fill="#C27630"/><ellipse cx="60" cy="40" rx="34" ry="10" fill="#E8AE62"/><ellipse cx="60" cy="34" rx="32" ry="9" fill="#C27630"/><ellipse cx="60" cy="30" rx="32" ry="9" fill="#EDB86E"/>';
+const BUTTER = '<rect x="53" y="22" width="14" height="9" rx="2" fill="#FFE48A"/>';
+const OMELET = '<ellipse cx="60" cy="48" rx="35" ry="16" fill="#F2BE2C"/><ellipse cx="55" cy="42" rx="22" ry="7" fill="#FFDF75" opacity=".75"/>';
+const PARSLEY = '<circle cx="92" cy="56" r="5" fill="#3D9A4A"/>';
+const NOODLES = '<path d="M28 40 Q34 34 40 40 T52 40 T64 40 T76 40 T88 40" fill="none" stroke="#F8E39A" stroke-width="3"/><path d="M32 46 Q38 40 44 46 T56 46 T68 46" fill="none" stroke="#F8E39A" stroke-width="3"/><circle cx="76" cy="38" r="9" fill="#E8B08A" stroke="#B5703F" stroke-width="2"/><ellipse cx="46" cy="34" rx="8" ry="6" fill="#FFFFFF"/><circle cx="46" cy="34" r="3.5" fill="#F2A91B"/><circle cx="60" cy="44" r="2.4" fill="#4C9A3C"/><circle cx="88" cy="45" r="2.4" fill="#4C9A3C"/><rect x="58" y="30" width="5" height="10" fill="#2A3A2E"/>';
 const DISH = {
   onigiri: PLATE + '<path d="M60 12 Q70 13 84 40 Q90 56 60 57 Q30 56 36 40 Q50 13 60 12Z" fill="#FFFFFF" stroke="#E2DACC" stroke-width="2"/><rect x="46" y="40" width="28" height="17" rx="3" fill="#25302B"/><circle cx="60" cy="30" r="4.5" fill="#D8434A"/>',
-  medamayaki: PLATE + '<path d="M32 52 Q26 38 44 35 Q56 26 72 33 Q92 33 88 49 Q88 62 64 62 Q38 64 32 52Z" fill="#FFFDF5" stroke="#E9DCC4" stroke-width="1.5"/><circle cx="60" cy="47" r="11" fill="#F5AE16"/><circle cx="56" cy="43" r="3.5" fill="#FFE08A"/>',
+  medamayaki: PLATE + EGG,
   misoshiru: BOWL('#C98A48') + '<rect x="42" y="36" width="9" height="8" rx="1.5" fill="#FFFBF0"/><rect x="62" y="40" width="9" height="8" rx="1.5" fill="#FFFBF0"/><rect x="72" y="33" width="8" height="7" rx="1.5" fill="#FFFBF0"/><circle cx="55" cy="45" r="2.6" fill="#4C9A3C"/><circle cx="84" cy="42" r="2.6" fill="#4C9A3C"/><circle cx="36" cy="42" r="2.6" fill="#4C9A3C"/><circle cx="66" cy="34" r="2.2" fill="#4C9A3C"/>',
-  pancake: PLATE + '<ellipse cx="60" cy="54" rx="36" ry="10" fill="#C27630"/><ellipse cx="60" cy="50" rx="36" ry="10" fill="#E5A657"/><ellipse cx="60" cy="44" rx="34" ry="10" fill="#C27630"/><ellipse cx="60" cy="40" rx="34" ry="10" fill="#E8AE62"/><ellipse cx="60" cy="34" rx="32" ry="9" fill="#C27630"/><ellipse cx="60" cy="30" rx="32" ry="9" fill="#EDB86E"/><path d="M34 31 Q60 40 86 31 L86 37 Q84 44 82 37 Q62 44 44 38 Q42 47 40 38 Q36 37 34 31Z" fill="#9C4E14" opacity=".85"/><rect x="53" y="22" width="14" height="9" rx="2" fill="#FFE48A"/>',
-  omurice: PLATE + '<ellipse cx="60" cy="48" rx="35" ry="16" fill="#F2BE2C"/><ellipse cx="55" cy="42" rx="22" ry="7" fill="#FFDF75" opacity=".75"/><path d="M36 46 Q42 38 48 46 Q54 38 60 46 Q66 38 72 46 Q78 38 84 45" fill="none" stroke="#D9342B" stroke-width="4.5" stroke-linecap="round"/><circle cx="92" cy="56" r="5" fill="#3D9A4A"/>',
+  pancake: PLATE + STACK + '<path d="M34 31 Q60 40 86 31 L86 37 Q84 44 82 37 Q62 44 44 38 Q42 47 40 38 Q36 37 34 31Z" fill="#9C4E14" opacity=".85"/>' + BUTTER,
+  omurice: PLATE + OMELET + '<path d="M36 46 Q42 38 48 46 Q54 38 60 46 Q66 38 72 46 Q78 38 84 45" fill="none" stroke="#D9342B" stroke-width="4.5" stroke-linecap="round"/>' + PARSLEY,
   curry: PLATE + '<path d="M22 56 Q18 34 46 31 Q62 31 62 40 L62 62 Q28 64 22 56Z" fill="#FFFFFF" stroke="#E8E1D4" stroke-width="1.5"/><path d="M58 33 Q98 29 98 50 Q96 64 58 62 Z" fill="#9A561C"/><rect x="68" y="40" width="8" height="7" rx="1.5" fill="#F08A24"/><rect x="82" y="46" width="9" height="8" rx="2" fill="#F2D27A"/><rect x="70" y="52" width="9" height="6" rx="2" fill="#7A3A1E"/><rect x="84" y="36" width="6" height="6" rx="1.5" fill="#F08A24"/>',
   hamburg: PLATE + '<ellipse cx="54" cy="50" rx="29" ry="14" fill="#5F3219"/><ellipse cx="54" cy="46" rx="27" ry="12" fill="#86461F"/><path d="M33 44 Q54 33 75 44 Q70 52 54 52 Q38 52 33 44Z" fill="#4A1E0C" opacity=".9"/><circle cx="88" cy="46" r="6" fill="#3D9A4A"/><circle cx="94" cy="51" r="5" fill="#3D9A4A"/><path d="M82 58 L96 55 L94 61 Z" fill="#F08A24"/>',
-  ramen: BOWL('#E7B75A') + '<path d="M28 40 Q34 34 40 40 T52 40 T64 40 T76 40 T88 40" fill="none" stroke="#F8E39A" stroke-width="3"/><path d="M32 46 Q38 40 44 46 T56 46 T68 46" fill="none" stroke="#F8E39A" stroke-width="3"/><circle cx="76" cy="38" r="9" fill="#E8B08A" stroke="#B5703F" stroke-width="2"/><ellipse cx="46" cy="34" rx="8" ry="6" fill="#FFFFFF"/><circle cx="46" cy="34" r="3.5" fill="#F2A91B"/><circle cx="60" cy="44" r="2.4" fill="#4C9A3C"/><circle cx="88" cy="45" r="2.4" fill="#4C9A3C"/><rect x="58" y="30" width="5" height="10" fill="#2A3A2E"/>'
+  ramen: BOWL('#E7B75A') + NOODLES
 };
-// 完成料理は従来の大きなSVGを表示。素材設定で変更しない。
-const dishSVG = (id, cls) =>
-  '<svg class="' + (cls || '') + '" viewBox="0 0 120 90" aria-hidden="true">' + DISH[id] + '</svg>';
+// 完成料理のSVG（素材設定では変わらない）
+const dishSVG = (id, cls) => '<svg class="' + (cls || '') + '" viewBox="0 0 120 90" aria-hidden="true">' + DISH[id] + '</svg>';
+// かける工程：たれをかける前の料理と、たれがたまる場所（under の上・over の下に広がる）
+const POUR_ART = {
+  medamayaki: { under: PLATE + EGG, over: '', cx: 66, cy: 53, rx: 19, ry: 6 },
+  pancake: { under: PLATE + STACK, over: BUTTER, cx: 60, cy: 30, rx: 30, ry: 8.5 },
+  omurice: { under: PLATE + OMELET, over: PARSLEY, cx: 60, cy: 46, rx: 25, ry: 8.5 },
+  ramen: { under: BOWL('#4A170D'), over: NOODLES, cx: 60, cy: 41, rx: 42, ry: 11, max: 1.06 }
+};
+
+/* ---------- 調理道具の絵（SVG） ---------- */
+const KNIFE_SVG = '<svg viewBox="0 0 150 50" aria-hidden="true"><path d="M6 34C10 20 40 10 96 10L100 38C60 42 24 42 6 34Z" fill="url(#gBlade)" stroke="#6A727E" stroke-width="2" stroke-linejoin="round"/><path d="M14 35C40 40 70 39 99 36" fill="none" stroke="#fff" stroke-width="2.5" stroke-opacity=".85" stroke-linecap="round"/><rect x="98" y="15" width="48" height="20" rx="8" fill="#4A2F1C"/><circle cx="114" cy="25" r="2.6" fill="#E2CFAE"/><circle cx="131" cy="25" r="2.6" fill="#E2CFAE"/></svg>';
+const HAND_SVG = side => '<span class="hand ' + side + '"><svg viewBox="0 0 70 84" aria-hidden="true"><g fill="#F7D2B2" stroke="#D59C78" stroke-width="2.4" stroke-linejoin="round"><rect x="45" y="36" width="12" height="28" rx="6" transform="rotate(36 51 50)"/><rect x="8" y="30" width="44" height="48" rx="18"/><rect x="8" y="10" width="11" height="34" rx="5.5"/><rect x="19" y="4" width="11" height="38" rx="5.5"/><rect x="30" y="6" width="11" height="36" rx="5.5"/><rect x="41" y="13" width="10" height="30" rx="5"/></g></svg></span>';
+const PAN_SVG = '<svg viewBox="0 0 260 110" aria-hidden="true"><rect x="196" y="45" width="62" height="15" rx="7.5" fill="#6B4427"/><rect x="186" y="48" width="20" height="9" rx="3" fill="#3A3F47"/><ellipse cx="108" cy="62" rx="100" ry="40" fill="#1E2228"/><ellipse cx="108" cy="55" rx="100" ry="40" fill="#5A606A"/><ellipse cx="108" cy="57" rx="88" ry="33" fill="url(#gPan)"/><path d="M36 46Q66 25 116 23" fill="none" stroke="#fff" stroke-opacity=".22" stroke-width="5" stroke-linecap="round"/></svg>';
+const POT_SVG = liquid => '<svg viewBox="0 0 220 140" aria-hidden="true"><rect x="2" y="40" width="38" height="13" rx="6.5" fill="#3A3F47"/><rect x="180" y="40" width="38" height="13" rx="6.5" fill="#3A3F47"/><path d="M28 34V108Q28 134 110 134Q192 134 192 108V34Z" fill="url(#gPot)"/><ellipse cx="110" cy="34" rx="82" ry="20" fill="#E4E8ED"/><ellipse cx="110" cy="36" rx="74" ry="15" fill="' + (liquid || '#D5E8EE') + '"/><path d="M42 58V104" stroke="#fff" stroke-opacity=".35" stroke-width="7" stroke-linecap="round"/></svg>';
+const SPATULA_SVG = '<svg viewBox="0 0 60 96" aria-hidden="true"><rect x="26" y="40" width="8" height="54" rx="4" fill="#B47C45"/><path d="M30 4C45 4 50 17 48 28C46 39 38 44 30 44C22 44 14 39 12 28C10 17 15 4 30 4Z" fill="#DDAA69" stroke="#A06D3A" stroke-width="2"/><path d="M22 14Q30 9 38 14" fill="none" stroke="#F3D3A0" stroke-width="3" stroke-linecap="round"/></svg>';
+// コンロの炎：バーナーの手前半分に7つ
+const FLAMES = Array.from({ length: 7 }, (_, i) => {
+  const a = Math.PI * (i + .5) / 7, x = Math.round(66 * Math.cos(a)), y = Math.round(178 + 12 * Math.sin(a) - 28);
+  return '<i style="left:calc(50% + ' + x + 'px);top:' + y + 'px;animation-delay:-' + (i * .07).toFixed(2) + 's"></i>';
+}).join('');
 
 /* ---------- セーブ ---------- */
 // iPhone の Safari は user-scalable=no を無視するので、ダブルタップ・ピンチの拡大をここで止める
@@ -576,30 +860,40 @@ const SND = {
 let screenNow = 'title', backTo = 'title';
 function show(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.toggle('on', s.id === 'sc-' + id));
-  screenNow = id; window.scrollTo(0, 0);
+  screenNow = id; document.body.dataset.screen = id; window.scrollTo(0, 0);
 }
 function toast(msg) { const t = $('#toast'); t.textContent = msg; t.classList.add('on'); clearTimeout(toast.h); toast.h = setTimeout(() => t.classList.remove('on'), 1800); }
 function overlay(id, on) { $('#ov-' + id).classList.toggle('on', on); }
 
 function renderTitle() {
   $('#t-day').textContent = save.day + '日目';
-  $('#t-money').innerHTML = '💰 <span>' + yen(save.money) + '</span>';
-  $('#b-sound').textContent = save.sound ? '🔊' : '🔇';
-  $('#t-logo').textContent = '🍳';
+  $('#t-money').textContent = yen(save.money);
+  $('#b-sound').innerHTML = icon(save.sound ? 'sound' : 'mute');
+  renderCase();
+}
+// 食品サンプルの棚：いま作れる料理のうち、新しいものから4つ
+function renderCase() {
+  const open = RECIPES.filter(r => r.unlock <= save.day).slice(-4).reverse();
+  $('#t-case').innerHTML = '<div class="case-in">' + [0, 1, 2, 3].map(i => {
+    const r = open[i];
+    return r ? '<div class="sample">' + dishSVG(r.id) + '<span class="price-tag">' + yen(r.price) + '</span></div>'
+      : '<div class="sample empty"><span>？</span></div>';
+  }).join('') + '</div>';
 }
 
 /* ---------- イラスト設定 ---------- */
 function renderSettings() {
   const options = [
-    { id:'set1', name:'イラストセット1', desc:'素材のかわいい色鉛筆風（初期設定）' },
-    { id:'original', name:'もとの絵文字', desc:'材料を元の絵文字で表示' }
+    { id: 'set1', name: 'イラストセット1', desc: '素材のかわいい色鉛筆風（初期設定）' },
+    { id: 'original', name: 'もとの絵文字', desc: '材料を元の絵文字で表示' }
   ];
-  $('#illust-options').innerHTML = options.map(o =>
-    '<button type="button" class="illust-choice" data-illust="' + o.id + '" aria-pressed="' + (save.illustration === o.id) + '">' +
-    '<span class="illust-choice-head">' + o.name + (save.illustration === o.id ? '<span class="check">✓ せんたく中</span>' : '') + '</span>' +
-    '<span class="illust-choice-desc">' + o.desc + '</span>' +
-    '<span class="illust-preview">' + ['にんじん','たまご','じゃがいも'].map(x => '<span class="material-sample">' + ingredientMark(x,o.id) + '</span>').join('') + '</span></button>'
-  ).join('');
+  $('#illust-options').innerHTML = options.map(o => {
+    const on = save.illustration === o.id;
+    return '<button type="button" class="illust-choice" data-illust="' + o.id + '" aria-pressed="' + on + '">' +
+      '<span class="illust-choice-head"><span class="radio' + (on ? ' on' : '') + '"></span><span>' + o.name + '</span>' + (on ? '<span class="check">せんたく中</span>' : '') + '</span>' +
+      '<span class="illust-choice-desc">' + o.desc + '</span>' +
+      '<span class="illust-preview">' + ['にんじん', 'たまご', 'じゃがいも'].map(x => '<span class="material-sample">' + ingredientMark(x, o.id) + '</span>').join('') + '</span></button>';
+  }).join('');
   $('#illust-options').querySelectorAll('[data-illust]').forEach(btn => btn.onclick = () => {
     save.illustration = btn.dataset.illust;
     store(); renderTitle(); renderSettings(); SND.pop();
@@ -647,16 +941,17 @@ function nextCustomer() {
   const says = ['{0}ください！', '{0}をおねがいします！', '{0}たべたいな！'];
   const say = says[rnd(says.length)].replace('{0}', r.name);
   $('#g-stage').innerHTML =
-    '<div class="card order">' + dishSVG(r.id, 'order-dish') +
-    '<div class="order-name">' + r.name + '</div><div class="order-say">「' + say + '」</div>' +
-    '<div class="recipe-chips">' + r.ings.map(x => '<span class="chip">' + ingredientMark(x) + ' ' + x + '</span>').join('') + '</div></div>' +
-    '<button class="btn wide" id="b-cook">👩‍🍳 つくる！</button>';
+    '<div class="bubble">「' + say + '」</div>' +
+    '<div class="slip"><div class="slip-head"><span>ご注文</span><span>' + yen(r.price) + '</span></div>' + dishSVG(r.id, 'order-dish') +
+    '<div class="order-name">' + r.name + '</div>' +
+    '<div class="recipe-chips">' + r.ings.map(x => '<span class="chip">' + ingredientMark(x) + '<span>' + x + '</span></span>').join('') + '</div></div>' +
+    '<button class="btn wide big" id="b-cook">' + icon('hat') + '<span>つくる！</span></button>';
   $('#b-cook').onclick = () => { SND.pop(); S.phase = 'cook'; runStep(0); };
 }
 function drawPatience() {
   const c = S.cust, p = clamp(c.left / c.total, 0, 1), b = $('#g-bar');
   b.style.width = (p * 100) + '%';
-  b.style.background = p > .5 ? 'var(--mint)' : p > .2 ? 'var(--mustard)' : 'var(--tomato)';
+  b.style.background = p > .5 ? 'var(--good)' : p > .2 ? 'var(--tamago)' : 'var(--shu)';
   $('#g-wait').textContent = p > .5 ? 'ゆっくり' : p > .2 ? 'そわそわ' : p > 0 ? 'まだかな…' : 'おそいよ〜';
   const f = $('#g-face');
   if (S.phase !== 'serve') f.textContent = p > .2 ? S.cust.face : p > 0 ? '😟' : '😤';
@@ -665,14 +960,14 @@ function drawPatience() {
 /* ---------- 調理ステップ ---------- */
 function stepBar(r, k) {
   const chip = s => s.t === 'select' ? 'ざいりょう' : s.chip;
-  return '<div class="steps">' + r.steps.map((s, j) => '<span class="' + (j < k ? 'done' : j === k ? 'now' : '') + '">' + (j < k ? '✓ ' : '') + chip(s) + '</span>').join('') + '</div>';
+  return '<div class="steps">' + r.steps.map((s, j) => '<span class="' + (j < k ? 'done' : j === k ? 'now' : '') + '">' + (j < k ? icon('check') : '') + '<span>' + chip(s) + '</span></span>').join('') + '</div>';
 }
 function runStep(k) {
   const r = S.cust.r;
   S.step = k; S.upd = null;
   if (k >= r.steps.length) return serve();
   const s = r.steps[k];
-  $('#g-stage').innerHTML = stepBar(r, k) + '<div class="card panel" id="panel"></div>';
+  $('#g-stage').innerHTML = stepBar(r, k) + '<div class="panel" id="panel"></div>';
   ({ select: stepSelect, chop: stepChop, heat: stepHeat, stir: stepStir, pour: stepPour })[s.t](s, r, $('#panel'));
 }
 function finishStep(score) {
@@ -694,8 +989,8 @@ function stepSelect(s, r, p) {
   const tiles = shuffle(need.concat(extra));
   let got = 0, miss = 0;
   p.innerHTML = '<h2>ざいりょうを えらぼう</h2><p class="hint">レシピの材料だけをタップしてね</p>' +
-    '<div class="need">' + need.map(x => '<span data-n="' + x + '">' + ingredientMark(x) + ' ' + x + '</span>').join('') + '</div>' +
-    '<div class="ing-grid">' + tiles.map(x => '<button class="ing" data-i="' + x + '"><span class="em">' + ingredientMark(x) + '</span>' + x + '</button>').join('') + '</div>';
+    '<div class="need">' + need.map(x => '<span data-n="' + x + '">' + ingredientMark(x) + '<span>' + x + '</span></span>').join('') + '</div>' +
+    '<div class="ing-grid">' + tiles.map(x => '<button class="ing" data-i="' + x + '"><span class="em">' + ingredientMark(x) + '</span><span class="nm' + (x.length >= 6 ? ' long' : '') + '">' + x + '</span></button>').join('') + '</div>';
   p.querySelectorAll('.ing').forEach(b => b.onclick = () => {
     const x = b.dataset.i;
     if (need.includes(x)) {
@@ -709,19 +1004,22 @@ function stepSelect(s, r, p) {
 
 // 2) 切る・にぎる（連打）
 function stepChop(s, r, p) {
-  const n = Math.max(3, s.n - save.up.knife), t0 = performance.now();
+  const n = Math.max(3, s.n - save.up.knife), t0 = performance.now(), hands = s.tool === 'hands';
   let c = 0;
   p.innerHTML = '<h2>' + s.title + '</h2><p class="hint">まな板をどんどんタップ！</p>' +
-    '<div class="board" id="board"><span class="food">' + foodMark(s.food) + '</span><span class="knife" id="knife">' + s.tool + '</span><div class="bits" id="bits"></div></div>' +
+    '<div class="board" id="board"><span class="food">' + foodMark(s.food) + '</span>' +
+    (hands ? HAND_SVG('l') + HAND_SVG('r') : '<span class="knife" id="knife">' + KNIFE_SVG + '</span>') +
+    '<div class="bits" id="bits"></div></div>' +
     '<div class="count" id="cnt">あと' + n + 'かい</div>';
   const board = $('#board'), food = board.querySelector('.food'), knife = $('#knife');
   board.addEventListener('pointerdown', e => {
     if (c >= n) return;
     e.preventDefault(); c++; chopSnd();
-    knife.classList.add('down'); food.classList.add('hit');
-    setTimeout(() => { knife.classList.remove('down'); food.classList.remove('hit'); }, 70);
-    if (s.tool === '🔪') { const l = document.createElement('i'); l.className = 'cut'; l.style.left = (24 + 52 * c / (n + 1)) + '%'; board.appendChild(l); }
-    const b = document.createElement('span'); b.className = 'bit'; b.innerHTML = s.tool === '🔪' ? foodMark(s.food) : '✨';
+    if (hands) board.classList.add('press'); else { knife.classList.add('down'); food.classList.add('hit'); }
+    setTimeout(() => { board.classList.remove('press'); food.classList.remove('hit'); if (knife) knife.classList.remove('down'); }, 80);
+    if (!hands) { const l = document.createElement('i'); l.className = 'cut'; l.style.left = (24 + 52 * c / (n + 1)) + '%'; board.appendChild(l); }
+    const b = document.createElement('span'); b.className = 'bit';
+    b.innerHTML = hands ? '<i class="spark"></i>' : foodMark(s.food);
     b.style.left = (40 + rnd(20)) + '%'; b.style.top = '40%';
     b.style.setProperty('--dx', (rnd(160) - 80) + 'px'); b.style.setProperty('--dy', (-40 - rnd(60)) + 'px');
     $('#bits').appendChild(b); setTimeout(() => b.remove(), 650);
@@ -731,24 +1029,52 @@ function stepChop(s, r, p) {
 }
 
 // 3) 焼く・煮る（タイミング）
+// 煙：はじめは白い湯気、ちょうどいいを過ぎると灰色、こげる寸前は黒い煙
+function puff(layer, warm, burnt) {
+  const el = document.createElement('i');
+  const shade = Math.round(250 - 192 * burnt), tone2 = Math.round(shade - 6 * burnt);
+  const a = Math.min(.92, .36 + .3 * Math.min(1, warm) + .24 * burnt);
+  const size = 22 + rnd(16) + Math.round(8 * Math.min(1, warm) + 28 * burnt);
+  const t = 1.5 + Math.random() * .6;
+  el.className = 'puff';
+  el.style.width = el.style.height = size + 'px';
+  el.style.setProperty('--c1', 'rgba(' + shade + ',' + shade + ',' + tone2 + ',' + a.toFixed(2) + ')');
+  el.style.setProperty('--c2', 'rgba(' + shade + ',' + shade + ',' + tone2 + ',' + (a * .42).toFixed(2) + ')');
+  el.style.setProperty('--x0', (rnd(44) - 22) + 'px');
+  el.style.setProperty('--dx', (rnd(56) - 28) + 'px');
+  el.style.setProperty('--dy', -(100 + rnd(44)) + 'px');
+  el.style.setProperty('--s1', (2 + Math.random() * .8 + burnt * .7).toFixed(2));
+  el.style.animationDuration = t.toFixed(2) + 's';
+  layer.appendChild(el);
+  setTimeout(() => el.remove(), t * 1000 + 80);
+}
+// なべの「ぐつぐつ」
+function bubble(vessel) {
+  const b = document.createElement('i');
+  b.className = 'bub'; b.style.left = (48 + rnd(110)) + 'px'; b.style.top = (24 + rnd(14)) + 'px';
+  vessel.appendChild(b); setTimeout(() => b.remove(), 720);
+}
 function stepHeat(s, r, p) {
-  const w = 4 * save.up.pan, lo = 55 - w, hi = 76 + w;
-  let x = 0, on = false, steamT = 0;
+  const w = 4 * save.up.pan, lo = 55 - w, hi = 76 + w, pot = !!s.pot;
+  let x = 0, on = false, smokeT = 0, bubT = 0;
   p.innerHTML = '<h2>' + s.title + '</h2><p class="hint">メーターが みどりのところで 火をとめよう</p>' +
-    '<div class="stove"><div class="pan' + (s.pot ? ' pot' : '') + '" id="pan"><span class="food" id="hf">' + foodMark(s.food) + '</span></div><span class="flame" id="flame">🔥🔥🔥</span></div>' +
+    '<div class="stove" id="stove"><div class="stove-top"><i class="knob l"></i><i class="knob r"></i></div><div class="burner"></div>' +
+    '<div class="vessel ' + (pot ? 'pot' : 'pan') + '" id="pan">' + (pot ? POT_SVG(s.liquid) : PAN_SVG) + '<span class="food" id="hf">' + cookMark(s.food) + '</span></div>' +
+    '<div class="flames">' + FLAMES + '</div><div class="smoke" id="smoke" style="--sy:' + (pot ? 150 : 112) + 'px"></div></div>' +
     '<div class="meter"><div class="meter-track"><div class="meter-zone" style="left:' + lo + '%;width:' + (hi - lo) + '%"></div><div class="meter-burn" style="width:8%"></div><div class="meter-needle" id="needle" style="left:0%"></div></div>' +
-    '<div class="meter-labels"><span>なま</span><span>ちょうどいい</span><span>こげ</span></div></div>' +
-    '<button class="btn wide" id="hb">🔥 火をつける</button>';
-  const hf = $('#hf'), needle = $('#needle'), btn = $('#hb');
+    '<div class="meter-labels"><span>なま</span><span class="mid" style="left:' + (lo + hi) / 2 + '%">ちょうどいい</span><span class="end">こげ</span></div></div>' +
+    '<button class="btn wide big" id="hb">' + icon('flame') + '<span>火をつける</span></button>';
+  const stove = $('#stove'), vessel = $('#pan'), hf = $('#hf'), needle = $('#needle'), btn = $('#hb'), smoke = $('#smoke');
   const score = () => {
     const c = (lo + hi) / 2, h = (hi - lo) / 2;
     if (x >= lo && x <= hi) return 86 + 14 * (1 - Math.abs(x - c) / h);
     if (x < lo) return 25 + 55 * (x / lo);
     return Math.max(10, 80 - (x - hi) * 4);
   };
+  const stop = () => { on = false; stove.classList.remove('on'); btn.disabled = true; };
   btn.onclick = () => {
-    if (!on) { on = true; btn.textContent = '✋ 火をとめる！'; btn.classList.add('mint'); $('#flame').classList.add('on'); sizzleOn(); SND.pop(); return; }
-    on = false; $('#flame').classList.remove('on'); btn.disabled = true; finishStep(score());
+    if (!on) { on = true; btn.innerHTML = icon('flame-off') + '<span>火をとめる！</span>'; btn.classList.add('alt'); stove.classList.add('on'); sizzleOn(); SND.pop(); return; }
+    stop(); finishStep(score());
   };
   S.upd = dt => {
     if (!on) return;
@@ -756,11 +1082,13 @@ function stepHeat(s, r, p) {
     needle.style.left = x + '%';
     const k = x / 100;
     hf.style.filter = 'sepia(' + Math.min(1, k * 1.3) + ') saturate(' + (1 + k) + ') brightness(' + (1.05 - Math.max(0, k - .75) * 2.4) + ')';
-    if ((steamT -= dt) < 0 && x > 15) {
-      steamT = .25; const st = document.createElement('span'); st.className = 'steam'; st.textContent = x > 92 ? '💨' : '♨️';
-      st.style.left = (35 + rnd(30)) + '%'; st.style.top = '20px'; $('#pan').appendChild(st); setTimeout(() => st.remove(), 1300);
+    if ((smokeT -= dt) < 0 && x > 12) {
+      const burnt = Math.sqrt(clamp((x - hi) / (100 - hi), 0, 1));
+      smokeT = .26 - .15 * burnt - (x > lo ? .04 : 0);
+      puff(smoke, x / hi, burnt);
     }
-    if (x >= 100) { on = false; $('#flame').classList.remove('on'); btn.disabled = true; toast('こげちゃった！'); finishStep(10); }
+    if (pot && (bubT -= dt) < 0 && x > 25) { bubT = .34 - .2 * k; bubble(vessel); }
+    if (x >= 100) { stop(); toast('こげちゃった！'); finishStep(10); }
   };
 }
 
@@ -768,12 +1096,12 @@ function stepHeat(s, r, p) {
 function stepStir(s, r, p) {
   const goal = s.turns * Math.PI * 2, t0 = performance.now();
   let prog = 0, last = null, done = false, tick = 0;
-  p.innerHTML = '<h2>' + s.title + '</h2><p class="hint"><span class="swipe-hint">↻</span> ボウルの中を ぐるぐる なぞろう</p>' +
+  p.innerHTML = '<h2>' + s.title + '</h2><p class="hint">' + icon('rotate') + '<span>ボウルの中を ぐるぐる なぞろう</span></p>' +
     '<div class="bowl" id="bowl"><div class="bowl-in" id="bin">' +
     s.items.map((e, i) => { const a = i / s.items.length * Math.PI * 2; return '<span style="transform:translate(-50%,-50%) translate(' + Math.cos(a) * 52 + 'px,' + Math.sin(a) * 52 + 'px)">' + foodMark(e) + '</span>'; }).join('') +
-    '</div><span class="spoon" id="spoon" style="left:150px;top:30px">🥄</span></div>' +
+    '</div><span class="spoon" id="spoon" style="left:156px;top:26px">' + SPATULA_SVG + '</span></div>' +
     '<div class="ring"><div class="bar"><b id="sbar" style="width:0%"></b></div></div>' +
-    '<button class="btn ghost wide" id="sb">↻ ぐるぐる（タップでもOK）</button>';
+    '<button class="btn sub wide" id="sb">' + icon('rotate') + '<span>ぐるぐる（タップでもOK）</span></button>';
   const bowl = $('#bowl'), bin = $('#bin'), spoon = $('#spoon');
   const add = d => {
     if (done) return;
@@ -788,7 +1116,7 @@ function stepStir(s, r, p) {
   bowl.addEventListener('pointermove', e => {
     if (last === null) return;
     const b = bowl.getBoundingClientRect();
-    spoon.style.left = (e.clientX - b.left - 20) + 'px'; spoon.style.top = (e.clientY - b.top - 30) + 'px';
+    spoon.style.left = (e.clientX - b.left - 27) + 'px'; spoon.style.top = (e.clientY - b.top - 24) + 'px';
     const a = ang(e); let d = a - last; last = a;
     if (d > Math.PI) d -= Math.PI * 2; if (d < -Math.PI) d += Math.PI * 2;
     add(Math.min(Math.abs(d), Math.PI / 2));
@@ -800,28 +1128,31 @@ function stepStir(s, r, p) {
 
 // 5) かける・そそぐ（長押し）
 function stepPour(s, r, p) {
-  const lo = 58 - 2 * save.up.pan, hi = 76 + 2 * save.up.pan;
+  const lo = 58 - 2 * save.up.pan, hi = 76 + 2 * save.up.pan, art = POUR_ART[r.id];
   let amt = 0, hold = false, done = false;
+  // 流れのしずくが、たれのたまる場所まで届く長さ
+  const streamH = Math.max(24, Math.round(212 - 150 + art.cy * 150 / 90 - 74));
   p.innerHTML = '<h2>' + s.title + '</h2><p class="hint">おしている間 そそぐよ。みどりで はなしてね</p>' +
-    '<div class="pour-wrap"><div class="plate-view"><span class="bottle" id="bot">' + foodMark(s.bottle) + '</span><span class="stream" id="stream" style="background:' + s.color + '"></span>' +
-    '<div class="plate"><span class="base">' + foodMark(s.base) + '</span><span class="puddle" id="pud" style="background:' + s.color + '"></span></div></div>' +
+    '<div class="pour-wrap"><div class="pour-scene"><span class="bottle" id="bot">' + foodMark(s.bottle) + '</span><span class="stream" id="stream" style="background:' + s.color + '"></span>' +
+    '<div class="pour-dish"><svg viewBox="0 0 120 90" aria-hidden="true">' + art.under + '<ellipse id="pud" cx="' + art.cx + '" cy="' + art.cy + '" rx="0" ry="0" fill="' + s.color + '" opacity=".88"/>' + art.over + '</svg></div></div>' +
     '<div class="vgauge"><div class="zone" style="bottom:' + lo + '%;height:' + (hi - lo) + '%"></div><div class="fill" id="vfill" style="background:' + s.color + '"></div></div></div>' +
-    '<button class="btn wide hold-btn" id="pb">👇 おして そそぐ</button>';
-  const btn = $('#pb'), bot = $('#bot'), stream = $('#stream');
+    '<button class="btn wide big hold-btn" id="pb">' + icon('drop') + '<span>おして そそぐ</span></button>';
+  const btn = $('#pb'), bot = $('#bot'), stream = $('#stream'), pud = $('#pud');
   const end = () => {
     if (!hold || done) return;
     hold = false; done = true; bot.classList.remove('tilt'); stream.style.height = '0';
     const c = (lo + hi) / 2, h = (hi - lo) / 2;
     finishStep(amt >= lo && amt <= hi ? 86 + 14 * (1 - Math.abs(amt - c) / h) : amt < lo ? 20 + 60 * amt / lo : Math.max(10, 80 - (amt - hi) * 3));
   };
-  btn.addEventListener('pointerdown', e => { if (done) return; e.preventDefault(); hold = true; bot.classList.add('tilt'); stream.style.height = '64px'; try { btn.setPointerCapture(e.pointerId); } catch (_) {} });
+  btn.addEventListener('pointerdown', e => { if (done) return; e.preventDefault(); hold = true; bot.classList.add('tilt'); stream.style.height = streamH + 'px'; try { btn.setPointerCapture(e.pointerId); } catch (_) {} });
   btn.addEventListener('pointerup', end); btn.addEventListener('pointercancel', end); btn.addEventListener('lostpointercapture', end);
   btn.addEventListener('contextmenu', e => e.preventDefault());
   S.upd = dt => {
     if (!hold) return;
     amt = Math.min(100, amt + 34 * dt);
     $('#vfill').style.height = amt + '%';
-    $('#pud').style.transform = 'translate(-50%,-50%) scale(' + (Math.sqrt(amt) * .75) + ')';
+    const f = Math.min(art.max || 1.25, .1 + .9 * Math.sqrt(amt / 67));
+    pud.setAttribute('rx', (art.rx * f).toFixed(1)); pud.setAttribute('ry', (art.ry * f).toFixed(1));
     if (amt >= 100) { toast('かけすぎ！'); end(); }
   };
 }
@@ -842,12 +1173,12 @@ function serve() {
   const say = late ? 'ちょっと待ったよ〜。' : stars === 3 ? 'すっごくおいしい！また来るね！' : stars === 2 ? 'おいしかった！ごちそうさま。' : 'うーん、まあまあかな…';
   const f = $('#g-face'); f.textContent = late ? '😤' : stars === 3 ? '😍' : stars === 2 ? '😋' : '😐'; f.className = 'face' + (stars >= 2 && !late ? ' happy' : '');
   $('#g-stage').innerHTML =
-    '<div class="card panel serve">' + dishSVG(r.id, 'serve-dish') +
-    '<div class="stars" id="stars">' + [0, 1, 2].map(i => '<span>⭐</span>').join('') + '</div>' +
-    '<div class="say">「' + say + '」</div>' +
-    '<div class="pay"><div><span>' + r.name + '</span><span>' + yen(base) + '</span></div><div><span>チップ</span><span>' + yen(tip) + '</span></div>' +
+    '<div class="panel serve">' + dishSVG(r.id, 'serve-dish') +
+    '<div class="stars" id="stars" role="img" aria-label="★' + stars + '">' + [0, 1, 2].map(() => icon('star')).join('') + '</div>' +
+    '<div class="bubble">「' + say + '」</div>' +
+    '<div class="receipt"><div><span>' + r.name + '</span><span>' + yen(base) + '</span></div><div><span>チップ</span><span>' + yen(tip) + '</span></div>' +
     '<div class="total"><span>あわせて</span><span class="coin">+<span>' + yen(base + tip) + '</span></span></div></div></div>' +
-    '<button class="btn wide mint" id="b-nextc">' + (S.i + 1 < S.orders.length ? '🙋 つぎのお客さん' : '🌙 お店をしめる') + '</button>';
+    '<button class="btn alt wide big" id="b-nextc">' + (S.i + 1 < S.orders.length ? icon('person') + '<span>つぎのお客さん</span>' : icon('moon') + '<span>お店をしめる</span>') + '</button>';
   const st = $('#stars').children;
   for (let i = 0; i < stars; i++) setTimeout(() => { st[i].classList.add('on'); SND.star(i); }, 250 + i * 250);
   setTimeout(SND.coin, 300 + stars * 250);
@@ -862,18 +1193,19 @@ function endDay() {
   const day = save.day;
   save.day++;
   store();
-  const [stamp, title] = avg >= 2.7 ? ['🎉', '大はんじょう！'] : avg >= 2 ? ['😊', 'いい一日だったね'] : ['🌱', 'あしたも がんばろう'];
-  $('#r-stamp').textContent = stamp; $('#r-title').textContent = title;
-  $('#r-stars').innerHTML = '<span class="on">⭐</span> ' + avg.toFixed(1);
+  const title = avg >= 2.7 ? '大はんじょう！' : avg >= 2 ? 'いい一日だったね' : 'あしたも がんばろう';
+  $('#r-day').textContent = day + '日目';
+  $('#r-title').textContent = title;
+  $('#r-stamp').innerHTML = icon('star') + '<span>' + avg.toFixed(1) + '</span>';
   $('#r-rows').innerHTML =
     '<div><span>' + day + '日目のお客さん</span><span>' + n + '人</span></div>' +
     '<div><span>料理の売上</span><span>' + yen(S.sales) + '</span></div>' +
     '<div><span>チップ</span><span>' + yen(S.tips) + '</span></div>' +
     (S.late ? '<div><span>待たせたお客さん</span><span>' + S.late + '人</span></div>' : '') +
-    '<div style="font-size:20px"><span>きょうの売上</span><span class="coin">+<span>' + yen(earned) + '</span></span></div>' +
-    '<div><span>ちょきん</span><span class="coin">' + yen(save.money) + '</span></div>';
+    '<div class="big"><span>きょうの売上</span><span class="coin">+<span>' + yen(earned) + '</span></span></div>' +
+    '<div><span>ちょきん</span><span>' + yen(save.money) + '</span></div>';
   const nextNew = RECIPES.filter(r => r.unlock === save.day);
-  if (nextNew.length) $('#r-rows').innerHTML += '<div style="color:var(--mint)"><span>あしたの新メニュー</span><span>' + nextNew.map(r => r.name).join('・') + '</span></div>';
+  if (nextNew.length) $('#r-rows').innerHTML += '<div class="new"><span>あしたの新メニュー</span><span>' + nextNew.map(r => r.name).join('・') + '</span></div>';
   S = null;
   show('result'); SND.fan();
 }
@@ -883,9 +1215,9 @@ function renderShop() {
   $('#s-money').textContent = yen(save.money);
   $('#s-list').innerHTML = TOOLS.map(t => {
     const lv = save.up[t.id], cost = t.costs[lv];
-    return '<div class="card item"><span class="big">' + t.icon + '</span><div class="txt"><b>' + t.name + '</b><small>' + t.desc + '</small>' +
+    return '<div class="tool"><span class="tool-ic">' + icon(t.icon) + '</span><div class="txt"><b>' + t.name + '</b><small>' + t.desc + '</small>' +
       '<div class="lv">' + t.costs.map((_, i) => '<i class="' + (i < lv ? 'on' : '') + '"></i>').join('') + '</div></div>' +
-      (cost == null ? '<span class="pill">さいこう！</span>' : '<button class="btn mint" data-buy="' + t.id + '"' + (save.money < cost ? ' disabled' : '') + '>' + yen(cost) + '</button>') + '</div>';
+      (cost == null ? '<span class="max">さいこう！</span>' : '<button class="btn alt buy" data-buy="' + t.id + '"' + (save.money < cost ? ' disabled' : '') + '>' + yen(cost) + '</button>') + '</div>';
   }).join('');
   $('#s-list').querySelectorAll('[data-buy]').forEach(b => b.onclick = () => {
     const t = TOOLS.find(x => x.id === b.dataset.buy), cost = t.costs[save.up[t.id]];
@@ -897,10 +1229,12 @@ function renderShop() {
 /* ---------- レシピ帳 ---------- */
 function renderBook() {
   $('#k-list').innerHTML = RECIPES.map(r => {
-    const b = save.book[r.id], open = r.unlock <= save.day;
-    return '<div class="card item' + (open ? '' : ' locked') + '">' + (open ? dishSVG(r.id, 'mini-dish') : '<span class="big">🔒</span>') +
-      '<div class="txt"><b>' + (open ? r.name : '？？？') + '</b><small>' + (open ? r.ings.map(x => ingredientMark(x)).join(' ') + '　<span>' + yen(r.price) + '</span>' : r.unlock + '日目に登場') + '</small>' +
-      (b ? '<small><span class="mini-stars">' + '★'.repeat(b.best) + '☆'.repeat(3 - b.best) + '</span>　' + b.count + '回つくった</small>' : open ? '<small>まだつくっていない</small>' : '') + '</div></div>';
+    const b = save.book[r.id];
+    if (r.unlock > save.day) return '<div class="mtag locked">' + icon('lock') + '<b>？？？</b><small>' + r.unlock + '日目に登場</small></div>';
+    return '<div class="mtag">' + dishSVG(r.id, 'mini-dish') + '<b>' + r.name + '</b><span class="price">' + yen(r.price) + '</span>' +
+      '<span class="ings">' + r.ings.map(x => ingredientMark(x)).join('') + '</span>' +
+      (b ? '<span class="mini-stars" role="img" aria-label="★' + b.best + '">' + [0, 1, 2].map(i => icon('star', i < b.best ? 'on' : '')).join('') + '</span><small>' + b.count + '回つくった</small>'
+        : '<small>まだつくっていない</small>') + '</div>';
   }).join('');
 }
 
@@ -916,7 +1250,7 @@ function loop(t) {
 }
 function pause(on) {
   paused = on; overlay('pause', on);
-  if (on) sizzleOff(); else if (S && S.upd && document.querySelector('#flame.on')) sizzleOn();
+  if (on) sizzleOff(); else if (S && S.upd && document.querySelector('#stove.on')) sizzleOn();
 }
 document.addEventListener('visibilitychange', () => { if (document.hidden && S && screenNow === 'game' && S.phase !== 'serve') pause(true); });
 
@@ -943,7 +1277,7 @@ document.querySelectorAll('[data-close]').forEach(b => b.onclick = () => {
 });
 
 load(); renderTitle(); requestAnimationFrame(loop);
-if ('serviceWorker' in navigator && location.protocol.startsWith('http')) navigator.serviceWorker.register('sw.js').catch(() => {});
+try { if ('serviceWorker' in navigator && location.protocol.startsWith('http')) navigator.serviceWorker.register('sw.js').catch(() => {}); } catch (e) {}
 // テスト用（ブラウザーの開発ツールから参照できる）
 window.__ryouri = { get S() { return S; }, get save() { return save; }, RECIPES, finishStep: v => finishStep(v) };
 </script>
