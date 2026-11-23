@@ -363,6 +363,33 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
 .vgauge::after { content: ""; position: absolute; inset: 0; pointer-events: none;
   background: repeating-linear-gradient(to top, transparent 0 calc(25% - 2px), var(--muted) calc(25% - 2px) 25%) left / 9px 100% no-repeat; opacity: .5; }
 
+/* ふる：しおコショウのびんが左右にゆれる */
+.shake-scene { --dw: 240px; position: relative; flex: none; width: min(300px, 100%); height: calc(var(--dw) * .75 + 72px); touch-action: manipulation; cursor: pointer; -webkit-user-select: none; user-select: none; }
+.shake-rail { position: absolute; top: 4px; height: 10px; border-radius: 5px; background: var(--line); }
+.shake-rail .zone { position: absolute; top: 0; bottom: 0; border-radius: 5px; background: var(--good) repeating-linear-gradient(135deg, rgba(255,255,255,.18) 0 6px, transparent 6px 12px); }
+.shaker { position: absolute; z-index: 3; left: 0; top: 18px; width: 64px; height: 64px; margin-left: -32px; display: flex; align-items: center; justify-content: center;
+  font-size: 50px; line-height: 1; pointer-events: none; will-change: transform; }
+.shaker > span { display: block; transform: rotate(180deg); }
+.shaker .ingredient-art { display: block; width: 64px; height: 64px; }
+.shaker svg > ellipse:first-child { display: none; }   /* さかさまにするので、足もとの影はけす */
+.shaker.go > span { animation: shakeit .24s ease-in-out; }
+@keyframes shakeit { 0%, 100% { transform: rotate(180deg); } 30% { transform: rotate(166deg) translateY(10px); } 65% { transform: rotate(193deg) translateY(4px); } }
+.shake-dish { position: absolute; left: calc(50% - var(--dw) / 2); bottom: 0; width: var(--dw); pointer-events: none; }
+@media (max-height: 740px) { .shake-scene { --dw: 200px; } }
+@media (max-height: 600px) { .shake-scene { --dw: 180px; } }
+.shake-dish svg { display: block; width: 100%; height: auto; }
+.grain { position: absolute; z-index: 2; width: 4px; height: 4px; margin: -2px 0 0 -2px; border-radius: 50%; background: #33261F; pointer-events: none;
+  animation: grain .36s cubic-bezier(.45, 0, 1, 1) both; }
+.grain.salt { background: #FFFDF7; box-shadow: 0 0 0 1px rgba(120, 100, 80, .4); }
+@keyframes grain { from { transform: translate(0, 0); } to { transform: translate(var(--dx), var(--dy)); } }
+.shake-count { display: flex; justify-content: center; gap: 9px; }
+.shake-count i { width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--line); background: var(--paper); transition: background .15s, border-color .15s; }
+.shake-count i.on { background: var(--good); border-color: var(--good); }
+.chip.pick { border-color: var(--shu); color: var(--shu); font-weight: 700; }
+.ings .alt { display: inline-flex; align-items: center; }
+.ings .alt i { font-style: normal; color: var(--muted); font-size: 12px; margin: 0 1px; }
+.emoji-art { display: inline-block; width: 1.25em; height: 1.25em; vertical-align: -.25em; }
+
 /* できばえの判子 */
 .flash { position: absolute; inset: 0; z-index: 5; display: flex; align-items: center; justify-content: center; pointer-events: none; }
 .flash b { font-family: var(--brush); font-weight: 400; font-size: 34px; line-height: 1.1; color: var(--shu); padding: 10px 22px; border-radius: 14px;
@@ -655,6 +682,7 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
   <symbol id="i-sign" viewBox="0 0 24 24"><path d="M3.5 3.5h17M8 3.5 7 9M16 3.5l1 5.5"/><rect x="3" y="9" width="18" height="11" rx="2.2" fill="currentColor" stroke="none"/></symbol>
   <symbol id="i-basket" viewBox="0 0 24 24"><path d="M3.5 10.5h17l-1.8 8.6a1.5 1.5 0 0 1-1.5 1.2H6.8a1.5 1.5 0 0 1-1.5-1.2Z" fill="currentColor" stroke="none"/><path d="M7.5 10.5 10.5 4.5M16.5 10.5 13.5 4.5"/></symbol>
   <symbol id="i-spoon" viewBox="0 0 24 24"><g transform="rotate(40 12 12)"><ellipse cx="12" cy="6.5" rx="4" ry="5" fill="currentColor" stroke="none"/><path d="M12 11v10.5" stroke-width="2.8"/></g></symbol>
+  <symbol id="i-shaker" viewBox="0 0 24 24"><rect x="6.5" y="9" width="11" height="12.5" rx="2.6" fill="currentColor" stroke="none"/><path d="M7.2 8.2V6.4a1.6 1.6 0 0 1 1.6-1.6h6.4a1.6 1.6 0 0 1 1.6 1.6v1.8Z" fill="currentColor" stroke="none"/><path d="M9.5 2.6v.4M12 2v.4M14.5 2.6v.4" stroke-width="1.8"/></symbol>
   <symbol id="i-bottle" viewBox="0 0 24 24"><path d="M10 2.8h4v3.6l2.2 2.8v11a1.2 1.2 0 0 1-1.2 1.2H9a1.2 1.2 0 0 1-1.2-1.2v-11L10 6.4Z" fill="currentColor" stroke="none"/></symbol>
   <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke-width="2.8"/></symbol>
   <symbol id="i-rotate" viewBox="0 0 24 24"><path d="M19.5 12a7.5 7.5 0 1 1-2.2-5.3"/><path d="M19.6 3.8v4.6H15"/></symbol>
@@ -790,6 +818,7 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
     <div class="how-row"><span class="how-ic"><svg class="ic" aria-hidden="true"><use href="#i-flame"/></svg></span><p>やく・にる：火をつけて、メーターがみどりのところで火をとめよう。</p></div>
     <div class="how-row"><span class="how-ic"><svg class="ic" aria-hidden="true"><use href="#i-spoon"/></svg></span><p>まぜる：ボウルの中を指でぐるぐるなぞろう。ボタンでもOK。</p></div>
     <div class="how-row"><span class="how-ic"><svg class="ic" aria-hidden="true"><use href="#i-bottle"/></svg></span><p>かける：ボタンをおしている間そそぐよ。みどりのところではなそう。</p></div>
+    <div class="how-row"><span class="how-ic"><svg class="ic" aria-hidden="true"><use href="#i-shaker"/></svg></span><p>ふる：ゆれるびんが、みどりのところに来たらタップ。めだまやきは、しょうゆかしおコショウか、注文をよく見てね。</p></div>
     <div class="how-row"><span class="how-ic star"><svg class="ic" aria-hidden="true"><use href="#i-star"/></svg></span><p>星3つをめざそう！売上で道具を買うと、もっとつくりやすくなるよ。</p></div>
     <div class="how-row"><span class="how-ic"><svg class="ic" aria-hidden="true"><use href="#i-note"/></svg></span><p>新メニュー：ためたお金で、じぶんだけのメニューをつくれるよ。お客さんが注文してくれるよ。</p></div>
     <button class="btn wide big" data-close>わかった！</button>
@@ -847,7 +876,9 @@ const ING = {
   'じゃがいも': '🥔', 'にんじん': '🥕', 'おにく': '🥩', 'カレールウ': '🍫', 'ひきにく': '🍖', 'パンこ': '🍞',
   'こむぎこ': '🌾', 'ぎゅうにゅう': '🥛', 'バター': '🧈', 'めん': '🍝', 'スープ': '🥣', 'チャーシュー': '🥓',
   'シロップ': '🍯', 'いちご': '🍓', 'バナナ': '🍌', 'ぶどう': '🍇', 'ピーマン': '🫑', 'きのこ': '🍄',
-  'チーズ': '🧀', 'ブロッコリー': '🥦', 'りんご': '🍎', 'とうもろこし': '🌽'
+  'チーズ': '🧀', 'ブロッコリー': '🥦', 'りんご': '🍎', 'とうもろこし': '🌽',
+  // しおコショウの絵文字はないので、絵は EXTRA_ING で描く（ここの値は、ほかとかぶらない目印）
+  'しおコショウ': '🧂\uFE0F'
 };
 // chop の tool：'knife'（包丁）か 'hands'（手でにぎる）。heat の liquid：なべの中の色。
 const RECIPES = [
@@ -857,7 +888,12 @@ const RECIPES = [
   { id: 'medamayaki', name: 'めだまやき', price: 200, unlock: 1, ings: ['たまご', 'あぶら', 'しょうゆ'], steps: [
     { t: 'select' },
     { t: 'heat', chip: 'やく', title: 'たまごを やこう', food: '🍳', speed: 26 },
-    { t: 'pour', chip: 'かける', title: 'しょうゆを かけよう', bottle: '🍶', color: '#5A2D14' } ] },
+    { t: 'pour', chip: 'かける', title: 'しょうゆを かけよう', bottle: '🍶', color: '#5A2D14' } ],
+    // あじつけは お客さんが えらぶ（しょうゆ派・しおコショウ派）。opt は伝票とセリフにでる
+    opts: [{ opt: 'しょうゆ' }, { opt: 'しおコショウ', art: 'medamayaki_shio', ings: ['たまご', 'あぶら', 'しおコショウ'], steps: [
+      { t: 'select' },
+      { t: 'heat', chip: 'やく', title: 'たまごを やこう', food: '🍳', speed: 26 },
+      { t: 'shake', chip: 'ふる', title: 'しおコショウを ふろう', shaker: 'しおコショウ' } ] }] },
   { id: 'misoshiru', name: 'みそしる', price: 250, unlock: 2, ings: ['とうふ', 'ねぎ', 'みそ', 'だし'], steps: [
     { t: 'select' },
     { t: 'chop', chip: 'きる', title: 'とうふを きろう', food: '⬜', tool: 'knife', n: 5 },
@@ -894,10 +930,27 @@ const RID = Object.fromEntries(RECIPES.map(r => [r.id, r]));
 const ILLUST_MODES = ['set1', 'original'];
 const ING_BY_EMOJI = Object.fromEntries(Object.entries(ING).map(([name, emoji]) => [emoji, name]));
 const imgHTML = (src, cls) => '<img class="' + cls + ' illust-img" src="' + src + '" alt="" decoding="async" draggable="false">';
-const ingredientMark = (name, style = save.illustration) => style === 'original' ? ING[name] :
-  (window.shokudoReviewedIngredient?.(name) || imgHTML('assets/kids/ingredients/' + encodeURIComponent(name) + '.png', 'ingredient-art'));
+// 素材画像のない材料（あとから足した材料）は、ここで描く（ingredients-reviewed.js と同じ 160×160 の線画）
+const EXTRA_ING = {
+  'しおコショウ': '<rect x="47" y="50" width="66" height="92" rx="15" fill="#F3EFE7"/>' +
+    '<path d="M50 74H110V126Q110 139 97 139H63Q50 139 50 126Z" fill="#D9D3C8" stroke="none"/>' +
+    '<g fill="#3B2E28" stroke="none"><circle cx="58" cy="80" r="2.3"/><circle cx="71" cy="77" r="1.8"/><circle cx="90" cy="79" r="2.2"/><circle cx="102" cy="82" r="1.8"/><circle cx="60" cy="129" r="2"/><circle cx="76" cy="133" r="2.3"/><circle cx="93" cy="130" r="1.9"/><circle cx="104" cy="126" r="2.2"/><circle cx="83" cy="76" r="1.6"/></g>' +
+    '<g fill="#FFF" stroke="none"><rect x="64" y="79" width="3.6" height="3.6" rx=".8"/><rect x="96" y="76" width="3.4" height="3.4" rx=".8"/><rect x="68" y="128" width="3.4" height="3.4" rx=".8"/><rect x="99" y="133" width="3.2" height="3.2" rx=".8"/></g>' +
+    '<rect x="53" y="90" width="54" height="32" rx="6" fill="#FFF6E0" stroke="#EACD9A" stroke-width="2"/>' +
+    '<rect x="64" y="100" width="12" height="12" rx="2.6" fill="#FFFFFF" stroke="#B9AFA4" stroke-width="2.4"/>' +
+    '<g fill="#3B2E28" stroke="none"><circle cx="90" cy="103.5" r="4.6"/><circle cx="97" cy="111" r="3.8"/><circle cx="87" cy="112" r="3"/></g>' +
+    '<path d="M56 60V72" stroke="#FFF" stroke-width="6"/>' +
+    '<rect x="50" y="28" width="60" height="26" rx="7" fill="#D9473B"/>' +
+    '<path d="M61 40V50M71 40V50M81 40V50M91 40V50M100 40V50" stroke="#B4362C" stroke-width="3"/>' +
+    '<ellipse cx="80" cy="29" rx="29" ry="8" fill="#EF7062"/>' +
+    '<g fill="#8F2A22" stroke="none"><circle cx="68" cy="29" r="2.4"/><circle cx="80" cy="26.5" r="2.4"/><circle cx="92" cy="29" r="2.4"/><circle cx="74" cy="32" r="2.2"/><circle cx="86" cy="32" r="2.2"/></g>'
+};
+const hasExtra = name => Object.prototype.hasOwnProperty.call(EXTRA_ING, name);
+const extraArt = (name, cls, shadow) => '<svg class="' + cls + '" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" aria-hidden="true" focusable="false" fill="none" stroke="#705443" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">' +
+  (shadow ? '<ellipse cx="80" cy="146" rx="47" ry="6" fill="#B5A18B" stroke="none" opacity=".16"/>' : '') + EXTRA_ING[name] + '</svg>';
+const ingredientMark = (name, style = save.illustration) => style === 'original' ? (hasExtra(name) ? extraArt(name, 'emoji-art') : ING[name]) :
+  (window.shokudoReviewedIngredient?.(name) || (hasExtra(name) ? extraArt(name, 'ingredient-art illust-img', true) : imgHTML('assets/kids/ingredients/' + encodeURIComponent(name) + '.png', 'ingredient-art')));
 const foodMark = emoji => {
-  if (save.illustration === 'original') return emoji;
   const name = ING_BY_EMOJI[emoji];
   return name ? ingredientMark(name) : emoji;
 };
@@ -922,10 +975,22 @@ const STACK = '<ellipse cx="60" cy="54" rx="36" ry="10" fill="#C27630"/><ellipse
 const BUTTER = '<rect x="53" y="22" width="14" height="9" rx="2" fill="#FFE48A"/>';
 const OMELET = '<ellipse cx="60" cy="48" rx="35" ry="16" fill="#F2BE2C"/><ellipse cx="55" cy="42" rx="22" ry="7" fill="#FFDF75" opacity=".75"/>';
 const PARSLEY = '<circle cx="92" cy="56" r="5" fill="#3D9A4A"/>';
+const SOY_LINE = '<path d="M40 46Q46 40.5 52 45.5T64 46T76 43T85 47" fill="none" stroke="#5A2D14" stroke-width="2.2" stroke-linecap="round" opacity=".9"/>';
+// ふりかけた しお・こしょうのつぶ。黄金角でならべて、だえんの中にむらなく散らす（pepper がないときは白いつぶだけ）
+function grainsSVG(cx, cy, rx, ry, pepper, n, seed) {
+  let out = '';
+  for (let i = 0; i < n; i++) {
+    const d = Math.sqrt((i + .6) / n), a = i * 2.39996 + (seed || 0), salt = !pepper || i % 3 === 1;
+    const r = salt ? .62 + (i % 2) * .16 : .78 + ((i * 7) % 5) * .11;
+    out += '<circle cx="' + (cx + Math.cos(a) * rx * d).toFixed(1) + '" cy="' + (cy + Math.sin(a) * ry * d).toFixed(1) + '" r="' + r.toFixed(2) + '" fill="' + (salt ? '#FFFDF7' : '#33261F') + '"/>';
+  }
+  return '<g>' + out + '</g>';
+}
 const NOODLES = '<path d="M28 40 Q34 34 40 40 T52 40 T64 40 T76 40 T88 40" fill="none" stroke="#F8E39A" stroke-width="3"/><path d="M32 46 Q38 40 44 46 T56 46 T68 46" fill="none" stroke="#F8E39A" stroke-width="3"/><circle cx="76" cy="38" r="9" fill="#E8B08A" stroke="#B5703F" stroke-width="2"/><ellipse cx="46" cy="34" rx="8" ry="6" fill="#FFFFFF"/><circle cx="46" cy="34" r="3.5" fill="#F2A91B"/><circle cx="60" cy="44" r="2.4" fill="#4C9A3C"/><circle cx="88" cy="45" r="2.4" fill="#4C9A3C"/><rect x="58" y="30" width="5" height="10" fill="#2A3A2E"/>';
 const DISH = {
   onigiri: PLATE + '<path d="M60 12 Q70 13 84 40 Q90 56 60 57 Q30 56 36 40 Q50 13 60 12Z" fill="#FFFFFF" stroke="#E2DACC" stroke-width="2"/><rect x="46" y="40" width="28" height="17" rx="3" fill="#25302B"/><circle cx="60" cy="30" r="4.5" fill="#D8434A"/>',
-  medamayaki: PLATE + EGG,
+  medamayaki: PLATE + EGG + SOY_LINE,
+  medamayaki_shio: PLATE + EGG + grainsSVG(59, 46.5, 27, 12, true, 26, .4),
   misoshiru: BOWL('#C98A48') + '<rect x="42" y="36" width="9" height="8" rx="1.5" fill="#FFFBF0"/><rect x="62" y="40" width="9" height="8" rx="1.5" fill="#FFFBF0"/><rect x="72" y="33" width="8" height="7" rx="1.5" fill="#FFFBF0"/><circle cx="55" cy="45" r="2.6" fill="#4C9A3C"/><circle cx="84" cy="42" r="2.6" fill="#4C9A3C"/><circle cx="36" cy="42" r="2.6" fill="#4C9A3C"/><circle cx="66" cy="34" r="2.2" fill="#4C9A3C"/>',
   pancake: PLATE + STACK + '<path d="M34 31 Q60 40 86 31 L86 37 Q84 44 82 37 Q62 44 44 38 Q42 47 40 38 Q36 37 34 31Z" fill="#9C4E14" opacity=".85"/>' + BUTTER,
   omurice: PLATE + OMELET + '<path d="M36 46 Q42 38 48 46 Q54 38 60 46 Q66 38 72 46 Q78 38 84 45" fill="none" stroke="#D9342B" stroke-width="4.5" stroke-linecap="round"/>' + PARSLEY,
@@ -942,6 +1007,14 @@ const POUR_ART = {
   omurice: { under: PLATE + OMELET, over: PARSLEY, cx: 60, cy: 46, rx: 25, ry: 8.5 },
   ramen: { under: BOWL('#4A170D'), over: NOODLES, cx: 60, cy: 41, rx: 42, ry: 11, max: 1.06 }
 };
+// ふる工程：ふる前の料理（under）、ねらう場所（cx・cy・rx・ry）、つぶがのる うつわの面（surf：cx, cy, rx, ry）
+const SURF = { plate: [60, 57, 53, 17], bowl: [60, 40, 42, 11], glass: [60, 15, 25, 4.5] };
+const SHAKE_ART = {
+  medamayaki_shio: { under: PLATE + EGG, cx: 60, cy: 47, rx: 24, ry: 10, surf: SURF.plate }
+};
+const artOf = r => r.art || r.id;
+// 注文のたびに、えらべるところ（opts）を1つきめる
+const withOpt = r => r.opts ? Object.assign({}, r, r.opts[rnd(r.opts.length)]) : r;
 
 /* ---------- 調理道具の絵（SVG） ---------- */
 const KNIFE_SVG = '<svg viewBox="0 0 150 50" aria-hidden="true"><path d="M6 34C10 20 40 10 96 10L100 38C60 42 24 42 6 34Z" fill="url(#gBlade)" stroke="#6A727E" stroke-width="2" stroke-linejoin="round"/><path d="M14 35C40 40 70 39 99 36" fill="none" stroke="#fff" stroke-width="2.5" stroke-opacity=".85" stroke-linecap="round"/><rect x="98" y="15" width="48" height="20" rx="8" fill="#4A2F1C"/><circle cx="114" cy="25" r="2.6" fill="#E2CFAE"/><circle cx="131" cy="25" r="2.6" fill="#E2CFAE"/></svg>';
@@ -975,7 +1048,7 @@ const CATS = [
   { name: 'やさい', list: ['たまねぎ', 'にんじん', 'じゃがいも', 'ねぎ', 'ピーマン', 'きのこ', 'ブロッコリー', 'とうもろこし'] },
   { name: 'くだもの', list: ['いちご', 'バナナ', 'ぶどう', 'りんご'] },
   { name: 'にく・たまご', list: ['おにく', 'ひきにく', 'チャーシュー', 'たまご', 'とうふ', 'チーズ', 'ぎゅうにゅう', 'バター'] },
-  { name: 'あじつけ', list: ['しお', 'しょうゆ', 'みそ', 'だし', 'あぶら', 'ケチャップ', 'カレールウ', 'シロップ', 'スープ'] }
+  { name: 'あじつけ', list: ['しお', 'しおコショウ', 'しょうゆ', 'みそ', 'だし', 'あぶら', 'ケチャップ', 'カレールウ', 'シロップ', 'スープ'] }
 ];
 // 料理の絵で使う材料の色
 const ING_COLOR = {
@@ -984,11 +1057,12 @@ const ING_COLOR = {
   'じゃがいも': '#F2D27A', 'にんじん': '#F08A24', 'おにく': '#A8492F', 'カレールウ': '#8E4E1C', 'ひきにく': '#9C4A33', 'パンこ': '#E8C27A',
   'こむぎこ': '#F6EEDD', 'ぎゅうにゅう': '#FBF8F0', 'バター': '#FFE48A', 'めん': '#F3D477', 'スープ': '#E3B04B', 'チャーシュー': '#D99A74',
   'シロップ': '#B8641C', 'いちご': '#E2364A', 'バナナ': '#F7DE6A', 'ぶどう': '#7B3F98', 'ピーマン': '#3E9A3A', 'きのこ': '#B47B4E',
-  'チーズ': '#F6C743', 'ブロッコリー': '#3B8C3A', 'りんご': '#E04848', 'とうもろこし': '#F6CE3C'
+  'チーズ': '#F6C743', 'ブロッコリー': '#3B8C3A', 'りんご': '#E04848', 'とうもろこし': '#F6CE3C', 'しおコショウ': '#B9B2A6'
 };
 const POUR_TINT = { 'ぎゅうにゅう': '#E6DAC2' };   // 白い牛乳は、白い画面でも見えるようにクリーム色でそそぐ
 const LIQUIDS = ['しょうゆ', 'ケチャップ', 'シロップ', 'スープ', 'ぎゅうにゅう', 'だし'];   // かけられる
-const PASTES = ['しお', 'あぶら', 'みそ', 'カレールウ', 'パンこ', 'こむぎこ'];          // 形がのこらない
+const PASTES = ['しお', 'しおコショウ', 'あぶら', 'みそ', 'カレールウ', 'パンこ', 'こむぎこ'];          // 形がのこらない
+const SHAKERS = ['しお', 'しおコショウ'];   // 「かける」をえらぶと、ふりかける
 const BROTHS = ['スープ', 'だし', 'ぎゅうにゅう'];
 const FRUITS = ['いちご', 'バナナ', 'ぶどう', 'りんご'];
 const VEGGIES = ['たまねぎ', 'にんじん', 'じゃがいも', 'ねぎ', 'ピーマン', 'きのこ', 'ブロッコリー', 'とうもろこし'];
@@ -999,7 +1073,7 @@ const VERBS = [
   { id: 'yaku', name: 'やく', icon: 'pan', can: x => isSolid(x) || x === 'こむぎこ', hint: 'やける ざいりょうを えらんでね' },
   { id: 'niru', name: 'にる', icon: 'pot', can: x => isSolid(x) || x === 'みそ' || x === 'カレールウ', hint: 'にる ざいりょうを えらんでね' },
   { id: 'mazeru', name: 'まぜる', icon: 'spoon', can: null, hint: 'ざいりょうを 2つ えらぶと まぜられるよ' },
-  { id: 'kakeru', name: 'かける', icon: 'bottle', can: x => LIQUIDS.includes(x), hint: 'しょうゆや シロップを えらぶと かけられるよ' }
+  { id: 'kakeru', name: 'かける', icon: 'bottle', can: x => LIQUIDS.includes(x) || SHAKERS.includes(x), hint: 'しょうゆや シロップを えらぶと かけられるよ' }
 ];
 const VID = Object.fromEntries(VERBS.map(v => [v.id, v]));
 // えらんだ「つくりかた」を、材料にあう自然なことばにする（工程のチップ・お題）
@@ -1008,6 +1082,7 @@ function verbWord(v, x, vessel) {
   if (v === 'niru' && ['めん', 'たまご', 'ブロッコリー', 'とうもろこし', 'じゃがいも'].includes(x)) return ['ゆでる', 'ゆでよう'];
   if (v === 'nigiru' && x !== 'ごはん') return ['まるめる', 'まるめよう'];
   if (v === 'kakeru' && vessel !== 'plate' && BROTHS.includes(x)) return ['そそぐ', 'そそごう'];
+  if (v === 'kakeru' && SHAKERS.includes(x)) return ['ふる', 'ふろう'];
   return { kiru: ['きる', 'きろう'], nigiru: ['にぎる', 'にぎろう'], yaku: ['やく', 'やこう'], niru: ['にる', 'にこもう'], mazeru: ['まぜる', 'まぜよう'], kakeru: ['かける', 'かけよう'] }[v];
 }
 const hexRGB = h => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16));
@@ -1030,6 +1105,7 @@ function buildSteps(c) {
     if (p.v === 'yaku') return { t: 'heat', chip, title, food: p.x === 'たまご' ? '🍳' : p.x === 'こむぎこ' ? '🥞' : em, speed: 26 };
     if (p.v === 'niru') return { t: 'heat', chip, title, food: em, pot: true, liquid, speed: 24 };
     if (p.v === 'mazeru') return { t: 'stir', chip, title, items: [0, 1, 2, 3].map(i => ING[c.ings[i % c.ings.length]]), turns: c.ings.length >= 4 ? 3 : 2 };
+    if (SHAKERS.includes(p.x)) return { t: 'shake', chip, title, shaker: p.x };
     return { t: 'pour', chip, title, bottle: em, color: POUR_TINT[p.x] || ING_COLOR[p.x] };
   }));
 }
@@ -1130,7 +1206,8 @@ function composeDish(c) {
   if (forms.length && has('mazeru')) ['たまご', 'たまねぎ', 'ひきにく', 'じゃがいも'].forEach(x => used.add(x));
   const riceC = grilled.has('ごはん') ? '#EBC35E' : '#FFFFFF', noodleC = grilled.has('めん') ? '#B87A35' : '#F3D477';
   // どんぶり・グラスに そそぐ スープや牛乳は中身になる。ほかは上からかかる
-  const pourIn = V === 'plate' ? [] : kak.filter(x => BROTHS.includes(x)), drz = kak.filter(x => !pourIn.includes(x));
+  const shk = kak.filter(x => SHAKERS.includes(x));
+  const pourIn = V === 'plate' ? [] : kak.filter(x => BROTHS.includes(x)), drz = kak.filter(x => !pourIn.includes(x) && !shk.includes(x));
   const wet = ings.filter(x => (LIQUIDS.includes(x) && !drz.includes(x)) || x === 'みそ' || x === 'カレールウ');
   const wetC = wet.length ? mixColor(wet.map(x => ING_COLOR[x])) : null;
   // かけら：きったものは3つ、ほかは2つ（グラスは1つ）を、かわりばんこに
@@ -1167,11 +1244,17 @@ function composeDish(c) {
   const ps = area.ps * (V === 'glass' ? 1 : placed.length <= 4 ? 1.3 : placed.length <= 7 ? 1.12 : 1);
   const bitSVG = placed.map(o => put(PIECE[o.x], o.p[0], o.p[1], ps, o.rot, grilled.has(o.x) ? ' filter="url(#fYaki)"' : '')).join('');
   const drzSVG = drz.map((x, i) => drizzle(dz[0], dz[1] + i * 6, dz[2], ING_COLOR[x])).join('');
-  const dish = V === 'glass' ? back + drzSVG + formSVG + bitSVG + front : back + base + formSVG + bitSVG + drzSVG;
+  // ふったつぶは、料理の まん中あたり（グラスは のみものの上）に のる
+  const gr = V === 'glass' ? [60, 20, 20, 3.5] : [area.cx, area.cy - 1, 26 * area.sx, 10 * area.sy];
+  const grn = shk.length ? grainsSVG(gr[0], gr[1], gr[2], gr[3], shk.includes('しおコショウ'), V === 'glass' ? 12 : 22, ings.length * .7) : '';
+  const dish = V === 'glass' ? back + drzSVG + formSVG + bitSVG + grn + front : back + base + formSVG + bitSVG + drzSVG + grn;
   const pour = V === 'bowl' && pourIn.length
     ? { under: BOWL('#4A170D'), over: base + formSVG + bitSVG, cx: 60, cy: 41, rx: 42, ry: 11, max: 1.06 }
     : { under: back + base + formSVG, over: bitSVG + front, cx: pool[0], cy: pool[1], rx: pool[2], ry: pool[3], max: 1.15 };
-  return { dish, pour };
+  // ふる工程は、ほかの工程がおわった絵（つぶなし）の上にふる
+  const shake = { under: V === 'glass' ? back + drzSVG + formSVG + bitSVG + front : back + base + formSVG + bitSVG + drzSVG,
+    cx: gr[0], cy: gr[1], rx: gr[2], ry: gr[3], surf: SURF[V] };
+  return { dish, pour, shake };
 }
 
 /* ---------- 新メニューづくり：なまえ・ねだん ---------- */
@@ -1211,7 +1294,7 @@ function autoName(d, R) {
   const pool = ings.filter(x => !skip.includes(x) && isSolid(x)).concat(ings.filter(x => !skip.includes(x) && !isSolid(x) && x !== 'しお' && x !== 'あぶら'));
   let words = pool.slice(0, R() < .5 && pool.length > 1 ? 2 : 1);
   if (R() < .3 && pool.length > 1) words = [pool[Math.floor(R() * pool.length)]];
-  const first = d.plan[0], pre = first && R() < .55 ? NAME_PRE[first.v] : '';
+  const first = d.plan[0], pre = first && R() < .55 ? (first.v === 'kakeru' && SHAKERS.includes(first.x) ? 'ぱらぱら' : NAME_PRE[first.v]) : '';
   const T = window.I18N_T;
   const build = (w, p) => T ? [p].concat(w, [kind]).filter(Boolean).map(s => T(s)).join(' ') : p + w.join('') + (no && w.length ? 'の' : '') + kind;
   for (const [w, p] of [[words, pre], [words, ''], [words.slice(0, 1), ''], [[], '']]) { const s = build(w, p); if (Array.from(s).length <= nameMax()) return s; }
@@ -1239,14 +1322,14 @@ function cleanDraft(d) {
   return { vessel: VESSEL_IDS.includes(d.vessel) ? d.vessel : 'plate', ings, plan: cleanPlan(d.plan, ings), name: cleanName(d.name),
     page: clamp(Math.floor(+d.page) || 0, 0, 3), cat: clamp(Math.floor(+d.cat) || 0, 0, CATS.length - 1) };
 }
-// 自作メニューを、いつものメニュー表（RID・DISH・POUR_ART）に登録する
+// 自作メニューを、いつものメニュー表（RID・DISH・POUR_ART・SHAKE_ART）に登録する
 function registerCustom(c) {
   const art = composeDish(c);
-  DISH[c.id] = art.dish; POUR_ART[c.id] = art.pour;
+  DISH[c.id] = art.dish; POUR_ART[c.id] = art.pour; SHAKE_ART[c.id] = art.shake;
   return (RID[c.id] = { id: c.id, name: c.name, price: c.price, unlock: c.unlock, ings: c.ings, steps: buildSteps(c), custom: true });
 }
 function syncCustom() {
-  Object.keys(RID).forEach(id => { if (RID[id].custom) { delete RID[id]; delete DISH[id]; delete POUR_ART[id]; } });
+  Object.keys(RID).forEach(id => { if (RID[id].custom) { delete RID[id]; delete DISH[id]; delete POUR_ART[id]; delete SHAKE_ART[id]; } });
   save.custom.forEach(c => { try { registerCustom(c); } catch (e) {} });
 }
 const customRecipes = () => save.custom.map(c => RID[c.id]).filter(Boolean);
@@ -1293,6 +1376,14 @@ function chopSnd() {
   const s = a.createBufferSource(), f = a.createBiquadFilter(), g = a.createGain(), t = a.currentTime;
   s.buffer = noiseBuf(a, .08); f.type = 'bandpass'; f.frequency.value = 2400; g.gain.setValueAtTime(.35, t); g.gain.exponentialRampToValueAtTime(.001, t + .07);
   s.connect(f).connect(g).connect(a.destination); s.start(t); tone(180, .06, 'triangle', .15);
+}
+function shakeSnd() {
+  const a = audio(); if (!a) return;
+  [0, .085].forEach(w => {
+    const s = a.createBufferSource(), f = a.createBiquadFilter(), g = a.createGain(), t = a.currentTime + w;
+    s.buffer = noiseBuf(a, .06); f.type = 'highpass'; f.frequency.value = 5200; g.gain.setValueAtTime(.2, t); g.gain.exponentialRampToValueAtTime(.001, t + .055);
+    s.connect(f).connect(g).connect(a.destination); s.start(t);
+  });
 }
 function sizzleOn() {
   const a = audio(); if (!a || sizzle) return;
@@ -1390,20 +1481,20 @@ function updateHud() {
 function nextCustomer() {
   S.i++;
   if (S.i >= S.orders.length) return endDay();
-  const r = RID[S.orders[S.i]];
+  const r = withOpt(RID[S.orders[S.i]]);
   const base = 8 + r.steps.length * 7.5;
   const total = base * Math.max(.75, 1 - .025 * (save.day - 1)) * (1 + .1 * save.up.sign);
   S.cust = { r, face: FACES[rnd(FACES.length)], total, left: total };
   S.scores = []; S.step = -1; S.phase = 'order';
   $('#g-face').textContent = S.cust.face; $('#g-face').className = 'face';
   updateHud(); drawPatience(); SND.bell();
-  const says = ['{0}ください！', '{0}をおねがいします！', '{0}たべたいな！'];
-  const say = says[rnd(says.length)].replace('{0}', esc(r.name));
+  const says = r.opt ? ['{0}、{1}でください！', '{0}、{1}でおねがいします！', '{0}は{1}がいいな！'] : ['{0}ください！', '{0}をおねがいします！', '{0}たべたいな！'];
+  const say = says[rnd(says.length)].replace('{0}', esc(r.name)).replace('{1}', r.opt || '');
   $('#g-stage').innerHTML =
     '<div class="bubble">「' + say + '」</div>' +
-    '<div class="slip"><div class="slip-head"><span>ご注文' + (r.custom ? '<span class="mine-badge">オリジナル</span>' : '') + '</span><span>' + yen(r.price) + '</span></div>' + dishSVG(r.id, 'order-dish') +
+    '<div class="slip"><div class="slip-head"><span>ご注文' + (r.custom ? '<span class="mine-badge">オリジナル</span>' : '') + '</span><span>' + yen(r.price) + '</span></div>' + dishSVG(artOf(r), 'order-dish') +
     '<div class="order-name' + (r.custom ? nameCls(r.name, 8) + '" translate="no"' : '"') + '>' + esc(r.name) + '</div>' +
-    '<div class="recipe-chips">' + r.ings.map(x => '<span class="chip">' + ingredientMark(x) + '<span>' + x + '</span></span>').join('') + '</div></div>' +
+    '<div class="recipe-chips">' + r.ings.map(x => '<span class="chip' + (x === r.opt ? ' pick' : '') + '">' + ingredientMark(x) + '<span>' + x + '</span></span>').join('') + '</div></div>' +
     '<button class="btn wide big" id="b-cook">' + icon('hat') + '<span>つくる！</span></button>';
   $('#b-cook').onclick = () => { SND.pop(); S.phase = 'cook'; runStep(0); };
 }
@@ -1427,7 +1518,7 @@ function runStep(k) {
   if (k >= r.steps.length) return serve();
   const s = r.steps[k];
   $('#g-stage').innerHTML = stepBar(r, k) + '<div class="panel" id="panel"></div>';
-  ({ select: stepSelect, chop: stepChop, heat: stepHeat, stir: stepStir, pour: stepPour })[s.t](s, r, $('#panel'));
+  ({ select: stepSelect, chop: stepChop, heat: stepHeat, stir: stepStir, pour: stepPour, shake: stepShake })[s.t](s, r, $('#panel'));
 }
 function finishStep(score) {
   S.upd = null; sizzleOff();
@@ -1444,7 +1535,8 @@ const timeScore = (sec, target) => sec <= target ? 100 : Math.max(45, 100 - (sec
 
 // 1) 材料をえらぶ
 function stepSelect(s, r, p) {
-  const need = r.ings.slice(), extra = shuffle(Object.keys(ING).filter(x => !need.includes(x))).slice(0, 8 - need.length);
+  const need = r.ings.slice(), other = (r.opts || []).map(o => o.opt).filter(x => !need.includes(x));
+  const extra = other.concat(shuffle(Object.keys(ING).filter(x => !need.includes(x) && !other.includes(x)))).slice(0, 8 - need.length);
   const tiles = shuffle(need.concat(extra));
   let got = 0, miss = 0;
   p.innerHTML = '<h2>ざいりょうを えらぼう</h2><p class="hint">レシピの材料だけをタップしてね</p>' +
@@ -1587,7 +1679,7 @@ function stepStir(s, r, p) {
 
 // 5) かける・そそぐ（長押し）
 function stepPour(s, r, p) {
-  const lo = 58 - 2 * save.up.pan, hi = 76 + 2 * save.up.pan, art = POUR_ART[r.id];
+  const lo = 58 - 2 * save.up.pan, hi = 76 + 2 * save.up.pan, art = POUR_ART[artOf(r)];
   let amt = 0, hold = false, done = false;
   // 流れのしずくが、たれのたまる場所まで届く長さ
   const streamH = Math.max(12, Math.round(212 - 150 + art.cy * 150 / 90 - 74));
@@ -1616,6 +1708,73 @@ function stepPour(s, r, p) {
   };
 }
 
+// 6) ふる（びんが左右にゆれる。料理の上に来たらタップ。3かい）
+function stepShake(s, r, p) {
+  const art = SHAKE_ART[artOf(r)], N = 3, pepper = s.shaker === 'しおコショウ';
+  p.innerHTML = '<h2>' + s.title + '</h2><p class="hint">びんが みどりのところに きたら タップ！</p>' +
+    '<div class="shake-scene" id="shk"><div class="shake-rail"><i class="zone" id="zone"></i></div>' +
+    '<span class="shaker" id="shaker"><span>' + ingredientMark(s.shaker) + '</span></span>' +
+    '<div class="shake-dish"><svg viewBox="0 0 120 90" aria-hidden="true">' + art.under + '<g id="spk"></g></svg></div></div>' +
+    '<div class="shake-count" id="scount" aria-hidden="true">' + '<i></i>'.repeat(N) + '</div>' +
+    '<button class="btn wide big" id="fb">' + icon('shaker') + '<span>ふる</span></button>';
+  const scene = $('#shk'), shaker = $('#shaker'), spk = $('#spk'), dish = scene.querySelector('.shake-dish');
+  // 画面の大きさから、うつわ（viewBox 120×90）の位置をきめる
+  const W = scene.clientWidth, H = scene.clientHeight, DW = dish.clientWidth, DH = DW * .75, DL = (W - DW) / 2, DT = H - DH;
+  const toX = v => DL + v / 120 * DW, toY = v => DT + v / 90 * DH;
+  const mid = toX(60), A = Math.min(DW * .47, W / 2 - 34), cx = toX(art.cx), hw = art.rx / 120 * DW + 5 * save.up.pan;
+  const NOZZLE = 82;   // さかさまのびんの、ふたの下（つぶが出るところ）
+  const z = $('#zone'), rail = z.parentNode;
+  rail.style.left = (mid - A - 8) + 'px'; rail.style.width = (2 * A + 16) + 'px';
+  z.style.left = (cx - hw - (mid - A - 8)) + 'px'; z.style.width = (2 * hw) + 'px';
+  const T = 2.6, scores = [];
+  let t = -T / 4 + Math.random() * .3, x = mid - A, k = 0, busy = false, done = false;
+  const place = () => { x = mid + A * (2 / Math.PI) * Math.asin(Math.sin(2 * Math.PI * t / T)); shaker.style.transform = 'translateX(' + x.toFixed(1) + 'px)'; };
+  place();
+  // つぶが落ちた場所（うつわの外なら、ふちの内がわにおさめる）
+  const land = (vx, vy) => {
+    const [sx, sy, srx, sry] = art.surf;
+    vx = clamp(vx, sx - srx * .94, sx + srx * .94);
+    const dy = sry * Math.sqrt(Math.max(0, 1 - ((vx - sx) / srx) ** 2)) * .9;
+    return [vx, clamp(vy, sy - dy, sy + dy)];
+  };
+  const speck = (vx, vy, salt) => {
+    const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    c.setAttribute('cx', vx.toFixed(1)); c.setAttribute('cy', vy.toFixed(1)); c.setAttribute('r', salt ? '.7' : (.8 + Math.random() * .45).toFixed(2));
+    c.setAttribute('fill', salt ? '#FFFDF7' : '#33261F');
+    if (salt) { c.setAttribute('stroke', 'rgba(120,100,80,.35)'); c.setAttribute('stroke-width', '.25'); }
+    spk.appendChild(c);
+  };
+  const shake = () => {
+    if (busy || done) return;
+    busy = true; setTimeout(() => { busy = false; }, 240);
+    const d = Math.abs(x - cx) / hw, hit = d <= 1;
+    scores.push(hit ? 100 - 18 * d : Math.max(15, 78 - 60 * (d - 1)));
+    shaker.classList.remove('go'); void shaker.offsetWidth; shaker.classList.add('go');
+    shakeSnd(); hit ? SND.pop() : tone(330, .09, 'triangle', .08);
+    for (let i = 0; i < 7; i++) {
+      const salt = !pepper || i % 3 === 2, gx = x + (Math.random() - .5) * 14;
+      const [vx, vy] = land((gx - DL) / DW * 120 + (Math.random() - .5) * 12, art.cy + (Math.random() - .5) * 2 * art.ry * .85);
+      const g = document.createElement('i');
+      g.className = 'grain' + (salt ? ' salt' : '');
+      g.style.left = gx.toFixed(1) + 'px'; g.style.top = NOZZLE + 'px';
+      g.style.setProperty('--dx', (toX(vx) - gx).toFixed(1) + 'px'); g.style.setProperty('--dy', (toY(vy) - NOZZLE).toFixed(1) + 'px');
+      g.style.animationDelay = (i * 18) + 'ms';
+      g.addEventListener('animationend', () => { g.remove(); speck(vx, vy, salt); });
+      scene.appendChild(g);
+    }
+    $('#scount').children[k].classList.add('on');
+    if (++k >= N) {
+      done = true;
+      setTimeout(() => finishStep(scores.reduce((a, b) => a + b, 0) / N), 620);
+    }
+  };
+  scene.addEventListener('pointerdown', e => { e.preventDefault(); shake(); });
+  const fb = $('#fb');
+  fb.addEventListener('pointerdown', e => { e.preventDefault(); shake(); });
+  fb.addEventListener('click', e => { if (e.detail === 0) shake(); });   // キーボード（Enter・スペース）
+  S.upd = dt => { if (!done) { t += dt; place(); } };
+}
+
 /* ---------- 料理を出す ---------- */
 function serve() {
   S.phase = 'serve'; S.upd = null;
@@ -1629,12 +1788,12 @@ function serve() {
   S.sales += base; S.tips += tip; S.stars += stars; if (late) S.late++;
   const b = save.book[r.id] || { best: 0, count: 0 }; b.best = Math.max(b.best, stars); b.count++; save.book[r.id] = b;
   save.served++;
-  const say = late ? 'ちょっと待ったよ〜。' : r.custom
+  const say = late ? 'ちょっと待ったよ〜。' : r.opt && stars === 3 ? 'やっぱり' + r.opt + 'だね！' : r.custom
     ? (stars === 3 ? 'はじめて食べる味！すっごくおいしい！' : stars === 2 ? 'あたらしい味だね！ごちそうさま。' : 'うーん、ふしぎな味…')
     : stars === 3 ? 'すっごくおいしい！また来るね！' : stars === 2 ? 'おいしかった！ごちそうさま。' : 'うーん、まあまあかな…';
   const f = $('#g-face'); f.textContent = late ? '😤' : stars === 3 ? '😍' : stars === 2 ? '😋' : '😐'; f.className = 'face' + (stars >= 2 && !late ? ' happy' : '');
   $('#g-stage').innerHTML =
-    '<div class="panel serve">' + dishSVG(r.id, 'serve-dish') +
+    '<div class="panel serve">' + dishSVG(artOf(r), 'serve-dish') +
     '<div class="stars" id="stars" role="img" aria-label="★' + stars + '">' + [0, 1, 2].map(() => icon('star')).join('') + '</div>' +
     '<div class="bubble">「' + say + '」</div>' +
     '<div class="receipt"><div><span' + (r.custom ? ' translate="no"' : '') + '>' + esc(r.name) + '</span><span>' + yen(base) + '</span></div><div><span>チップ</span><span>' + yen(tip) + '</span></div>' +
@@ -1693,7 +1852,8 @@ function bookTag(r) {
   if (!r.custom && r.unlock > save.day) return '<div class="mtag locked">' + icon('lock') + '<b>？？？</b><small>' + r.unlock + '日目に登場</small></div>';
   const inner = (r.custom ? '<span class="mine-badge">オリジナル</span>' : '') + dishSVG(r.id, 'mini-dish') +
     '<b' + (r.custom ? ' class="' + nameCls(r.name, 6) + '" translate="no"' : '') + '>' + esc(r.name) + '</b><span class="price">' + yen(r.price) + '</span>' +
-    '<span class="ings">' + r.ings.map(x => ingredientMark(x)).join('') + '</span>' +
+    '<span class="ings">' + (r.opts ? r.ings.filter(x => !r.opts.some(o => o.opt === x)).map(x => ingredientMark(x)).join('') +
+      '<span class="alt">' + r.opts.map(o => ingredientMark(o.opt)).join('<i>/</i>') + '</span>' : r.ings.map(x => ingredientMark(x)).join('')) + '</span>' +
     (b ? '<span class="mini-stars" role="img" aria-label="★' + b.best + '">' + [0, 1, 2].map(i => icon('star', i < b.best ? 'on' : '')).join('') + '</span><small>' + b.count + '回つくった</small>'
       : '<small>まだつくっていない</small>');
   return r.custom ? '<button type="button" class="mtag mine" data-mine="' + r.id + '">' + inner + '</button>' : '<div class="mtag">' + inner + '</div>';
@@ -1822,7 +1982,7 @@ function devPlan(p) {
     '<ol class="plan"><li class="fixed"><span class="no">1</span><span class="pv">' + icon('basket') + '<span>ざいりょうを えらぶ</span></span></li>' +
     D.plan.map((s, i) => {
       const chip = verbWord(s.v, s.x, D.vessel)[0], e = eligible(s.v, D);
-      return '<li><span class="no">' + (i + 2) + '</span><span class="pv">' + icon(VID[s.v].icon) + '<span>' + chip + '</span></span>' +
+      return '<li><span class="no">' + (i + 2) + '</span><span class="pv">' + icon(s.v === 'kakeru' && SHAKERS.includes(s.x) ? 'shaker' : VID[s.v].icon) + '<span>' + chip + '</span></span>' +
         (s.v === 'mazeru' ? '<span class="pt all">ぜんぶ</span>'
           : '<button type="button" class="pt" data-tg="' + i + '"' + (e.length > 1 ? ' aria-label="' + s.x + '（タップで かえる）"' : ' disabled') + '>' + ingredientMark(s.x) + '<span>' + s.x + '</span>' + (e.length > 1 ? icon('rotate') : '') + '</button>') +
         '<button type="button" class="px" data-px="' + i + '" aria-label="けす">' + icon('close') + '</button></li>';
