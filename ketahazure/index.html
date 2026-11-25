@@ -700,10 +700,11 @@ function stepBalls(h) {
   const bs = G.balls, g = BAL.g, maxV = 1350, rr = PEG_R + BALL_R, rr2 = rr * rr;
   for (let i = 0; i < bs.length; i++) {
     const b = bs[i]; if (b.dead) continue;
-    // 育ちだけは、同じ玉でも一度接触が離れた後の再命中を数える。
-    // 接触中の重複判定は防ぎ、ほかのちょうちんの従来の判定は維持する。
+    // 全ちょうちんは、玉が一度離れた後の再命中を数える。
+    // 接触中の重複と通常釘の連続バウンドは従来どおり除外する。
+    // 分裂・爆発・雷の1回制限と転送のLv回数制限は hitPeg の used で維持する。
     const last = G.pegs[b.lastPeg];
-    if (last?.type === 'g' && Math.hypot(b.x - last.x, b.y - last.y) > rr + 0.5) b.lastPeg = -1;
+    if (last && last.type !== 'n' && Math.hypot(b.x - last.x, b.y - last.y) > rr + 0.5) b.lastPeg = -1;
     b.vy += g * h;
     const sp2 = b.vx * b.vx + b.vy * b.vy; if (sp2 > maxV * maxV) { const k = maxV / Math.sqrt(sp2); b.vx *= k; b.vy *= k; }
     b.x += b.vx * h; b.y += b.vy * h;
@@ -722,7 +723,7 @@ function stepBalls(h) {
           if (vn < 0) {
             const out = Math.max(150, -vn * (0.5 + Math.random() * 0.14));
             b.vx += (out - vn) * nx + (Math.random() - 0.5) * 70; b.vy += (out - vn) * ny;
-            if (b.lastPeg !== p.i) {                 // 同じ釘の上ではずんでも、数えるのは1回
+            if (b.lastPeg !== p.i) {                 // 接触中の重複判定を防ぐ
               b.lastPeg = p.i; b.wallOk = true; hitPeg(p, b, null);
               if (b.tp) { b.tp = false; continue; }
             }
