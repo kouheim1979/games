@@ -154,7 +154,7 @@
       $('#mt-game-frame')?.setAttribute('title', t('playing') + ': ' + activeGame.title[lang]);
       const languageLabel = $('#mt-player-language');
       if (languageLabel) {
-        languageLabel.dataset.mtI18n = activeGame.localizedGame ? 'original' : 'japaneseGame';
+        languageLabel.dataset.mtI18n = activeGame.id === 'crane-master' ? 'jaEnGame' : activeGame.localizedGame ? 'original' : 'japaneseGame';
         languageLabel.textContent = t(languageLabel.dataset.mtI18n);
       }
       $('#mt-road-note').hidden = activeGame.id !== 'golden-week';
