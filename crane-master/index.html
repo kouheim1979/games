@@ -1631,6 +1631,8 @@
         this.world.broadphase = new CANNON.SAPBroadphase(this.world);
         this.world.solver.iterations = 14;
         this.world.allowSleep = true;
+        // Grip support must be applied for every physics substep, not just once per rendered frame.
+        this.world.addEventListener('preStep', () => this.applyPhysicalClawGripForces());
 
         this.matCabinet = new CANNON.Material('cabinet');
         this.matPrize   = new CANNON.Material('prize');
@@ -2013,11 +2015,12 @@
           fp.pivot.rotation.z = this.clawAngle;
           fp.rubberPad.updateMatrixWorld(true);
           fp.rubberPad.getWorldPosition(worldPos);
-          fp.holder.getWorldQuaternion(worldQuat);
+          fp.pivot.getWorldQuaternion(worldQuat);
 
           const fb = this.fingerBodies[idx].body;
           fb.position.set(worldPos.x, worldPos.y, worldPos.z);
           fb.quaternion.set(worldQuat.x, worldQuat.y, worldQuat.z, worldQuat.w);
+          fb.aabbNeedsUpdate = true;
         });
       }
 
@@ -2049,6 +2052,7 @@
         this.currentMachine = machine;
 
         // Abort any active cycle safely
+        this.grippedBody = null;
         this.state = 'IDLE';
         this.holdingX = false;
         this.holdingZ = false;
@@ -2545,12 +2549,14 @@
           case 'DROPPING': {
             this.sound.setMotorActive(true, 95);
             const dropSpeed = 2.05;
-            this.clawPos.y -= dropSpeed * dt;
+            // Closed rubber tips reach about 0.75 below the hub. Lower to the floor
+            // or to the selected prize's grasp height, not its top surface.
+            const floorLimit = 0.76;
+            const graspHeight = this.getClawGraspHeight(floorLimit);
+            this.clawPos.y = Math.max(graspHeight, this.clawPos.y - dropSpeed * dt);
 
-            // Stop lowering if claw reaches floor floor-limit or contacts a prize/tray
-            const floorLimit = this.currentMachine.mode === 'TAKOYAKI' ? 0.88 : 0.92;
-            const hitPrize = this.checkClawBottomContact();
-            if (this.clawPos.y <= floorLimit || (hitPrize && this.stateTimer > 0.35) || this.stateTimer > 2.4) {
+            if (this.clawPos.y <= graspHeight + 0.001 || this.stateTimer > 2.4) {
+              this.grippedBody = null;
               this.sound.setMotorActive(false);
               this.sound.playClawServo(true);
               this.clawTargetAngle = -0.06; // Close inward
@@ -2631,18 +2637,20 @@
         this.swayAngle.y += (desiredSwayZ - this.swayAngle.y) * Math.min(1, dt * 8);
       }
 
-      checkClawBottomContact() {
-        const tipCenter = new THREE.Vector3(this.clawPos.x, this.clawPos.y - 0.62, this.clawPos.z);
-        for (const item of this.prizesInCabinet) {
-          if (item.won) continue;
-          const d = tipCenter.distanceTo(item.mesh.position);
-          if (d < 0.44) return true;
+      getClawGraspHeight(floorLimit) {
+        const candidates = this.currentMachine.mode === 'TAKOYAKI'
+          ? this.takoyakiBalls
+          : this.prizesInCabinet.filter(item => !item.won && item.body.type !== CANNON.Body.STATIC);
+        let height = floorLimit;
+        for (const item of candidates) {
+          const p = item.body.position;
+          const distance = Math.hypot(p.x - this.clawPos.x, p.z - this.clawPos.z);
+          // Ignore adjacent prizes: their upper surface must not stop the claw.
+          if (distance < 0.40 && p.y < this.clawPos.y - 0.15) {
+            height = Math.max(height, p.y + 0.38);
+          }
         }
-        for (const ball of this.takoyakiBalls) {
-          const d = tipCenter.distanceTo(ball.mesh.position);
-          if (d < 0.36) return true;
-        }
-        return false;
+        return Math.min(this.clawPos.y, height);
       }
 
       /**
@@ -2653,51 +2661,59 @@
        * causing the prize to tilt, dangle, and realistically slip out!
        */
       applyPhysicalClawGripForces() {
-        if (this.state !== 'GRABBING' && this.state !== 'RISING' && this.state !== 'CARRYING') return;
-
+        if (!['GRABBING', 'RISING', 'CARRYING'].includes(this.state)) {
+          this.grippedBody = null;
+          return;
+        }
+        if (this.clawAngle > 0.25) return;
         const baseGrip = this.currentMachine.mode === 'PRACTICE'
           ? this.practiceGripOverride
           : DIFFICULTY_CONFIG[this.currentMachine.difficulty].gripMult;
-
-        const clawCenter = new CANNON.Vec3(this.clawPos.x, this.clawPos.y - 0.48, this.clawPos.z);
-
-        // Check prizes
-        for (const item of this.prizesInCabinet) {
-          if (item.won || item.body.type === CANNON.Body.STATIC) continue;
-          const diff = item.body.position.vsub(clawCenter);
-          const horizDist = Math.hypot(diff.x, diff.z);
-          const vertDist = Math.abs(diff.y);
-
-          // Must be nestled within the finger cage
-          if (horizDist < 0.38 && vertDist < 0.36 && this.clawAngle < 0.25) {
-            // Alignment factor: 1.0 when dead-center, drops sharply when off-center!
-            const alignment = Math.max(0, 1 - (horizDist / 0.38) * 1.15);
-            const liftCapacity = 24.5 * baseGrip * (0.35 + 0.65 * alignment);
-            const gravityLoad = item.body.mass * 18.5;
-
-            // Upward & inward frictional support force proportional to grip strength & alignment
-            const supportForceY = Math.min(gravityLoad * 1.04, liftCapacity);
-            const centeringForceX = -diff.x * 26 * baseGrip;
-            const centeringForceZ = -diff.z * 26 * baseGrip;
-
-            item.body.applyForce(new CANNON.Vec3(centeringForceX, supportForceY, centeringForceZ), clawCenter);
-            // Apply subtle natural torque if off-center so poorly grabbed plushies/boxes tilt & slip
-            item.body.angularVelocity.scale(0.88, item.body.angularVelocity);
-          }
-        }
-
-        // Check Takoyaki ping-pong balls
-        if (this.currentMachine.mode === 'TAKOYAKI') {
-          for (const ball of this.takoyakiBalls) {
-            const diff = ball.body.position.vsub(clawCenter);
-            const horizDist = Math.hypot(diff.x, diff.z);
-            const vertDist = Math.abs(diff.y);
-            if (horizDist < 0.34 && vertDist < 0.34 && this.clawAngle < 0.25) {
-              ball.body.applyForce(new CANNON.Vec3(-diff.x * 16, 6.2, -diff.z * 16), clawCenter);
-              ball.body.angularVelocity.scale(0.85, ball.body.angularVelocity);
+        const center = new CANNON.Vec3(this.clawPos.x, this.clawPos.y - 0.48, this.clawPos.z);
+        const candidates = this.currentMachine.mode === 'TAKOYAKI'
+          ? this.takoyakiBalls
+          : this.prizesInCabinet.filter(item => !item.won && item.body.type !== CANNON.Body.STATIC);
+        // Acquire at most one prize, only while the fingers are closing.
+        if (!this.grippedBody && this.state === 'GRABBING') {
+          let bestScore = Infinity;
+          const reach = Math.min(0.46, 0.30 + baseGrip * 0.10);
+          for (const item of candidates) {
+            const p = item.body.position;
+            const h = Math.hypot(p.x - center.x, p.z - center.z);
+            const v = Math.abs(p.y - center.y);
+            const score = h + v * 0.5;
+            if (h < reach && v < 0.38 && score < bestScore) {
+              bestScore = score;
+              this.grippedBody = item.body;
+              this.gripAlignment = Math.max(0, 1 - h / reach);
             }
           }
         }
+        const body = this.grippedBody;
+        if (!body) return;
+        const d = center.vsub(body.position);
+        if (Math.hypot(d.x, d.z) > 0.58 || Math.abs(d.y) > 0.62) {
+          this.grippedBody = null;
+          return;
+        }
+        body.wakeUp();
+        const mass = body.mass;
+        const gravity = -this.world.gravity.y;
+        const alignment = 0.62 + 0.38 * this.gripAlignment;
+        const maxLift = mass * gravity * (0.70 + 0.95 * baseGrip) * alignment;
+        const v = this.clawVelocity || { x: 0, y: 0, z: 0 };
+        // Damped spring follows the rising/moving hub while preserving difficulty and slip.
+        const clamp = (x, lo, hi) => Math.max(lo, Math.min(hi, x));
+        const lateral = mass * (16 + 14 * baseGrip);
+        const fy = mass * (gravity + 68 * d.y + 13 * (v.y - body.velocity.y));
+        const fx = mass * (65 * d.x + 13 * (v.x - body.velocity.x));
+        const fz = mass * (65 * d.z + 13 * (v.z - body.velocity.z));
+        body.applyForce(new CANNON.Vec3(
+          clamp(fx, -lateral, lateral),
+          clamp(fy, -mass * gravity * 0.25, maxLift),
+          clamp(fz, -lateral, lateral)
+        ), new CANNON.Vec3(0, 0, 0)); // Cannon expects a point relative to the body, not world coordinates.
+        body.angularVelocity.scale(0.97, body.angularVelocity);
       }
 
       evaluateWinCondition() {
@@ -2938,12 +2954,13 @@
         const dt = Math.min(0.05, (now - this.lastTime) / 1000);
         this.lastTime = now;
 
+        const previousClaw = this.clawPos.clone();
         this.stepStateMachine(dt);
-        this.applyPhysicalClawGripForces();
+        this.clawVelocity = this.clawPos.clone().sub(previousClaw).multiplyScalar(1 / Math.max(dt, 0.001));
         this.syncClawVisualsAndPhysics();
 
         // Fixed-timestep physics substeps (1/120s) for rock-solid collision stability
-        this.world.step(1 / 120, dt, 3);
+        this.world.step(1 / 120, dt, 6);
 
         // Sync Three.js meshes to Cannon-es rigid/compound bodies + Out-of-bounds watchdog
         for (const item of this.prizesInCabinet) {
