@@ -169,6 +169,9 @@ button:focus-visible, select:focus-visible { outline: 3px solid #647d39; outline
 .dish { display: inline-flex; align-items: center; gap: 3px; font-size: .8rem; }
 .dish .piece-art { width: 23px; height: 16px; }
 
+/* Reserve board and tool gestures for play, including touches that begin on an empty slot. */
+.board, .board *, .controls button { touch-action: none; }
+html:has(#game:not([hidden])) { overscroll-behavior: none; }
 .board {
   --sh: clamp(80px, 12svh, 112px);
   display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 15px 12px;
@@ -197,7 +200,7 @@ button:focus-visible, select:focus-visible { outline: 3px solid #647d39; outline
   position: relative; display: grid; place-items: center; padding: 0; width: 100%; min-width: 0; height: var(--sh);
   background: transparent; border: 0; border-radius: 6px; user-select: none; -webkit-user-select: none;
 }
-.slot.filled { touch-action: none; cursor: grab; }
+.slot.filled { cursor: grab; }
 .slot.empty::after {
   content: ""; height: 42%; width: clamp(7px, 30%, 14px); background: #ffdf9d09; border: 1px dashed #dfc29876; border-radius: 50%;
 }
@@ -318,7 +321,8 @@ button:focus-visible, select:focus-visible { outline: 3px solid #647d39; outline
   .section-heading h2 { font-size: 1.08rem; gap: 5px; }
   .section-heading h2 .ui-icon { width: 18px; height: 18px; }
   .tip, .queue { font-size: .77rem; }
-  .counter { grid-template-columns: repeat(3,minmax(0,1fr)); gap: 5px; }
+  /* Orders and cooked dishes change during a drag. Keep the grills in place. */
+  .counter { min-height: 6.8rem; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 5px; }
   .seat { padding: 5px 5px 4px; }
   .order-main { grid-template-areas: "face food" "text text"; grid-template-columns: 1fr 1fr; justify-items: center; gap: 2px 4px; }
   .order-main .face { grid-area: face; justify-self: end; width: 25px; height: 25px; }
@@ -329,6 +333,12 @@ button:focus-visible, select:focus-visible { outline: 3px solid #647d39; outline
   .vacant .face { grid-column: 1/-1; justify-self: center; }
   .pbar { margin: 4px 0 0; height: 4px; }
   .behind { justify-content: center; flex-wrap: wrap; gap: 2px; margin-top: 4px; padding-top: 3px; font-size: .72rem; }
+  .orders-panel .tray {
+    height: 2rem; margin-top: 4px; flex-wrap: nowrap; white-space: nowrap; overflow-x: auto;
+  }
+  .orders-panel .tray:empty { visibility: hidden; }
+  .orders-panel .tray > * { flex: none; }
+  .grills-panel .section-heading { min-height: 2.35rem; }
   .behind .piece-art { width: 15px; height: 12px; }
   .board { --sh: clamp(55px, min(21vw, 12svh), 91px); gap: 11px 6px; padding: 8px 6px 12px; border-radius: 10px; }
   .board.deep { --sh: clamp(49px, min(17vw, 9svh), 72px); }
