@@ -13,13 +13,12 @@
 
 ビルド不要の静的サイト。スマホで開いて「ホーム画面に追加」すると全画面・オフラインで遊べます（PWA）。
 
-公開先: `https://kouheim1979.github.io/launch-roulette/yakitori/`
-（`main` に push すると `.github/workflows/atama-oshiri-pages.yml` が `gh-pages` に公開します）
+[やきとり ならべを遊ぶ](https://kouheim1979.github.io/games/yakitori/)
 
 ## ローカルで動かす
 
 ```sh
-cd yakitori
+# games リポジトリのルートで実行
 python3 -m http.server 8000
-# http://localhost:8000 を開く
+# http://localhost:8000/yakitori/ を開く
 ```
