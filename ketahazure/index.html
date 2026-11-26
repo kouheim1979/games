@@ -312,7 +312,16 @@ const RIVER_OFFSETS = [0, 0, 10, 28, 48, 24, -25, -40, -17, 0];
 const FORK_OFFSETS = [0, 0, 0, 0, 14, 22, 28, 36, 39, 42];
 const BOARDS = [
   { id: 'classic', name: '千鳥', desc: '釘が交互に並ぶ基本の盤面。', shape: x => x },
-  { id: 'hourglass', name: 'ひょうたん', desc: '釘が中ほどで中央に集まる。', shape: (x, r) => W / 2 + (x - W / 2) * HOURGLASS_WIDTHS[r] },
+  { id: 'hourglass', name: 'ひょうたん', desc: '釘が中ほどで中央に集まる。', shape: (x, r) => {
+    const px = W / 2 + (x - W / 2) * HOURGLASS_WIDTHS[r];
+    // 3・9段目の端だけ、壁と釘の間に玉の直径＋10の余裕を確保する。
+    // 狭い隙間での往復バウンドを減らし、正当な再命中は従来どおり残す。
+    if (r === 2 || r === 8) {
+      const inset = PEG_R + 2 * BALL_R + 10;
+      return Math.max(WALL_L + inset, Math.min(WALL_R - inset, px));
+    }
+    return px;
+  } },
   { id: 'river', name: '川くだり', desc: '釘の列が左右にうねる。', shape: (x, r) => W / 2 + (x - W / 2) * RIVER_WIDTHS[r] + RIVER_OFFSETS[r] },
   { id: 'fork', name: '二また', desc: '後半は釘が左右に分かれる。', shape: (x, r) => {
     const offset = FORK_OFFSETS[r], d = x - W / 2;
