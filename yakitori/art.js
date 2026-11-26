@@ -111,6 +111,14 @@ function installArt() {
     return `<g id="skewer-${k}"><path d="M27 14q1-9 3-12 2 0 3 12l1.5 107q0 3-3 4l-4-1q-2-.5-1.5-3z" fill="#e9ab59" stroke="#472737" stroke-width="2.9" stroke-linejoin="round"/><path d="m29.2 101-.4 17" stroke="#ffda8d" stroke-width="1.7" stroke-linecap="round"/>${bits.join("")}</g>`;
   });
   const symbols = Object.entries(uiPaths).map(([id, paths]) => `<g id="ui-${id}">${paths}</g>`);
-  document.getElementById("art-defs").innerHTML = `<defs>${[...gradients,...pieces,...skewers,...symbols].join("")}</defs>`;
+  const dish = `<g id="prep-dish">
+    <ellipse cx="60" cy="47" rx="51" ry="16" fill="#82613d" opacity=".18"/>
+    <path d="M3 33C4 51 25 60 60 60s56-9 57-27" fill="#d9c4a0" stroke="#6c4a38" stroke-width="2.8"/>
+    <ellipse cx="60" cy="32" rx="57" ry="23" fill="#fff9e8" stroke="#684a3b" stroke-width="2.8"/>
+    <ellipse cx="60" cy="32" rx="47" ry="16.3" fill="#f4ead4" stroke="#c7af8e" stroke-width="1.5"/>
+    <path d="M10 32c1 6 9 12 21 15m58-29 5 2m1 0 4 2m1 0 3 2" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/>
+    <path d="M21 23q7-5 21-7" fill="none" stroke="#fffdf3" stroke-width="3.7" stroke-linecap="round"/>
+  </g>`;
+  document.getElementById("art-defs").innerHTML = `<defs>${[...gradients,...pieces,...skewers,...symbols,dish].join("")}</defs>`;
 }
 installArt();

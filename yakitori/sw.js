@@ -1,6 +1,6 @@
 // Keep this game's offline assets separate from the other games on this origin.
 const PREFIX = "yakitori:" + new URL(self.registration.scope).pathname + ":";
-const CACHE = PREFIX + "menu-1";
+const CACHE = PREFIX + "grill-plates-1";
 const ASSETS = [
   "./", "index.html", "style.css", "art.js", "fonts/menu-round.woff2", "manifest.webmanifest",
   "icon.svg", "icon-192.png", "icon-512.png", "../portal/logos/yakitori.webp",

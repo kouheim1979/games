@@ -139,7 +139,7 @@ function makeLayout(spec) {
     const grills = [];
     for (let g = 0; g < spec.grills; g++) grills.push({ slots: slots.slice(g * 3, g * 3 + 3), layers: [] });
     if (grills.some(g => g.slots[0] && g.slots.every(s => s === g.slots[0]))) continue;
-    // 残りは焼き台の下に重ねる（1段2〜3本）
+    // 残りは各焼き台の補充分として順に配る。
     let rest = items.slice(vis), gi = 0;
     const order = shuffle(grills.slice());
     while (rest.length) {
@@ -159,7 +159,7 @@ function startLevel(retry = false) {
   else L = { spec, layout: makeLayout(spec), retryMoney: S.money };
   const lay = clone(L.layout);
   Object.assign(L, {
-    gen: ++uid, hasLayers: lay.grills.some(g => g.layers.length),
+    gen: ++uid,
     grills: lay.grills.map(g => ({ id: ++uid, slots: g.slots, layers: g.layers, busy: false })),
     pool: lay.orders.slice(), lines: Array(SEATS).fill(null), tray: [], seats: Array(SEATS).fill(null),
     nextArrive: [0.3, 1.8, 3.6], earned: 0, done: false, sel: null,
@@ -167,7 +167,7 @@ function startLevel(retry = false) {
   });
   L.tip = S.level === 1
     ? "同じ串を3本そろえよう"
-    : `LEVEL ${S.level}：串${spec.kinds}種類・${lay.orders.length}皿`;
+    : `左皿から補充・${spec.kinds}種類・${lay.orders.length}皿`;
   $("board").innerHTML = ""; gEls.clear(); popIn.clear();
   renderSeats(true); render(); fillQueue();
 }
@@ -311,12 +311,21 @@ function gameOver() { if (L.done) return; L.done = true; saveBest(S.level - 1); 
 // ---- 描画 ----
 const gEls = new Map(), popIn = new Set();
 
-function nextLayer(g) {
-  if (!L.hasLayers) return "";
-  const nx = g.layers[0];
-  const depth = g.layers.length > 1 ? `<span class="depth" title="あと${g.layers.length}段">${g.layers.length}段</span>` : "";
-  return `<div class="nextrow${nx ? "" : " last"}"><span class="lbl">${nx ? `<span>つぎ</span>${depth}` : ""}</span>`
-    + [0, 1, 2].map(i => nx && nx[i] ? `<div class="ni" aria-label="${KINDS[nx[i]].name}">${icon(nx[i])}</div>` : '<div class="ni empty"></div>').join("") + "</div>";
+function prepPlate(layer, side) {
+  const contents = layer.filter(Boolean).map(k => KINDS[k].name).join("、") || "空皿";
+  const label = side === 0 ? `左皿（つぎ）：${contents}` : `右皿（そのつぎ）：${contents}`;
+  const skewers = layer.map((k, i) => k
+    ? `<use href="#skewer-${k}" transform="translate(${29 + 30 * i} 29) rotate(18) scale(.47) translate(-30 -60)"/>`
+    : "").join("");
+  return `<svg class="prep-plate" viewBox="0 0 120 65" role="img" aria-label="${label}" focusable="false"><use href="#prep-dish"/>${skewers}</svg>`;
+}
+function renderPrepPlates(row, layers) {
+  const sig = JSON.stringify([layers[0], layers[1], layers.length]);
+  if (row.dataset.sig === sig) return;
+  row.dataset.sig = sig;
+  const more = layers.length - 2;
+  row.innerHTML = prepPlate(layers[0] || [], 0) + prepPlate(layers[1] || [], 1)
+    + (more > 0 ? `<span class="reserve-count" role="img" aria-label="さらに${more}段">+${more}</span>` : "");
 }
 function slotMarkup(g, k, si) {
   const key = g.id + ":" + si, pop = popIn.delete(key);
@@ -333,13 +342,17 @@ function render() {
   L.grills.forEach((g, gi) => {
     let el = gEls.get(g.id);
     if (!el) {
+      const station = document.createElement("div"); station.className = "grill-station";
+      station.setAttribute("role", "group"); station.setAttribute("aria-label", `焼き台${gi + 1}`);
       el = document.createElement("div"); el.className = "grill"; el.dataset.id = g.id;
-      el.setAttribute("role", "group"); el.setAttribute("aria-label", `焼き台${gi + 1}`);
-      gEls.set(g.id, el); board.appendChild(el);
+      const plates = document.createElement("div"); plates.className = "prep-plates";
+      station.append(el, plates); board.appendChild(station);
+      gEls.set(g.id, el);
     }
-    const sig = g.slots.join(",") + "|" + (g.layers[0] || []).join(",") + g.layers.length + "|" + g.busy;
+    renderPrepPlates(el.nextElementSibling, g.layers);
+    const sig = g.slots.join(",") + "|" + g.busy;
     if (el.dataset.sig !== sig || [...popIn].some(k => k.startsWith(g.id + ":"))) {
-      el.innerHTML = nextLayer(g) + g.slots.map((k, si) => slotMarkup(g, k, si)).join("");
+      el.innerHTML = g.slots.map((k, si) => slotMarkup(g, k, si)).join("");
       el.dataset.sig = sig;
       el.classList.toggle("done", g.busy);
       el.setAttribute("aria-busy", String(g.busy));
@@ -557,7 +570,7 @@ function showModal(type) {
       <li>${ui("move")}<span>串を選んで、移動先の焼き台をタップ。ドラッグでも動かせます。</span></li>
       <li>${ui("grill")}<span>ひとつの焼き台に同じ串を3本そろえると焼けて、注文したお客さんに届く</span></li>
       <li>${ui("clock")}<span>早く届けるほどチップが多い。3人おこらせると閉店…</span></li></ul>
-      <div class="next-help"><p>焼き台の上の「つぎ」に、その焼き台が空になったら出てくる串が見える</p>
+      <div class="next-help"><p>焼き台が空くと、手前の左皿の串が焼き台に移ります。右皿の串はその次です。</p>
       <p>注文票の下の「つぎ」は、次にその席に座る人の注文です。</p></div>
       <button class="btn primary" id="go">もどる</button>`;
     $("go").onclick = returnFromHelp;

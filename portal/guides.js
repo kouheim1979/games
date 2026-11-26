@@ -70,9 +70,9 @@
       ['Compara los colores y sigue las indicaciones del juego para elegir movimientos y ordenarlos. Empieza con una dificultad asequible y comprueba los destinos disponibles.', 'Céntrate primero en el destino de un color. Si un movimiento te deja sin opciones, busca otra secuencia.']
     ],
     yakitori: [
-      ['串をタップしてから移動先の焼き台をタップし、空き場所へ移します。同じ焼き台に同じ串を3本そろえると、焼き上がってお客さんの注文に届きます。', '焼き台と客席の「つぎ」を見て、先の注文も考えると運びやすくなります。待たせすぎて3人を怒らせると閉店です。困ったときは回数制限つきの補助を使えます。'],
+      ['串をタップしてから移動先の焼き台をタップし、空き場所へ移します。同じ焼き台に同じ串を3本そろえると、焼き上がってお客さんの注文に届きます。', '焼き台が空くと、手前の左皿の串から補充されます。右皿の串と客席の次の注文も見ておきましょう。待たせすぎて3人を怒らせると閉店です。困ったときは回数制限つきの補助を使えます。'],
       ['Tap a skewer, then a grill with space. Match three identical skewers on one grill to cook them and serve customers’ orders.', 'Check the next skewers and upcoming orders before moving. The shop closes if three customers lose patience. Limited-use helpers can get you out of a tight spot.'],
-      ['先点击烤串，再点击有空位的烤架。让同一烤架上出现三根相同烤串，即可烤熟并送给点单的客人。', '注意烤架和客席旁的“下一个”，提前考虑后续订单。三位客人因等待过久而生气就会关店；遇到困难时可使用次数有限的辅助功能。'],
+      ['先点击烤串，再点击有空位的烤架。让同一烤架上出现三根相同烤串，即可烤熟并送给点单的客人。', '烤架一空就会从前面的左盘补串。右盘装的是再下一批，也要留意客席下方的下一单。三位客人因等待过久而生气就会关店；遇到困难时可使用次数有限的辅助功能。'],
       ['Toca una brocheta y después una parrilla con espacio. Reúne tres iguales en la misma parrilla para cocinarlas y servir los pedidos.', 'Mira las siguientes brochetas y los próximos pedidos. El local cierra si tres clientes pierden la paciencia. Las ayudas tienen usos limitados.']
     ],
     'ryouri-shokudo': [
