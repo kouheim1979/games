@@ -273,5 +273,14 @@ window.I18N_DICT={
 "「めだまやきはしおコショウがいいな！」":["“I like my fried egg with salt & pepper!”","“煎蛋还是配椒盐好！”","«¡Me gusta el huevo frito con sal y pimienta!»"],
 "「やっぱりしょうゆだね！」":["“Soy sauce is the way to go!”","“果然还是酱油好！”","«¡Con salsa de soja, como debe ser!»"],
 "「やっぱりしおコショウだね！」":["“Salt & pepper is the way to go!”","“果然还是椒盐好！”","«¡Con sal y pimienta, como debe ser!»"],
-"ぱらぱら":["Sprinkled","撒撒","Espolvoreado"]
+"ぱらぱら":["Sprinkled","撒撒","Espolvoreado"],
+"いれる":["Add","放入","Añadir"],
+"のせる":["Top","放上","Colocar"],
+"まく":["Wrap","包上","Envolver"],
+"ひく":["Oil the pan","抹油","Engrasar"],
+"{0}を いれよう":["Add the {0}","放入{0}","Añade: {0}"],
+"{0}を のせよう":["Top with {0}","放上{0}","Coloca: {0}"],
+"{0}を まこう":["Wrap with {0}","包上{0}","Envuelve con {0}"],
+"{0}を ひこう":["Spread the {0}","涂上{0}","Extiende: {0}"],
+"ざいりょうを タップして つかおう":["Tap the ingredient to use it","点击食材来使用","Toca el ingrediente para usarlo"]
 };
