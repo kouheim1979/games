@@ -521,6 +521,7 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
 
 /* 新メニューづくり：上に試作の伝票、下に工程ごとのパネル */
 .t-sm { display: none; }
+.slot-stats {display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;padding:9px 12px;background:var(--paper,#fff9ed);border:1px solid var(--line,#e5d5bc);border-radius:12px;font-size:13px}.slot-stats>span {display:flex;align-items:center;gap:5px}.slot-stats .btn {font-size:12px;padding:6px 9px;min-height:36px}
 .dev-body { flex: 1; display: flex; flex-direction: column; gap: 12px; }
 .dev-card { display: flex; align-items: center; gap: 10px; padding: 12px 14px 10px 6px; border-radius: 4px 4px 12px 12px; position: relative;
   background: var(--slip); box-shadow: 0 3px 0 var(--shadow); }
@@ -1103,7 +1104,7 @@ const FLAMES = Array.from({ length: 7 }, (_, i) => {
 
 /* ---------- 新メニューづくり：データ ---------- */
 // 自作メニューは save.custom に「うつわ・材料・つくりかた・なまえ」だけを保存し、工程と絵は読みこむたびに組み立てる
-const CUSTOM_MAX = 6, ING_MIN = 2, ING_MAX = 5, PLAN_MAX = 3, NAME_KEEP = 20;
+const CUSTOM_BASE = 6, CUSTOM_SLOT_COST = 1000, ING_MIN = 2, ING_MAX = 5, PLAN_MAX = 3, NAME_KEEP = 20;
 const nameMax = () => window.I18N_T ? 20 : 12;
 const own = (o, k) => typeof k === 'string' && Object.prototype.hasOwnProperty.call(o, k);
 // なまえの見た目の長さ（漢字・かなは1、英数字は約半分）。長いなまえは小さめの字にする
@@ -1464,15 +1465,27 @@ const allRecipes = () => RECIPES.concat(customRecipes());
 document.addEventListener('dblclick', e => e.preventDefault(), { passive: false });
 
 const KEY = 'ryouri-shokudo:v1';
-// custom：自作メニュー（CUSTOM_MAX まで）、draft：つくりかけの新メニュー
-const fresh = () => ({ day: 1, money: 0, up: { knife: 0, pan: 0, sign: 0 }, book: {}, sound: true, illustration: 'set1', served: 0, seenHow: false, custom: [], draft: null });
+// custom：自作メニュー、customSlots：購入済みの登録枠の総数、draft：つくりかけの新メニュー
+const fresh = () => ({ day: 1, money: 0, up: { knife: 0, pan: 0, sign: 0 }, book: {}, sound: true, illustration: 'set1', served: 0, seenHow: false, custom: [], customSlots: CUSTOM_BASE, draft: null });
 let save = fresh();
+function normalizeCustomSlots(value,count=0) {
+  const n=Number(value);
+  return Math.max(CUSTOM_BASE,count,Number.isSafeInteger(n)&&n>=CUSTOM_BASE?n:CUSTOM_BASE);
+}
+const customLimit = () => normalizeCustomSlots(save.customSlots,save.custom.length);
+function purchaseCustomSlot(state) {
+  if(!Number.isFinite(state.money)||state.money<CUSTOM_SLOT_COST)return false;
+  const slots=normalizeCustomSlots(state.customSlots,state.custom.length);
+  if(slots>=Number.MAX_SAFE_INTEGER)return false;
+  state.money-=CUSTOM_SLOT_COST;state.customSlots=slots+1;return true;
+}
 function load() {
   try { const s = JSON.parse(localStorage.getItem(KEY)); if (s && typeof s === 'object') { save = Object.assign(fresh(), s, { up: Object.assign(fresh().up, s.up || {}) }); if (!ILLUST_MODES.includes(save.illustration)) save.illustration = 'set1'; } } catch (e) {}
   // 自作メニューは読みこむたびに中身をたしかめる（こわれていても、ほかの記録は消さない）
   try {
     if (!save.book || typeof save.book !== 'object') save.book = {};
-    save.custom = (Array.isArray(save.custom) ? save.custom : []).map(cleanCustom).filter((c, i, a) => c && a.findIndex(o => o && o.id === c.id) === i).slice(0, CUSTOM_MAX);
+    save.custom = (Array.isArray(save.custom) ? save.custom : []).map(cleanCustom).filter((c, i, a) => c && a.findIndex(o => o && o.id === c.id) === i);
+    save.customSlots = normalizeCustomSlots(save.customSlots, save.custom.length);
     save.draft = cleanDraft(save.draft);
   } catch (e) { save.custom = []; save.draft = null; }
   syncCustom();
@@ -2232,7 +2245,8 @@ function renderShop() {
     return '<div class="tool"><span class="tool-ic">' + icon(t.icon) + '</span><div class="txt"><b>' + t.name + '</b><small>' + t.desc + '</small>' +
       '<div class="lv">' + t.costs.map((_, i) => '<i class="' + (i < lv ? 'on' : '') + '"></i>').join('') + '</div></div>' +
       (cost == null ? '<span class="max">さいこう！</span>' : '<button class="btn alt buy" data-buy="' + t.id + '"' + (save.money < cost ? ' disabled' : '') + '>' + yen(cost) + '</button>') + '</div>';
-  }).join('');
+  }).join('')+'<div class="tool"><span class="tool-ic">'+icon('book')+'</span><div class="txt"><b>メニューの わく</b><small>新メニューを 1つ ふやせるよ</small><small>'+save.custom.length+' / '+customLimit()+'</small></div><button type="button" class="btn alt buy" id="s-expand"'+(save.money<CUSTOM_SLOT_COST?' disabled':'')+'>'+yen(CUSTOM_SLOT_COST)+'</button></div>';
+  $('#s-expand').onclick=()=>{if(!purchaseCustomSlot(save))return;store();SND.coin();toast('メニューの わくが ふえたよ！');renderShop();};
   $('#s-list').querySelectorAll('[data-buy]').forEach(b => b.onclick = () => {
     const t = TOOLS.find(x => x.id === b.dataset.buy), cost = t.costs[save.up[t.id]];
     if (cost == null || save.money < cost) return;
@@ -2253,11 +2267,13 @@ function bookTag(r) {
   return r.custom ? '<button type="button" class="mtag mine" data-mine="' + r.id + '">' + inner + '</button>' : '<div class="mtag">' + inner + '</div>';
 }
 function renderBook() {
-  const left = CUSTOM_MAX - save.custom.length;
+  const left = customLimit() - save.custom.length;
   $('#k-list').innerHTML = allRecipes().map(bookTag).join('') +
-    (left > 0 ? '<button type="button" class="mtag add" id="k-add"><span class="plus">' + icon('plus') + '</span><b>新メニュー</b><small>あと' + left + 'つ つくれるよ</small></button>' : '');
+    '<button type="button" class="mtag add" id="k-add"><span class="plus">' + icon(left>0?'plus':'lock') + '</span><b>新メニュー</b><small>あと' + left + 'つ つくれるよ</small></button>'+
+    '<button type="button" class="mtag add" id="k-expand"><span class="plus">'+icon('book')+'</span><b>メニューの わくを ふやす</b><small>'+save.custom.length+' / '+customLimit()+'</small><span class="price">'+yen(CUSTOM_SLOT_COST)+' / +1</span></button>';
   $('#k-list').querySelectorAll('[data-mine]').forEach(b => b.onclick = () => { SND.pop(); openMine(b.dataset.mine); });
   const add = $('#k-add'); if (add) add.onclick = () => { SND.pop(); openDev('book'); };
+  $('#k-expand').onclick=()=>{SND.pop();openDev('book',true);};
 }
 
 /* ---------- 自作メニュー：なまえをかえる・はずす ---------- */
@@ -2288,7 +2304,7 @@ function renderMine() {
 
 /* ---------- 新メニューづくり：画面 ---------- */
 // うつわ → ざいりょう → つくりかた → しあげ（なまえ・お会計）。つくりかけは save.draft にのこる
-let D = null, devFrom = 'title', devDone = null;
+let D = null, devFrom = 'title', devDone = null, devExpand=false;
 const WIZ = ['うつわ', 'ざいりょう', 'つくりかた', 'しあげ'];
 const newDraft = () => ({ vessel: 'plate', ings: [], plan: [], name: '', page: 0, cat: 0 });
 const eligible = (v, d) => v==='nuru' && !d.ings.includes('しょくパン') ? [] : v === 'mazeru' ? (d.ings.length >= ING_MIN ? d.ings.slice() : []) : d.ings.filter(VID[v].can);
@@ -2304,28 +2320,39 @@ function fixPlan(d) {
     p.x = e[0]; return true;
   });
 }
-function openDev(from) {
-  devFrom = from; devDone = null;
+function openDev(from,expand=false) {
+  devFrom = from; devDone = null;devExpand=expand;
   D = save.draft = cleanDraft(save.draft) || newDraft();
   renderDev(); show('dev');
 }
 function leaveDev() {
+  devExpand=false;
   if (devFrom === 'book') { backTo = 'title'; renderBook(); show('book'); } else { renderTitle(); show('title'); }
 }
 function renderDev() {
   $('#d-money').textContent = yen(save.money);
   const body = $('#d-body');
   if (devDone) return renderDevDone(body);
-  if (save.custom.length >= CUSTOM_MAX) {
-    body.innerHTML = '<div class="panel dev-panel"><h2>お品書きが いっぱいだよ</h2><p class="hint">オリジナルメニューは 6つまで。レシピ帳で メニューを はずすと、また つくれるよ。</p></div>' +
-      '<button type="button" class="btn wide big alt" id="d-tobook">' + icon('book') + '<span>レシピ帳を ひらく</span></button>';
-    $('#d-tobook').onclick = () => { devFrom = 'book'; leaveDev(); };
+  const limit=customLimit(),full=save.custom.length>=limit;
+  if(full||devExpand){
+    body.innerHTML='<div class="panel dev-panel"><h2>メニューの わくを ふやす</h2>'+
+      '<p class="hint">'+(full?'お品書きが いっぱいだよ':'新メニューを もっと つくろう！')+'</p>'+
+      '<div class="slot-stats"><span>'+icon('book')+' <b>'+save.custom.length+' / '+limit+'</b></span><span>あと '+(limit-save.custom.length)+' つ</span></div>'+
+      '<div class="receipt"><div><span>いまの わく</span><span>'+limit+'</span></div><div><span>ふえる わく</span><span>+1</span></div><div><span>はらうお金</span><span>'+yen(CUSTOM_SLOT_COST)+'</span></div><div class="total"><span>のこり</span><span>'+yen(Math.max(0,save.money-CUSTOM_SLOT_COST))+'</span></div></div>'+
+      (save.money<CUSTOM_SLOT_COST?'<p class="short-note">お金が たりないよ。お店で かせごう！</p>':'<p class="hint">ふやした わくは ずっと つかえるよ。</p>')+
+      '<button type="button" class="btn wide big" id="d-expand-buy"'+(save.money<CUSTOM_SLOT_COST?' disabled':'')+'>'+icon('coin')+'<span>'+yen(CUSTOM_SLOT_COST)+'で 1わく ふやす</span></button>'+
+      (!full?'<button type="button" class="btn sub wide" id="d-expand-back">新メニューを つくる</button>':'')+
+      '<button type="button" class="btn sub wide" id="d-tobook">'+icon('book')+'<span>レシピ帳を ひらく</span></button></div>';
+    $('#d-expand-buy').onclick=()=>{if(!purchaseCustomSlot(save))return;store();SND.coin();toast('メニューの わくが ふえたよ！');devExpand=false;renderDev();};
+    const back=$('#d-expand-back');if(back)back.onclick=()=>{devExpand=false;renderDev();};
+    $('#d-tobook').onclick=()=>{devFrom='book';leaveDev();};
     return;
   }
   const p = D.page = Math.min(D.page, devReach(D));
-  body.innerHTML = '<div class="steps wiz">' + WIZ.map((w, j) => '<button type="button" data-page="' + j + '" class="' + (j < p ? 'done' : j === p ? 'now' : '') + '"' +
+  body.innerHTML = '<div class="slot-stats"><span>'+icon('book')+' <b>'+save.custom.length+' / '+limit+'</b></span><button type="button" class="btn sub" id="d-expand-link">'+icon('plus')+'<span>わくを ふやす</span></button></div><div class="steps wiz">' + WIZ.map((w, j) => '<button type="button" data-page="' + j + '" class="' + (j < p ? 'done' : j === p ? 'now' : '') + '"' +
       (j > devReach(D) ? ' disabled' : '') + (j === p ? ' aria-current="step"' : '') + '><span>' + w + '</span></button>').join('') + '</div>' +
     '<div class="dev-card" id="d-card"></div><div class="panel dev-panel" id="d-panel"></div><div class="dev-nav" id="d-nav"></div>';
+  $('#d-expand-link').onclick=()=>{devExpand=true;renderDev();};
   body.querySelectorAll('[data-page]').forEach(b => b.onclick = () => { if (+b.dataset.page === D.page) return; D.page = +b.dataset.page; devSave(); SND.pop(); renderDev(); });
   devCard();
   [devVessel, devIngs, devPlan, devFinish][p]($('#d-panel'));
@@ -2434,7 +2461,7 @@ function devNav() {
 // お会計：ちょきんから はらって、お品書きに くわえる
 function buyDev() {
   const inp = $('#d-name'), cost = devCost(D);
-  if (save.money < cost || D.ings.length < ING_MIN || !D.plan.length || save.custom.length >= CUSTOM_MAX) return;
+  if (save.money < cost || D.ings.length < ING_MIN || !D.plan.length || save.custom.length >= customLimit()) return;
   const c = { id: 'my' + Date.now().toString(36) + rnd(1296).toString(36).padStart(2, '0'), name: cleanName(inp ? inp.value : D.name) || autoName(D),
     vessel: D.vessel, ings: D.ings.slice(), plan: D.plan.map(s => ({ v: s.v, x: s.x })), price: devPrice(D), unlock: save.day };
   save.money -= cost; save.custom.push(c); save.draft = null; D = null;
@@ -2501,7 +2528,7 @@ document.querySelectorAll('[data-close]').forEach(b => b.onclick = () => {
 load(); renderTitle(); requestAnimationFrame(loop);
 try { if ('serviceWorker' in navigator && location.protocol.startsWith('http')) navigator.serviceWorker.register('sw.js').catch(() => {}); } catch (e) {}
 // テスト用（ブラウザーの開発ツールから参照できる）
-window.__ryouri = { get S() { return S; }, get save() { return save; }, RECIPES, finishStep: v => finishStep(v), allRecipes, composeDish, autoName, buildSteps, spreadCells, coverSpread, heatFoodArt, looseMark, addPreview, chopArt, cutPiece, saucePoint, ketchupArt, friedRiceArt };
+window.__ryouri = { get S() { return S; }, get save() { return save; }, RECIPES, finishStep: v => finishStep(v), allRecipes, composeDish, autoName, buildSteps, spreadCells, coverSpread, heatFoodArt, looseMark, addPreview, chopArt, cutPiece, saucePoint, ketchupArt, friedRiceArt, customLimit, purchaseCustomSlot, normalizeCustomSlots };
 </script>
 </body>
 </html>
