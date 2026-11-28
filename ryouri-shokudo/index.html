@@ -875,7 +875,7 @@ const icon = (name, cls) => '<svg class="ic' + (cls ? ' ' + cls : '') + '" aria-
 
 /* ---------- データ ---------- */
 const ING = {
-  'しょくパン': '🍞', 'いちごジャム': '🍓\uFE0F', 'ブルーベリージャム': '🫐', 'ごはん': '🍚', 'しお': '🧂', 'のり': '⬛', 'たまご': '🥚', 'あぶら': '🫒', 'しょうゆ': '🍶',
+  'しょくパン': '🍞\uFE0F', 'いちごジャム': '🍓\uFE0F', 'ブルーベリージャム': '🫐', 'ごはん': '🍚', 'しお': '🧂', 'のり': '⬛', 'たまご': '🥚', 'あぶら': '🫒', 'しょうゆ': '🍶',
   'とうふ': '⬜', 'ねぎ': '🌱', 'みそ': '🟫', 'だし': '🐟', 'たまねぎ': '🧅', 'ケチャップ': '🍅',
   'じゃがいも': '🥔', 'にんじん': '🥕', 'おにく': '🥩', 'カレールウ': '🍫', 'ひきにく': '🍖', 'パンこ': '🍞',
   'こむぎこ': '🌾', 'ぎゅうにゅう': '🥛', 'バター': '🧈', 'めん': '🍝', 'スープ': '🥣', 'チャーシュー': '🥓',
@@ -895,9 +895,9 @@ function spreadStep(x, prior = []) {
 }
 const RECIPES = [
   {id:'toast', name:'トースト', price:200, unlock:1, ings:['しょくパン','バター'], steps:[
-    {t:'select'}, {t:'heat',chip:'やく',title:'しょくパンを やこう',food:'🍞',speed:24,uses:['しょくパン']}, spreadStep('バター')
+    {t:'select'}, {t:'heat',chip:'やく',title:'しょくパンを やこう',food:'🍞\uFE0F',speed:24,uses:['しょくパン']}, spreadStep('バター')
   ], opts:[{opt:'バター'}, ...['いちごジャム','ブルーベリージャム'].map((x,i)=>({opt:x,art:i?'toast_blueberry':'toast_strawberry',ings:['しょくパン',x],steps:[
-    {t:'select'}, {t:'heat',chip:'やく',title:'しょくパンを やこう',food:'🍞',speed:24,uses:['しょくパン']}, spreadStep(x)
+    {t:'select'}, {t:'heat',chip:'やく',title:'しょくパンを やこう',food:'🍞\uFE0F',speed:24,uses:['しょくパン']}, spreadStep(x)
   ]}))]},
   { id: 'onigiri', name: 'おにぎり', price: 150, unlock: 1, ings: ['ごはん', 'しお', 'のり'], steps: [
     { t: 'select' },
