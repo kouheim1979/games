@@ -885,6 +885,7 @@ const icon = (name, cls) => '<svg class="ic' + (cls ? ' ' + cls : '') + '" aria-
 
 /* ---------- データ ---------- */
 const ING = {
+  'ソース': '🫙',
   'しょくパン': '🍞\uFE0F', 'いちごジャム': '🍓\uFE0F', 'ブルーベリージャム': '🫐', 'ごはん': '🍚', 'しお': '🧂', 'のり': '⬛', 'たまご': '🥚', 'あぶら': '🫒', 'しょうゆ': '🍶',
   'とうふ': '⬜', 'ねぎ': '🌱', 'みそ': '🟫', 'だし': '🐟', 'たまねぎ': '🧅', 'ケチャップ': '🍅',
   'じゃがいも': '🥔', 'にんじん': '🥕', 'おにく': '🥩', 'カレールウ': '🍫', 'ひきにく': '🍖', 'パンこ': '🍞',
@@ -952,11 +953,12 @@ const RECIPES = [
     { t: 'heat', chip: 'にる', title: 'ぐつぐつ にこもう', food: '🥔', pot: true, liquid: '#EBC47A', speed: 22, uses: ['じゃがいも', 'にんじん', 'たまねぎ', 'おにく'] },
     { t: 'stir', chip: 'とかす', title: 'ルウを とかそう', items: ['🍫', '🥕', '🥔', '🥩', '🧅'], turns: 3, uses: ['カレールウ', 'にんじん', 'じゃがいも', 'おにく', 'たまねぎ'] },
     addIngredient('ごはん', 'のせる') ] },
-  { id: 'hamburg', name: 'ハンバーグ', price: 600, unlock: 6, ings: ['ひきにく', 'たまねぎ', 'パンこ', 'たまご'], steps: [
+  { id: 'hamburg', name: 'ハンバーグ', price: 600, unlock: 6, ings: ['ひきにく', 'たまねぎ', 'パンこ', 'たまご', 'ソース'], steps: [
     { t: 'select' },
     { t: 'chop', chip: 'きる', title: 'たまねぎを きざもう', food: '🧅', tool: 'knife', n: 8, uses: ['たまねぎ'] },
     { t: 'stir', chip: 'こねる', title: 'たねを こねよう', items: ['🍖', '🧅', '🍞', '🥚'], turns: 3, uses: ['ひきにく', 'たまねぎ', 'パンこ', 'たまご'] },
-    { t: 'heat', chip: 'やく', title: 'ハンバーグを やこう', food: '🍖', speed: 30, uses: ['ひきにく'] } ] },
+    { t: 'heat', chip: 'やく', title: 'ハンバーグを やこう', food: '🍖', speed: 30, uses: ['ひきにく'] },
+    {t:'drizzle',chip:'かける',title:'ソースを かけよう',bottle:'🫙',color:'#63351E',uses:['ソース']} ] },
   { id: 'ramen', name: 'ラーメン', price: 650, unlock: 7, ings: ['めん', 'スープ', 'チャーシュー', 'ねぎ', 'たまご'], steps: [
     { t: 'select' },
     { t: 'heat', chip: 'ゆでる', title: 'めんを ゆでよう', food: '🍝', pot: true, liquid: '#D5E8EE', speed: 30, uses: ['めん'] },
@@ -975,6 +977,7 @@ const imgHTML = (src, cls) => '<img class="' + cls + ' illust-img" src="' + src 
 // 素材画像のない材料（あとから足した材料）は、ここで描く（ingredients-reviewed.js と同じ 160×160 の線画）
 const JAM_JAR = (color, fruit) => '<rect x="39" y="44" width="82" height="93" rx="16" fill="'+color+'"/><rect x="35" y="29" width="90" height="23" rx="6" fill="#F4E1B8"/><path d="M44 40H116" stroke="#C79C66" stroke-width="3" stroke-dasharray="5 6"/><rect x="49" y="69" width="62" height="47" rx="9" fill="#FFF5DB"/><g transform="translate(80 92)" stroke="none">'+fruit+'</g><path d="M48 57V64" stroke="#FFF" opacity=".7" stroke-width="5"/>';
 const EXTRA_ING = {
+  'ソース': '<path d="M60 24H100V52Q119 63 119 82V132Q119 141 109 141H51Q41 141 41 132V82Q41 63 60 52Z" fill="#63351E"/><rect x="56" y="15" width="48" height="24" rx="6" fill="#E6B65A"/><path d="M62 23H98" stroke="#AE793B" stroke-width="3"/><rect x="48" y="77" width="64" height="43" rx="6" fill="#F7E4B7"/><ellipse cx="80" cy="98" rx="21" ry="12" fill="#8C4D2B"/><path d="M65 95Q80 88 95 95" stroke="#E3A46B" stroke-width="3" fill="none"/><path d="M51 67V72" stroke="#C38E62" stroke-width="5"/>',
   'しょくパン': '<path d="M35 60Q13 34 43 21Q80 6 117 21Q147 34 125 60L125 130Q125 139 115 139H45Q35 139 35 130Z" fill="#BA7938"/><path d="M45 60Q25 39 50 30Q80 17 110 30Q135 39 115 60V127H45Z" fill="#FFF0CA" stroke="#D5A66C"/><g fill="#D6B784" stroke="none"><circle cx="62" cy="58" r="2"/><circle cx="99" cy="70" r="2"/><circle cx="76" cy="97" r="2.6"/><circle cx="102" cy="115" r="1.7"/></g>',
   'いちごジャム': JAM_JAR('#CE3657','<path d="M0 15Q-25-5-12-13Q-5-17 0-10Q5-17 12-13Q25-5 0 15Z" fill="#DA3554"/><path d="M0-7L-10-16L0-13L10-16Z" fill="#43934E"/>'),
   'ブルーベリージャム': JAM_JAR('#694486','<g fill="#6955A3"><circle cx="-9" cy="-3" r="10"/><circle cx="8" cy="-6" r="10"/><circle cy="8" r="10"/></g><path d="M-5-12Q0-22 10-17" fill="#55974D"/>'),
@@ -1053,6 +1056,7 @@ function breadFinish(names = [], toasted = true) {
   return breadBase(toasted)+colors.map((color,i)=>'<rect x="'+(43+i*2)+'" y="'+(39+i*2)+'" width="'+(154-i*4)+'" height="'+(120-i*4)+'" rx="19" fill="'+color+'" opacity=".90"/><path d="M57 '+(58+i*6)+' Q116 '+(42+i*6)+' 181 '+(59+i*6)+' M59 '+(91+i*5)+' Q125 '+(76+i*5)+' 183 '+(91+i*5)+' M59 '+(130-i*4)+' Q121 '+(117-i*4)+' 181 '+(130-i*4)+'" stroke="#FFF" stroke-opacity=".19" stroke-width="4" stroke-linecap="round" fill="none"/>').join('');
 }
 const toastDish = names => PLATE+'<g transform="translate(20 4) scale(.333333)">'+breadFinish(names)+'</g>';
+const HAMBURG_PATTY = '<ellipse cx="60" cy="57" rx="42" ry="20" fill="#59301E" stroke="#442419" stroke-width="1.4"/><ellipse cx="60" cy="46" rx="41" ry="23" fill="#885031" stroke="#60331E" stroke-width="1.4"/><ellipse cx="58" cy="40" rx="34" ry="15" fill="#A5683E" opacity=".65"/><g fill="#6D3823" opacity=".8">'+Array.from({length:28},(_,i)=>{const a=i*2.39996,d=Math.sqrt((i+.4)/28);return '<ellipse cx="'+(60+Math.cos(a)*d*35).toFixed(1)+'" cy="'+(46+Math.sin(a)*d*18).toFixed(1)+'" rx="1.5" ry=".8"/>';}).join('')+'</g><path d="M29 45Q38 32 53 32M68 31Q84 34 91 42" fill="none" stroke="#CD935F" stroke-width="2.8" stroke-linecap="round" opacity=".65"/>';
 const DISH = {
   toast:toastDish(['バター']), toast_strawberry:toastDish(['いちごジャム']), toast_blueberry:toastDish(['ブルーベリージャム']),
   onigiri: PLATE + '<path d="M60 12 Q70 13 84 40 Q90 56 60 57 Q30 56 36 40 Q50 13 60 12Z" fill="#FFFFFF" stroke="#E2DACC" stroke-width="2"/><rect x="46" y="40" width="28" height="17" rx="3" fill="#25302B"/>',
@@ -1062,7 +1066,7 @@ const DISH = {
   pancake: PLATE + STACK + '<path d="M34 31 Q60 40 86 31 L86 37 Q84 44 82 37 Q62 44 44 38 Q42 47 40 38 Q36 37 34 31Z" fill="#9C4E14" opacity=".85"/>' + BUTTER,
   omurice: PLATE + OMELET + '<path d="M36 46 Q42 38 48 46 Q54 38 60 46 Q66 38 72 46 Q78 38 84 45" fill="none" stroke="#D9342B" stroke-width="4.5" stroke-linecap="round"/>',
   curry: PLATE + '<path d="M22 56 Q18 34 46 31 Q62 31 62 40 L62 62 Q28 64 22 56Z" fill="#FFFFFF" stroke="#E8E1D4" stroke-width="1.5"/><path d="M58 33 Q98 29 98 50 Q96 64 58 62 Z" fill="#9A561C"/><rect x="68" y="40" width="8" height="7" rx="1.5" fill="#F08A24"/><rect x="82" y="46" width="9" height="8" rx="2" fill="#F2D27A"/><rect x="70" y="52" width="9" height="6" rx="2" fill="#7A3A1E"/><rect x="84" y="36" width="6" height="6" rx="1.5" fill="#F08A24"/>',
-  hamburg: PLATE + '<ellipse cx="54" cy="50" rx="29" ry="14" fill="#5F3219"/><ellipse cx="54" cy="46" rx="27" ry="12" fill="#86461F"/><path d="M33 44 Q54 33 75 44 Q70 52 54 52 Q38 52 33 44Z" fill="#4A1E0C" opacity=".9"/>',
+  hamburg: PLATE + HAMBURG_PATTY + '<path d="M29 43Q42 32 59 37T91 43Q90 51 72 51T45 54Q29 53 29 43Z" fill="#512919" opacity=".92"/><path d="M35 42Q49 36 61 41T83 43" fill="none" stroke="#B47A4C" stroke-width="2" stroke-linecap="round" opacity=".8"/>',
   ramen: BOWL('#E7B75A') + NOODLES
 };
 // 完成料理のSVG（素材設定では変わらない）
@@ -1117,10 +1121,11 @@ const CATS = [
   { name: 'やさい', list: ['たまねぎ', 'にんじん', 'じゃがいも', 'ねぎ', 'ピーマン', 'きのこ', 'ブロッコリー', 'とうもろこし'] },
   { name: 'くだもの', list: ['いちご', 'バナナ', 'ぶどう', 'りんご'] },
   { name: 'にく・たまご', list: ['おにく', 'ひきにく', 'チャーシュー', 'たまご', 'とうふ', 'チーズ', 'ぎゅうにゅう', 'バター'] },
-  { name: 'あじつけ', list: ['しお', 'しおコショウ', 'しょうゆ', 'みそ', 'だし', 'あぶら', 'ケチャップ', 'カレールウ', 'シロップ', 'スープ', 'いちごジャム', 'ブルーベリージャム'] }
+  { name: 'あじつけ', list: ['しお', 'しおコショウ', 'しょうゆ', 'みそ', 'だし', 'あぶら', 'ケチャップ', 'カレールウ', 'シロップ', 'スープ', 'ソース', 'いちごジャム', 'ブルーベリージャム'] }
 ];
 // 料理の絵で使う材料の色
 const ING_COLOR = {
+  'ソース':'#63351E',
   'しょくパン':'#F3D9A5', 'いちごジャム':SPREAD_COLORS['いちごジャム'], 'ブルーベリージャム':SPREAD_COLORS['ブルーベリージャム'],
   'ごはん': '#FFFFFF', 'しお': '#F2F2EE', 'のり': '#25302B', 'たまご': '#F5C33B', 'あぶら': '#F3C24E', 'しょうゆ': '#5A2D14',
   'とうふ': '#FFFBF0', 'ねぎ': '#5DAA48', 'みそ': '#B4783A', 'だし': '#E2C27E', 'たまねぎ': '#F1DDB4', 'ケチャップ': '#D9342B',
@@ -1130,7 +1135,7 @@ const ING_COLOR = {
   'チーズ': '#F6C743', 'ブロッコリー': '#3B8C3A', 'りんご': '#E04848', 'とうもろこし': '#F6CE3C', 'しおコショウ': '#B9B2A6'
 };
 const POUR_TINT = { 'ぎゅうにゅう': '#E6DAC2' };   // 白い牛乳は、白い画面でも見えるようにクリーム色でそそぐ
-const LIQUIDS = ['しょうゆ', 'ケチャップ', 'シロップ', 'スープ', 'ぎゅうにゅう', 'だし'];   // かけられる
+const LIQUIDS = ['ソース','しょうゆ', 'ケチャップ', 'シロップ', 'スープ', 'ぎゅうにゅう', 'だし'];   // かけられる
 const PASTES = ['しお', 'しおコショウ', 'あぶら', 'みそ', 'カレールウ', 'パンこ', 'こむぎこ', 'いちごジャム', 'ブルーベリージャム'];          // 形がのこらない
 const SHAKERS = ['しお', 'しおコショウ'];   // 「かける」をえらぶと、ふりかける
 const BROTHS = ['スープ', 'だし', 'ぎゅうにゅう'];
@@ -2024,32 +2029,34 @@ function stepStir(s, r, p) {
 // 5) かける・そそぐ（長押し）
 
 // Track angular movement on the omelet; moving outside the food does not add sauce.
-function saucePoint(x,y) {return Number.isFinite(x)&&Number.isFinite(y)&&((x-60)/40)**2+((y-44)/22)**2<=1;}
-function ketchupArt(paths) {
+function saucePoint(x,y,hamburg=false) {return Number.isFinite(x)&&Number.isFinite(y)&&((x-60)/40)**2+((y-(hamburg?46:44))/22)**2<=1;}
+function ketchupArt(paths,hamburg=false) {
+  const dark=hamburg?'#422115':'#A82B24', main=hamburg?'#63351E':'#DA392E', shine=hamburg?'#C18C5D':'#F47766', dot=hamburg?'#63351E':'#C63229';
   return paths.filter(line=>line.length).map(line=>{
-    if(line.length===1){const {x,y}=line[0];return '<circle cx="'+x.toFixed(2)+'" cy="'+y.toFixed(2)+'" r="1.65" fill="#C63229"/><circle cx="'+(x-.4).toFixed(2)+'" cy="'+(y-.5).toFixed(2)+'" r=".55" fill="#F47766"/>';}
+    if(line.length===1){const {x,y}=line[0];return '<circle cx="'+x.toFixed(2)+'" cy="'+y.toFixed(2)+'" r="1.65" fill="'+dot+'"/><circle cx="'+(x-.4).toFixed(2)+'" cy="'+(y-.5).toFixed(2)+'" r=".55" fill="'+shine+'"/>';}
     const d='M'+line.map(pt=>pt.x.toFixed(2)+' '+pt.y.toFixed(2)).join(' L');
-    return '<path d="'+d+'" fill="none" stroke="#A82B24" stroke-width="3.1" stroke-linecap="round" stroke-linejoin="round"/><path d="'+d+'" fill="none" stroke="#DA392E" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round"/><path d="M'+line.map(pt=>pt.x.toFixed(2)+' '+(pt.y-.48).toFixed(2)).join(' L')+'" fill="none" stroke="#F47766" stroke-width=".65" stroke-linecap="round" stroke-linejoin="round" opacity=".8"/>';
+    return '<path d="'+d+'" fill="none" stroke="'+dark+'" stroke-width="'+(hamburg?5.5:3.1)+'" stroke-linecap="round" stroke-linejoin="round"/><path d="'+d+'" fill="none" stroke="'+main+'" stroke-width="'+(hamburg?4.5:2.35)+'" stroke-linecap="round" stroke-linejoin="round"/><path d="M'+line.map(pt=>pt.x.toFixed(2)+' '+(pt.y-.48).toFixed(2)).join(' L')+'" fill="none" stroke="'+shine+'" stroke-width="'+(hamburg?1.05:.65)+'" stroke-linecap="round" stroke-linejoin="round" opacity=".8"/>';
   }).join('');
 }
-function sauceLayer(paths,id) {
-  return '<defs><clipPath id="'+id+'"><ellipse cx="60" cy="44" rx="40" ry="22"/></clipPath></defs><g clip-path="url(#'+id+')">'+ketchupArt(paths)+'</g>';
+function sauceLayer(paths,id,hamburg=false) {
+  return '<defs><clipPath id="'+id+'"><ellipse cx="60" cy="'+(hamburg?46:44)+'" rx="40" ry="22"/></clipPath></defs><g clip-path="url(#'+id+')">'+ketchupArt(paths,hamburg)+'</g>';
 }
 function stepDrizzle(s,r,p) {
   let active=null,last=null,line=null,paths=[],done=false;
+  const hamburg=r.id==='hamburg', dish=hamburg?HAMBURG_PATTY:OMELET, ingredient=hamburg?'ソース':'ケチャップ';
   p.innerHTML='<h2>'+s.title+'</h2><p class="hint">ハートや ほし、もじも OK！ すきな もようを かこう。</p>'+
-    '<svg id="sauce-board" class="spread-board sauce-board" viewBox="8 8 104 72" role="img" aria-label="オムライスに ケチャップで おえかき">'+
-    '<defs><clipPath id="sauce-clip"><ellipse cx="60" cy="44" rx="40" ry="22"/></clipPath></defs>'+PLATE+OMELET+
-    '<g id="sauce-ink" clip-path="url(#sauce-clip)"></g><g id="sauce-tip" pointer-events="none" visibility="hidden"><g transform="rotate(28)"><path d="M-3-3L-4-10H4L3-3Z" fill="#FFF4D8" stroke="#B98862" stroke-width=".6"/><rect x="-5" y="-26" width="10" height="16" rx="2.5" fill="#D34439" stroke="#A82822" stroke-width=".7"/><rect x="-4" y="-23" width="8" height="7" rx="1" fill="#FFF2D8"/></g></g></svg>'+
+    '<svg id="sauce-board" class="spread-board sauce-board" viewBox="8 8 104 72" role="img" aria-label="'+r.name+'に '+ingredient+'を かける">'+
+    '<defs><clipPath id="sauce-clip"><ellipse cx="60" cy="'+(hamburg?46:44)+'" rx="40" ry="22"/></clipPath></defs>'+PLATE+dish+
+    '<g id="sauce-ink" clip-path="url(#sauce-clip)"></g><g id="sauce-tip" pointer-events="none" visibility="hidden"><g transform="rotate(28)"><path d="M-3-3L-4-10H4L3-3Z" fill="#FFF4D8" stroke="#B98862" stroke-width=".6"/><rect x="-5" y="-26" width="10" height="16" rx="2.5" fill="'+(hamburg?'#63351E':'#D34439')+'" stroke="'+(hamburg?'#422115':'#A82822')+'" stroke-width=".7"/><rect x="-4" y="-23" width="8" height="7" rx="1" fill="#FFF2D8"/></g></g></svg>'+
     '<p class="hint">かきおわったら できあがりを おしてね。</p>'+
     '<div class="sauce-actions"><button type="button" class="btn sub" id="sauce-undo" disabled>ひとつ もどす</button><button type="button" class="btn sub" id="sauce-clear" disabled>やりなおす</button></div>'+
     '<button type="button" class="btn wide big" id="sauce-done" disabled>できあがり！</button>';
   const svg=$('#sauce-board'),ink=$('#sauce-ink'),tip=$('#sauce-tip'),undo=$('#sauce-undo'),clear=$('#sauce-clear'),finish=$('#sauce-done');
-  const refresh=()=>{ink.innerHTML=ketchupArt(paths);const has=paths.some(x=>x.length);undo.disabled=clear.disabled=finish.disabled=!has||done;};
+  const refresh=()=>{ink.innerHTML=ketchupArt(paths,hamburg);const has=paths.some(x=>x.length);undo.disabled=clear.disabled=finish.disabled=!has||done;};
   const point=e=>{const pt=svg.createSVGPoint();pt.x=e.clientX;pt.y=e.clientY;const matrix=svg.getScreenCTM();return matrix?pt.matrixTransform(matrix.inverse()):null;};
   const move=pt=>{
     if(done||!pt)return;
-    if(!saucePoint(pt.x,pt.y)){last=null;line=null;tip.setAttribute('visibility','hidden');return;}
+    if(!saucePoint(pt.x,pt.y,hamburg)){last=null;line=null;tip.setAttribute('visibility','hidden');return;}
     const q={x:pt.x,y:pt.y};
     if(!line){line=[q];paths.push(line);}
     else if(last&&Math.hypot(q.x-last.x,q.y-last.y)>.18){line.push(q);}
@@ -2062,7 +2069,7 @@ function stepDrizzle(s,r,p) {
   ['pointerup','pointercancel','lostpointercapture'].forEach(x=>svg.addEventListener(x,stop));
   undo.onclick=()=>{if(done)return;resetPointer();paths.pop();refresh();SND.pop();};
   clear.onclick=()=>{if(done)return;resetPointer();paths=[];refresh();SND.pop();};
-  finish.onclick=()=>{if(done||!paths.some(x=>x.length))return;done=true;resetPointer();S.cust.ketchupPaths=paths.map(line=>line.map(q=>({...q})));refresh();finishStep(100);};
+  finish.onclick=()=>{if(done||!paths.some(x=>x.length))return;done=true;resetPointer();S.cust.saucePaths=paths.map(line=>line.map(q=>({...q})));refresh();finishStep(100);};
 }
  
 function stepPour(s, r, p) {
@@ -2180,7 +2187,7 @@ function serve() {
     : stars === 3 ? 'すっごくおいしい！また来るね！' : stars === 2 ? 'おいしかった！ごちそうさま。' : 'うーん、まあまあかな…';
   const f = $('#g-face'); f.textContent = late ? '😤' : stars === 3 ? '😍' : stars === 2 ? '😋' : '😐'; f.className = 'face' + (stars >= 2 && !late ? ' happy' : '');
   $('#g-stage').innerHTML =
-    '<div class="panel serve">' + (r.id==='omurice'&&c.ketchupPaths?'<svg class="serve-dish" viewBox="0 0 120 90" aria-hidden="true">'+PLATE+OMELET+sauceLayer(c.ketchupPaths,'served-sauce-clip')+'</svg>':dishSVG(artOf(r), 'serve-dish')) +
+    '<div class="panel serve">' + (['omurice','hamburg'].includes(r.id)&&c.saucePaths?'<svg class="serve-dish" viewBox="0 0 120 90" aria-hidden="true">'+PLATE+(r.id==='hamburg'?HAMBURG_PATTY:OMELET)+sauceLayer(c.saucePaths,'served-sauce-clip',r.id==='hamburg')+'</svg>':dishSVG(artOf(r), 'serve-dish')) +
     '<div class="stars" id="stars" role="img" aria-label="★' + stars + '">' + [0, 1, 2].map(() => icon('star')).join('') + '</div>' +
     '<div class="bubble">「' + say + '」</div>' +
     '<div class="receipt"><div><span' + (r.custom ? ' translate="no"' : '') + '>' + esc(r.name) + '</span><span>' + yen(base) + '</span></div><div><span>チップ</span><span>' + yen(tip) + '</span></div>' +
