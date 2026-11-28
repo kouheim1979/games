@@ -302,5 +302,8 @@ window.I18N_DICT={
 "かきおわったら できあがりを おしてね。":["Tap Done when you finish drawing.","画完后点击完成。","Pulsa Listo cuando termines."],
 "ひとつ もどす":["Undo","撤销","Deshacer"],
 "やりなおす":["Start over","重画","Empezar de nuevo"],
-"できあがり！":["Done!","完成！","¡Listo!"]
+"できあがり！":["Done!","完成！","¡Listo!"],
+"ソース":["Sauce","酱汁","Salsa"],
+"ソースを かけよう":["Add the sauce","浇上酱汁","Añade la salsa"],
+"ハンバーグに ソースを かける":["Add sauce to the hamburger steak","给汉堡肉饼浇酱汁","Añade salsa al filete de hamburguesa"]
 };
