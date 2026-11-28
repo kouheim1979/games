@@ -2165,6 +2165,9 @@ if (balanceMode) {
     relics: CARDS.filter(c => c.k === 'rel').map(({id,name,max,desc}) => ({id,name,max,desc})),
     growMultiplier: p => BAL.growBase + currentDifficulty().growBonus + p.grow,
     fmtMagnitude,
+    rewardActions:{stageClear,afterClear,openReward,takeCard,reroll,placeAt,autoPlace,placementBlock},
+    rewardRarity:RAR,
+    initialRerolls:()=>currentDifficulty().rerolls,
     primeFestival() { if (G.phase !== 'play' || G.fever.on || G.balls.length || G.spawn.length) return false; G.fever.gauge = Math.max(0,G.fever.need-1); return true; },
     selfTest() {
       const snapshot = {...G};
@@ -2186,6 +2189,16 @@ if (balanceMode) {
           checks.push({name:large?'大祭り1枚で12玉':'自然発動で6玉',ok:active&&spawned===BAL.feverBalls+6*large&&G.stats.fevers===1});
           checks.push({name:'祭り終了後のゲージリセットと必要量160',ok:!G.fever.on&&G.fever.gauge===0&&G.fever.need===160});
         }
+        // 本編の獲得・選択・配置処理を使って検証する。
+        G.mode='normal';G.rel={};G.relOrder=[];G.picks=[];G.rerolls=1;G.ended=false;G.unitIdx=0;G.reachedStage=null;G.fever={gauge:0,need:100,on:false,inStage:0,firstShot:true};buildBoard();startStage(1);
+        G.score=G.quota;G.scoreLog=logOf(G.score);G.firstShotScore=G.quota;G.firstShotScoreLog=G.scoreLog;G.cleared=true;G.ballsLeft=2;stageClear();
+        checks.push({name:'一発突破で札2枚・残玉2個で選び直し+2',ok:G.picksLeft===2&&G.rerolls===3});afterClear();
+        checks.push({name:'本編の札抽選で3候補・重複なし',ok:G.phase==='reward'&&G.offer.length===3&&new Set(G.offer.map(o=>o.c.id)).size===3});
+        reroll();checks.push({name:'選び直し券を1枚消費',ok:G.rerolls===2&&G.offer.length===3});
+        const grow=G.pegs[0];setPeg(grow,'g',1);grow.grow=.7;
+        G.offer=[instCard(CARDS.find(c=>c.id==='g2'))];takeCard(G.offer[0]);placeAt(grow);checks.push({name:'育ち札の重ね置きで成長維持',ok:grow.lv===2&&equal(grow.grow,.7)});autoPlace();checks.push({name:'配置完了で次の札を抽選',ok:G.phase==='reward'&&G.picksLeft===1});
+        G.offer=[instCard(CARDS.find(c=>c.id==='ball'))];takeCard(G.offer[0]);checks.push({name:'お守り獲得・次ステージで持ち玉+1',ok:G.stage===2&&G.rel.ball===1&&G.ballsMax===BAL.balls+1&&equal(grow.grow,.7)});
+        G.score=G.quota;G.scoreLog=logOf(G.score);G.cleared=true;stageClear();afterClear();const x=G.pegs.find(p=>p.type==='n');setPeg(x,'x',1);G.offer=[instCard(CARDS.find(c=>c.id==='lvx'))];takeCard(G.offer[0]);checks.push({name:'即時強化札で乗算Lv+1',ok:x.lv===2});
       } catch(e) { checks.push({name:String(e),ok:false}); } finally { balanceRandom=null;Object.assign(G,snapshot); }
       return checks;
     },

@@ -1,5 +1,5 @@
 const STORAGE_KEY = 'ketahazure.balance.v1';
-const VERSION = '2026-11-28 / 祭り検証版 2';
+const VERSION = '2026-11-28 / 札・祭り検証版 3';
 const MAX_STAGE = 99;
 const MAX_LEVEL = 99;
 const MAX_SHOTS = 20;
@@ -78,8 +78,9 @@ const markup = `
       <button id="drop-one" class="primary" type="button">1玉落とす</button>
       <button id="drop-all" type="button">全玉を試す</button>
       <button id="extra-drop" type="button" disabled>投下中に追加投下</button>
-      <button id="next-stage" type="button" disabled>次のステージへ（育ち保持）</button>
+      <button id="next-stage" type="button" disabled>札を獲得して次へ</button>
     </div>
+    <section id="reward-panel" class="reward-panel" hidden><h2 id="reward-title">札を選ぶ</h2><p id="reward-detail"></p><div id="reward-offers"></div><div class="reward-actions"><button id="reward-reroll" type="button">選び直し</button><button id="reward-auto" type="button">おまかせ配置</button></div></section>
     <div class="play-options">
       <label for="speed">再生速度</label>
       <select id="speed">
@@ -93,7 +94,7 @@ const markup = `
     <section class="lab-card results" aria-labelledby="results-title">
       <div class="section-title"><h2 id="results-title">試行結果</h2><span id="trial-status" class="trial-status" role="status"></span></div>
       <dl class="score-block">
-        <div><dt>得点</dt><dd id="score">0</dd></div>
+        <div><dt>得点（ステージ <span id="live-stage">1</span>）</dt><dd id="score">0</dd></div>
         <div><dt>ノルマ</dt><dd id="quota"></dd></div>
       </dl>
       <progress id="quota-progress" max="1" value="0" aria-label="ノルマ達成率"></progress>
@@ -104,6 +105,8 @@ const markup = `
         <div><dt>札の枚数</dt><dd id="reward">—</dd></div>
         <div><dt>当たり・連動</dt><dd id="hits">0</dd></div>
         <div><dt>祭りの発生</dt><dd id="fevers">0</dd></div>
+        <div><dt>選び直し券</dt><dd id="rerolls">0</dd></div>
+        <div><dt>獲得した札</dt><dd id="picked-count">0</dd></div>
       </dl>
     </section>
     <section class="lab-card conditions" aria-labelledby="conditions-title">
@@ -116,8 +119,8 @@ const markup = `
         <label for="seed">乱数シード<input id="seed" type="number" inputmode="numeric" min="0" max="${MAX_SEED}" data-lock></label>
       </div>
       <label class="hint"><input id="auto-shots" type="checkbox" data-lock> 本編と同じ持ち玉数（難易度・お守り反映）</label>
-      <p class="hint">全玉試行は落ち切ってから次を投入。追加投下は本編と同じクールダウンで可能。設定・配置の編集や初期化は育ちをリセットし、次ステージでは保持します。</p>
-      <details><summary>お守りの所持枚数を設定</summary><div id="relics" class="condition-grid"></div></details>
+      <p class="hint">全玉試行は落ち切ってから次を投入。追加投下は本編と同じクールダウンで可能。設定・配置の編集や初期化は初期条件に戻ります。札を獲得して進むと育ち・お守り・配置を引き継ぎます。A/B比較は初期条件からの独立試行です。</p>
+      <p id="live-relics" class="hint"></p><details><summary>初期のお守りの所持枚数を設定</summary><div id="relics" class="condition-grid"></div></details>
     </section>
     <section class="lab-card"><h2>育ちちょうちん・実測倍率</h2><p class="hint">現在の倍率を表示（次に直接命中した時の基本倍率）。</p><p id="grow-summary" role="status"></p><div id="grow-list" class="grow-list"></div><button id="regression" type="button" data-lock>本編処理の自己診断</button><p id="regression-result" role="status"></p></section>
     <section class="lab-card compare" aria-labelledby="compare-title">
@@ -239,6 +242,7 @@ export async function mountSimulator(engine) {
 
   function renderMetrics() {
     const { oneShot, jump, cards } = engine.clearReward();
+    display('live-stage',String(G.stage));display('rerolls',String(G.rerolls));display('picked-count',String(G.picks.length));display('live-relics','現在のお守り：'+(engine.relics.filter(c=>G.rel[c.id]).map(c=>c.name+'×'+G.rel[c.id]).join('、')||'なし'));
     display('score', engine.fmtMagnitude(G.score,G.scoreLog));
     display('quota', engine.fmtQ(G.quota));
     display('first-score', engine.fmtMagnitude(G.firstShotScore,G.firstShotScoreLog));
@@ -301,7 +305,7 @@ export async function mountSimulator(engine) {
       G.pegs[i].flash = 0;
     });
     Object.assign(G, {
-      t: 0, nextStage: 0, unitIdx: 0, reachedStage: null, runBest: 0, runBestLog: -Infinity, rel: Object.fromEntries(Object.entries(setup.relics).filter(([,n])=>n>0)), pockets: [],
+      t: 0, nextStage: 0, unitIdx: 0, reachedStage: null, runBest: 0, runBestLog: -Infinity, ended:false, picks:[], picksLeft:0, rerolls:engine.initialRerolls(), relOrder:[], rel: Object.fromEntries(Object.entries(setup.relics).filter(([,n])=>n>0)), pockets: [],
       balls: [], spawn: [], aim: { x: setup.x, on: false, snap: false },
       stats: { bestHit: 0, bestHitLog: -Infinity, hits: 0, fevers: 0 },
       fever: { gauge: 0, need: BAL.feverNeed, on: false, count: 0, total: 0, spawnT: 0, inStage: 0, firstShot: true }
@@ -317,39 +321,42 @@ export async function mountSimulator(engine) {
     trial = newTrial(setup.boards[setup.active], setup.seed);
     renderMetrics();
     renderBoard();
+    renderEditor();
+    renderReward();
     setStatus('待機中');
     updateControls();
   }
 
   function updateControls() {
     const busy = Boolean(playback || batch);
-    for (const control of lockable) control.disabled = busy;
-    level.disabled = fillBoard.disabled = busy || brush === 'n';
-    byId('undo').disabled = busy || histories[setup.active].length === 0;
+    const rewarding=G.phase==='reward'||G.phase==='place';
+    for (const control of lockable) control.disabled = busy||rewarding;
+    level.disabled = fillBoard.disabled = busy || rewarding || brush === 'n';
+    byId('undo').disabled = busy || rewarding || histories[setup.active].length === 0;
     plate.dataset.busy = String(busy);
-    for (const pin of pins) pin.setAttribute('aria-disabled', String(busy));
-    dropOne.disabled = dropAll.disabled = busy || G.ballsLeft === 0 || trial.timedOut;
+    for (const pin of pins) pin.setAttribute('aria-disabled', String(busy||G.phase==='reward'));
+    dropOne.disabled = dropAll.disabled = busy || G.phase!=='play' || G.ballsLeft === 0 || trial.timedOut;
     dropAll.textContent = G.ballsLeft >= G.ballsMax ? '全玉を試す' : '残りの玉を試す';
     reset.disabled = Boolean(batch);
-    byId('shots').disabled=busy||setup.autoShots;
-    nextStage.disabled=busy||!G.cleared||trial.timedOut||G.stage>=MAX_STAGE;
+    byId('shots').disabled=busy||rewarding||setup.autoShots;
+    nextStage.disabled=busy||rewarding||!G.cleared||trial.timedOut||G.stage>=MAX_STAGE;
     extraDrop.disabled=!playback||playback.all||G.ballsLeft===0||G.dropCd>0;
-    compare.disabled = busy;
+    compare.disabled = busy||rewarding;
     cancel.hidden = !batch;
     byId('compare-progress').hidden = !batch;
   }
 
   function renderEditor() {
-    const board = setup.boards[setup.active], activeName = boardNames[setup.active];
+    const board = G.pegs, activeName = boardNames[setup.active];
     for (const button of document.querySelectorAll('[data-board]')) {
       button.setAttribute('aria-pressed', String(Number(button.dataset.board) === setup.active));
     }
     byId('board-title').textContent = '盤面 ' + activeName;
-    byId('board-count').textContent = 'ちょうちん ' + board.filter(Boolean).length + ' / ' + slots.length;
+    byId('board-count').textContent = 'ちょうちん ' + board.filter(p=>p.type!=='n').length + ' / ' + slots.length;
     byId('copy-board').textContent = '盤面 ' + boardNames[1 - setup.active] + ' に複製';
     pins.forEach((pin, i) => {
       const p = slots[i], lantern = board[i];
-      const item = lantern ? PT[lantern.type].name + ' Lv' + lantern.lv : '釘';
+      const item = lantern && lantern.type!=='n' ? PT[lantern.type].name + ' Lv' + lantern.lv : '釘';
       pin.setAttribute('aria-label', (p.r + 1) + '段目 ' + (p.c + 1) + '列目 ' + item);
       pin.title = pin.getAttribute('aria-label');
       pin.classList.toggle('last-peg', i === lastPeg);
@@ -382,6 +389,8 @@ export async function mountSimulator(engine) {
 
   function editPeg(i) {
     if (batch || playback) return;
+    if(G.phase==='place'){const before=G.stage;engine.withRandom(trial.random,()=>engine.rewardActions.placeAt(G.pegs[i]));afterRewardAction(before);return;}
+    if(G.phase==='reward')return;
     const board = setup.boards[setup.active].slice();
     const p = slots[i], placed = brush === 'n' ? null : { type: brush, lv: brushLevel };
     if (board[i]?.type === placed?.type && board[i]?.lv === placed?.lv) return;
@@ -529,7 +538,9 @@ export async function mountSimulator(engine) {
   }
 
   function showTrialStatus() {
-    if (trial.timedOut) setStatus('時間上限', 'warn');
+    if(G.phase==='reward')setStatus('札を選択','pass');
+    else if(G.phase==='place')setStatus('ちょうちんを配置','pass');
+    else if (trial.timedOut) setStatus('時間上限', 'warn');
     else if (G.cleared) setStatus('ノルマ達成', 'pass');
     else if (!G.ballsLeft) setStatus('ノルマ未達', 'warn');
     else if (G.ballsLeft === G.ballsMax) setStatus('待機中');
@@ -550,6 +561,7 @@ export async function mountSimulator(engine) {
         continue;
       }
       playback = null;
+      if(G.cleared&&G.ballsLeft===0&&!trial.timedOut&&G.stage<MAX_STAGE)openCards();
       showTrialStatus();
       updateControls();
       break;
@@ -645,7 +657,25 @@ export async function mountSimulator(engine) {
 
   byId('prime-festival').addEventListener('click',()=>{if(batch||playback)return;if(engine.primeFestival()){invalidateComparison();renderMetrics();setStatus('祭り検証：次の命中で発動','warn');}});
   extraDrop.addEventListener('click',()=>{if(playback&&!playback.all&&G.dropCd<=0&&G.ballsLeft>0){engine.withRandom(trial.random,()=>engine.dropBall(setup.x));extraDrop.disabled=true;}});
-  nextStage.addEventListener('click',()=>{if(playback||batch||!G.cleared)return;const next=Math.min(MAX_STAGE,G.stage+1+engine.clearReward().jump);setup.stage=next;byId('stage').value=next;engine.withRandom(trial.random,()=>engine.startStage(next));if(!setup.autoShots)G.ballsLeft=G.ballsMax=setup.shots;trial.ticks=0;trial.firstSettled=false;trial.timedOut=false;invalidateComparison();renderBoard();renderMetrics();showTrialStatus();updateControls();saveSetup();});
+  function renderReward(){
+    const panel=byId('reward-panel'),offers=byId('reward-offers'),placing=G.phase==='place',reward=G.phase==='reward';
+    panel.hidden=!placing&&!reward;offers.replaceChildren();
+    if(panel.hidden)return;
+    display('reward-title',placing?'ちょうちんを配置':'札を選ぶ');
+    display('reward-detail',placing?PT[G.placing.type].name+' Lv'+G.placing.lv+'：残り'+G.placing.left+'個。盤面をタップして配置。':'残り'+G.picksLeft+'枚／選び直し '+G.rerolls+'回');
+    byId('reward-reroll').hidden=!reward;byId('reward-reroll').disabled=G.rerolls<=0;byId('reward-auto').hidden=!placing;
+    if(reward)for(const o of G.offer||[]){const button=document.createElement('button');button.type='button';button.className='reward-card';const heading=document.createElement('strong');heading.textContent='【'+engine.rewardRarity[o.c.rar]+'】'+o.name;const detail=document.createElement('span');detail.textContent=o.desc;button.append(heading,detail);button.addEventListener('click',()=>{const before=G.stage;engine.withRandom(trial.random,()=>engine.rewardActions.takeCard(o));afterRewardAction(before);});offers.append(button);}
+  }
+  function afterRewardAction(before){
+    if(G.stage!==before){if(!setup.autoShots)G.ballsLeft=G.ballsMax=setup.shots;trial.ticks=0;trial.firstSettled=false;trial.timedOut=false;}
+    invalidateComparison();renderEditor();renderBoard();renderMetrics();renderReward();showTrialStatus();updateControls();
+  }
+  function openCards(){if(playback||batch||!G.cleared||G.stage>=MAX_STAGE)return;
+    const before=G.stage;engine.withRandom(trial.random,()=>{engine.rewardActions.stageClear();engine.rewardActions.afterClear();if(G.phase==='ending')engine.rewardActions.openReward();});afterRewardAction(before);
+  }
+  nextStage.addEventListener('click',openCards);
+  byId('reward-reroll').addEventListener('click',()=>{const before=G.stage;engine.withRandom(trial.random,engine.rewardActions.reroll);afterRewardAction(before);});
+  byId('reward-auto').addEventListener('click',()=>{const before=G.stage;engine.withRandom(trial.random,engine.rewardActions.autoPlace);afterRewardAction(before);});
   byId('regression').addEventListener('click',()=>{if(playback||batch)return;const checks=engine.selfTest();display('regression-result',checks.map(c=>(c.ok?'✓ ':'✗ ')+c.name).join('\n'));renderBoard();});
   dropOne.addEventListener('click', () => startPlayback(false));
   dropAll.addEventListener('click', () => startPlayback(true));
