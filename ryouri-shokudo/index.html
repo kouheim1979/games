@@ -881,49 +881,67 @@ const ING = {
   'しおコショウ': '🧂\uFE0F'
 };
 // chop の tool：'knife'（包丁）か 'hands'（手でにぎる）。heat の liquid：なべの中の色。
+function addIngredient(x, chip = 'いれる', target = 'plate') {
+  const verb = { 'いれる': 'いれよう', 'のせる': 'のせよう', 'まく': 'まこう', 'ひく': 'ひこう' }[chip];
+  return { t: 'add', chip, title: x + 'を ' + verb, ingredient: x, target, uses: [x] };
+}
 const RECIPES = [
   { id: 'onigiri', name: 'おにぎり', price: 150, unlock: 1, ings: ['ごはん', 'しお', 'のり'], steps: [
     { t: 'select' },
-    { t: 'chop', chip: 'にぎる', title: 'ぎゅっと にぎろう', food: '🍚', tool: 'hands', n: 6 } ] },
+    { t: 'chop', chip: 'にぎる', title: 'ぎゅっと にぎろう', food: '🍚', tool: 'hands', n: 6, uses: ['ごはん'] },
+    { t: 'shake', chip: 'ふる', title: 'しおを ふろう', shaker: 'しお', uses: ['しお'] },
+    addIngredient('のり', 'まく') ] },
   { id: 'medamayaki', name: 'めだまやき', price: 200, unlock: 1, ings: ['たまご', 'あぶら', 'しょうゆ'], steps: [
     { t: 'select' },
-    { t: 'heat', chip: 'やく', title: 'たまごを やこう', food: '🍳', speed: 26 },
-    { t: 'pour', chip: 'かける', title: 'しょうゆを かけよう', bottle: '🍶', color: '#5A2D14' } ],
+    addIngredient('あぶら', 'ひく', 'pan'),
+    { t: 'heat', chip: 'やく', title: 'たまごを やこう', food: '🍳', speed: 26, uses: ['たまご'] },
+    { t: 'pour', chip: 'かける', title: 'しょうゆを かけよう', bottle: '🍶', color: '#5A2D14', uses: ['しょうゆ'] } ],
     // あじつけは お客さんが えらぶ（しょうゆ派・しおコショウ派）。opt は伝票とセリフにでる
     opts: [{ opt: 'しょうゆ' }, { opt: 'しおコショウ', art: 'medamayaki_shio', ings: ['たまご', 'あぶら', 'しおコショウ'], steps: [
       { t: 'select' },
-      { t: 'heat', chip: 'やく', title: 'たまごを やこう', food: '🍳', speed: 26 },
-      { t: 'shake', chip: 'ふる', title: 'しおコショウを ふろう', shaker: 'しおコショウ' } ] }] },
+      addIngredient('あぶら', 'ひく', 'pan'),
+    { t: 'heat', chip: 'やく', title: 'たまごを やこう', food: '🍳', speed: 26, uses: ['たまご'] },
+      { t: 'shake', chip: 'ふる', title: 'しおコショウを ふろう', shaker: 'しおコショウ', uses: ['しおコショウ'] } ] }] },
   { id: 'misoshiru', name: 'みそしる', price: 250, unlock: 2, ings: ['とうふ', 'ねぎ', 'みそ', 'だし'], steps: [
     { t: 'select' },
-    { t: 'chop', chip: 'きる', title: 'とうふを きろう', food: '⬜', tool: 'knife', n: 5 },
-    { t: 'heat', chip: 'にる', title: 'だしを にたてよう', food: '🐟', pot: true, liquid: '#E8CD93', speed: 24 },
-    { t: 'stir', chip: 'とかす', title: 'みそを とかそう', items: ['🟫', '⬜', '🌱', '⬜'], turns: 2 } ] },
-  { id: 'pancake', name: 'パンケーキ', price: 400, unlock: 3, ings: ['こむぎこ', 'たまご', 'ぎゅうにゅう', 'バター'], steps: [
+    { t: 'chop', chip: 'きる', title: 'とうふを きろう', food: '⬜', tool: 'knife', n: 5, uses: ['とうふ'] },
+    { t: 'chop', chip: 'きる', title: 'ねぎを きざもう', food: '🌱', tool: 'knife', n: 5, uses: ['ねぎ'] },
+    { t: 'heat', chip: 'にる', title: 'だしを にたてよう', food: '🐟', pot: true, liquid: '#E8CD93', speed: 24, uses: ['だし'] },
+    { t: 'stir', chip: 'とかす', title: 'みそを とかそう', items: ['🟫', '⬜', '🌱'], turns: 2, uses: ['みそ', 'とうふ', 'ねぎ'] } ] },
+  { id: 'pancake', name: 'パンケーキ', price: 400, unlock: 3, ings: ['こむぎこ', 'たまご', 'ぎゅうにゅう', 'バター', 'シロップ'], steps: [
     { t: 'select' },
-    { t: 'stir', chip: 'まぜる', title: 'きじを まぜよう', items: ['🌾', '🥚', '🥛', '🌾'], turns: 3 },
-    { t: 'heat', chip: 'やく', title: 'パンケーキを やこう', food: '🥞', speed: 24 },
-    { t: 'pour', chip: 'かける', title: 'シロップを かけよう', bottle: '🍯', color: '#B8641C' } ] },
+    { t: 'stir', chip: 'まぜる', title: 'きじを まぜよう', items: ['🌾', '🥚', '🥛'], turns: 3, uses: ['こむぎこ', 'たまご', 'ぎゅうにゅう'] },
+    { t: 'heat', chip: 'やく', title: 'パンケーキを やこう', food: '🥞', speed: 24, uses: ['こむぎこ', 'たまご', 'ぎゅうにゅう'] },
+    addIngredient('バター', 'のせる'),
+    { t: 'pour', chip: 'かける', title: 'シロップを かけよう', bottle: '🍯', color: '#B8641C', uses: ['シロップ'] } ] },
   { id: 'omurice', name: 'オムライス', price: 450, unlock: 4, ings: ['たまご', 'ごはん', 'たまねぎ', 'ケチャップ'], steps: [
     { t: 'select' },
-    { t: 'chop', chip: 'きる', title: 'たまねぎを きざもう', food: '🧅', tool: 'knife', n: 8 },
-    { t: 'heat', chip: 'いためる', title: 'ごはんを いためよう', food: '🍚', speed: 28 },
-    { t: 'pour', chip: 'かける', title: 'ケチャップを かけよう', bottle: '🍅', color: '#D9342B' } ] },
-  { id: 'curry', name: 'カレーライス', price: 500, unlock: 5, ings: ['じゃがいも', 'にんじん', 'たまねぎ', 'おにく', 'カレールウ'], steps: [
+    { t: 'chop', chip: 'きる', title: 'たまねぎを きざもう', food: '🧅', tool: 'knife', n: 8, uses: ['たまねぎ'] },
+    { t: 'heat', chip: 'いためる', title: 'ごはんを いためよう', food: '🍚', speed: 28, uses: ['ごはん', 'たまねぎ'] },
+    { t: 'heat', chip: 'やく', title: 'たまごを やこう', food: '🍳', speed: 26, uses: ['たまご'] },
+    { t: 'pour', chip: 'かける', title: 'ケチャップを かけよう', bottle: '🍅', color: '#D9342B', uses: ['ケチャップ'] } ] },
+  { id: 'curry', name: 'カレーライス', price: 500, unlock: 5, ings: ['じゃがいも', 'にんじん', 'たまねぎ', 'おにく', 'カレールウ', 'ごはん'], steps: [
     { t: 'select' },
-    { t: 'chop', chip: 'きる', title: 'にんじんを きろう', food: '🥕', tool: 'knife', n: 7 },
-    { t: 'heat', chip: 'にる', title: 'ぐつぐつ にこもう', food: '🥔', pot: true, liquid: '#EBC47A', speed: 22 },
-    { t: 'stir', chip: 'とかす', title: 'ルウを とかそう', items: ['🍫', '🥕', '🥔', '🥩'], turns: 3 } ] },
+    { t: 'chop', chip: 'きる', title: 'にんじんを きろう', food: '🥕', tool: 'knife', n: 7, uses: ['にんじん'] },
+    { t: 'chop', chip: 'きる', title: 'じゃがいもを きろう', food: '🥔', tool: 'knife', n: 5, uses: ['じゃがいも'] },
+    { t: 'chop', chip: 'きる', title: 'たまねぎを きざもう', food: '🧅', tool: 'knife', n: 5, uses: ['たまねぎ'] },
+    addIngredient('おにく', 'いれる', 'pot'),
+    { t: 'heat', chip: 'にる', title: 'ぐつぐつ にこもう', food: '🥔', pot: true, liquid: '#EBC47A', speed: 22, uses: ['じゃがいも', 'にんじん', 'たまねぎ', 'おにく'] },
+    { t: 'stir', chip: 'とかす', title: 'ルウを とかそう', items: ['🍫', '🥕', '🥔', '🥩', '🧅'], turns: 3, uses: ['カレールウ', 'にんじん', 'じゃがいも', 'おにく', 'たまねぎ'] },
+    addIngredient('ごはん', 'のせる') ] },
   { id: 'hamburg', name: 'ハンバーグ', price: 600, unlock: 6, ings: ['ひきにく', 'たまねぎ', 'パンこ', 'たまご'], steps: [
     { t: 'select' },
-    { t: 'chop', chip: 'きる', title: 'たまねぎを きざもう', food: '🧅', tool: 'knife', n: 8 },
-    { t: 'stir', chip: 'こねる', title: 'たねを こねよう', items: ['🍖', '🧅', '🍞', '🥚'], turns: 3 },
-    { t: 'heat', chip: 'やく', title: 'ハンバーグを やこう', food: '🍖', speed: 30 } ] },
+    { t: 'chop', chip: 'きる', title: 'たまねぎを きざもう', food: '🧅', tool: 'knife', n: 8, uses: ['たまねぎ'] },
+    { t: 'stir', chip: 'こねる', title: 'たねを こねよう', items: ['🍖', '🧅', '🍞', '🥚'], turns: 3, uses: ['ひきにく', 'たまねぎ', 'パンこ', 'たまご'] },
+    { t: 'heat', chip: 'やく', title: 'ハンバーグを やこう', food: '🍖', speed: 30, uses: ['ひきにく'] } ] },
   { id: 'ramen', name: 'ラーメン', price: 650, unlock: 7, ings: ['めん', 'スープ', 'チャーシュー', 'ねぎ', 'たまご'], steps: [
     { t: 'select' },
-    { t: 'heat', chip: 'ゆでる', title: 'めんを ゆでよう', food: '🍝', pot: true, liquid: '#D5E8EE', speed: 30 },
-    { t: 'chop', chip: 'きる', title: 'ねぎを きざもう', food: '🌱', tool: 'knife', n: 7 },
-    { t: 'pour', chip: 'そそぐ', title: 'スープを そそごう', bottle: '🥣', color: '#E3B04B' } ] }
+    { t: 'heat', chip: 'ゆでる', title: 'めんを ゆでよう', food: '🍝', pot: true, liquid: '#D5E8EE', speed: 30, uses: ['めん'] },
+    { t: 'chop', chip: 'きる', title: 'ねぎを きざもう', food: '🌱', tool: 'knife', n: 7, uses: ['ねぎ'] },
+    { t: 'pour', chip: 'そそぐ', title: 'スープを そそごう', bottle: '🥣', color: '#E3B04B', uses: ['スープ'] },
+    addIngredient('チャーシュー', 'のせる', 'bowl'),
+    addIngredient('たまご', 'のせる', 'bowl'),
+    addIngredient('ねぎ', 'のせる', 'bowl') ] }
 ];
 const RID = Object.fromEntries(RECIPES.map(r => [r.id, r]));
 // 素材イラスト：セット1（色鉛筆風）が初期設定。素材画像のないセット2は選択不可。
@@ -988,7 +1006,7 @@ function grainsSVG(cx, cy, rx, ry, pepper, n, seed) {
 }
 const NOODLES = '<path d="M28 40 Q34 34 40 40 T52 40 T64 40 T76 40 T88 40" fill="none" stroke="#F8E39A" stroke-width="3"/><path d="M32 46 Q38 40 44 46 T56 46 T68 46" fill="none" stroke="#F8E39A" stroke-width="3"/><circle cx="76" cy="38" r="9" fill="#E8B08A" stroke="#B5703F" stroke-width="2"/><ellipse cx="46" cy="34" rx="8" ry="6" fill="#FFFFFF"/><circle cx="46" cy="34" r="3.5" fill="#F2A91B"/><circle cx="60" cy="44" r="2.4" fill="#4C9A3C"/><circle cx="88" cy="45" r="2.4" fill="#4C9A3C"/><rect x="58" y="30" width="5" height="10" fill="#2A3A2E"/>';
 const DISH = {
-  onigiri: PLATE + '<path d="M60 12 Q70 13 84 40 Q90 56 60 57 Q30 56 36 40 Q50 13 60 12Z" fill="#FFFFFF" stroke="#E2DACC" stroke-width="2"/><rect x="46" y="40" width="28" height="17" rx="3" fill="#25302B"/><circle cx="60" cy="30" r="4.5" fill="#D8434A"/>',
+  onigiri: PLATE + '<path d="M60 12 Q70 13 84 40 Q90 56 60 57 Q30 56 36 40 Q50 13 60 12Z" fill="#FFFFFF" stroke="#E2DACC" stroke-width="2"/><rect x="46" y="40" width="28" height="17" rx="3" fill="#25302B"/>',
   medamayaki: PLATE + EGG + SOY_LINE,
   medamayaki_shio: PLATE + EGG + grainsSVG(59, 46.5, 27, 12, true, 26, .4),
   misoshiru: BOWL('#C98A48') + '<rect x="42" y="36" width="9" height="8" rx="1.5" fill="#FFFBF0"/><rect x="62" y="40" width="9" height="8" rx="1.5" fill="#FFFBF0"/><rect x="72" y="33" width="8" height="7" rx="1.5" fill="#FFFBF0"/><circle cx="55" cy="45" r="2.6" fill="#4C9A3C"/><circle cx="84" cy="42" r="2.6" fill="#4C9A3C"/><circle cx="36" cy="42" r="2.6" fill="#4C9A3C"/><circle cx="66" cy="34" r="2.2" fill="#4C9A3C"/>',
@@ -1010,6 +1028,7 @@ const POUR_ART = {
 // ふる工程：ふる前の料理（under）、ねらう場所（cx・cy・rx・ry）、つぶがのる うつわの面（surf：cx, cy, rx, ry）
 const SURF = { plate: [60, 57, 53, 17], bowl: [60, 40, 42, 11], glass: [60, 15, 25, 4.5] };
 const SHAKE_ART = {
+  onigiri: { under: PLATE + '<path d="M60 12 Q70 13 84 40 Q90 56 60 57 Q30 56 36 40 Q50 13 60 12Z" fill="#FFFFFF" stroke="#E2DACC" stroke-width="2"/>', cx: 60, cy: 38, rx: 17, ry: 10, surf: SURF.plate },
   medamayaki_shio: { under: PLATE + EGG, cx: 60, cy: 47, rx: 24, ry: 10, surf: SURF.plate }
 };
 const artOf = r => r.art || r.id;
@@ -1096,18 +1115,57 @@ function potColor(c) {
   return src.length ? mixColor(src.map(x => ING_COLOR[x])) : '#D5E8EE';
 }
 // うつわ・材料・つくりかた → いつもの工程データ（RECIPES と同じ形）
+function completePlan(c) {
+  const plan = c.plan.map(p => ({...p}));
+  const explicit = new Set(plan.filter(p => p.x).map(p => p.x));
+  const hasHeat = plan.some(p => p.v === 'yaku' || p.v === 'niru');
+  const hasMix = plan.some(p => p.v === 'mazeru');
+  // Seasonings need their own visible action unless an explicit one was chosen.
+  const inferred = c.ings.filter(x => !explicit.has(x));
+  const early = [], late = [], toppings = [];
+  inferred.forEach(x => {
+    if (SHAKERS.includes(x)) late.push({v: 'kakeru', x});
+    else if (x === 'あぶら' && hasHeat) early.push({v: 'add', x, chip: 'ひく', target: 'pan'});
+    else if (x === 'のり' && plan.some(p => p.v === 'nigiru' && p.x === 'ごはん')) toppings.push({v: 'add', x, chip: 'まく'});
+    else if (hasMix) { /* included in the actual mixing step below */ }
+    else if (LIQUIDS.includes(x)) late.push({v: 'kakeru', x});
+    else if (['おにく', 'ひきにく', 'たまご'].includes(x)) toppings.push({v: 'yaku', x});
+    else toppings.push({v: 'add', x, chip: isSolid(x) ? 'のせる' : 'いれる'});
+  });
+  const heatAt = plan.findIndex(p => p.v === 'yaku' || p.v === 'niru');
+  if (early.length) plan.splice(Math.max(0, heatAt), 0, ...early);
+  const seasonAt = plan.findIndex(p => p.v === 'kakeru');
+  if (toppings.length) plan.splice(seasonAt < 0 ? plan.length : seasonAt, 0, ...toppings);
+  return plan.concat(late);
+}
 function buildSteps(c) {
-  const liquid = potColor(c);
-  return [{ t: 'select' }].concat(c.plan.map(p => {
-    const [chip, verb] = verbWord(p.v, p.x, c.vessel), em = ING[p.x];
+  const plan = completePlan(c), liquid = potColor({...c, plan});
+  const steps = plan.map((p, i) => {
+    if (p.v === 'add') return addIngredient(p.x, p.chip, p.target || c.vessel);
+    const [chip, verb] = verbWord(p.v, p.x, c.vessel), em = ING[p.x], uses = [p.x];
     const title = p.v === 'mazeru' ? 'ざいりょうを ' + verb : p.x + 'を ' + verb;
-    if (p.v === 'kiru' || p.v === 'nigiru') return { t: 'chop', chip, title, food: em, tool: p.v === 'nigiru' ? 'hands' : 'knife', n: 6 };
-    if (p.v === 'yaku') return { t: 'heat', chip, title, food: p.x === 'たまご' ? '🍳' : p.x === 'こむぎこ' ? '🥞' : em, speed: 26 };
-    if (p.v === 'niru') return { t: 'heat', chip, title, food: em, pot: true, liquid, speed: 24 };
-    if (p.v === 'mazeru') return { t: 'stir', chip, title, items: [0, 1, 2, 3].map(i => ING[c.ings[i % c.ings.length]]), turns: c.ings.length >= 4 ? 3 : 2 };
-    if (SHAKERS.includes(p.x)) return { t: 'shake', chip, title, shaker: p.x };
-    return { t: 'pour', chip, title, bottle: em, color: POUR_TINT[p.x] || ING_COLOR[p.x] };
-  }));
+    if (p.v === 'kiru' || p.v === 'nigiru') return { t: 'chop', chip, title, food: em, tool: p.v === 'nigiru' ? 'hands' : 'knife', n: 6, uses };
+    if (p.v === 'yaku') return { t: 'heat', chip, title, food: p.x === 'たまご' ? '🍳' : p.x === 'こむぎこ' ? '🥞' : em, speed: 26, uses };
+    if (p.v === 'niru') return { t: 'heat', chip, title, food: em, pot: true, liquid, speed: 24, uses };
+    if (p.v === 'mazeru') {
+      const reserved = plan.filter((q,j) => (q.v === 'kakeru' && j > i) || (q.v === 'add' && (q.chip === 'ひく' || j > i))).map(q => q.x);
+      const names = c.ings.filter(x => !reserved.includes(x));
+      return { t: 'stir', chip, title, items: names.map(x => ING[x]), turns: names.length >= 4 ? 3 : 2, uses: names };
+    }
+    // Draw only ingredients already present, not later toppings/seasonings.
+    const before = plan.slice(0, i);
+    const later = plan.slice(i).filter(q => q.v === 'kakeru' || q.v === 'add').map(q => q.x);
+    const priorNames = c.ings.filter(x => !later.includes(x) || before.some(q => q.x === x));
+    const preview = priorNames.length ? composeDish({...c, ings: priorNames, plan: before.filter(q => !q.x || priorNames.includes(q.x))}, false) : null;
+    const art = preview ? preview.dish : emptyVessel(c.vessel);
+    const geometry = composeDish({...c, plan}, false);
+    if (SHAKERS.includes(p.x)) return { t: 'shake', chip, title, shaker: p.x, uses, art: {...geometry.shake, under: art} };
+    return { t: 'pour', chip, title, bottle: em, color: POUR_TINT[p.x] || ING_COLOR[p.x], uses, art: {...geometry.pour, under: art, over: ''} };
+  }).filter(s => s.t !== 'stir' || s.uses.length);
+  // Last-resort guard for every selected ingredient (including saved custom recipes).
+  const covered = new Set(steps.flatMap(s => s.uses || []));
+  c.ings.filter(x => !covered.has(x)).forEach(x => steps.push(addIngredient(x, 'いれる', c.vessel)));
+  return [{t: 'select'}].concat(steps);
 }
 
 /* ---------- 新メニューづくり：料理の絵 ---------- */
@@ -1142,7 +1200,7 @@ const FORM = {
   patty: '<ellipse cy="2" rx="15" ry="7.5" fill="#5F3219"/><ellipse rx="14" ry="6.5" fill="#86461F"/><path d="M-9-1Q0-6 9-1" stroke="#4A1E0C" stroke-width="2" fill="none" opacity=".6" stroke-linecap="round"/>',
   pancake: '<ellipse cy="5" rx="16" ry="6" fill="#C27630"/><ellipse cy="2" rx="16" ry="6" fill="#E5A657"/><ellipse cy="-2" rx="15" ry="5.5" fill="#C27630"/><ellipse cy="-5" rx="15" ry="5.5" fill="#EDB86E"/>',
   onigiri: nori => '<path d="M0-15Q5-15 12 0Q15 9 0 9Q-15 9-12 0Q-5-15 0-15Z" fill="#FFFFFF" stroke="#E2DACC" stroke-width="1.5"/>' +
-    (nori ? '<rect x="-6.5" y="0" width="13" height="9" rx="1.5" fill="#25302B"/>' : '<circle cy="-3" r="3" fill="#D8434A"/>'),
+    (nori ? '<rect x="-6.5" y="0" width="13" height="9" rx="1.5" fill="#25302B"/>' : ''),
   balls: (c, yaki) => '<g' + (yaki ? ' filter="url(#fYaki)"' : '') + '>' + [[0, -5], [-6, 2], [6, 2]].map(([x, y]) =>
     '<circle cx="' + x + '" cy="' + y + '" r="5.6" fill="' + c + '" stroke="rgba(60,35,15,.25)" stroke-width="1.2"/><circle cx="' + (x - 2) + '" cy="' + (y - 2) + '" r="1.6" fill="#fff" opacity=".45"/>').join('') + '</g>'
 };
@@ -1186,7 +1244,8 @@ const AREA = {
 };
 function emptyVessel(v) { return v === 'bowl' ? BOWL('#6B2A1A') : v === 'glass' ? GLASS_BACK + GLASS_FRONT : PLATE; }
 // うつわ・材料・つくりかたから、できあがりの絵と「かける」工程の絵をつくる
-function composeDish(c) {
+function composeDish(c, complete = true) {
+  if (complete) c = {...c, plan: completePlan(c)};
   const V = c.vessel, ings = c.ings, of = v => c.plan.filter(p => p.v === v).map(p => p.x), has = v => c.plan.some(p => p.v === v);
   const solids = ings.filter(isSolid), nig = of('nigiru'), yak = of('yaku'), kir = of('kiru'), kak = of('kakeru');
   const used = new Set(), grilled = new Set(), forms = [];
@@ -1291,7 +1350,7 @@ function autoName(d, R) {
   else if (has('mazeru')) kind = fruit || veg ? 'サラダ' : 'まぜまぜ';
   else if (has('yaku')) kind = 'やき';
   else { kind = 'もりあわせ'; no = true; }
-  const pool = ings.filter(x => !skip.includes(x) && isSolid(x)).concat(ings.filter(x => !skip.includes(x) && !isSolid(x) && x !== 'しお' && x !== 'あぶら'));
+  const pool = ings.filter(x => !skip.includes(x) && isSolid(x)).concat(ings.filter(x => !skip.includes(x) && !isSolid(x) && x !== 'あぶら' && (x !== 'しお' || kind === 'おにぎり')));
   let words = pool.slice(0, R() < .5 && pool.length > 1 ? 2 : 1);
   if (R() < .3 && pool.length > 1) words = [pool[Math.floor(R() * pool.length)]];
   const first = d.plan[0], pre = first && R() < .55 ? (first.v === 'kakeru' && SHAKERS.includes(first.x) ? 'ぱらぱら' : NAME_PRE[first.v]) : '';
@@ -1518,7 +1577,7 @@ function runStep(k) {
   if (k >= r.steps.length) return serve();
   const s = r.steps[k];
   $('#g-stage').innerHTML = stepBar(r, k) + '<div class="panel" id="panel"></div>';
-  ({ select: stepSelect, chop: stepChop, heat: stepHeat, stir: stepStir, pour: stepPour, shake: stepShake })[s.t](s, r, $('#panel'));
+  ({ select: stepSelect, chop: stepChop, heat: stepHeat, stir: stepStir, pour: stepPour, shake: stepShake, add: stepAdd })[s.t](s, r, $('#panel'));
 }
 function finishStep(score) {
   S.upd = null; sizzleOff();
@@ -1545,12 +1604,37 @@ function stepSelect(s, r, p) {
   p.querySelectorAll('.ing').forEach(b => b.onclick = () => {
     const x = b.dataset.i;
     if (need.includes(x)) {
+      if (b.disabled || b.classList.contains('ok')) return;
+      b.disabled = true;
       b.classList.add('ok'); p.querySelector('[data-n="' + x + '"]').classList.add('got'); SND.pop();
       if (++got === need.length) finishStep(100 - miss * 20);
     } else {
       miss++; SND.ng(); b.classList.remove('ng'); void b.offsetWidth; b.classList.add('ng');
     }
   });
+}
+
+// A material must be tapped and visibly moved into the cooking vessel.
+function stepAdd(s, r, p) {
+  const before = S.cust.r.steps.slice(1, S.step).flatMap(x => x.uses || []);
+  const doneNames = [...new Set(before)].filter(x => x !== s.ingredient);
+  const riceBall = r.id === 'onigiri' && s.ingredient === 'のり';
+  const targetArt = s.target === 'pan' ? PAN_SVG : s.target === 'pot' ? POT_SVG() :
+    '<svg viewBox="0 0 120 90" aria-hidden="true">' + (riceBall ? SHAKE_ART.onigiri.under : emptyVessel(s.target)) + '</svg>';
+  p.innerHTML = '<h2>' + s.title + '</h2><p class="hint">ざいりょうを タップして つかおう</p>' +
+    '<div style="position:relative;width:220px;height:205px;flex:none;text-align:center">' +
+    '<button class="ing" id="add-material" style="position:absolute;z-index:2;left:76px;top:0;width:68px;height:74px;transition:transform .35s,opacity .35s"><span class="em">' + ingredientMark(s.ingredient) + '</span><span class="nm">' + s.ingredient + '</span></button>' +
+    '<div style="position:absolute;left:10px;right:10px;bottom:0">' + targetArt + '</div>' +
+    '<div id="added-material" style="position:absolute;left:82px;bottom:36px;width:56px;height:56px;display:none;font-size:40px">' + ingredientMark(s.ingredient) + '</div></div>' +
+    '<div class="need">' + doneNames.map(x => '<span class="got">' + ingredientMark(x) + '<span>' + x + '</span></span>').join('') + '</div>';
+  const b = $('#add-material');
+  b.onclick = () => {
+    if (b.disabled) return;
+    b.disabled = true; b.style.transform = 'translateY(105px) scale(.55)'; b.style.opacity = '0'; SND.pop();
+    $('#added-material').style.display = 'block';
+    if (riceBall) $('#added-material').innerHTML = '<svg viewBox="0 0 56 56" aria-hidden="true"><rect x="9" y="15" width="38" height="29" rx="3" fill="#25302B"/></svg>';
+    finishStep(100);
+  };
 }
 
 // 2) 切る・にぎる（連打）
@@ -1649,7 +1733,7 @@ function stepStir(s, r, p) {
   let prog = 0, last = null, done = false, tick = 0;
   p.innerHTML = '<h2>' + s.title + '</h2><p class="hint">' + icon('rotate') + '<span>ボウルの中を ぐるぐる なぞろう</span></p>' +
     '<div class="bowl" id="bowl"><div class="bowl-in" id="bin">' +
-    s.items.map((e, i) => { const a = i / s.items.length * Math.PI * 2; return '<span style="transform:translate(-50%,-50%) translate(' + Math.cos(a) * 52 + 'px,' + Math.sin(a) * 52 + 'px)">' + foodMark(e) + '</span>'; }).join('') +
+    s.items.map((e, i) => { const a = i / s.items.length * Math.PI * 2; return '<span style="transform:translate(-50%,-50%) translate(' + Math.cos(a) * (s.items.length > 4 ? 60 : 52) + 'px,' + Math.sin(a) * (s.items.length > 4 ? 60 : 52) + 'px)">' + foodMark(e) + '</span>'; }).join('') +
     '</div><span class="spoon" id="spoon" style="left:156px;top:26px">' + SPATULA_SVG + '</span></div>' +
     '<div class="ring"><div class="bar"><b id="sbar" style="width:0%"></b></div></div>' +
     '<button class="btn sub wide" id="sb">' + icon('rotate') + '<span>ぐるぐる（タップでもOK）</span></button>';
@@ -1679,7 +1763,7 @@ function stepStir(s, r, p) {
 
 // 5) かける・そそぐ（長押し）
 function stepPour(s, r, p) {
-  const lo = 58 - 2 * save.up.pan, hi = 76 + 2 * save.up.pan, art = POUR_ART[artOf(r)];
+  const lo = 58 - 2 * save.up.pan, hi = 76 + 2 * save.up.pan, art = s.art || POUR_ART[artOf(r)];
   let amt = 0, hold = false, done = false;
   // 流れのしずくが、たれのたまる場所まで届く長さ
   const streamH = Math.max(12, Math.round(212 - 150 + art.cy * 150 / 90 - 74));
@@ -1710,7 +1794,7 @@ function stepPour(s, r, p) {
 
 // 6) ふる（びんが左右にゆれる。料理の上に来たらタップ。3かい）
 function stepShake(s, r, p) {
-  const art = SHAKE_ART[artOf(r)], N = 3, pepper = s.shaker === 'しおコショウ';
+  const art = s.art || SHAKE_ART[artOf(r)], N = 3, pepper = s.shaker === 'しおコショウ';
   p.innerHTML = '<h2>' + s.title + '</h2><p class="hint">びんが みどりのところに きたら タップ！</p>' +
     '<div class="shake-scene" id="shk"><div class="shake-rail"><i class="zone" id="zone"></i></div>' +
     '<span class="shaker" id="shaker"><span>' + ingredientMark(s.shaker) + '</span></span>' +
