@@ -176,11 +176,6 @@ noscript{position:fixed;inset:0;display:grid;place-items:center;padding:24px;tex
 const balanceMode = new URLSearchParams(window.location.search).get('dev') === 'balance';
 let balanceRandom = null;
 const random = () => balanceRandom ? balanceRandom() : Math.random();
-// 演出専用の乱数列。描画・音声の有無でゲーム乱数を消費しない。
-let fxState = (Math.random() * 4294967296) >>> 0;
-const fxRandom = () => { fxState = (Math.imul(fxState, 1664525) + 1013904223) >>> 0; return fxState / 4294967296; };
-const fxRnd = (a = 1, b) => b === undefined ? fxRandom() * a : a + fxRandom() * (b - a);
-const fxPick = a => a[(fxRandom() * a.length) | 0];
 const TAU = Math.PI * 2;
 const rnd = (a = 1, b) => b === undefined ? random() * a : a + random() * (b - a);
 const clamp = (v, a, b) => v < a ? a : v > b ? b : v;
@@ -307,7 +302,6 @@ const DIFFICULTIES = {
 const difficultyOf = id => DIFFICULTIES[id] || DIFFICULTIES.normal;
 const currentDifficulty = () => difficultyOf(G.mode);
 const STEP = 1 / 180;
-const GAME_TICK = 1 / 60;
 
 // ───────── 画面とレイアウト ─────────
 const W = 540; let H = 960;
@@ -432,7 +426,7 @@ function auInit() {
     const comp = c.createDynamicsCompressor(); comp.threshold.value = -16; comp.knee.value = 12; comp.ratio.value = 8;
     AU.out = c.createGain(); AU.out.gain.value = 0.6; AU.out.connect(comp); comp.connect(c.destination);
     const nb = AU.nb = c.createBuffer(1, Math.floor(c.sampleRate * 0.6), c.sampleRate), d = nb.getChannelData(0);
-    for (let i = 0; i < d.length; i++) d[i] = fxRandom() * 2 - 1;
+    for (let i = 0; i < d.length; i++) d[i] = random() * 2 - 1;
     AU.next = c.currentTime + 0.15; setInterval(seqTick, 30);
   } catch (e) { AU.ctx = null; }
 }
@@ -452,7 +446,7 @@ function noise(dur, vol, freq, delay, q, type) {
   const c = AU.ctx, t = c.currentTime + (delay || 0), s = c.createBufferSource(), f = c.createBiquadFilter(), g = c.createGain();
   s.buffer = AU.nb; f.type = type || 'bandpass'; f.frequency.value = freq; f.Q.value = q || 1;
   g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
-  s.connect(f); f.connect(g); g.connect(AU.out); s.start(t, fxRandom() * 0.1); s.stop(t + dur + 0.03);
+  s.connect(f); f.connect(g); g.connect(AU.out); s.start(t, random() * 0.1); s.stop(t + dur + 0.03);
 }
 const SC = [0, 2, 5, 7, 9];                                   // 陽音階
 const nf = n => 293.66 * Math.pow(2, (Math.floor(n / 5) * 12 + SC[n % 5]) / 12);
@@ -633,7 +627,7 @@ function cloneBall(b, side) {
 }
 function hitPeg(p, b, chain) {
   const R = G.rel, live = G.phase === 'play', fev = G.fever.on, T = PT[p.type];
-  p.flash = 1; p.swv += (b.vx >= 0 ? 1 : -1) * fxRnd(2.5, 5);
+  p.flash = 1; p.swv += (b.vx >= 0 ? 1 : -1) * rnd(2.5, 5);
   if (!chain) { G.combo++; G.comboT = 1.5; }
   if (live) {
     G.stats.hits++; addGauge(1, b);
@@ -798,7 +792,7 @@ function land(b, k) {
     fxText(clamp(cx, inset, W - inset), L.pocketTop - 8, points, tier >= 2 ? C.kin : C.haku, size, tier >= 2 ? 1.5 : 1, true);
     spark(cx, L.pocketTop + 16, tier >= 2 ? C.kin : '#ffe9a8', 6 + tier * 5, 190 + tier * 40, 0.5, 2.4);
     S.cash(tier);
-    if (tier >= 3) { addShake(4 + tier * 2); S.big(); G.hitstop = Math.max(G.hitstop, 0.05); firework(cx, L.pocketTop - 110, fxPick([C.kin, C.shu, C.asagi, C.momo])); buzz(25); }
+    if (tier >= 3) { addShake(4 + tier * 2); S.big(); G.hitstop = Math.max(G.hitstop, 0.05); firework(cx, L.pocketTop - 110, pick([C.kin, C.shu, C.asagi, C.momo])); buzz(25); }
     if (!hadOneShot && hasOneShot()) fxText(W / 2, L.row0 + 200, '一発突破　札 +1', C.shu, 40, 2);
   }
   checkUnits();
@@ -825,7 +819,7 @@ function startFever() {
     AU.festivalStep = 0;
     if (AU.ctx) { AU.next = AU.ctx.currentTime + 0.02; seqTick(); }
     setBanner('お祭りだ', '玉がふってくる', 1.3, C.momo); addShake(8); G.flash = 0.4; buzz(60);
-    for (let i = 0; i < 4; i++) later(i * 0.18, () => firework(fxRnd(60, W - 60), L.hud + fxRnd(60, 200), fxPick([C.momo, C.kin, C.asagi, C.shu])));
+    for (let i = 0; i < 4; i++) later(i * 0.18, () => firework(rnd(60, W - 60), L.hud + rnd(60, 200), pick([C.momo, C.kin, C.asagi, C.shu])));
   }
 }
 
@@ -886,7 +880,7 @@ function stageClear() {
   saveBest();
   if (!G.headless) {
     S.clear(); buzz(40);
-    for (let i = 0; i < 5; i++) later(i * 0.22, () => firework(fxRnd(70, W - 70), L.hud + fxRnd(120, 420), fxPick([C.kin, C.shu, C.asagi, C.momo, C.take])));
+    for (let i = 0; i < 5; i++) later(i * 0.22, () => firework(rnd(70, W - 70), L.hud + rnd(120, 420), pick([C.kin, C.shu, C.asagi, C.momo, C.take])));
   }
 }
 function afterClear() {
@@ -1103,7 +1097,7 @@ function spark(x, y, col, n, spd, life, size) {
   if (G.headless) return;
   if (parts.length > 420) n = Math.ceil(n / 3);
   for (let i = 0; i < n; i++) {
-    const a = fxRandom() * TAU, v = (spd || 160) * (0.35 + fxRandom() * 0.65), lf = (life || 0.4) * (0.6 + fxRandom() * 0.4);
+    const a = random() * TAU, v = (spd || 160) * (0.35 + random() * 0.65), lf = (life || 0.4) * (0.6 + random() * 0.4);
     parts.push({ x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v - 60, g: 520, drag: 0, life: lf, max: lf, size: size || 2.2, col });
   }
 }
@@ -1111,7 +1105,7 @@ function firework(x, y, col) {
   if (G.headless) return;
   const n = parts.length > 360 ? 24 : 54;
   for (let i = 0; i < n; i++) {
-    const a = (i / n) * TAU + fxRnd(0.1), v = fxRnd(150, 300), lf = fxRnd(0.7, 1.15);
+    const a = (i / n) * TAU + rnd(0.1), v = rnd(150, 300), lf = rnd(0.7, 1.15);
     parts.push({ x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, g: 110, drag: 2.2, life: lf, max: lf, size: 3, col });
   }
   rings.push({ x, y, r: 6, to: 70, life: 0.4, max: 0.4, col, w: 3 });
@@ -1135,7 +1129,7 @@ function fxText(x, y, str, col, size, life, scoring = false) {
 function bolt(x1, y1, x2, y2) {
   if (G.headless || bolts.length > 30) return;
   const pts = [x1, y1], n = 5;
-  for (let i = 1; i < n; i++) { const t = i / n; pts.push(x1 + (x2 - x1) * t + fxRnd(-14, 14), y1 + (y2 - y1) * t + fxRnd(-14, 14)); }
+  for (let i = 1; i < n; i++) { const t = i / n; pts.push(x1 + (x2 - x1) * t + rnd(-14, 14), y1 + (y2 - y1) * t + rnd(-14, 14)); }
   pts.push(x2, y2); bolts.push({ pts, life: 0.22, max: 0.22 });
 }
 function later(sec, fn) { laters.push({ t: sec, fn }); }
@@ -1170,7 +1164,7 @@ function updateFx(dt) {
     st.t += dt;
     if (!st.hit && st.t >= 0.16) {
       st.hit = true; S.stamp(); addShake(13); G.flash = Math.max(G.flash, 0.45); buzz(70); ring(W / 2, H * 0.42, C.shu, 260, 0.5, 8);
-      for (let i = 0; i < 3; i++) later(i * 0.15, () => firework(fxRnd(80, W - 80), H * 0.42 + fxRnd(-220, 60), fxPick([C.kin, C.shu, C.haku])));
+      for (let i = 0; i < 3; i++) later(i * 0.15, () => firework(rnd(80, W - 80), H * 0.42 + rnd(-220, 60), pick([C.kin, C.shu, C.haku])));
     }
     if (st.t >= (G.stamps.length > 1 ? 0.8 : 1.5)) G.stamps.shift();
   }
@@ -1273,7 +1267,7 @@ function drawBg() {
     const x = BG.getContext('2d'); x.setTransform(cv.width / W, 0, 0, cv.height / H, 0, 0);
     const g = x.createLinearGradient(0, 0, 0, H); g.addColorStop(0, '#1c2152'); g.addColorStop(0.5, '#1b1548'); g.addColorStop(1, '#0e0c28');
     x.fillStyle = g; x.fillRect(0, 0, W, H);
-    x.fillStyle = '#ffffff'; for (let i = 0; i < 70; i++) { x.globalAlpha = fxRnd(0.15, 0.6); const s = fxRnd(0.8, 2); x.fillRect(fxRnd(W), fxRnd(H * 0.9), s, s); }
+    x.fillStyle = '#ffffff'; for (let i = 0; i < 70; i++) { x.globalAlpha = rnd(0.15, 0.6); const s = rnd(0.8, 2); x.fillRect(rnd(W), rnd(H * 0.9), s, s); }
     x.globalAlpha = 1;
     const by = L.launchY - 36;
     RR(WALL_L - 4, by, WALL_R - WALL_L + 8, L.pocketBot - by + 6, 14, x); x.fillStyle = 'rgba(9,11,32,.62)'; x.fill();
@@ -1677,7 +1671,7 @@ function drawOver() {
 function drawEnding() {
   UI.regs.length = 0;
   ctx.fillStyle = 'rgba(11,14,34,.8)'; ctx.fillRect(0, 0, W, H);
-  if (fxRandom() < 0.05) firework(fxRnd(60, W - 60), fxRnd(80, H * 0.6), fxPick([C.kin, C.shu, C.asagi, C.momo, C.haku]));
+  if (random() < 0.05) firework(rnd(60, W - 60), rnd(80, H * 0.6), pick([C.kin, C.shu, C.asagi, C.momo, C.haku]));
   const cy = H * 0.3;
   ctx.save(); ctx.translate(W / 2, cy); ctx.rotate(-0.05);
   RR(-80, -180, 160, 360, 14); ctx.fillStyle = C.shu; ctx.fill(); RR(-70, -170, 140, 340, 8); ctx.strokeStyle = C.haku; ctx.lineWidth = 3; ctx.stroke();
@@ -2040,7 +2034,7 @@ function render() {
   ctx.setTransform(cv.width / W, 0, 0, cv.height / H, 0, 0);
   drawBg();
   const ph = G.phase, sh = G.shake;
-  ctx.save(); if (sh) ctx.translate(fxRnd(-sh, sh), fxRnd(-sh, sh));
+  ctx.save(); if (sh) ctx.translate(rnd(-sh, sh), rnd(-sh, sh));
   drawPockets(); drawPegs(); drawBalls(); drawFx();
   ctx.restore();
   if (ph === 'title') drawTitle();
@@ -2142,7 +2136,7 @@ function resize() {
     drawLanternDemo();
   }
 }
-let lastTs = 0, gameCarry = 0;
+let lastTs = 0;
 function frame(ts) {
   requestAnimationFrame(frame);
   if (KETA.freeze) return;
@@ -2154,15 +2148,9 @@ function frame(ts) {
     }
     return;
   }
-  if (cardBook.open || tutorialDialog.open || boardPicker.open) { gameCarry = 0; return; }
+  if (cardBook.open || tutorialDialog.open || boardPicker.open) return;
   G.rt += rdt;
-  if (!G.paused && !G.help) {
-    if (G.hitstop > 0) G.hitstop -= rdt;
-    else {
-      gameCarry += rdt * (G.phase === 'play' ? G.speed : 1);
-      while (gameCarry >= GAME_TICK) { update(GAME_TICK); gameCarry -= GAME_TICK; }
-    }
-  } else gameCarry = 0;
+  if (!G.paused && !G.help) { if (G.hitstop > 0) G.hitstop -= rdt; else update(rdt * (G.phase === 'play' ? G.speed : 1)); }
   updateFx(rdt);
   render();
 }
@@ -2171,7 +2159,6 @@ const KETA = window.KETA = { G, BAL, SAVE, L, PT, CARDS, UI, freeze: false,
   api: { startRun, startStage, dropBall, takeCard, placeAt, autoPlace, suggestPeg, dropSpot, update, makeOffer, stageClear, afterClear, quotaFor, fmt, toTitle, resize, render, countType } };
 if (balanceMode) {
   G.headless = true;
-  // 本編と同じ端末寸法から盤面を初期化する。相対的な釘間隔は共通。
   resize();
   const top = L.launchY - 30, height = L.pocketBot + 8 - top;
   import('./simulator.js').then(({ mountSimulator }) => mountSimulator({
