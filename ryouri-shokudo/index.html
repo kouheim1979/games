@@ -939,7 +939,7 @@ const RECIPES = [
     { t: 'chop', chip: 'きる', title: 'たまねぎを きざもう', food: '🧅', tool: 'knife', n: 8, uses: ['たまねぎ'] },
     { t: 'heat', chip: 'いためる', title: 'ごはんを いためよう', food: '🍚', speed: 28, uses: ['ごはん', 'たまねぎ'] },
     { t: 'heat', chip: 'やく', title: 'たまごを やこう', food: '🍳', speed: 26, uses: ['たまご'] },
-    { t: 'pour', chip: 'かける', title: 'ケチャップを かけよう', bottle: '🍅', color: '#D9342B', uses: ['ケチャップ'] } ] },
+    { t: 'drizzle', chip: 'かける', title: 'ケチャップを くるくる かけよう', bottle: '🍅', color: '#D9342B', uses: ['ケチャップ'] } ] },
   { id: 'curry', name: 'カレーライス', price: 500, unlock: 5, ings: ['じゃがいも', 'にんじん', 'たまねぎ', 'おにく', 'カレールウ', 'ごはん'], steps: [
     { t: 'select' },
     { t: 'chop', chip: 'きる', title: 'にんじんを きろう', food: '🥕', tool: 'knife', n: 7, uses: ['にんじん'] },
@@ -1633,7 +1633,7 @@ function runStep(k) {
   if (k >= r.steps.length) return serve();
   const s = r.steps[k];
   $('#g-stage').innerHTML = stepBar(r, k) + '<div class="panel" id="panel"></div>';
-  ({ select: stepSelect, chop: stepChop, heat: stepHeat, stir: stepStir, pour: stepPour, shake: stepShake, add: stepAdd, spread:stepSpread })[s.t](s, r, $('#panel'));
+  ({ select: stepSelect, chop: stepChop, heat: stepHeat, stir: stepStir, pour: stepPour, shake: stepShake, add: stepAdd, spread:stepSpread, drizzle:stepDrizzle })[s.t](s, r, $('#panel'));
 }
 function finishStep(score) {
   S.upd = null; sizzleOff();
@@ -1741,7 +1741,7 @@ function stepChop(s, r, p) {
   const n = Math.max(3, s.n - save.up.knife), t0 = performance.now(), hands = s.tool === 'hands', name=(s.uses||[])[0]||ING_BY_EMOJI[s.food];
   let c = 0;
   p.innerHTML = '<h2>' + s.title + '</h2><p class="hint">まな板をどんどんタップ！</p>' +
-    '<div class="board" id="board"><span class="food">' + looseMark(name) + '</span>' +
+    '<div class="board" id="board"><span class="food">' + (hands?looseMark(name):chopArt(name,0)) + '</span>' +
     (hands ? HAND_SVG('l') + HAND_SVG('r') : '<span class="knife" id="knife">' + KNIFE_SVG + '</span>') +
     '<div class="bits" id="bits"></div></div>' +
     '<div class="count" id="cnt">あと' + n + 'かい</div>';
@@ -1751,15 +1751,15 @@ function stepChop(s, r, p) {
     e.preventDefault(); c++; chopSnd();
     if (hands) board.classList.add('press'); else { knife.classList.add('down'); food.classList.add('hit'); }
     setTimeout(() => { board.classList.remove('press'); food.classList.remove('hit'); if (knife) knife.classList.remove('down'); }, 80);
-    if (!hands) { const l = document.createElement('i'); l.className = 'cut'; l.style.left = (24 + 52 * c / (n + 1)) + '%'; board.appendChild(l); }
+    if (!hands) { /* the food itself changes, rather than drawing cut marks over the board */ }
     const b = document.createElement('span'); b.className = 'bit';
-    b.innerHTML = hands ? '<i class="spark"></i>' : looseMark(name);
+    b.innerHTML = hands ? '<i class="spark"></i>' : '<svg class="loose-art" viewBox="-14 -14 28 28">'+cutPiece(name)+'</svg>';
     b.style.left = (40 + rnd(20)) + '%'; b.style.top = '40%';
     b.style.setProperty('--dx', (rnd(160) - 80) + 'px'); b.style.setProperty('--dy', (-40 - rnd(60)) + 'px');
     $('#bits').appendChild(b); setTimeout(() => b.remove(), 650);
     $('#cnt').textContent = c >= n ? 'できた！' : 'あと' + (n - c) + 'かい';
     if (hands && name==='ごはん') food.innerHTML='<svg class="loose-art" viewBox="-18 -18 36 36">'+(c>=n?FORM.onigiri(false):'<g transform="scale('+(.9+c/n*.4)+')">'+loosePiece(name)+'</g>')+'</svg>';
-    else if(!hands) food.innerHTML='<svg class="loose-art" viewBox="-22 -18 44 36">'+Array.from({length:Math.min(c+1,7)},(_,i)=>'<g transform="translate('+((i%3-1)*11)+' '+(Math.floor(i/3)*9-7)+') scale(.65)">'+loosePiece(name)+'</g>').join('')+'</svg>';
+    else if(!hands) food.innerHTML=chopArt(name,c/n);
     if (c >= n) finishStep(timeScore((performance.now() - t0) / 1000, n * .38 + 1.2));
   });
 }
@@ -1795,12 +1795,26 @@ function bubble(vessel) {
 function colorBetween(a,b,k) {
   const A=hexRGB(a),B=hexRGB(b); return rgbHex(A.map((x,i)=>x+(B[i]-x)*clamp(k,0,1)));
 }
+// Draw short individual grains, never paths or overlapping elongated strands.
+function riceGrains(rate,count,rx,ry,cx=60,cy=32) {
+  const k=clamp(rate,0,1),burn=clamp((rate-1)*2,0,1);
+  return '<g data-food="rice">'+Array.from({length:count},(_,i)=>{
+    const a=i*2.399963,d=Math.sqrt((i+.4)/count),x=cx+Math.cos(a)*rx*d,y=cy+Math.sin(a)*ry*d;
+    const c=colorBetween(colorBetween(i%4===0?'#F3E8D3':'#FFFDF4',i%4===0?'#D99B50':'#F2D093',k),'#98602E',burn*.65);
+    const w=count>50?1.85:1.65,h=count>50?1.03:.95;
+    return '<ellipse cx="'+x.toFixed(2)+'" cy="'+y.toFixed(2)+'" rx="'+w+'" ry="'+h+'" transform="rotate('+((i*47)%160-80)+' '+x.toFixed(2)+' '+y.toFixed(2)+')" fill="'+c+'" stroke="#BBA37A" stroke-width=".19"/>';
+  }).join('')+'</g>';
+}
+function friedRiceArt(rate,names) {
+  const k=clamp(rate,0,1);
+  let art='<ellipse cx="60" cy="33" rx="44" ry="22" fill="'+colorBetween('#F5EDDA','#DBAD66',k)+'"/>'+riceGrains(rate,205,43,21,60,33);
+  const veg=names.filter(x=>x!=='ごはん'&&!LIQUIDS.includes(x)&&!['しお','しおコショウ','あぶら'].includes(x));
+  if(veg.length) art+='<g>'+Array.from({length:28},(_,i)=>{const a=i*2.39996+.6,d=Math.sqrt((i+.8)/28),x=60+Math.cos(a)*39*d,y=33+Math.sin(a)*19*d,name=veg[i%veg.length];return '<g transform="translate('+x.toFixed(1)+' '+y.toFixed(1)+') rotate('+((i*29)%80-40)+') scale(.32)">'+cutPiece(name,rate)+'</g>';}).join('')+'</g>';
+  return art;
+}
 function loosePiece(name, rate=0) {
   const k=clamp(rate,0,1), burnt=clamp((rate-1)*2,0,1);
-  if(name==='ごはん') {
-    const col=colorBetween('#FFFDF3','#E9BC70',k*.85);
-    return '<g>'+Array.from({length:20},(_,i)=>{const a=i*2.39996,d=Math.sqrt((i+.5)/20);return '<ellipse cx="'+(Math.cos(a)*d*10).toFixed(2)+'" cy="'+(Math.sin(a)*d*6).toFixed(2)+'" rx="2.5" ry="1.3" transform="rotate('+((i*29)%130-65)+')" fill="'+col+'" stroke="#CBB387" stroke-width=".32"/>';}).join('')+'</g>';
-  }
+  if(name==='ごはん') return riceGrains(rate,23,10,6,0,0); 
   if(name==='めん')return '<g fill="none" stroke="'+colorBetween('#CDAA62','#FCE39B',k)+'" stroke-width="1.9" stroke-linecap="round">'+[-5,-2,1,4].map((y,i)=>'<path d="M-10 '+y+' q3 '+(-3-k*2)+' 6 0 t6 0 t6 0"/>').join('')+'</g>';
   if(name==='たまご') return '<ellipse rx="9" ry="6" fill="#FFF9E5" stroke="#E6D5AE" stroke-width=".7"/><ellipse rx="3.9" ry="3.4" fill="#F5B62E"/>';
   if(name==='おにく'||name==='ひきにく'||name==='チャーシュー') {
@@ -1816,6 +1830,48 @@ function loosePiece(name, rate=0) {
   return '<g opacity="'+(1-.12*burnt)+'" transform="scale('+(1-.12*k)+')">'+warmed+'</g>';
 }
 function looseMark(name,rate=0) {return '<svg class="loose-art" viewBox="-14 -12 28 24" aria-hidden="true">'+loosePiece(name,rate)+'</svg>';}
+
+// Whole produce and cut pieces use different geometry, not scaled copies.
+const WHOLE_PRODUCE={
+ 'たまねぎ':'<path d="M0-15Q-2-20 2-23M0-14C-7-10-18-4-18 7Q-18 22 0 23Q18 22 18 7C18-4 7-10 0-14Z" fill="#D6A36C" stroke="#9D6D40" stroke-width="1.5"/><path d="M0-13Q-13 1-10 16M0-13Q13 1 10 16M-3 22L3 22" stroke="#B78453" stroke-width="1.1" fill="none"/>',
+ 'にんじん':'<path d="M-12-13Q-1-18 12-13Q10 4 1 23Q-2 25-5 18Z" fill="#EB8B2D" stroke="#C96C24" stroke-width="1.5"/><path d="M0-15L-8-24M0-15L1-27M0-15L10-24" stroke="#408949" stroke-width="4" stroke-linecap="round"/><path d="M-8-6L1-5M2 3L8 2M-4 10L1 10" stroke="#C66D26" stroke-width="1.5"/>',
+ 'じゃがいも':'<path d="M-20-4Q-15-21 5-19Q21-17 22-2Q24 15 8 20Q-12 24-20 10Z" fill="#C99D62" stroke="#98713C" stroke-width="1.5"/><g fill="#98713C"><circle cx="-9" cy="-8" r="1.6"/><circle cx="10" cy="-10" r="1.5"/><circle cx="13" cy="8" r="1.6"/><circle cx="-7" cy="12" r="1.4"/></g>',
+ 'ねぎ':'<g transform="rotate(30)"><path d="M-6 23L-7-3L-12-23L-5-25L0-8L5-25L12-23L7-3L6 23Z" fill="#F6F0D7" stroke="#7DAA60" stroke-width="1.2"/><path d="M-7-3L-12-23L-5-25L0-8L5-25L12-23L7-3Z" fill="#48964A"/><path d="M0-7V21" stroke="#B8D098" stroke-width="1.5"/></g>',
+ 'ピーマン':'<path d="M0-15Q-4-24 4-25" fill="none" stroke="#45853C" stroke-width="4"/><path d="M0-13Q-16-22-20-5Q-23 12-10 20Q-3 25 2 18Q14 26 20 8Q25-9 13-16Q5-19 0-13Z" fill="#489B42" stroke="#2D7532" stroke-width="1.5"/><path d="M-9-13Q-16 1-8 14M8-13Q16 0 8 13" stroke="#82C568" stroke-width="2.5" fill="none"/>',
+ 'きのこ':'<path d="M-7-1L-9 19Q0 23 9 19L7-1Z" fill="#F0DDB9" stroke="#A77C55"/><path d="M-23 0Q-21-22 0-22Q21-22 23 0Q0 8-23 0Z" fill="#A7744A" stroke="#795039" stroke-width="1.5"/><path d="M-14-8Q0-17 12-10" stroke="#DBB487" stroke-width="2.5" fill="none"/>',
+ 'ブロッコリー':'<path d="M-6 21L-5 0L-16-9L-11-14L0-6L11-15L16-9L6 1L6 21Z" fill="#82AB54" stroke="#4F8139"/><g fill="#3B8640" stroke="#2E7137" stroke-width="1"><circle cx="-15" cy="-8" r="10"/><circle cx="0" cy="-15" r="13"/><circle cx="15" cy="-8" r="11"/><circle cx="-5" cy="-3" r="10"/><circle cx="8" cy="-3" r="10"/></g>',
+ 'とうもろこし':'<path d="M-12 14Q-16-22 0-24Q16-22 12 14Q0 26-12 14Z" fill="#F1C94E" stroke="#C59A31" stroke-width="1.3"/><g fill="#FFE183" stroke="#D8A630" stroke-width=".5">'+Array.from({length:32},(_,i)=>'<rect x="'+(-9+(i%4)*4.8)+'" y="'+(-19+Math.floor(i/4)*4.6)+'" width="4.4" height="4.2" rx="1.3"/>').join('')+'</g><path d="M-14-4Q-9 11 0 23Q-19 20-14-4M14-4Q9 11 0 23Q19 20 14-4" fill="#61994A"/>',
+ 'りんご':'<path d="M0-12Q-1-21 5-24" stroke="#6F4731" stroke-width="3" fill="none"/><path d="M1-15Q8-25 19-20Q12-10 1-15Z" fill="#55954B"/><path d="M0-12Q-15-21-21-5Q-26 10-13 21Q-5 25 0 21Q8 25 15 19Q26 7 21-5Q15-21 0-12Z" fill="#D94B49" stroke="#A92F30" stroke-width="1.4"/><path d="M-13-9Q-18-4-16 3" fill="none" stroke="#F88C7F" stroke-width="3" stroke-linecap="round"/>',
+ 'バナナ':'<path d="M-20-15Q-15 15 18 4L22 8Q6 27-10 17Q-25 7-24-14Z" fill="#F1D15A" stroke="#BE9839" stroke-width="1.5"/><path d="M-19-10Q-14 14 17 8" stroke="#FFF0A0" stroke-width="2" fill="none"/>',
+ 'いちご':'<g transform="scale(2.4)">'+PIECE['いちご']+'</g>',
+ 'ぶどう':'<path d="M0-18L5-24" stroke="#578D44" stroke-width="3"/><g fill="#8256A5" stroke="#5D387E" stroke-width=".7">'+[[-10,-10],[2,-13],[12,-7],[-13,1],[0,0],[12,5],[-6,11],[6,13],[0,20]].map(([x,y])=>'<circle cx="'+x+'" cy="'+y+'" r="7"/>').join('')+'</g>'
+};
+const CUT_PRODUCE={
+ 'たまねぎ':'<g fill="#FFF0D5" stroke="#C6A77D" stroke-width=".65"><path d="M-8-4L-2-7L3-3L0 3L-7 2Z"/><path d="M3-2L9-4L10 3L4 6L1 2Z"/><path d="M-7 5L-1 3L2 8L-4 10Z"/></g>',
+ 'にんじん':'<g fill="#F18A31" stroke="#C56B21" stroke-width=".7"><rect x="-9" y="-6" width="8" height="8" rx="1.1"/><rect x="2" y="-3" width="8" height="8" rx="1.1"/><rect x="-5" y="4" width="8" height="7" rx="1.1"/></g>',
+ 'じゃがいも':'<path d="M-8-4L0-7L8-3L8 5L0 8L-8 4Z" fill="#F2D393" stroke="#C6A16A" stroke-width=".9"/><path d="M-8-4L0 0L8-3M0 0V8" fill="none" stroke="#C6A16A" stroke-width=".65"/>',
+ 'ねぎ':'<g fill="#B4D98C" stroke="#488C43" stroke-width="1.6"><ellipse cx="-5" cy="-2" rx="3.2" ry="2.6"/><ellipse cx="4" cy="2" rx="3.5" ry="2.7"/><ellipse cx="-1" cy="7" rx="2.7" ry="2.2"/></g>',
+ 'ピーマン':'<g fill="none" stroke="#42964A" stroke-width="3" stroke-linecap="round"><path d="M-8-6Q-3-1-7 5"/><path d="M0-7Q5-2 1 4"/><path d="M7-4Q11 1 7 7"/></g>',
+ 'きのこ':'<path d="M-9-1Q-8-9 0-9Q8-9 9-1L3 1L3 8H-3V1Z" fill="#EED9B6" stroke="#9F7450" stroke-width="1.2"/><path d="M-7-1Q0-7 7-1" stroke="#B28A64" fill="none"/>',
+ 'ブロッコリー':'<path d="M-2 8V0L-5-4L4-4L2 8Z" fill="#86B85D"/><g fill="#3B8640"><circle cx="-5" cy="-4" r="4.5"/><circle cx="0" cy="-7" r="5"/><circle cx="5" cy="-3" r="4.5"/></g>',
+ 'とうもろこし':'<g fill="#F5D155" stroke="#CBA334" stroke-width=".65"><rect x="-8" y="-5" width="6" height="6" rx="2"/><rect x="0" y="-6" width="6" height="7" rx="2"/><rect x="-3" y="3" width="6" height="6" rx="2"/><rect x="5" y="2" width="5" height="6" rx="2"/></g>',
+ 'りんご':'<path d="M-9 0Q-8 9 0 9Q8 9 9 0L2-7Z" fill="#FFF1D5" stroke="#C64B41" stroke-width="1.4"/><circle cx="1" cy="2" r="1" fill="#835332"/>',
+ 'バナナ':'<ellipse rx="7" ry="5" fill="#FFF3C3" stroke="#DFC174"/><g fill="#AE9251"><circle cx="-1.7" cy="0" r=".8"/><circle cx="2" cy="1" r=".7"/></g>',
+ 'いちご':'<path d="M-6-5L7-3Q5 6 0 8Q-5 4-6-5Z" fill="#F06B76" stroke="#CB3F50" stroke-width=".9"/><path d="M0-3V4" stroke="#FFB8A7" stroke-width="1.5"/>',
+ 'ぶどう':'<ellipse rx="6" ry="5" fill="#B99AC9" stroke="#75518F" stroke-width="1.2"/><ellipse rx="2" ry="3" fill="#DBC6E3"/>'
+};
+function cutPiece(name,rate=0) {
+  const art=CUT_PRODUCE[name];
+  return art?art.replace(/#[0-9a-f]{6}/gi,c=>colorBetween(c,'#C89C52',clamp(rate,0,1)*.15)):loosePiece(name,rate);
+}
+function chopArt(name,ratio=0) {
+  const k=clamp(ratio,0,1),whole=WHOLE_PRODUCE[name]||'<g transform="scale(2.2)">'+loosePiece(name)+'</g>';
+  const pieces=Math.ceil(k*8), left=k===1?0:1-k;
+  return '<svg class="loose-art" viewBox="-42 -32 84 64" aria-hidden="true">'+
+    (left>0?'<g transform="translate('+(-k*18)+' 0) scale('+(Math.sqrt(left)) +')">'+whole+'</g>':'')+
+    Array.from({length:pieces},(_,i)=>{const a=i*2.39996,d=Math.sqrt((i+.5)/8),x=(1-k)*22+Math.cos(a)*d*(k===1?25:13),y=Math.sin(a)*d*19;return '<g transform="translate('+x.toFixed(1)+' '+y.toFixed(1)+') rotate('+((i*41)%70-35)+') scale(.72)">'+cutPiece(name)+'</g>';}).join('')+'</svg>';
+}
+
 function heatNames(s,r,index) {
   const names=[...new Set((s.uses||[ING_BY_EMOJI[s.food]]).filter(Boolean))];
   if(r.custom) {
@@ -1839,6 +1895,8 @@ function heatFoodArt(s,r,index,rate) {
     art='<ellipse cx="60" cy="33" rx="'+(44-4*k)+'" ry="24" fill="'+colorBetween(c,'#704022',burn)+'" stroke="#BD8A4B" stroke-width="1.5"/>'+Array.from({length:16},(_,i)=>'<circle cx="'+(31+(i*19)%57)+'" cy="'+(22+(i*13)%24)+'" r="'+(1.5+(i%3)*.5)+'" fill="#B78343" opacity="'+(.1+.55*k)+'"/>').join('');
   } else if(!s.pot&&names.includes('しょくパン')) {
     art='<g transform="translate(23 0) scale(.31)">'+breadBase(false)+'<rect x="40" y="36" width="160" height="126" rx="21" fill="'+colorBetween('#F5DAA0','#8C4922',burn)+'" opacity="'+(.55*k)+'"/></g>';
+  } else if(!s.pot&&names.includes('ごはん')) {
+    art=friedRiceArt(rate,names);
   } else if(!s.pot&&names.includes('ひきにく')) {
     const c=colorBetween(colorBetween('#D98C83','#8A4A28',k),'#442820',burn);
     art='<ellipse cx="60" cy="35" rx="37" ry="23" fill="'+c+'" stroke="#70412D" stroke-width="2"/><ellipse cx="58" cy="29" rx="30" ry="15" fill="#FFF" opacity=".09"/>'+Array.from({length:21},(_,i)=>'<circle cx="'+(34+(i*17)%52)+'" cy="'+(22+(i*11)%24)+'" r="1.1" fill="#E7AD80" opacity="'+(.65-.4*k)+'"/>').join('')+'<path d="M32 32Q60 18 87 30M38 44Q61 35 80 43" stroke="#59331D" opacity="'+k*.65+'" stroke-width="3" stroke-linecap="round" fill="none"/>';
@@ -1848,7 +1906,7 @@ function heatFoodArt(s,r,index,rate) {
     const solids=names.filter(x=>!LIQUIDS.includes(x)&&!['あぶら','しお','しおコショウ'].includes(x));
     const items=solids.length?solids:names;
     const count=items.length===1?7:Math.min(15,items.length*4);
-    art=Array.from({length:count},(_,i)=>{const a=i*2.39996,d=Math.sqrt((i+.5)/count),name=items[i%items.length];return '<g transform="translate('+(60+Math.cos(a)*d*40).toFixed(1)+' '+(32+Math.sin(a)*d*(s.pot?13:21)).toFixed(1)+') rotate('+((i*29)%65-32)+') scale('+(s.pot?.92:1.15)+')">'+loosePiece(name,rate)+'</g>';}).join('');
+    art=Array.from({length:count},(_,i)=>{const a=i*2.39996,d=Math.sqrt((i+.5)/count),name=items[i%items.length];return '<g transform="translate('+(60+Math.cos(a)*d*40).toFixed(1)+' '+(32+Math.sin(a)*d*(s.pot?13:21)).toFixed(1)+') rotate('+((i*29)%65-32)+') scale('+(s.pot?.92:1.15)+')">'+(r.steps.slice(1,index).some(q=>q.t==='chop'&&q.tool==='knife'&&(q.uses||[]).includes(name))?cutPiece(name,rate):loosePiece(name,rate))+'</g>';}).join('');
   }
   const oil=!s.pot&&r.steps.slice(1,index).some(q=>q.t==='add'&&q.ingredient==='あぶら');
   return '<svg class="heat-art" viewBox="0 0 120 64" aria-hidden="true">'+(oil?'<ellipse cx="60" cy="33" rx="48" ry="22" fill="#F3CE74" opacity=".25"/>':'')+art+'</svg>';
@@ -1961,6 +2019,51 @@ function stepStir(s, r, p) {
 }
 
 // 5) かける・そそぐ（長押し）
+
+// Track angular movement on the omelet; moving outside the food does not add sauce.
+function saucePoint(x,y) {return ((x-60)/33)**2+((y-48)/14)**2<=1;}
+function sauceDelta(a,b) {
+  if(!a||!b||!saucePoint(a.x,a.y)||!saucePoint(b.x,b.y))return 0;
+  const ax=(a.x-60)/33,ay=(a.y-48)/14,bx=(b.x-60)/33,by=(b.y-48)/14;
+  if(Math.hypot(ax,ay)<.18||Math.hypot(bx,by)<.18)return 0;
+  let d=Math.atan2(by,bx)-Math.atan2(ay,ax);if(d>Math.PI)d-=2*Math.PI;if(d<-Math.PI)d+=2*Math.PI;
+  return Math.abs(d)<1.3?d:0;
+}
+function ketchupArt(paths) {return paths.filter(x=>x.length>1).map(x=>'<path d="M'+x.map(pt=>pt.x.toFixed(2)+' '+pt.y.toFixed(2)).join(' L')+'" fill="none" stroke="#BC3028" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M'+x.map(pt=>pt.x.toFixed(2)+' '+(pt.y-.5).toFixed(2)).join(' L')+'" fill="none" stroke="#EE6151" stroke-width="1" stroke-linecap="round" opacity=".72"/>').join('');}
+function stepDrizzle(s,r,p) {
+  let active=null,last=null,paths=[],line=null,turn=0,done=false,dir=0,net=0;
+  const target=3*Math.PI,t0=performance.now();
+  p.innerHTML='<h2>'+s.title+'</h2><p class="hint">オムライスの上を 指で くるくる なぞろう！</p>'+
+    '<div class="spread-label">'+ingredientMark('ケチャップ')+'<b>ケチャップ</b></div>'+
+    '<svg id="sauce-board" class="spread-board" viewBox="0 0 120 90" role="img" aria-label="オムライス">'+
+    '<defs><clipPath id="sauce-clip"><ellipse cx="60" cy="48" rx="34" ry="15"/></clipPath></defs>'+PLATE+OMELET+
+    '<ellipse cx="60" cy="48" rx="25" ry="10" stroke="#B18439" stroke-width=".45" stroke-dasharray="2 2" fill="none" opacity=".55"/>'+
+    '<g id="sauce-ink" clip-path="url(#sauce-clip)"></g><g id="sauce-tip" pointer-events="none" visibility="hidden"><g transform="rotate(28)"><path d="M-3-3L-4-10H4L3-3Z" fill="#FFF4D8" stroke="#B98862" stroke-width=".6"/><rect x="-5" y="-26" width="10" height="16" rx="2.5" fill="#D34439" stroke="#A82822" stroke-width=".7"/><rect x="-4" y="-23" width="8" height="7" rx="1" fill="#FFF2D8"/></g></g></svg>'+
+    '<div class="ring"><div class="bar"><b id="sauce-bar" style="width:0%"></b></div></div><div class="count" id="sauce-count">0%</div>';
+  const svg=$('#sauce-board'),ink=$('#sauce-ink'),tip=$('#sauce-tip');
+  const point=e=>{const pt=svg.createSVGPoint();pt.x=e.clientX;pt.y=e.clientY;return pt.matrixTransform(svg.getScreenCTM().inverse());};
+  const move=pt=>{
+    if(done)return;
+    if(!saucePoint(pt.x,pt.y)){last=null;line=null;tip.setAttribute('visibility','hidden');return;}
+    const q={x:pt.x,y:pt.y};
+    if(!line){line=[q];paths.push(line);}
+    else if(last&&Math.hypot(q.x-last.x,q.y-last.y)>.25){
+      const d=sauceDelta(last,q);line.push(q);
+      // Count net rotation, so repeatedly wiggling over one tiny section cannot complete.
+      if(Math.abs(d)>.001){if(!dir)dir=Math.sign(d);net+=d*dir;turn=Math.max(turn,net);}
+    }
+    last=q;
+    ink.innerHTML=ketchupArt(paths);tip.setAttribute('transform','translate('+q.x+' '+q.y+')');tip.setAttribute('visibility','visible');
+    const percent=Math.min(100,Math.floor(turn/target*100));
+    $('#sauce-bar').style.width=percent+'%';$('#sauce-count').textContent=percent+'%';
+    if(turn>=target){done=true;active=null;tip.setAttribute('visibility','hidden');S.cust.ketchupPaths=paths;$('#sauce-count').textContent='できた！';finishStep(timeScore((performance.now()-t0)/1000,14));}
+  };
+  svg.addEventListener('pointerdown',e=>{if(done||active!==null)return;e.preventDefault();active=e.pointerId;try{svg.setPointerCapture(active);}catch(_){}last=null;line=null;move(point(e));});
+  svg.addEventListener('pointermove',e=>{if(active!==e.pointerId||done)return;e.preventDefault();move(point(e));});
+  const stop=e=>{if(active!==e.pointerId)return;active=null;last=null;line=null;tip.setAttribute('visibility','hidden');};
+  ['pointerup','pointercancel','lostpointercapture'].forEach(x=>svg.addEventListener(x,stop));
+}
+
 function stepPour(s, r, p) {
   const lo = 58 - 2 * save.up.pan, hi = 76 + 2 * save.up.pan, art = s.art || POUR_ART[artOf(r)];
   let amt = 0, hold = false, done = false;
@@ -2076,7 +2179,7 @@ function serve() {
     : stars === 3 ? 'すっごくおいしい！また来るね！' : stars === 2 ? 'おいしかった！ごちそうさま。' : 'うーん、まあまあかな…';
   const f = $('#g-face'); f.textContent = late ? '😤' : stars === 3 ? '😍' : stars === 2 ? '😋' : '😐'; f.className = 'face' + (stars >= 2 && !late ? ' happy' : '');
   $('#g-stage').innerHTML =
-    '<div class="panel serve">' + dishSVG(artOf(r), 'serve-dish') +
+    '<div class="panel serve">' + (r.id==='omurice'&&c.ketchupPaths?'<svg class="serve-dish" viewBox="0 0 120 90" aria-hidden="true">'+PLATE+OMELET+ketchupArt(c.ketchupPaths)+'</svg>':dishSVG(artOf(r), 'serve-dish')) +
     '<div class="stars" id="stars" role="img" aria-label="★' + stars + '">' + [0, 1, 2].map(() => icon('star')).join('') + '</div>' +
     '<div class="bubble">「' + say + '」</div>' +
     '<div class="receipt"><div><span' + (r.custom ? ' translate="no"' : '') + '>' + esc(r.name) + '</span><span>' + yen(base) + '</span></div><div><span>チップ</span><span>' + yen(tip) + '</span></div>' +
@@ -2390,7 +2493,7 @@ document.querySelectorAll('[data-close]').forEach(b => b.onclick = () => {
 load(); renderTitle(); requestAnimationFrame(loop);
 try { if ('serviceWorker' in navigator && location.protocol.startsWith('http')) navigator.serviceWorker.register('sw.js').catch(() => {}); } catch (e) {}
 // テスト用（ブラウザーの開発ツールから参照できる）
-window.__ryouri = { get S() { return S; }, get save() { return save; }, RECIPES, finishStep: v => finishStep(v), allRecipes, composeDish, autoName, buildSteps, spreadCells, coverSpread, heatFoodArt, looseMark, addPreview };
+window.__ryouri = { get S() { return S; }, get save() { return save; }, RECIPES, finishStep: v => finishStep(v), allRecipes, composeDish, autoName, buildSteps, spreadCells, coverSpread, heatFoodArt, looseMark, addPreview, chopArt, cutPiece, sauceDelta, saucePoint, friedRiceArt };
 </script>
 </body>
 </html>
