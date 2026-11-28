@@ -305,5 +305,16 @@ window.I18N_DICT={
 "できあがり！":["Done!","完成！","¡Listo!"],
 "ソース":["Sauce","酱汁","Salsa"],
 "ソースを かけよう":["Add the sauce","浇上酱汁","Añade la salsa"],
-"ハンバーグに ソースを かける":["Add sauce to the hamburger steak","给汉堡肉饼浇酱汁","Añade salsa al filete de hamburguesa"]
+"ハンバーグに ソースを かける":["Add sauce to the hamburger steak","给汉堡肉饼浇酱汁","Añade salsa al filete de hamburguesa"],
+"メニューの わくを ふやす":["Expand menu slots","增加菜单栏位","Ampliar espacios del menú"],
+"メニューの わく":["Menu slots","菜单栏位","Espacios del menú"],
+"わくを ふやす":["Add a slot","增加栏位","Añadir espacio"],
+"新メニューを 1つ ふやせるよ":["Add one new menu slot","可增加一个新菜单栏位","Añade un espacio para una receta"],
+"ふやした わくは ずっと つかえるよ。":["Purchased slots are permanent.","购买的栏位永久有效。","Los espacios comprados son permanentes."],
+"メニューの わくが ふえたよ！":["Menu expanded!","菜单栏位已增加！","¡Menú ampliado!"],
+"いまの わく":["Current slots","当前栏位","Espacios actuales"],
+"ふえる わく":["Extra slot","新增栏位","Espacio adicional"],
+"新メニューを つくる":["Create a new recipe","创建新菜单","Crear una receta"],
+"新メニューを もっと つくろう！":["Create more recipes!","创建更多新菜单！","¡Crea más recetas!"],
+"お金が たりないよ。お店で かせごう！":["Not enough money. Earn more at your restaurant!","钱不够，在餐厅赚取更多吧！","No tienes suficiente dinero. ¡Gana más en tu restaurante!"]
 };
