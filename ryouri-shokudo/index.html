@@ -346,6 +346,10 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
 .spoon { position: absolute; width: 54px; pointer-events: none; transform: rotate(-28deg); transform-origin: 50% 25%; transition: opacity .2s; }
 .spoon svg { display: block; width: 100%; height: auto; }
 .ring { width: 100%; max-width: 330px; }
+.spread-board {display:block;width:min(100%,300px);max-height:245px;touch-action:none;user-select:none;-webkit-user-select:none;cursor:crosshair;flex:none;overflow:visible}
+.spread-board * {touch-action:none;-webkit-touch-callout:none}
+.spread-label {display:flex;align-items:center;gap:9px;background:var(--good-soft);padding:4px 13px;border-radius:14px;font-size:16px}
+.spread-label .ingredient-art,.spread-label .emoji-art {width:42px;height:42px;display:block}
 .ring .bar { background: var(--line); }
 
 /* かける・そそぐ */
@@ -817,7 +821,7 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
     <div class="how-row"><span class="how-ic"><svg class="ic" aria-hidden="true"><use href="#i-knife"/></svg></span><p>きる・にぎる：まな板をどんどんタップ！はやいほど高得点。</p></div>
     <div class="how-row"><span class="how-ic"><svg class="ic" aria-hidden="true"><use href="#i-flame"/></svg></span><p>やく・にる：火をつけて、メーターがみどりのところで火をとめよう。</p></div>
     <div class="how-row"><span class="how-ic"><svg class="ic" aria-hidden="true"><use href="#i-spoon"/></svg></span><p>まぜる：ボウルの中を指でぐるぐるなぞろう。ボタンでもOK。</p></div>
-    <div class="how-row"><span class="how-ic"><svg class="ic" aria-hidden="true"><use href="#i-bottle"/></svg></span><p>かける：ボタンをおしている間そそぐよ。みどりのところではなそう。</p></div>
+    <div class="how-row"><span class="how-ic"><svg class="ic" aria-hidden="true"><use href="#i-bottle"/></svg></span><p>かける：ボタンをおしている間そそぐよ。みどりのところではなそう。</p></div><div class="how-row"><span class="how-ic"><svg class="ic" aria-hidden="true"><use href="#i-knife"/></svg></span><p>ぬる：パンを 指で なぞって すみまで ぬろう。</p></div>
     <div class="how-row"><span class="how-ic"><svg class="ic" aria-hidden="true"><use href="#i-shaker"/></svg></span><p>ふる：ゆれるびんが、みどりのところに来たらタップ。めだまやきは、しょうゆかしおコショウか、注文をよく見てね。</p></div>
     <div class="how-row"><span class="how-ic star"><svg class="ic" aria-hidden="true"><use href="#i-star"/></svg></span><p>星3つをめざそう！売上で道具を買うと、もっとつくりやすくなるよ。</p></div>
     <div class="how-row"><span class="how-ic"><svg class="ic" aria-hidden="true"><use href="#i-note"/></svg></span><p>新メニュー：ためたお金で、じぶんだけのメニューをつくれるよ。お客さんが注文してくれるよ。</p></div>
@@ -871,7 +875,7 @@ const icon = (name, cls) => '<svg class="ic' + (cls ? ' ' + cls : '') + '" aria-
 
 /* ---------- データ ---------- */
 const ING = {
-  'ごはん': '🍚', 'しお': '🧂', 'のり': '⬛', 'たまご': '🥚', 'あぶら': '🫒', 'しょうゆ': '🍶',
+  'しょくパン': '🍞', 'いちごジャム': '🍓\uFE0F', 'ブルーベリージャム': '🫐', 'ごはん': '🍚', 'しお': '🧂', 'のり': '⬛', 'たまご': '🥚', 'あぶら': '🫒', 'しょうゆ': '🍶',
   'とうふ': '⬜', 'ねぎ': '🌱', 'みそ': '🟫', 'だし': '🐟', 'たまねぎ': '🧅', 'ケチャップ': '🍅',
   'じゃがいも': '🥔', 'にんじん': '🥕', 'おにく': '🥩', 'カレールウ': '🍫', 'ひきにく': '🍖', 'パンこ': '🍞',
   'こむぎこ': '🌾', 'ぎゅうにゅう': '🥛', 'バター': '🧈', 'めん': '🍝', 'スープ': '🥣', 'チャーシュー': '🥓',
@@ -885,7 +889,16 @@ function addIngredient(x, chip = 'いれる', target = 'plate') {
   const verb = { 'いれる': 'いれよう', 'のせる': 'のせよう', 'まく': 'まこう', 'ひく': 'ひこう' }[chip];
   return { t: 'add', chip, title: x + 'を ' + verb, ingredient: x, target, uses: [x] };
 }
+const SPREAD_COLORS = {'バター':'#F3CE57','いちごジャム':'#D94764','ブルーベリージャム':'#775098'};
+function spreadStep(x, prior = []) {
+  return {t:'spread', chip:'ぬる', title:x+'を ぬろう', ingredient:x, color:SPREAD_COLORS[x], prior, uses:['しょくパン',x]};
+}
 const RECIPES = [
+  {id:'toast', name:'トースト', price:200, unlock:1, ings:['しょくパン','バター'], steps:[
+    {t:'select'}, {t:'heat',chip:'やく',title:'しょくパンを やこう',food:'🍞',speed:24,uses:['しょくパン']}, spreadStep('バター')
+  ], opts:[{opt:'バター'}, ...['いちごジャム','ブルーベリージャム'].map((x,i)=>({opt:x,art:i?'toast_blueberry':'toast_strawberry',ings:['しょくパン',x],steps:[
+    {t:'select'}, {t:'heat',chip:'やく',title:'しょくパンを やこう',food:'🍞',speed:24,uses:['しょくパン']}, spreadStep(x)
+  ]}))]},
   { id: 'onigiri', name: 'おにぎり', price: 150, unlock: 1, ings: ['ごはん', 'しお', 'のり'], steps: [
     { t: 'select' },
     { t: 'chop', chip: 'にぎる', title: 'ぎゅっと にぎろう', food: '🍚', tool: 'hands', n: 6, uses: ['ごはん'] },
@@ -949,7 +962,11 @@ const ILLUST_MODES = ['set1', 'original'];
 const ING_BY_EMOJI = Object.fromEntries(Object.entries(ING).map(([name, emoji]) => [emoji, name]));
 const imgHTML = (src, cls) => '<img class="' + cls + ' illust-img" src="' + src + '" alt="" decoding="async" draggable="false">';
 // 素材画像のない材料（あとから足した材料）は、ここで描く（ingredients-reviewed.js と同じ 160×160 の線画）
+const JAM_JAR = (color, fruit) => '<rect x="39" y="44" width="82" height="93" rx="16" fill="'+color+'"/><rect x="35" y="29" width="90" height="23" rx="6" fill="#F4E1B8"/><path d="M44 40H116" stroke="#C79C66" stroke-width="3" stroke-dasharray="5 6"/><rect x="49" y="69" width="62" height="47" rx="9" fill="#FFF5DB"/><g transform="translate(80 92)" stroke="none">'+fruit+'</g><path d="M48 57V64" stroke="#FFF" opacity=".7" stroke-width="5"/>';
 const EXTRA_ING = {
+  'しょくパン': '<path d="M35 60Q13 34 43 21Q80 6 117 21Q147 34 125 60L125 130Q125 139 115 139H45Q35 139 35 130Z" fill="#BA7938"/><path d="M45 60Q25 39 50 30Q80 17 110 30Q135 39 115 60V127H45Z" fill="#FFF0CA" stroke="#D5A66C"/><g fill="#D6B784" stroke="none"><circle cx="62" cy="58" r="2"/><circle cx="99" cy="70" r="2"/><circle cx="76" cy="97" r="2.6"/><circle cx="102" cy="115" r="1.7"/></g>',
+  'いちごジャム': JAM_JAR('#CE3657','<path d="M0 15Q-25-5-12-13Q-5-17 0-10Q5-17 12-13Q25-5 0 15Z" fill="#DA3554"/><path d="M0-7L-10-16L0-13L10-16Z" fill="#43934E"/>'),
+  'ブルーベリージャム': JAM_JAR('#694486','<g fill="#6955A3"><circle cx="-9" cy="-3" r="10"/><circle cx="8" cy="-6" r="10"/><circle cy="8" r="10"/></g><path d="M-5-12Q0-22 10-17" fill="#55974D"/>'),
   'しおコショウ': '<rect x="47" y="50" width="66" height="92" rx="15" fill="#F3EFE7"/>' +
     '<path d="M50 74H110V126Q110 139 97 139H63Q50 139 50 126Z" fill="#D9D3C8" stroke="none"/>' +
     '<g fill="#3B2E28" stroke="none"><circle cx="58" cy="80" r="2.3"/><circle cx="71" cy="77" r="1.8"/><circle cx="90" cy="79" r="2.2"/><circle cx="102" cy="82" r="1.8"/><circle cx="60" cy="129" r="2"/><circle cx="76" cy="133" r="2.3"/><circle cx="93" cy="130" r="1.9"/><circle cx="104" cy="126" r="2.2"/><circle cx="83" cy="76" r="1.6"/></g>' +
@@ -1005,7 +1022,18 @@ function grainsSVG(cx, cy, rx, ry, pepper, n, seed) {
   return '<g>' + out + '</g>';
 }
 const NOODLES = '<path d="M28 40 Q34 34 40 40 T52 40 T64 40 T76 40 T88 40" fill="none" stroke="#F8E39A" stroke-width="3"/><path d="M32 46 Q38 40 44 46 T56 46 T68 46" fill="none" stroke="#F8E39A" stroke-width="3"/><circle cx="76" cy="38" r="9" fill="#E8B08A" stroke="#B5703F" stroke-width="2"/><ellipse cx="46" cy="34" rx="8" ry="6" fill="#FFFFFF"/><circle cx="46" cy="34" r="3.5" fill="#F2A91B"/><circle cx="60" cy="44" r="2.4" fill="#4C9A3C"/><circle cx="88" cy="45" r="2.4" fill="#4C9A3C"/><rect x="58" y="30" width="5" height="10" fill="#2A3A2E"/>';
+// A bread slice uses the same geometry in the interactive and finished artwork.
+const BREAD_CRUMB = {x:40,y:36,w:160,h:126,r:21};
+function breadBase(toasted = true) {
+  return '<path d="M29 67Q5 39 35 23Q76 3 120 15Q164 3 205 23Q235 39 211 67V153Q211 174 189 174H51Q29 174 29 153Z" fill="'+(toasted?'#A9632D':'#CF9857')+'" stroke="#8F5329" stroke-width="3"/><rect x="40" y="36" width="160" height="126" rx="21" fill="'+(toasted?'#F5DDA7':'#FFF0CC')+'"/><path d="M40 42Q120 17 200 42" fill="none" stroke="#F9E4B6" stroke-width="7" stroke-linecap="round"/><g fill="#C69A63" opacity=".55">'+Array.from({length:28},(_,i)=>'<circle cx="'+(53+(i*43)%135)+'" cy="'+(48+(i*31)%102)+'" r="'+(1+(i%3)*.55)+'"/>').join('')+'</g>';
+}
+function breadFinish(names = [], toasted = true) {
+  const colors=names.map(x=>SPREAD_COLORS[x]).filter(Boolean);
+  return breadBase(toasted)+colors.map((color,i)=>'<rect x="'+(43+i*2)+'" y="'+(39+i*2)+'" width="'+(154-i*4)+'" height="'+(120-i*4)+'" rx="19" fill="'+color+'" opacity=".90"/><path d="M57 '+(58+i*6)+' Q116 '+(42+i*6)+' 181 '+(59+i*6)+' M59 '+(91+i*5)+' Q125 '+(76+i*5)+' 183 '+(91+i*5)+' M59 '+(130-i*4)+' Q121 '+(117-i*4)+' 181 '+(130-i*4)+'" stroke="#FFF" stroke-opacity=".19" stroke-width="4" stroke-linecap="round" fill="none"/>').join('');
+}
+const toastDish = names => PLATE+'<g transform="translate(20 4) scale(.333333)">'+breadFinish(names)+'</g>';
 const DISH = {
+  toast:toastDish(['バター']), toast_strawberry:toastDish(['いちごジャム']), toast_blueberry:toastDish(['ブルーベリージャム']),
   onigiri: PLATE + '<path d="M60 12 Q70 13 84 40 Q90 56 60 57 Q30 56 36 40 Q50 13 60 12Z" fill="#FFFFFF" stroke="#E2DACC" stroke-width="2"/><rect x="46" y="40" width="28" height="17" rx="3" fill="#25302B"/>',
   medamayaki: PLATE + EGG + SOY_LINE,
   medamayaki_shio: PLATE + EGG + grainsSVG(59, 46.5, 27, 12, true, 26, .4),
@@ -1063,14 +1091,15 @@ const VESSELS = [
 ];
 const VESSEL_IDS = VESSELS.map(v => v.id);
 const CATS = [
-  { name: 'ごはん・めん', list: ['ごはん', 'めん', 'こむぎこ', 'パンこ', 'のり'] },
+  { name: 'ごはん・めん', list: ['ごはん', 'めん', 'しょくパン', 'こむぎこ', 'パンこ', 'のり'] },
   { name: 'やさい', list: ['たまねぎ', 'にんじん', 'じゃがいも', 'ねぎ', 'ピーマン', 'きのこ', 'ブロッコリー', 'とうもろこし'] },
   { name: 'くだもの', list: ['いちご', 'バナナ', 'ぶどう', 'りんご'] },
   { name: 'にく・たまご', list: ['おにく', 'ひきにく', 'チャーシュー', 'たまご', 'とうふ', 'チーズ', 'ぎゅうにゅう', 'バター'] },
-  { name: 'あじつけ', list: ['しお', 'しおコショウ', 'しょうゆ', 'みそ', 'だし', 'あぶら', 'ケチャップ', 'カレールウ', 'シロップ', 'スープ'] }
+  { name: 'あじつけ', list: ['しお', 'しおコショウ', 'しょうゆ', 'みそ', 'だし', 'あぶら', 'ケチャップ', 'カレールウ', 'シロップ', 'スープ', 'いちごジャム', 'ブルーベリージャム'] }
 ];
 // 料理の絵で使う材料の色
 const ING_COLOR = {
+  'しょくパン':'#F3D9A5', 'いちごジャム':SPREAD_COLORS['いちごジャム'], 'ブルーベリージャム':SPREAD_COLORS['ブルーベリージャム'],
   'ごはん': '#FFFFFF', 'しお': '#F2F2EE', 'のり': '#25302B', 'たまご': '#F5C33B', 'あぶら': '#F3C24E', 'しょうゆ': '#5A2D14',
   'とうふ': '#FFFBF0', 'ねぎ': '#5DAA48', 'みそ': '#B4783A', 'だし': '#E2C27E', 'たまねぎ': '#F1DDB4', 'ケチャップ': '#D9342B',
   'じゃがいも': '#F2D27A', 'にんじん': '#F08A24', 'おにく': '#A8492F', 'カレールウ': '#8E4E1C', 'ひきにく': '#9C4A33', 'パンこ': '#E8C27A',
@@ -1080,13 +1109,14 @@ const ING_COLOR = {
 };
 const POUR_TINT = { 'ぎゅうにゅう': '#E6DAC2' };   // 白い牛乳は、白い画面でも見えるようにクリーム色でそそぐ
 const LIQUIDS = ['しょうゆ', 'ケチャップ', 'シロップ', 'スープ', 'ぎゅうにゅう', 'だし'];   // かけられる
-const PASTES = ['しお', 'しおコショウ', 'あぶら', 'みそ', 'カレールウ', 'パンこ', 'こむぎこ'];          // 形がのこらない
+const PASTES = ['しお', 'しおコショウ', 'あぶら', 'みそ', 'カレールウ', 'パンこ', 'こむぎこ', 'いちごジャム', 'ブルーベリージャム'];          // 形がのこらない
 const SHAKERS = ['しお', 'しおコショウ'];   // 「かける」をえらぶと、ふりかける
 const BROTHS = ['スープ', 'だし', 'ぎゅうにゅう'];
 const FRUITS = ['いちご', 'バナナ', 'ぶどう', 'りんご'];
 const VEGGIES = ['たまねぎ', 'にんじん', 'じゃがいも', 'ねぎ', 'ピーマン', 'きのこ', 'ブロッコリー', 'とうもろこし'];
 const isSolid = x => !LIQUIDS.includes(x) && !PASTES.includes(x);
 const VERBS = [
+  {id:'nuru',name:'ぬる',icon:'knife',can:x=>Object.prototype.hasOwnProperty.call(SPREAD_COLORS,x),hint:'しょくパンと バターや ジャムを えらんでね'},
   { id: 'kiru', name: 'きる', icon: 'knife', can: x => isSolid(x) && !['ごはん', 'めん', 'ひきにく'].includes(x), hint: 'やさいや くだものを えらぶと きれるよ' },
   { id: 'nigiru', name: 'にぎる', icon: 'rice', can: x => ['ごはん', 'ひきにく', 'じゃがいも', 'こむぎこ'].includes(x), hint: 'ごはんや ひきにくを えらぶと にぎれるよ' },
   { id: 'yaku', name: 'やく', icon: 'pan', can: x => isSolid(x) || x === 'こむぎこ', hint: 'やける ざいりょうを えらんでね' },
@@ -1097,6 +1127,7 @@ const VERBS = [
 const VID = Object.fromEntries(VERBS.map(v => [v.id, v]));
 // えらんだ「つくりかた」を、材料にあう自然なことばにする（工程のチップ・お題）
 function verbWord(v, x, vessel) {
+  if(v==='nuru') return ['ぬる','ぬろう'];
   if (v === 'yaku' && ['めん', 'ごはん', 'ピーマン', 'たまねぎ', 'きのこ', 'ブロッコリー'].includes(x)) return ['いためる', 'いためよう'];
   if (v === 'niru' && ['めん', 'たまご', 'ブロッコリー', 'とうもろこし', 'じゃがいも'].includes(x)) return ['ゆでる', 'ゆでよう'];
   if (v === 'nigiru' && x !== 'ごはん') return ['まるめる', 'まるめよう'];
@@ -1124,7 +1155,9 @@ function completePlan(c) {
   const inferred = c.ings.filter(x => !explicit.has(x));
   const early = [], late = [], toppings = [];
   inferred.forEach(x => {
-    if (SHAKERS.includes(x)) late.push({v: 'kakeru', x});
+    if (c.ings.includes('しょくパン') && Object.prototype.hasOwnProperty.call(SPREAD_COLORS,x)) late.push({v:'nuru',x});
+    else if (x==='しょくパン' && (plan.some(p=>p.v==='nuru') || c.ings.some(y=>Object.prototype.hasOwnProperty.call(SPREAD_COLORS,y)))) { /* used as the spread surface */ }
+    else if (SHAKERS.includes(x)) late.push({v: 'kakeru', x});
     else if (x === 'あぶら' && hasHeat) early.push({v: 'add', x, chip: 'ひく', target: 'pan'});
     else if (x === 'のり' && plan.some(p => p.v === 'nigiru' && p.x === 'ごはん')) toppings.push({v: 'add', x, chip: 'まく'});
     else if (hasMix) { /* included in the actual mixing step below */ }
@@ -1142,19 +1175,20 @@ function buildSteps(c) {
   const plan = completePlan(c), liquid = potColor({...c, plan});
   const steps = plan.map((p, i) => {
     if (p.v === 'add') return addIngredient(p.x, p.chip, p.target || c.vessel);
+    if(p.v==='nuru') return {...spreadStep(p.x,plan.slice(0,i).filter(q=>q.v==='nuru').map(q=>q.x)), toasted:plan.slice(0,i).some(q=>q.v==='yaku'&&q.x==='しょくパン')};
     const [chip, verb] = verbWord(p.v, p.x, c.vessel), em = ING[p.x], uses = [p.x];
     const title = p.v === 'mazeru' ? 'ざいりょうを ' + verb : p.x + 'を ' + verb;
     if (p.v === 'kiru' || p.v === 'nigiru') return { t: 'chop', chip, title, food: em, tool: p.v === 'nigiru' ? 'hands' : 'knife', n: 6, uses };
     if (p.v === 'yaku') return { t: 'heat', chip, title, food: p.x === 'たまご' ? '🍳' : p.x === 'こむぎこ' ? '🥞' : em, speed: 26, uses };
     if (p.v === 'niru') return { t: 'heat', chip, title, food: em, pot: true, liquid, speed: 24, uses };
     if (p.v === 'mazeru') {
-      const reserved = plan.filter((q,j) => (q.v === 'kakeru' && j > i) || (q.v === 'add' && (q.chip === 'ひく' || j > i))).map(q => q.x);
+      const reserved = plan.filter((q,j) => ((q.v === 'kakeru' || q.v==='nuru') && j > i) || (q.v === 'add' && (q.chip === 'ひく' || j > i))).map(q => q.x);
       const names = c.ings.filter(x => !reserved.includes(x));
       return { t: 'stir', chip, title, items: names.map(x => ING[x]), turns: names.length >= 4 ? 3 : 2, uses: names };
     }
     // Draw only ingredients already present, not later toppings/seasonings.
     const before = plan.slice(0, i);
-    const later = plan.slice(i).filter(q => q.v === 'kakeru' || q.v === 'add').map(q => q.x);
+    const later = plan.slice(i).filter(q => q.v === 'kakeru' || q.v === 'add' || q.v==='nuru').map(q => q.x);
     const priorNames = c.ings.filter(x => !later.includes(x) || before.some(q => q.x === x));
     const preview = priorNames.length ? composeDish({...c, ings: priorNames, plan: before.filter(q => !q.x || priorNames.includes(q.x))}, false) : null;
     const art = preview ? preview.dish : emptyVessel(c.vessel);
@@ -1171,6 +1205,7 @@ function buildSteps(c) {
 /* ---------- 新メニューづくり：料理の絵 ---------- */
 // 材料のかけら（0,0 を中心に約16×12。お皿の上に並べる）
 const PIECE = {
+  'しょくパン':'<g transform="translate(-10 -8) scale(.08333)">'+breadBase(false)+'</g>',
   'ごはん': '<path d="M-8 4Q-9-5 0-6Q9-5 8 4Z" fill="#FFF" stroke="#E2DACC" stroke-width="1.2"/>',
   'のり': '<rect x="-6" y="-4.5" width="12" height="9" rx="1.2" fill="#25302B"/>',
   'たまご': '<ellipse rx="7.5" ry="6" fill="#FFFDF5" stroke="#E9DCC4" stroke-width="1.2"/><circle r="3.6" fill="#F5AE16"/>',
@@ -1249,6 +1284,7 @@ function composeDish(c, complete = true) {
   const V = c.vessel, ings = c.ings, of = v => c.plan.filter(p => p.v === v).map(p => p.x), has = v => c.plan.some(p => p.v === v);
   const solids = ings.filter(isSolid), nig = of('nigiru'), yak = of('yaku'), kir = of('kiru'), kak = of('kakeru');
   const used = new Set(), grilled = new Set(), forms = [];
+  if(ings.includes('しょくパン')) { const spreads=of('nuru'); used.add('しょくパン'); spreads.forEach(x=>used.add(x)); forms.push('<g transform="translate(-17 -13) scale(.14)">'+breadFinish(spreads,yak.includes('しょくパン'))+'</g>'); }
   nig.forEach(x => {
     if (used.has(x)) return; used.add(x);
     if (x === 'ごはん') { const nori = ings.includes('のり'); if (nori) used.add('のり'); forms.push(FORM.onigiri(nori)); }
@@ -1329,7 +1365,8 @@ function autoName(d, R) {
   const ings = d.ings, V = d.vessel, of = v => d.plan.filter(p => p.v === v).map(p => p.x), has = v => d.plan.some(p => p.v === v);
   const yak = of('yaku'), nig = of('nigiru'), fruit = ings.some(x => FRUITS.includes(x)), veg = ings.some(x => VEGGIES.includes(x));
   let kind, skip = [], no = false;
-  if (nig.includes('ごはん')) { kind = 'おにぎり'; skip = ['ごはん', 'のり']; }
+  if(ings.includes('しょくパン')) { kind=yak.includes('しょくパン')?'トースト':'パン'; skip=['しょくパン']; }
+  else if (nig.includes('ごはん')) { kind = 'おにぎり'; skip = ['ごはん', 'のり']; }
   else if (nig.includes('ひきにく')) { kind = 'にくだんご'; skip = ['ひきにく']; }
   else if (nig.length) { kind = 'だんご'; skip = ['こむぎこ']; }
   else if (yak.includes('こむぎこ')) { kind = 'パンケーキ'; skip = ['こむぎこ', 'たまご', 'ぎゅうにゅう', 'バター']; }
@@ -1365,7 +1402,7 @@ const devPrice = d => clamp(Math.round((60 + 50 * d.ings.length + 80 * d.plan.le
 const devCost = d => devPrice(d) * 2;
 const cleanIngs = a => (Array.isArray(a) ? a : []).filter((x, i, arr) => own(ING, x) && arr.indexOf(x) === i).slice(0, ING_MAX);
 const cleanPlan = (plan, ings) => (Array.isArray(plan) ? plan : [])
-  .filter(p => p && own(VID, p.v) && (p.v === 'mazeru' ? ings.length >= ING_MIN : ings.includes(p.x) && VID[p.v].can(p.x)))
+  .filter(p => p && own(VID, p.v) && (p.v === 'mazeru' ? ings.length >= ING_MIN : ings.includes(p.x) && VID[p.v].can(p.x) && (p.v!=='nuru' || ings.includes('しょくパン'))))
   .slice(0, PLAN_MAX).map(p => ({ v: p.v, x: p.v === 'mazeru' ? null : p.x }));
 function cleanCustom(c) {
   if (!c || typeof c.id !== 'string' || !/^my[0-9a-z]{4,24}$/.test(c.id)) return null;
@@ -1577,7 +1614,7 @@ function runStep(k) {
   if (k >= r.steps.length) return serve();
   const s = r.steps[k];
   $('#g-stage').innerHTML = stepBar(r, k) + '<div class="panel" id="panel"></div>';
-  ({ select: stepSelect, chop: stepChop, heat: stepHeat, stir: stepStir, pour: stepPour, shake: stepShake, add: stepAdd })[s.t](s, r, $('#panel'));
+  ({ select: stepSelect, chop: stepChop, heat: stepHeat, stir: stepStir, pour: stepPour, shake: stepShake, add: stepAdd, spread:stepSpread })[s.t](s, r, $('#panel'));
 }
 function finishStep(score) {
   S.upd = null; sizzleOff();
@@ -1615,6 +1652,52 @@ function stepSelect(s, r, p) {
 }
 
 // A material must be tapped and visibly moved into the cooking vessel.
+// Coverage is measured over the crumb only, not by the number of swipes.
+function spreadCells() {
+  const {x,y,w,h,r}=BREAD_CRUMB, cells=[];
+  for(let cy=y+4;cy<y+h;cy+=8) for(let cx=x+4;cx<x+w;cx+=8) {
+    const dx=Math.max(x+r-cx,0,cx-(x+w-r)), dy=Math.max(y+r-cy,0,cy-(y+h-r));
+    if(dx*dx+dy*dy<=r*r) cells.push({x:cx,y:cy,covered:false});
+  }
+  return cells;
+}
+function coverSpread(cells,x,y,radius=14) {
+  for(const c of cells) if(!c.covered && (c.x-x)**2+(c.y-y)**2<=radius**2) c.covered=true;
+  return cells.filter(c=>c.covered).length/cells.length;
+}
+function stepSpread(s,r,p) {
+  const cells=spreadCells(), target=.90, t0=performance.now();
+  let active=null,last=null,stroke=null,d='',done=false,coverage=0;
+  const previous=s.prior||[];
+  p.innerHTML='<h2>'+s.title+'</h2><p class="hint">パンを なぞって すみまで ぬろう！</p>'+
+    '<div class="spread-label">'+ingredientMark(s.ingredient)+'<b>'+s.ingredient+'</b></div>'+
+    '<svg id="spread-board" class="spread-board" viewBox="0 0 240 190" aria-label="パンを なぞって すみまで ぬろう！" role="img">'+
+    '<defs><clipPath id="spread-crumb"><rect x="40" y="36" width="160" height="126" rx="21"/></clipPath></defs>'+
+    '<ellipse cx="120" cy="178" rx="99" ry="8" fill="#79512C" opacity=".16"/>'+breadFinish(previous,s.toasted!==false)+
+    '<g id="spread-paint" clip-path="url(#spread-crumb)"></g><g id="spread-tool" visibility="hidden" pointer-events="none"><g transform="rotate(-35)"><rect x="-5" y="-4" width="46" height="10" rx="5" fill="#805031"/><rect x="-30" y="-7" width="36" height="15" rx="7" fill="#E1E6E8" stroke="#8A9298" stroke-width="1.4"/><path d="M-25-4H-2" stroke="'+s.color+'" stroke-width="5" stroke-linecap="round"/></g></g></svg>'+
+    '<div class="ring"><div class="bar"><b id="spread-bar" style="width:0%"></b></div></div><div class="count" id="spread-count">0%</div>';
+  const svg=$('#spread-board'),paint=$('#spread-paint'),tool=$('#spread-tool');
+  const point=e=>{const pt=svg.createSVGPoint();pt.x=e.clientX;pt.y=e.clientY;return pt.matrixTransform(svg.getScreenCTM().inverse());};
+  const begin=pt=>{
+    stroke=document.createElementNS('http://www.w3.org/2000/svg','path');
+    stroke.setAttribute('fill','none');stroke.setAttribute('stroke',s.color);stroke.setAttribute('stroke-width','28');stroke.setAttribute('stroke-linecap','round');stroke.setAttribute('stroke-linejoin','round');paint.appendChild(stroke);
+    d='M'+pt.x+' '+pt.y+' l0.01 0';last=pt;
+  };
+  const apply=pt=>{
+    if(done||!last||!stroke)return;
+    const dist=Math.hypot(pt.x-last.x,pt.y-last.y),n=Math.max(1,Math.ceil(dist/4));
+    for(let i=1;i<=n;i++)coverage=coverSpread(cells,last.x+(pt.x-last.x)*i/n,last.y+(pt.y-last.y)*i/n);
+    d+=' L'+pt.x.toFixed(2)+' '+pt.y.toFixed(2);stroke.setAttribute('d',d);
+    tool.setAttribute('transform','translate('+pt.x+' '+pt.y+')');tool.setAttribute('visibility','visible');last=pt;
+    const percent=Math.min(100,Math.floor(coverage/target*100));
+    $('#spread-bar').style.width=percent+'%';$('#spread-count').textContent=percent+'%';
+    if(coverage>=target){done=true;active=null;tool.setAttribute('visibility','hidden');$('#spread-count').textContent='できた！';finishStep(timeScore((performance.now()-t0)/1000,12));}
+  };
+  svg.addEventListener('pointerdown',e=>{if(done||active!==null)return;e.preventDefault();active=e.pointerId;try{svg.setPointerCapture(active);}catch(_){}const pt=point(e);begin(pt);apply(pt);});
+  svg.addEventListener('pointermove',e=>{if(done||active!==e.pointerId)return;e.preventDefault();apply(point(e));});
+  const stop=e=>{if(active!==e.pointerId)return;active=null;last=null;stroke=null;tool.setAttribute('visibility','hidden');};
+  ['pointerup','pointercancel','lostpointercapture'].forEach(x=>svg.addEventListener(x,stop));
+}
 function stepAdd(s, r, p) {
   const before = S.cust.r.steps.slice(1, S.step).flatMap(x => x.uses || []);
   const doneNames = [...new Set(before)].filter(x => x !== s.ingredient);
@@ -1981,7 +2064,7 @@ function renderMine() {
 let D = null, devFrom = 'title', devDone = null;
 const WIZ = ['うつわ', 'ざいりょう', 'つくりかた', 'しあげ'];
 const newDraft = () => ({ vessel: 'plate', ings: [], plan: [], name: '', page: 0, cat: 0 });
-const eligible = (v, d) => v === 'mazeru' ? (d.ings.length >= ING_MIN ? d.ings.slice() : []) : d.ings.filter(VID[v].can);
+const eligible = (v, d) => v==='nuru' && !d.ings.includes('しょくパン') ? [] : v === 'mazeru' ? (d.ings.length >= ING_MIN ? d.ings.slice() : []) : d.ings.filter(VID[v].can);
 const devReach = d => d.ings.length < ING_MIN ? 1 : !d.plan.length ? 2 : 3;
 const devName = () => cleanName(D.name) || autoName(D);
 function devSave() { save.draft = D; store(); }
@@ -1989,7 +2072,7 @@ function devSave() { save.draft = D; store(); }
 function fixPlan(d) {
   d.plan = d.plan.filter(p => {
     if (p.v === 'mazeru') return d.ings.length >= ING_MIN;
-    if (d.ings.includes(p.x) && VID[p.v].can(p.x)) return true;
+    if (d.ings.includes(p.x) && eligible(p.v,d).includes(p.x)) return true;
     const e = eligible(p.v, d); if (!e.length) return false;
     p.x = e[0]; return true;
   });
@@ -2191,7 +2274,7 @@ document.querySelectorAll('[data-close]').forEach(b => b.onclick = () => {
 load(); renderTitle(); requestAnimationFrame(loop);
 try { if ('serviceWorker' in navigator && location.protocol.startsWith('http')) navigator.serviceWorker.register('sw.js').catch(() => {}); } catch (e) {}
 // テスト用（ブラウザーの開発ツールから参照できる）
-window.__ryouri = { get S() { return S; }, get save() { return save; }, RECIPES, finishStep: v => finishStep(v), allRecipes, composeDish, autoName, buildSteps };
+window.__ryouri = { get S() { return S; }, get save() { return save; }, RECIPES, finishStep: v => finishStep(v), allRecipes, composeDish, autoName, buildSteps, spreadCells, coverSpread };
 </script>
 </body>
 </html>
