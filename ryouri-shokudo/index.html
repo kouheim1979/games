@@ -309,7 +309,7 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
 .vessel.pot .food .ingredient-art { width: 76px; height: 76px; }
 .vessel .cook-art { width: 112px; height: auto; }
 .vessel.pan .food {left:21px;top:17px;width:162px;height:65px}
-.vessel.pot .food {left:32px;top:8px;width:142px;height:51px}
+.vessel.pot .food {left:32px;top:5px;width:142px;height:48px}
 .vessel .heat-art {width:100%;height:100%;overflow:visible}
 .board .food .loose-art {width:145px;height:124px}
 .bit .loose-art {width:30px;height:26px}
@@ -958,9 +958,9 @@ const RECIPES = [
     { t: 'select' },
     { t: 'heat', chip: 'ゆでる', title: 'めんを ゆでよう', food: '🍝', pot: true, liquid: '#D5E8EE', speed: 30, uses: ['めん'] },
     { t: 'chop', chip: 'きる', title: 'ねぎを きざもう', food: '🌱', tool: 'knife', n: 7, uses: ['ねぎ'] },
+    {t:'heat',chip:'ゆでる',title:'たまごを ゆでよう',food:'🥚',pot:true,liquid:'#D5E8EE',speed:25,uses:['たまご']},
     { t: 'pour', chip: 'そそぐ', title: 'スープを そそごう', bottle: '🥣', color: '#E3B04B', uses: ['スープ'] },
     addIngredient('チャーシュー', 'のせる', 'bowl'),
-    {t:'heat',chip:'ゆでる',title:'たまごを ゆでよう',food:'🥚',pot:true,liquid:'#D5E8EE',speed:25,uses:['たまご']},
     addIngredient('たまご', 'のせる', 'bowl'),
     addIngredient('ねぎ', 'のせる', 'bowl') ] }
 ];
@@ -1015,7 +1015,7 @@ const PLATE = '<ellipse cx="60" cy="62" rx="56" ry="20" fill="#E8DFD2"/><ellipse
 const BOWL = (soup) => '<ellipse cx="60" cy="80" rx="22" ry="5" fill="#6E2416"/><path d="M14 40 Q18 80 60 80 Q102 80 106 40 Z" fill="#B23A22"/><path d="M22 52 Q60 62 98 52" stroke="#D9573A" stroke-width="3" fill="none"/><ellipse cx="60" cy="40" rx="46" ry="13" fill="#5C1E12"/><ellipse cx="60" cy="41" rx="42" ry="11" fill="' + soup + '"/>';
 function eggArt(rate=1) {
   const k=clamp(rate,0,1), burn=clamp((rate-1)*2.2,0,1);
-  const edge=mixColor(['#E6D4B3','#A75C2B'],0); // edge darkens separately as the egg sets
+  const edge=colorBetween('#F1E4C6','#E6D4B3',k);
   const white=mixColor(['#FFFDF5',burn>.35?'#CEAD77':'#FFFDF5']);
   return '<g><path d="M20 46C18 36 27 28 39 28C46 20 58 22 65 27C77 24 88 30 89 39C101 44 101 56 91 62C86 71 70 71 62 67C49 74 35 68 31 61C22 60 17 53 20 46Z" fill="'+white+'" fill-opacity="'+(.28+.72*k).toFixed(2)+'" stroke="'+(burn>.2?'#9E562A':edge)+'" stroke-opacity="'+(.24+.76*k).toFixed(2)+'" stroke-width="'+(1.2+burn*2)+'"/>'+
     '<path d="M26 49Q31 57 41 58M70 32Q82 31 87 40M47 64Q58 68 70 64" fill="none" stroke="#C58A43" stroke-width="1.6" stroke-linecap="round" opacity="'+(.09+.45*k+.35*burn)+'"/>'+
@@ -1039,7 +1039,7 @@ function grainsSVG(cx, cy, rx, ry, pepper, n, seed) {
   }
   return '<g>' + out + '</g>';
 }
-const NOODLES = '<path d="M28 40 Q34 34 40 40 T52 40 T64 40 T76 40 T88 40" fill="none" stroke="#F8E39A" stroke-width="3"/><path d="M32 46 Q38 40 44 46 T56 46 T68 46" fill="none" stroke="#F8E39A" stroke-width="3"/><circle cx="76" cy="38" r="9" fill="#E8B08A" stroke="#B5703F" stroke-width="2"/><ellipse cx="46" cy="34" rx="8" ry="6" fill="#FFFFFF"/><circle cx="46" cy="34" r="3.5" fill="#F2A91B"/><circle cx="60" cy="44" r="2.4" fill="#4C9A3C"/><circle cx="88" cy="45" r="2.4" fill="#4C9A3C"/><rect x="58" y="30" width="5" height="10" fill="#2A3A2E"/>';
+const NOODLES = '<path d="M28 40 Q34 34 40 40 T52 40 T64 40 T76 40 T88 40" fill="none" stroke="#F8E39A" stroke-width="3"/><path d="M32 46 Q38 40 44 46 T56 46 T68 46" fill="none" stroke="#F8E39A" stroke-width="3"/><circle cx="76" cy="38" r="9" fill="#E8B08A" stroke="#B5703F" stroke-width="2"/><ellipse cx="46" cy="34" rx="8" ry="6" fill="#FFFFFF"/><circle cx="46" cy="34" r="3.5" fill="#F2A91B"/><circle cx="60" cy="44" r="2.4" fill="#4C9A3C"/><circle cx="88" cy="45" r="2.4" fill="#4C9A3C"/>';
 // A bread slice uses the same geometry in the interactive and finished artwork.
 const BREAD_CRUMB = {x:40,y:36,w:160,h:126,r:21};
 function breadBase(toasted = true) {
@@ -1059,7 +1059,7 @@ const DISH = {
   pancake: PLATE + STACK + '<path d="M34 31 Q60 40 86 31 L86 37 Q84 44 82 37 Q62 44 44 38 Q42 47 40 38 Q36 37 34 31Z" fill="#9C4E14" opacity=".85"/>' + BUTTER,
   omurice: PLATE + OMELET + '<path d="M36 46 Q42 38 48 46 Q54 38 60 46 Q66 38 72 46 Q78 38 84 45" fill="none" stroke="#D9342B" stroke-width="4.5" stroke-linecap="round"/>',
   curry: PLATE + '<path d="M22 56 Q18 34 46 31 Q62 31 62 40 L62 62 Q28 64 22 56Z" fill="#FFFFFF" stroke="#E8E1D4" stroke-width="1.5"/><path d="M58 33 Q98 29 98 50 Q96 64 58 62 Z" fill="#9A561C"/><rect x="68" y="40" width="8" height="7" rx="1.5" fill="#F08A24"/><rect x="82" y="46" width="9" height="8" rx="2" fill="#F2D27A"/><rect x="70" y="52" width="9" height="6" rx="2" fill="#7A3A1E"/><rect x="84" y="36" width="6" height="6" rx="1.5" fill="#F08A24"/>',
-  hamburg: PLATE + '<ellipse cx="54" cy="50" rx="29" ry="14" fill="#5F3219"/><ellipse cx="54" cy="46" rx="27" ry="12" fill="#86461F"/><path d="M33 44 Q54 33 75 44 Q70 52 54 52 Q38 52 33 44Z" fill="#4A1E0C" opacity=".9"/><circle cx="88" cy="46" r="6" fill="#3D9A4A"/><circle cx="94" cy="51" r="5" fill="#3D9A4A"/><path d="M82 58 L96 55 L94 61 Z" fill="#F08A24"/>',
+  hamburg: PLATE + '<ellipse cx="54" cy="50" rx="29" ry="14" fill="#5F3219"/><ellipse cx="54" cy="46" rx="27" ry="12" fill="#86461F"/><path d="M33 44 Q54 33 75 44 Q70 52 54 52 Q38 52 33 44Z" fill="#4A1E0C" opacity=".9"/>',
   ramen: BOWL('#E7B75A') + NOODLES
 };
 // 完成料理のSVG（素材設定では変わらない）
@@ -1250,7 +1250,7 @@ const PIECE = {
 };
 // にぎる・やくで形がかわるもの
 const FORM = {
-  egg: '<path d="M-14 3Q-17-6-6-8Q2-13 11-8Q19-6 16 3Q14 10 2 10Q-12 11-14 3Z" fill="#FFFDF5" stroke="#E9DCC4" stroke-width="1.2"/><circle cx="1" r="6" fill="#F5AE16"/><circle cx="-1" cy="-2" r="1.8" fill="#FFE08A"/>',
+  egg: '<g transform="translate(-24 -18) scale(.4)">'+EGG+'</g>',
   patty: '<ellipse cy="2" rx="15" ry="7.5" fill="#5F3219"/><ellipse rx="14" ry="6.5" fill="#86461F"/><path d="M-9-1Q0-6 9-1" stroke="#4A1E0C" stroke-width="2" fill="none" opacity=".6" stroke-linecap="round"/>',
   pancake: '<ellipse cy="5" rx="16" ry="6" fill="#C27630"/><ellipse cy="2" rx="16" ry="6" fill="#E5A657"/><ellipse cy="-2" rx="15" ry="5.5" fill="#C27630"/><ellipse cy="-5" rx="15" ry="5.5" fill="#EDB86E"/>',
   onigiri: nori => '<path d="M0-15Q5-15 12 0Q15 9 0 9Q-15 9-12 0Q-5-15 0-15Z" fill="#FFFFFF" stroke="#E2DACC" stroke-width="1.5"/>' +
@@ -1809,9 +1809,11 @@ function loosePiece(name, rate=0) {
   }
   if(name==='こむぎこ'||name==='パンこ')return '<g fill="'+colorBetween('#F6E7C9','#D7B27A',k)+'"><ellipse rx="10" ry="5"/>'+Array.from({length:9},(_,i)=>'<circle cx="'+((i*7)%15-7)+'" cy="'+((i*3)%8-4)+'" r="1.2" fill="#D9BF93"/>').join('')+'</g>';
   if(name==='しお'||name==='しおコショウ')return '<g>'+Array.from({length:15},(_,i)=>'<circle cx="'+((i*7)%18-9)+'" cy="'+((i*11)%12-6)+'" r=".9" fill="'+(name==='しおコショウ'&&i%3?'#4A3427':'#FFFAEA')+'"/>').join('')+'</g>';
-  if(LIQUIDS.includes(name)||['みそ','カレールウ','あぶら','いちごジャム','ブルーベリージャム'].includes(name))return '<path d="M-10 1Q-9-5-2-5Q5-7 10 0Q11 6 0 6Q-10 6-10 1Z" fill="'+ING_COLOR[name]+'" opacity=".9"/><path d="M-5-2Q0-4 4-2" fill="none" stroke="#FFF" opacity=".35" stroke-width="1.2"/>';
+  if(LIQUIDS.includes(name)||['みそ','カレールウ','あぶら','いちごジャム','ブルーベリージャム'].includes(name))return '<path d="M-10 1Q-9-5-2-5Q5-7 10 0Q11 6 0 6Q-10 6-10 1Z" fill="'+colorBetween(ING_COLOR[name],'#85512C',k*.22+burnt*.18)+'" opacity=".9"/><path d="M-5-2Q0-4 4-2" fill="none" stroke="#FFF" opacity=".35" stroke-width="1.2"/>';
   const piece=PIECE[name]||'<ellipse rx="8" ry="5.5" fill="'+(ING_COLOR[name]||'#D9B78E')+'"/>';
-  return '<g opacity="'+(1-.12*burnt)+'"'+(burnt>.35?' style="filter:brightness(.72)"':'')+'>'+piece+'</g>';
+  const tint=k*(name==='バター'||name==='チーズ'?.13:.23)+burnt*.3;
+  const warmed=piece.replace(/#[0-9A-Fa-f]{6}/g,c=>colorBetween(c,burnt>.3?'#624126':'#C89C52',tint));
+  return '<g opacity="'+(1-.12*burnt)+'" transform="scale('+(1-.12*k)+')">'+warmed+'</g>';
 }
 function looseMark(name,rate=0) {return '<svg class="loose-art" viewBox="-14 -12 28 24" aria-hidden="true">'+loosePiece(name,rate)+'</svg>';}
 function heatNames(s,r,index) {
@@ -1827,7 +1829,10 @@ function heatFoodArt(s,r,index,rate) {
   const k=clamp(rate,0,1), burn=clamp((rate-1)*2,0,1), names=heatNames(s,r,index);
   let art='';
   const egg=names.length===1&&names[0]==='たまご';
-  if(egg&&!s.pot) art='<g transform="translate(0 -13)">'+eggArt(rate)+'</g>';
+  if(egg&&!s.pot&&r.id==='omurice') {
+    const c=colorBetween('#FFD57D','#F2BE2C',k),opacity=clamp((k-.4)/.6,0,1);
+    art='<ellipse cx="60" cy="33" rx="43" ry="22" fill="'+c+'" opacity="'+(1-opacity)+'"/><path d="M20 37Q22 12 60 15Q98 12 100 37Q96 55 60 55Q24 55 20 37Z" fill="'+colorBetween(c,'#98602B',burn)+'" stroke="#D5A02C" opacity="'+opacity+'"/><ellipse cx="49" cy="29" rx="19" ry="6" fill="#FFE998" opacity="'+(.6*opacity)+'"/>';
+  } else if(egg&&!s.pot) art='<g transform="translate(0 -13)">'+eggArt(rate)+'</g>';
   else if(egg) art='<ellipse cx="60" cy="31" rx="18" ry="24" fill="'+colorBetween('#E8BD8B','#FFF3DA',k*.2)+'" stroke="#C8A278" stroke-width="1.7"/><ellipse cx="54" cy="22" rx="6" ry="10" fill="#FFF" opacity=".33"/>';
   else if(s.food==='🥞'||(!s.pot&&names.includes('こむぎこ')&&names.includes('たまご'))) {
     const c=colorBetween('#F8EDCA','#DCA456',k);
@@ -1845,7 +1850,8 @@ function heatFoodArt(s,r,index,rate) {
     const count=items.length===1?7:Math.min(15,items.length*4);
     art=Array.from({length:count},(_,i)=>{const a=i*2.39996,d=Math.sqrt((i+.5)/count),name=items[i%items.length];return '<g transform="translate('+(60+Math.cos(a)*d*40).toFixed(1)+' '+(32+Math.sin(a)*d*(s.pot?13:21)).toFixed(1)+') rotate('+((i*29)%65-32)+') scale('+(s.pot?.92:1.15)+')">'+loosePiece(name,rate)+'</g>';}).join('');
   }
-  return '<svg class="heat-art" viewBox="0 0 120 64" aria-hidden="true">'+art+'</svg>';
+  const oil=!s.pot&&r.steps.slice(1,index).some(q=>q.t==='add'&&q.ingredient==='あぶら');
+  return '<svg class="heat-art" viewBox="0 0 120 64" aria-hidden="true">'+(oil?'<ellipse cx="60" cy="33" rx="48" ry="22" fill="#F3CE74" opacity=".25"/>':'')+art+'</svg>';
 }
 // Render only the ingredients already used before an addition, never the completed order.
 function addPreview(s,r,index,added=false) {
