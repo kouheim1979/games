@@ -2221,6 +2221,11 @@ if (balanceMode) {
       balanceRandom = generator;
       try { return action(); } finally { balanceRandom = null; }
     },
+    resizeCanvas(w, h) {
+      if (cv.width === w && cv.height === h) return;
+      cv.width = w; cv.height = h;
+      spriteDensity = Math.max(1, w / W, h / H); SPR = {}; BG = null;
+    },
     drawBoard() { render();
     }
   })).catch(error => {
