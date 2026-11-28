@@ -295,5 +295,12 @@ window.I18N_DICT={
 "パンを なぞって すみまで ぬろう！":["Swipe over the bread to spread it to the edges!","在面包上滑动，涂到每个角落！","¡Desliza sobre el pan hasta cubrir los bordes!"],
 "ぬる：パンを 指で なぞって すみまで ぬろう。":["Spread: swipe across the bread to coat it evenly.","涂抹：用手指滑过面包，均匀涂抹。","Untar: desliza el dedo por el pan para cubrirlo bien."],
 "ケチャップを くるくる かけよう":["Swirl on the ketchup","画圈挤上番茄酱","Dibuja círculos con kétchup"],
-"オムライスの上を 指で くるくる なぞろう！":["Trace circles over the omelet with your finger!","用手指在蛋包饭上画圈！","¡Dibuja círculos sobre la tortilla con el dedo!"]
+"オムライスの上を 指で くるくる なぞろう！":["Trace circles over the omelet with your finger!","用手指在蛋包饭上画圈！","¡Dibuja círculos sobre la tortilla con el dedo!"],
+"ケチャップで おえかき しよう":["Draw with ketchup","用番茄酱画画","Dibuja con kétchup"],
+"ハートや ほし、もじも OK！ すきな もようを かこう。":["Draw anything: hearts, stars or letters!","画出喜欢的图案：爱心、星星或文字！","¡Dibuja corazones, estrellas o letras!"],
+"オムライスに ケチャップで おえかき":["Draw on the omelet with ketchup","在蛋包饭上用番茄酱画画","Dibuja sobre la tortilla con kétchup"],
+"かきおわったら できあがりを おしてね。":["Tap Done when you finish drawing.","画完后点击完成。","Pulsa Listo cuando termines."],
+"ひとつ もどす":["Undo","撤销","Deshacer"],
+"やりなおす":["Start over","重画","Empezar de nuevo"],
+"できあがり！":["Done!","完成！","¡Listo!"]
 };
