@@ -282,5 +282,16 @@ window.I18N_DICT={
 "{0}を のせよう":["Top with {0}","放上{0}","Coloca: {0}"],
 "{0}を まこう":["Wrap with {0}","包上{0}","Envuelve con {0}"],
 "{0}を ひこう":["Spread the {0}","涂上{0}","Extiende: {0}"],
-"ざいりょうを タップして つかおう":["Tap the ingredient to use it","点击食材来使用","Toca el ingrediente para usarlo"]
+"ざいりょうを タップして つかおう":["Tap the ingredient to use it","点击食材来使用","Toca el ingrediente para usarlo"],
+"しょくパン":["Sliced bread","吐司面包","Pan de molde"],
+"いちごジャム":["Strawberry jam","草莓果酱","Mermelada de fresa"],
+"ブルーベリージャム":["Blueberry jam","蓝莓果酱","Mermelada de arándanos"],
+"トースト":["Toast","烤吐司","Tostada"],
+"パン":["Bread","面包","Pan"],
+"ぬる":["Spread","涂抹","Untar"],
+"{0}を ぬろう":["Spread the {0}","涂上{0}","Unta: {0}"],
+"しょくパンを やこう":["Toast the bread","烤吐司","Tuesta el pan"],
+"しょくパンと バターや ジャムを えらんでね":["Choose bread and butter or jam","请选择面包与黄油或果酱","Elige pan y mantequilla o mermelada"],
+"パンを なぞって すみまで ぬろう！":["Swipe over the bread to spread it to the edges!","在面包上滑动，涂到每个角落！","¡Desliza sobre el pan hasta cubrir los bordes!"],
+"ぬる：パンを 指で なぞって すみまで ぬろう。":["Spread: swipe across the bread to coat it evenly.","涂抹：用手指滑过面包，均匀涂抹。","Untar: desliza el dedo por el pan para cubrirlo bien."]
 };
