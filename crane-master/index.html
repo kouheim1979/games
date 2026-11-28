@@ -1,0 +1,3612 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>CRANE MASTER — 3D Arcade Claw Machine</title>
+
+  <!-- Google Fonts: Inter + Noto Sans JP for crisp bilingual typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800;900&family=Noto+Sans+JP:wght@500;700;900&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS for layout & responsive utilities -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Import Map for Three.js & cannon-es via reliable ESM CDN -->
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://esm.sh/three@0.160.0",
+        "three/addons/": "https://esm.sh/three@0.160.0/examples/jsm/",
+        "cannon-es": "https://esm.sh/cannon-es@0.20.0"
+      }
+    }
+  </script>
+
+  <style>
+    :root {
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+      --safe-left: env(safe-area-inset-left, 0px);
+      --safe-right: env(safe-area-inset-right, 0px);
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: #090d16;
+      color: #f8fafc;
+      font-family: 'Inter', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
+      overscroll-behavior: none;
+      touch-action: manipulation;
+    }
+
+    #game-canvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+      z-index: 1;
+      touch-action: none;
+    }
+
+    /* Tactile Arcade Push-Button Physics */
+    .arcade-btn {
+      position: relative;
+      transition: transform 0.06s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.06s ease, filter 0.12s ease;
+      touch-action: none;
+      cursor: pointer;
+    }
+
+    .arcade-btn-cyan {
+      background: linear-gradient(180deg, #38bdf8 0%, #0284c7 85%, #0369a1 100%);
+      box-shadow:
+        0 7px 0 #075985,
+        0 12px 24px rgba(2, 132, 199, 0.45),
+        inset 0 2px 3px rgba(255, 255, 255, 0.55);
+      border: 2px solid #7dd3fc;
+    }
+    .arcade-btn-cyan:active:not(:disabled),
+    .arcade-btn-cyan.is-pressed:not(:disabled) {
+      transform: translateY(6px);
+      box-shadow:
+        0 1px 0 #075985,
+        0 4px 10px rgba(2, 132, 199, 0.4),
+        inset 0 2px 5px rgba(0, 0, 0, 0.25);
+    }
+
+    .arcade-btn-coral {
+      background: linear-gradient(180deg, #fb7185 0%, #e11d48 85%, #be123c 100%);
+      box-shadow:
+        0 7px 0 #881337,
+        0 12px 24px rgba(225, 29, 72, 0.45),
+        inset 0 2px 3px rgba(255, 255, 255, 0.55);
+      border: 2px solid #fda4af;
+    }
+    .arcade-btn-coral:active:not(:disabled),
+    .arcade-btn-coral.is-pressed:not(:disabled) {
+      transform: translateY(6px);
+      box-shadow:
+        0 1px 0 #881337,
+        0 4px 10px rgba(225, 29, 72, 0.4),
+        inset 0 2px 5px rgba(0, 0, 0, 0.25);
+    }
+
+    .arcade-btn-amber {
+      background: linear-gradient(180deg, #fbbf24 0%, #d97706 85%, #b45309 100%);
+      box-shadow:
+        0 7px 0 #78350f,
+        0 12px 28px rgba(245, 158, 11, 0.45),
+        inset 0 2px 3px rgba(255, 255, 255, 0.65);
+      border: 2px solid #fde68a;
+    }
+    .arcade-btn-amber:active:not(:disabled),
+    .arcade-btn-amber.is-pressed:not(:disabled) {
+      transform: translateY(6px);
+      box-shadow:
+        0 1px 0 #78350f,
+        0 4px 12px rgba(245, 158, 11, 0.4),
+        inset 0 2px 5px rgba(0, 0, 0, 0.25);
+    }
+
+    .arcade-btn:disabled {
+      opacity: 0.38;
+      filter: grayscale(0.65);
+      cursor: not-allowed;
+      transform: translateY(3px);
+      box-shadow: 0 3px 0 #1e293b;
+    }
+
+    /* Switch-style Clean Glass Surfaces */
+    .hud-glass {
+      background: rgba(15, 23, 42, 0.78);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+    }
+
+    .modal-backdrop {
+      background: rgba(6, 10, 20, 0.82);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    /* LED Status Ticker Glow */
+    .led-display {
+      background: #070b14;
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      box-shadow: inset 0 0 14px rgba(2, 132, 199, 0.25);
+    }
+
+    /* Custom Scrollbar for Modals */
+    .custom-scroll::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scroll::-webkit-scrollbar-track {
+      background: rgba(15, 23, 42, 0.5);
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: rgba(100, 116, 139, 0.5);
+      border-radius: 9999px;
+    }
+
+    /* Safe Area Spacing */
+    .pt-safe {
+      padding-top: max(12px, var(--safe-top));
+    }
+    .pb-safe {
+      padding-bottom: max(14px, var(--safe-bottom));
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.65; }
+    }
+    .animate-pulse-subtle {
+      animation: pulseGlow 2.2s ease-in-out infinite;
+    }
+  </style>
+</head>
+<body>
+  <!-- Full-Viewport 3D WebGL Canvas -->
+  <canvas id="game-canvas"></canvas>
+
+  <!-- Initial Boot Loader -->
+  <div id="boot-screen" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-slate-950 transition-opacity duration-500">
+    <div class="w-16 h-16 mb-5 rounded-2xl bg-sky-500/15 border border-sky-400/40 flex items-center justify-center shadow-lg shadow-sky-500/20">
+      <svg class="w-9 h-9 text-sky-400 animate-bounce" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 2v5M7 7h10M7 7l-3 6 3 4M17 7l3 6-3 4M12 7v4" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <h1 class="text-2xl sm:text-3xl font-black tracking-wider text-white">CRANE MASTER</h1>
+    <p id="boot-status" class="mt-2 text-xs sm:text-sm font-medium text-slate-400 tracking-wide">INITIALIZING 3D PHYSICS ENGINE...</p>
+  </div>
+
+  <!-- Main HUD Overlay -->
+  <div id="hud-layer" class="fixed inset-0 z-10 pointer-events-none flex flex-col justify-between">
+    <!-- TOP BAR -->
+    <header class="pt-safe px-3 sm:px-5 flex items-start justify-between gap-2">
+      <!-- Left: Lobby & Current Machine Pill -->
+      <div class="flex items-center gap-2 pointer-events-auto flex-wrap">
+        <button id="btn-open-lobby" class="hud-glass hover:bg-slate-800/90 active:scale-95 transition px-3 py-2 rounded-xl flex items-center gap-2 text-xs sm:text-sm font-bold text-white" title="Arcade Floor">
+          <svg class="w-4 h-4 text-sky-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1v-9.5z" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span data-i18n="lobby">フロア</span>
+        </button>
+
+        <div class="hud-glass px-3 py-1.5 rounded-xl flex items-center gap-2.5">
+          <div>
+            <div class="flex items-center gap-1.5">
+              <span id="hud-machine-name" class="text-xs sm:text-sm font-extrabold text-white truncate max-w-[140px] sm:max-w-[220px]">ハッピープラッシュランド</span>
+              <span id="hud-diff-badge" class="px-1.5 py-0.5 text-[10px] font-black rounded bg-emerald-500/20 text-emerald-300 border border-emerald-400/30">EASY</span>
+            </div>
+            <div class="flex items-center gap-2 text-[11px] text-slate-400 font-medium">
+              <span id="hud-mode-label">ぬいぐるみキャッチ</span>
+              <span>•</span>
+              <span id="hud-claw-label">3本爪</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Coins, Collection, Stats, Audio, Settings -->
+      <div class="flex items-center gap-1.5 sm:gap-2 pointer-events-auto">
+        <!-- Coin Pill -->
+        <div class="hud-glass px-2.5 sm:px-3 py-1.5 rounded-xl flex items-center gap-2">
+          <svg class="w-4 h-4 text-amber-400 shrink-0" viewBox="0 0 24 24" fill="currentColor">
+            <circle cx="12" cy="12" r="9" fill="#f59e0b" stroke="#fde68a" stroke-width="1.5"/>
+            <text x="12" y="16" text-anchor="middle" font-size="11" font-weight="900" fill="#78350f">C</text>
+          </svg>
+          <span id="hud-coins" class="text-xs sm:text-sm font-black tabular-nums text-amber-300">1,000</span>
+          <button id="btn-refill-coins" class="ml-0.5 px-1.5 py-0.5 rounded-md bg-amber-500/25 hover:bg-amber-500/40 border border-amber-400/40 text-[10px] font-extrabold text-amber-200 transition" title="Free Refill">
+            +500
+          </button>
+        </div>
+
+        <!-- Collection Button -->
+        <button id="btn-open-collection" class="hud-glass hover:bg-slate-800/90 active:scale-95 transition px-2.5 sm:px-3 py-2 rounded-xl flex items-center gap-1.5 text-xs font-bold text-white" title="Collection">
+          <svg class="w-4 h-4 text-pink-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <rect x="3" y="3" width="7" height="7" rx="1.5"/>
+            <rect x="14" y="3" width="7" height="7" rx="1.5"/>
+            <rect x="3" y="14" width="7" height="7" rx="1.5"/>
+            <rect x="14" y="14" width="7" height="7" rx="1.5"/>
+          </svg>
+          <span class="hidden md:inline" data-i18n="collection">図鑑</span>
+          <span id="hud-collection-count" class="text-[11px] font-extrabold text-pink-300 tabular-nums">0/34</span>
+        </button>
+
+        <!-- Stats & Achievements -->
+        <button id="btn-open-stats" class="hud-glass hover:bg-slate-800/90 active:scale-95 transition p-2 rounded-xl text-slate-200" title="Stats & Achievements">
+          <svg class="w-4 h-4 text-amber-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6M18 9h1.5a2.5 2.5 0 0 0 0-5H18M4 22h16M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22M18 2H6v7a6 6 0 0 0 12 0V2Z" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+
+        <!-- Quick Sound Toggle -->
+        <button id="btn-toggle-audio" class="hud-glass hover:bg-slate-800/90 active:scale-95 transition p-2 rounded-xl text-slate-200" title="Toggle Sound">
+          <svg id="icon-sound-on" class="w-4 h-4 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+            <path d="M15.54 8.46a5 5 0 0 1 0 7.07M19.07 4.93a10 10 0 0 1 0 14.14" stroke-linecap="round"/>
+          </svg>
+          <svg id="icon-sound-off" class="w-4 h-4 text-slate-500 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+            <line x1="23" y1="9" x2="17" y2="15"/>
+            <line x1="17" y1="9" x2="23" y2="15"/>
+          </svg>
+        </button>
+
+        <!-- Settings -->
+        <button id="btn-open-settings" class="hud-glass hover:bg-slate-800/90 active:scale-95 transition p-2 rounded-xl text-slate-200" title="Settings">
+          <svg class="w-4 h-4 text-slate-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- MIDDLE FLOATING PANELS: Practice Controls (Left) & Camera Angles (Right) -->
+    <div class="px-3 sm:px-5 flex items-center justify-between my-auto pointer-events-none">
+      <!-- Practice Mode Tuning Drawer -->
+      <div id="practice-panel" class="hidden pointer-events-auto hud-glass p-3 rounded-2xl w-44 sm:w-52 space-y-2.5 border-emerald-400/30">
+        <div class="flex items-center justify-between">
+          <span class="text-[11px] font-black uppercase tracking-wider text-emerald-300" data-i18n="practiceTools">練習カスタム</span>
+          <span class="px-1.5 py-0.5 text-[10px] font-bold rounded bg-emerald-500/20 text-emerald-200">FREE</span>
+        </div>
+        <div>
+          <div class="flex justify-between text-[11px] font-bold text-slate-300 mb-1">
+            <span data-i18n="gripStrength">アーム強度</span>
+            <span id="practice-grip-val" class="text-sky-300 tabular-nums">100%</span>
+          </div>
+          <input id="practice-grip-slider" type="range" min="20" max="160" step="5" value="100" class="w-full accent-sky-400 cursor-pointer h-1.5 bg-slate-700 rounded-lg" />
+        </div>
+        <div class="flex gap-1.5">
+          <button id="btn-practice-claw" class="flex-1 py-1.5 px-2 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-600/60 text-[11px] font-bold text-white transition">
+            3本爪 ⇄ 2本爪
+          </button>
+          <button id="btn-practice-reset" class="py-1.5 px-2.5 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 border border-amber-400/40 text-[11px] font-bold text-amber-200 transition" data-i18n="resetPrizes">
+            配置リセット
+          </button>
+        </div>
+      </div>
+
+      <div class="flex-1"></div>
+
+      <!-- 6-Angle Camera Selector Strip -->
+      <div class="pointer-events-auto hud-glass p-1.5 rounded-2xl flex flex-col gap-1">
+        <div class="px-1.5 py-0.5 text-[9px] font-black uppercase tracking-widest text-slate-400 text-center">CAM</div>
+        <button data-cam="QUARTER" class="cam-btn px-2.5 py-1.5 rounded-xl text-[11px] font-bold transition text-left flex items-center gap-1.5 bg-sky-500/25 text-sky-200 border border-sky-400/40">
+          <span class="w-1.5 h-1.5 rounded-full bg-sky-400"></span>
+          <span data-i18n="camQuarter">斜め</span>
+        </button>
+        <button data-cam="FRONT" class="cam-btn px-2.5 py-1.5 rounded-xl text-[11px] font-bold transition text-left flex items-center gap-1.5 text-slate-300 hover:bg-slate-800/80">
+          <span class="w-1.5 h-1.5 rounded-full bg-slate-500"></span>
+          <span data-i18n="camFront">正面</span>
+        </button>
+        <button data-cam="SIDE" class="cam-btn px-2.5 py-1.5 rounded-xl text-[11px] font-bold transition text-left flex items-center gap-1.5 text-slate-300 hover:bg-slate-800/80">
+          <span class="w-1.5 h-1.5 rounded-full bg-slate-500"></span>
+          <span data-i18n="camSide">真横</span>
+        </button>
+        <button data-cam="TOP" class="cam-btn px-2.5 py-1.5 rounded-xl text-[11px] font-bold transition text-left flex items-center gap-1.5 text-slate-300 hover:bg-slate-800/80">
+          <span class="w-1.5 h-1.5 rounded-full bg-slate-500"></span>
+          <span data-i18n="camTop">真上</span>
+        </button>
+        <button data-cam="FOLLOW" class="cam-btn px-2.5 py-1.5 rounded-xl text-[11px] font-bold transition text-left flex items-center gap-1.5 text-slate-300 hover:bg-slate-800/80">
+          <span class="w-1.5 h-1.5 rounded-full bg-slate-500"></span>
+          <span data-i18n="camFollow">追従</span>
+        </button>
+        <button data-cam="FREE" class="cam-btn px-2.5 py-1.5 rounded-xl text-[11px] font-bold transition text-left flex items-center gap-1.5 text-slate-300 hover:bg-slate-800/80">
+          <span class="w-1.5 h-1.5 rounded-full bg-slate-500"></span>
+          <span data-i18n="camFree">自由</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- BOTTOM ARCADE CONTROL DECK -->
+    <footer class="pb-safe px-3 sm:px-6 flex flex-col items-center gap-2.5">
+      <!-- LED Status Display Bar -->
+      <div class="led-display pointer-events-auto px-4 py-1.5 rounded-full flex items-center gap-2.5 max-w-md w-full justify-center">
+        <span id="status-dot" class="w-2 h-2 rounded-full bg-sky-400 animate-pulse"></span>
+        <span id="status-text" class="text-xs sm:text-sm font-extrabold tracking-wide text-sky-200 truncate">コインを投入してください</span>
+      </div>
+
+      <!-- Control Panel: Either Insert Coin Bar OR 2-Button Claw Controls -->
+      <div class="pointer-events-auto w-full max-w-lg">
+        <!-- IDLE STATE: Insert Coin + Daily Bonus -->
+        <div id="controls-idle" class="flex items-center justify-center gap-2.5">
+          <button id="btn-daily-bonus" class="hidden hud-glass hover:bg-emerald-900/50 border-emerald-400/50 px-3.5 py-3.5 rounded-2xl text-xs font-extrabold text-emerald-300 flex items-center gap-1.5 active:scale-95 transition">
+            <svg class="w-4 h-4 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
+              <path d="M20 12v10H4V12M2 7h20v5H2zM12 22V7M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>
+            </svg>
+            <span data-i18n="dailyBonus">ボーナス +500</span>
+          </button>
+
+          <button id="btn-insert-coin" class="arcade-btn arcade-btn-amber flex-1 max-w-xs py-3.5 px-6 rounded-2xl flex items-center justify-center gap-3 text-slate-950 font-black">
+            <svg class="w-6 h-6 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="9"/>
+              <path d="M12 7v10M9 10h6" stroke-linecap="round"/>
+            </svg>
+            <div class="text-left leading-tight">
+              <div id="insert-coin-label" class="text-sm sm:text-base tracking-wide">コイン投入 (100)</div>
+              <div class="text-[10px] font-bold opacity-80" data-i18n="pressSpaceHint">SPACE / タップで開始</div>
+            </div>
+          </button>
+        </div>
+
+        <!-- ACTIVE PLAY STATE: Authentic 2-Button Arcade Deck -->
+        <div id="controls-active" class="hidden grid grid-cols-2 gap-3 sm:gap-4">
+          <!-- Button 1: Horizontal X-Axis -->
+          <button id="btn-move-x" class="arcade-btn arcade-btn-cyan py-3.5 sm:py-4 px-4 rounded-2xl flex items-center justify-center gap-2.5 text-white font-black">
+            <div class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-sm font-black">1</div>
+            <div class="text-left leading-tight">
+              <div class="text-sm sm:text-base flex items-center gap-1">
+                <span data-i18n="btnRight">横移動</span>
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                  <path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <div class="text-[10px] font-bold text-sky-100/85" data-i18n="holdRelease">長押し → 離して確定</div>
+            </div>
+          </button>
+
+          <!-- Button 2: Depth Z-Axis -->
+          <button id="btn-move-z" disabled class="arcade-btn arcade-btn-coral py-3.5 sm:py-4 px-4 rounded-2xl flex items-center justify-center gap-2.5 text-white font-black">
+            <div class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-sm font-black">2</div>
+            <div class="text-left leading-tight">
+              <div class="text-sm sm:text-base flex items-center gap-1">
+                <span data-i18n="btnBack">奥移動</span>
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                  <path d="M12 19V5M6 11l6-6 6 6" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <div class="text-[10px] font-bold text-rose-100/85" data-i18n="holdDrop">長押し → 離して下降</div>
+            </div>
+          </button>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- MODAL 1: ARCADE FLOOR LOBBY (Machine Selection)                       -->
+  <!-- ===================================================================== -->
+  <div id="modal-lobby" class="fixed inset-0 z-30 hidden modal-backdrop flex items-center justify-center p-3 sm:p-6">
+    <div class="bg-slate-900 border border-slate-700/80 rounded-3xl w-full max-w-5xl max-h-[88dvh] flex flex-col shadow-2xl overflow-hidden">
+      <div class="px-5 py-4 border-b border-slate-800 flex items-center justify-between">
+        <div>
+          <h2 class="text-lg sm:text-xl font-black tracking-tight text-white flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-sky-400"></span>
+            <span data-i18n="arcadeFloorTitle">ゲームセンター フロア選択</span>
+          </h2>
+          <p class="text-xs text-slate-400 mt-0.5" data-i18n="arcadeFloorSub">景品の位置は筐体ごとに保存されます。狙い目の台を見つけよう！</p>
+        </div>
+        <button data-close-modal="modal-lobby" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M18 6L6 18M6 6l12 12" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+      <div id="lobby-grid" class="p-4 sm:p-5 overflow-y-auto custom-scroll grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+        <!-- Populated dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- MODAL 2: 3D PRIZE COLLECTION GALLERY                                  -->
+  <!-- ===================================================================== -->
+  <div id="modal-collection" class="fixed inset-0 z-30 hidden modal-backdrop flex items-center justify-center p-3 sm:p-6">
+    <div class="bg-slate-900 border border-slate-700/80 rounded-3xl w-full max-w-5xl max-h-[88dvh] flex flex-col shadow-2xl overflow-hidden">
+      <div class="px-5 py-4 border-b border-slate-800 flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <h2 class="text-lg sm:text-xl font-black text-white flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-pink-400"></span>
+            <span data-i18n="collectionTitle">景品コレクション図鑑</span>
+            <span id="col-rate-badge" class="ml-1 px-2.5 py-0.5 rounded-full text-xs font-black bg-pink-500/20 text-pink-300 border border-pink-400/30">0%</span>
+          </h2>
+        </div>
+        <div class="flex items-center gap-1.5 flex-wrap">
+          <button data-rarity-filter="ALL" class="rarity-filter-btn px-2.5 py-1 rounded-lg text-xs font-bold bg-sky-500 text-slate-950">ALL</button>
+          <button data-rarity-filter="COMMON" class="rarity-filter-btn px-2.5 py-1 rounded-lg text-xs font-bold bg-slate-800 text-slate-300">COMMON</button>
+          <button data-rarity-filter="UNCOMMON" class="rarity-filter-btn px-2.5 py-1 rounded-lg text-xs font-bold bg-slate-800 text-emerald-300">UNCOMMON</button>
+          <button data-rarity-filter="RARE" class="rarity-filter-btn px-2.5 py-1 rounded-lg text-xs font-bold bg-slate-800 text-sky-300">RARE</button>
+          <button data-rarity-filter="SUPER_RARE" class="rarity-filter-btn px-2.5 py-1 rounded-lg text-xs font-bold bg-slate-800 text-purple-300">SR</button>
+          <button data-rarity-filter="LEGENDARY" class="rarity-filter-btn px-2.5 py-1 rounded-lg text-xs font-bold bg-slate-800 text-amber-300">LEGEND</button>
+          <button data-close-modal="modal-collection" class="ml-2 p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M18 6L6 18M6 6l12 12" stroke-linecap="round"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div id="collection-grid" class="p-4 sm:p-5 overflow-y-auto custom-scroll grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+        <!-- Populated dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- 3D PRIZE INSPECT SUB-MODAL -->
+  <div id="modal-inspect" class="fixed inset-0 z-40 hidden modal-backdrop flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-700 rounded-3xl w-full max-w-md overflow-hidden shadow-2xl">
+      <div class="px-5 py-3.5 border-b border-slate-800 flex items-center justify-between">
+        <span id="inspect-rarity" class="px-2.5 py-0.5 rounded-full text-[11px] font-black bg-amber-500/20 text-amber-300">LEGENDARY</span>
+        <button data-close-modal="modal-inspect" class="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M18 6L6 18M6 6l12 12" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+      <div class="relative h-64 bg-gradient-to-b from-slate-800/70 to-slate-950 flex items-center justify-center">
+        <canvas id="inspect-canvas" class="w-full h-full cursor-grab active:cursor-grabbing"></canvas>
+        <div class="absolute bottom-2.5 text-[11px] text-slate-400 font-medium pointer-events-none" data-i18n="dragRotate">ドラッグで360°回転</div>
+      </div>
+      <div class="p-5 space-y-3">
+        <div>
+          <h3 id="inspect-name" class="text-lg font-black text-white">ゴールデン招き猫</h3>
+          <p id="inspect-desc" class="text-xs text-slate-400 mt-1">幸運を呼ぶ純金コーティングの特別マスコット。</p>
+        </div>
+        <div class="grid grid-cols-3 gap-2 pt-2 border-t border-slate-800 text-center">
+          <div class="bg-slate-800/60 p-2 rounded-xl">
+            <div class="text-[10px] text-slate-400 font-bold" data-i18n="ownedCount">獲得数</div>
+            <div id="inspect-count" class="text-sm font-black text-white mt-0.5">1</div>
+          </div>
+          <div class="bg-slate-800/60 p-2 rounded-xl">
+            <div class="text-[10px] text-slate-400 font-bold" data-i18n="firstWinDate">初獲得日</div>
+            <div id="inspect-date" class="text-xs font-bold text-sky-300 mt-1">2026-11-25</div>
+          </div>
+          <div class="bg-slate-800/60 p-2 rounded-xl">
+            <div class="text-[10px] text-slate-400 font-bold" data-i18n="playsToWin">獲得手数</div>
+            <div id="inspect-plays" class="text-sm font-black text-amber-300 mt-0.5">2</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- MODAL 3: STATS & ACHIEVEMENTS                                         -->
+  <!-- ===================================================================== -->
+  <div id="modal-stats" class="fixed inset-0 z-30 hidden modal-backdrop flex items-center justify-center p-3 sm:p-6">
+    <div class="bg-slate-900 border border-slate-700/80 rounded-3xl w-full max-w-3xl max-h-[88dvh] flex flex-col shadow-2xl overflow-hidden">
+      <div class="px-5 py-4 border-b border-slate-800 flex items-center justify-between">
+        <h2 class="text-lg sm:text-xl font-black text-white flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
+          <span data-i18n="statsTitle">プレイ記録 & 実績</span>
+        </h2>
+        <button data-close-modal="modal-stats" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M18 6L6 18M6 6l12 12" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+      <div class="p-5 overflow-y-auto custom-scroll space-y-5">
+        <div id="stats-summary-grid" class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <!-- Populated dynamically -->
+        </div>
+        <div>
+          <h3 class="text-xs font-black uppercase tracking-wider text-slate-400 mb-3" data-i18n="achievementsHeader">実績リスト</h3>
+          <div id="achievements-list" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            <!-- Populated dynamically -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- MODAL 4: SETTINGS & SAVE DATA                                         -->
+  <!-- ===================================================================== -->
+  <div id="modal-settings" class="fixed inset-0 z-30 hidden modal-backdrop flex items-center justify-center p-3 sm:p-6">
+    <div class="bg-slate-900 border border-slate-700/80 rounded-3xl w-full max-w-lg max-h-[88dvh] flex flex-col shadow-2xl overflow-hidden">
+      <div class="px-5 py-4 border-b border-slate-800 flex items-center justify-between">
+        <h2 class="text-lg font-black text-white" data-i18n="settingsTitle">設定 & データ管理</h2>
+        <button data-close-modal="modal-settings" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M18 6L6 18M6 6l12 12" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+      <div class="p-5 overflow-y-auto custom-scroll space-y-4 text-sm">
+        <!-- Language -->
+        <div class="flex items-center justify-between bg-slate-800/60 p-3 rounded-2xl">
+          <span class="font-bold text-slate-200" data-i18n="langLabel">言語 / Language</span>
+          <div class="flex gap-1.5">
+            <button id="set-lang-ja" class="px-3 py-1.5 rounded-xl text-xs font-black bg-sky-500 text-slate-950">日本語</button>
+            <button id="set-lang-en" class="px-3 py-1.5 rounded-xl text-xs font-black bg-slate-700 text-slate-300">English</button>
+          </div>
+        </div>
+
+        <!-- BGM Volume -->
+        <div class="bg-slate-800/60 p-3 rounded-2xl space-y-1.5">
+          <div class="flex justify-between font-bold text-slate-200">
+            <span data-i18n="bgmVol">BGM音量</span>
+            <span id="set-bgm-val" class="text-sky-300 tabular-nums">40%</span>
+          </div>
+          <input id="set-bgm-slider" type="range" min="0" max="100" value="40" class="w-full accent-sky-400" />
+        </div>
+
+        <!-- SFX Volume -->
+        <div class="bg-slate-800/60 p-3 rounded-2xl space-y-1.5">
+          <div class="flex justify-between font-bold text-slate-200">
+            <span data-i18n="sfxVol">効果音音量</span>
+            <span id="set-sfx-val" class="text-sky-300 tabular-nums">75%</span>
+          </div>
+          <input id="set-sfx-slider" type="range" min="0" max="100" value="75" class="w-full accent-sky-400" />
+        </div>
+
+        <!-- Vibration & Graphics Quality -->
+        <div class="grid grid-cols-2 gap-3">
+          <button id="set-vib-btn" class="bg-slate-800/60 hover:bg-slate-800 p-3 rounded-2xl flex items-center justify-between font-bold text-slate-200">
+            <span data-i18n="vibration">振動</span>
+            <span id="set-vib-state" class="text-xs font-black text-emerald-400">ON</span>
+          </button>
+          <button id="set-qual-btn" class="bg-slate-800/60 hover:bg-slate-800 p-3 rounded-2xl flex items-center justify-between font-bold text-slate-200">
+            <span data-i18n="gfxQuality">描画品質</span>
+            <span id="set-qual-state" class="text-xs font-black text-sky-400">HIGH</span>
+          </button>
+        </div>
+
+        <!-- Save Export / Import -->
+        <div class="bg-slate-800/60 p-3.5 rounded-2xl space-y-2.5">
+          <div class="font-bold text-slate-200 text-xs uppercase tracking-wider" data-i18n="saveBackup">セーブデータ管理</div>
+          <div class="flex gap-2">
+            <button id="btn-export-save" class="flex-1 py-2 px-3 rounded-xl bg-sky-500/20 hover:bg-sky-500/30 border border-sky-400/40 text-xs font-bold text-sky-200" data-i18n="exportSave">
+              エクスポート (コピー)
+            </button>
+            <button id="btn-toggle-import" class="flex-1 py-2 px-3 rounded-xl bg-slate-700 hover:bg-slate-600 text-xs font-bold text-white" data-i18n="importSave">
+              インポート
+            </button>
+          </div>
+          <div id="import-box" class="hidden space-y-2 pt-1">
+            <textarea id="import-textarea" rows="3" placeholder="Paste JSON save data..." class="w-full p-2 rounded-xl bg-slate-950 border border-slate-700 text-xs text-slate-200 font-mono"></textarea>
+            <button id="btn-confirm-import" class="w-full py-2 rounded-xl bg-emerald-500 text-slate-950 font-black text-xs" data-i18n="applyImport">データを読み込む</button>
+          </div>
+        </div>
+
+        <!-- Two-step Reset -->
+        <div class="pt-1">
+          <button id="btn-reset-save" class="w-full py-2.5 px-4 rounded-2xl bg-rose-500/15 hover:bg-rose-500/25 border border-rose-500/40 text-xs font-extrabold text-rose-300 transition" data-i18n="resetData">
+            セーブデータを初期化
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- MODAL 5: PRIZE WIN CELEBRATION OVERLAY                                -->
+  <!-- ===================================================================== -->
+  <div id="modal-win" class="fixed inset-0 z-40 hidden modal-backdrop flex items-center justify-center p-4">
+    <div class="bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950 border-2 border-amber-400/60 rounded-3xl w-full max-w-md p-6 text-center shadow-2xl relative overflow-hidden">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-amber-400/20 border border-amber-300/50 text-amber-300 text-xs font-black tracking-widest uppercase mb-2">
+        <span data-i18n="prizeGet">PRIZE GET!</span>
+      </div>
+      <h2 id="win-prize-name" class="text-2xl font-black text-white">キャラメルベア</h2>
+      <div class="flex items-center justify-center gap-2 mt-1">
+        <span id="win-rarity-badge" class="px-2.5 py-0.5 rounded-full text-[11px] font-black bg-sky-500/20 text-sky-300">COMMON</span>
+        <span id="win-new-badge" class="hidden px-2.5 py-0.5 rounded-full text-[11px] font-black bg-pink-500 text-white">NEW!</span>
+      </div>
+
+      <div class="my-4 h-52 rounded-2xl bg-slate-950/80 border border-slate-800 relative flex items-center justify-center">
+        <canvas id="win-canvas" class="w-full h-full"></canvas>
+      </div>
+
+      <p id="win-stats-line" class="text-xs text-slate-400 font-medium mb-4">獲得数: 1個 • 連続獲得: 1回</p>
+
+      <div class="flex gap-2.5">
+        <button id="btn-win-lobby" class="flex-1 py-3 px-4 rounded-2xl bg-slate-800 hover:bg-slate-700 text-xs sm:text-sm font-extrabold text-slate-200 transition" data-i18n="changeMachine">
+          別の台を選ぶ
+        </button>
+        <button id="btn-win-continue" class="flex-1 py-3 px-4 rounded-2xl bg-amber-400 hover:bg-amber-300 text-xs sm:text-sm font-black text-slate-950 transition" data-i18n="continuePlay">
+          続けてプレイ
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Non-blocking Toast Banner -->
+  <div id="toast-container" class="fixed top-16 left-1/2 -translate-x-1/2 z-50 pointer-events-none flex flex-col items-center gap-2"></div>
+
+  <!-- ===================================================================== -->
+  <!-- MAIN APPLICATION SCRIPT (THREE.JS + CANNON-ES + GAME SYSTEMS)         -->
+  <!-- ===================================================================== -->
+  <script type="module">
+    import * as THREE from 'three';
+    import * as CANNON from 'cannon-es';
+
+    /* =========================================================================
+       1. BILINGUAL LOCALIZATION (JA / EN)
+    ========================================================================= */
+    const I18N = {
+      ja: {
+        lobby: 'フロア',
+        collection: '図鑑',
+        practiceTools: '練習カスタム',
+        gripStrength: 'アーム強度',
+        resetPrizes: '配置リセット',
+        camQuarter: '斜め',
+        camFront: '正面',
+        camSide: '真横',
+        camTop: '真上',
+        camFollow: '追従',
+        camFree: '自由',
+        dailyBonus: 'ボーナス +500',
+        pressSpaceHint: 'SPACE / タップで開始',
+        btnRight: '横移動',
+        btnBack: '奥移動',
+        holdRelease: '長押し → 離して確定',
+        holdDrop: '長押し → 離して下降',
+        arcadeFloorTitle: 'ゲームセンター フロア選択',
+        arcadeFloorSub: '景品の位置は筐体ごとに保存されます。狙い目の台を見つけよう！',
+        collectionTitle: '景品コレクション図鑑',
+        dragRotate: 'ドラッグで360°回転',
+        ownedCount: '獲得数',
+        firstWinDate: '初獲得日',
+        playsToWin: '獲得手数',
+        statsTitle: 'プレイ記録 & 実績',
+        achievementsHeader: '実績リスト',
+        settingsTitle: '設定 & データ管理',
+        langLabel: '言語 / Language',
+        bgmVol: 'BGM音量',
+        sfxVol: '効果音音量',
+        vibration: '振動',
+        gfxQuality: '描画品質',
+        saveBackup: 'セーブデータ管理',
+        exportSave: 'エクスポート (コピー)',
+        importSave: 'インポート',
+        applyImport: 'データを読み込む',
+        resetData: 'セーブデータを初期化',
+        resetConfirmPrompt: 'もう一度押すと完全に初期化されます',
+        prizeGet: 'PRIZE GET!',
+        changeMachine: '別の台を選ぶ',
+        continuePlay: '続けてプレイ',
+        insertCoinPrompt: 'コインを投入してください',
+        freePlayPrompt: 'FREE PLAY — スタートを押してください',
+        step1Prompt: 'ボタン [1] を長押しして右へ移動',
+        movingXPrompt: '移動中... 離すと横位置が確定',
+        step2Prompt: 'ボタン [2] を長押しして奥へ移動',
+        movingZPrompt: '移動中... 離すと下降開始',
+        droppingPrompt: 'アーム下降中...',
+        grabbingPrompt: 'アーム把持中...',
+        risingPrompt: '上昇中...',
+        carryingPrompt: '取り出し口へ搬送中...',
+        releasingPrompt: 'アーム解放...',
+        judgingPrompt: '獲得判定中...',
+        missPrompt: 'おしい！景品の位置が変わりました',
+        takoMissPrompt: 'ハズレ穴！次の球で押し出そう',
+        notEnoughCoins: 'コインが足りません（右上の+500で無料補充）',
+        coinsRefilled: '無料コイン +500枚 補充しました！',
+        dailyClaimed: 'デイリーボーナス +500枚 獲得！',
+        saveCopied: 'セーブデータをクリップボードにコピーしました',
+        saveImported: 'セーブデータを復元しました！',
+        saveInvalid: 'セーブデータの形式が正しくありません',
+        saveResetDone: 'データを初期化しました',
+        mode_PLUSH: 'ぬいぐるみキャッチ',
+        mode_BRIDGE: '橋渡し設定',
+        mode_MOUNTAIN: '山積み設定',
+        mode_TAKOYAKI: 'たこ焼きキャッチャー',
+        mode_PRACTICE: '練習モード',
+        claw2: '2本爪',
+        claw3: '3本爪',
+        playMachine: 'この台で遊ぶ',
+        remaining: '残り',
+        freeCost: '無料',
+        statPlays: '総プレイ回数',
+        statSpent: '総消費コイン',
+        statWins: '総獲得景品数',
+        statRate: '景品獲得率',
+        statStreak: '最大連続獲得',
+        unlocked: '達成済み',
+      },
+      en: {
+        lobby: 'Floor',
+        collection: 'Gallery',
+        practiceTools: 'Practice Lab',
+        gripStrength: 'Claw Grip',
+        resetPrizes: 'Reset Layout',
+        camQuarter: 'Angle',
+        camFront: 'Front',
+        camSide: 'Side',
+        camTop: 'Top',
+        camFollow: 'Follow',
+        camFree: 'Orbit',
+        dailyBonus: 'Daily +500',
+        pressSpaceHint: 'SPACE / Tap to Start',
+        btnRight: 'Move Right',
+        btnBack: 'Move Back',
+        holdRelease: 'Hold → Release to Lock',
+        holdDrop: 'Hold → Release to Drop',
+        arcadeFloorTitle: 'Arcade Floor Selection',
+        arcadeFloorSub: 'Prize positions persist per machine. Nudge prizes closer over multiple plays!',
+        collectionTitle: '3D Prize Collection',
+        dragRotate: 'Drag to Rotate 360°',
+        ownedCount: 'Owned',
+        firstWinDate: 'First Won',
+        playsToWin: 'Plays to Win',
+        statsTitle: 'Play Records & Achievements',
+        achievementsHeader: 'Achievements',
+        settingsTitle: 'Settings & Save Data',
+        langLabel: 'Language / 言語',
+        bgmVol: 'BGM Volume',
+        sfxVol: 'SFX Volume',
+        vibration: 'Haptics',
+        gfxQuality: 'Graphics',
+        saveBackup: 'Save Data Backup',
+        exportSave: 'Export (Copy)',
+        importSave: 'Import',
+        applyImport: 'Load Save Data',
+        resetData: 'Reset All Save Data',
+        resetConfirmPrompt: 'Tap again to confirm full reset',
+        prizeGet: 'PRIZE GET!',
+        changeMachine: 'Arcade Floor',
+        continuePlay: 'Play Again',
+        insertCoinPrompt: 'INSERT COIN TO PLAY',
+        freePlayPrompt: 'FREE PLAY — PRESS START',
+        step1Prompt: 'HOLD BUTTON [1] TO MOVE RIGHT',
+        movingXPrompt: 'MOVING RIGHT... RELEASE TO LOCK X',
+        step2Prompt: 'HOLD BUTTON [2] TO MOVE BACK',
+        movingZPrompt: 'MOVING BACK... RELEASE TO DROP',
+        droppingPrompt: 'LOWERING CLAW...',
+        grabbingPrompt: 'CLOSING CLAW...',
+        risingPrompt: 'LIFTING...',
+        carryingPrompt: 'CARRYING TO CHUTE...',
+        releasingPrompt: 'RELEASING...',
+        judgingPrompt: 'CHECKING DROP...',
+        missPrompt: 'Close! The prize shifted position.',
+        takoMissPrompt: 'Blocked a hole! Next ball gets closer.',
+        notEnoughCoins: 'Not enough coins! Tap +500 for free refill.',
+        coinsRefilled: '+500 Free Coins Added!',
+        dailyClaimed: 'Daily Bonus +500 Coins Claimed!',
+        saveCopied: 'Save JSON copied to clipboard!',
+        saveImported: 'Save data restored successfully!',
+        saveInvalid: 'Invalid JSON save data.',
+        saveResetDone: 'Save data reset to defaults.',
+        mode_PLUSH: 'Plushie Catch',
+        mode_BRIDGE: 'Bridge Setting',
+        mode_MOUNTAIN: 'Mountain Pile',
+        mode_TAKOYAKI: 'Takoyaki Catcher',
+        mode_PRACTICE: 'Practice Mode',
+        claw2: '2-Claw',
+        claw3: '3-Claw',
+        playMachine: 'PLAY',
+        remaining: 'Left',
+        freeCost: 'FREE',
+        statPlays: 'Total Plays',
+        statSpent: 'Coins Spent',
+        statWins: 'Prizes Won',
+        statRate: 'Win Rate',
+        statStreak: 'Best Streak',
+        unlocked: 'UNLOCKED',
+      }
+    };
+
+    /* =========================================================================
+       2. PROCEDURAL WEB AUDIO ENGINE (SFX + ARCADE BGM)
+    ========================================================================= */
+    class SoundEngine {
+      constructor() {
+        this.ctx = null;
+        this.bgmVol = 0.4;
+        this.sfxVol = 0.75;
+        this.muted = false;
+        this.motorOsc = null;
+        this.motorGain = null;
+        this.bgmTimer = null;
+        this.bgmStep = 0;
+      }
+
+      ensureContext() {
+        if (!this.ctx) {
+          const AudioCtx = window.AudioContext || window.webkitAudioContext;
+          if (AudioCtx) {
+            this.ctx = new AudioCtx();
+          }
+        }
+        if (this.ctx && this.ctx.state === 'suspended') {
+          this.ctx.resume().catch(() => {});
+        }
+      }
+
+      startBGM() {
+        this.ensureContext();
+        if (this.bgmTimer) return;
+        // Cheerful Japanese game-center synth arpeggio loop (132 BPM)
+        const leadNotes = [
+          523.25, 659.25, 783.99, 1046.50, 783.99, 659.25, 587.33, 698.46,
+          880.00, 1046.50, 880.00, 698.46, 659.25, 783.99, 987.77, 1046.50
+        ];
+        const bassNotes = [
+          130.81, 130.81, 196.00, 196.00, 146.83, 146.83, 174.61, 174.61,
+          220.00, 220.00, 174.61, 174.61, 196.00, 196.00, 130.81, 196.00
+        ];
+
+        this.bgmTimer = setInterval(() => {
+          if (this.muted || this.bgmVol <= 0.01 || !this.ctx || this.ctx.state !== 'running') return;
+          const now = this.ctx.currentTime;
+          const idx = this.bgmStep % leadNotes.length;
+          this.bgmStep++;
+
+          // Lead synth pluck
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(leadNotes[idx], now);
+          const vol = this.bgmVol * 0.09;
+          gain.gain.setValueAtTime(0.0001, now);
+          gain.gain.linearRampToValueAtTime(vol, now + 0.015);
+          gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.19);
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.2);
+
+          // Bass pulse
+          const bOsc = this.ctx.createOscillator();
+          const bGain = this.ctx.createGain();
+          bOsc.type = 'sine';
+          bOsc.frequency.setValueAtTime(bassNotes[idx], now);
+          bGain.gain.setValueAtTime(0.0001, now);
+          bGain.gain.linearRampToValueAtTime(this.bgmVol * 0.11, now + 0.01);
+          bGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.21);
+          bOsc.connect(bGain);
+          bGain.connect(this.ctx.destination);
+          bOsc.start(now);
+          bOsc.stop(now + 0.22);
+        }, 225);
+      }
+
+      playTone(freq, duration, type = 'sine', volScale = 0.2, delay = 0, slideTo = null) {
+        if (this.muted || this.sfxVol <= 0.01) return;
+        this.ensureContext();
+        if (!this.ctx) return;
+        const now = this.ctx.currentTime + delay;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, now);
+        if (slideTo) {
+          osc.frequency.exponentialRampToValueAtTime(slideTo, now + duration);
+        }
+        const peak = Math.max(0.001, this.sfxVol * volScale);
+        gain.gain.setValueAtTime(0.0001, now);
+        gain.gain.linearRampToValueAtTime(peak, now + 0.012);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start(now);
+        osc.stop(now + duration + 0.02);
+      }
+
+      playCoin() {
+        this.playTone(987.77, 0.09, 'square', 0.14, 0);
+        this.playTone(1318.51, 0.34, 'square', 0.16, 0.085);
+      }
+
+      playButtonDown() {
+        this.playTone(320, 0.06, 'triangle', 0.22, 0, 180);
+      }
+
+      playButtonUp() {
+        this.playTone(520, 0.07, 'sine', 0.18, 0, 680);
+      }
+
+      setMotorActive(active, baseFreq = 115) {
+        if (this.muted || this.sfxVol <= 0.01) active = false;
+        if (active) {
+          this.ensureContext();
+          if (!this.ctx) return;
+          if (!this.motorOsc) {
+            this.motorOsc = this.ctx.createOscillator();
+            this.motorGain = this.ctx.createGain();
+            this.motorOsc.type = 'sawtooth';
+            this.motorOsc.frequency.value = baseFreq;
+            this.motorGain.gain.value = 0.0001;
+            // Lowpass filter for authentic servo motor hum
+            const filter = this.ctx.createBiquadFilter();
+            filter.type = 'lowpass';
+            filter.frequency.value = 340;
+            this.motorOsc.connect(filter);
+            filter.connect(this.motorGain);
+            this.motorGain.connect(this.ctx.destination);
+            this.motorOsc.start();
+          }
+          this.motorOsc.frequency.setTargetAtTime(baseFreq, this.ctx.currentTime, 0.03);
+          this.motorGain.gain.setTargetAtTime(this.sfxVol * 0.08, this.ctx.currentTime, 0.03);
+        } else if (this.motorGain && this.ctx) {
+          this.motorGain.gain.setTargetAtTime(0.0001, this.ctx.currentTime, 0.03);
+        }
+      }
+
+      playClawServo(closing = true) {
+        if (closing) {
+          this.playTone(240, 0.24, 'sawtooth', 0.11, 0, 140);
+        } else {
+          this.playTone(150, 0.22, 'sawtooth', 0.1, 0, 260);
+        }
+      }
+
+      playBounce(intensity = 0.4) {
+        const clamped = Math.min(1, Math.max(0.1, intensity));
+        this.playTone(140 + clamped * 120, 0.08, 'sine', 0.12 * clamped, 0, 75);
+      }
+
+      playWinFanfare() {
+        const notes = [523.25, 659.25, 783.99, 1046.5, 783.99, 1046.5];
+        const times = [0, 0.1, 0.2, 0.32, 0.48, 0.6];
+        const durs  = [0.12, 0.12, 0.12, 0.18, 0.12, 0.55];
+        notes.forEach((n, i) => {
+          this.playTone(n, durs[i], 'triangle', 0.26, times[i]);
+          this.playTone(n * 0.5, durs[i], 'sine', 0.2, times[i]);
+        });
+      }
+
+      playLoseTone() {
+        this.playTone(392.0, 0.18, 'triangle', 0.14, 0, 349.23);
+        this.playTone(329.63, 0.28, 'triangle', 0.14, 0.18, 261.63);
+      }
+    }
+
+    /* =========================================================================
+       3. PRIZE CATALOG (34 ORIGINAL PRIZES ACROSS 5 RARITIES)
+    ========================================================================= */
+    const RARITY_META = {
+      COMMON:     { label: 'COMMON',     color: '#94a3b8', badgeClass: 'bg-slate-500/20 text-slate-300 border-slate-400/30' },
+      UNCOMMON:   { label: 'UNCOMMON',   color: '#34d399', badgeClass: 'bg-emerald-500/20 text-emerald-300 border-emerald-400/30' },
+      RARE:       { label: 'RARE',       color: '#38bdf8', badgeClass: 'bg-sky-500/20 text-sky-300 border-sky-400/30' },
+      SUPER_RARE: { label: 'SUPER RARE', color: '#c084fc', badgeClass: 'bg-purple-500/20 text-purple-300 border-purple-400/30' },
+      LEGENDARY:  { label: 'LEGENDARY',  color: '#fbbf24', badgeClass: 'bg-amber-500/20 text-amber-300 border-amber-400/40' },
+    };
+
+    const PRIZES = [
+      // Bears
+      { id: 'bear_classic',    type: 'PLUSH_BEAR',    rarity: 'COMMON',     mass: 1.05, friction: 0.72, color: 0xc68642, accent: 0xf5deb3, nameJa: 'キャラメルベア', nameEn: 'Caramel Bear', descJa: 'ふわふわ毛並みの王道テディベア。', descEn: 'Classic soft caramel teddy bear.' },
+      { id: 'bear_strawberry', type: 'PLUSH_BEAR',    rarity: 'UNCOMMON',   mass: 1.05, friction: 0.72, color: 0xf472b6, accent: 0xfce7f3, nameJa: 'ストロベリーベア', nameEn: 'Berry Pink Bear', descJa: 'いちごミルク色の甘い香り付きベア。', descEn: 'Sweet strawberry-cream plush bear.' },
+      { id: 'bear_mecha',      type: 'PLUSH_BEAR',    rarity: 'SUPER_RARE', mass: 1.35, friction: 0.58, color: 0x38bdf8, accent: 0xfbbf24, nameJa: 'メカサイバーベア', nameEn: 'Mecha Cyber Bear', descJa: 'メタリック装甲を纏った近未来ベア。', descEn: 'Armored futuristic cyber bear.' },
+      // Cats
+      { id: 'cat_calico',      type: 'PLUSH_CAT',     rarity: 'COMMON',     mass: 1.00, friction: 0.74, color: 0xf8fafc, accent: 0xf97316, nameJa: 'もちもち三毛猫', nameEn: 'Mochi Calico Cat', descJa: '丸いフォルムが愛らしい三毛猫ぬいぐるみ。', descEn: 'Round and squishy calico plush cat.' },
+      { id: 'cat_black',       type: 'PLUSH_CAT',     rarity: 'UNCOMMON',   mass: 1.00, friction: 0.74, color: 0x1e293b, accent: 0xfacc15, nameJa: 'スターライト黒猫', nameEn: 'Starlight Black Cat', descJa: '金色の瞳と星型チャームがチャームポイント。', descEn: 'Midnight cat with golden eyes.' },
+      { id: 'cat_maneki',      type: 'MASCOT_MANEKI', rarity: 'LEGENDARY',  mass: 1.55, friction: 0.48, color: 0xfbbf24, accent: 0xef4444, nameJa: 'ゴールデン招き猫', nameEn: 'Golden Lucky Cat', descJa: '純金コーティングで最高の幸運を招く伝説の置物。', descEn: 'Pure gold-plated lucky mascot.' },
+      // Rabbits
+      { id: 'rabbit_snow',     type: 'PLUSH_RABBIT',  rarity: 'COMMON',     mass: 0.95, friction: 0.75, color: 0xf1f5f9, accent: 0xfda4af, nameJa: 'スノーロップうさぎ', nameEn: 'Snowdrop Rabbit', descJa: '長い垂れ耳がかわいい白うさぎ。', descEn: 'Fluffy white rabbit with long ears.' },
+      { id: 'rabbit_sakura',   type: 'PLUSH_RABBIT',  rarity: 'RARE',       mass: 0.98, friction: 0.73, color: 0xfbcfe8, accent: 0xe11d48, nameJa: 'サクラムーンうさぎ', nameEn: 'Sakura Moon Rabbit', descJa: '桜の花びら飾りを付けた春限定モデル。', descEn: 'Spring edition cherry blossom rabbit.' },
+      // Penguins
+      { id: 'penguin_baby',    type: 'PLUSH_PENGUIN', rarity: 'COMMON',     mass: 1.10, friction: 0.68, color: 0x334155, accent: 0xf8fafc, nameJa: 'ちびっこペンギン', nameEn: 'Chilly Baby Penguin', descJa: 'よちよち歩きがかわいい赤ちゃんペンギン。', descEn: 'Plump little baby penguin plush.' },
+      { id: 'penguin_king',    type: 'PLUSH_PENGUIN', rarity: 'RARE',       mass: 1.25, friction: 0.65, color: 0x0f172a, accent: 0xfbbf24, nameJa: 'エンペラーペンギン', nameEn: 'Emperor King Penguin', descJa: '小さな王冠を被った気品あふれるペンギン。', descEn: 'Royal penguin wearing a mini crown.' },
+      // Capybaras
+      { id: 'capybara_yuzu',   type: 'PLUSH_CAPY',    rarity: 'UNCOMMON',   mass: 1.20, friction: 0.76, color: 0xa16207, accent: 0xfacc15, nameJa: 'ゆず温泉カピバラ', nameEn: 'Yuzu Onsen Capybara', descJa: '頭にゆずを乗せてリラックス中のカピバラ。', descEn: 'Chill capybara balancing a yuzu fruit.' },
+      { id: 'capybara_king',   type: 'PLUSH_CAPY',    rarity: 'SUPER_RARE', mass: 1.30, friction: 0.74, color: 0x854d0e, accent: 0xf97316, nameJa: 'みかん大王カピバラ', nameEn: 'Mandarin King Capybara', descJa: '鏡餅みかんを乗せたおめでたいカピバラ。', descEn: 'Festive capybara with mandarin stack.' },
+      // Dinosaurs & Dragons
+      { id: 'dino_rex',        type: 'PLUSH_DINO',    rarity: 'COMMON',     mass: 1.15, friction: 0.70, color: 0x10b981, accent: 0xa7f3d0, nameJa: 'ミントティラノ', nameEn: 'Mint T-Rex Plush', descJa: '小さな前足がキュートなミント色恐竜。', descEn: 'Friendly mint-green T-Rex plush.' },
+      { id: 'dino_tri',        type: 'PLUSH_DINO',    rarity: 'UNCOMMON',   mass: 1.22, friction: 0.70, color: 0xf97316, accent: 0xfef08a, nameJa: 'サンセットトリケラ', nameEn: 'Sunset Triceratops', descJa: '3本のツノが立派な夕焼け色の恐竜。', descEn: 'Three-horned sunset triceratops.' },
+      { id: 'dino_dragon',     type: 'PLUSH_DRAGON',  rarity: 'LEGENDARY',  mass: 1.45, friction: 0.62, color: 0x8b5cf6, accent: 0xfbbf24, nameJa: 'アストラルドラゴン', nameEn: 'Astral Sky Dragon', descJa: '黄金の翼を持つ幻想世界の守護竜。', descEn: 'Mythical sky dragon with golden wings.' },
+      // Pandas
+      { id: 'panda_bamboo',    type: 'PLUSH_PANDA',   rarity: 'COMMON',     mass: 1.12, friction: 0.74, color: 0xf8fafc, accent: 0x0f172a, nameJa: 'ころころパンダ', nameEn: 'Bamboo Roll Panda', descJa: '笹の葉が大好きなまんまるパンダ。', descEn: 'Roly-poly giant panda plush.' },
+      { id: 'panda_royal',     type: 'PLUSH_PANDA',   rarity: 'RARE',       mass: 1.10, friction: 0.74, color: 0xea580c, accent: 0xfef3c7, nameJa: 'レッサーパンダくん', nameEn: 'Imperial Red Panda', descJa: 'しましま尻尾が自慢のレッサーパンダ。', descEn: 'Fluffy-tailed red panda plush.' },
+      // More Cute Animals & Mascots
+      { id: 'shiba_toast',     type: 'PLUSH_DOG',     rarity: 'UNCOMMON',   mass: 1.08, friction: 0.73, color: 0xd97706, accent: 0xfef3c7, nameJa: 'こんがり柴犬', nameEn: 'Toasted Shiba Inu', descJa: '食パンみたいにこんがり焼けた柴犬。', descEn: 'Warm bread-colored Shiba plush.' },
+      { id: 'axolotl_pink',    type: 'PLUSH_AXO',     rarity: 'RARE',       mass: 0.96, friction: 0.72, color: 0xf472b6, accent: 0xe11d48, nameJa: 'ウーパールーパー', nameEn: 'Bubblegum Axolotl', descJa: 'ふさふさエラが可愛い水辺の人気者。', descEn: 'Adorable pink axolotl plush.' },
+      { id: 'alpaca_fluffy',   type: 'PLUSH_ALPACA',  rarity: 'COMMON',     mass: 1.04, friction: 0.78, color: 0xfefce8, accent: 0xfda4af, nameJa: 'もこもこアルパカ', nameEn: 'Cloud Cotton Alpaca', descJa: '雲のように柔らかい毛並みのアルパカ。', descEn: 'Cloud-soft fluffy white alpaca.' },
+      { id: 'owl_astro',       type: 'MASCOT_OWL',    rarity: 'SUPER_RARE', mass: 1.25, friction: 0.64, color: 0x4f46e5, accent: 0x38bdf8, nameJa: 'コスモフクロウ', nameEn: 'Cosmo Starlight Owl', descJa: '星空のマントを羽織った知恵のフクロウ。', descEn: 'Cosmic owl with starry plumage.' },
+      { id: 'mascot_crane',    type: 'MASCOT_CRANE',  rarity: 'SUPER_RARE', mass: 1.30, friction: 0.60, color: 0x0284c7, accent: 0xfbbf24, nameJa: 'キャプテン・クレーン', nameEn: 'Captain Crane-O', descJa: 'CRANE MASTER公式マスコットロボット！', descEn: 'Official CRANE MASTER mascot bot!' },
+      { id: 'mascot_star',     type: 'MASCOT_STAR',   rarity: 'RARE',       mass: 1.02, friction: 0.66, color: 0xfacc15, accent: 0xf97316, nameJa: 'ノヴァ・スターくん', nameEn: 'Nova Star Sprite', descJa: 'ゲームセンターの照明から生まれた星の精霊。', descEn: 'Arcade light spirit shaped like a star.' },
+      // Boxes (for Bridge Setting & Mountain Pile)
+      { id: 'box_snack_choco',   type: 'BOX', rarity: 'COMMON',     mass: 1.15, friction: 0.56, boxSize: [0.92, 0.42, 0.62], color: 0x7c2d12, accent: 0xfbbf24, label: 'CHOCO TOWER', nameJa: 'チョコタワーBIG箱', nameEn: 'Choco Tower Box', descJa: '大迫力のジャンボチョコレート菓子パッケージ。', descEn: 'Jumbo chocolate biscuit collector box.' },
+      { id: 'box_snack_matcha',  type: 'BOX', rarity: 'COMMON',     mass: 1.15, friction: 0.56, boxSize: [0.92, 0.42, 0.62], color: 0x15803d, accent: 0xfef08a, label: 'MATCHA DELUXE', nameJa: '宇治抹茶ビスケット箱', nameEn: 'Uji Matcha Box', descJa: '香り豊かな宇治抹茶スイーツの特大ボックス。', descEn: 'Deluxe Uji Matcha wafer box.' },
+      { id: 'box_figure_hero',   type: 'BOX', rarity: 'RARE',       mass: 1.35, friction: 0.52, boxSize: [0.96, 0.48, 0.66], color: 0x1d4ed8, accent: 0x38bdf8, label: 'VALKYRIE FIG', nameJa: 'サイバーヴァルキリー箱', nameEn: 'Cyber Valkyrie Box', descJa: '精密造形フィギュア入りの限定ウィンドウBOX。', descEn: 'Collector scale figure display box.' },
+      { id: 'box_figure_mecha',  type: 'BOX', rarity: 'SUPER_RARE', mass: 1.48, friction: 0.50, boxSize: [1.02, 0.50, 0.68], color: 0x6d28d9, accent: 0xf472b6, label: 'TITAN DX', nameJa: 'タイタンフレームDX箱', nameEn: 'Titan Frame DX Box', descJa: '重厚なダイキャストパーツ仕様のDXモデル箱。', descEn: 'Heavyweight die-cast mecha figure box.' },
+      { id: 'box_retro_console', type: 'BOX', rarity: 'RARE',       mass: 1.28, friction: 0.54, boxSize: [0.94, 0.44, 0.64], color: 0x334155, accent: 0xef4444, label: 'ARCADE MINI', nameJa: 'ミニアーケード筐体箱', nameEn: 'Mini Arcade Pocket Box', descJa: '卓上で遊べる復刻ミニゲーム機パッケージ。', descEn: 'Retro tabletop mini-arcade package.' },
+      // Capsules
+      { id: 'capsule_blue',    type: 'CAPSULE', rarity: 'COMMON',   mass: 0.85, friction: 0.44, color: 0x0ea5e9, accent: 0xf8fafc, nameJa: 'アクアガチャカプセル', nameEn: 'Aqua Gacha Capsule', descJa: 'ミニチャームが詰まった透明カプセル。', descEn: 'Translucent sky-blue prize capsule.' },
+      { id: 'capsule_gold',    type: 'CAPSULE', rarity: 'RARE',     mass: 0.95, friction: 0.42, color: 0xf59e0b, accent: 0xfef08a, nameJa: 'ミラクル金カプセル', nameEn: 'Miracle Gold Capsule', descJa: '当たり券入りの輝きを放つゴールドカプセル。', descEn: 'Shimmering golden jackpot capsule.' },
+      // Gems & Gold
+      { id: 'gem_ruby',        type: 'GEM',     rarity: 'UNCOMMON', mass: 1.25, friction: 0.40, color: 0xe11d48, accent: 0xfda4af, nameJa: 'クリムゾンルビー', nameEn: 'Crimson Heart Ruby', descJa: '情熱的な深紅の輝きを放つ大粒ルビー。', descEn: 'Faceted deep-crimson giant ruby.' },
+      { id: 'gem_sapphire',    type: 'GEM',     rarity: 'RARE',     mass: 1.30, friction: 0.40, color: 0x2563eb, accent: 0x93c5fd, nameJa: 'オーシャンサファイア', nameEn: 'Deep Ocean Sapphire', descJa: '深海のように澄んだ蒼い宝石。', descEn: 'Brilliant royal-blue sapphire gem.' },
+      { id: 'gem_diamond',     type: 'GEM',     rarity: 'LEGENDARY',mass: 1.40, friction: 0.36, color: 0xe0f2fe, accent: 0xffffff, nameJa: 'エターナルダイヤ', nameEn: 'Eternal Prism Diamond', descJa: '七色の光を反射する最高峰のダイヤモンド。', descEn: 'Flawless prismatic diamond.' },
+      { id: 'gold_bullion',    type: 'GOLD',    rarity: 'LEGENDARY',mass: 1.75, friction: 0.45, boxSize: [0.95, 0.36, 0.54], color: 0xfbbf24, accent: 0xfef9c3, nameJa: '純金インゴット 999.9', nameEn: '24K Royal Gold Bar', descJa: 'ずっしり重い24K純金の延べ棒！攻略の腕が試される。', descEn: 'Heavy solid 24K gold bullion bar!' },
+    ];
+
+    const PRIZE_MAP = Object.fromEntries(PRIZES.map(p => [p.id, p]));
+
+    /* =========================================================================
+       4. MACHINE CATALOG (8 ARCADE CABINETS)
+    ========================================================================= */
+    const DIFFICULTY_CONFIG = {
+      EASY:   { gripMult: 1.35, speedMult: 0.90, bridgeGap: 1.12, badgeClass: 'bg-emerald-500/20 text-emerald-300 border-emerald-400/30' },
+      NORMAL: { gripMult: 1.00, speedMult: 1.00, bridgeGap: 1.02, badgeClass: 'bg-sky-500/20 text-sky-300 border-sky-400/30' },
+      HARD:   { gripMult: 0.76, speedMult: 1.12, bridgeGap: 0.94, badgeClass: 'bg-amber-500/20 text-amber-300 border-amber-400/30' },
+      EXPERT: { gripMult: 0.58, speedMult: 1.22, bridgeGap: 0.88, badgeClass: 'bg-rose-500/20 text-rose-300 border-rose-400/30' },
+    };
+
+    const MACHINES = [
+      {
+        id: 'm_plush_easy',
+        mode: 'PLUSH',
+        difficulty: 'EASY',
+        cost: 100,
+        clawType: 3,
+        ledColor: 0x38bdf8,
+        nameJa: 'ハッピープラッシュランド',
+        nameEn: 'Happy Plush Land',
+        prizes: ['bear_classic', 'cat_calico', 'rabbit_snow', 'penguin_baby', 'panda_bamboo', 'alpaca_fluffy', 'bear_strawberry']
+      },
+      {
+        id: 'm_plush_normal',
+        mode: 'PLUSH',
+        difficulty: 'NORMAL',
+        cost: 100,
+        clawType: 3,
+        ledColor: 0x34d399,
+        nameJa: 'カピバラ＆ダイナソー園',
+        nameEn: 'Capybara & Dino Park',
+        prizes: ['capybara_yuzu', 'dino_rex', 'dino_tri', 'shiba_toast', 'axolotl_pink', 'panda_royal', 'capybara_king']
+      },
+      {
+        id: 'm_bridge_normal',
+        mode: 'BRIDGE',
+        difficulty: 'NORMAL',
+        cost: 100,
+        clawType: 2,
+        ledColor: 0xf472b6,
+        nameJa: '橋渡し：フィギュア＆菓子',
+        nameEn: 'Bridge: Figures & Snacks',
+        prizes: ['box_figure_hero', 'box_snack_choco', 'box_retro_console']
+      },
+      {
+        id: 'm_bridge_hard',
+        mode: 'BRIDGE',
+        difficulty: 'HARD',
+        cost: 200,
+        clawType: 2,
+        ledColor: 0xf59e0b,
+        nameJa: 'プロ橋渡し：DX＆純金',
+        nameEn: 'Pro Bridge: DX & Gold',
+        prizes: ['box_figure_mecha', 'gold_bullion']
+      },
+      {
+        id: 'm_mountain_normal',
+        mode: 'MOUNTAIN',
+        difficulty: 'NORMAL',
+        cost: 100,
+        clawType: 3,
+        ledColor: 0xa855f7,
+        nameJa: '宝石＆お菓子マウンテン',
+        nameEn: 'Jewel & Snack Avalanche',
+        prizes: ['capsule_blue', 'capsule_gold', 'gem_ruby', 'gem_sapphire', 'box_snack_matcha', 'rabbit_sakura', 'mascot_star']
+      },
+      {
+        id: 'm_mountain_expert',
+        mode: 'MOUNTAIN',
+        difficulty: 'EXPERT',
+        cost: 200,
+        clawType: 3,
+        ledColor: 0xe11d48,
+        nameJa: 'ロイヤル財宝マウンテン',
+        nameEn: 'Royal Treasure Mountain',
+        prizes: ['gem_diamond', 'gold_bullion', 'cat_maneki', 'dino_dragon', 'bear_mecha', 'owl_astro', 'mascot_crane']
+      },
+      {
+        id: 'm_takoyaki',
+        mode: 'TAKOYAKI',
+        difficulty: 'NORMAL',
+        cost: 100,
+        clawType: 2,
+        ledColor: 0xf97316,
+        nameJa: 'たこ焼きパニックDX',
+        nameEn: 'Takoyaki Panic DX',
+        prizes: ['cat_maneki', 'mascot_crane', 'penguin_king', 'dino_dragon']
+      },
+      {
+        id: 'm_practice',
+        mode: 'PRACTICE',
+        difficulty: 'NORMAL',
+        cost: 0,
+        clawType: 3,
+        ledColor: 0x10b981,
+        nameJa: 'フリー練習ラボ',
+        nameEn: 'Free Practice Lab',
+        prizes: ['bear_classic', 'cat_calico', 'capybara_yuzu', 'dino_rex', 'mascot_crane', 'penguin_king']
+      }
+    ];
+
+    /* =========================================================================
+       5. ACHIEVEMENTS & LOCALSTORAGE SAVE MANAGER
+    ========================================================================= */
+    const ACHIEVEMENTS = [
+      { id: 'first_win',     reward: 200, nameJa: 'はじめての景品獲得',   nameEn: 'First Prize Catch',    descJa: '初めて景品を獲得する',         descEn: 'Win your very first prize' },
+      { id: 'one_shot',      reward: 300, nameJa: '一発ゲットの達人',     nameEn: 'One-Shot Sniper',      descJa: 'その台の1プレイ目で景品を獲得', descEn: 'Win a prize on the 1st play of a machine' },
+      { id: 'win_5',         reward: 300, nameJa: 'クレーンルーキー',     nameEn: 'Claw Rookie',          descJa: '景品を累計5個獲得する',         descEn: 'Win 5 prizes in total' },
+      { id: 'win_15',        reward: 600, nameJa: 'クレーンハンター',     nameEn: 'Prize Hunter',         descJa: '景品を累計15個獲得する',        descEn: 'Win 15 prizes in total' },
+      { id: 'bridge_master', reward: 500, nameJa: '橋渡しマスター',       nameEn: 'Bridge Master',        descJa: '橋渡し設定で景品を獲得する',   descEn: 'Win a prize in Bridge mode' },
+      { id: 'tako_master',   reward: 500, nameJa: 'たこ焼き名人',         nameEn: 'Takoyaki Maestro',     descJa: 'たこ焼きキャッチャーで当たり達成', descEn: 'Hit the winning ring in Takoyaki mode' },
+      { id: 'mountain_king', reward: 400, nameJa: '雪崩コレクター',       nameEn: 'Avalanche Collector',  descJa: '山積み設定で景品を獲得する',   descEn: 'Win a prize in Mountain mode' },
+      { id: 'streak_3',      reward: 500, nameJa: '3連続キャッチ',        nameEn: 'Triple Win Streak',    descJa: '3回連続で景品を獲得する',       descEn: 'Win 3 plays in a row' },
+      { id: 'legend_owner',  reward: 800, nameJa: '伝説のハンター',       nameEn: 'Legendary Collector',  descJa: 'LEGENDARYレアリティを獲得',     descEn: 'Win a LEGENDARY rarity prize' },
+      { id: 'comp_15',       reward: 1000,nameJa: '図鑑ハーフコンプ',     nameEn: 'Half Catalog',         descJa: '17種類以上の景品を図鑑に登録', descEn: 'Unlock 17+ unique prizes in Gallery' },
+    ];
+
+    const SAVE_KEY = 'crane_master_save_v1';
+
+    class SaveManager {
+      constructor() {
+        this.data = this.load();
+      }
+
+      defaultData() {
+        return {
+          coins: 1000,
+          lastDailyDate: '',
+          stats: {
+            totalPlays: 0,
+            coinsSpent: 0,
+            totalWins: 0,
+            streak: 0,
+            bestStreak: 0,
+            modeWins: { PLUSH: 0, BRIDGE: 0, MOUNTAIN: 0, TAKOYAKI: 0, PRACTICE: 0 },
+          },
+          collection: {}, // { [prizeId]: { count, firstWinDate, playsToFirstWin } }
+          achievements: [],
+          machineStates: {}, // { [machineId]: { playsOnMachine, items: [...] } }
+          settings: {
+            lang: 'ja',
+            bgmVol: 40,
+            sfxVol: 75,
+            vibration: true,
+            quality: 'HIGH',
+          }
+        };
+      }
+
+      load() {
+        try {
+          const raw = localStorage.getItem(SAVE_KEY);
+          if (!raw) return this.defaultData();
+          const parsed = JSON.parse(raw);
+          const def = this.defaultData();
+          return {
+            ...def,
+            ...parsed,
+            stats: { ...def.stats, ...(parsed.stats || {}) },
+            settings: { ...def.settings, ...(parsed.settings || {}) },
+          };
+        } catch (e) {
+          console.warn('Corrupted save recovered:', e);
+          return this.defaultData();
+        }
+      }
+
+      save() {
+        try {
+          localStorage.setItem(SAVE_KEY, JSON.stringify(this.data));
+        } catch (e) {
+          console.warn('localStorage write failed:', e);
+        }
+      }
+
+      reset() {
+        this.data = this.defaultData();
+        this.save();
+      }
+    }
+
+    /* =========================================================================
+       6. PROCEDURAL 3D PRIZE MESH & COMPOUND PHYSICS FACTORY
+    ========================================================================= */
+    function createLabelTexture(text, bgHex, accentHex) {
+      const canvas = document.createElement('canvas');
+      canvas.width = 512;
+      canvas.height = 256;
+      const ctx = canvas.getContext('2d');
+
+      const bgCol = '#' + bgHex.toString(16).padStart(6, '0');
+      const acCol = '#' + accentHex.toString(16).padStart(6, '0');
+
+      ctx.fillStyle = bgCol;
+      ctx.fillRect(0, 0, 512, 256);
+
+      // Decorative diagonal stripe & border
+      ctx.fillStyle = acCol;
+      ctx.fillRect(0, 0, 512, 28);
+      ctx.fillRect(0, 228, 512, 28);
+      ctx.globalAlpha = 0.16;
+      ctx.beginPath();
+      ctx.moveTo(340, 0);
+      ctx.lineTo(512, 0);
+      ctx.lineTo(512, 256);
+      ctx.lineTo(240, 256);
+      ctx.closePath();
+      ctx.fill();
+      ctx.globalAlpha = 1.0;
+
+      // Crisp Title
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '900 42px Inter, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(text || 'CRANE PRIZE', 256, 118);
+
+      ctx.fillStyle = acCol;
+      ctx.font = '800 20px Inter, sans-serif';
+      ctx.fillText('OFFICIAL ARCADE EDITION', 256, 168);
+
+      const tex = new THREE.CanvasTexture(canvas);
+      tex.colorSpace = THREE.SRGBColorSpace;
+      return tex;
+    }
+
+    function buildPrizeVisualMesh(prizeDef) {
+      const group = new THREE.Group();
+      const mainMat = new THREE.MeshStandardMaterial({
+        color: prizeDef.color,
+        roughness: prizeDef.type.startsWith('PLUSH') ? 0.85 : 0.32,
+        metalness: prizeDef.type === 'GOLD' || prizeDef.id === 'cat_maneki' || prizeDef.id === 'bear_mecha' ? 0.82 : 0.08,
+      });
+      const accentMat = new THREE.MeshStandardMaterial({
+        color: prizeDef.accent,
+        roughness: 0.65,
+        metalness: 0.15,
+      });
+      const eyeMat = new THREE.MeshStandardMaterial({ color: 0x090d16, roughness: 0.15, metalness: 0.3 });
+      const noseMat = new THREE.MeshStandardMaterial({ color: 0xf43f5e, roughness: 0.4 });
+
+      const addEyes = (head, r = 0.24, yOff = 0.04, zOff = 0.21) => {
+        const eyeGeo = new THREE.SphereGeometry(0.036, 10, 10);
+        const lEye = new THREE.Mesh(eyeGeo, eyeMat);
+        lEye.position.set(-0.09, yOff, zOff);
+        const rEye = lEye.clone();
+        rEye.position.x = 0.09;
+        head.add(lEye, rEye);
+      };
+
+      if (prizeDef.type.startsWith('PLUSH_') || prizeDef.type.startsWith('MASCOT_')) {
+        // Torso
+        const torso = new THREE.Mesh(new THREE.SphereGeometry(0.28, 18, 16), mainMat);
+        torso.scale.set(1.0, 1.08, 0.92);
+        torso.position.set(0, -0.14, 0);
+        torso.castShadow = true;
+        torso.receiveShadow = true;
+        group.add(torso);
+
+        // Belly patch
+        const belly = new THREE.Mesh(new THREE.SphereGeometry(0.20, 14, 14), accentMat);
+        belly.position.set(0, -0.14, 0.13);
+        group.add(belly);
+
+        // Head
+        const head = new THREE.Mesh(new THREE.SphereGeometry(0.24, 18, 16), mainMat);
+        head.position.set(0, 0.24, 0.02);
+        head.castShadow = true;
+        head.receiveShadow = true;
+        group.add(head);
+        addEyes(head);
+
+        // Limbs (Arms & Legs)
+        const limbGeo = new THREE.SphereGeometry(0.10, 12, 12);
+        const armL = new THREE.Mesh(limbGeo, mainMat);
+        armL.position.set(-0.29, -0.06, 0.05);
+        armL.scale.set(0.9, 1.25, 0.9);
+        const armR = armL.clone();
+        armR.position.x = 0.29;
+
+        const legL = new THREE.Mesh(limbGeo, accentMat);
+        legL.position.set(-0.15, -0.37, 0.10);
+        legL.scale.set(1.0, 0.85, 1.25);
+        const legR = legL.clone();
+        legR.position.x = 0.15;
+        group.add(armL, armR, legL, legR);
+
+        // Species-specific silhouette features
+        if (prizeDef.type === 'PLUSH_BEAR' || prizeDef.type === 'PLUSH_PANDA') {
+          const earGeo = new THREE.SphereGeometry(0.085, 12, 12);
+          const earMat = prizeDef.type === 'PLUSH_PANDA' ? accentMat : mainMat;
+          const earL = new THREE.Mesh(earGeo, earMat);
+          earL.position.set(-0.18, 0.43, 0.0);
+          const earR = earL.clone();
+          earR.position.x = 0.18;
+          const snout = new THREE.Mesh(new THREE.SphereGeometry(0.09, 12, 12), accentMat);
+          snout.position.set(0, 0.20, 0.22);
+          group.add(earL, earR, snout);
+        } else if (prizeDef.type === 'PLUSH_CAT' || prizeDef.type === 'MASCOT_MANEKI') {
+          const earGeo = new THREE.ConeGeometry(0.08, 0.16, 4);
+          const earL = new THREE.Mesh(earGeo, accentMat);
+          earL.position.set(-0.16, 0.45, 0.02);
+          earL.rotation.z = 0.25;
+          const earR = earL.clone();
+          earR.position.x = 0.16;
+          earR.rotation.z = -0.25;
+          group.add(earL, earR);
+          if (prizeDef.type === 'MASCOT_MANEKI') {
+            const coin = new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.11, 0.03, 16), accentMat);
+            coin.rotation.x = Math.PI / 2;
+            coin.position.set(0, -0.12, 0.27);
+            group.add(coin);
+          }
+        } else if (prizeDef.type === 'PLUSH_RABBIT') {
+          const earGeo = new THREE.CapsuleGeometry(0.055, 0.22, 6, 10);
+          const earL = new THREE.Mesh(earGeo, mainMat);
+          earL.position.set(-0.12, 0.52, -0.02);
+          earL.rotation.z = 0.18;
+          const earR = earL.clone();
+          earR.position.x = 0.12;
+          earR.rotation.z = -0.18;
+          group.add(earL, earR);
+        } else if (prizeDef.type === 'PLUSH_PENGUIN') {
+          const beak = new THREE.Mesh(new THREE.ConeGeometry(0.06, 0.12, 8), accentMat);
+          beak.rotation.x = Math.PI / 2;
+          beak.position.set(0, 0.21, 0.27);
+          group.add(beak);
+          if (prizeDef.id === 'penguin_king') {
+            const crown = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.07, 0.08, 8), accentMat);
+            crown.position.set(0, 0.49, 0.02);
+            group.add(crown);
+          }
+        } else if (prizeDef.type === 'PLUSH_CAPY') {
+          head.scale.set(0.95, 0.92, 1.25);
+          const yuzu = new THREE.Mesh(new THREE.SphereGeometry(0.08, 12, 12), accentMat);
+          yuzu.position.set(0, 0.49, 0.02);
+          group.add(yuzu);
+        } else if (prizeDef.type === 'PLUSH_DINO' || prizeDef.type === 'PLUSH_DRAGON') {
+          const tail = new THREE.Mesh(new THREE.ConeGeometry(0.13, 0.34, 10), mainMat);
+          tail.rotation.x = -Math.PI / 2.6;
+          tail.position.set(0, -0.22, -0.32);
+          group.add(tail);
+          if (prizeDef.type === 'PLUSH_DRAGON') {
+            const wingGeo = new THREE.BoxGeometry(0.32, 0.18, 0.03);
+            const wL = new THREE.Mesh(wingGeo, accentMat);
+            wL.position.set(-0.34, 0.05, -0.14);
+            wL.rotation.y = 0.45;
+            const wR = wL.clone();
+            wR.position.x = 0.34;
+            wR.rotation.y = -0.45;
+            group.add(wL, wR);
+          }
+        } else if (prizeDef.type === 'MASCOT_CRANE') {
+          const antenna = new THREE.Mesh(new THREE.CylinderGeometry(0.015, 0.015, 0.16, 8), accentMat);
+          antenna.position.set(0, 0.52, 0);
+          const orb = new THREE.Mesh(new THREE.SphereGeometry(0.045, 10, 10), noseMat);
+          orb.position.set(0, 0.61, 0);
+          group.add(antenna, orb);
+        } else if (prizeDef.type === 'MASCOT_STAR') {
+          head.geometry = new THREE.OctahedronGeometry(0.28, 0);
+        }
+
+      } else if (prizeDef.type === 'BOX' || prizeDef.type === 'GOLD') {
+        const [sx, sy, sz] = prizeDef.boxSize || [0.92, 0.44, 0.62];
+        const geo = new THREE.BoxGeometry(sx, sy, sz);
+        if (prizeDef.type === 'BOX') {
+          const labelTex = createLabelTexture(prizeDef.label, prizeDef.color, prizeDef.accent);
+          const sideMat = new THREE.MeshStandardMaterial({ color: prizeDef.color, roughness: 0.35 });
+          const topMat = new THREE.MeshStandardMaterial({ map: labelTex, roughness: 0.25 });
+          const boxMesh = new THREE.Mesh(geo, [sideMat, sideMat, topMat, sideMat, topMat, sideMat]);
+          boxMesh.castShadow = true;
+          boxMesh.receiveShadow = true;
+          group.add(boxMesh);
+        } else {
+          // 24K Gold Bullion Bar
+          const barMesh = new THREE.Mesh(geo, mainMat);
+          barMesh.castShadow = true;
+          barMesh.receiveShadow = true;
+          const trim = new THREE.Mesh(new THREE.BoxGeometry(sx * 0.82, sy + 0.02, sz * 0.72), accentMat);
+          group.add(barMesh, trim);
+        }
+
+      } else if (prizeDef.type === 'CAPSULE') {
+        const bottom = new THREE.Mesh(
+          new THREE.SphereGeometry(0.30, 18, 12, 0, Math.PI * 2, Math.PI / 2, Math.PI / 2),
+          mainMat
+        );
+        const top = new THREE.Mesh(
+          new THREE.SphereGeometry(0.30, 18, 12, 0, Math.PI * 2, 0, Math.PI / 2),
+          new THREE.MeshPhysicalMaterial({
+            color: 0xffffff,
+            transparent: true,
+            opacity: 0.48,
+            roughness: 0.1,
+            transmission: 0.4,
+          })
+        );
+        const core = new THREE.Mesh(new THREE.OctahedronGeometry(0.14, 0), accentMat);
+        bottom.castShadow = true;
+        group.add(bottom, top, core);
+
+      } else if (prizeDef.type === 'GEM') {
+        const gemMesh = new THREE.Mesh(
+          new THREE.OctahedronGeometry(0.32, 0),
+          new THREE.MeshPhysicalMaterial({
+            color: prizeDef.color,
+            emissive: prizeDef.color,
+            emissiveIntensity: 0.18,
+            roughness: 0.08,
+            metalness: 0.15,
+            clearcoat: 1.0,
+          })
+        );
+        gemMesh.scale.set(1.05, 0.88, 1.05);
+        gemMesh.castShadow = true;
+        group.add(gemMesh);
+      }
+
+      return group;
+    }
+
+    function buildPrizePhysicsBody(prizeDef, material) {
+      const body = new CANNON.Body({
+        mass: prizeDef.mass,
+        material: material,
+        linearDamping: 0.18,
+        angularDamping: 0.28,
+        allowSleep: true,
+        sleepSpeedLimit: 0.08,
+        sleepTimeLimit: 0.6,
+      });
+
+      if (prizeDef.type.startsWith('PLUSH_') || prizeDef.type.startsWith('MASCOT_')) {
+        // Compound multi-sphere collision shape (torso + head + limbs)
+        // Lowered center of mass on torso so plushies sit upright yet tilt when grabbed off-center!
+        body.addShape(new CANNON.Sphere(0.28), new CANNON.Vec3(0, -0.15, 0));
+        body.addShape(new CANNON.Sphere(0.23), new CANNON.Vec3(0, 0.23, 0.02));
+        body.addShape(new CANNON.Sphere(0.11), new CANNON.Vec3(-0.26, -0.08, 0.04));
+        body.addShape(new CANNON.Sphere(0.11), new CANNON.Vec3(0.26, -0.08, 0.04));
+      } else if (prizeDef.type === 'BOX' || prizeDef.type === 'GOLD') {
+        const [sx, sy, sz] = prizeDef.boxSize || [0.92, 0.44, 0.62];
+        body.addShape(new CANNON.Box(new CANNON.Vec3(sx * 0.5, sy * 0.5, sz * 0.5)));
+      } else if (prizeDef.type === 'CAPSULE') {
+        body.addShape(new CANNON.Sphere(0.30));
+      } else if (prizeDef.type === 'GEM') {
+        body.addShape(new CANNON.Sphere(0.29));
+      }
+
+      return body;
+    }
+
+    /* =========================================================================
+       7. MAIN 3D GAME ENGINE (THREE.JS + CANNON-ES + STATE MACHINE)
+    ========================================================================= */
+    class CraneMasterApp {
+      constructor() {
+        this.saveMgr = new SaveManager();
+        this.sound = new SoundEngine();
+        this.sound.bgmVol = this.saveMgr.data.settings.bgmVol / 100;
+        this.sound.sfxVol = this.saveMgr.data.settings.sfxVol / 100;
+
+        // Game State Machine
+        // IDLE -> MOVING_X -> WAIT_Z -> MOVING_Z -> DROPPING -> GRABBING -> RISING -> CARRYING -> RELEASING -> JUDGING -> IDLE
+        this.state = 'IDLE';
+        this.stateTimer = 0;
+
+        this.currentMachine = MACHINES[0];
+        this.cameraMode = 'QUARTER';
+        this.orbitYaw = 0.42;
+        this.orbitPitch = 0.48;
+        this.orbitZoom = 9.4;
+
+        // Input flags
+        this.holdingX = false;
+        this.holdingZ = false;
+        this.practiceGripOverride = 1.0;
+
+        // Claw kinematics
+        this.clawHome = new THREE.Vector3(-1.45, 3.85, 1.35);
+        this.clawPos = this.clawHome.clone();
+        this.clawVel = new THREE.Vector3();
+        this.clawAngle = 0.68; // radians open (~39 deg)
+        this.clawTargetAngle = 0.68;
+        this.clawCount = 3;
+        this.swayAngle = new THREE.Vector2(0, 0);
+
+        // Active entities
+        this.prizesInCabinet = []; // { uid, prizeDef, mesh, body, won }
+        this.takoyakiBalls = [];   // { mesh, body }
+        this.takoyakiWinZone = new THREE.Vector3(0.95, 0.48, 0.45);
+        this.cabinetParts = [];    // Dynamic mode-specific meshes & bodies (bridge bars / takoyaki tray)
+        this.confettiParticles = [];
+
+        this.initThree();
+        this.initPhysics();
+        this.buildCabinetEnvironment();
+        this.buildClawAssembly();
+        this.bindUIEvents();
+        this.applyLanguage();
+        this.updateAudioUI();
+        this.updateStatsUI();
+
+        // Load initial machine
+        this.loadMachine(MACHINES[0].id, false);
+
+        // Hide boot screen
+        setTimeout(() => {
+          const boot = document.getElementById('boot-screen');
+          boot.classList.add('opacity-0', 'pointer-events-none');
+          setTimeout(() => boot.remove(), 500);
+        }, 350);
+
+        this.lastTime = performance.now();
+        this.animate = this.animate.bind(this);
+        requestAnimationFrame(this.animate);
+      }
+
+      /* -----------------------------------------------------------------------
+         THREE.JS SCENE, LIGHTING & SHADOWS
+      ----------------------------------------------------------------------- */
+      initThree() {
+        this.canvas = document.getElementById('game-canvas');
+        this.renderer = new THREE.WebGLRenderer({
+          canvas: this.canvas,
+          antialias: this.saveMgr.data.settings.quality === 'HIGH',
+          powerPreference: 'high-performance',
+        });
+        this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, this.saveMgr.data.settings.quality === 'HIGH' ? 2 : 1.25));
+        this.renderer.setSize(window.innerWidth, window.innerHeight);
+        this.renderer.shadowMap.enabled = true;
+        this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        this.renderer.toneMappingExposure = 1.12;
+
+        this.scene = new THREE.Scene();
+        this.scene.background = new THREE.Color(0x090d16);
+        this.scene.fog = new THREE.FogExp2(0x090d16, 0.032);
+
+        this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 80);
+        this.camCurrentPos = new THREE.Vector3(3.2, 4.8, 7.6);
+        this.camCurrentLook = new THREE.Vector3(0, 1.85, 0);
+
+        // Arcade Hall Ambient + Overhead Cabinet Spotlights
+        const hemiLight = new THREE.HemisphereLight(0xdbeafe, 0x1e293b, 0.85);
+        this.scene.add(hemiLight);
+
+        // Overhead Shadow-Casting Spotlight (casts clear depth shadow beneath claw!)
+        this.spotLight = new THREE.SpotLight(0xffffff, 48);
+        this.spotLight.position.set(0.4, 6.8, 1.4);
+        this.spotLight.angle = Math.PI / 3.4;
+        this.spotLight.penumbra = 0.45;
+        this.spotLight.decay = 1.4;
+        this.spotLight.distance = 18;
+        this.spotLight.castShadow = true;
+        this.spotLight.shadow.mapSize.width = this.saveMgr.data.settings.quality === 'HIGH' ? 2048 : 1024;
+        this.spotLight.shadow.mapSize.height = this.saveMgr.data.settings.quality === 'HIGH' ? 2048 : 1024;
+        this.spotLight.shadow.camera.near = 1.5;
+        this.spotLight.shadow.camera.far = 11;
+        this.spotLight.shadow.bias = -0.0005;
+        this.scene.add(this.spotLight);
+        this.scene.add(this.spotLight.target);
+        this.spotLight.target.position.set(0, 0.5, 0);
+
+        // Accent Cabinet LED Point Light
+        this.ledLight = new THREE.PointLight(0x38bdf8, 6.5, 9);
+        this.ledLight.position.set(0, 3.6, 0);
+        this.scene.add(this.ledLight);
+
+        window.addEventListener('resize', () => this.onResize());
+      }
+
+      onResize() {
+        this.camera.aspect = window.innerWidth / window.innerHeight;
+        this.camera.updateProjectionMatrix();
+        this.renderer.setSize(window.innerWidth, window.innerHeight);
+      }
+
+      /* -----------------------------------------------------------------------
+         CANNON-ES PHYSICS WORLD & CONTACT MATERIALS
+      ----------------------------------------------------------------------- */
+      initPhysics() {
+        this.world = new CANNON.World();
+        this.world.gravity.set(0, -18.5, 0);
+        this.world.broadphase = new CANNON.SAPBroadphase(this.world);
+        this.world.solver.iterations = 14;
+        this.world.allowSleep = true;
+        // Grip support must be applied for every physics substep, not just once per rendered frame.
+        this.world.addEventListener('preStep', () => this.applyPhysicalClawGripForces());
+
+        this.matCabinet = new CANNON.Material('cabinet');
+        this.matPrize   = new CANNON.Material('prize');
+        this.matClaw    = new CANNON.Material('claw');
+        this.matBar     = new CANNON.Material('bar');
+        this.matBall    = new CANNON.Material('ball');
+
+        this.world.addContactMaterial(new CANNON.ContactMaterial(this.matPrize, this.matCabinet, {
+          friction: 0.62,
+          restitution: 0.12,
+        }));
+        this.world.addContactMaterial(new CANNON.ContactMaterial(this.matPrize, this.matPrize, {
+          friction: 0.58,
+          restitution: 0.15,
+        }));
+        this.world.addContactMaterial(new CANNON.ContactMaterial(this.matPrize, this.matClaw, {
+          friction: 1.25, // High-friction rubberized claw tips
+          restitution: 0.05,
+        }));
+        this.world.addContactMaterial(new CANNON.ContactMaterial(this.matPrize, this.matBar, {
+          friction: 0.46, // Tuned for smooth Bridge sliding
+          restitution: 0.08,
+        }));
+        this.world.addContactMaterial(new CANNON.ContactMaterial(this.matBall, this.matCabinet, {
+          friction: 0.22,
+          restitution: 0.58, // Bouncy ping-pong balls for Takoyaki mode
+        }));
+        this.world.addContactMaterial(new CANNON.ContactMaterial(this.matBall, this.matBall, {
+          friction: 0.18,
+          restitution: 0.65,
+        }));
+        this.world.addContactMaterial(new CANNON.ContactMaterial(this.matBall, this.matClaw, {
+          friction: 1.15,
+          restitution: 0.15,
+        }));
+      }
+
+      /* -----------------------------------------------------------------------
+         3D ARCADE CABINET CONSTRUCTION
+      ----------------------------------------------------------------------- */
+      buildCabinetEnvironment() {
+        // Cabinet Dimensions: Width X in [-2.3, 2.3], Depth Z in [-1.85, 1.85], Floor Y = 0
+        const frameMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.35, metalness: 0.72 });
+        const darkMetalMat = new THREE.MeshStandardMaterial({ color: 0x0f172a, roughness: 0.45, metalness: 0.65 });
+        const floorMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.65, metalness: 0.15 });
+        const glassMat = new THREE.MeshPhysicalMaterial({
+          color: 0xe0f2fe,
+          transparent: true,
+          opacity: 0.13,
+          roughness: 0.06,
+          metalness: 0.05,
+          depthWrite: false,
+        });
+
+        // Arcade Hall Floor
+        const hallFloor = new THREE.Mesh(
+          new THREE.PlaneGeometry(40, 40),
+          new THREE.MeshStandardMaterial({ color: 0x070a12, roughness: 0.8 })
+        );
+        hallFloor.rotation.x = -Math.PI / 2;
+        hallFloor.position.y = -1.65;
+        this.scene.add(hallFloor);
+
+        // Lower Cabinet Base Pedestal
+        const baseMesh = new THREE.Mesh(new THREE.BoxGeometry(4.9, 1.65, 4.0), darkMetalMat);
+        baseMesh.position.set(0, -0.825, 0);
+        baseMesh.receiveShadow = true;
+        this.scene.add(baseMesh);
+
+        // Front Control Console Deck (with 3D physical buttons & coin slot!)
+        const deckMesh = new THREE.Mesh(new THREE.BoxGeometry(4.9, 0.34, 0.78), frameMat);
+        deckMesh.position.set(0, -0.12, 2.25);
+        deckMesh.rotation.x = 0.14;
+        this.scene.add(deckMesh);
+
+        const decoBtn1 = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.16, 0.18, 0.1, 20),
+          new THREE.MeshStandardMaterial({ color: 0x0284c7, emissive: 0x0284c7, emissiveIntensity: 0.45 })
+        );
+        decoBtn1.position.set(-0.55, 0.06, 2.24);
+        const decoBtn2 = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.16, 0.18, 0.1, 20),
+          new THREE.MeshStandardMaterial({ color: 0xe11d48, emissive: 0xe11d48, emissiveIntensity: 0.45 })
+        );
+        decoBtn2.position.set(0.15, 0.06, 2.24);
+        const coinSlot = new THREE.Mesh(
+          new THREE.BoxGeometry(0.18, 0.24, 0.12),
+          new THREE.MeshStandardMaterial({ color: 0xfbbf24, metalness: 0.8, roughness: 0.2 })
+        );
+        coinSlot.position.set(1.35, -0.02, 2.58);
+        this.scene.add(decoBtn1, decoBtn2, coinSlot);
+
+        // Playfield Floor (with cutout at front-left drop chute: X in [-2.25, -0.85], Z in [0.55, 1.80])
+        // Main right floor slab
+        const rightFloorMesh = new THREE.Mesh(new THREE.BoxGeometry(3.15, 0.16, 3.65), floorMat);
+        rightFloorMesh.position.set(0.725, -0.08, 0);
+        rightFloorMesh.receiveShadow = true;
+        this.scene.add(rightFloorMesh);
+
+        const rightFloorBody = new CANNON.Body({ mass: 0, material: this.matCabinet });
+        rightFloorBody.addShape(new CANNON.Box(new CANNON.Vec3(1.575, 0.25, 1.825)));
+        rightFloorBody.position.set(0.725, -0.25, 0);
+        this.world.addBody(rightFloorBody);
+
+        // Back-left floor slab (behind chute)
+        const backLeftMesh = new THREE.Mesh(new THREE.BoxGeometry(1.45, 0.16, 2.35), floorMat);
+        backLeftMesh.position.set(-1.575, -0.08, -0.65);
+        backLeftMesh.receiveShadow = true;
+        this.scene.add(backLeftMesh);
+
+        const backLeftBody = new CANNON.Body({ mass: 0, material: this.matCabinet });
+        backLeftBody.addShape(new CANNON.Box(new CANNON.Vec3(0.725, 0.25, 1.175)));
+        backLeftBody.position.set(-1.575, -0.25, -0.65);
+        this.world.addBody(backLeftBody);
+
+        // Prize Drop Chute Acrylic Walls & Glowing Target Rim (Front-Left Corner)
+        const chuteRimMat = new THREE.MeshStandardMaterial({
+          color: 0x38bdf8,
+          emissive: 0x0284c7,
+          emissiveIntensity: 0.7,
+        });
+        // Right wall of chute (low acrylic barrier so prizes can be nudged over it!)
+        const chuteWallR = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.44, 1.30), glassMat);
+        chuteWallR.position.set(-0.85, 0.22, 1.18);
+        const chuteRimR = new THREE.Mesh(new THREE.BoxGeometry(0.10, 0.05, 1.32), chuteRimMat);
+        chuteRimR.position.set(-0.85, 0.45, 1.18);
+
+        // Back wall of chute
+        const chuteWallB = new THREE.Mesh(new THREE.BoxGeometry(1.42, 0.44, 0.08), glassMat);
+        chuteWallB.position.set(-1.56, 0.22, 0.53);
+        const chuteRimB = new THREE.Mesh(new THREE.BoxGeometry(1.44, 0.05, 0.10), chuteRimMat);
+        chuteRimB.position.set(-1.56, 0.45, 0.53);
+        this.scene.add(chuteWallR, chuteRimR, chuteWallB, chuteRimB);
+
+        // Physics barriers for chute walls
+        const chuteBodyR = new CANNON.Body({ mass: 0, material: this.matCabinet });
+        chuteBodyR.addShape(new CANNON.Box(new CANNON.Vec3(0.045, 0.23, 0.65)));
+        chuteBodyR.position.set(-0.85, 0.23, 1.18);
+        this.world.addBody(chuteBodyR);
+
+        const chuteBodyB = new CANNON.Body({ mass: 0, material: this.matCabinet });
+        chuteBodyB.addShape(new CANNON.Box(new CANNON.Vec3(0.71, 0.23, 0.045)));
+        chuteBodyB.position.set(-1.56, 0.23, 0.53);
+        this.world.addBody(chuteBodyB);
+
+        // 4 Outer Cabinet Walls (Invisible/Glass physics walls + visual pillars & glass panes)
+        const wallConfigs = [
+          { pos: [0, 2.2, -1.88], size: [2.45, 2.3, 0.12] }, // Back
+          { pos: [0, 2.2,  1.88], size: [2.45, 2.3, 0.12] }, // Front
+          { pos: [-2.35, 2.2, 0], size: [0.12, 2.3, 1.95] }, // Left
+          { pos: [ 2.35, 2.2, 0], size: [0.12, 2.3, 1.95] }, // Right
+        ];
+        wallConfigs.forEach(w => {
+          const b = new CANNON.Body({ mass: 0, material: this.matCabinet });
+          b.addShape(new CANNON.Box(new CANNON.Vec3(...w.size)));
+          b.position.set(...w.pos);
+          this.world.addBody(b);
+        });
+
+        // Visual Back Wall with subtle geometric grid pattern
+        const backPanel = new THREE.Mesh(
+          new THREE.PlaneGeometry(4.6, 4.4),
+          new THREE.MeshStandardMaterial({ color: 0x0f172a, roughness: 0.5, metalness: 0.3 })
+        );
+        backPanel.position.set(0, 2.2, -1.82);
+        backPanel.receiveShadow = true;
+        this.scene.add(backPanel);
+
+        // Front, Left, Right Transparent Glass Panes
+        const frontGlass = new THREE.Mesh(new THREE.PlaneGeometry(4.55, 4.3), glassMat);
+        frontGlass.position.set(0, 2.2, 1.83);
+        const leftGlass = new THREE.Mesh(new THREE.PlaneGeometry(3.65, 4.3), glassMat);
+        leftGlass.rotation.y = Math.PI / 2;
+        leftGlass.position.set(-2.29, 2.2, 0);
+        const rightGlass = new THREE.Mesh(new THREE.PlaneGeometry(3.65, 4.3), glassMat);
+        rightGlass.rotation.y = -Math.PI / 2;
+        rightGlass.position.set(2.29, 2.2, 0);
+        this.scene.add(frontGlass, leftGlass, rightGlass);
+
+        // 4 Corner Pillars + Vertical Glowing LED Strips
+        this.ledStripsMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8 });
+        const pillarPositions = [
+          [-2.32, 2.2, -1.85],
+          [ 2.32, 2.2, -1.85],
+          [-2.32, 2.2,  1.85],
+          [ 2.32, 2.2,  1.85],
+        ];
+        pillarPositions.forEach(([px, py, pz]) => {
+          const pillar = new THREE.Mesh(new THREE.BoxGeometry(0.22, 4.5, 0.22), frameMat);
+          pillar.position.set(px, py, pz);
+          this.scene.add(pillar);
+
+          const led = new THREE.Mesh(new THREE.BoxGeometry(0.05, 4.3, 0.05), this.ledStripsMat);
+          led.position.set(px * 0.94, py, pz * 0.94);
+          this.scene.add(led);
+        });
+
+        // Top Canopy & Illuminated Marquee ("CRANE MASTER")
+        const canopy = new THREE.Mesh(new THREE.BoxGeometry(4.92, 0.72, 4.02), frameMat);
+        canopy.position.set(0, 4.72, 0);
+        this.scene.add(canopy);
+
+        const marqueeTex = this.createMarqueeTexture();
+        const marqueeMat = new THREE.MeshBasicMaterial({ map: marqueeTex });
+        const marqueeMesh = new THREE.Mesh(new THREE.PlaneGeometry(4.3, 0.56), marqueeMat);
+        marqueeMesh.position.set(0, 4.74, 2.02);
+        this.scene.add(marqueeMesh);
+
+        // Overhead Steel Gantry Rails (X-rail & Z-rail)
+        const railMat = new THREE.MeshStandardMaterial({ color: 0x94a3b8, metalness: 0.85, roughness: 0.2 });
+        this.zRailLeft = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.04, 3.5, 12), railMat);
+        this.zRailLeft.rotation.x = Math.PI / 2;
+        this.zRailLeft.position.set(-2.05, 4.18, 0);
+
+        this.zRailRight = this.zRailLeft.clone();
+        this.zRailRight.position.x = 2.05;
+
+        this.xRailBar = new THREE.Mesh(new THREE.CylinderGeometry(0.045, 0.045, 4.15, 12), railMat);
+        this.xRailBar.rotation.z = Math.PI / 2;
+        this.xRailBar.position.set(0, 4.18, this.clawHome.z);
+
+        this.scene.add(this.zRailLeft, this.zRailRight, this.xRailBar);
+      }
+
+      createMarqueeTexture() {
+        const c = document.createElement('canvas');
+        c.width = 1024;
+        c.height = 140;
+        const ctx = c.getContext('2d');
+        const grad = ctx.createLinearGradient(0, 0, 1024, 0);
+        grad.addColorStop(0, '#0f172a');
+        grad.addColorStop(0.5, '#0369a1');
+        grad.addColorStop(1, '#0f172a');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, 1024, 140);
+
+        ctx.strokeStyle = '#38bdf8';
+        ctx.lineWidth = 6;
+        ctx.strokeRect(6, 6, 1012, 128);
+
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '900 68px Inter, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.shadowColor = '#38bdf8';
+        ctx.shadowBlur = 18;
+        ctx.fillText('CRANE MASTER', 512, 74);
+
+        const tex = new THREE.CanvasTexture(c);
+        tex.colorSpace = THREE.SRGBColorSpace;
+        return tex;
+      }
+
+      /* -----------------------------------------------------------------------
+         ARTICULATED 2-CLAW / 3-CLAW GRIPPER + SYNCHRONIZED PHYSICS COLLIDERS
+      ----------------------------------------------------------------------- */
+      buildClawAssembly() {
+        if (this.clawRoot) {
+          this.scene.remove(this.clawRoot);
+        }
+        if (this.fingerBodies) {
+          this.fingerBodies.forEach(fb => this.world.removeBody(fb.body));
+        }
+
+        this.clawRoot = new THREE.Group();
+        this.scene.add(this.clawRoot);
+
+        // Telescoping Drop Cable from Gantry Rail down to Claw Hub
+        const cableMat = new THREE.MeshStandardMaterial({ color: 0x334155, metalness: 0.8, roughness: 0.3 });
+        this.cableMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.025, 1, 10), cableMat);
+        this.scene.add(this.cableMesh);
+
+        // Gantry Carriage Box on X-rail
+        this.carriageMesh = new THREE.Mesh(
+          new THREE.BoxGeometry(0.36, 0.22, 0.36),
+          new THREE.MeshStandardMaterial({ color: 0x334155, metalness: 0.7, roughness: 0.3 })
+        );
+        this.scene.add(this.carriageMesh);
+
+        // Claw Hub Housing
+        const hubMat = new THREE.MeshStandardMaterial({ color: 0xcbd5e1, metalness: 0.85, roughness: 0.2 });
+        const hub = new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.22, 0.28, 20), hubMat);
+        hub.castShadow = true;
+        this.clawRoot.add(hub);
+
+        // Illuminated Status Ring on Hub
+        this.clawRingMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8 });
+        const ring = new THREE.Mesh(new THREE.TorusGeometry(0.20, 0.025, 10, 24), this.clawRingMat);
+        ring.rotation.x = Math.PI / 2;
+        ring.position.y = -0.05;
+        this.clawRoot.add(ring);
+
+        // Floor Aiming Laser Dot (Subtle visual aid showing exact X/Z center)
+        this.aimDot = new THREE.Mesh(
+          new THREE.RingGeometry(0.05, 0.09, 20),
+          new THREE.MeshBasicMaterial({ color: 0x38bdf8, side: THREE.DoubleSide, transparent: true, opacity: 0.55 })
+        );
+        this.aimDot.rotation.x = -Math.PI / 2;
+        this.scene.add(this.aimDot);
+
+        // Articulated Fingers (2 or 3 radial fingers)
+        this.fingerPivots = [];
+        this.fingerBodies = [];
+
+        const steelMat = new THREE.MeshStandardMaterial({ color: 0xe2e8f0, metalness: 0.88, roughness: 0.18 });
+        const rubberTipMat = new THREE.MeshStandardMaterial({ color: 0xf43f5e, roughness: 0.85, metalness: 0.05 });
+
+        for (let i = 0; i < this.clawCount; i++) {
+          const radialAngle = (i / this.clawCount) * Math.PI * 2 + (this.clawCount === 2 ? 0 : Math.PI / 6);
+          const holder = new THREE.Group();
+          holder.rotation.y = radialAngle;
+          this.clawRoot.add(holder);
+
+          const pivot = new THREE.Group();
+          pivot.position.set(0.16, -0.10, 0);
+          holder.add(pivot);
+
+          // Upper finger segment
+          const upper = new THREE.Mesh(new THREE.BoxGeometry(0.055, 0.38, 0.07), steelMat);
+          upper.position.set(0.06, -0.17, 0);
+          upper.rotation.z = 0.28;
+          upper.castShadow = true;
+          pivot.add(upper);
+
+          // Lower inward-curving tip with rubber pad
+          const lower = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.34, 0.065), steelMat);
+          lower.position.set(0.02, -0.46, 0);
+          lower.rotation.z = -0.48;
+          lower.castShadow = true;
+          pivot.add(lower);
+
+          const rubberPad = new THREE.Mesh(new THREE.SphereGeometry(0.048, 10, 10), rubberTipMat);
+          rubberPad.position.set(-0.07, -0.59, 0);
+          pivot.add(rubberPad);
+
+          this.fingerPivots.push({ holder, pivot, rubberPad, radialAngle });
+
+          // Kinematic Cannon-es Collider for this claw tip + lower arm
+          const fBody = new CANNON.Body({
+            mass: 0,
+            type: CANNON.Body.KINEMATIC,
+            material: this.matClaw,
+          });
+          fBody.addShape(new CANNON.Sphere(0.065), new CANNON.Vec3(0, 0, 0));
+          fBody.addShape(new CANNON.Box(new CANNON.Vec3(0.035, 0.16, 0.04)), new CANNON.Vec3(0.06, 0.14, 0));
+          this.world.addBody(fBody);
+          this.fingerBodies.push({ body: fBody, rubberPad });
+        }
+
+        this.syncClawVisualsAndPhysics();
+      }
+
+      syncClawVisualsAndPhysics() {
+        if (!this.clawRoot) return;
+
+        // Update Gantry X-Rail & Carriage
+        this.xRailBar.position.z = this.clawPos.z;
+        this.carriageMesh.position.set(this.clawPos.x, 4.18, this.clawPos.z);
+
+        // Update Claw Root position & subtle pendulum sway
+        this.clawRoot.position.copy(this.clawPos);
+        this.clawRoot.rotation.z = this.swayAngle.x;
+        this.clawRoot.rotation.x = this.swayAngle.y;
+
+        // Update vertical drop cable
+        const cableLen = Math.max(0.15, 4.18 - this.clawPos.y);
+        this.cableMesh.scale.set(1, cableLen, 1);
+        this.cableMesh.position.set(this.clawPos.x, this.clawPos.y + cableLen * 0.5, this.clawPos.z);
+
+        // Aiming dot on floor
+        this.aimDot.position.set(this.clawPos.x, 0.015, this.clawPos.z);
+        this.aimDot.visible = (this.state === 'IDLE' || this.state === 'MOVING_X' || this.state === 'WAIT_Z' || this.state === 'MOVING_Z');
+
+        // Rotate fingers & sync kinematic physics colliders
+        this.clawRoot.updateMatrixWorld(true);
+        const worldPos = new THREE.Vector3();
+        const worldQuat = new THREE.Quaternion();
+
+        this.fingerPivots.forEach((fp, idx) => {
+          fp.pivot.rotation.z = this.clawAngle;
+          fp.rubberPad.updateMatrixWorld(true);
+          fp.rubberPad.getWorldPosition(worldPos);
+          fp.pivot.getWorldQuaternion(worldQuat);
+
+          const fb = this.fingerBodies[idx].body;
+          fb.position.set(worldPos.x, worldPos.y, worldPos.z);
+          fb.quaternion.set(worldQuat.x, worldQuat.y, worldQuat.z, worldQuat.w);
+          fb.aabbNeedsUpdate = true;
+        });
+      }
+
+      /* -----------------------------------------------------------------------
+         MACHINE & MODE SETUP (PLUSH, BRIDGE, MOUNTAIN, TAKOYAKI, PRACTICE)
+      ----------------------------------------------------------------------- */
+      clearCabinetEntities() {
+        this.prizesInCabinet.forEach(item => {
+          this.scene.remove(item.mesh);
+          this.world.removeBody(item.body);
+        });
+        this.prizesInCabinet = [];
+
+        this.takoyakiBalls.forEach(b => {
+          this.scene.remove(b.mesh);
+          this.world.removeBody(b.body);
+        });
+        this.takoyakiBalls = [];
+
+        this.cabinetParts.forEach(p => {
+          if (p.mesh) this.scene.remove(p.mesh);
+          if (p.body) this.world.removeBody(p.body);
+        });
+        this.cabinetParts = [];
+      }
+
+      loadMachine(machineId, forceResetLayout = false) {
+        const machine = MACHINES.find(m => m.id === machineId) || MACHINES[0];
+        this.currentMachine = machine;
+
+        // Abort any active cycle safely
+        this.grippedBody = null;
+        this.state = 'IDLE';
+        this.holdingX = false;
+        this.holdingZ = false;
+        this.sound.setMotorActive(false);
+        this.clawPos.copy(this.clawHome);
+        this.clawAngle = 0.68;
+        this.clawTargetAngle = 0.68;
+
+        // Set Claw Type (2 or 3 fingers)
+        this.clawCount = machine.clawType;
+        this.buildClawAssembly();
+
+        // Update Cabinet LED Color
+        this.ledStripsMat.color.setHex(machine.ledColor);
+        this.ledLight.color.setHex(machine.ledColor);
+
+        this.clearCabinetEntities();
+
+        const diffCfg = DIFFICULTY_CONFIG[machine.difficulty];
+
+        if (machine.mode === 'BRIDGE') {
+          this.setupBridgeMode(machine, diffCfg, forceResetLayout);
+        } else if (machine.mode === 'TAKOYAKI') {
+          this.setupTakoyakiMode(machine);
+        } else if (machine.mode === 'MOUNTAIN') {
+          this.setupMountainMode(machine, forceResetLayout);
+        } else {
+          this.setupPlushMode(machine, forceResetLayout);
+        }
+
+        // Toggle Practice panel visibility
+        const practicePanel = document.getElementById('practice-panel');
+        if (machine.mode === 'PRACTICE') {
+          practicePanel.classList.remove('hidden');
+        } else {
+          practicePanel.classList.add('hidden');
+        }
+
+        this.updateHUD();
+      }
+
+      spawnPrizeEntity(prizeDef, pos, quat = null) {
+        const mesh = buildPrizeVisualMesh(prizeDef);
+        const body = buildPrizePhysicsBody(prizeDef, this.matPrize);
+        body.position.set(pos.x, pos.y, pos.z);
+        if (quat) {
+          body.quaternion.set(quat.x, quat.y, quat.z, quat.w);
+        } else {
+          body.quaternion.setFromEuler(0, (Math.random() - 0.5) * 0.9, 0);
+        }
+        mesh.position.copy(pos);
+        mesh.quaternion.set(body.quaternion.x, body.quaternion.y, body.quaternion.z, body.quaternion.w);
+
+        this.scene.add(mesh);
+        this.world.addBody(body);
+
+        const record = {
+          uid: Math.random().toString(36).slice(2),
+          prizeDef,
+          mesh,
+          body,
+          won: false,
+        };
+        this.prizesInCabinet.push(record);
+        return record;
+      }
+
+      setupPlushMode(machine, forceReset) {
+        const saved = !forceReset && this.saveMgr.data.machineStates[machine.id];
+        if (saved && saved.items && saved.items.length > 0) {
+          saved.items.forEach(s => {
+            const def = PRIZE_MAP[s.prizeId];
+            if (def) this.spawnPrizeEntity(def, s.pos, s.quat);
+          });
+          return;
+        }
+
+        // Layered pile of plushies across the playfield (avoiding drop chute)
+        const spots = [
+          { x: -0.15, y: 0.48, z:  0.85 },
+          { x:  0.65, y: 0.48, z:  0.90 },
+          { x:  1.45, y: 0.48, z:  0.80 },
+          { x: -1.35, y: 0.48, z: -0.25 },
+          { x: -0.45, y: 0.48, z: -0.15 },
+          { x:  0.45, y: 0.48, z: -0.10 },
+          { x:  1.35, y: 0.48, z: -0.20 },
+          { x: -0.95, y: 0.48, z: -1.10 },
+          { x:  0.05, y: 0.48, z: -1.05 },
+          { x:  1.05, y: 0.48, z: -1.15 },
+          // Second stacked layer
+          { x:  0.25, y: 1.08, z:  0.45 },
+          { x:  0.95, y: 1.08, z:  0.35 },
+          { x: -0.25, y: 1.08, z: -0.55 },
+          { x:  0.65, y: 1.08, z: -0.60 },
+        ];
+
+        spots.forEach((pt, idx) => {
+          const pId = machine.prizes[idx % machine.prizes.length];
+          this.spawnPrizeEntity(PRIZE_MAP[pId], pt);
+        });
+        this.persistMachinePrizePositions();
+      }
+
+      setupBridgeMode(machine, diffCfg, forceReset) {
+        // Two polished stainless steel parallel bars spanning Z-axis
+        const gap = diffCfg.bridgeGap; // e.g. 1.02m between bar centers
+        const barCenterX = 0.45;
+        const barY = 0.72;
+        const barRadius = 0.042;
+        const barLen = 2.75;
+
+        const barMat = new THREE.MeshStandardMaterial({ color: 0xe2e8f0, metalness: 0.92, roughness: 0.14 });
+        const supportMat = new THREE.MeshStandardMaterial({ color: 0x334155, metalness: 0.7, roughness: 0.35 });
+
+        [-gap * 0.5, gap * 0.5].forEach(offsetX => {
+          const bx = barCenterX + offsetX;
+          const barMesh = new THREE.Mesh(new THREE.CylinderGeometry(barRadius, barRadius, barLen, 16), barMat);
+          barMesh.rotation.x = Math.PI / 2;
+          barMesh.position.set(bx, barY, -0.15);
+          barMesh.castShadow = true;
+          barMesh.receiveShadow = true;
+          this.scene.add(barMesh);
+
+          const barBody = new CANNON.Body({ mass: 0, material: this.matBar });
+          const cylShape = new CANNON.Cylinder(barRadius, barRadius, barLen, 12);
+          const q = new CANNON.Quaternion();
+          q.setFromEuler(Math.PI / 2, 0, 0);
+          barBody.addShape(cylShape, new CANNON.Vec3(0, 0, 0), q);
+          barBody.position.set(bx, barY, -0.15);
+          this.world.addBody(barBody);
+
+          // Front & Back vertical stanchions
+          [-1.45, 1.15].forEach(sz => {
+            const post = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.045, barY, 12), supportMat);
+            post.position.set(bx, barY * 0.5, sz);
+            this.scene.add(post);
+            this.cabinetParts.push({ mesh: post });
+          });
+
+          this.cabinetParts.push({ mesh: barMesh, body: barBody });
+        });
+
+        // Guide ramp under the bridge so boxes that drop through slide smoothly into the drop chute!
+        const rampGeo = new THREE.BoxGeometry(2.6, 0.08, 2.8);
+        const rampMat = new THREE.MeshStandardMaterial({ color: 0x0f172a, roughness: 0.4 });
+        const rampMesh = new THREE.Mesh(rampGeo, rampMat);
+        rampMesh.position.set(-0.25, 0.18, 0.25);
+        rampMesh.rotation.set(0.16, 0, 0.18);
+        this.scene.add(rampMesh);
+
+        const rampBody = new CANNON.Body({ mass: 0, material: this.matBar });
+        rampBody.addShape(new CANNON.Box(new CANNON.Vec3(1.3, 0.04, 1.4)));
+        rampBody.position.set(-0.25, 0.18, 0.25);
+        rampBody.quaternion.setFromEuler(0.16, 0, 0.18);
+        this.world.addBody(rampBody);
+        this.cabinetParts.push({ mesh: rampMesh, body: rampBody });
+
+        // Spawn Bridge Box across the two parallel bars
+        const saved = !forceReset && this.saveMgr.data.machineStates[machine.id];
+        if (saved && saved.items && saved.items.length > 0) {
+          saved.items.forEach(s => {
+            const def = PRIZE_MAP[s.prizeId];
+            if (def) this.spawnPrizeEntity(def, s.pos, s.quat);
+          });
+          return;
+        }
+
+        const chosenId = machine.prizes[Math.floor(Math.random() * machine.prizes.length)];
+        const boxDef = PRIZE_MAP[chosenId];
+        // Placed horizontally across the bars so player can lift & rotate it sideways!
+        this.spawnPrizeEntity(boxDef, { x: barCenterX, y: barY + 0.28, z: -0.15 });
+        this.persistMachinePrizePositions();
+      }
+
+      setupMountainMode(machine, forceReset) {
+        const saved = !forceReset && this.saveMgr.data.machineStates[machine.id];
+        if (saved && saved.items && saved.items.length > 0) {
+          saved.items.forEach(s => {
+            const def = PRIZE_MAP[s.prizeId];
+            if (def) this.spawnPrizeEntity(def, s.pos, s.quat);
+          });
+          return;
+        }
+
+        // 3-Tier Pyramid Mountain centered near the front-middle so avalanches tumble into the chute!
+        const cx = 0.25;
+        const cz = 0.15;
+        const layers = [
+          { y: 0.38, r: 0.85, count: 8 },
+          { y: 0.88, r: 0.52, count: 5 },
+          { y: 1.36, r: 0.18, count: 2 },
+        ];
+
+        let idx = 0;
+        layers.forEach(layer => {
+          for (let i = 0; i < layer.count; i++) {
+            const ang = (i / layer.count) * Math.PI * 2 + layer.y;
+            const px = cx + Math.cos(ang) * layer.r;
+            const pz = cz + Math.sin(ang) * layer.r;
+            const pId = machine.prizes[idx % machine.prizes.length];
+            idx++;
+            this.spawnPrizeEntity(PRIZE_MAP[pId], { x: px, y: layer.y, z: pz });
+          }
+        });
+        this.persistMachinePrizePositions();
+      }
+
+      setupTakoyakiMode(machine) {
+        // Left side: Ping-Pong Ball Bowl (X around -1.25, Z around -0.55)
+        const bowlMat = new THREE.MeshStandardMaterial({ color: 0xf43f5e, roughness: 0.35 });
+        const bowlWallSpecs = [
+          { pos: [-1.25, 0.22, -1.25], size: [0.75, 0.22, 0.06] },
+          { pos: [-1.25, 0.22,  0.15], size: [0.75, 0.22, 0.06] },
+          { pos: [-1.95, 0.22, -0.55], size: [0.06, 0.22, 0.75] },
+          { pos: [-0.55, 0.22, -0.55], size: [0.06, 0.22, 0.75] },
+        ];
+        bowlWallSpecs.forEach(w => {
+          const m = new THREE.Mesh(new THREE.BoxGeometry(w.size[0] * 2, w.size[1] * 2, w.size[2] * 2), bowlMat);
+          m.position.set(...w.pos);
+          this.scene.add(m);
+          const b = new CANNON.Body({ mass: 0, material: this.matCabinet });
+          b.addShape(new CANNON.Box(new CANNON.Vec3(...w.size)));
+          b.position.set(...w.pos);
+          this.world.addBody(b);
+          this.cabinetParts.push({ mesh: m, body: b });
+        });
+
+        // Right side: Takoyaki Holed Grid Plate (X in [0.1, 1.8], Z in [-0.8, 0.9])
+        const plateMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, metalness: 0.65, roughness: 0.35 });
+        const plateBase = new THREE.Mesh(new THREE.BoxGeometry(1.85, 0.26, 1.85), plateMat);
+        plateBase.position.set(0.95, 0.13, 0.05);
+        plateBase.receiveShadow = true;
+        this.scene.add(plateBase);
+        const plateBody = new CANNON.Body({ mass: 0, material: this.matCabinet });
+        plateBody.addShape(new CANNON.Box(new CANNON.Vec3(0.925, 0.13, 0.925)));
+        plateBody.position.set(0.95, 0.13, 0.05);
+        this.world.addBody(plateBody);
+        this.cabinetParts.push({ mesh: plateBase, body: plateBody });
+
+        // Raised perimeter rim around Takoyaki plate
+        const rimSpecs = [
+          { pos: [0.95, 0.34, -0.85], size: [0.95, 0.10, 0.05] },
+          { pos: [0.95, 0.34,  0.95], size: [0.95, 0.10, 0.05] },
+          { pos: [0.05, 0.34,  0.05], size: [0.05, 0.10, 0.95] },
+          { pos: [1.85, 0.34,  0.05], size: [0.05, 0.10, 0.95] },
+        ];
+        rimSpecs.forEach(r => {
+          const rm = new THREE.Mesh(new THREE.BoxGeometry(r.size[0] * 2, r.size[1] * 2, r.size[2] * 2), plateMat);
+          rm.position.set(...r.pos);
+          this.scene.add(rm);
+          const rb = new CANNON.Body({ mass: 0, material: this.matCabinet });
+          rb.addShape(new CANNON.Box(new CANNON.Vec3(...r.size)));
+          rb.position.set(...r.pos);
+          this.world.addBody(rb);
+          this.cabinetParts.push({ mesh: rm, body: rb });
+        });
+
+        // 4x4 Grid of Takoyaki Dimple Rings (1 winning red ring at row 2, col 2!)
+        const ringGeo = new THREE.TorusGeometry(0.16, 0.025, 10, 20);
+        const normalRingMat = new THREE.MeshStandardMaterial({ color: 0x64748b, roughness: 0.4 });
+        const winRingMat = new THREE.MeshStandardMaterial({
+          color: 0xef4444,
+          emissive: 0xef4444,
+          emissiveIntensity: 0.85,
+        });
+
+        for (let r = 0; r < 4; r++) {
+          for (let c = 0; c < 4; c++) {
+            const hx = 0.35 + c * 0.40;
+            const hz = -0.55 + r * 0.40;
+            const isWin = (r === 2 && c === 2);
+            const ring = new THREE.Mesh(ringGeo, isWin ? winRingMat : normalRingMat);
+            ring.rotation.x = Math.PI / 2;
+            ring.position.set(hx, 0.27, hz);
+            this.scene.add(ring);
+            this.cabinetParts.push({ mesh: ring });
+
+            // Subtle physical dividers between dimples so balls settle in holes and bridge across filled ones!
+            if (isWin) {
+              this.takoyakiWinZone.set(hx, 0.32, hz);
+            } else {
+              // Small center dimple ring collider to hold a ball in non-winning holes
+              const holdBody = new CANNON.Body({ mass: 0, material: this.matCabinet });
+              holdBody.addShape(new CANNON.Cylinder(0.14, 0.14, 0.03, 12));
+              holdBody.position.set(hx, 0.265, hz);
+              this.world.addBody(holdBody);
+              this.cabinetParts.push({ body: holdBody });
+            }
+          }
+        }
+
+        // Spawn 18 colorful ping-pong balls in the left bowl
+        const ballColors = [0xf8fafc, 0xfbbf24, 0x38bdf8, 0xf472b6];
+        for (let i = 0; i < 18; i++) {
+          const bx = -1.65 + (i % 4) * 0.26 + (Math.random() - 0.5) * 0.06;
+          const bz = -0.95 + Math.floor(i / 4) * 0.22 + (Math.random() - 0.5) * 0.06;
+          const by = 0.22 + Math.floor(i / 12) * 0.26;
+          const bMesh = new THREE.Mesh(
+            new THREE.SphereGeometry(0.125, 16, 16),
+            new THREE.MeshStandardMaterial({ color: ballColors[i % ballColors.length], roughness: 0.22 })
+          );
+          bMesh.castShadow = true;
+          bMesh.position.set(bx, by, bz);
+
+          const bBody = new CANNON.Body({
+            mass: 0.28,
+            material: this.matBall,
+            linearDamping: 0.22,
+            angularDamping: 0.25,
+          });
+          bBody.addShape(new CANNON.Sphere(0.125));
+          bBody.position.set(bx, by, bz);
+
+          this.scene.add(bMesh);
+          this.world.addBody(bBody);
+          this.takoyakiBalls.push({ mesh: bMesh, body: bBody });
+        }
+
+        // Showcase the featured prize on a pedestal at the back-right
+        const featuredId = machine.prizes[0];
+        const showcase = this.spawnPrizeEntity(PRIZE_MAP[featuredId], { x: 1.45, y: 1.35, z: -1.35 });
+        showcase.body.type = CANNON.Body.STATIC;
+        showcase.body.mass = 0;
+        showcase.body.updateMassProperties();
+      }
+
+      persistMachinePrizePositions() {
+        if (this.currentMachine.mode === 'PRACTICE' || this.currentMachine.mode === 'TAKOYAKI') return;
+        const mId = this.currentMachine.id;
+        const prev = this.saveMgr.data.machineStates[mId] || { playsOnMachine: 0, items: [] };
+        prev.items = this.prizesInCabinet
+          .filter(p => !p.won && p.body.position.y > -0.5)
+          .map(p => ({
+            prizeId: p.prizeDef.id,
+            pos: { x: p.body.position.x, y: p.body.position.y, z: p.body.position.z },
+            quat: { x: p.body.quaternion.x, y: p.body.quaternion.y, z: p.body.quaternion.z, w: p.body.quaternion.w },
+          }));
+        this.saveMgr.data.machineStates[mId] = prev;
+        this.saveMgr.save();
+      }
+
+      /* -----------------------------------------------------------------------
+         2-BUTTON STATE MACHINE & PHYSICAL CLAW CLAMPING / SLIP PHYSICS
+      ----------------------------------------------------------------------- */
+      insertCoinAndStart() {
+        if (this.state !== 'IDLE') return;
+        this.sound.ensureContext();
+        this.sound.startBGM();
+
+        const cost = this.currentMachine.cost;
+        if (cost > 0 && this.saveMgr.data.coins < cost) {
+          this.showToast(this.t('notEnoughCoins'), 'amber');
+          return;
+        }
+
+        if (cost > 0) {
+          this.saveMgr.data.coins -= cost;
+          this.saveMgr.data.stats.coinsSpent += cost;
+        }
+        this.saveMgr.data.stats.totalPlays += 1;
+
+        const mState = this.saveMgr.data.machineStates[this.currentMachine.id] || { playsOnMachine: 0, items: [] };
+        mState.playsOnMachine = (mState.playsOnMachine || 0) + 1;
+        this.saveMgr.data.machineStates[this.currentMachine.id] = mState;
+        this.saveMgr.save();
+
+        this.sound.playCoin();
+        this.triggerHaptic(25);
+
+        // Wake all physics bodies so they react naturally
+        this.prizesInCabinet.forEach(p => p.body.wakeUp());
+        this.takoyakiBalls.forEach(b => b.body.wakeUp());
+
+        this.setState('MOVING_X');
+        this.updateHUD();
+      }
+
+      setState(newState) {
+        this.state = newState;
+        this.stateTimer = 0;
+
+        // Update Claw Ring LED color by state
+        const ringColors = {
+          IDLE: 0x38bdf8,
+          MOVING_X: 0x38bdf8,
+          WAIT_Z: 0xf43f5e,
+          MOVING_Z: 0xf43f5e,
+          DROPPING: 0xfbbf24,
+          GRABBING: 0xf97316,
+          RISING: 0xa855f7,
+          CARRYING: 0x38bdf8,
+          RELEASING: 0x34d399,
+          JUDGING: 0xfbbf24,
+        };
+        if (this.clawRingMat) {
+          this.clawRingMat.color.setHex(ringColors[newState] || 0x38bdf8);
+        }
+
+        this.updateControlDeckUI();
+      }
+
+      onPressButton1() {
+        if (this.state !== 'MOVING_X') return;
+        this.holdingX = true;
+        this.sound.playButtonDown();
+        this.triggerHaptic(12);
+        document.getElementById('btn-move-x').classList.add('is-pressed');
+        this.updateControlDeckUI();
+      }
+
+      onReleaseButton1() {
+        if (!this.holdingX) return;
+        this.holdingX = false;
+        this.sound.playButtonUp();
+        this.sound.setMotorActive(false);
+        document.getElementById('btn-move-x').classList.remove('is-pressed');
+        if (this.state === 'MOVING_X') {
+          this.setState('WAIT_Z');
+        }
+      }
+
+      onPressButton2() {
+        if (this.state !== 'WAIT_Z' && this.state !== 'MOVING_Z') return;
+        this.holdingZ = true;
+        this.sound.playButtonDown();
+        this.triggerHaptic(12);
+        document.getElementById('btn-move-z').classList.add('is-pressed');
+        if (this.state === 'WAIT_Z') {
+          this.setState('MOVING_Z');
+        }
+      }
+
+      onReleaseButton2() {
+        if (!this.holdingZ) return;
+        this.holdingZ = false;
+        this.sound.playButtonUp();
+        this.sound.setMotorActive(false);
+        document.getElementById('btn-move-z').classList.remove('is-pressed');
+        if (this.state === 'MOVING_Z') {
+          // Open claw wide before dropping
+          this.clawTargetAngle = 0.76;
+          this.setState('DROPPING');
+        }
+      }
+
+      stepStateMachine(dt) {
+        this.stateTimer += dt;
+        const speedMult = DIFFICULTY_CONFIG[this.currentMachine.difficulty].speedMult;
+        const moveSpeed = 1.75 * speedMult;
+
+        // Bounds inside cabinet
+        const minX = -1.72, maxX = 1.75;
+        const minZ = -1.38, maxZ = 1.42;
+
+        let targetVelX = 0;
+        let targetVelZ = 0;
+
+        switch (this.state) {
+          case 'IDLE':
+            this.clawPos.lerp(this.clawHome, dt * 5);
+            this.clawTargetAngle = 0.68;
+            break;
+
+          case 'MOVING_X':
+            if (this.holdingX) {
+              targetVelX = moveSpeed;
+              this.clawPos.x = Math.min(maxX, this.clawPos.x + targetVelX * dt);
+              this.sound.setMotorActive(true, 118);
+              if (this.clawPos.x >= maxX - 0.001) {
+                this.onReleaseButton1();
+              }
+            } else {
+              this.sound.setMotorActive(false);
+            }
+            break;
+
+          case 'WAIT_Z':
+            this.sound.setMotorActive(false);
+            break;
+
+          case 'MOVING_Z':
+            if (this.holdingZ) {
+              targetVelZ = -moveSpeed;
+              this.clawPos.z = Math.max(minZ, this.clawPos.z + targetVelZ * dt);
+              this.sound.setMotorActive(true, 132);
+              if (this.clawPos.z <= minZ + 0.001) {
+                this.onReleaseButton2();
+              }
+            } else {
+              this.sound.setMotorActive(false);
+            }
+            break;
+
+          case 'DROPPING': {
+            this.sound.setMotorActive(true, 95);
+            const dropSpeed = 2.05;
+            // Closed rubber tips reach about 0.75 below the hub. Lower to the floor
+            // or to the selected prize's grasp height, not its top surface.
+            const floorLimit = 0.76;
+            const graspHeight = this.getClawGraspHeight(floorLimit);
+            this.clawPos.y = Math.max(graspHeight, this.clawPos.y - dropSpeed * dt);
+
+            if (this.clawPos.y <= graspHeight + 0.001 || this.stateTimer > 2.4) {
+              this.grippedBody = null;
+              this.sound.setMotorActive(false);
+              this.sound.playClawServo(true);
+              this.clawTargetAngle = -0.06; // Close inward
+              this.setState('GRABBING');
+            }
+            break;
+          }
+
+          case 'GRABBING':
+            // Fingers close over 0.65s
+            if (this.stateTimer >= 0.72) {
+              this.setState('RISING');
+            }
+            break;
+
+          case 'RISING':
+            this.sound.setMotorActive(true, 105);
+            this.clawPos.y += 1.65 * dt;
+            if (this.clawPos.y >= this.clawHome.y || this.stateTimer > 2.6) {
+              this.clawPos.y = this.clawHome.y;
+              this.sound.setMotorActive(false);
+              this.setState('CARRYING');
+            }
+            break;
+
+          case 'CARRYING': {
+            // In Takoyaki mode, carry above the glowing red winning ring; otherwise carry to front-left drop chute!
+            const dest = this.currentMachine.mode === 'TAKOYAKI'
+              ? new THREE.Vector3(this.takoyakiWinZone.x, this.clawHome.y, this.takoyakiWinZone.z)
+              : new THREE.Vector3(-1.52, this.clawHome.y, 1.22);
+
+            const toDest = dest.clone().sub(this.clawPos);
+            const dist = toDest.length();
+            if (dist > 0.04) {
+              this.sound.setMotorActive(true, 124);
+              const step = toDest.normalize().multiplyScalar(Math.min(dist, 1.95 * dt));
+              targetVelX = step.x / Math.max(dt, 0.001);
+              targetVelZ = step.z / Math.max(dt, 0.001);
+              this.clawPos.add(step);
+            } else {
+              this.clawPos.copy(dest);
+              this.sound.setMotorActive(false);
+              this.sound.playClawServo(false);
+              this.clawTargetAngle = 0.75; // Open wide to release!
+              this.setState('RELEASING');
+            }
+            // Watchdog
+            if (this.stateTimer > 4.5) {
+              this.clawPos.copy(dest);
+              this.clawTargetAngle = 0.75;
+              this.setState('RELEASING');
+            }
+            break;
+          }
+
+          case 'RELEASING':
+            if (this.stateTimer >= 0.65) {
+              this.setState('JUDGING');
+            }
+            break;
+
+          case 'JUDGING':
+            // Wait 1.45s for dropped prize or takoyaki ping-pong ball to settle & trigger win
+            this.evaluateWinCondition();
+            if (this.stateTimer >= 1.55) {
+              this.finishTurn();
+            }
+            break;
+        }
+
+        // Smoothly interpolate finger open/close angle
+        this.clawAngle += (this.clawTargetAngle - this.clawAngle) * Math.min(1, dt * 11);
+
+        // Damped pendulum sway proportional to carriage movement
+        const desiredSwayX = -targetVelX * 0.045;
+        const desiredSwayZ = targetVelZ * 0.045;
+        this.swayAngle.x += (desiredSwayX - this.swayAngle.x) * Math.min(1, dt * 8);
+        this.swayAngle.y += (desiredSwayZ - this.swayAngle.y) * Math.min(1, dt * 8);
+      }
+
+      getClawGraspHeight(floorLimit) {
+        const candidates = this.currentMachine.mode === 'TAKOYAKI'
+          ? this.takoyakiBalls
+          : this.prizesInCabinet.filter(item => !item.won && item.body.type !== CANNON.Body.STATIC);
+        let height = floorLimit;
+        for (const item of candidates) {
+          const p = item.body.position;
+          const distance = Math.hypot(p.x - this.clawPos.x, p.z - this.clawPos.z);
+          // Ignore adjacent prizes: their upper surface must not stop the claw.
+          if (distance < 0.40 && p.y < this.clawPos.y - 0.15) {
+            height = Math.max(height, p.y + 0.38);
+          }
+        }
+        return Math.min(this.clawPos.y, height);
+      }
+
+      /**
+       * Physical Clamping & Realistic Slip Force:
+       * When the claw fingers close around a prize/ball, opposing rubber tips exert inward normal clamping
+       * forces scaled by the machine's gripStrength. Because gravity pulls down on the prize's actual mass
+       * and center of mass, an off-center grab creates rotational torque that overcomes clamping friction,
+       * causing the prize to tilt, dangle, and realistically slip out!
+       */
+      applyPhysicalClawGripForces() {
+        if (!['GRABBING', 'RISING', 'CARRYING'].includes(this.state)) {
+          this.grippedBody = null;
+          return;
+        }
+        if (this.clawAngle > 0.25) return;
+        const baseGrip = this.currentMachine.mode === 'PRACTICE'
+          ? this.practiceGripOverride
+          : DIFFICULTY_CONFIG[this.currentMachine.difficulty].gripMult;
+        const center = new CANNON.Vec3(this.clawPos.x, this.clawPos.y - 0.48, this.clawPos.z);
+        const candidates = this.currentMachine.mode === 'TAKOYAKI'
+          ? this.takoyakiBalls
+          : this.prizesInCabinet.filter(item => !item.won && item.body.type !== CANNON.Body.STATIC);
+        // Acquire at most one prize, only while the fingers are closing.
+        if (!this.grippedBody && this.state === 'GRABBING') {
+          let bestScore = Infinity;
+          const reach = Math.min(0.46, 0.30 + baseGrip * 0.10);
+          for (const item of candidates) {
+            const p = item.body.position;
+            const h = Math.hypot(p.x - center.x, p.z - center.z);
+            const v = Math.abs(p.y - center.y);
+            const score = h + v * 0.5;
+            if (h < reach && v < 0.38 && score < bestScore) {
+              bestScore = score;
+              this.grippedBody = item.body;
+              this.gripAlignment = Math.max(0, 1 - h / reach);
+            }
+          }
+        }
+        const body = this.grippedBody;
+        if (!body) return;
+        const d = center.vsub(body.position);
+        if (Math.hypot(d.x, d.z) > 0.58 || Math.abs(d.y) > 0.62) {
+          this.grippedBody = null;
+          return;
+        }
+        body.wakeUp();
+        const mass = body.mass;
+        const gravity = -this.world.gravity.y;
+        const alignment = 0.62 + 0.38 * this.gripAlignment;
+        const maxLift = mass * gravity * (0.70 + 0.95 * baseGrip) * alignment;
+        const v = this.clawVelocity || { x: 0, y: 0, z: 0 };
+        // Damped spring follows the rising/moving hub while preserving difficulty and slip.
+        const clamp = (x, lo, hi) => Math.max(lo, Math.min(hi, x));
+        const lateral = mass * (16 + 14 * baseGrip);
+        const fy = mass * (gravity + 68 * d.y + 13 * (v.y - body.velocity.y));
+        const fx = mass * (65 * d.x + 13 * (v.x - body.velocity.x));
+        const fz = mass * (65 * d.z + 13 * (v.z - body.velocity.z));
+        body.applyForce(new CANNON.Vec3(
+          clamp(fx, -lateral, lateral),
+          clamp(fy, -mass * gravity * 0.25, maxLift),
+          clamp(fz, -lateral, lateral)
+        ), new CANNON.Vec3(0, 0, 0)); // Cannon expects a point relative to the body, not world coordinates.
+        body.angularVelocity.scale(0.97, body.angularVelocity);
+      }
+
+      evaluateWinCondition() {
+        if (this.turnWonPrize) return;
+
+        // 1. Standard Drop Chute Check (X in [-2.28, -0.85], Z in [0.53, 1.82], Y < 0.32)
+        if (this.currentMachine.mode !== 'TAKOYAKI') {
+          for (const item of this.prizesInCabinet) {
+            if (item.won) continue;
+            const p = item.body.position;
+            const inChute = (p.x < -0.84 && p.z > 0.52 && p.y < 0.32) || p.y < -0.35;
+            if (inChute) {
+              item.won = true;
+              this.turnWonPrize = item.prizeDef;
+              this.handlePrizeWon(item);
+              break;
+            }
+          }
+        } else {
+          // 2. Takoyaki Winning Ring Check
+          for (const ball of this.takoyakiBalls) {
+            const bp = ball.body.position;
+            const dist = Math.hypot(bp.x - this.takoyakiWinZone.x, bp.z - this.takoyakiWinZone.z);
+            if (dist < 0.21 && bp.y < 0.46) {
+              const featuredId = this.currentMachine.prizes[0];
+              this.turnWonPrize = PRIZE_MAP[featuredId];
+              this.handleTakoyakiWin(this.turnWonPrize);
+              break;
+            }
+          }
+        }
+      }
+
+      handlePrizeWon(item) {
+        // Remove won physical entity from cabinet
+        this.scene.remove(item.mesh);
+        this.world.removeBody(item.body);
+        this.recordPrizeAcquisition(item.prizeDef);
+      }
+
+      handleTakoyakiWin(prizeDef) {
+        this.recordPrizeAcquisition(prizeDef);
+      }
+
+      recordPrizeAcquisition(prizeDef) {
+        this.sound.playWinFanfare();
+        this.triggerHaptic([40, 30, 80]);
+        this.spawnConfettiBurst();
+
+        const stats = this.saveMgr.data.stats;
+        stats.totalWins += 1;
+        stats.streak += 1;
+        if (stats.streak > stats.bestStreak) stats.bestStreak = stats.streak;
+        stats.modeWins[this.currentMachine.mode] = (stats.modeWins[this.currentMachine.mode] || 0) + 1;
+
+        const mState = this.saveMgr.data.machineStates[this.currentMachine.id] || { playsOnMachine: 1, items: [] };
+        const playsUsed = mState.playsOnMachine || 1;
+        mState.playsOnMachine = 0; // Reset play counter for next prize on this machine
+        this.saveMgr.data.machineStates[this.currentMachine.id] = mState;
+
+        const col = this.saveMgr.data.collection;
+        const isNew = !col[prizeDef.id];
+        if (isNew) {
+          col[prizeDef.id] = {
+            count: 1,
+            firstWinDate: new Date().toISOString().slice(0, 10),
+            playsToFirstWin: playsUsed,
+          };
+        } else {
+          col[prizeDef.id].count += 1;
+        }
+
+        this.checkAchievements(prizeDef, playsUsed);
+        this.persistMachinePrizePositions();
+        this.saveMgr.save();
+        this.updateHUD();
+        this.openWinModal(prizeDef, isNew);
+      }
+
+      finishTurn() {
+        const wonThisTurn = !!this.turnWonPrize;
+        this.turnWonPrize = null;
+
+        if (!wonThisTurn) {
+          this.saveMgr.data.stats.streak = 0;
+          this.sound.playLoseTone();
+          this.persistMachinePrizePositions();
+          this.saveMgr.save();
+          const msg = this.currentMachine.mode === 'TAKOYAKI' ? this.t('takoMissPrompt') : this.t('missPrompt');
+          this.showToast(msg, 'slate');
+        }
+
+        // If all prizes in a standard machine are cleared, restock automatically!
+        const remaining = this.prizesInCabinet.filter(p => !p.won).length;
+        if (remaining === 0 && this.currentMachine.mode !== 'TAKOYAKI') {
+          this.loadMachine(this.currentMachine.id, true);
+          return;
+        }
+
+        this.setState('IDLE');
+        this.updateHUD();
+      }
+
+      checkAchievements(prizeDef, playsUsed) {
+        const unlocked = this.saveMgr.data.achievements;
+        const stats = this.saveMgr.data.stats;
+        const colCount = Object.keys(this.saveMgr.data.collection).length;
+
+        const tryUnlock = (id) => {
+          if (unlocked.includes(id)) return;
+          const ach = ACHIEVEMENTS.find(a => a.id === id);
+          if (!ach) return;
+          unlocked.push(id);
+          this.saveMgr.data.coins += ach.reward;
+          const title = this.saveMgr.data.settings.lang === 'ja' ? ach.nameJa : ach.nameEn;
+          this.showToast(`ACHIEVEMENT: ${title} (+${ach.reward} Coins)`, 'amber');
+        };
+
+        if (stats.totalWins >= 1) tryUnlock('first_win');
+        if (playsUsed === 1) tryUnlock('one_shot');
+        if (stats.totalWins >= 5) tryUnlock('win_5');
+        if (stats.totalWins >= 15) tryUnlock('win_15');
+        if (stats.modeWins.BRIDGE >= 1) tryUnlock('bridge_master');
+        if (stats.modeWins.TAKOYAKI >= 1) tryUnlock('tako_master');
+        if (stats.modeWins.MOUNTAIN >= 1) tryUnlock('mountain_king');
+        if (stats.streak >= 3) tryUnlock('streak_3');
+        if (prizeDef.rarity === 'LEGENDARY') tryUnlock('legend_owner');
+        if (colCount >= 17) tryUnlock('comp_15');
+      }
+
+      /* -----------------------------------------------------------------------
+         WIN CONFETTI PARTICLE SYSTEM
+      ----------------------------------------------------------------------- */
+      spawnConfettiBurst() {
+        const colors = [0xfbbf24, 0x38bdf8, 0xf472b6, 0x34d399, 0xa855f7];
+        const geo = new THREE.PlaneGeometry(0.11, 0.06);
+        for (let i = 0; i < 65; i++) {
+          const mat = new THREE.MeshBasicMaterial({
+            color: colors[i % colors.length],
+            side: THREE.DoubleSide,
+          });
+          const mesh = new THREE.Mesh(geo, mat);
+          mesh.position.set(
+            (Math.random() - 0.5) * 2.4,
+            2.6 + Math.random() * 1.2,
+            (Math.random() - 0.5) * 2.0
+          );
+          this.scene.add(mesh);
+          this.confettiParticles.push({
+            mesh,
+            vel: new THREE.Vector3((Math.random() - 0.5) * 2.2, 1.5 + Math.random() * 2.2, (Math.random() - 0.5) * 2.2),
+            rotVel: new THREE.Vector3(Math.random() * 8, Math.random() * 8, Math.random() * 8),
+            life: 2.8,
+          });
+        }
+      }
+
+      updateConfetti(dt) {
+        for (let i = this.confettiParticles.length - 1; i >= 0; i--) {
+          const p = this.confettiParticles[i];
+          p.life -= dt;
+          if (p.life <= 0) {
+            this.scene.remove(p.mesh);
+            this.confettiParticles.splice(i, 1);
+            continue;
+          }
+          p.vel.y -= 4.8 * dt;
+          p.mesh.position.addScaledVector(p.vel, dt);
+          p.mesh.rotation.x += p.rotVel.x * dt;
+          p.mesh.rotation.y += p.rotVel.y * dt;
+          p.mesh.rotation.z += p.rotVel.z * dt;
+        }
+      }
+
+      /* -----------------------------------------------------------------------
+         6 CAMERA PERSPECTIVES
+      ----------------------------------------------------------------------- */
+      setCameraMode(mode) {
+        this.cameraMode = mode;
+        document.querySelectorAll('.cam-btn').forEach(btn => {
+          const isMatch = btn.dataset.cam === mode;
+          btn.className = isMatch
+            ? 'cam-btn px-2.5 py-1.5 rounded-xl text-[11px] font-bold transition text-left flex items-center gap-1.5 bg-sky-500/25 text-sky-200 border border-sky-400/40'
+            : 'cam-btn px-2.5 py-1.5 rounded-xl text-[11px] font-bold transition text-left flex items-center gap-1.5 text-slate-300 hover:bg-slate-800/80';
+          const dot = btn.querySelector('span');
+          if (dot) dot.className = isMatch ? 'w-1.5 h-1.5 rounded-full bg-sky-400' : 'w-1.5 h-1.5 rounded-full bg-slate-500';
+        });
+      }
+
+      updateCamera(dt) {
+        let targetPos = new THREE.Vector3();
+        let targetLook = new THREE.Vector3(0, 1.75, 0);
+
+        switch (this.cameraMode) {
+          case 'QUARTER':
+            targetPos.set(3.15, 4.45, 7.25);
+            targetLook.set(0.0, 1.65, 0.1);
+            break;
+          case 'FRONT':
+            targetPos.set(0.0, 2.55, 7.65);
+            targetLook.set(0.0, 1.65, 0.0);
+            break;
+          case 'SIDE':
+            // Right-side depth alignment view!
+            targetPos.set(7.45, 2.65, 0.15);
+            targetLook.set(0.0, 1.55, 0.15);
+            break;
+          case 'TOP':
+            targetPos.set(0.0, 8.85, 1.25);
+            targetLook.set(0.0, 0.50, 0.05);
+            break;
+          case 'FOLLOW':
+            targetPos.set(this.clawPos.x * 0.65 + 1.4, this.clawPos.y + 1.15, this.clawPos.z + 4.35);
+            targetLook.set(this.clawPos.x, Math.max(0.7, this.clawPos.y - 0.65), this.clawPos.z);
+            break;
+          case 'FREE': {
+            const x = Math.sin(this.orbitYaw) * Math.cos(this.orbitPitch) * this.orbitZoom;
+            const y = Math.sin(this.orbitPitch) * this.orbitZoom + 1.4;
+            const z = Math.cos(this.orbitYaw) * Math.cos(this.orbitPitch) * this.orbitZoom;
+            targetPos.set(x, Math.max(0.6, y), z);
+            targetLook.set(0, 1.55, 0);
+            break;
+          }
+        }
+
+        const lerpRate = this.cameraMode === 'FREE' ? 14 : 6.5;
+        this.camCurrentPos.lerp(targetPos, Math.min(1, dt * lerpRate));
+        this.camCurrentLook.lerp(targetLook, Math.min(1, dt * lerpRate));
+        this.camera.position.copy(this.camCurrentPos);
+        this.camera.lookAt(this.camCurrentLook);
+      }
+
+      /* -----------------------------------------------------------------------
+         MAIN ANIMATION LOOP & FIXED-TIMESTEP PHYSICS STEP
+      ----------------------------------------------------------------------- */
+      animate(now) {
+        requestAnimationFrame(this.animate);
+        const dt = Math.min(0.05, (now - this.lastTime) / 1000);
+        this.lastTime = now;
+
+        const previousClaw = this.clawPos.clone();
+        this.stepStateMachine(dt);
+        this.clawVelocity = this.clawPos.clone().sub(previousClaw).multiplyScalar(1 / Math.max(dt, 0.001));
+        this.syncClawVisualsAndPhysics();
+
+        // Fixed-timestep physics substeps (1/120s) for rock-solid collision stability
+        this.world.step(1 / 120, dt, 6);
+
+        // Sync Three.js meshes to Cannon-es rigid/compound bodies + Out-of-bounds watchdog
+        for (const item of this.prizesInCabinet) {
+          if (item.won) continue;
+          const p = item.body.position;
+          // Out-of-bounds recovery watchdog
+          if (p.y < -3.0 || Math.abs(p.x) > 4.0 || Math.abs(p.z) > 4.0) {
+            item.body.position.set(0.3, 1.4, 0.2);
+            item.body.velocity.set(0, 0, 0);
+          }
+          item.mesh.position.set(p.x, p.y, p.z);
+          item.mesh.quaternion.set(
+            item.body.quaternion.x,
+            item.body.quaternion.y,
+            item.body.quaternion.z,
+            item.body.quaternion.w
+          );
+        }
+
+        for (const ball of this.takoyakiBalls) {
+          const p = ball.body.position;
+          if (p.y < -1.5 || Math.abs(p.x) > 3.5) {
+            ball.body.position.set(-1.25, 0.65, -0.55);
+            ball.body.velocity.set(0, 0, 0);
+          }
+          ball.mesh.position.set(p.x, p.y, p.z);
+          ball.mesh.quaternion.set(
+            ball.body.quaternion.x,
+            ball.body.quaternion.y,
+            ball.body.quaternion.z,
+            ball.body.quaternion.w
+          );
+        }
+
+        this.updateCamera(dt);
+        this.updateConfetti(dt);
+        this.renderer.render(this.scene, this.camera);
+      }
+
+      /* -----------------------------------------------------------------------
+         UI SYNCHRONIZATION, MODALS & INTERACTIONS
+      ----------------------------------------------------------------------- */
+      t(key) {
+        const lang = this.saveMgr.data.settings.lang || 'ja';
+        return (I18N[lang] && I18N[lang][key]) || I18N.ja[key] || key;
+      }
+
+      triggerHaptic(pattern) {
+        if (this.saveMgr.data.settings.vibration && navigator.vibrate) {
+          try { navigator.vibrate(pattern); } catch (_) {}
+        }
+      }
+
+      showToast(msg, tone = 'sky') {
+        const container = document.getElementById('toast-container');
+        const el = document.createElement('div');
+        const colors = {
+          sky: 'bg-slate-900/95 border-sky-400/50 text-sky-200',
+          amber: 'bg-slate-900/95 border-amber-400/60 text-amber-200',
+          slate: 'bg-slate-900/95 border-slate-600 text-slate-200',
+        };
+        el.className = `px-4 py-2 rounded-2xl border text-xs sm:text-sm font-extrabold shadow-xl transition-all duration-300 ${colors[tone] || colors.sky}`;
+        el.textContent = msg;
+        container.appendChild(el);
+        setTimeout(() => {
+          el.classList.add('opacity-0', '-translate-y-2');
+          setTimeout(() => el.remove(), 300);
+        }, 2800);
+      }
+
+      applyLanguage() {
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+          const key = el.getAttribute('data-i18n');
+          el.textContent = this.t(key);
+        });
+        const lang = this.saveMgr.data.settings.lang;
+        document.getElementById('set-lang-ja').className = lang === 'ja'
+          ? 'px-3 py-1.5 rounded-xl text-xs font-black bg-sky-500 text-slate-950'
+          : 'px-3 py-1.5 rounded-xl text-xs font-black bg-slate-700 text-slate-300';
+        document.getElementById('set-lang-en').className = lang === 'en'
+          ? 'px-3 py-1.5 rounded-xl text-xs font-black bg-sky-500 text-slate-950'
+          : 'px-3 py-1.5 rounded-xl text-xs font-black bg-slate-700 text-slate-300';
+        this.updateHUD();
+      }
+
+      updateHUD() {
+        const lang = this.saveMgr.data.settings.lang;
+        const m = this.currentMachine;
+        document.getElementById('hud-machine-name').textContent = lang === 'ja' ? m.nameJa : m.nameEn;
+
+        const diffBadge = document.getElementById('hud-diff-badge');
+        diffBadge.textContent = m.difficulty;
+        diffBadge.className = `px-1.5 py-0.5 text-[10px] font-black rounded border ${DIFFICULTY_CONFIG[m.difficulty].badgeClass}`;
+
+        document.getElementById('hud-mode-label').textContent = this.t(`mode_${m.mode}`);
+        document.getElementById('hud-claw-label').textContent = m.clawType === 2 ? this.t('claw2') : this.t('claw3');
+
+        document.getElementById('hud-coins').textContent = this.saveMgr.data.coins.toLocaleString();
+        const colCount = Object.keys(this.saveMgr.data.collection).length;
+        document.getElementById('hud-collection-count').textContent = `${colCount}/${PRIZES.length}`;
+
+        // Daily Bonus availability check
+        const today = new Date().toISOString().slice(0, 10);
+        const dailyBtn = document.getElementById('btn-daily-bonus');
+        if (this.saveMgr.data.lastDailyDate !== today) {
+          dailyBtn.classList.remove('hidden');
+        } else {
+          dailyBtn.classList.add('hidden');
+        }
+
+        // Insert coin button label
+        const coinLabel = document.getElementById('insert-coin-label');
+        if (m.cost === 0) {
+          coinLabel.textContent = lang === 'ja' ? '練習スタート (無料)' : 'PRACTICE START (FREE)';
+        } else {
+          coinLabel.textContent = lang === 'ja' ? `コイン投入 (${m.cost})` : `INSERT COIN (${m.cost})`;
+        }
+
+        this.updateControlDeckUI();
+      }
+
+      updateControlDeckUI() {
+        const idleBar = document.getElementById('controls-idle');
+        const activeBar = document.getElementById('controls-active');
+        const btnX = document.getElementById('btn-move-x');
+        const btnZ = document.getElementById('btn-move-z');
+        const statusText = document.getElementById('status-text');
+        const statusDot = document.getElementById('status-dot');
+
+        if (this.state === 'IDLE') {
+          idleBar.classList.remove('hidden');
+          activeBar.classList.add('hidden');
+          statusText.textContent = this.currentMachine.cost === 0 ? this.t('freePlayPrompt') : this.t('insertCoinPrompt');
+          statusDot.className = 'w-2 h-2 rounded-full bg-amber-400 animate-pulse';
+        } else {
+          idleBar.classList.add('hidden');
+          activeBar.classList.remove('hidden');
+
+          btnX.disabled = (this.state !== 'MOVING_X');
+          btnZ.disabled = (this.state !== 'WAIT_Z' && this.state !== 'MOVING_Z');
+
+          const promptMap = {
+            MOVING_X: this.holdingX ? this.t('movingXPrompt') : this.t('step1Prompt'),
+            WAIT_Z:   this.t('step2Prompt'),
+            MOVING_Z: this.t('movingZPrompt'),
+            DROPPING: this.t('droppingPrompt'),
+            GRABBING: this.t('grabbingPrompt'),
+            RISING:   this.t('risingPrompt'),
+            CARRYING: this.t('carryingPrompt'),
+            RELEASING:this.t('releasingPrompt'),
+            JUDGING:  this.t('judgingPrompt'),
+          };
+          statusText.textContent = promptMap[this.state] || '';
+          statusDot.className = this.state === 'WAIT_Z' || this.state === 'MOVING_Z'
+            ? 'w-2 h-2 rounded-full bg-rose-400 animate-ping'
+            : 'w-2 h-2 rounded-full bg-sky-400 animate-pulse';
+        }
+      }
+
+      updateAudioUI() {
+        const muted = this.sound.muted;
+        document.getElementById('icon-sound-on').classList.toggle('hidden', muted);
+        document.getElementById('icon-sound-off').classList.toggle('hidden', !muted);
+        document.getElementById('set-bgm-slider').value = this.saveMgr.data.settings.bgmVol;
+        document.getElementById('set-bgm-val').textContent = `${this.saveMgr.data.settings.bgmVol}%`;
+        document.getElementById('set-sfx-slider').value = this.saveMgr.data.settings.sfxVol;
+        document.getElementById('set-sfx-val').textContent = `${this.saveMgr.data.settings.sfxVol}%`;
+        document.getElementById('set-vib-state').textContent = this.saveMgr.data.settings.vibration ? 'ON' : 'OFF';
+        document.getElementById('set-qual-state').textContent = this.saveMgr.data.settings.quality;
+      }
+
+      /* -----------------------------------------------------------------------
+         LOBBY, COLLECTION GALLERY, 3D INSPECTOR & STATS MODALS
+      ----------------------------------------------------------------------- */
+      openLobbyModal() {
+        const grid = document.getElementById('lobby-grid');
+        grid.innerHTML = '';
+        const lang = this.saveMgr.data.settings.lang;
+
+        MACHINES.forEach(m => {
+          const isCurrent = m.id === this.currentMachine.id;
+          const savedItems = this.saveMgr.data.machineStates[m.id]?.items;
+          const remCount = m.mode === 'TAKOYAKI' ? 1 : (savedItems ? savedItems.length : 10);
+          const featured = PRIZE_MAP[m.prizes[0]];
+          const hexColor = '#' + m.ledColor.toString(16).padStart(6, '0');
+
+          const card = document.createElement('div');
+          card.className = `rounded-2xl p-3.5 bg-slate-800/75 border ${isCurrent ? 'border-sky-400 ring-2 ring-sky-400/30' : 'border-slate-700/80'} flex flex-col justify-between gap-3 transition hover:border-slate-500`;
+          card.innerHTML = `
+            <div>
+              <div class="flex items-center justify-between gap-1 mb-2">
+                <span class="px-2 py-0.5 text-[10px] font-black rounded border ${DIFFICULTY_CONFIG[m.difficulty].badgeClass}">${m.difficulty}</span>
+                <span class="text-[11px] font-extrabold text-amber-300">${m.cost === 0 ? this.t('freeCost') : m.cost + ' COINS'}</span>
+              </div>
+              <div class="h-16 rounded-xl mb-2.5 flex items-center justify-center relative overflow-hidden" style="background: radial-gradient(circle at center, ${hexColor}33 0%, #0f172a 85%); border: 1px solid ${hexColor}44;">
+                <div class="text-center px-2">
+                  <div class="text-[10px] font-bold uppercase tracking-wider text-slate-300">${this.t('mode_' + m.mode)}</div>
+                  <div class="text-xs font-black text-white mt-0.5 truncate">${lang === 'ja' ? featured.nameJa : featured.nameEn}</div>
+                </div>
+              </div>
+              <h3 class="text-sm font-black text-white leading-snug">${lang === 'ja' ? m.nameJa : m.nameEn}</h3>
+              <div class="flex items-center justify-between text-[11px] text-slate-400 font-semibold mt-1">
+                <span>${m.clawType === 2 ? this.t('claw2') : this.t('claw3')}</span>
+                <span>${this.t('remaining')}: ${remCount}</span>
+              </div>
+            </div>
+            <button class="w-full py-2 rounded-xl text-xs font-black transition ${isCurrent ? 'bg-sky-500 text-slate-950' : 'bg-slate-700 hover:bg-sky-500 hover:text-slate-950 text-white'}">
+              ${this.t('playMachine')}
+            </button>
+          `;
+          card.querySelector('button').addEventListener('click', () => {
+            this.loadMachine(m.id, false);
+            document.getElementById('modal-lobby').classList.add('hidden');
+          });
+          grid.appendChild(card);
+        });
+
+        document.getElementById('modal-lobby').classList.remove('hidden');
+      }
+
+      openCollectionModal(rarityFilter = 'ALL') {
+        const grid = document.getElementById('collection-grid');
+        grid.innerHTML = '';
+        const lang = this.saveMgr.data.settings.lang;
+        const col = this.saveMgr.data.collection;
+
+        const unlockedTotal = Object.keys(col).length;
+        const pct = Math.round((unlockedTotal / PRIZES.length) * 100);
+        document.getElementById('col-rate-badge').textContent = `${unlockedTotal}/${PRIZES.length} (${pct}%)`;
+
+        PRIZES.filter(p => rarityFilter === 'ALL' || p.rarity === rarityFilter).forEach(p => {
+          const entry = col[p.id];
+          const owned = !!entry;
+          const rMeta = RARITY_META[p.rarity];
+          const hexColor = '#' + p.color.toString(16).padStart(6, '0');
+
+          const card = document.createElement('button');
+          card.className = `text-left rounded-2xl p-3 border transition flex flex-col justify-between ${
+            owned
+              ? 'bg-slate-800/80 border-slate-700 hover:border-sky-400 cursor-pointer'
+              : 'bg-slate-900/60 border-slate-800/80 opacity-60 cursor-default'
+          }`;
+
+          card.innerHTML = `
+            <div class="flex items-center justify-between gap-1 mb-2">
+              <span class="px-1.5 py-0.5 text-[9px] font-black rounded border ${rMeta.badgeClass}">${rMeta.label}</span>
+              ${owned ? `<span class="text-[10px] font-black text-amber-300">x${entry.count}</span>` : ''}
+            </div>
+            <div class="h-16 rounded-xl flex items-center justify-center mb-2" style="background: ${owned ? hexColor + '28' : '#090d16'};">
+              <div class="w-9 h-9 rounded-full flex items-center justify-center ${owned ? '' : 'bg-slate-800'}" style="${owned ? 'background:' + hexColor : ''}">
+                <span class="text-xs font-black ${owned ? 'text-slate-950' : 'text-slate-600'}">${owned ? '3D' : '?'}</span>
+              </div>
+            </div>
+            <div class="text-xs font-extrabold truncate ${owned ? 'text-white' : 'text-slate-500'}">
+              ${owned ? (lang === 'ja' ? p.nameJa : p.nameEn) : '？？？'}
+            </div>
+          `;
+
+          if (owned) {
+            card.addEventListener('click', () => this.openInspectModal(p, entry));
+          }
+          grid.appendChild(card);
+        });
+
+        document.getElementById('modal-collection').classList.remove('hidden');
+      }
+
+      openInspectModal(prizeDef, entry) {
+        const lang = this.saveMgr.data.settings.lang;
+        const rMeta = RARITY_META[prizeDef.rarity];
+        const badge = document.getElementById('inspect-rarity');
+        badge.textContent = rMeta.label;
+        badge.className = `px-2.5 py-0.5 rounded-full text-[11px] font-black border ${rMeta.badgeClass}`;
+
+        document.getElementById('inspect-name').textContent = lang === 'ja' ? prizeDef.nameJa : prizeDef.nameEn;
+        document.getElementById('inspect-desc').textContent = lang === 'ja' ? prizeDef.descJa : prizeDef.descEn;
+        document.getElementById('inspect-count').textContent = entry.count;
+        document.getElementById('inspect-date').textContent = entry.firstWinDate;
+        document.getElementById('inspect-plays').textContent = entry.playsToFirstWin;
+
+        document.getElementById('modal-inspect').classList.remove('hidden');
+        this.startShowcaseRenderer('inspect-canvas', prizeDef);
+      }
+
+      openWinModal(prizeDef, isNew) {
+        const lang = this.saveMgr.data.settings.lang;
+        const rMeta = RARITY_META[prizeDef.rarity];
+        document.getElementById('win-prize-name').textContent = lang === 'ja' ? prizeDef.nameJa : prizeDef.nameEn;
+        const badge = document.getElementById('win-rarity-badge');
+        badge.textContent = rMeta.label;
+        badge.className = `px-2.5 py-0.5 rounded-full text-[11px] font-black border ${rMeta.badgeClass}`;
+
+        document.getElementById('win-new-badge').classList.toggle('hidden', !isNew);
+        const count = this.saveMgr.data.collection[prizeDef.id]?.count || 1;
+        const streak = this.saveMgr.data.stats.streak;
+        document.getElementById('win-stats-line').textContent = lang === 'ja'
+          ? `所持数: ${count}個 • 連続獲得: ${streak}回`
+          : `Owned: ${count} • Win Streak: ${streak}`;
+
+        document.getElementById('modal-win').classList.remove('hidden');
+        this.startShowcaseRenderer('win-canvas', prizeDef);
+      }
+
+      startShowcaseRenderer(canvasId, prizeDef) {
+        const canvas = document.getElementById(canvasId);
+        const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.setSize(canvas.clientWidth || 320, canvas.clientHeight || 220);
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(40, (canvas.clientWidth || 320) / (canvas.clientHeight || 220), 0.1, 20);
+        camera.position.set(0, 0.35, 2.25);
+        camera.lookAt(0, 0, 0);
+
+        scene.add(new THREE.AmbientLight(0xffffff, 1.3));
+        const dir = new THREE.DirectionalLight(0xffffff, 2.2);
+        dir.position.set(2, 3, 2);
+        scene.add(dir);
+
+        const mesh = buildPrizeVisualMesh(prizeDef);
+        mesh.scale.setScalar(1.35);
+        scene.add(mesh);
+
+        let dragging = false;
+        let lastX = 0;
+        let rotY = 0.4;
+        const onDown = (e) => { dragging = true; lastX = e.clientX || (e.touches && e.touches[0].clientX) || 0; };
+        const onMove = (e) => {
+          if (!dragging) return;
+          const cx = e.clientX || (e.touches && e.touches[0].clientX) || 0;
+          rotY += (cx - lastX) * 0.015;
+          lastX = cx;
+        };
+        const onUp = () => { dragging = false; };
+        canvas.onpointerdown = onDown;
+        canvas.onpointermove = onMove;
+        canvas.onpointerup = onUp;
+
+        const loop = () => {
+          if (canvas.closest('.hidden')) {
+            renderer.dispose();
+            return;
+          }
+          if (!dragging) rotY += 0.018;
+          mesh.rotation.y = rotY;
+          renderer.render(scene, camera);
+          requestAnimationFrame(loop);
+        };
+        requestAnimationFrame(loop);
+      }
+
+      updateStatsUI() {
+        const s = this.saveMgr.data.stats;
+        const rate = s.totalPlays > 0 ? Math.round((s.totalWins / s.totalPlays) * 100) : 0;
+        const summaryGrid = document.getElementById('stats-summary-grid');
+        const cards = [
+          { label: this.t('statPlays'), val: s.totalPlays.toLocaleString(), color: 'text-white' },
+          { label: this.t('statWins'), val: s.totalWins.toLocaleString(), color: 'text-emerald-300' },
+          { label: this.t('statRate'), val: `${rate}%`, color: 'text-sky-300' },
+          { label: this.t('statStreak'), val: `${s.bestStreak}`, color: 'text-amber-300' },
+        ];
+        summaryGrid.innerHTML = cards.map(c => `
+          <div class="bg-slate-800/70 border border-slate-700/70 rounded-2xl p-3 text-center">
+            <div class="text-[11px] font-bold text-slate-400">${c.label}</div>
+            <div class="text-xl font-black ${c.color} mt-1 tabular-nums">${c.val}</div>
+          </div>
+        `).join('');
+
+        const lang = this.saveMgr.data.settings.lang;
+        const unlocked = this.saveMgr.data.achievements;
+        const list = document.getElementById('achievements-list');
+        list.innerHTML = ACHIEVEMENTS.map(a => {
+          const done = unlocked.includes(a.id);
+          return `
+            <div class="p-3 rounded-2xl border ${done ? 'bg-amber-500/10 border-amber-400/40' : 'bg-slate-800/40 border-slate-800 opacity-65'} flex items-center justify-between gap-2">
+              <div>
+                <div class="text-xs font-black ${done ? 'text-amber-300' : 'text-slate-300'}">${lang === 'ja' ? a.nameJa : a.nameEn}</div>
+                <div class="text-[11px] text-slate-400 mt-0.5">${lang === 'ja' ? a.descJa : a.descEn}</div>
+              </div>
+              <span class="px-2 py-1 rounded-lg text-[10px] font-black shrink-0 ${done ? 'bg-amber-400 text-slate-950' : 'bg-slate-800 text-slate-400'}">
+                ${done ? this.t('unlocked') : '+' + a.reward}
+              </span>
+            </div>
+          `;
+        }).join('');
+      }
+
+      /* -----------------------------------------------------------------------
+         EVENT LISTENERS (TOUCH, POINTER, KEYBOARD, ORBIT, MODALS)
+      ----------------------------------------------------------------------- */
+      bindUIEvents() {
+        // Insert Coin / Start
+        document.getElementById('btn-insert-coin').addEventListener('click', () => this.insertCoinAndStart());
+
+        // Daily Bonus
+        document.getElementById('btn-daily-bonus').addEventListener('click', () => {
+          const today = new Date().toISOString().slice(0, 10);
+          if (this.saveMgr.data.lastDailyDate !== today) {
+            this.saveMgr.data.lastDailyDate = today;
+            this.saveMgr.data.coins += 500;
+            this.saveMgr.save();
+            this.sound.playCoin();
+            this.showToast(this.t('dailyClaimed'), 'amber');
+            this.updateHUD();
+          }
+        });
+
+        // Free Coin Refill
+        document.getElementById('btn-refill-coins').addEventListener('click', () => {
+          this.saveMgr.data.coins += 500;
+          this.saveMgr.save();
+          this.sound.playCoin();
+          this.showToast(this.t('coinsRefilled'), 'amber');
+          this.updateHUD();
+        });
+
+        // Button 1 (Hold X) & Button 2 (Hold Z) — Pointer & Touch Safe
+        const btnX = document.getElementById('btn-move-x');
+        const btnZ = document.getElementById('btn-move-z');
+
+        btnX.addEventListener('pointerdown', (e) => { e.preventDefault(); this.onPressButton1(); });
+        btnX.addEventListener('pointerup',   (e) => { e.preventDefault(); this.onReleaseButton1(); });
+        btnX.addEventListener('pointercancel', () => this.onReleaseButton1());
+        btnX.addEventListener('pointerleave',  () => { if (this.holdingX) this.onReleaseButton1(); });
+
+        btnZ.addEventListener('pointerdown', (e) => { e.preventDefault(); this.onPressButton2(); });
+        btnZ.addEventListener('pointerup',   (e) => { e.preventDefault(); this.onReleaseButton2(); });
+        btnZ.addEventListener('pointercancel', () => this.onReleaseButton2());
+        btnZ.addEventListener('pointerleave',  () => { if (this.holdingZ) this.onReleaseButton2(); });
+
+        // Keyboard Support (Space/Enter = Insert Coin, Right/D = Btn 1, Up/W = Btn 2, C = Camera)
+        window.addEventListener('keydown', (e) => {
+          if (e.repeat) return;
+          if (e.target.tagName === 'TEXTAREA' || e.target.tagName === 'INPUT') return;
+
+          if (e.code === 'Space' || e.code === 'Enter') {
+            if (this.state === 'IDLE') this.insertCoinAndStart();
+          } else if (e.code === 'ArrowRight' || e.code === 'KeyD') {
+            this.onPressButton1();
+          } else if (e.code === 'ArrowUp' || e.code === 'KeyW') {
+            this.onPressButton2();
+          } else if (e.code === 'KeyC') {
+            const order = ['QUARTER', 'FRONT', 'SIDE', 'TOP', 'FOLLOW', 'FREE'];
+            const next = order[(order.indexOf(this.cameraMode) + 1) % order.length];
+            this.setCameraMode(next);
+          }
+        });
+
+        window.addEventListener('keyup', (e) => {
+          if (e.code === 'ArrowRight' || e.code === 'KeyD') {
+            this.onReleaseButton1();
+          } else if (e.code === 'ArrowUp' || e.code === 'KeyW') {
+            this.onReleaseButton2();
+          }
+        });
+
+        // Camera Mode Buttons
+        document.querySelectorAll('.cam-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            this.setCameraMode(btn.dataset.cam);
+          });
+        });
+
+        // Free Orbit Canvas Drag & Wheel Zoom
+        let isDraggingCanvas = false;
+        let prevPointer = { x: 0, y: 0 };
+        this.canvas.addEventListener('pointerdown', (e) => {
+          isDraggingCanvas = true;
+          prevPointer = { x: e.clientX, y: e.clientY };
+        });
+        window.addEventListener('pointermove', (e) => {
+          if (!isDraggingCanvas) return;
+          const dx = e.clientX - prevPointer.x;
+          const dy = e.clientY - prevPointer.y;
+          prevPointer = { x: e.clientX, y: e.clientY };
+          if (Math.abs(dx) > 2 || Math.abs(dy) > 2) {
+            if (this.cameraMode !== 'FREE') this.setCameraMode('FREE');
+            this.orbitYaw -= dx * 0.0075;
+            this.orbitPitch = Math.max(0.08, Math.min(1.35, this.orbitPitch + dy * 0.0065));
+          }
+        });
+        window.addEventListener('pointerup', () => { isDraggingCanvas = false; });
+        this.canvas.addEventListener('wheel', (e) => {
+          e.preventDefault();
+          if (this.cameraMode !== 'FREE') this.setCameraMode('FREE');
+          this.orbitZoom = Math.max(5.2, Math.min(13.0, this.orbitZoom + e.deltaY * 0.005));
+        }, { passive: false });
+
+        // Practice Lab Controls
+        document.getElementById('practice-grip-slider').addEventListener('input', (e) => {
+          const val = Number(e.target.value);
+          this.practiceGripOverride = val / 100;
+          document.getElementById('practice-grip-val').textContent = `${val}%`;
+        });
+        document.getElementById('btn-practice-claw').addEventListener('click', () => {
+          this.currentMachine.clawType = this.currentMachine.clawType === 3 ? 2 : 3;
+          this.clawCount = this.currentMachine.clawType;
+          this.buildClawAssembly();
+          this.updateHUD();
+        });
+        document.getElementById('btn-practice-reset').addEventListener('click', () => {
+          this.loadMachine(this.currentMachine.id, true);
+        });
+
+        // Navigation Modals
+        document.getElementById('btn-open-lobby').addEventListener('click', () => this.openLobbyModal());
+        document.getElementById('btn-open-collection').addEventListener('click', () => this.openCollectionModal('ALL'));
+        document.getElementById('btn-open-stats').addEventListener('click', () => {
+          this.updateStatsUI();
+          document.getElementById('modal-stats').classList.remove('hidden');
+        });
+        document.getElementById('btn-open-settings').addEventListener('click', () => {
+          this.updateAudioUI();
+          document.getElementById('modal-settings').classList.remove('hidden');
+        });
+
+        document.querySelectorAll('[data-close-modal]').forEach(btn => {
+          btn.addEventListener('click', () => {
+            document.getElementById(btn.getAttribute('data-close-modal')).classList.add('hidden');
+          });
+        });
+
+        // Rarity Filter Buttons in Collection
+        document.querySelectorAll('.rarity-filter-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            document.querySelectorAll('.rarity-filter-btn').forEach(b => {
+              b.classList.remove('bg-sky-500', 'text-slate-950');
+              b.classList.add('bg-slate-800');
+            });
+            btn.classList.remove('bg-slate-800');
+            btn.classList.add('bg-sky-500', 'text-slate-950');
+            this.openCollectionModal(btn.dataset.rarityFilter);
+          });
+        });
+
+        // Win Modal Buttons
+        document.getElementById('btn-win-continue').addEventListener('click', () => {
+          document.getElementById('modal-win').classList.add('hidden');
+        });
+        document.getElementById('btn-win-lobby').addEventListener('click', () => {
+          document.getElementById('modal-win').classList.add('hidden');
+          this.openLobbyModal();
+        });
+
+        // Quick Audio Mute
+        document.getElementById('btn-toggle-audio').addEventListener('click', () => {
+          this.sound.muted = !this.sound.muted;
+          if (!this.sound.muted) this.sound.startBGM();
+          this.updateAudioUI();
+        });
+
+        // Settings Controls
+        document.getElementById('set-lang-ja').addEventListener('click', () => {
+          this.saveMgr.data.settings.lang = 'ja';
+          this.saveMgr.save();
+          this.applyLanguage();
+        });
+        document.getElementById('set-lang-en').addEventListener('click', () => {
+          this.saveMgr.data.settings.lang = 'en';
+          this.saveMgr.save();
+          this.applyLanguage();
+        });
+        document.getElementById('set-bgm-slider').addEventListener('input', (e) => {
+          const v = Number(e.target.value);
+          this.saveMgr.data.settings.bgmVol = v;
+          this.sound.bgmVol = v / 100;
+          this.saveMgr.save();
+          this.updateAudioUI();
+        });
+        document.getElementById('set-sfx-slider').addEventListener('input', (e) => {
+          const v = Number(e.target.value);
+          this.saveMgr.data.settings.sfxVol = v;
+          this.sound.sfxVol = v / 100;
+          this.saveMgr.save();
+          this.updateAudioUI();
+        });
+        document.getElementById('set-vib-btn').addEventListener('click', () => {
+          this.saveMgr.data.settings.vibration = !this.saveMgr.data.settings.vibration;
+          this.saveMgr.save();
+          this.updateAudioUI();
+        });
+        document.getElementById('set-qual-btn').addEventListener('click', () => {
+          const next = this.saveMgr.data.settings.quality === 'HIGH' ? 'LOW' : 'HIGH';
+          this.saveMgr.data.settings.quality = next;
+          this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, next === 'HIGH' ? 2 : 1.25));
+          this.saveMgr.save();
+          this.updateAudioUI();
+        });
+
+        // Export / Import / Two-step Reset
+        document.getElementById('btn-export-save').addEventListener('click', () => {
+          const jsonStr = JSON.stringify(this.saveMgr.data);
+          const ta = document.createElement('textarea');
+          ta.value = jsonStr;
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand('copy');
+          ta.remove();
+          this.showToast(this.t('saveCopied'), 'sky');
+        });
+
+        document.getElementById('btn-toggle-import').addEventListener('click', () => {
+          document.getElementById('import-box').classList.toggle('hidden');
+        });
+
+        document.getElementById('btn-confirm-import').addEventListener('click', () => {
+          try {
+            const raw = document.getElementById('import-textarea').value.trim();
+            const parsed = JSON.parse(raw);
+            if (!parsed || typeof parsed.coins !== 'number') throw new Error('Invalid');
+            this.saveMgr.data = { ...this.saveMgr.defaultData(), ...parsed };
+            this.saveMgr.save();
+            this.applyLanguage();
+            this.loadMachine(this.currentMachine.id, false);
+            this.showToast(this.t('saveImported'), 'sky');
+            document.getElementById('import-box').classList.add('hidden');
+          } catch (_) {
+            this.showToast(this.t('saveInvalid'), 'amber');
+          }
+        });
+
+        let resetArmed = false;
+        const resetBtn = document.getElementById('btn-reset-save');
+        resetBtn.addEventListener('click', () => {
+          if (!resetArmed) {
+            resetArmed = true;
+            resetBtn.textContent = this.t('resetConfirmPrompt');
+            setTimeout(() => {
+              resetArmed = false;
+              resetBtn.textContent = this.t('resetData');
+            }, 4000);
+          } else {
+            resetArmed = false;
+            this.saveMgr.reset();
+            this.applyLanguage();
+            this.loadMachine(MACHINES[0].id, true);
+            resetBtn.textContent = this.t('resetData');
+            this.showToast(this.t('saveResetDone'), 'amber');
+          }
+        });
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      window.craneApp = new CraneMasterApp();
+    });
+  </script>
+</body>
+</html>

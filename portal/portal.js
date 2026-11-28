@@ -1,5 +1,33 @@
 (function () {
   'use strict';
+  // Mobile Safari may smart-zoom on double taps even if touch-action is set.
+  // Only prevent multi-touch and rapid second-tap defaults; keep single-finger scrolling.
+  const preventAccidentalZoom = () => {
+    const stop = e => { if (e.cancelable) e.preventDefault(); };
+    const opts = {capture:true, passive:false};
+    let lastTime = 0, lastX = 0, lastY = 0;
+    for (const name of ['gesturestart','gesturechange','gestureend','dblclick']) {
+      document.addEventListener(name, stop, opts);
+    }
+    document.addEventListener('touchstart', e => {
+      if (e.touches.length > 1) { stop(e); lastTime = 0; }
+    }, opts);
+    document.addEventListener('touchmove', e => {
+      if (e.touches.length > 1) stop(e);
+    }, opts);
+    document.addEventListener('touchend', e => {
+      if (e.touches.length || e.changedTouches.length !== 1) return;
+      const t = e.changedTouches[0], now = performance.now();
+      const repeated = now - lastTime < 380 &&
+        Math.abs(t.clientX - lastX) < 45 && Math.abs(t.clientY - lastY) < 45;
+      lastTime = now; lastX = t.clientX; lastY = t.clientY;
+      if (!repeated) return;
+      stop(e);
+      lastTime = 0;
+      const button = e.target instanceof Element ? e.target.closest('button') : null;
+      if (button && !button.disabled) button.click();
+    }, opts);
+  };
   const boot = () => {
     const data = window.MainichiCatalog;
     if (!data || document.documentElement.dataset.mainichiReady) return;
@@ -30,6 +58,7 @@
       }
     }
     const portal = $('#mt-portal');
+    if (portal) preventAccidentalZoom();
     const header = $('#mt-site-header') || $('.Header .header-widget') || $('.Header');
     if (header && !$('.mt-languagebar')) {
       const bar = document.createElement('div');
@@ -125,7 +154,7 @@
       $('#mt-game-frame')?.setAttribute('title', t('playing') + ': ' + activeGame.title[lang]);
       const languageLabel = $('#mt-player-language');
       if (languageLabel) {
-        languageLabel.dataset.mtI18n = activeGame.localizedGame ? 'original' : 'japaneseGame';
+        languageLabel.dataset.mtI18n = activeGame.id === 'crane-master' ? 'jaEnGame' : activeGame.localizedGame ? 'original' : 'japaneseGame';
         languageLabel.textContent = t(languageLabel.dataset.mtI18n);
       }
       $('#mt-road-note').hidden = activeGame.id !== 'golden-week';

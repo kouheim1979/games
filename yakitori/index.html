@@ -2,251 +2,78 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8">
-<script src="../i18n/dict/yakitori.js"></script><script src="../i18n/i18n.js"></script>
-
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="焼き台の串を入れかえて同じ串を3本そろえ、焼いてお客さんの注文に届けるパズルゲーム。">
-<meta name="theme-color" content="#F4EBDD" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#1C1410" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f7f3e8">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="やきとり屋">
+<meta name="apple-mobile-web-app-title" content="やきとり ならべ">
 <link rel="manifest" href="manifest.webmanifest">
-<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="icon" href="icon-192.png" type="image/png">
 <link rel="apple-touch-icon" href="icon-192.png">
+<link rel="preload" as="font" type="font/woff2" href="fonts/menu-round.woff2" crossorigin>
+<link rel="stylesheet" href="style.css">
+<script src="../i18n/dict/yakitori.js"></script>
+<script src="../i18n/i18n.js"></script>
 <title>やきとり ならべ</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Zen+Maru+Gothic:wght@500;700;900&display=swap">
-<style>
-:root {
-  --paper: #F4EBDD;
-  --wood: #E2C9A2;
-  --wood-2: #CFAF80;
-  --card: #FFFBF4;
-  --ink: #3A2418;
-  --muted: #7D6350;
-  --line: #D9C4A6;
-  --noren: #B8362A;
-  --noren-ink: #FFF6EA;
-  --grill: #34302E;
-  --grill-rim: #1F1C1B;
-  --bar: #55504D;
-  --ember: #FF7A2E;
-  --ok: #2E8B57;
-  --bad: #C2402F;
-  --display: "Dela Gothic One", "Hiragino Sans", "Yu Gothic", sans-serif;
-  --body: "Zen Maru Gothic", "Hiragino Maru Gothic ProN", "Yu Gothic", sans-serif;
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --paper: #1C1410; --wood: #3B2A1E; --wood-2: #4A3526; --card: #2A1E17; --ink: #F5E9DA; --muted: #BFA58C;
-    --line: #4C3A2C; --noren: #D2493A; --noren-ink: #FFF6EA; --grill: #2A2624; --grill-rim: #0E0C0B; --bar: #45403D;
-    --ok: #4CC184; --bad: #F07160; color-scheme: dark;
-  }
-}
-:root[data-theme="dark"] {
-  --paper: #1C1410; --wood: #3B2A1E; --wood-2: #4A3526; --card: #2A1E17; --ink: #F5E9DA; --muted: #BFA58C;
-  --line: #4C3A2C; --noren: #D2493A; --noren-ink: #FFF6EA; --grill: #2A2624; --grill-rim: #0E0C0B; --bar: #45403D;
-  --ok: #4CC184; --bad: #F07160; color-scheme: dark;
-}
-* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
-.board, .board * { touch-action: none; }
-[hidden] { display: none !important; }
-html, body { margin: 0; min-height: 100%; overflow-x: hidden; }
-body {
-  background: var(--paper); color: var(--ink); font-family: var(--body);
-  font-size: 16px; line-height: 1.5; -webkit-text-size-adjust: 100%;
-  user-select: none; -webkit-user-select: none; overscroll-behavior: none;
-}
-button { font: inherit; color: inherit; cursor: pointer; }
-.wrap {
-  max-width: 520px; margin: 0 auto; min-height: 100dvh;
-  padding: max(8px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(12px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
-  display: flex; flex-direction: column; gap: 8px;
-}
-.noren { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; margin: 0 -4px; }
-.noren span {
-  background: var(--noren); color: var(--noren-ink); font-family: var(--display);
-  text-align: center; font-size: 1.05rem; padding: 4px 0 8px; border-radius: 0 0 6px 6px; letter-spacing: .1em;
-}
-.hud { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-variant-numeric: tabular-nums; }
-.hud .stat { display: flex; flex-direction: column; line-height: 1.2; }
-.hud .stat small { font-size: .7rem; color: var(--muted); font-weight: 700; letter-spacing: .1em; }
-.hud .stat b { font-family: var(--display); font-weight: 400; font-size: 1.1rem; }
-.hearts { letter-spacing: 2px; font-size: 1rem; }
-.iconbtn { background: none; border: 2px solid var(--line); border-radius: 10px; width: 36px; height: 36px; font-size: 1rem; }
-
-/* カウンター */
-.counter {
-  background: linear-gradient(var(--wood), var(--wood-2)); border-radius: 14px; padding: 8px 8px 10px;
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; box-shadow: inset 0 -6px 0 rgba(0,0,0,.12);
-}
-.seat { display: flex; flex-direction: column; align-items: center; gap: 2px; min-height: 128px; justify-content: flex-end; position: relative; }
-.bubble {
-  background: var(--card); border: 2px solid var(--ink); border-radius: 12px; padding: 3px 6px 4px;
-  display: flex; flex-direction: column; align-items: center; gap: 2px; position: relative; min-width: 92px;
-}
-.bubble::after { content: ""; position: absolute; bottom: -8px; left: 50%; translate: -50% 0; border: 7px solid transparent; border-top-color: var(--ink); border-bottom: 0; }
-.bubble .ord { display: flex; align-items: center; gap: 3px; font-weight: 900; font-size: .8rem; white-space: nowrap; }
-.bubble .ord svg { width: 13px; height: 36px; }
-.bubble .ord .x { font-family: var(--display); font-weight: 400; font-size: .75rem; color: var(--muted); }
-.pbar { width: 100%; height: 5px; background: var(--line); border-radius: 3px; overflow: hidden; }
-.pbar i { display: block; height: 100%; width: 100%; background: var(--ok); border-radius: 3px; transform-origin: left; }
-.face { font-size: 1.9rem; line-height: 1; margin-top: 6px; }
-.seat.arrive .bubble, .seat.arrive .face { animation: arrive .4s cubic-bezier(.3,1.5,.5,1); }
-@keyframes arrive { from { opacity: 0; translate: 0 14px; } }
-.seat.happy .bubble { border-color: var(--ok); }
-.seat .msg { position: absolute; top: 0; left: 50%; translate: -50% 0; font-weight: 900; font-size: .85rem; white-space: nowrap; animation: floatup 1.2s ease-out forwards; pointer-events: none; }
-.seat .msg.good { color: var(--ok); }
-.seat .msg.bad { color: var(--bad); }
-@keyframes floatup { from { opacity: 1; translate: -50% 10px; } to { opacity: 0; translate: -50% -26px; } }
-.empty-seat { color: var(--muted); font-size: .75rem; opacity: .7; margin-bottom: 6px; }
-.queue { text-align: center; font-size: .72rem; color: var(--muted); margin-top: -4px; font-weight: 700; }
-.queue:empty { display: none; }
-/* お客さん：うしろの列（つぎに座る人） */
-.behind { display: flex; align-items: center; gap: 3px; background: rgba(255,255,255,.55); border: 1.5px dashed var(--muted); border-radius: 999px; padding: 1px 7px 1px 3px; margin-bottom: 2px; }
-:root[data-theme="dark"] .behind { background: rgba(0,0,0,.25); }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .behind { background: rgba(0,0,0,.25); } }
-.behind .tag { font-size: .6rem; font-weight: 900; color: var(--noren); }
-.behind .nf { font-size: 1.05rem; line-height: 1; }
-.behind svg { width: 24px; height: 16px; }
-.behind .nn { font-size: .68rem; font-weight: 900; white-space: nowrap; }
-.behind.none { visibility: hidden; }
-/* 焼き台：つぎの段 */
-.nextrow { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; background: rgba(0,0,0,.4); border-radius: 6px; padding: 3px 0 2px; margin-bottom: 4px; position: relative; }
-.nextrow .lbl { position: absolute; left: -2px; top: -9px; font-size: .58rem; font-weight: 900; color: #fff; background: var(--noren); border-radius: 4px; padding: 0 4px; line-height: 1.4; z-index: 2; }
-.nextrow .ni { display: flex; justify-content: center; align-items: center; height: 20px; }
-.nextrow .ni svg { width: 28px; height: 19px; filter: saturate(.85); }
-.nextrow .ni.empty::after { content: ""; width: 10px; height: 2px; background: rgba(255,255,255,.25); border-radius: 1px; }
-.nextrow.last .ni { opacity: .9; }
-
-/* 焼き台 */
-.tip { text-align: center; font-size: .8rem; color: var(--muted); margin: 0; text-wrap: balance; }
-.board { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px 8px; align-content: start; flex: 1; touch-action: none; }
-.grill {
-  position: relative; background: var(--grill); border: 3px solid var(--grill-rim); border-radius: 10px;
-  padding: 6px 4px 4px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;
-  background-image:
-    linear-gradient(transparent 0 calc(100% - 3px), rgba(0,0,0,.25) 0),
-    repeating-linear-gradient(90deg, transparent 0 6px, var(--bar) 6px 8px);
-  box-shadow: inset 0 0 14px rgba(255,110,30,.28), 0 4px 0 var(--grill-rim);
-}
-.grill::before { content: ""; position: absolute; left: 8px; right: 8px; bottom: 6px; height: 14px; border-radius: 50%; background: var(--ember); filter: blur(8px); opacity: .35; pointer-events: none; }
-.grill.can { outline: 3px dashed rgba(255,170,60,.85); outline-offset: 2px; }
-.grill.hover { outline: 3px solid var(--ember); outline-offset: 2px; }
-.grill.done { animation: blaze .9s ease-in-out; }
-@keyframes blaze { 30%, 70% { box-shadow: inset 0 0 30px rgba(255,120,30,.9), 0 4px 0 var(--grill-rim); } }
-.layers { position: absolute; top: -9px; right: -6px; background: var(--card); color: var(--ink); border: 2px solid var(--grill-rim); border-radius: 999px; font-size: .68rem; font-weight: 900; padding: 0 6px; line-height: 1.5; z-index: 3; }
-.slot { height: var(--sh, 96px); display: flex; justify-content: center; align-items: stretch; position: relative; }
-.sk { width: 100%; max-width: 34px; position: relative; z-index: 1; transition: translate .15s ease-out; cursor: grab; }
-.sk svg { width: 100%; height: 100%; display: block; overflow: visible; }
-.sk.sel { translate: 0 -10px; filter: drop-shadow(0 0 4px var(--ember)) drop-shadow(0 0 2px #fff); }
-.sk.dragging { opacity: .25; }
-.sk.pop { animation: popin .3s cubic-bezier(.3,1.6,.5,1); }
-@keyframes popin { from { scale: .4; opacity: 0; } }
-.sk.cook { animation: cook 1s forwards; }
-@keyframes cook { 60% { filter: brightness(.85) saturate(1.4) sepia(.3); translate: 0 0; opacity: 1; } 100% { filter: brightness(.85) saturate(1.4) sepia(.3); translate: 0 -40px; opacity: 0; } }
-.smoke { position: absolute; left: 50%; bottom: 30%; width: 14px; height: 14px; border-radius: 50%; background: rgba(255,255,255,.45); animation: smoke 1s ease-out infinite; z-index: 2; pointer-events: none; }
-@keyframes smoke { from { opacity: .8; translate: -50% 0; scale: .6; } to { opacity: 0; translate: -50% -60px; scale: 2.4; } }
-.ghost { position: fixed; z-index: 20; pointer-events: none; width: 34px; translate: -50% -60%; filter: drop-shadow(0 6px 6px rgba(0,0,0,.35)); }
-.ghost svg { width: 100%; height: 100%; display: block; }
-.shake { animation: shake .3s; }
-@keyframes shake { 25% { translate: -4px 0; } 75% { translate: 4px 0; } }
-
-.tray { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; min-height: 0; }
-.tray .dish { background: var(--card); border: 1.5px solid var(--line); border-radius: 999px; padding: 1px 8px; font-size: .72rem; display: flex; align-items: center; gap: 4px; }
-.tray .dish svg { width: 9px; height: 24px; }
-
-.controls { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-.btn {
-  border: 2px solid var(--ink); background: var(--card); border-radius: 12px; padding: 8px 4px;
-  font-weight: 900; font-size: .88rem; box-shadow: 0 3px 0 var(--ink); line-height: 1.2;
-}
-.btn:active { translate: 0 2px; box-shadow: 0 1px 0 var(--ink); }
-.btn:disabled { opacity: .4; }
-.btn small { display: block; font-weight: 700; font-size: .7rem; color: var(--muted); }
-.btn.primary { background: var(--noren); color: var(--noren-ink); }
-
-.modal { position: fixed; inset: 0; background: rgba(20,10,5,.55); display: grid; place-items: center; padding: 16px; z-index: 30; }
-.sheet {
-  background: var(--card); border: 3px solid var(--ink); border-radius: 18px; padding: 22px 20px 18px; width: min(380px, 100%);
-  text-align: center; box-shadow: 0 8px 0 var(--ink); animation: arrive .35s cubic-bezier(.3,1.5,.5,1);
-}
-.sheet h2 { font-family: var(--display); font-weight: 400; font-size: 1.7rem; margin: 0 0 6px; color: var(--noren); }
-.sheet p { margin: 6px 0; }
-.sheet .big { font-family: var(--display); font-size: 2rem; }
-.sheet .rules { text-align: left; font-size: .88rem; color: var(--muted); padding-left: 1.2em; margin: 10px 0 14px; }
-.sheet .rules li { margin: 3px 0; }
-.sheet .btn { width: 100%; margin-top: 8px; padding: 12px; font-size: 1rem; }
-.menu { display: flex; justify-content: center; gap: 6px; flex-wrap: wrap; margin: 8px 0 2px; }
-.menu div { display: flex; flex-direction: column; align-items: center; font-size: .62rem; color: var(--muted); width: 38px; }
-.menu svg { width: 16px; height: 44px; }
-</style>
 </head>
 <body>
-<div class="wrap">
-  <div class="noren"><span>やき</span><span>とり</span><span>屋</span></div>
-  <div class="hud">
-    <div class="stat"><small>LEVEL</small><b id="lv">1</b></div>
-    <div class="stat"><small>売上</small><b id="money">¥0</b></div>
-    <div class="stat"><small>おきゃくさん</small><span class="hearts" id="hearts">❤❤❤</span></div>
-    <button class="iconbtn" id="mute" aria-label="音のオンオフ">🔊</button>
+<svg id="art-defs" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" width="0" height="0"></svg>
+<main class="home" id="home">
+  <div class="home-card">
+    <section class="cover" aria-labelledby="cover-title">
+      <img class="cover-mark" src="../portal/logos/yakitori.webp" width="256" height="256" alt="" fetchpriority="high">
+      <h1 id="cover-title">やきとり ならべ</h1>
+      <p class="intro">同じ串を3本そろえて、焼きたてをお客さんへ。</p>
+      <button type="button" class="btn primary open-shop" id="openShop"><span data-icon="shop"></span>開店する</button>
+      <button type="button" class="text-button" id="homeHelp"><span data-icon="book"></span>遊び方</button>
+      <p id="homeBest" class="best" hidden></p>
+    </section>
+    <section class="menu-page" aria-labelledby="menu-title">
+      <div class="menu-heading"><h2 id="menu-title">お品書き</h2><span>一皿3本</span></div>
+      <ul class="menu" id="menu"></ul>
+    </section>
   </div>
-  <div class="counter" id="counter"></div>
-  <div class="queue" id="queue"></div>
-  <p class="tip" id="tip"></p>
-  <div class="board" id="board"></div>
-  <div class="tray" id="tray"></div>
-  <div class="controls">
-    <button class="btn" id="shuffle">🔀 まぜる<small id="shuffleLeft">のこり2</small></button>
-    <button class="btn" id="extra">＋ 焼き台<small id="extraLeft">のこり1</small></button>
-    <button class="btn" id="retry">↻ やりなおし</button>
+</main>
+
+<main class="game" id="game" hidden>
+  <header class="game-header">
+    <h1 class="brand"><img src="../portal/logos/yakitori.webp" width="56" height="56" alt=""><span>やきとり ならべ</span></h1>
+    <div class="hud">
+      <div class="stat"><small>レベル</small><b id="lv">1</b></div>
+      <div class="stat"><small>売上</small><b id="money">¥0</b></div>
+      <div class="stat"><small>残りのハート</small><span class="hearts" id="hearts" role="img"></span></div>
+    </div>
+    <div class="game-actions">
+      <button type="button" class="iconbtn" id="mute" aria-label="音のオンオフ" title="音のオンオフ"></button>
+      <button type="button" class="iconbtn" id="pause" aria-label="ひと休み" title="ひと休み"><span data-icon="pause"></span></button>
+    </div>
+  </header>
+
+  <div class="worktop">
+    <section class="orders-panel" aria-labelledby="orders-title">
+      <div class="section-heading"><h2 id="orders-title"><span data-icon="tray"></span>ご注文</h2><span class="queue" id="queue"></span></div>
+      <div class="counter" id="counter"></div>
+      <div class="tray" id="tray" aria-live="polite"></div>
+    </section>
+    <section class="grills-panel" aria-labelledby="grills-title">
+      <div class="section-heading"><h2 id="grills-title"><span data-icon="grill"></span>焼き台</h2><p class="tip" id="tip"></p></div>
+      <div class="board" id="board" role="group" aria-labelledby="grills-title"></div>
+    </section>
+    <div class="controls">
+      <button type="button" class="tool" id="shuffle"><span data-icon="shuffle"></span><span>まぜる<small id="shuffleLeft"></small></span></button>
+      <button type="button" class="tool" id="extra"><span data-icon="extra"></span><span>台をふやす<small id="extraLeft"></small></span></button>
+      <button type="button" class="tool" id="retry"><span data-icon="retry"></span><span>やりなおす</span></button>
+    </div>
   </div>
-</div>
+</main>
 
-<div class="modal" id="modal"><div class="sheet" id="sheet"></div></div>
-
+<dialog class="modal" id="modal" aria-labelledby="sheet-title"><div class="sheet" id="sheet"></div></dialog>
+<script src="art.js"></script>
 <script>
 "use strict";
 const SLOTS = 3;
 const SEATS = 3;
-
-// 具（横長 60x40 の絵）
-const P = {
-  momo:     `<rect x="6" y="4" width="48" height="32" rx="12" fill="#E2A868"/><path d="M14 13h32M12 21h36M14 29h32" stroke="#9B5A26" stroke-width="3" stroke-linecap="round" opacity=".7"/><rect x="10" y="7" width="20" height="6" rx="3" fill="#fff" opacity=".35"/>`,
-  negi:     `<rect x="8" y="6" width="44" height="28" rx="6" fill="#F3EED2"/><rect x="8" y="6" width="9" height="28" rx="4" fill="#8FBF4D"/><rect x="43" y="6" width="9" height="28" rx="4" fill="#8FBF4D"/>`,
-  tsukune:  `<ellipse cx="30" cy="20" rx="25" ry="17" fill="#7A4628"/><ellipse cx="22" cy="12" rx="10" ry="4" fill="#fff" opacity=".28"/><circle cx="36" cy="25" r="1.8" fill="#3E2213"/><circle cx="24" cy="26" r="1.6" fill="#3E2213"/>`,
-  reba:     `<path d="M8 22c0-12 12-17 22-15 13 2 23 6 22 15-1 10-12 13-24 12C16 33 8 30 8 22z" fill="#6E2330"/><path d="M16 14c6-4 14-4 18-2" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".25" fill="none"/>`,
-  hatsu:    `<path d="M30 37C14 29 6 21 8 12c2-7 12-9 16-3 2 2 4 3 6 3s4-1 6-3c4-6 14-4 16 3 2 9-6 17-22 25z" fill="#C2483E"/><path d="M15 12c2-3 6-3 8-1" stroke="#fff" stroke-width="2.5" stroke-linecap="round" opacity=".35" fill="none"/>`,
-  shiitake: `<rect x="24" y="22" width="12" height="14" rx="4" fill="#EBDDC2"/><path d="M5 24C5 10 17 4 30 4s25 6 25 20c0 3-2 4-5 4H10c-3 0-5-1-5-4z" fill="#8A5634"/><path d="M22 10l16 10M38 10L22 20" stroke="#F3E6CC" stroke-width="3" stroke-linecap="round"/>`,
-  shishito: `<path d="M20 2c-6 8-9 20-7 32 1 4 4 5 6 3 6-8 9-20 7-32-1-4-4-5-6-3z" fill="#4E8B2C" transform="translate(8 0)"/><path d="M34 3c-6 8-9 20-7 32 1 4 4 5 6 3 6-8 9-20 7-32-1-4-4-5-6-3z" fill="#5E9E36"/>`,
-  uzura:    `<ellipse cx="30" cy="20" rx="19" ry="16" fill="#F6E7C4" stroke="#D8B97A" stroke-width="2"/><ellipse cx="24" cy="13" rx="7" ry="4" fill="#fff" opacity=".7"/>`,
-  tebasaki: `<path d="M6 16c4-9 20-12 34-9 10 2 15 7 14 13-1 7-9 11-22 12C16 33 3 26 6 16z" fill="#D18A3E"/><path d="M14 14c8-4 20-5 28-2" stroke="#F4C77E" stroke-width="3" stroke-linecap="round" fill="none"/>`,
-};
-// 串の種類：どの具が3つ刺さってるか（上→下）
-const KINDS = {
-  momo:     { name: "もも",     price: 540, p: ["momo", "momo", "momo"] },
-  negima:   { name: "ねぎま",   price: 600, p: ["momo", "negi", "momo"] },
-  tsukune:  { name: "つくね",   price: 660, p: ["tsukune", "tsukune", "tsukune"] },
-  shiitake: { name: "しいたけ", price: 480, p: ["shiitake", "shiitake", "shiitake"] },
-  reba:     { name: "レバー",   price: 570, p: ["reba", "reba", "reba"] },
-  uzura:    { name: "うずら",   price: 510, p: ["uzura", "uzura", "uzura"] },
-  hatsu:    { name: "ハツ",     price: 570, p: ["hatsu", "hatsu", "hatsu"] },
-  shishito: { name: "ししとう", price: 450, p: ["shishito", "shishito"] },
-  tebasaki: { name: "手羽先",   price: 690, p: ["tebasaki", "tebasaki"] },
-};
-const ICON = { momo: "momo", negima: "negi", tsukune: "tsukune", shiitake: "shiitake", reba: "reba", uzura: "uzura", hatsu: "hatsu", shishito: "shishito", tebasaki: "tebasaki" };
-const icon = k => `<svg viewBox="0 0 60 40" aria-hidden="true">${P[ICON[k]]}</svg>`;
-const KIND_ORDER = ["momo", "negima", "tsukune", "shiitake", "reba", "uzura", "hatsu", "shishito", "tebasaki"];
-const FACES = ["👨", "👩", "👴", "👵", "🧑", "👨‍🦰", "👩‍🦱", "🧔", "👱‍♀️", "👨‍🦳", "🧑‍🦱", "👩‍🦳"];
-
-// 縦の串（40x120）
-function skSVG(k) {
-  const ps = KINDS[k].p, n = ps.length, h = 30, top = 4 + (3 - n) * h / 2;
-  return `<svg viewBox="0 0 40 120" aria-hidden="true"><rect x="18.5" y="0" width="3" height="114" rx="1.5" fill="#E9CF9C"/><rect x="16" y="98" width="8" height="22" rx="2" fill="#D9BC86"/>`
-    + ps.map((p, i) => `<svg x="0" y="${top + i * h}" width="40" height="${h}" viewBox="0 0 60 40" overflow="visible">${P[p]}</svg>`).join("") + `</svg>`;
-}
 
 const store = {
   get(k, d) { try { const v = localStorage.getItem("yakitori:" + k); return v == null ? d : JSON.parse(v); } catch { return d; } },
@@ -312,7 +139,7 @@ function makeLayout(spec) {
     const grills = [];
     for (let g = 0; g < spec.grills; g++) grills.push({ slots: slots.slice(g * 3, g * 3 + 3), layers: [] });
     if (grills.some(g => g.slots[0] && g.slots.every(s => s === g.slots[0]))) continue;
-    // 残りは焼き台の下に重ねる（1段2〜3本）
+    // 残りは各焼き台の補充分として順に配る。
     let rest = items.slice(vis), gi = 0;
     const order = shuffle(grills.slice());
     while (rest.length) {
@@ -332,16 +159,16 @@ function startLevel(retry = false) {
   else L = { spec, layout: makeLayout(spec), retryMoney: S.money };
   const lay = clone(L.layout);
   Object.assign(L, {
-    gen: ++uid, hasLayers: lay.grills.some(g => g.layers.length),
+    gen: ++uid,
     grills: lay.grills.map(g => ({ id: ++uid, slots: g.slots, layers: g.layers, busy: false })),
     pool: lay.orders.slice(), lines: Array(SEATS).fill(null), tray: [], seats: Array(SEATS).fill(null),
     nextArrive: [0.3, 1.8, 3.6], earned: 0, done: false, sel: null,
-    shuffleLeft: 2, extraLeft: 1,
+    shuffleLeft: 2, extraLeft: 1, elapsed: 0, pending: [],
   });
-  $("tip").textContent = S.level === 1
-    ? "串をタップ（またはドラッグ）して別の焼き台へ。同じ串を3本そろえると焼けて注文に届くよ！"
-    : `LEVEL ${S.level}：串${spec.kinds}種類・${lay.orders.length}皿`;
-  $("board").innerHTML = ""; gEls.clear();
+  L.tip = S.level === 1
+    ? "同じ串を3本そろえよう"
+    : `左皿から補充・${spec.kinds}種類・${lay.orders.length}皿`;
+  $("board").innerHTML = ""; gEls.clear(); popIn.clear();
   renderSeats(true); render(); fillQueue();
 }
 
@@ -374,10 +201,9 @@ function refill(g) {
 function cookGrill(g) {
   g.busy = true; sizzle(); buzz(30);
   const kind = g.slots[0], gen = L.gen;
-  cooking.add(g.id);
-  setTimeout(() => {
+  afterInLevel(() => {
     if (L.gen !== gen) return;
-    g.slots = [null, null, null]; g.busy = false; cooking.delete(g.id);
+    g.slots = [null, null, null]; g.busy = false;
     deliver(kind); refill(g); render(); checkStuck(); checkClear();
   }, 1050);
 }
@@ -386,7 +212,7 @@ function checkStuck() {
   if (L.done || L.grills.some(g => g.busy)) return;
   if (L.grills.some(hasSpace)) return;
   if (!L.grills.some(g => g.slots.some(Boolean))) return;
-  setTimeout(() => { if (!L.done && !L.grills.some(hasSpace) && !L.grills.some(g => g.busy)) showModal("stuck"); }, 400);
+  afterInLevel(() => { if (!L.done && !L.grills.some(hasSpace) && !L.grills.some(g => g.busy)) showModal("stuck"); }, 400);
 }
 
 function doShuffle() {
@@ -420,7 +246,7 @@ function serve(i) {
   c.leaving = "happy"; c.msg = tip > 0 ? `+¥${price} チップ¥${tip}` : `+¥${price}`;
   renderSeats(); renderHud();
   const gen = L.gen;
-  setTimeout(() => { if (L.gen !== gen) return; L.seats[i] = null; L.nextArrive[i] = .8 + Math.random(); renderSeats(); checkClear(); }, 1100);
+  afterInLevel(() => { if (L.gen !== gen) return; L.seats[i] = null; L.nextArrive[i] = .8 + Math.random(); renderSeats(); checkClear(); }, 1100);
 }
 // 各席のうしろに、つぎに座るお客さんが1人ずつ並ぶ
 function pickKind() {
@@ -454,7 +280,7 @@ function arrive(i) {
   L.seats[i] = { kind: q.kind, max, left: max, face: q.face, fresh: true };
   fillQueue();
   const t = L.tray.indexOf(q.kind);
-  if (t >= 0) { L.tray.splice(t, 1); renderTray(); const gen = L.gen; setTimeout(() => L.gen === gen && L.seats[i] && !L.seats[i].leaving && serve(i), 500); }
+  if (t >= 0) { L.tray.splice(t, 1); renderTray(); const gen = L.gen; afterInLevel(() => L.gen === gen && L.seats[i] && !L.seats[i].leaving && serve(i), 500); }
 }
 function timeout(i) {
   const c = L.seats[i];
@@ -462,7 +288,7 @@ function timeout(i) {
   S.misses++; sfx.angry(); buzz([60, 40, 60]);
   renderSeats(); renderHud(); renderQueue();
   const gen = L.gen;
-  setTimeout(() => {
+  afterInLevel(() => {
     if (L.gen !== gen) return;
     L.seats[i] = null; L.nextArrive[i] = 1.5 + Math.random(); renderSeats();
     if (S.misses >= 3) gameOver();
@@ -473,7 +299,7 @@ function checkClear() {
   const left = L.grills.some(g => g.slots.some(Boolean) || g.layers.length || g.busy);
   if (!left && !L.pool.length && L.lines.every(q => !q) && !L.tray.length && L.seats.every(s => !s)) {
     L.done = true; saveBest(S.level);
-    setTimeout(() => showModal("clear"), 300);
+    afterInLevel(() => showModal("clear"), 300);
   }
 }
 function saveBest(level) {
@@ -483,41 +309,67 @@ function saveBest(level) {
 function gameOver() { if (L.done) return; L.done = true; saveBest(S.level - 1); showModal("over"); }
 
 // ---- 描画 ----
-const gEls = new Map(), popIn = new Set(), cooking = new Set();
+const gEls = new Map(), popIn = new Set();
+
+function prepPlate(layer, side) {
+  const contents = layer.filter(Boolean).map(k => KINDS[k].name).join("、") || "空皿";
+  const label = side === 0 ? `左皿（つぎ）：${contents}` : `右皿（そのつぎ）：${contents}`;
+  const skewers = layer.map((k, i) => k
+    ? `<use href="#skewer-${k}" transform="translate(${29 + 30 * i} 29) rotate(18) scale(.47) translate(-30 -60)"/>`
+    : "").join("");
+  return `<svg class="prep-plate" viewBox="0 0 120 65" role="img" aria-label="${label}" focusable="false"><use href="#prep-dish"/>${skewers}</svg>`;
+}
+function renderPrepPlates(row, layers) {
+  const sig = JSON.stringify([layers[0], layers[1], layers.length]);
+  if (row.dataset.sig === sig) return;
+  row.dataset.sig = sig;
+  const more = layers.length - 2;
+  row.innerHTML = prepPlate(layers[0] || [], 0) + prepPlate(layers[1] || [], 1)
+    + (more > 0 ? `<span class="reserve-count" role="img" aria-label="さらに${more}段">+${more}</span>` : "");
+}
+function slotMarkup(g, k, si) {
+  const key = g.id + ":" + si, pop = popIn.delete(key);
+  const label = k ? KINDS[k].name : "空き場所";
+  const skewer = k ? `<span class="sk${pop ? " pop" : ""}${g.busy ? " cook" : ""}" data-s="${si}">${skSVG(k)}</span>` : "";
+  const smoke = g.busy && si === 1 ? '<span class="smoke"></span>' : "";
+  return `<button type="button" class="slot ${k ? "filled" : "empty"}" data-s="${si}" aria-label="${label}" ${k ? 'aria-pressed="false"' : ""}>${skewer}${smoke}</button>`;
+}
 function render() {
   const board = $("board");
-  const rows = Math.ceil(L.grills.length / 3);
-  // 画面に収まるように串の高さを決める
-  const used = board.getBoundingClientRect().top + window.scrollY;
-  const availH = window.innerHeight - used - 110;
-  const colW = (board.clientWidth - 16) / 3;
-  const sh = Math.max(64, Math.min(110, Math.floor(availH / rows) - (L.hasLayers ? 56 : 26), Math.floor(colW / 3 * 2.9)));
-  board.style.setProperty("--sh", sh + "px");
-
+  board.classList.toggle("deep", L.grills.length > 9);
+  const focused = document.activeElement.closest(".slot");
+  const focusGrill = focused && focused.closest(".grill");
   L.grills.forEach((g, gi) => {
     let el = gEls.get(g.id);
     if (!el) {
+      const station = document.createElement("div"); station.className = "grill-station";
+      station.setAttribute("role", "group"); station.setAttribute("aria-label", `焼き台${gi + 1}`);
       el = document.createElement("div"); el.className = "grill"; el.dataset.id = g.id;
-      gEls.set(g.id, el); board.appendChild(el);
+      const plates = document.createElement("div"); plates.className = "prep-plates";
+      station.append(el, plates); board.appendChild(station);
+      gEls.set(g.id, el);
     }
-    const sig = g.slots.join(",") + "|" + (g.layers[0] || []).join(",") + g.layers.length + "|" + g.busy;
+    renderPrepPlates(el.nextElementSibling, g.layers);
+    const sig = g.slots.join(",") + "|" + g.busy;
     if (el.dataset.sig !== sig || [...popIn].some(k => k.startsWith(g.id + ":"))) {
-      const nx = g.layers[0];
-      const strip = !L.hasLayers ? "" : `<div class="nextrow">${nx ? `<span class="lbl">つぎ${g.layers.length > 1 ? `（あと${g.layers.length}段）` : ""}</span>` : ""}`
-        + [0, 1, 2].map(si => nx && nx[si] ? `<div class="ni">${icon(nx[si])}</div>` : `<div class="ni empty"></div>`).join("") + `</div>`;
-      el.innerHTML = strip + g.slots.map((k, si) => {
-        if (!k) return `<div class="slot" data-s="${si}"></div>`;
-        const key = g.id + ":" + si, pop = popIn.has(key); popIn.delete(key);
-        return `<div class="slot" data-s="${si}"><div class="sk${pop ? " pop" : ""}${g.busy ? " cook" : ""}" data-s="${si}" aria-label="${KINDS[k].name}">${skSVG(k)}</div>${g.busy && si === 1 ? `<span class="smoke"></span><span class="smoke" style="animation-delay:.35s;margin-left:-12px"></span><span class="smoke" style="animation-delay:.7s;margin-left:12px"></span>` : ""}</div>`;
-      }).join("");
+      el.innerHTML = g.slots.map((k, si) => slotMarkup(g, k, si)).join("");
       el.dataset.sig = sig;
-      if (g.busy) { el.classList.remove("done"); void el.offsetWidth; el.classList.add("done"); }
+      el.classList.toggle("done", g.busy);
+      el.setAttribute("aria-busy", String(g.busy));
     }
     const selHere = L.sel && L.sel.g === gi;
-    el.querySelectorAll(".sk").forEach(s => s.classList.toggle("sel", !!selHere && +s.dataset.s === L.sel.s));
+    el.querySelectorAll(".sk").forEach(sk => {
+      const selected = !!selHere && +sk.dataset.s === L.sel.s;
+      sk.classList.toggle("sel", selected);
+      sk.closest(".slot").setAttribute("aria-pressed", String(selected));
+    });
     el.classList.toggle("can", !!L.sel && !selHere && hasSpace(g));
   });
-  $("shuffle").disabled = L.shuffleLeft <= 0;
+  if (focused && !focused.isConnected && focusGrill.isConnected)
+    focusGrill.querySelector(`.slot[data-s="${focused.dataset.s}"]`)?.focus({ preventScroll: true });
+
+  $("tip").textContent = L.sel ? "移動先の焼き台をタップ" : L.tip;
+  $("shuffle").disabled = L.shuffleLeft <= 0 || L.grills.some(g => g.busy);
   $("shuffleLeft").textContent = `のこり${L.shuffleLeft}`;
   $("extra").disabled = L.extraLeft <= 0;
   $("extraLeft").textContent = `のこり${L.extraLeft}`;
@@ -526,36 +378,48 @@ function render() {
 function renderHud() {
   $("lv").textContent = S.level;
   $("money").textContent = "¥" + S.money.toLocaleString();
-  $("hearts").textContent = "❤".repeat(Math.max(0, 3 - S.misses)) + "♡".repeat(Math.min(3, S.misses));
+  const left = Math.max(0, 3 - S.misses);
+  const hearts = $("hearts");
+  if (hearts.dataset.left === String(left)) return;
+  hearts.dataset.left = left;
+  hearts.setAttribute("aria-label", `ハート残り${left}個`);
+  hearts.innerHTML = [0, 1, 2].map(i => `<span class="${i < left ? "" : "lost"}">${ui("heart")}</span>`).join("");
 }
 function renderTray() {
-  $("tray").innerHTML = L.tray.map(k => `<span class="dish">${skSVG(k)}${KINDS[k].name}×3 焼けてます</span>`).join("");
+  const tray = $("tray"), signature = L.tray.join(",");
+  if (tray.dataset.items === signature) return;
+  tray.dataset.items = signature;
+  tray.innerHTML = L.tray.length ? `<span class="tray-label">${ui("tray")}焼き上がり</span>` +
+    L.tray.map(k => `<span class="dish">${icon(k)}<span>${KINDS[k].name}</span><span>×3</span></span>`).join("") : "";
 }
 function renderQueue() {
-  const rest = L.pool.length;
-  $("queue").textContent = rest ? `うしろにまだ ${rest}人 ならんでるよ` : "";
+  $("queue").textContent = L.pool.length ? `待ち${L.pool.length}人` : "";
 }
 const seatEls = [];
 function renderSeats(init) {
   const counter = $("counter");
   if (init || !seatEls.length) {
     counter.innerHTML = ""; seatEls.length = 0;
-    for (let i = 0; i < SEATS; i++) { const d = document.createElement("div"); d.className = "seat"; counter.appendChild(d); seatEls.push(d); }
+    for (let i = 0; i < SEATS; i++) {
+      const d = document.createElement("div");
+      counter.appendChild(d); seatEls.push(d);
+    }
   }
   L.seats.forEach((c, i) => {
-    const d = seatEls[i];
-    const q = L.lines[i];
-    const sig = (c ? `${c.face}${c.kind}${c.leaving || ""}` : "empty") + "/" + (q ? q.face + q.kind : "");
+    const d = seatEls[i], q = L.lines[i];
+    const sig = (c ? c.face + c.kind + (c.leaving || "") : "empty") + "/" + (q ? q.face + q.kind : "");
     if (d.dataset.sig === sig) return;
     d.dataset.sig = sig;
-    d.className = "seat" + (c && c.fresh ? " arrive" : "") + (c && c.leaving === "happy" ? " happy" : "");
-    if (c) c.fresh = false;
-    const back = q ? `<div class="behind"><span class="tag">つぎ</span><span class="nf">${q.face}</span>${icon(q.kind)}<span class="nn">${KINDS[q.kind].name}</span></div>` : `<div class="behind none">&nbsp;</div>`;
-    if (!c) { d.innerHTML = back + `<div class="empty-seat">空席</div><div class="face" style="opacity:.25">🪑</div>`; return; }
-    const face = c.leaving === "happy" ? "😋" : c.leaving === "angry" ? "😠" : c.face;
-    const s = skSVG(c.kind);
-    d.innerHTML = back + `<div class="bubble"><div class="ord">${s}${s}${s}<span>${KINDS[c.kind].name}<br><span class="x">×3本</span></span></div><div class="pbar"><i></i></div></div>
-      <div class="face">${face}</div>${c.msg ? `<div class="msg ${c.leaving === "happy" ? "good" : "bad"}">${c.msg}</div>` : ""}`;
+    d.className = "seat " + (!c ? "vacant" : c.leaving || (c.fresh ? "arrive" : ""));
+    const back = q ? `<div class="behind"><span class="tag">つぎ</span>${icon(q.kind)}<span>${KINDS[q.kind].name}</span></div>` : "";
+    if (!c) {
+      d.innerHTML = `<div class="order-main"><span class="face stool">${ui("stool")}</span><span class="order-text empty-seat">空席</span></div><div class="pbar"></div>${back}`;
+      return;
+    }
+    c.fresh = false;
+    d.innerHTML = `<div class="order-main"><span class="face">${portrait(c.face, c.leaving)}</span>
+      <span class="order-food">${skSVG(c.kind)}</span><span class="order-text"><strong>${KINDS[c.kind].name}</strong><small>×3本</small></span></div>
+      <div class="pbar"><i></i></div>${back}${c.msg ? `<div class="msg ${c.leaving === "happy" ? "good" : "bad"}">${c.msg}</div>` : ""}`;
     c.bar = d.querySelector(".pbar i"); updateBar(c);
   });
 }
@@ -574,11 +438,11 @@ function grillAt(x, y) {
   return el && el.closest(".grill");
 }
 $("board").addEventListener("pointerdown", e => {
-  if (!L || L.done) return;
+  if (!L || L.done || paused) return;
   const gEl = e.target.closest(".grill"); if (!gEl) return;
   const gi = gIndexOf(gEl), g = L.grills[gi];
-  const skEl = e.target.closest(".sk");
   const slotEl = e.target.closest(".slot");
+  const skEl = slotEl && slotEl.querySelector(".sk");
   drag = { x: e.clientX, y: e.clientY, gi, si: skEl ? +skEl.dataset.s : null, slot: slotEl ? +slotEl.dataset.s : null, moved: false, ghost: null, skEl, id: e.pointerId };
   if (skEl && !g.busy) { try { $("board").setPointerCapture(e.pointerId); } catch {} }
 });
@@ -589,14 +453,17 @@ $("board").addEventListener("pointermove", e => {
     drag.moved = true; L.sel = { g: drag.gi, s: drag.si }; sfx.pick();
     const k = L.grills[drag.gi].slots[drag.si];
     drag.ghost = document.createElement("div"); drag.ghost.className = "ghost";
-    drag.ghost.style.height = getComputedStyle($("board")).getPropertyValue("--sh");
+    const size = drag.skEl.getBoundingClientRect();
+    drag.ghost.style.width = size.width + "px"; drag.ghost.style.height = size.height + "px";
     drag.ghost.innerHTML = skSVG(k); document.body.appendChild(drag.ghost);
     render(); const sk = gEls.get(L.grills[drag.gi].id).querySelector(`.sk[data-s="${drag.si}"]`); sk && sk.classList.add("dragging");
   }
   if (drag.moved) {
     drag.ghost.style.left = e.clientX + "px"; drag.ghost.style.top = e.clientY + "px";
     const t = grillAt(e.clientX, e.clientY);
-    gEls.forEach(el => el.classList.toggle("hover", el === t));
+    const ti = t ? gIndexOf(t) : -1;
+    const destination = ti >= 0 && ti !== drag.gi && hasSpace(L.grills[ti]) ? t : null;
+    gEls.forEach(el => el.classList.toggle("hover", el === destination));
   }
 });
 function endDrag(e) {
@@ -604,21 +471,34 @@ function endDrag(e) {
   const d = drag; drag = null;
   gEls.forEach(el => el.classList.remove("hover"));
   if (d.moved) {
-    d.ghost.remove();
+    d.ghost.remove(); d.skEl?.classList.remove("dragging");
     const t = grillAt(e.clientX, e.clientY);
     const ti = t ? gIndexOf(t) : -1;
     let slot = null;
     if (t) { const s = document.elementFromPoint(e.clientX, e.clientY)?.closest(".slot"); if (s) slot = +s.dataset.s; }
-    if (ti < 0 || ti === d.gi || !moveSk(d.gi, d.si, ti, slot)) {
+    if (paused || L.done || ti < 0 || ti === d.gi || !moveSk(d.gi, d.si, ti, slot)) {
       if (ti >= 0 && ti !== d.gi) { sfx.no(); shakeEl(t); }
       L.sel = null; render();
     }
     return;
   }
-  tap(d.gi, d.si, d.slot);
+  if (!paused && !L.done) tap(d.gi, d.si, d.slot);
 }
 $("board").addEventListener("pointerup", endDrag);
-$("board").addEventListener("pointercancel", e => { if (drag && drag.ghost) drag.ghost.remove(); drag = null; L && (L.sel = null, render()); });
+function cancelDrag() {
+  if (!drag) return;
+  drag.ghost?.remove();
+  drag.skEl?.classList.remove("dragging");
+  gEls.forEach(el => el.classList.remove("hover"));
+  drag = null; L.sel = null; render();
+}
+$("board").addEventListener("pointercancel", cancelDrag);
+// Keyboard and assistive clicks have no preceding pointerup.
+$("board").addEventListener("click", e => {
+  if (e.detail !== 0 || paused || !L || L.done) return;
+  const slot = e.target.closest(".slot");
+  if (slot) tap(gIndexOf(slot.closest(".grill")), slot.classList.contains("filled") ? +slot.dataset.s : null, +slot.dataset.s);
+});
 
 function tap(gi, si, slot) {
   const g = L.grills[gi];
@@ -640,8 +520,17 @@ function shakeEl(el) { if (!el) return; el.classList.remove("shake"); void el.of
 
 // ---- ループ ----
 let last = performance.now(), paused = true;
+// Cooking, seating and the patience meters all stop while a sheet is open.
+function afterInLevel(callback, delay) {
+  L.pending.push({ at: L.elapsed + delay, callback });
+  L.pending.sort((a, b) => a.at - b.at);
+}
 function loop(now) {
-  const dt = Math.min(.1, (now - last) / 1000); last = now;
+  const dt = Math.max(0, (now - last) / 1000); last = now;
+  if (!paused && L) {
+    L.elapsed += dt * 1000;
+    while (!paused && L.pending.length && L.pending[0].at <= L.elapsed) L.pending.shift().callback();
+  }
   if (!paused && L && !L.done) {
     L.seats.forEach((c, i) => {
       if (!c) { L.nextArrive[i] -= dt; if (L.nextArrive[i] <= 0 && (L.lines.some(Boolean) || L.pool.length)) arrive(i); return; }
@@ -653,71 +542,100 @@ function loop(now) {
   requestAnimationFrame(loop);
 }
 requestAnimationFrame(loop);
-document.addEventListener("visibilitychange", () => { if (document.hidden && L && !L.done && $("modal").hidden) showModal("pause"); });
+document.addEventListener("visibilitychange", () => { if (document.hidden && !paused && L && !L.done) showModal("pause"); });
 
-// ---- モーダル ----
+// ---- 表紙・遊び方・営業中のダイアログ ----
+const modal = $("modal");
+const resultMark = '<img class="sheet-mark" src="../portal/logos/yakitori.webp" width="65" height="65" alt="">';
+function showTitle() {
+  if (modal.open) modal.close();
+  paused = true;
+  $("game").hidden = true; $("home").hidden = false;
+  const best = store.get("best", { level: 0, money: 0 });
+  $("homeBest").hidden = !best.money && !best.level;
+  $("homeBest").textContent = `さいこう記録：LEVEL ${best.level} ／ ¥${best.money.toLocaleString()}`;
+  window.scrollTo(0, 0);
+}
+function hideModal() {
+  if (modal.open) modal.close();
+  paused = $("game").hidden; last = performance.now();
+}
 function showModal(type) {
   paused = true;
-  const sheet = $("sheet"), best = store.get("best", { level: 0, money: 0 });
-  const menu = `<div class="menu">${KIND_ORDER.map(k => `<div>${skSVG(k)}${KINDS[k].name}</div>`).join("")}</div>`;
-  if (type === "title") {
-    sheet.innerHTML = `<h2>やきとり ならべ</h2><p>焼き台の串をならべかえて、注文の串を焼こう！</p>${menu}
-      <ul class="rules">
-        <li>串をタップして別の焼き台をタップ（ドラッグでもOK）で、空いてる場所へうつせる</li>
-        <li>ひとつの焼き台に同じ串が3本そろうと焼けて、注文したお客さんに届く</li>
-        <li>焼き台の上の「つぎ」に、その焼き台が空になったら出てくる串が見える</li>
-        <li>お客さんのうしろの「つぎ」が、次にその席に座る人の注文</li>
-        <li>早く届けるほどチップが多い。3人おこらせると閉店…</li>
-      </ul>
-      ${best.level ? `<p style="font-size:.85rem;color:var(--muted)">さいこう記録：LEVEL ${best.level} ／ ¥${best.money.toLocaleString()}</p>` : ""}
-      <button class="btn primary" id="go">開店する</button>`;
-    $("go").onclick = () => { hideModal(); startGame(); };
+  if (drag) cancelDrag();
+  const sheet = $("sheet");
+  modal.dataset.panel = type;
+  if (type === "help") {
+    sheet.innerHTML = `<h2 id="sheet-title">遊び方</h2><ul class="rules">
+      <li>${ui("move")}<span>串を選んで、移動先の焼き台をタップ。ドラッグでも動かせます。</span></li>
+      <li>${ui("grill")}<span>ひとつの焼き台に同じ串を3本そろえると焼けて、注文したお客さんに届く</span></li>
+      <li>${ui("clock")}<span>早く届けるほどチップが多い。3人おこらせると閉店…</span></li></ul>
+      <div class="next-help"><p>焼き台が空くと、手前の左皿の串が焼き台に移ります。右皿の串はその次です。</p>
+      <p>注文票の下の「つぎ」は、次にその席に座る人の注文です。</p></div>
+      <button class="btn primary" id="go">もどる</button>`;
+    $("go").onclick = returnFromHelp;
   } else if (type === "clear") {
-    sheet.innerHTML = `<h2>まいど！</h2><p>LEVEL ${S.level} クリア</p>
-      <p class="big">+¥${L.earned.toLocaleString()}</p><p style="color:var(--muted)">売上 ¥${S.money.toLocaleString()}</p>
+    sheet.innerHTML = `${resultMark}<h2 id="sheet-title">まいど！</h2><p>LEVEL ${S.level} クリア</p>
+      <p class="big">+¥${L.earned.toLocaleString()}</p><p>売上 ¥${S.money.toLocaleString()}</p>
       <button class="btn primary" id="go">つぎのお客さんへ</button>`;
     $("go").onclick = () => { hideModal(); S.level++; startLevel(); };
   } else if (type === "over") {
-    sheet.innerHTML = `<h2>本日閉店…</h2><p>お客さんを3人おこらせちゃった</p>
+    sheet.innerHTML = `${resultMark}<h2 id="sheet-title">本日閉店…</h2><p>お客さんを3人おこらせちゃった</p>
       <p class="big">LEVEL ${S.level}</p><p>売上 ¥${S.money.toLocaleString()}</p>
       <button class="btn primary" id="go">このレベルからやりなおす</button><button class="btn" id="title">さいしょから</button>`;
     $("go").onclick = () => { hideModal(); S.misses = 0; startLevel(true); };
-    $("title").onclick = () => showModal("title");
+    $("title").onclick = () => { showTitle(); $("openShop").focus({ preventScroll: true }); };
   } else if (type === "stuck") {
     const canShuffle = L.shuffleLeft > 0, canExtra = L.extraLeft > 0;
-    sheet.innerHTML = `<h2>焼き台がいっぱい！</h2><p>空いてる場所がなくなっちゃった</p>
-      ${canExtra ? `<button class="btn primary" id="a1">＋ 焼き台をふやす</button>` : ""}
-      ${canShuffle ? `<button class="btn ${canExtra ? "" : "primary"}" id="a2">🔀 串をまぜる</button>` : ""}
-      <button class="btn" id="a3">↻ このレベルをやりなおす</button>`;
+    sheet.innerHTML = `<h2 id="sheet-title">焼き台がいっぱい！</h2><p>空いてる場所がなくなっちゃった</p>
+      ${canExtra ? `<button class="btn primary" id="a1">${ui("extra")}台をふやす</button>` : ""}
+      ${canShuffle ? `<button class="btn ${canExtra ? "" : "primary"}" id="a2">${ui("shuffle")}まぜる</button>` : ""}
+      <button class="btn" id="a3">やりなおす</button>`;
     if (canExtra) $("a1").onclick = () => { hideModal(); addGrill(); };
     if (canShuffle) $("a2").onclick = () => { hideModal(); doShuffle(); checkStuck(); };
     $("a3").onclick = () => { hideModal(); startLevel(true); };
   } else if (type === "pause") {
-    sheet.innerHTML = `<h2>ひと休み</h2><p>お客さんは待っててくれてるよ</p><button class="btn primary" id="go">再開</button>`;
+    sheet.innerHTML = `${resultMark}<h2 id="sheet-title">ひと休み</h2><p>お客さんは待っててくれてるよ</p>
+      <button class="btn primary" id="go">再開</button><button class="btn" id="help">${ui("book")}遊び方</button>`;
     $("go").onclick = hideModal;
+    $("help").onclick = () => showModal("help");
   } else if (type === "retry") {
-    sheet.innerHTML = `<h2>やりなおす？</h2><p>このレベルを最初の並びからやりなおすよ（売上もレベル開始時にもどる）</p>
+    sheet.innerHTML = `<h2 id="sheet-title">やりなおす？</h2><p>このレベルを最初の並びからやりなおすよ（売上もレベル開始時にもどる）</p>
       <button class="btn primary" id="go">やりなおす</button><button class="btn" id="no">つづける</button>`;
     $("go").onclick = () => { hideModal(); startLevel(true); };
     $("no").onclick = hideModal;
   }
-  $("modal").hidden = false;
+  if (!modal.open) modal.showModal();
+  (sheet.querySelector("#no") || sheet.querySelector("button")).focus({ preventScroll: true });
 }
-function hideModal() { $("modal").hidden = true; paused = false; last = performance.now(); }
+function returnFromHelp() {
+  if ($("home").hidden) showModal("pause"); else hideModal();
+}
+modal.addEventListener("cancel", e => {
+  e.preventDefault();
+  if (modal.dataset.panel === "help") returnFromHelp();
+  else if (["pause", "retry"].includes(modal.dataset.panel)) hideModal();
+});
 
-// ピンチやダブルタップで画面が拡大されないように
-["gesturestart", "gesturechange"].forEach(t => document.addEventListener(t, e => e.preventDefault(), { passive: false }));
-document.addEventListener("dblclick", e => e.preventDefault(), { passive: false });
-document.addEventListener("touchmove", e => { if (e.touches && e.touches.length > 1) e.preventDefault(); }, { passive: false });
-
-$("shuffle").onclick = () => { doShuffle(); };
+document.querySelectorAll("[data-icon]").forEach(el => { el.innerHTML = ui(el.dataset.icon); });
+$("menu").innerHTML = KIND_ORDER.map(k => `<li>${skSVG(k)}<span class="kind-name">${KINDS[k].name}</span><span class="price">¥${KINDS[k].price}</span></li>`).join("");
+$("openShop").onclick = () => {
+  $("home").hidden = true; $("game").hidden = false;
+  window.scrollTo(0, 0);
+  paused = false; last = performance.now(); startGame();
+};
+$("homeHelp").onclick = () => showModal("help");
+$("shuffle").onclick = doShuffle;
 $("extra").onclick = addGrill;
 $("retry").onclick = () => L && !L.done && showModal("retry");
-$("mute").textContent = muted ? "🔇" : "🔊";
-$("mute").onclick = () => { muted = !muted; store.set("muted", muted); $("mute").textContent = muted ? "🔇" : "🔊"; };
-window.addEventListener("resize", () => L && render());
-
-showModal("title");
+$("pause").onclick = () => L && !L.done && showModal("pause");
+function renderSound() {
+  $("mute").innerHTML = ui(muted ? "mute" : "sound");
+  $("mute").setAttribute("aria-pressed", String(!muted));
+}
+$("mute").onclick = () => { muted = !muted; store.set("muted", muted); renderSound(); };
+renderSound();
+showTitle();
 
 if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
   window.addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));

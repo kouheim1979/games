@@ -109,10 +109,10 @@ window.I18N_DICT={
 "点击（或拖动）烤串放到其他烤架上。凑齐3串相同的就会烤好送到客人手上！",
 "Toca (o arrastra) una brocheta a otra parrilla. ¡Junta 3 iguales y se asan para el pedido!"
 ],
-"LEVEL {0}：串{1}種類・{2}皿": [
-"LEVEL {0}: {1} kinds · {2} plates",
-"LEVEL {0}：{1}种烤串 · {2}盘",
-"NIVEL {0}: {1} tipos · {2} platos"
+"左皿から補充・{0}種類・{1}皿": [
+"Left plate first · {0} kinds · {1} orders",
+"先补左盘 · {0}种 · {1}份订单",
+"Plato izquierdo primero · {0} tipos · {1} pedidos"
 ],
 "+¥{0} チップ¥{1}": [
 "+¥{0} tip ¥{1}",
@@ -184,10 +184,10 @@ window.I18N_DICT={
 "同一烤架上凑齐3串相同的就会烤好，送给点单的客人",
 "3 brochetas iguales en una parrilla se asan y van al cliente"
 ],
-"焼き台の上の「つぎ」に、その焼き台が空になったら出てくる串が見える": [
-"\"Next\" above a grill shows what appears when that grill empties",
-"烤架上方的“下一个”显示该烤架清空后会出现的烤串",
-"«Siguiente» sobre una parrilla muestra lo que saldrá al vaciarse"
+"焼き台が空くと、手前の左皿の串が焼き台に移ります。右皿の串はその次です。": [
+"When a grill is empty, the skewers on its left plate move onto it. The right plate holds the batch after that.",
+"烤架一空，前面左盘的烤串就会移到架上。右盘装的是再下一批。",
+"Cuando se vacía una parrilla, se llena con las brochetas del plato izquierdo. Las del derecho vienen después."
 ],
 "お客さんのうしろの「つぎ」が、次にその席に座る人の注文": [
 "\"Next\" behind a customer is the order of whoever sits there next",
@@ -308,5 +308,30 @@ window.I18N_DICT={
 "Continue",
 "继续",
 "Continuar"
-]
+],
+"遊び方": ["How to play", "玩法", "Cómo jugar"],
+"もどる": ["Back", "返回", "Volver"],
+"お品書き": ["Menu", "菜单", "Carta"],
+"一皿3本": ["3 skewers per plate", "每份3串", "3 brochetas por plato"],
+"同じ串を3本そろえて、焼きたてをお客さんへ。": ["Match three skewers and serve them hot off the grill.", "集齐三串相同的烤串，趁热端给客人。", "Junta tres brochetas iguales y sírvelas recién asadas."],
+"レベル": ["Level", "关卡", "Nivel"],
+"残りのハート": ["Hearts", "爱心", "Vidas"],
+"ハート残り{0}個": ["{0} hearts left", "还剩{0}颗爱心", "Quedan {0} vidas"],
+"ご注文": ["Orders", "订单", "Pedidos"],
+"焼き台": ["Grills", "烤架", "Parrillas"],
+"焼き台{0}": ["Grill {0}", "烤架{0}", "Parrilla {0}"],
+"まぜる": ["Shuffle", "打乱", "Mezclar"],
+"台をふやす": ["Add grill", "加烤架", "Añadir parrilla"],
+"同じ串を3本そろえよう": ["Match three of the same skewer", "凑齐3串相同的烤串", "Junta tres brochetas iguales"],
+"移動先の焼き台をタップ": ["Tap a grill with an empty spot", "点击有空位的烤架", "Toca una parrilla con un hueco"],
+"空き場所": ["Empty slot", "空位", "Hueco libre"],
+"焼き上がり": ["Ready to serve", "已烤好", "Para servir"],
+"待ち{0}人": ["{0} in line", "{0}人排队", "{0} en la fila"],
+"串を選んで、移動先の焼き台をタップ。ドラッグでも動かせます。": ["Select a skewer, then tap the grill you want to move it to. You can also drag it.", "选一串，再点要移到的烤架。也可以直接拖动。", "Elige una brocheta y toca la parrilla de destino. También puedes arrastrarla."],
+"焼き台の串を入れかえて同じ串を3本そろえ、焼いてお客さんの注文に届けるパズルゲーム。": ["Move skewers from grill to grill, match three and serve your customers.", "移动烤架上的串，凑齐三串相同的烤串，烤好后送到客人手上。", "Cambia las brochetas de parrilla, junta tres iguales y sirve los pedidos."],
+"注文票の下の「つぎ」は、次にその席に座る人の注文です。": ["Next on an order slip shows what the next customer at that seat will order.","订单下方的“下一个”表示下一位入座客人要点的菜。","Al pie del pedido, «Siguiente» indica qué pedirá el próximo cliente de ese asiento."],
+"左皿（つぎ）：{0}": ["Left plate, next batch: {0}","左盘（下一批）：{0}","Plato izquierdo, siguiente tanda: {0}"],
+"右皿（そのつぎ）：{0}": ["Right plate, following batch: {0}","右盘（再下一批）：{0}","Plato derecho, tanda posterior: {0}"],
+"空皿": ["Empty plate","空盘","Plato vacío"],
+"さらに{0}段": ["{0} more batches","另有{0}批","{0} tandas más"]
 };

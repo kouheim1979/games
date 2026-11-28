@@ -36,7 +36,7 @@ function bootGame() {
   };
   window.window = window;
   gameScript.runInNewContext(window);
-  const { G, L, UI, CARDS, api } = window.KETA;
+  const { G, L, UI, CARDS, SAVE, api } = window.KETA;
   api.startRun();
 
   function drop(x = 119) {
@@ -53,17 +53,21 @@ function bootGame() {
     labels.length = 0;
     api.render();
   }
+  function pointer(eventType, x, y, pointerId = 1) {
+    const rect = canvas.getBoundingClientRect();
+    const event = {
+      isPrimary: true, button: 0, pointerType: 'touch', pointerId, preventDefault() {},
+      clientX: x * rect.width / 540,
+      clientY: y * rect.height / (L.trayY + L.trayH),
+    };
+    events[eventType](event);
+  }
   function tap(id) {
     const button = UI.regs.find(region => region.id === id);
     assert.ok(button, id);
-    const rect = canvas.getBoundingClientRect();
-    const event = {
-      isPrimary: true, button: 0, pointerType: 'touch', pointerId: 1, preventDefault() {},
-      clientX: (button.x + button.w / 2) * rect.width / 540,
-      clientY: (button.y + button.h / 2) * rect.height / (L.trayY + L.trayH),
-    };
-    events.pointerdown(event);
-    events.pointerup(event);
+    const x = button.x + button.w / 2, y = button.y + button.h / 2;
+    pointer('pointerdown', x, y);
+    pointer('pointerup', x, y);
   }
   function collect(cards, nextStage) {
     render();
@@ -87,7 +91,7 @@ function bootGame() {
     assert.equal(G.phase, 'play');
     assert.equal(G.stage, nextStage);
   }
-  return { G, api, drop, settle, render, collect, labels };
+  return { G, L, CARDS, SAVE, api, drop, settle, render, pointer, tap, collect, labels };
 }
 
 test('a landing just below the quota displays a lower score and awards no extra card', () => {
@@ -214,4 +218,114 @@ test('each stage awards its first ball and the flyover bonus independently', () 
   settle([drop(), drop()], [G.quota * 0.49, G.quota * 0.49]);
   collect(1, 6);
   assert.equal(G.picks.length, 8);
+});
+
+test('a charm is confirmed and applied by a single tap', () => {
+  const { G, CARDS, api, render, tap } = bootGame();
+  api.stageClear();
+  api.afterClear();
+  const charm = CARDS.find(card => card.id === 'ball');
+  G.offer = [{ c: charm, name: charm.name, desc: charm.desc, g: charm.g }];
+  render();
+  tap('card0');
+  assert.equal(G.rel.ball, 1);
+  assert.equal(G.stage, 2);
+  assert.deepEqual(Array.from(G.picks), ['ball']);
+});
+
+test('dragging into the lower cancel area keeps the ball and its first-shot eligibility', () => {
+  const { G, L, pointer, render, labels } = bootGame();
+  const y = L.row0 + 100, cancelY = L.trayY + L.trayH - 24;
+  G.dropCd = 0;
+  pointer('pointerdown', 270, y);
+  render();
+  assert.ok(labels.includes('キャンセル'));
+  assert.ok(labels.includes('指をここまで動かしてはなす'));
+  pointer('pointermove', 275, cancelY);
+  render();
+  assert.ok(labels.includes('ここで指をはなすと玉を落とさない'));
+  pointer('pointerup', 275, cancelY);
+  assert.equal(G.ballsLeft, G.ballsMax);
+  assert.equal(G.balls.length, 0);
+  render();
+  assert.ok(!labels.includes('キャンセル'));
+
+  pointer('pointerdown', 270, y);
+  pointer('pointerup', 270, y);
+  assert.equal(G.ballsLeft, G.ballsMax - 1);
+  assert.equal(G.balls.length, 1);
+  assert.ok(G.balls[0].firstShot);
+});
+
+test('moving from the cancel area back to the board allows a normal drop', () => {
+  const { G, L, pointer } = bootGame();
+  const y = L.row0 + 100;
+  G.dropCd = 0;
+  pointer('pointerdown', 100, y);
+  pointer('pointermove', 100, L.trayY + L.trayH - 24);
+  pointer('pointermove', 270, y);
+  pointer('pointerup', 270, y);
+  assert.equal(G.ballsLeft, G.ballsMax - 1);
+  assert.equal(G.balls[0].x, G.grid[1][3].x);
+});
+
+test('releasing outside the board or cancelling pointer capture preserves the ball', () => {
+  const { G, L, pointer } = bootGame();
+  const y = L.row0 + 100;
+  G.dropCd = 0;
+  for (const [eventType, x] of [['pointerup', -10], ['pointercancel', 100], ['lostpointercapture', 100]]) {
+    pointer('pointerdown', 100, y);
+    assert.ok(G.aim.on);
+    pointer(eventType, x, y);
+    assert.equal(G.aim.on, false);
+    assert.equal(G.ballsLeft, G.ballsMax);
+  }
+});
+
+test('upper-rarity split cards allow manual and automatic placement beyond four lanterns', () => {
+  const { G, CARDS, api, render, tap } = bootGame();
+  const [second, third, fourth, fifth] = G.pegs.filter(peg => peg.type === 'n');
+  second.type = third.type = fourth.type = 's';
+  for (const peg of G.pegs) if (peg.type === 's') peg.lv = 3;
+  api.stageClear();
+  api.afterClear();
+  const card = CARDS.find(entry => entry.id === 's2');
+  assert.equal(CARDS.find(entry => entry.id === 's1').rar, 1);
+  assert.equal(card.rar, 2);
+  assert.equal(api.countType('s'), 4);
+  assert.ok(api.makeOffer(CARDS.length).some(o => o.c.t === 's'));
+  G.offer = [{ c: card, name: '分裂ちょうちん', desc: '', lv: 1, n: 2 }];
+  render();
+  tap('card0');
+  assert.equal(G.phase, 'place');
+  assert.deepEqual(Array.from(G.picks), ['s2']);
+  api.placeAt(fifth);
+  assert.equal(fifth.type, 's');
+  assert.equal(api.countType('s'), 5);
+  assert.equal(G.placing.left, 1);
+  fifth.lv = 3;
+  render();
+  tap('auto');
+  assert.equal(G.stage, 2);
+  assert.equal(api.countType('s'), 6);
+});
+
+test('every board has distinct peg positions and detects collisions at those positions', () => {
+  const { G, SAVE, api, drop } = bootGame();
+  const layouts = new Set();
+  for (const board of ['classic', 'hourglass', 'river', 'fork']) {
+    SAVE.board = board;
+    api.startRun();
+    assert.equal(G.board.id, board);
+    assert.equal(G.pegs.length, 75);
+    layouts.add(G.pegs.map(peg => peg.x).join(','));
+    const peg = G.grid[7][3], ball = drop(peg.x);
+    Object.assign(ball, { x: peg.x, y: peg.y - 22, vx: 0, vy: 380 });
+    api.update(1 / 60);
+    assert.equal(ball.lastPeg, peg.i);
+  }
+  assert.equal(layouts.size, 4);
+  SAVE.board = 'unknown';
+  api.startRun();
+  assert.equal(G.board.id, 'classic');
 });

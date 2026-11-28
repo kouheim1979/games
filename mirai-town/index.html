@@ -60,8 +60,8 @@
 @keyframes townEvolve{0%{height:0;opacity:0;transform:translateY(-10px)}14%,70%{height:23px;opacity:1;transform:translateY(0)}100%{height:0;opacity:0;transform:translateY(-10px)}}
 @media(prefers-reduced-motion:reduce){.town-scene.rain::after,.town-scene.party::after{animation:none !important}.shop-evolution.active{animation:none !important;height:auto;opacity:1}}
 </style>
-<link rel="stylesheet" href="./city.css?v=20261115.3">
-<script src="./city.js?v=20261115.3" defer></script>
+<link rel="stylesheet" href="./city.css?v=20261115.6">
+<script src="./city.js?v=20261115.6" defer></script>
 </head>
 <body>
 <div class="app">
@@ -77,16 +77,27 @@
       <section class="panel town city-panel" aria-labelledby="townHeader"><div class="panel-header"><h2 id="townHeader">🏙️ うごく街！ みらいタウン</h2><span class="pill" id="townPill">1 / 4 スポット</span></div><div class="city-canvas-wrap">
   <canvas id="cityCanvas" width="1200" height="650" tabindex="0" aria-label="投資で発展する街の見下ろし画面。車や人が動きます。矢印キーで画面を移動できます。">このブラウザは街のアニメーションに対応していません。</canvas>
   <div class="city-hud city-hud-top"><div class="city-chip"><span>🪙 まちの資産合計</span><strong id="cityCashChip">1,200 コイン</strong></div><div class="city-chip"><span>🍭 お店の株の評価額</span><strong id="cityShopChip">0 コイン</strong></div></div>
-  <div class="city-hud city-hud-bottom"><div class="city-hint" id="cityHint">🚗 車や人が動く街をタップしてみよう！ 指で横に動かして街を見渡せるよ。</div><div class="city-camera"><button type="button" data-city-zoom="out" aria-label="街を縮小">−</button><button type="button" data-city-zoom="reset" aria-label="街の位置を戻す">⌂</button><button type="button" data-city-zoom="in" aria-label="街を拡大">＋</button></div></div>
+  <div class="city-hud city-hud-bottom"><div class="city-hint" id="cityHint">🚗 車や人が動く街をタップしてみよう！ 指で横に動かして街を見渡せるよ。</div><div class="city-camera"><button type="button" data-city-zoom="tour" class="city-tour-btn" aria-label="街を見学するカメラツアー">🎥</button><button type="button" data-city-zoom="out" aria-label="街を縮小">−</button><button type="button" data-city-zoom="reset" aria-label="街の位置を戻す">⌂</button><button type="button" data-city-zoom="in" aria-label="街を拡大">＋</button></div></div>
   <div class="city-splash" id="citySplash" aria-hidden="true"><span></span><small></small></div>
 </div>
 <div class="city-info"><span class="city-level" id="cityLevelText">🏪 Lv.1 空き地</span><strong id="cityGrowthText">あと100コインで進化！</strong></div>
-<div class="city-info"><span class="city-growth" id="cityTicker" role="status" aria-live="polite">🚗 車や住人が行き交う街。株を買ってお店を育てよう！</span></div>
+<div class="city-info"><span class="city-life">👥 <strong id="cityPopulation">100</strong>人が暮らす街</span><span class="city-growth" id="cityTicker" role="status" aria-live="polite">🚗 車や住人が行き交う街。株を買ってお店を育てよう！</span></div>
+<div class="city-building-workshop" id="cityWorkshop">
+  <div class="city-workshop-top"><div class="city-workshop-heading"><span class="city-workshop-icon">🏗️</span><div><strong>じぶんの街をつくろう！</strong><small id="cityWorkshopHelp">1か月進めると建設チケットを1枚ゲット！ 街の「＋」をタップして建設場所を選ぼう。</small></div></div><span class="city-ticket" id="cityTicketText">🎟️ 0枚</span></div>
+  <div class="city-lot-status" id="cityLotStatus">📍 地図の「＋」をタップしてみよう！</div>
+  <div class="city-build-buttons" id="cityBuildButtons">
+    <button type="button" data-action="city-build-park" disabled>🌳<span>公園</span></button>
+    <button type="button" data-action="city-build-house" disabled>🏠<span>おうち</span></button>
+    <button type="button" data-action="city-build-library" disabled>📚<span>図書館</span></button>
+    <button type="button" data-action="city-build-bakery" disabled>🥐<span>パン屋</span></button>
+  </div>
+</div>
 <div class="city-actions">
   <button type="button" class="city-invest" data-action="buy-shop">🍭 おかし屋に<br>100コイン投資</button>
   <button type="button" class="city-diverse" data-action="buy-fund">🌍 いろいろ会社に<br>100コイン投資</button>
   <button type="button" class="city-next" data-action="next">📅 1か月<br>すすめる</button>
 </div>
+<div class="city-fast-tools"><button type="button" data-action="buy-shop-300">🍭 おかし屋に＋300コイン</button><button type="button" data-action="buy-fund-300">🌍 いろいろ会社に＋300コイン</button></div>
 <div class="city-education">🏡 この街は投資を学ぶためのフィクションです。実際には株を買っても、そのお金が直接お店に入るわけではありません。</div>
 <div class="town-scene" id="townScene" role="img" aria-label="投資したお金にあわせて育つ、アニメーションつきのお店"></div><div id="shopEvolution" class="shop-evolution" aria-live="polite" aria-atomic="true"></div><div class="town-stage-row"><strong id="shopStage">Lv.1 おみせのたね</strong><span id="shopNext">あと100コインで進化！</span></div><div class="shop-stage-track"><div id="shopStageFill"></div></div><div class="town-scene-tip" id="townSceneTip">🌍 いろいろ会社セットに投資すると、右側にもお店ができるよ！</div><h3 class="town-subtitle">🏘️ まちのスポット</h3><div class="town-grid" id="townGrid"></div><div class="smallfoot">※ 建物の成長はゲームの演出だよ。実際の株を買っても、そのお金が直接お店に入るとは限らないよ。</div></section>
   <div class="layout">
@@ -307,9 +318,9 @@
   $('townScene').setAttribute('aria-label',`おかし屋さんは${now.name}。おかし屋の株の評価額は${num(amount)}コイン。いろいろ会社セットの評価額は${num(state.fund)}コイン。`);
   $('townSceneTip').textContent=friends?`🌍 いろいろ会社セットにも投資して、右側に仲間のお店が登場！`:'🌍 いろいろ会社セットに投資すると、右側にもお店ができるよ！';
 }
-  const initial=()=>({month:0,cash:1200,shop:0,fund:0,history:[],used:[],quizCorrect:0,quizAnswered:[],pendingQuiz:null,ended:false,started:false,news:null});
+  const initial=()=>({month:0,cash:1200,shop:0,fund:0,history:[],used:[],quizCorrect:0,quizAnswered:[],pendingQuiz:null,ended:false,started:false,news:null,cityTickets:0,cityBuilds:{}});
   const safeNumber=x=>typeof x==='number'&&Number.isFinite(x)&&x>=0&&x<1e9;
-  function load(){try{const a=JSON.parse(localStorage.getItem(KEY));if(!a||!Number.isInteger(a.month)||a.month<0||a.month>12||!['cash','shop','fund'].every(k=>safeNumber(a[k]))||!Array.isArray(a.history)||!Array.isArray(a.used)||!Array.isArray(a.quizAnswered))return initial();return {...initial(),...a};}catch{return initial();}}
+  function load(){try{const a=JSON.parse(localStorage.getItem(KEY));if(!a||!Number.isInteger(a.month)||a.month<0||a.month>12||!['cash','shop','fund'].every(k=>safeNumber(a[k]))||!Array.isArray(a.history)||!Array.isArray(a.used)||!Array.isArray(a.quizAnswered))return initial();return {...initial(),...a,cityTickets:Number.isInteger(a.cityTickets)&&a.cityTickets>=0&&a.cityTickets<=24?a.cityTickets:Math.min(12,a.month),cityBuilds:(a.cityBuilds&&typeof a.cityBuilds==='object'&&!Array.isArray(a.cityBuilds))?Object.fromEntries(Object.entries(a.cityBuilds).filter(([k,v])=>/^[0-3]$/.test(k)&&['park','house','library','bakery'].includes(v))):{}};}catch{return initial();}}
   let state=load(), toastTimer;
   const $=id=>document.getElementById(id), num=v=>nf.format(Math.round(v)),total=()=>state.cash+state.shop+state.fund;
   const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(state));}catch{}};
@@ -318,7 +329,7 @@
   function setDialog(content){$('dialog').innerHTML=content;$('overlay').classList.remove('hidden');document.body.style.overflow='hidden';}
   function closeDialog(){$('overlay').classList.add('hidden');document.body.style.overflow='';}
   function endGame(){state.ended=true;state.pendingQuiz=null;save();render();showResult();}
-  function showIntro(){setDialog(`<div class="dialog-emoji">🐿️🏡</div><h2 class="dialog-title" id="dialogTitle">ようこそ、みらいタウンへ！</h2><p class="dialog-text">きみは町をそだてる「お金のたんけん家」！<br>12か月で4,200コインをめざして、お店をそだてよう。</p><div class="intro-bullets"><div class="intro-bullet"><span>🪙</span>はじめに1,200コイン持っているよ</div><div class="intro-bullet"><span>🎁</span>毎月おこづかい300コインをもらえるよ</div><div class="intro-bullet"><span>📈</span>貯金する？ 株を買ってお店を大きくする？ 自分で決めよう！</div><div class="intro-bullet"><span>🦉</span>4か月ごとにクイズもあるよ</div></div><button class="dialog-btn" data-action="intro-start">あそびはじめる！ ▶</button><div class="try">実際のお金は使わないよ。操作は無料！</div>`);}
+  function showIntro(){setDialog(`<div class="dialog-emoji">🐿️🏡</div><h2 class="dialog-title" id="dialogTitle">ようこそ、みらいタウンへ！</h2><p class="dialog-text">きみは町をそだてる「お金のたんけん家」！<br>12か月で4,200コインをめざして、お店をそだてよう。</p><div class="intro-bullets"><div class="intro-bullet"><span>🪙</span>はじめに1,200コイン持っているよ</div><div class="intro-bullet"><span>🎁</span>毎月おこづかい300コインをもらえるよ</div><div class="intro-bullet"><span>📈</span>貯金する？ 株を買ってお店を大きくする？ 自分で決めよう！</div><div class="intro-bullet"><span>🏗️</span>毎月もらえる建設チケットで公園や家もたてられる！</div><div class="intro-bullet"><span>🦉</span>4か月ごとにクイズもあるよ</div></div><button class="dialog-btn" data-action="intro-start">あそびはじめる！ ▶</button><div class="try">実際のお金は使わないよ。操作は無料！</div>`);}
   function showQuiz(){const id=state.pendingQuiz;if(!Number.isInteger(id)||!quiz[id])return;if(state.quizAnswered.includes(id)){state.pendingQuiz=null;save();if(state.month>=MAX_MONTH)endGame();else closeDialog();return;}const q=quiz[id];setDialog(`<div class="dialog-emoji">🦉✨</div><h2 class="dialog-title" id="dialogTitle">お金のはかせクイズ！</h2><p class="dialog-text">${id+1}問目 / 3問<br><b style="color:#273752;font-size:17px">${q.q}</b></p><div id="quizChoices">${q.a.map((a,i)=>`<button class="choice" type="button" data-action="quiz-answer" data-option="${i}">${['A','B','C'][i]}　${a}</button>`).join('')}</div><div id="quizFeedback"></div><button class="dialog-btn ghost" data-action="quiz-skip">いったん閉じる（あとでチャレンジ）</button>`);}
   function answerQuiz(option){const id=state.pendingQuiz;if(!Number.isInteger(id)||!quiz[id]||state.quizAnswered.includes(id))return;const q=quiz[id];const correct=option===q.correct;state.quizAnswered.push(id);if(correct)state.quizCorrect++;save();document.querySelectorAll('[data-action="quiz-answer"]').forEach(b=>{b.disabled=true;const n=Number(b.dataset.option);if(n===q.correct)b.classList.add('correct');else if(n===option)b.classList.add('wrong');});$('quizFeedback').innerHTML=`<div class="dialog-feedback ${correct?'':'wrong'}">${correct?'🎉 せいかい！ 星をゲット！':'🌱 おしい！ ここがポイント！'}<br>${q.explain}</div><button class="dialog-btn" data-action="quiz-next">${state.month>=MAX_MONTH?'結果を見る ▶':'ゲームにもどる ▶'}</button>`;const btn=document.querySelector('[data-action="quiz-skip"]');if(btn)btn.classList.add('hidden');render();}
   function skipQuiz(){state.pendingQuiz=null;save();closeDialog();if(state.month>=MAX_MONTH)endGame();else toast('クイズはあとから挑戦できるよ！');}
@@ -327,17 +338,43 @@
     const shopLevel=shopStageFor(state.shop)+1;
     const badges=[c>=500?'🪙 いざという時の貯金マスター':null,state.fund>0?'🌍 分散投資のチャレンジャー':null,state.shop>0?'🍭 お店の応援団':null,correct===3?'🦉 クイズ全問正解':null].filter(Boolean);
     setDialog(`<div class="dialog-emoji">${win?'🏆🎊':'🌱✨'}</div><h2 class="dialog-title" id="dialogTitle">${win?'みらいタウン完成！':'12か月、おつかれさま！'}</h2><p class="dialog-text">${win?'目標の4,200コインを達成したよ！':'目標に届かなくても、新しい発見ができたね！'}<br>貯金にも投資にも、それぞれいいところがあるよ。</p><p class="result-shop">🏪 おかし屋さんは <strong>レベル ${shopLevel}</strong> まで成長！</p><div class="result-stats"><div class="result-stat"><small>最後のお金の合計</small><strong>${num(t)} コイン</strong></div><div class="result-stat"><small>貯金だけなら4,800コイン</small><strong class="${profit>=0?'pos':'neg'}">${profit>=0?'+':''}${num(profit)} 差</strong></div><div class="result-stat"><small>さいごに残した貯金</small><strong>${num(c)} コイン</strong></div><div class="result-stat"><small>クイズ正解</small><strong>${correct} / 3 問</strong></div></div><p class="dialog-text" style="margin-bottom:5px">${profit>0?'この1年間は、投資がプラスになったね。でも次も同じとは限らないよ。':profit<0?'この1年間は、投資がマイナスだったね。そんな年もあることを知っておこう。':'貯金を中心にした作戦だったね。安全に残すことも大切な考え方だよ。'}</p><div class="badges">${badges.map(b=>`<span class="achievement">${b}</span>`).join('')||'<span class="achievement">🌟 12か月達成！</span>'}</div><button class="dialog-btn" data-action="restart">もう一回チャレンジ 🔁</button><button class="dialog-btn ghost" data-action="close-result">結果をとじて町を見る</button>`);}
-  function buy(asset){if(state.ended)return;if(state.cash<100){toast('貯金が100コイン必要だよ！');return;}state.cash-=100;state[asset]+=100;save();render();toast(asset==='shop'?'🍭 おかし屋さんの株を100コイン買ったよ！':'🌍 いろいろ会社セットを100コイン買ったよ！');}
+  function buy(asset,amount=100){if(state.ended)return;if(state.cash<amount){toast('貯金が'+num(amount)+'コイン必要だよ！');return;}state.cash-=amount;state[asset]+=amount;save();render();toast((asset==='shop'?'🍭 おかし屋さんの株を':'🌍 いろいろ会社セットを')+num(amount)+'コイン買ったよ！');}
   function sell(asset){if(state.ended)return;if(state[asset]<=0){toast('まだ売れる投資は持っていないよ');return;}const amount=Math.min(100,state[asset]);state[asset]-=amount;state.cash+=amount;save();render();toast(`🪙 ${num(amount)}コインを貯金にもどしたよ！`);}
   function monthNext(){if(state.ended)return;if(!state.started){showIntro();return;}if(state.pendingQuiz!==null){showQuiz();return;}if(state.month>=MAX_MONTH){endGame();return;}
     const possible=events.map((_,i)=>i).filter(i=>!state.used.includes(i));const eventId=possible[Math.floor(Math.random()*possible.length)];const ev=events[eventId];state.used.push(eventId);
     const oldShop=state.shop,oldFund=state.fund;state.shop=Math.round(state.shop*(1+ev.shop));state.fund=Math.round(state.fund*(1+ev.fund));const diffShop=state.shop-oldShop,diffFund=state.fund-oldFund;state.cash+=300;state.month++;
-    state.news={...ev,diffShop,diffFund};state.history.push({month:state.month,total:Math.round(total()),eventId,diffShop,diffFund});
+    state.news={...ev,diffShop,diffFund};state.cityTickets=(state.cityTickets||0)+1;state.history.push({month:state.month,total:Math.round(total()),eventId,diffShop,diffFund});
     if([4,8,12].includes(state.month))state.pendingQuiz=state.month/4-1;
     save();render();toast(`🎁 ${state.month}か月目！ おこづかい＋300コイン`);
     if(state.pendingQuiz!==null)showQuiz();else if(state.month>=MAX_MONTH)endGame();
     const scene=$('townHeader');if(scene&&window.innerWidth<740)scene.scrollIntoView({behavior:'smooth',block:'start'});
   }
+  let currentCityLot=null;
+  function cityBuild(kind){
+    const names={park:'公園',house:'おうち',library:'図書館',bakery:'パン屋'};
+    if(!(kind in names))return;
+    if(currentCityLot===null){toast('📍 街の「＋」を押して建設場所を選ぼう！');return;}
+    if(state.cityBuilds?.[currentCityLot]){toast('そこにはもう建物があるよ！');return;}
+    if((state.cityTickets||0)<1){toast('🎟️ 1か月すすめると建設チケットがもらえるよ！');return;}
+    state.cityBuilds[currentCityLot]=kind;
+    state.cityTickets--;
+    const lot=currentCityLot;
+    currentCityLot=null;save();render();
+    $('cityWorkshop').classList.add('just-built');
+    setTimeout(()=>$('cityWorkshop').classList.remove('just-built'),900);
+    toast('🎊 '+names[kind]+'が完成！街の人たちも大喜び！');
+    window.dispatchEvent(new CustomEvent('mirai:city-built',{detail:{lot,kind}}));
+  }
+  window.addEventListener('mirai:lot-selected',e=>{
+    const lot=Number(e?.detail?.lot);
+    if(!Number.isInteger(lot)||lot<0||lot>3)return;
+    if(state.cityBuilds?.[lot]){currentCityLot=null;toast('この場所には建物があるよ！');}
+    else{
+      currentCityLot=lot;
+      $('cityWorkshop').scrollIntoView({behavior:'smooth',block:'nearest'});
+    }
+    render();
+  });
   function chart(){const arr=[1200,...state.history.map(h=>h.total)],max=Math.max(GOAL,5000,...arr)*1.1,min=0,w=310,h=108,p=7;
     const x=i=>p+i*(w-2*p)/12,y=v=>h-p-(v-min)/(max-min)*(h-2*p);
     const points=arr.map((v,i)=>`${x(i)},${y(v)}`).join(' '),last=arr.length-1;const fill=[`${x(0)},${h-p}`,...arr.map((v,i)=>`${x(i)},${y(v)}`),`${x(last)},${h-p}`].join(' ');
@@ -358,21 +395,28 @@
     $('hintText').textContent=hints[Math.min(state.month,hints.length-1)];
     if(state.news){const n=state.news;$('newsMonth').textContent=`${state.month}か月目`;$('newsLabel').textContent=`${n.icon} 今月のできごと`;$('newsTitle').textContent=n.title;$('newsDesc').textContent=n.desc;$('newsDeltas').innerHTML=`<span class="delta ${n.diffShop>0?'pos':n.diffShop<0?'neg':'zero'}">🍭 ${delta(n.diffShop)}</span><span class="delta ${n.diffFund>0?'pos':n.diffFund<0?'neg':'zero'}">🌍 ${delta(n.diffFund)}</span>`;}
     $('history').innerHTML=state.history.length?state.history.slice().reverse().map(h=>`<div class="history-item"><span class="m">${h.month}月</span><span class="detail"><strong>${events[h.eventId]?.title||'ニュース'}</strong><div>🍭 ${delta(h.diffShop)} ／ 🌍 ${delta(h.diffFund)}</div></span><strong>${num(h.total)}</strong></div>`).join(''):'<p class="empty-history">まだニュースはないよ。1か月すすめてみよう！</p>';
-    const paused=state.ended;document.querySelectorAll('[data-action^="buy-"],[data-action^="sell-"]').forEach(btn=>{const [type,asset]=btn.dataset.action.split('-');btn.disabled=paused||(type==='buy'?state.cash<100:state[asset]<=0);});
+    const paused=state.ended;document.querySelectorAll('[data-action^="buy-"],[data-action^="sell-"]').forEach(btn=>{const [type,asset]=btn.dataset.action.split('-');btn.disabled=paused||(type==='buy'?state.cash<(btn.dataset.action.endsWith('-300')?300:100):state[asset]<=0);});
     const nb=$('nextBtn');nb.textContent=state.ended?'🏁 結果をもう一度見る':state.pendingQuiz!==null?'🦉 クイズにチャレンジ！':state.month===11?'▶ 最後の1か月をすすめる（＋300コイン）':`▶ 1か月すすめる（＋300コイン）`;
+    const count=Object.keys(state.cityBuilds||{}).length;
+    $('cityTicketText').textContent='🎟️ '+(state.cityTickets||0)+'枚';
+    $('cityLotStatus').textContent=count===4?'🎉 4つの建設エリアが完成！':currentCityLot===null?'📍 街の光る「＋」をタップして建設する場所を選ぼう！':'📍 '+(currentCityLot+1)+'番の土地を選択中！好きな建物を建てよう';
+    $('cityBuildButtons').querySelectorAll('button').forEach(btn=>{btn.disabled=(state.cityTickets||0)<1||currentCityLot===null||!!state.cityBuilds?.[currentCityLot];});
+    const residents=100+count*75+Math.floor(state.month*12)+Math.floor(state.shop/100)*25+Math.floor(state.fund/100)*15;
+    $('cityPopulation').textContent=num(residents);
     chart();
     window.dispatchEvent(new CustomEvent('mirai:state',{detail:{
-      month:state.month,cash:state.cash,shop:state.shop,fund:state.fund,
+      month:state.month,cash:state.cash,shop:state.shop,fund:state.fund,cityTickets:state.cityTickets,cityBuilds:state.cityBuilds,
       total:total(),news:state.news,started:state.started,ended:state.ended
     }}));
   }
-  function reset(){if(!confirm('ゲームのきろくを消して、最初からあそぶ？'))return;state=initial();save();render();showIntro();}
+  function reset(){if(!confirm('ゲームのきろくを消して、最初からあそぶ？'))return;state=initial();currentCityLot=null;save();render();showIntro();}
   document.addEventListener('click',e=>{const target=e.target.closest('[data-action]');if(!target)return;const action=target.dataset.action;
-    if(action==='buy-shop')buy('shop');else if(action==='buy-fund')buy('fund');else if(action==='sell-shop')sell('shop');else if(action==='sell-fund')sell('fund');else if(action==='next'){if(state.ended)showResult();else monthNext();}
+    if(action==='buy-shop')buy('shop');else if(action==='buy-fund')buy('fund');else if(action==='buy-shop-300')buy('shop',300);else if(action==='buy-fund-300')buy('fund',300);else if(action==='sell-shop')sell('shop');else if(action==='sell-fund')sell('fund');else if(action==='next'){if(state.ended)showResult();else monthNext();}
     else if(action==='intro-start'){state.started=true;save();closeDialog();toast('スタート！まずはお金の使い方を選ぼう 🎈');}
     else if(action==='quiz-answer')answerQuiz(Number(target.dataset.option));
     else if(action==='quiz-skip')skipQuiz();else if(action==='open-quiz')openQuiz();
     else if(action==='quiz-next'){state.pendingQuiz=null;save();closeDialog();if(state.month>=MAX_MONTH)endGame();else toast('⭐ かしこさがアップ！');}
+    else if(action.startsWith('city-build-'))cityBuild(action.slice('city-build-'.length));
     else if(action==='town-jump'){$('townHeader').scrollIntoView({behavior:'smooth',block:'start'});}
     else if(action==='restart')reset();else if(action==='reset')reset();else if(action==='close-result')closeDialog();
   });

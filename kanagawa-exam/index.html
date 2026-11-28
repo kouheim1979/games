@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f4f1ea">
+<meta name="description" content="神奈川県公立高校入試の学習アプリを教科別にまとめた勉強BOX。社会、理科、数学、英語、国語、漢字の6アプリを無料で利用できます。">
+<title>高校入試 勉強BOX｜神奈川県 公立高校入試</title>
+<style>
+:root{--paper:#f4f1ea;--ink:#15121a;--red:#ff4328;--yellow:#ffd42a;--light:#fffdf6;--sub:#625e66}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background-color:var(--paper);background-image:radial-gradient(#15121a0d .8px,transparent .8px);background-size:7px 7px;color:var(--ink);font-family:system-ui,-apple-system,"Hiragino Sans","Yu Gothic",Meiryo,sans-serif}
+a{color:inherit}.wrap{width:min(1020px,calc(100% - 28px));margin:0 auto;padding-bottom:60px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:18px 0 22px;font-size:13px;font-weight:850}.top a{text-decoration:none}.top .back{border:2px solid var(--ink);background:#fff;border-radius:999px;padding:9px 13px;box-shadow:3px 3px 0 var(--ink)}
+.top .mark{letter-spacing:.08em}
+.hero{position:relative;overflow:hidden;background:var(--yellow);border:4px solid var(--ink);border-radius:24px;padding:clamp(22px,5vw,42px);box-shadow:8px 8px 0 var(--ink)}
+.eyebrow{display:inline-block;font-size:12px;font-weight:900;letter-spacing:.09em;background:var(--ink);color:white;padding:7px 10px;border-radius:6px}
+h1{margin:20px 0 10px;line-height:1.14;font-size:clamp(34px,7vw,64px);font-weight:1000;letter-spacing:-.055em}.hero h1 b{color:var(--red);-webkit-text-stroke:1px var(--ink)}
+.lead{max-width:570px;font-size:clamp(15px,3.4vw,19px);font-weight:800;line-height:1.7;margin:0}
+.stamp{position:absolute;right:25px;top:25px;font-size:14px;font-weight:1000;transform:rotate(12deg);border:3px solid var(--ink);background:white;border-radius:50%;width:70px;height:70px;display:grid;place-items:center;line-height:1.05;text-align:center}
+.stats{display:flex;flex-wrap:wrap;gap:9px;margin-top:25px}.stat{padding:9px 13px;border:2px solid var(--ink);border-radius:99px;background:#fff;font-weight:900;font-size:12px}
+.section-title{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:34px 2px 14px}.section-title h2{font-size:clamp(20px,4.5vw,27px);margin:0;letter-spacing:-.035em}.section-title span{font-size:13px;font-weight:900;background:var(--ink);color:#fff;border-radius:8px;padding:7px 11px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+.card{display:flex;flex-direction:column;min-height:220px;background:var(--light);border:3px solid var(--ink);border-radius:19px;padding:clamp(15px,3.4vw,23px);box-shadow:5px 5px 0 var(--ink);text-decoration:none;transition:transform .12s ease,box-shadow .12s ease;position:relative}
+.card:focus-visible{outline:4px solid var(--red);outline-offset:5px}.card:active{transform:translate(4px,4px);box-shadow:1px 1px 0 var(--ink)}
+.chip{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:950;letter-spacing:.05em;width:max-content;border:2px solid var(--ink);border-radius:99px;padding:5px 10px;background:var(--yellow)}
+.kicker{color:var(--sub);font-size:13px;font-weight:900;margin:17px 0 5px}
+.card h3{margin:0;font-size:clamp(23px,4vw,33px);letter-spacing:-.04em;line-height:1.25}
+.desc{font-size:13px;line-height:1.55;font-weight:700;color:#545057;margin:10px 0 20px}
+.go{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:14px;font-weight:950;background:var(--ink);color:white;border-radius:11px;padding:10px 13px}
+.go .arrow{font-size:22px;line-height:1}
+.card:nth-child(2) .chip{background:#c9eeff}.card:nth-child(3) .chip{background:#ffd5cf}.card:nth-child(4) .chip{background:#d9f7d9}.card:nth-child(5) .chip{background:#e6d9ff}.card:nth-child(6) .chip{background:#ffe9af}
+.note{margin-top:28px;border-top:2px dashed #b6b0a7;padding:16px 2px;color:#514c54;font-weight:650;font-size:13px;line-height:1.8}
+.note a{text-decoration:underline;text-underline-offset:3px;font-weight:900}.footer{text-align:center;font-size:12px;color:#706971;margin-top:30px}
+@media(min-width:850px){.grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}.card{min-height:260px}}
+@media(max-width:520px){.wrap{width:min(100% - 28px,550px)}.top{padding:14px 0 19px}.top .mark{font-size:11px}.hero{padding:22px 19px 23px;border-radius:19px;box-shadow:5px 5px 0 var(--ink)}.stamp{display:none}h1{margin:16px 0 12px}.grid{gap:12px}.card{padding:13px 12px;min-height:224px;border-radius:15px;box-shadow:4px 4px 0 var(--ink)}.card h3{font-size:clamp(19px,5.1vw,25px)}.kicker{font-size:11px}.desc{font-size:12px}.go{font-size:12px;padding:9px}.section-title{margin-top:29px}.chip{font-size:11px;padding:5px 8px}}
+@media(prefers-reduced-motion:reduce){.card{transition:none}html{scroll-behavior:auto}}
+</style>
+</head>
+<body><main class="wrap">
+<nav class="top" aria-label="ナビゲーション"><a class="back" href="../">← まいにち道具箱</a><span class="mark">KANAGAWA EXAM / STUDY BOX</span></nav>
+<header class="hero">
+<span class="eyebrow">神奈川県 公立高校入試 対策</span>
+<div class="stamp" aria-hidden="true">6つの<br>アプリ</div>
+<h1>高校入試<br><b>勉強BOX</b></h1>
+<p class="lead">教科を選んで、すぐにスタート。<br>入試の過去問を使って、サクサク練習。</p>
+<div class="stats"><span class="stat">5教科＋漢字</span><span class="stat">スマホ対応</span><span class="stat">無料・登録不要</span></div>
+</header>
+<section aria-labelledby="subject-heading">
+<div class="section-title"><h2 id="subject-heading">勉強する教科を選ぶ</h2><span>全6アプリ</span></div>
+<div class="grid">
+<a class="card" href="../rekidoka/" aria-label="社会ドカン！を始める"><span class="chip">01 / 社会</span><div class="kicker">地理・歴史・公民</div><h3>社会ドカン！</h3><p class="desc">2024〜2026年度の入試を中心に、過去問ベースでテンポよく確認。</p><span class="go">この教科で勉強 <span class="arrow" aria-hidden="true">↗</span></span></a>
+<a class="card" href="../rikadoka/" aria-label="理科ドカン！を始める"><span class="chip">02 / 理科</span><div class="kicker">物理・化学・生物・地学</div><h3>理科ドカン！</h3><p class="desc">分野ごとに学習。間違えた問題の解説も読めます。</p><span class="go">この教科で勉強 <span class="arrow" aria-hidden="true">↗</span></span></a>
+<a class="card" href="../sugakudoka/" aria-label="数学ドカン！を始める"><span class="chip">03 / 数学</span><div class="kicker">計算・関数・図形・確率</div><h3>数学ドカン！</h3><p class="desc">計算や条件を短くした練習と公式問題への導線。</p><span class="go">この教科で勉強 <span class="arrow" aria-hidden="true">↗</span></span></a>
+<a class="card" href="../kanagawa-english/" aria-label="英語ドカン！を始める"><span class="chip">04 / 英語</span><div class="kicker">文法・語彙・読解</div><h3>英語ドカン！</h3><p class="desc">神奈川県の英語入試に向けた問題練習。</p><span class="go">この教科で勉強 <span class="arrow" aria-hidden="true">↗</span></span></a>
+<a class="card" href="./kokugo.html" aria-label="国語ドカン！を始める"><span class="chip">05 / 国語</span><div class="kicker">読解・古文・知識</div><h3>国語ドカン！</h3><p class="desc">過去問をもとにした練習。公式の問題文も確認できます。</p><span class="go">この教科で勉強 <span class="arrow" aria-hidden="true">↗</span></span></a>
+<a class="card" href="./kanji.html" aria-label="漢字ドカン！を始める"><span class="chip">06 / 漢字</span><div class="kicker">漢字の読み・知識</div><h3>漢字ドカン！</h3><p class="desc">高校入試の漢字を短時間で反復。</p><span class="go">この教科で勉強 <span class="arrow" aria-hidden="true">↗</span></span></a>
+</div>
+</section>
+<p class="note">※ 神奈川県の公立高校入試問題をもとに作った学習用アプリです。アプリによっては問題文を短くした練習形式もあります。図・資料・原文を伴う問題は、<a href="https://www.pref.kanagawa.jp/docs/dc4/nyusen/nyusen/gakuryokukensa/mondai.html" rel="noopener noreferrer" target="_blank">神奈川県の公式過去問ページ</a>も確認してください。神奈川県の公式サービスではありません。</p>
+<footer class="footer"><a href="../">まいにち道具箱へ戻る</a></footer>
+</main></body></html>

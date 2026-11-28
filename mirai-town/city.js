@@ -7,13 +7,15 @@ var hint=document.getElementById('cityHint'), ticker=document.getElementById('ci
 var chip=document.getElementById('cityCashChip'), shopChip=document.getElementById('cityShopChip');
 var levelText=document.getElementById('cityLevelText'), growthText=document.getElementById('cityGrowthText');
 var splash=document.getElementById('citySplash');
-var state={month:0,cash:1200,shop:0,fund:0,total:1200,news:null,started:false,ended:false};
+var state={month:0,cash:1200,shop:0,fund:0,total:1200,news:null,started:false,ended:false,cityTickets:0,cityBuilds:{}};
 try { var old=JSON.parse(localStorage.getItem('mirai-town-invest-v1')||'null'); if(old){state=Object.assign({},state,old);state.total=(old.cash||0)+(old.shop||0)+(old.fund||0);} }catch(_){}
 var w=900,h=540,dpr=1,scale=1,zoom=1,panX=0,panY=0;
 var frame=0,last=0,lastPaint=0,animated=true,particles=[],constructionStart=0,constructionUntil=0,rippleUntil=0;
 var lastLevel=-1,lastFund=-1,lastMonth=-1,lastShop=-1;
 var selected='shop',shopLevels=['空き地','キャンディ屋台','おかしショップ','スイーツカフェ','スイーツビル'];
+var tourStart=0,tourDuration=10000;
 var fullMap=9,tileW=86,tileH=43;
+var buildPlots=[{x:3,y:3},{x:6,y:2},{x:3,y:7},{x:8,y:6}],buildMoments={},activeLot=-1;
 var colors={sky:'#a9e1ff',road:'#abb9bb',street:'#677e89',leaf:'#67bc8a',soil:'#b6a27a'};
 function clamp(n,min,max){return Math.max(min,Math.min(max,n));}
 function level(v){return v>=1200?4:v>=700?3:v>=300?2:v>=100?1:0;}
@@ -215,8 +217,61 @@ function ferris(p,t){
  }
  context.restore();
 }
+
+/* Four developable city blocks. All buildings are cosmetic and do not modify investments. */
+function buildingSite(p,t,lot){
+ var chosen=state.cityBuilds&&state.cityBuilds[String(lot)];
+ var since=buildMoments[lot],elapsed=since===undefined?99:(performance.now()-since)/1000;
+ var grow=clamp(elapsed/1.6,.08,1);
+ var hover=activeLot===lot;
+ if(!chosen){
+  var pulse=.65+Math.sin(t*3+lot)*.25;
+  context.save();context.globalAlpha=hover?1:pulse;
+  poly([[p.x,p.y-14],[p.x+37,p.y+4],[p.x,p.y+23],[p.x-37,p.y+4]],'#ffe4a0','#e49d64',2.5);
+  poly([[p.x,p.y-23],[p.x+23,p.y-12],[p.x,p.y+1],[p.x-23,p.y-12]],'#fffbe8','#efa972',1);
+  circle(p.x,p.y-17,13,'#ff8d9a');
+  label('+',p.x,p.y-18,24,'#fff',900);
+  context.restore();
+  return;
+ }
+ circle(p.x+3,p.y+12,35,'#2a6d6453');
+ if(chosen==='park'){
+  poly([[p.x,p.y-15],[p.x+43,p.y+5],[p.x,p.y+26],[p.x-43,p.y+5]],'#6cc796','#358c74',2);
+  tree(p.x-11,p.y-3,t,false);
+  tree(p.x+16,p.y+7,t,true);
+  if(grow>.5){circle(p.x+4,p.y+12,7,'#b5eafb');circle(p.x+4,p.y+12,3,'#fff');}
+  if(elapsed<2){circle(p.x+12,p.y-36-Math.sin(t*4)*5,5,'#fff3a3');}
+ }else if(chosen==='house'){
+  prism(p,61,42,52*grow,'#e3c3a9','#cbe1ef','#91bfda');
+  poly([[p.x-37,p.y-52*grow],[p.x,p.y-52*grow-26],[p.x+37,p.y-52*grow],[p.x,p.y-52*grow+18]],'#e38ba3','#bf6589',2);
+  roundRect(p.x-17,p.y-25*grow,18,17*grow,3,'#fff1bf');
+  circle(p.x+19,p.y-10,5,'#fff1b1');
+ }else if(chosen==='library'){
+  var ht=76*grow;
+  prism(p,78,48,ht,'#e8e0fa','#b9b4ee','#7a9ed7');
+  if(grow>.6){windows(p,74,48,ht,2,2);}
+  poly([[p.x-42,p.y-ht+15],[p.x,p.y-ht+32],[p.x+42,p.y-ht+15],[p.x,p.y-ht-3]],'#ffcf82','#e8aa64',2);
+  if(grow>.8)balloon('📚 としょかん',p.x,p.y-ht-34,'#f7f0ff');
+ }else if(chosen==='bakery'){
+  var hh=59*grow;
+  prism(p,76,47,hh,'#ffe8bf','#f3ad8a','#d8788e');
+  poly([[p.x-42,p.y-hh+18],[p.x,p.y-hh-7],[p.x+42,p.y-hh+18],[p.x,p.y-hh+42]],'#d9759a','#ae527d',2);
+  if(grow>.65){roundRect(p.x-25,p.y-24,42,17,4,'#fff4ce');label('🥐',p.x-4,p.y-16,16,'#ab6a53');}
+  if(grow>.8)balloon('🥐 パンやさん',p.x,p.y-hh-40,'#fff6d9');
+ }
+ if(elapsed<2){
+   for(var i=0;i<4;i++){
+    var off=Math.sin(t*4+i*1.8)*21;
+    circle(p.x+off,p.y-39-i*16-(1-grow)*22,2+i%2,'#ffe08b');
+   }
+ }
+}
+
 function drawDetail(a,b,t){
  var p=iso(a,b);
+ for(var pl=0;pl<buildPlots.length;pl++){
+   if(a===buildPlots[pl].x&&b===buildPlots[pl].y){buildingSite(p,t,pl);return;}
+ }
  if(a===5&&b===5){drawShop(p,t);return;}
  if(a===7&&b===5){drawFund(p,t);return;}
  if(a===1&&b===2||a===2&&b===1||a===7&&b===8||a===8&&b===2){drawHouse(p,(a+b)%3,t);return;}
@@ -279,6 +334,19 @@ function effects(dt){
  }
 }
 function paint(now){
+ if(tourStart>0){
+  var progress=clamp((now-tourStart)/tourDuration,0,1);
+  if(progress>=1){tourStart=0;zoom=1;panX=0;panY=0;selected='shop';}
+  else{
+    var u=progress*Math.PI*2;
+    panX=clamp(-55*Math.sin(u),-220,220);
+    panY=clamp(30*Math.sin(u*1.5),-150,150);
+    zoom=1+.19*Math.sin(Math.PI*progress);
+    if(progress<.28)selected='shop';
+    else if(progress<.60)selected='fund';
+    else selected='shop';
+  }
+ }
  if(now-lastPaint<(w<600?30:16)){frame=requestAnimationFrame(paint);return;}
  lastPaint=now;
  if(!document.hidden){
@@ -346,10 +414,23 @@ function selectAt(px,py){
  var center={x:w*.52+panX,y:h*.17+panY},factor=scale*zoom;
  var x=(px-center.x)/factor,y=(py-center.y)/factor;
  var keys=[{name:'shop',x:5,y:5},{name:'fund',x:7,y:5},{name:'park',x:2,y:5},{name:'school',x:3,y:6},{name:'wheel',x:7,y:7}];
+ buildPlots.forEach(function(z,i){keys.push({name:'lot',x:z.x,y:z.y,lot:i});});
  var best=null,dist=1e10;
- keys.forEach(function(z){var p=iso(z.x,z.y),dx=x-p.x,dy=y-(p.y-40);var d=dx*dx+dy*dy;if(d<dist){best=z;dist=d;}});
- if(!best||dist>110*110)return;
+ keys.forEach(function(z){var p=iso(z.x,z.y),dx=x-p.x,dy=y-(p.y-(z.name==='lot'?12:40));var d=dx*dx+dy*dy;if(d<dist){best=z;dist=d;}});
+ if(!best||dist>(best.name==='lot'?56*56:75*75))return;
  selected=best.name;
+ if(best.name==='lot'){
+   activeLot=best.lot;
+   var type=state.cityBuilds&&state.cityBuilds[String(best.lot)];
+   if(type){
+     var types={park:'🌳 公園',house:'🏠 おうち',library:'📚 図書館',bakery:'🥐 パン屋'};
+     hint.textContent='🏡 '+(best.lot+1)+'番の土地：'+(types[type]||type)+'が完成！';
+   }else{
+     hint.textContent='🏗️ '+(best.lot+1)+'番の土地を選択！下から建てたい施設を選んでね。';
+   }
+   window.dispatchEvent(new CustomEvent('mirai:lot-selected',{detail:{lot:best.lot}}));
+   return;
+ }
  var messages={
   shop:'🍭 おかし屋さん：株の評価額に応じて屋台 → ショップ → カフェ → ビルに進化します！',
   fund:'🌍 分散投資エリア：本屋から大きなビルまで育ちます。分けて投資する効果を学ぼう。',
@@ -361,6 +442,7 @@ function selectAt(px,py){
 }
 var pointer=null;
 canvas.addEventListener('pointerdown',function(e){
+ tourStart=0;
  pointer={id:e.pointerId,x:e.clientX,y:e.clientY,lastX:e.clientX,lastY:e.clientY,move:0};
  if(e.pointerType==='mouse'&&canvas.setPointerCapture)canvas.setPointerCapture(e.pointerId);
 });
@@ -383,6 +465,7 @@ canvas.addEventListener('pointerup',function(e){
 });
 canvas.addEventListener('pointercancel',function(){pointer=null;});
 canvas.addEventListener('keydown',function(e){
+ tourStart=0;
  var amount=18;
  if(e.key==='ArrowLeft'){panX=clamp(panX-amount,-260,260);e.preventDefault();}
  if(e.key==='ArrowRight'){panX=clamp(panX+amount,-260,260);e.preventDefault();}
@@ -392,11 +475,30 @@ canvas.addEventListener('keydown',function(e){
 });
 document.querySelectorAll('[data-city-zoom]').forEach(function(b){
  b.addEventListener('click',function(){
-   if(b.dataset.cityZoom==='reset'){zoom=1;panX=0;panY=0;}
-   else zoom=clamp(zoom+(b.dataset.cityZoom==='in'?.15:-.15),.67,1.85);
+   var cmd=b.dataset.cityZoom;
+   if(cmd==='tour'){
+     tourStart=performance.now();
+     zoom=1;
+     if(hint)hint.textContent='🎥 カメラが街を見学中！車や人、お店や建物の動きを眺めよう。画面をさわると見学を止められるよ。';
+     showSplash('🎥 みらいタウン・ツアー！','車や人が動く街を見てみよう！');
+   }else{
+     tourStart=0;
+     if(cmd==='reset'){zoom=1;panX=0;panY=0;}
+     else zoom=clamp(zoom+(cmd==='in'?.15:-.15),.67,1.85);
+   }
  });
 });
 window.addEventListener('mirai:state',function(e){if(e&&e.detail)nextState(e.detail);});
+window.addEventListener('mirai:city-built',function(e){
+  var id=Number(e&&e.detail&&e.detail.lot);
+  if(!Number.isInteger(id)||id<0||id>=buildPlots.length)return;
+  buildMoments[id]=performance.now();
+  var z=buildPlots[id],p=iso(z.x,z.y);
+  for(var j=0;j<20;j++){
+    particles.push({x:p.x+(Math.random()-.5)*52,y:p.y-35-Math.random()*50,vx:(Math.random()-.5)*120,vy:-45-Math.random()*110,life:1+Math.random(),color:j%2?'#fff5ae':'#ff99bd'});
+  }
+  showSplash('🏗️ まちに新しい建物！','建設チケットで街がにぎやかに！');
+});
 document.addEventListener('visibilitychange',function(){last=performance.now();});
 window.addEventListener('resize',resize);
 if(window.ResizeObserver)new ResizeObserver(resize).observe(canvas);

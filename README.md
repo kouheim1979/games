@@ -4,13 +4,18 @@
 
 | フォルダ | タイトル |
 |---|---|
+| [chaos-evolution](chaos-evolution/) | カオス進化実験場（吸収・分裂・連鎖・禁断のボタン） |
+| [starfall](starfall/) | STARFALL — 宇宙防衛戦（宇宙船シューティング） |
 | [atama-oshiri](atama-oshiri/) | あたまとおしり |
 | [Chroma-sort](Chroma-sort/) | Chroma Sort |
 | [dopamine-overdrive](dopamine-overdrive/) | DOPAMINE OVERDRIVE（ドーパミン・オーバードライブ） |
+| [giridoka](giridoka/) | ギリドカ（度胸だめしアクション） |
 | [golden-week](golden-week/) | ドライブひまつぶしBOX |
 | [hitori-shiritori](hitori-shiritori/) | ひとりしりとり |
 | [jintori](jintori/) | 完璧な日本地図ウルフ |
 | [ketahazure](ketahazure/) | 桁外れ |
+| [ketahazure2](ketahazure2/) | 桁外れ2 |
+| [ketahazure2-chochinya](ketahazure2-chochinya/) | 桁外れ2（ちょうちん屋つき） |
 | [kokon-tozai](kokon-tozai/) | 古今東西ドライブ |
 | [kotowaza](kotowaza/) | ことばクエスト 〜慣用句・ことわざ・古事成語バトル〜 |
 | [lunch-roulette](lunch-roulette/) | ランチルーレット |
@@ -21,13 +26,15 @@
 | [react-game](react-game/) | 反射神経ゲーム |
 | [rin-harbor](rin-harbor/) | リンハーバー |
 | [ryouri-shokudo](ryouri-shokudo/) | おりょうり食堂（お料理シミュレーション） |
+| [uchu-tabehoudai](uchu-tabehoudai/) | 宇宙食べ放題（ブラックホール成長アクション） |
 | [todofuken-draft](todofuken-draft/) | 都道府県ドラフトバトル｜地元も、切り札も。キミが指名。 |
+| [todofuken-battle](todofuken-battle/) | 都道府県バトル｜47都道府県の領土戦略ゲーム（CPU2勢力／24ターン） |
 | [WaterSortPuzzle](WaterSortPuzzle/) | Water Sort Puzzle |
 | [word-wolf](word-wolf/) | ワードウルフ |
 | [word-wolf2](word-wolf2/) | ワードウルフ |
 | [yakitori](yakitori/) | やきとり ならべ |
 
-初期収録のゲームは元のリポジトリからコピーしたものです（`atama-oshiri` と `yakitori` は `launch-roulette` リポジトリ内から）。`ketahazure` はこのリポジトリで作った新作で、公開ポータル（`portal/catalog.js`）に掲載しています。ゲーム画面は日本語です。
+初期収録のゲームは元のリポジトリからコピーしたものです（`atama-oshiri` と `yakitori` は `launch-roulette` リポジトリ内から）。`ketahazure` はこのリポジトリで作った新作で、公開ポータル（`portal/catalog.js`）に掲載しています。 `ketahazure2` は釘を自分で置く続編です。`ketahazure2-chochinya` は、手もとの釘を好きなちょうちんと交換できる「ちょうちん屋」を足した版です。ゲーム画面は日本語です。
 
 ## 診断パーク（tools/）
 
@@ -60,7 +67,7 @@ GitHub Pages版: https://kouheim1979.github.io/games/
 
 日本語・英語・簡体字中国語・スペイン語でサイトの案内、検索、ゲーム紹介を切り替えられます。
 
-サイトに載せるゲームは `portal/catalog.js` で管理します。所有者の指示により `kokon-tozai`、`golden-week`、`lunch-roulette`、`word-wolf`、`pokemon-quiz-app` は公開ポータルから除外し、各ゲームの元ファイルは残しています。掲載ゲームは13本です。ワードウルフは `word-wolf2` のみ掲載します。
+サイトに載せるゲームは `portal/catalog.js` で管理します。所有者の指示により `kokon-tozai`、`golden-week`、`lunch-roulette`、`word-wolf`、`pokemon-quiz-app` は公開ポータルから除外し、各ゲームの元ファイルは残しています。掲載ゲームは20本です。ワードウルフは `word-wolf2` のみ掲載します。
 
 ```sh
 node portal/pages.cjs

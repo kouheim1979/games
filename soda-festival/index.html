@@ -1,0 +1,142 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#191c19"><title>千年祭の飲みくらべ | まいにち道具箱</title><style>
+*{box-sizing:border-box}body{margin:0;background:#171a17;color:#f7e6b6;font-family:system-ui,sans-serif;overscroll-behavior:none}main{max-width:620px;margin:auto;padding:12px 14px max(16px,env(safe-area-inset-bottom))}header{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:#c0b998;letter-spacing:.1em}a{color:inherit;text-decoration:none}h1{font-family:serif;font-size:clamp(20px,5vw,28px);margin:12px 0 9px;text-align:center;letter-spacing:.12em}canvas{display:block;width:100%;height:auto;image-rendering:pixelated;background:#8d7863;border:4px ridge #a39670;box-shadow:0 5px 18px #0009}.screen{position:relative}.dialog{position:absolute;left:4%;right:4%;bottom:4%;background:linear-gradient(#30436a,#15223c 80%);border:3px ridge #f1e8c9;box-shadow:2px 3px #12141a;padding:9px 12px;color:#fff3d6;font-size:clamp(12px,3.5vw,17px);text-shadow:1px 2px #121827;min-height:54px;pointer-events:none;white-space:pre-line}.hud{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin:10px 0;background:#242a24;border:1px solid #615c48;padding:8px;text-align:center}.hud small{display:block;font-size:10px;color:#c2b591}.hud strong{font: bold 22px monospace;color:#fff0b9}.meter{height:7px;background:#39382e;border:1px solid #82775a;margin-bottom:12px}.meter i{display:block;height:100%;background:linear-gradient(90deg,#d3a34c,#f8e7a5);width:100%}button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation;-webkit-user-select:none;user-select:none}#hit{width:100%;height:88px;border:3px solid #e8a899;border-radius:12px;background:linear-gradient(#b74d36,#8a2822);box-shadow:0 6px #481a18,inset 0 2px #ef9d7b;font-size:25px;font-weight:900;letter-spacing:.1em;text-shadow:1px 2px #56231a;touch-action:none}#hit.down{transform:translateY(4px);box-shadow:0 2px #481a18,inset 0 2px #ef9d7b}footer{display:flex;align-items:center;justify-content:space-between;margin-top:16px;font-size:12px;color:#c2b998}#sound{background:none;border:1px solid #74705c;padding:6px 10px;border-radius:4px}#sub{text-align:center;font-size:12px;color:#c2b998;margin:10px 0 0}.credit{font-size:10px;text-align:center;color:#9a9786;margin-top:12px}#start{display:block;width:100%;min-height:44px;margin:0 0 9px;background:#364538;border:2px solid #a9ac83;border-radius:6px;color:#f8efd5;font-weight:bold;letter-spacing:.08em}#start:disabled{visibility:hidden}#hit:disabled{background:#403d35;border-color:#696356;box-shadow:0 4px #27261f;color:#a8a292;cursor:default;transform:none}#hit.down:disabled{transform:none}.dialog{background:repeating-linear-gradient(135deg,#28333e 0px,#303b46 2px,#28333e 4px);border:3px ridge #e1dbcf;bottom:2%;left:7%;right:7%}.hud{margin:6px 0}.credit{margin-top:7px}body{background:#1a1a19}main{max-width:550px}header{color:#bcb3a2}h1{margin:8px 0;font-size:21px;letter-spacing:.14em}canvas{border:2px solid #716b5d;box-shadow:0 3px 0 #0c0e0d;image-rendering:pixelated}.dialog{background:linear-gradient(#26313a,#1b222d);border:3px double #eae6d6;box-shadow:2px 2px #222;left:3%;right:3%;bottom:3%;min-height:0;font-family:monospace;line-height:1.45;padding:7px 12px;font-size:clamp(12px,3.6vw,17px)}#start{min-height:38px;background:#464934;border-color:#a9a486;border-radius:3px;letter-spacing:.03em}#hit{height:82px;border-radius:8px;background:linear-gradient(#af5545,#86382f);border-color:#c6977d}#sub{font-size:11px}.hud{border-color:#625d51}.credit{font-size:9px}.screen{background:#15191d;border:2px solid #8d806b;box-shadow:0 3px #08090a}.screen canvas{border:0;box-shadow:none;display:block}.screen .dialog{position:relative;left:auto;right:auto;bottom:auto;margin:0 4px 4px;border:3px double #eee3c7;min-height:62px;background:linear-gradient(#30343e,#151d2b);font-size:clamp(12px,3.5vw,17px);line-height:1.45}.hud{margin-top:10px}#start{border-radius:3px}main{max-width:640px}#hit{height:92px} .screen canvas{touch-action:none}#hit{touch-action:none}#dialog{white-space:pre-line} </style></head><body><main><header><a href="../">‹ まいにち道具箱</a><span>16-BIT FESTIVAL</span></header><h1 id="heading">千年祭の飲みくらべ</h1><button id="start">挑戦する</button><div class="screen"><canvas id="scene" width="320" height="180" aria-label="石畳の祭り広場で飲みくらべ"></canvas><div class="dialog" id="dialog">さあ、飲みくらべだ！
+8秒で8本飲み切れば、5ポイント！</div></div><div class="hud"><div><small>のこり時間</small><strong id="time">8.00</strong></div><div><small>飲んだ本数</small><strong id="count">0 / 8</strong></div><div><small>連打数</small><strong id="taps">0</strong></div></div><div class="meter"><i id="bar"></i></div><button id="hit" disabled>A　連打！</button><p id="sub">Aボタンで8回ずつ飲む！ 画面タップもOK ／ PCは A・Space・Z</p><footer><span id="best">最高記録 0 本 ／ 銀 0 pt</span><button id="sound">♪ ON</button></footer><p class="credit">1990年代の16bit RPGの飲みくらべに着想を得た非公式ミニゲーム。画像・効果音はオリジナル。</p></main><script>
+"use strict";
+const $=id=>document.getElementById(id),cv=$("scene"),g=cv.getContext("2d"),bg=document.createElement("canvas");bg.width=320;bg.height=180;const b=bg.getContext("2d");g.imageSmoothingEnabled=false;
+let seed=312;function rand(){seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296}const pick=a=>a[Math.floor(rand()*a.length)];
+function rect(c,x,y,w,h,col){c.fillStyle=col;c.fillRect(x|0,y|0,w|0,h|0)}
+function poly(c,pts,col){c.fillStyle=col;c.beginPath();c.moveTo(pts[0][0],pts[0][1]);for(let i=1;i<pts.length;i++)c.lineTo(...pts[i]);c.closePath();c.fill()}
+
+// Original pixel-art scene composed like the eastern festival plaza.
+function stone(x,y,w,h){const tones=["#88765e","#9b876e","#a7977e","#7e6e58","#b0a087"];rect(b,x,y,w,h,"#635441");rect(b,x+1,y+1,w-2,h-2,pick(tones));rect(b,x+2,y+1,w-4,1,"#b5a58b");rect(b,x+1,y+2,1,h-3,"#a5977d");rect(b,x+2,y+h-2,w-3,1,"#78644c");for(let i=0;i<5;i++)rect(b,x+2+rand()*(w-3),y+1+rand()*(h-2),1+rand()*2,1,pick(["#c3ac8b","#998366","#796850","#a8997e"]))}
+rect(b,0,0,320,180,"#76654e");
+for(let y=-3;y<180;y+=5){let x=-(rand()*8|0);while(x<320){let w=6+(rand()*7|0);stone(x,y,w,5);x+=w}}
+function grass(x,y,w,h){rect(b,x,y,w,h,"#4b5b25");for(let i=0;i<w*h;i++){let px=x+rand()*w,py=y+rand()*h;rect(b,px,py,1+rand()*2,1+rand()*2,pick(["#71813b","#95a64d","#52642a","#b2ba5a","#85964c","#34471d","#bdc672"]))}}
+grass(68,0,26,96);grass(0,96,33,84);grass(69,146,31,34);grass(278,0,42,180);
+function flower(x,y){rect(b,x,y+2,1,3,"#37531f");rect(b,x-1,y+1,3,1,"#dcbf42");rect(b,x,y,1,3,"#f9e66a");rect(b,x,y+1,1,1,"#b27b32")}
+for(let k=0;k<55;k++){let yy=4+(k%4)*28+rand()*5;if(yy<94)flower(74+rand()*15,yy)}
+for(let k=0;k<18;k++)flower(74+rand()*21,152+rand()*20);
+function rail(x,y,w,h){rect(b,x+2,y+2,w,h,"#494235");rect(b,x,y,w,h,"#8e8267");rect(b,x+1,y,w-2,2,"#f8e8c3");rect(b,x+1,y+2,2,h-2,"#d3c3a0");rect(b,x+w-2,y+1,1,h-1,"#ad9e81");for(let yy=y+4;yy<y+h;yy+=9){rect(b,x+1,yy,w-2,1,"#b7a585");rect(b,x+3,yy+1,2,3,"#efe2c2")}}
+rail(64,0,4,95);rail(94,0,6,96);
+// Raised terrace and open central stone staircase, with carved balustrades.
+rect(b,0,95,99,5,"#5c503d");rect(b,0,95,99,2,"#e8d7b1");
+for(let k=0;k<8;k++){let y=125+k*5;rect(b,31,y,38,5,"#57483a");rect(b,31,y,38,1,"#f6ebcd");rect(b,31,y+1,38,1,"#b6a58b");rect(b,31,y+3,38,1,"#81705a");for(let j=0;j<18;j++)rect(b,32+rand()*36,y+1+rand()*2,1,1,"#d1bfa1")}
+function baluster(x,y){rect(b,x+1,y+1,6,30,"#4e4536");rect(b,x,y,6,5,"#ddd0ad");rect(b,x+1,y+5,4,20,"#a89b7e");rect(b,x+1,y+5,1,20,"#f3e6c1");rect(b,x,y+25,6,5,"#d4c39d")}
+for(let xx=2;xx<30;xx+=7)baluster(xx,99);for(let xx=72;xx<97;xx+=7)baluster(xx,99);
+rail(26,95,5,72);rail(69,95,5,72);rail(0,95,29,4);rail(72,95,27,4);
+function rug(x,y,w,h){rect(b,x+2,y+2,w,h,"#62513b");rect(b,x,y,w,h,"#50402e");rect(b,x+1,y+1,w-2,h-2,"#c3a477");rect(b,x+3,y+3,w-6,h-6,"#5a4835");for(let yy=y+4;yy<y+h-5;yy+=7)for(let xx=x+4;xx<x+w-5;xx+=7){poly(b,[[xx+3,yy],[xx+6,yy+3],[xx+3,yy+6],[xx,yy+3]],"#c6ae82");rect(b,xx+2,yy+2,3,3,"#67513a");rect(b,xx+3,yy+3,1,1,"#b69b70")}}
+function wood(x,y,w,h){rect(b,x+3,y+4,w,h,"#504032");rect(b,x,y,w,h,"#5c432d");rect(b,x+2,y+2,w-4,h-4,"#b98d61");rect(b,x+2,y+2,w-4,1,"#e7c18d");rect(b,x+2,y+h-4,w-4,2,"#775436");for(let xx=x+4;xx<x+w-3;xx+=6){rect(b,xx,y+3,1,h-7,"#785a3a");rect(b,xx+1,y+3,1,h-7,"#d4af7d");for(let i=0;i<h/3;i++){let yy=y+3+rand()*(h-7);rect(b,xx+2,yy,1,1+rand()*3,pick(["#9d724f","#d8ac78","#805c3d"]))}}}
+function pot(x,y,col){poly(b,[[x+2,y],[x+8,y],[x+10,y+3],[x+10,y+7],[x+7,y+10],[x+2,y+9],[x,y+6],[x,y+3]],col[0]);rect(b,x+2,y+3,6,5,col[1]);rect(b,x+2,y+3,2,3,col[2]);rect(b,x+2,y,6,2,col[2]);rect(b,x+3,y,4,1,col[0])}
+function canopy(x,y,w,h,colors){rect(b,x+2,y+3,w,h,"#6c5036");for(let yy=0;yy<h;yy++)for(let xx=0;xx<w;xx++){let wave=Math.round(3*Math.sin(yy*.36)+1.6*Math.cos(xx*.2));let strip=Math.floor((xx+wave)/9)%2===0;let pal=strip?colors:["#a9a89a","#d3d4c2","#f5ebd3"];let edge=h-2+Math.round(Math.sin(xx*.3));if(yy<edge){let light=(yy%12>=2&&yy%12<=5)?2:(yy%12>=9?0:1);rect(b,x+xx,y+yy,1,1,pal[light])}}}
+rug(101,58,67,103);wood(107,68,45,85);canopy(109,64,42,67,["#b64c13","#ee8b2b","#ffc062"]);pot(107,139,["#3b4c78","#6689bd","#b3c9e2"]);pot(123,139,["#633752","#b56a9a","#e7b4ce"]);pot(138,139,["#a65121","#dd983d","#ffe0a2"]);
+rug(170,0,67,65);wood(169,-10,35,48);wood(203,6,34,43);canopy(205,-13,34,33,["#bd571b","#e98525","#ffbd65"]);pot(178,19,["#244c76","#3b83ba","#a6d8ee"]);pot(188,5,["#633a73","#a66ca7","#e0acdb"]);pot(211,26,["#455b28","#82a04d","#bfd483"]);pot(223,30,["#a34b1e","#df8a28","#ffc55e"]);
+// Purple cloth entrance at upper edge.
+rug(104,0,59,50);rect(b,111,0,44,35,"#352633");canopy(103,-9,58,22,["#64385e","#a263a0","#d796c8"]);poly(b,[[103,10],[115,12],[120,31],[113,43],[104,38]],"#784b7c");poly(b,[[105,11],[110,13],[114,32],[109,39],[106,32]],"#c8a1c8");poly(b,[[160,10],[148,12],[144,31],[151,43],[160,38]],"#805087");poly(b,[[157,11],[153,13],[150,32],[154,39],[157,32]],"#d7b3d3");
+// The drinking stand is compact and faces the central walkway.
+rug(218,77,63,79);wood(236,81,34,62);rect(b,238,143,4,5,"#59432e");rect(b,263,143,4,5,"#59432e");
+function barrel(x,y){poly(b,[[x+2,y],[x+9,y],[x+12,y+4],[x+11,y+12],[x+2,y+12],[x,y+4]],"#5b4028");rect(b,x+2,y+3,8,8,"#ac804e");rect(b,x+3,y+3,1,8,"#d4a46a");rect(b,x+7,y+3,1,8,"#d4a46a");rect(b,x,y+4,12,2,"#5a543e");rect(b,x+1,y+9,10,1,"#514e3c");rect(b,x+2,y+1,8,1,"#d7ad76")}
+barrel(271,81);barrel(114,65);
+function flag(x,y){rect(b,x+5,y+2,2,37,"#5d5543");rect(b,x+5,y+1,1,37,"#fff2d1");rect(b,x+2,y+36,10,2,"#84735b");poly(b,[[x+7,y+5],[x+18,y+8],[x+16,y+14],[x+23,y+17],[x+13,y+19],[x+7,y+15]],"#9f3140");poly(b,[[x+8,y+6],[x+17,y+9],[x+14,y+13],[x+20,y+17],[x+8,y+14]],"#e85a5c");rect(b,x+9,y+8,2,4,"#ffcb75")}
+flag(18,42);flag(190,132);flag(277,132);
+// Broad leaves and shrubs, built from clustered pixel highlights.
+function tree(x,y){poly(b,[[x+1,y+12],[x+10,y],[x+28,y-1],[x+40,y+8],[x+42,y+25],[x+30,y+38],[x+7,y+34],[x,y+23]],"#263b15");for(let i=0;i<450;i++){let px=rand()*41,py=rand()*37;if(((px-20)/21)**2+((py-18)/19)**2<1){let tone=py<17?pick(["#8e9e42","#abbc59","#c7d57b","#70892f","#d6da85"]):pick(["#374c1e","#58712a","#77933c","#97ac4a"]);rect(b,x+px,y+py,1+rand()*3,1+rand()*3,tone)}}}
+for(let y=-8;y<180;y+=26){tree(284,y);tree(306,y+13)}
+// Hand drawn sprite pixels: outline, three-tone hair, skin, clothing, boots.
+const hero=[
+"........HHH.........","......HHhHHH..H....","...HHHHhhhHHHHH....","....HhhhhhhHHhH....","..HHhhhhhHhHhhH....","...HhhHhhhHhhhH....","....HhhhhHHHhH.....","....HHhhHssHH......",".....HhsslsSO......",".....HsslsseO......","......OsSSssO......",".......OsssO.......",".....OOrrrOO.......","....ObbrrrbBO......","...ObbbbbbbBO......","...OblbbBbSSO......","...OSObbBbSO.......","....OObbbBO........",".....ObbBBO........",".....OwwwwO........","....ObbOObBO.......","....ObbO.ObBO......","....OrrO..OrrO.....","...OrrrO..OrrrO....","...OOOOO..OOOOO...."];
+const vendor=[
+"......OOOOOOO......",".....OHHHHHHHO.....","....OHhhhhHHHHO....","....OHhssssHHHO....","....OHsslsseHO.....",".....OssSSssO......",".....OOsssssO......","....OwwOsssOwwO....","...OwwwwOOwwwwO....","..OwwwwwwwwwwwWO...","..OSOwwwwwwwwOSO...","..OSOwwWwwwWwOSO...","...OOwWwwwwWwOO....",".....OwwwWwWO......",".....OwwwWwWO......",".....OBBBBBBO......",".....ObbOBBBO......",".....ObbO.BBO......",".....OrrO.OrO......","....OrrrO.OrrO.....","....OOOOO.OOOO....."];
+const palette={O:"#302820",H:"#73291e",h:"#e37032",s:"#e8ae78",l:"#ffe0a1",S:"#ba7954",e:"#352a27",b:"#319ca1",B:"#25556c",r:"#b84b36",w:"#d0b15f",W:"#706638"};
+function person(x,y,rows,pal=palette,flip=false){g.fillStyle="#30291e66";g.fillRect(x+3,y+rows.length-2,16,4);for(let yy=0;yy<rows.length;yy++)for(let xx=0;xx<rows[yy].length;xx++){let k=rows[yy][xx];if(k!==".")rect(g,x+(flip?rows[yy].length-1-xx:xx),y+yy,1,1,pal[k]||"#fff")}}
+
+function can(x,y,empty=false,fill=1){
+  rect(g,x,y,7,2,"#e9e3c9");rect(g,x-1,y+2,9,8,"#302d2b");
+  rect(g,x,y+2,7,7,empty?"#a7a298":"#f4dfb7");
+  rect(g,x+1,y+3,5,5,empty?"#8d8981":"#bd4533");
+  if(!empty){let h=Math.max(0,Math.round(5*fill));rect(g,x+1,y+8-h,5,h,"#c34a31");rect(g,x+2,y+8-h,1,h,"#ff9a59");rect(g,x+1,y+5,5,2,"#f1d99a")}
+  rect(g,x+1,y+9,5,1,"#ddd1ae");rect(g,x+1,y,1,1,"#fff8e7")
+}
+let state="idle",n=0,deadline=0,startAt=0,lastHit=-1000,lastBottle=-1000,remaining=8000,raf=0,points=0,best=0,bestT=Infinity,sound=true,ac;
+try{let s=JSON.parse(localStorage.getItem("festival-record-v2")||"{}");points=s.points||0;best=s.best||0;bestT=s.bestT||Infinity;sound=s.sound!==false}catch{}
+function save(){try{localStorage.setItem("festival-record-v2",JSON.stringify({points,best,bestT:Number.isFinite(bestT)?bestT:null,sound}))}catch{}}
+function audio(){try{ac=ac||new(window.AudioContext||window.webkitAudioContext)();if(ac.state==="suspended")ac.resume().catch(()=>{})}catch{}}
+function beep(f,d=.07,type="triangle",delay=0){if(!sound||!ac)return;try{let o=ac.createOscillator(),a=ac.createGain(),t=ac.currentTime+delay;o.type=type;o.frequency.setValueAtTime(f,t);a.gain.setValueAtTime(.045,t);a.gain.exponentialRampToValueAtTime(.001,t+d);o.connect(a);a.connect(ac.destination);o.start(t);o.stop(t+d)}catch{}}
+
+let cameraZoom=1, cameraX=160, cameraY=90, focusUntil=0;
+function drinker(t){
+  const x=218, y=113, drinking=state==="run"&&t-lastHit<225;
+  const pulse=Math.floor(t/90)%2, progress=n%8;
+  const phase=!drinking?0:progress<=2?1:progress<=5?2:3;
+  const bob=phase===2?1:pulse&&drinking?1:0;
+  // A 27-pixel-tall, independently drawn side-facing festival visitor.
+  rect(g,x-9,y+15,22,3,"#40382d");rect(g,x-6,y+10,5,6,"#4b3a34");rect(g,x+3,y+10,6,6,"#4b3a34");
+  rect(g,x-5,y+7,5,8,"#364e63");rect(g,x+3,y+7,5,8,"#364e63");
+  rect(g,x-7,y-7,17,17,"#263f4f");rect(g,x-6,y-6,14,13,"#3c86a2");
+  rect(g,x-5,y+5,13,2,"#d9ae63");rect(g,x-5,y-5,2,9,"#70b7c3");
+  rect(g,x-5,y-24-bob,13,17,"#3e302a");rect(g,x-4,y-23-bob,12,14,"#e4b487");
+  rect(g,x+5,y-20-bob,3,9,"#d89e72");rect(g,x+7,y-17-bob,2,2,"#4d3629");
+  rect(g,x+5,y-15-bob,3,1,"#a85b3f");
+  // Hair with SFC-style dark outline and multiple warm shades.
+  rect(g,x-8,y-26-bob,16,5,"#602c1f");rect(g,x-9,y-23-bob,5,10,"#7c321f");
+  rect(g,x-6,y-28-bob,12,4,"#d95f30");rect(g,x-2,y-30-bob,9,5,"#ab4426");
+  rect(g,x+5,y-26-bob,7,6,"#c34a2b");rect(g,x-7,y-22-bob,3,7,"#ee7b38");
+  rect(g,x-5,y-27-bob,4,2,"#ffa65a");rect(g,x+1,y-28-bob,3,2,"#f28b42");
+  rect(g,x-9,y-3,4,9,"#ca946b");
+  // The right arm explicitly moves from the table to the mouth.
+  let handX=x+14, handY=y-3, cupX=x+17, cupY=y-9, tilt=0;
+  if(phase===1){handX=x+13;handY=y-7;cupX=x+16;cupY=y-15;tilt=-0.25}
+  if(phase===2){handX=x+8;handY=y-16-bob;cupX=x+10;cupY=y-24-bob;tilt=-1.12}
+  if(phase===3){handX=x+13;handY=y-9;cupX=x+16;cupY=y-17;tilt=-0.55}
+  rect(g,x+8,y-3,5,4,"#2d6989");rect(g,Math.min(x+12,handX),Math.min(y-2,handY),3,Math.max(3,Math.abs(handY-(y-2))),"#397f9f");
+  rect(g,handX,handY,4,4,"#e3b082");rect(g,handX+3,handY+1,2,2,"#f2cc97");
+  if(state==="run"){
+    g.save();g.translate(cupX,cupY);g.rotate(tilt);can(0,0,false,Math.max(.08,1-progress/8));g.restore();
+    if(phase===2){
+      rect(g,x+6,y-17-bob,2,2,"#faedb0");
+      if(pulse)rect(g,x+7,y-19-bob,1,2,"#dff4e2");
+    }
+  }
+  if(state==="run"&&t-lastBottle<310){
+    let d=(t-lastBottle)/310;
+    rect(g,x+18+d*10,y-21-d*7,3,3,"#f6d78b");
+    rect(g,x+22+d*11,y-16-d*12,2,2,"#f1f0c0");
+  }
+}
+function draw(t){
+  const target=(state==="run"||state==="ready"||t<focusUntil)?1.62:1;
+  cameraZoom+=(target-cameraZoom)*0.082;
+  const targetX=(target>1)?219:160,targetY=(target>1)?105:90;
+  cameraX+=(targetX-cameraX)*0.082;cameraY+=(targetY-cameraY)*0.082;
+  g.clearRect(0,0,320,180);g.save();g.translate(160,90);g.scale(cameraZoom,cameraZoom);g.translate(-cameraX,-cameraY);
+  g.drawImage(bg,0,0);
+  const phase=Math.sin(t/310),palGirl={...palette,H:"#8a6223",h:"#edc66c",l:"#fff2bf",r:"#bf6871",b:"#8fbf94",B:"#487f70",w:"#efe3c9"};
+  person(153,64+(phase>0?1:0),vendor,{...palette,H:"#76502a",h:"#ce8743",w:"#619391",W:"#365a59",b:"#566878",B:"#3c4857"});
+  person(217,77,vendor,{...palette,H:"#7e4626",h:"#d98a55",w:"#7b994a",W:"#3b5a2a",B:"#4b5365"},true);
+  person(198,102+(phase<0?1:0),hero,palGirl,true);
+  for(let i=0;i<8;i++){
+    const done=i<Math.floor(n/8),current=i===Math.floor(n/8)&&state==="run";
+    if(current)continue;
+    can(240+(i%2)*14,84+Math.floor(i/2)*14,done);
+  }
+  drinker(t);
+  // Small blue-and-cream splash pixels emphasize every gulp.
+  if(state==="run"&&t-lastHit<155){
+    const age=(t-lastHit)/155;
+    rect(g,232+age*4,86-age*6,2,3,"#ebf9c4");
+    rect(g,235+age*6,88-age*8,1,2,"#92d6d1");
+  }
+  g.restore();
+  if(state==="win"){
+    for(let i=0;i<27;i++){
+      let xx=(i*47+t/70*(i%3+1))%320,yy=(i*31+t/17)%180;
+      rect(g,xx,yy,2,3,["#f1d16c","#d65764","#c5e5aa","#c5d9ed"][i%4])
+    }
+  }
+}
+function update(t){$("time").textContent=(Math.max(0,remaining)/1000).toFixed(2);$("count").textContent=Math.floor(n/8)+" / 8";$("taps").textContent=n;$("bar").style.width=(Math.max(0,remaining)/80)+"%";$("bar").style.background=remaining<2000?"#dd614b":"";$("best").textContent="最高記録 "+best+" 本"+(best===8&&Number.isFinite(bestT)?" / "+(bestT/1000).toFixed(2)+"秒":"")+" ／ 銀 "+points+" pt";$("sound").textContent=sound?"♪ ON":"♪ OFF"}
+function begin(){if(!["idle","win","lose"].includes(state))return;$("start").disabled=true;$("hit").disabled=true;audio();n=0;remaining=8000;state="ready";startAt=performance.now()+3000;lastHit=-1000;lastBottle=-1000;focusUntil=0;$("hit").textContent="準備…";$("dialog").textContent="よーい……";update()}
+function finish(win,t){state=win?"win":"lose";focusUntil=t+1100;let bottles=Math.floor(n/8);best=Math.max(best,bottles);if(win){points+=5;bestT=Math.min(bestT,8000-remaining);$("dialog").textContent="お見事！ 8本飲みきった！\nシルバーポイント 5点 獲得！";[523,659,784,1047].forEach((f,i)=>beep(f,.17,"triangle",i*.11));if(navigator.vibrate)navigator.vibrate([35,50,35])}else{$("dialog").textContent=bottles+"本か！ おしかったな。\nもう一度やってみるか？";beep(196,.2)}$("hit").classList.remove("down");$("hit").disabled=true;$("hit").textContent="終了";$("start").textContent="もう一度挑戦";$("start").disabled=false;save();update()}
+function hit(){let t=performance.now();if(state!=="run")return;if(t>=deadline){remaining=0;finish(false,t);return}n++;lastHit=t;remaining=deadline-t;beep(200+(n%8)*34,.035,"triangle");if(n%8===0){lastBottle=t;beep(540+n*5,.11);if(n<64)$("dialog").textContent=Math.floor(n/8)+"本 飲んだ！"}if(n===64){finish(true,t)}update(t)}
+let lastNum=0;function loop(t){if(state==="ready"){let num=Math.ceil((startAt-t)/1000);if(num>0){if(num!==lastNum){beep(350,.08);lastNum=num}$("dialog").textContent="よーい…… "+num;$("hit").textContent="準備 "+num}else{state="run";$("hit").disabled=false;deadline=startAt+8000;lastNum=0;$("hit").textContent="A  連打！";$("dialog").textContent="スタート！ Aを連打だ！";beep(780,.14)}}if(state==="run"){remaining=Math.max(0,deadline-t);if(remaining===0)finish(false,t);update(t)}draw(t);raf=requestAnimationFrame(loop)}
+$("start").addEventListener("click",()=>begin());cv.style.touchAction="none";cv.addEventListener("pointerdown",e=>{e.preventDefault();hit()});$("hit").addEventListener("pointerdown",e=>{e.preventDefault();if(state!=="run")return;$("hit").classList.add("down");hit()});for(let type of ["pointerup","pointercancel","pointerleave"])$("hit").addEventListener(type,()=>{$("hit").classList.remove("down")});window.addEventListener("keydown",e=>{if(["KeyA","Space","KeyZ"].includes(e.code)&&e.target.id!=="sound"){e.preventDefault();if(!e.repeat)hit()}});$("sound").onclick=()=>{sound=!sound;audio();save();update()};update();requestAnimationFrame(loop);
+</script></body></html>

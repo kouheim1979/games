@@ -2,8 +2,39 @@
   'use strict';
   // Written from the games' current instructions and source, not inferred from their names.
   const rows = {
+    'sugakudoka': [['分野・年度・検査・問題数を選び、過去問をもとにした4択を解く。公式問題PDF・正答表にもアクセスできます。','75問の短縮問題。正解なら自動で次へ、誤答は途中式を読み、最後に間違いを復習。'],['Choose a topic, year, exam and question count to answer quick math questions or view official PDFs.','75 shortened exercises with automatic progression, step-by-step explanations and error review.'],['选择领域、年份、考试及题量，作答四选一真题练习或查看官方PDF。','75道速答题，答错后查看解题步骤并复习。'],['Elige tema, año, convocatoria y cantidad para ejercicios de opción múltiple y PDF oficiales.','75 ejercicios breves, soluciones paso a paso y repaso de errores.']],
+    'rikadoka': [['分野・年度・検査・問題数を選ぶ。過去問を短くした2択または公式PDFの原本で解答。','60問の2択、205問の原本モード。間違いを優先し連鎖とDPで高得点を狙う。'],['Choose topic, year, exam and question count; solve quick drills or official PDF items.','60 quick drills and 205 original exam items, with mistake review and combos.'],['选择领域、年份、考试类型和题量，回答速答题或查看官方PDF。','速答60题、原题205题，复习错误并积累连击。'],['Elige tema, año, examen y cantidad, con preguntas breves o PDF oficial.','60 ejercicios rápidos y 205 preguntas originales, con repaso y combos.']],
+    'rekidoka': [['分野・年度・検査・問題数を選ぶ。短い2択または原本の番号で解答。','苦手を優先出題し、連鎖とDPで高得点を狙う。'],['Choose subject, year, exam and question count. Answer quick drills or original exam questions.','Mistakes are prioritized. Build combos and DP.'],['选择科目、年份、考试和题量。','优先复习错题，累积连击。'],['Elige tema, año, examen y cantidad.','Prioriza errores y acumula combos.']],
+    'eigodoka': [['落ちる単語を左右に動かし、ルールに合う単語の横か上に落とすと爆破。','類義語・反義語・韻・同音異義語・語頭音・カテゴリー・聞き取りの7種類。'],['Move a falling word and drop it next to a matching word.','Seven modes: synonyms, antonyms, rhymes, homophones, initial sounds, categories and listening.'],['移动下落单词，与符合规则的词相连。','七种模式：同义、反义、押韵、同音、首音、分类、听力。'],['Mueve una palabra y conéctala con otra según la regla.','Siete modos de significado y pronunciación.']],
+    'ipa-quiz': [["練習する音を選び、英単語の音声を聞いて、下線部分の発音記号を2択で答えます。","発音記号図鑑で唇・舌の動きを確認できます。英国英語の学習用表記を使用し、間違えた問題だけ復習できます。"],["Choose a sound pair, listen to a word and select the correct IPA symbol for the underlined part.","Study lip and tongue diagrams and review mistakes. Uses traditional British English IPA notation."],["选择一组音标，听单词，从两个选项中选出下划线部分的发音。","学习唇舌示意图并复习错题。采用传统英式英语音标。"],["Elige un par de sonidos, escucha la palabra y selecciona el símbolo AFI de la parte subrayada.","Estudia los diagramas de labios y lengua y repasa errores. Usa la notación tradicional británica."]],
+    'starfall': [
+      ['画面を左右にドラッグして宇宙船を動かすと、自動で弾を発射します。PCでは左右キーまたはA・Dキーで操作できます。', '敵を倒してコンボをつなぎ、3WAY・RAPID・シールド回復を集めましょう。4ウェーブごとにボスが登場。Pキーかボタンで一時停止できます。'],
+      ['Drag left or right to move your spaceship; shots fire automatically. On a computer, use arrow keys or A/D.', 'Chain enemy defeats and collect spread shot, rapid fire and shield recovery. A boss appears every four waves; press P to pause.'],
+      ['左右拖动飞船即可自动开火，电脑可使用方向键或A/D键。', '连续击落敌人获取连击分数，收集散射、连发和护盾恢复道具。每四波出现首领，按P可暂停。'],
+      ['Arrastra a izquierda o derecha para mover la nave: dispara automáticamente. En PC usa las flechas o A/D.', 'Encadena derribos y recoge disparo triple, fuego rápido y escudos. Aparece un jefe cada cuatro oleadas; pulsa P para pausar.']
+    ],
+    "nagano-yamanashi": [["問題を見て長野県か山梨県かを選びます。難易度と10・20・30問のコースを選択。","全60問。読み仮名、解説、連続正解ボーナス、間違いの復習があります。"],["Choose the prefecture and select difficulty plus 10, 20 or 30 questions.","Includes 60 questions with readings, explanations, combo points and mistake review."],["选择所属县、难度及10、20或30题。","60题附读音、解析、连击奖励和错题复习。"],["Elige la prefectura, dificultad y 10, 20 o 30 preguntas.","Incluye 60 preguntas con lecturas, explicaciones, rachas y repaso de errores."]],
+    "shimane-tottori": [["問題を見て島根県か鳥取県かを選びます。難易度と10・20・30問のコースを選択。","全60問。読み仮名、解説、連続正解ボーナス、間違いの復習があります。"],["Choose the prefecture and select difficulty plus 10, 20 or 30 questions.","Includes 60 questions with readings, explanations, combo points and mistake review."],["选择所属县、难度及10、20或30题。","60题附读音、解析、连击奖励和错题复习。"],["Elige la prefectura, dificultad y 10, 20 o 30 preguntas.","Incluye 60 preguntas con lecturas, explicaciones, rachas y repaso de errores."]],
+    'tochigi-gunma': [
+      ['栃木県か群馬県かを二択で回答します。難易度と10・20・30問のコースを選んで開始。', '世界遺産・温泉・食べ物・観光名所など全92ネタ。正解後に解説が表示されます。タイマーと音は設定で切り替えられ、最後に間違えた問題を復習できます。'],
+      ['Choose Tochigi or Gunma for each of 92 landmarks, foods, hot springs and historical topics. Select difficulty and a 10, 20 or 30 question round.', 'Read a short fact after each answer and review your mistakes at the end. The game itself is in Japanese.'],
+      ['在栃木县和群马县之间二选一，共有92道地标、美食、温泉及历史题。可选择难度和10、20或30题模式。', '答题后可阅读知识解析，最后复习错题。游戏界面为日语。'],
+      ['Elige Tochigi o Gunma en 92 preguntas sobre lugares, comida, aguas termales e historia. Selecciona dificultad y rondas de 10, 20 o 30.', 'Lee un dato después de cada respuesta y repasa los fallos al terminar. El juego está en japonés.']
+    ],
+    'hoshibaku': [
+      ['長押しで星を吸い込み、離すと口の中の点数が確定します。爆弾が口に入る直前の0.46秒で離すと3倍。30秒で高得点を目指しましょう。', '一度に3個吸うごとに倍率アップ。ギリ飲みを3回決めると、5秒間は爆弾も食べられます。結果の対戦コードで友だちと同じ航路に挑戦できます。'],
+      ['Hold to collect stars and release to bank your points. Release within 0.46 seconds before a bomb reaches the mouth for triple points.', 'Every three stars raise the multiplier. Land three close releases to eat bombs during a five-second fever. Share the result code for the same course. The game controls are in Japanese.'],
+      ['长按吞星，松手结算口中的分数。在炸弹到达前0.46秒内松手可获得三倍分数。', '每吞三颗星倍率上升。成功三次极限松手后有五秒狂热时间，可以吞炸弹。用结果代码挑战同一航线。游戏界面为日语。'],
+      ['Mantén pulsado para recoger estrellas y suelta para guardar puntos. Si sueltas en los 0,46 segundos anteriores a la bomba, triplicas la puntuación.', 'Cada tres estrellas sube el multiplicador. Tres aciertos activan cinco segundos para comer bombas. Comparte el código del resultado para jugar la misma ruta. Los controles están en japonés.']
+    ],
+    'giridoka': [
+      ['タイトル画面で「初級」か「ノーマル」を選びます。画面を長押しすると敵が近づき、離すと爆破。敵が近いほど高倍率になり、最大30倍です。', 'ギリギリを狙いすぎると敵と接触して終了します。早く離しすぎても度胸ゲージが減るので、距離を見ながら爆破しましょう。PCではスペースキーでも操作できます。'],
+      ['Choose Beginner or Normal. Hold the screen to draw enemies in, then release to explode them. Closer enemies earn a higher multiplier, up to 30×.', 'Wait too long and a collision ends the run. Release too early too often and your nerve gauge drains. On a computer, you can hold and release the space bar.'],
+      ['在标题画面选择初级或普通模式。长按屏幕吸引敌人靠近，松手引爆。敌人越近，得分倍率越高，最高30倍。', '等太久会被敌人撞到而结束；总是太早松手则会耗尽勇气槽。电脑上也可以长按和松开空格键操作。'],
+      ['Elige el modo Principiante o Normal. Mantén pulsado para atraer enemigos y suelta para hacerlos estallar. Cuanto más cerca estén, mayor será el multiplicador, hasta ×30.', 'Si esperas demasiado, una colisión termina la partida. Si sueltas demasiado pronto repetidamente, se agota el medidor de valor. En ordenador puedes usar la barra espaciadora.']
+    ],
     'mirai-town': [
-      ['街の大きな画面で車や人が動くのを見ながら遊びます。初めに1200コイン、毎月300コインを受け取り、おかし屋さんやいろいろ会社セットに投資すると建物が成長します。', '街をタップすると建物の説明が出ます。＋と−で街の表示を調整できます。毎月ニュースで投資額が上下し、4・8・12か月目にはクイズがあります。実際のお金は使いません。'],
+      ['街の大きな画面で車や人が動くのを見ながら遊びます。初めに1200コイン、毎月300コインを受け取り、おかし屋さんやいろいろ会社セットに投資すると建物が成長します。300コインまとめて投資もできます。', '街の光る「＋」をタップして土地を選び、毎月もらえる建設チケットで公園・家・図書館・パン屋を建てられます。🎥はカメラツアー、＋と−は拡大縮小。投資額はニュースで増減し、クイズもあります。実際のお金は使いません。'],
       ['Start with 1,200 coins and receive 300 more each month. Choose between savings, candy-shop shares and a diversified set of companies, then play through a year.', 'Monthly news changes prices. Try the quizzes in months 4, 8 and 12, and notice that investing can lose value as well as gain it. No real money is involved.'],
       ['从1200金币开始，每月再获得300金币。选择储蓄、糖果店股票或多家公司组合，体验12个月的小镇变化。', '每月的新闻会让价格上涨或下跌。第4、8、12个月有小测验。留意投资可能亏损，也思考分散投资的意义。本游戏不使用真钱。'],
       ['Comienza con 1200 monedas y recibe 300 cada mes. Elige entre ahorros, acciones de una tienda de dulces o una cesta de empresas y juega doce meses.', 'Las noticias mensuales hacen subir o bajar los precios. Responde preguntas en los meses 4, 8 y 12 y aprende que una inversión también puede perder valor. No se usa dinero real.']
@@ -39,9 +70,9 @@
       ['Compara los colores y sigue las indicaciones del juego para elegir movimientos y ordenarlos. Empieza con una dificultad asequible y comprueba los destinos disponibles.', 'Céntrate primero en el destino de un color. Si un movimiento te deja sin opciones, busca otra secuencia.']
     ],
     yakitori: [
-      ['串をタップしてから移動先の焼き台をタップし、空き場所へ移します。同じ焼き台に同じ串を3本そろえると、焼き上がってお客さんの注文に届きます。', '焼き台と客席の「つぎ」を見て、先の注文も考えると運びやすくなります。待たせすぎて3人を怒らせると閉店です。困ったときは回数制限つきの補助を使えます。'],
+      ['串をタップしてから移動先の焼き台をタップし、空き場所へ移します。同じ焼き台に同じ串を3本そろえると、焼き上がってお客さんの注文に届きます。', '焼き台が空くと、手前の左皿の串から補充されます。右皿の串と客席の次の注文も見ておきましょう。待たせすぎて3人を怒らせると閉店です。困ったときは回数制限つきの補助を使えます。'],
       ['Tap a skewer, then a grill with space. Match three identical skewers on one grill to cook them and serve customers’ orders.', 'Check the next skewers and upcoming orders before moving. The shop closes if three customers lose patience. Limited-use helpers can get you out of a tight spot.'],
-      ['先点击烤串，再点击有空位的烤架。让同一烤架上出现三根相同烤串，即可烤熟并送给点单的客人。', '注意烤架和客席旁的“下一个”，提前考虑后续订单。三位客人因等待过久而生气就会关店；遇到困难时可使用次数有限的辅助功能。'],
+      ['先点击烤串，再点击有空位的烤架。让同一烤架上出现三根相同烤串，即可烤熟并送给点单的客人。', '烤架一空就会从前面的左盘补串。右盘装的是再下一批，也要留意客席下方的下一单。三位客人因等待过久而生气就会关店；遇到困难时可使用次数有限的辅助功能。'],
       ['Toca una brocheta y después una parrilla con espacio. Reúne tres iguales en la misma parrilla para cocinarlas y servir los pedidos.', 'Mira las siguientes brochetas y los próximos pedidos. El local cierra si tres clientes pierden la paciencia. Las ayudas tienen usos limitados.']
     ],
     'ryouri-shokudo': [

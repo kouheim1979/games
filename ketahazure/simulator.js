@@ -105,6 +105,8 @@ const markup = `
     <section class="lab-card conditions" aria-labelledby="conditions-title">
       <h2 id="conditions-title">試行条件</h2>
       <div class="condition-grid">
+        <label for="board-shape">盤面の形<select id="board-shape" data-lock></select></label>
+        <label for="difficulty">難易度<select id="difficulty" data-lock></select></label>
         <label for="stage">ステージ<input id="stage" type="number" inputmode="numeric" min="1" max="${MAX_STAGE}" data-lock></label>
         <label for="shots">持ち玉<input id="shots" type="number" inputmode="numeric" min="1" max="${MAX_SHOTS}" data-lock></label>
         <label for="seed">乱数シード<input id="seed" type="number" inputmode="numeric" min="0" max="${MAX_SEED}" data-lock></label>
@@ -171,7 +173,7 @@ export async function mountSimulator(engine) {
     return G.pegs.map(p => p.type === 'n' ? null : { type: p.type, lv: p.lv });
   }
 
-  const initial = starterLayout();
+  let initial = starterLayout();
   const defaults = { boards: [initial, initial.slice()], active: 0, stage: 1, shots: BAL.balls, x: width / 2, seed: 12345 };
   let stored = {};
   try { stored = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; } catch (_) { /* 保存できない環境でも使える */ }
@@ -184,12 +186,18 @@ export async function mountSimulator(engine) {
   const setup = {
     ...defaults,
     active: stored.active === 1 ? 1 : 0,
+    shape: engine.boards.some(b => b.id === stored.shape) ? stored.shape : 'classic',
+    difficulty: engine.difficulties.includes(stored.difficulty) ? stored.difficulty : 'normal',
     boards: defaults.boards.map((board, i) => readBoard(stored.boards?.[i], board)),
     stage: boundedInt(stored.stage, defaults.stage, 1, MAX_STAGE),
     shots: boundedInt(stored.shots, defaults.shots, 1, MAX_SHOTS),
     x: boundedInt(stored.x, defaults.x, minX, maxX),
     seed: boundedInt(stored.seed, defaults.seed, 0, MAX_SEED)
   };
+  engine.setBoard(setup.shape);
+  engine.setDifficulty(setup.difficulty);
+  initial = starterLayout();
+  slots.splice(0, slots.length, ...G.pegs.map(({r,c,x,y}) => ({r,c,x,y})));
   const histories = [[], []];
   let brush = 'x', brushLevel = 1, lastPeg = -1;
   let trial, playback, batch, frameId = 0;
@@ -267,9 +275,9 @@ export async function mountSimulator(engine) {
       G.pegs[i].flash = 0;
     });
     Object.assign(G, {
-      t: 0, nextStage: 0, unitIdx: 0, reachedStage: null, runBest: 0, rel: {}, pockets: [],
+      t: 0, nextStage: 0, unitIdx: 0, reachedStage: null, runBest: 0, runBestLog: -Infinity, rel: {}, pockets: [],
       balls: [], spawn: [], aim: { x: setup.x, on: false, snap: false },
-      stats: { bestHit: 0, hits: 0, fevers: 0 },
+      stats: { bestHit: 0, bestHitLog: -Infinity, hits: 0, fevers: 0 },
       fever: { gauge: 0, need: BAL.feverNeed, on: false, count: 0, total: 0, spawnT: 0, inStage: 0, firstShot: true }
     });
     engine.startStage(setup.stage);
@@ -434,6 +442,22 @@ export async function mountSimulator(engine) {
     if (track.hasPointerCapture(event.pointerId) && !batch && !playback) seek(event);
   });
 
+  const shapeSelect = byId('board-shape'), difficultySelect = byId('difficulty');
+  for (const b of engine.boards) shapeSelect.add(new Option(b.name, b.id));
+  const difficultyNames = {easy:'初級', normal:'中級', hard:'上級'};
+  for (const d of engine.difficulties) difficultySelect.add(new Option(difficultyNames[d] || d, d));
+  shapeSelect.value = setup.shape; difficultySelect.value = setup.difficulty;
+  shapeSelect.addEventListener('change', () => {
+    setup.shape = shapeSelect.value; engine.setBoard(setup.shape);
+    initial = starterLayout();
+    slots.splice(0, slots.length, ...G.pegs.map(({r,c,x,y}) => ({r,c,x,y})));
+    pins.forEach((pin,i) => { pin.style.left = slots[i].x / width * 100 + '%'; pin.style.top = (slots[i].y-top)/height*100 + '%'; });
+    invalidateComparison(); readyTrial(); renderEditor(); saveSetup();
+  });
+  difficultySelect.addEventListener('change', () => {
+    setup.difficulty = difficultySelect.value; engine.setDifficulty(setup.difficulty);
+    invalidateComparison(); readyTrial(); saveSetup();
+  });
   for (const [key, min, max] of [['stage', 1, MAX_STAGE], ['shots', 1, MAX_SHOTS], ['seed', 0, MAX_SEED]]) {
     const input = byId(key);
     input.value = setup[key];

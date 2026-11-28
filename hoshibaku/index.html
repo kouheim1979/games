@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#100c20">
+  <meta name="description" content="ホシバク！ 星を吸い込み、爆弾寸前で飲み込む30秒のワンボタン宇宙アーケード。">
+  <title>ホシバク！ | ORBIT ARCADE</title>
+  <link rel="icon" type="image/webp" href="assets/baku.webp">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="ambient" aria-hidden="true"></div>
+  <div class="page">
+    <header class="topbar">
+      <div class="brand"><canvas class="brand-icon" data-icon="brand" width="48" height="42" aria-hidden="true"></canvas><span>ORBIT<span class="brand-accent"> ARCADE</span></span></div>
+      <nav class="nav-tools" aria-label="ゲーム設定">
+        <button class="utility" id="audioBtn" type="button" aria-label="音をオフにする" aria-pressed="true"><canvas data-icon="sound" width="24" height="24" aria-hidden="true"></canvas><span class="sound-label">サウンド</span></button>
+        <button class="utility" id="helpBtn" type="button"><canvas data-icon="help" width="24" height="24" aria-hidden="true"></canvas><span>遊び方</span></button>
+      </nav>
+    </header>
+
+    <main>
+      <section class="cabinet" id="cabinet" data-mode="home" aria-label="ホシバク！ ゲーム画面">
+        <div class="bezel">
+          <div class="hud">
+            <div class="meter score-meter"><div class="meter-label"><b class="tiny-square pink"></b>SCORE</div><div class="numeral" id="score">000000</div></div>
+            <div class="meter fever-meter"><div class="meter-label">FEVER</div><div class="fever-icons" id="feverIcons" role="img" aria-label="フィーバーゲージ 0 / 3"><canvas width="22" height="22" data-icon="empty"></canvas><canvas width="22" height="22" data-icon="empty"></canvas><canvas width="22" height="22" data-icon="empty"></canvas></div></div>
+            <div class="meter time-meter"><div class="meter-label"><b class="tiny-square lime"></b>TIME</div><div class="time-value"><span class="numeral" id="clock">30.0</span><span class="sec">s</span></div></div>
+          </div>
+          <div class="stage" id="arena" aria-label="宇宙のプレイエリア">
+            <canvas id="sky" aria-hidden="true"></canvas>
+            <div class="title-screen" id="titleScreen">
+              <div class="hero-copy">
+                <div class="kana"><span class="kana-spark" aria-hidden="true">✦</span> ホシバク！</div>
+                <h1 aria-label="ホシバク！"><span aria-hidden="true">HOSHI</span><span aria-hidden="true">BAKU!</span></h1>
+                <p class="tagline">星を吸え。爆弾ギリで、指を離せ。</p>
+              </div>
+            </div>
+            <div class="live-top" id="liveTop" hidden>
+              <div class="pot"><span>口の中</span><b id="pot">0</b><small>PT</small><em id="multi">×1</em></div>
+              <button class="pause-icon" id="pauseBtn" type="button" aria-label="一時停止"><i></i><i></i></button>
+            </div>
+            <div id="callout" class="callout" aria-live="off" hidden><strong id="callTitle"></strong><span id="callSub"></span></div>
+            <div class="flight-hint" id="flightHint" hidden><b></b><span></span></div>
+            <div class="end-screen" id="endScreen" hidden>
+              <div class="result-heading"><span class="result-en">RESULT</span><h2 id="rankName">星の食いしん坊</h2></div>
+              <div class="result-score"><span id="endScore">0</span><small>PT</small></div>
+              <div class="result-stats"><div><span>ギリ飲み</span><b id="endPerfect">0 回</b></div><div><span>最接近</span><b id="endGap">—</b></div><div><span>最大のひと口</span><b id="endBite">0 点</b></div></div>
+              <div class="result-code" id="endCode"></div><div class="share-actions"><button type="button" class="soft-button" id="shareBtn"><canvas width="22" height="22" data-icon="share" aria-hidden="true"></canvas>結果をシェア</button><button type="button" class="soft-button" id="cardBtn"><canvas width="22" height="22" data-icon="card" aria-hidden="true"></canvas>画像を保存</button></div>
+            </div>
+          </div>
+          <div class="control-deck">
+            <div class="deck-tip"><span class="finger-box"><canvas data-icon="finger" width="32" height="32" aria-hidden="true"></canvas></span><div><b id="deckMain">ワンボタンで遊べる</b><span id="deckSub">長押しで吸いこみ、離して飲みこむ</span></div></div>
+            <button type="button" class="action" id="actionBtn"><span id="actionSymbol" class="action-symbol" aria-hidden="true">▶</span><span id="actionText">長押しでスタート</span></button>
+          </div>
+        </div>
+      </section>
+
+      <div class="records" aria-label="記録とチャレンジ">
+        <div class="record"><div class="record-icon gold"><canvas width="28" height="28" data-icon="trophy" aria-hidden="true"></canvas></div><div class="record-text"><span>自己ベスト</span><b id="best">0 <small>PT</small></b></div></div>
+        <button type="button" class="record route-button" id="routeBtn" aria-label="対戦コードを入力"><span class="record-icon lavender"><canvas width="28" height="28" data-icon="calendar" aria-hidden="true"></canvas></span><span class="record-text"><span id="routeLabel">今日の航路</span><b id="routeDay">--.--</b></span><span class="route-note" id="routeNote">対戦コード</span></button>
+      </div>
+      <p class="keyboard-note"><span aria-hidden="true" class="kb-symbol"></span> パソコンは <kbd>SPACE</kbd> 長押しでプレイ</p>
+    </main>
+  </div>
+
+  <dialog id="guide" class="dialog">
+    <div class="dialog-head"><h2>遊び方</h2><button class="close-button" data-dismiss="guide" aria-label="閉じる">×</button></div>
+    <div class="rule"><canvas width="36" height="36" data-icon="star"></canvas><div><b>長押しで星を吸いこむ</b><p>星が口に入るたび、仮の得点がたまる。一度に3個集めるごとに倍率アップ。最大4倍！</p></div></div>
+    <div class="rule"><canvas width="36" height="36" data-icon="mine"></canvas><div><b>爆弾が来たら指を離す</b><p>離したら得点確定。赤い爆弾が口に届く直前の0.46秒で離すと「ギリ飲み」でさらに3倍。吸い込むと口の中の分を失う。</p></div></div>
+    <div class="rule"><canvas width="36" height="36" data-icon="gem"></canvas><div><b>3回決めてフィーバー！</b><p>ギリ飲み3回で、5秒間は爆弾も500点のごちそう。30秒が終わると、口に残った得点も自動で加算。</p></div></div>
+    <p class="guide-foot">日本時間で毎日、星と爆弾の並びが変わるよ。キーボードはスペース長押し、Enterで吸引の切り替え。</p>
+    <button class="action dialog-action" data-dismiss="guide" type="button">わかった</button>
+  </dialog>
+  <dialog id="pauseDialog" class="dialog compact">
+    <span class="result-en">PAUSE</span><h2>ちょっとひと休み</h2><p>残り時間と口の中の星はそのまま。</p><button class="action dialog-action" id="resumeBtn" type="button">ゲームに戻る</button>
+  </dialog>
+  <dialog id="cardDialog" class="dialog card-dialog">
+    <div class="dialog-head"><h2>今回のスコアカード</h2><button class="close-button" data-dismiss="cardDialog" aria-label="閉じる">×</button></div>
+    <img id="cardImage" alt="今回のスコア、ギリ飲み回数、最接近記録入りのスコアカード">
+    <a id="downloadCard" class="action dialog-action" download="hoshibaku-score.png">画像をダウンロード</a><p class="save-note">スマホでは画像を長押しして保存もできます。</p>
+  </dialog>
+  <dialog id="routeDialog" class="dialog">
+    <div class="dialog-head"><h2>友だちの記録に挑戦</h2><button class="close-button" data-dismiss="routeDialog" aria-label="閉じる">×</button></div>
+    <form id="routeForm"><label for="routeInput">対戦コード</label><p class="route-guide">スコアカードのコードを入れると、同じ航路で相手の得点に挑戦できます。</p>
+      <input id="routeInput" type="text" autocomplete="off" spellcheck="false" autocapitalize="characters" placeholder="HB-261119-5400" maxlength="180">
+      <span id="routeError" role="alert" hidden></span><button class="action dialog-action" type="submit">この記録に挑戦</button></form>
+    <button id="dailyBtn" class="soft-button daily-btn" type="button">今日の航路に戻す</button>
+  </dialog>
+  <dialog id="textDialog" class="dialog compact"><div class="dialog-head"><h2>結果をコピー</h2><button class="close-button" data-dismiss="textDialog" aria-label="閉じる">×</button></div><textarea id="shareText" readonly rows="5" aria-label="シェア用の結果"></textarea></dialog>
+  <div role="status" class="toast" id="toast" hidden></div>
+  <span class="sr-only" aria-live="polite" id="announcer"></span>
+  <img id="mascot" src="assets/baku.webp" alt="" hidden>
+  <script src="engine.js"></script>
+  <script src="art.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>
