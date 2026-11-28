@@ -525,10 +525,10 @@ export async function mountSimulator(engine) {
     engine.withRandom(run.random, () => engine.dropBall(setup.x));
   }
 
-  function advance(run) {
-    engine.withRandom(run.random, step);
+  function advance(run, dt = TICK) {
+    engine.withRandom(run.random, () => engine.update(dt));
     if (!G.balls.length && !G.spawn.length && !G.fever.on) return true;
-    if (++run.ticks < THROW_LIMIT) return false;
+    if ((run.ticks += dt / TICK) < THROW_LIMIT) return false;
     run.timedOut = true;
     return true;
   }
@@ -558,12 +558,11 @@ export async function mountSimulator(engine) {
   function playFrame(now) {
     if(playback.infinite){infiniteFrame(now);return;}
     const speed = Number(byId('speed').value);
-    playback.carry += Math.min((now - playback.last) / 1000, 0.05) * speed;
+    const rdt = Math.min(0.05, Math.max(0.001, (now - playback.last) / 1000 || 0.016));
     playback.last = now;
-    while (playback.carry >= TICK) {
-      playback.carry -= TICK;
-      const settled=advance(trial);engine.updateFx(TICK);
-      if(!settled)continue;
+    do {
+      const settled=advance(trial, rdt * speed);engine.withRandom(trial.random,()=>engine.updateFx(rdt));
+      if(!settled)break;
       if (!trial.timedOut) trial.firstSettled = true;
       if (playback.all && G.ballsLeft > 0 && !trial.timedOut) {
         throwBall(trial);
@@ -574,19 +573,19 @@ export async function mountSimulator(engine) {
       showTrialStatus();
       updateControls();
       break;
-    }
+    } while(false);
     renderBoard();
     renderMetrics();
   }
 
   function infiniteFrame(now){
     const p=playback;const speed=Number(byId('speed').value);
-    p.carry+=Math.min((now-p.last)/1000,0.05)*speed;p.last=now;
-    while(p.carry>=TICK){p.carry-=TICK;
-      if(!p.stopping){p.untilDrop-=TICK;if(p.untilDrop<=0&&engine.withRandom(trial.random,()=>engine.dropUnlimited(setup.x))){trial.infiniteCount=(trial.infiniteCount||0)+1;p.untilDrop=Number(infiniteInterval.value);}}
-      engine.withRandom(trial.random,step);engine.updateFx(TICK);
-      if(p.stopping){p.drain+=TICK;if(!G.balls.length&&!G.spawn.length&&!G.fever.on||p.drain>=120){playback=null;if(G.balls.length||G.spawn.length||G.fever.on){trial.timedOut=true;display('infinite-status','停止：残玉の処理が時間上限に到達。初期化してください。');}else{display('infinite-status','停止済み：得点・育ち・祭ゲージを保持');}showTrialStatus();updateControls();break;}}
-    }
+    const rdt=Math.min(0.05,Math.max(0.001,(now-p.last)/1000||0.016)),dt=rdt*speed;p.last=now;
+    do {
+      if(!p.stopping){p.untilDrop-=dt;if(p.untilDrop<=0&&engine.withRandom(trial.random,()=>engine.dropUnlimited(setup.x))){trial.infiniteCount=(trial.infiniteCount||0)+1;p.untilDrop=Number(infiniteInterval.value);}}
+      engine.withRandom(trial.random,()=>{engine.update(dt);engine.updateFx(rdt);});
+      if(p.stopping){p.drain+=dt;if(!G.balls.length&&!G.spawn.length&&!G.fever.on||p.drain>=120){playback=null;if(G.balls.length||G.spawn.length||G.fever.on){trial.timedOut=true;display('infinite-status','停止：残玉の処理が時間上限に到達。初期化してください。');}else{display('infinite-status','停止済み：得点・育ち・祭ゲージを保持');}showTrialStatus();updateControls();break;}}
+    } while(false);
     renderBoard();renderMetrics();
   }
   infiniteToggle.addEventListener('click',()=>{
