@@ -293,5 +293,7 @@ window.I18N_DICT={
 "しょくパンを やこう":["Toast the bread","烤吐司","Tuesta el pan"],
 "しょくパンと バターや ジャムを えらんでね":["Choose bread and butter or jam","请选择面包与黄油或果酱","Elige pan y mantequilla o mermelada"],
 "パンを なぞって すみまで ぬろう！":["Swipe over the bread to spread it to the edges!","在面包上滑动，涂到每个角落！","¡Desliza sobre el pan hasta cubrir los bordes!"],
-"ぬる：パンを 指で なぞって すみまで ぬろう。":["Spread: swipe across the bread to coat it evenly.","涂抹：用手指滑过面包，均匀涂抹。","Untar: desliza el dedo por el pan para cubrirlo bien."]
+"ぬる：パンを 指で なぞって すみまで ぬろう。":["Spread: swipe across the bread to coat it evenly.","涂抹：用手指滑过面包，均匀涂抹。","Untar: desliza el dedo por el pan para cubrirlo bien."],
+"ケチャップを くるくる かけよう":["Swirl on the ketchup","画圈挤上番茄酱","Dibuja círculos con kétchup"],
+"オムライスの上を 指で くるくる なぞろう！":["Trace circles over the omelet with your finger!","用手指在蛋包饭上画圈！","¡Dibuja círculos sobre la tortilla con el dedo!"]
 };
