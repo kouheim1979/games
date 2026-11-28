@@ -1,5 +1,5 @@
 const STORAGE_KEY = 'ketahazure.balance.v1';
-const VERSION = '2026-11-28 / 無限投下版 4';
+const VERSION = '2026-11-28 / 盤面表示修正版 8';
 const MAX_STAGE = 99;
 const MAX_LEVEL = 99;
 const MAX_SHOTS = 20;
@@ -172,6 +172,9 @@ export async function mountSimulator(engine) {
   canvas.removeAttribute('tabindex');
   canvas.setAttribute('aria-hidden', 'true');
   canvas.removeAttribute('aria-label');
+  // 本編 resize() のインライン寸法をテスト盤面に持ち込まない。
+  Object.assign(canvas.style, { position: 'absolute', inset: '0', width: '100%', height: '100%', maxWidth: 'none', maxHeight: 'none', display: 'block' });
+  plate.style.height = 'auto';
   plate.prepend(canvas);
   range.min = minX;
   range.max = maxX;
