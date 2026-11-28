@@ -1,5 +1,5 @@
 const STORAGE_KEY = 'ketahazure.balance.v1';
-const VERSION = '2026-11-28 / 札・祭り検証版 3';
+const VERSION = '2026-11-28 / 無限投下版 4';
 const MAX_STAGE = 99;
 const MAX_LEVEL = 99;
 const MAX_SHOTS = 20;
@@ -80,6 +80,7 @@ const markup = `
       <button id="extra-drop" type="button" disabled>投下中に追加投下</button>
       <button id="next-stage" type="button" disabled>札を獲得して次へ</button>
     </div>
+    <section class="infinite-panel"><div class="festival-line"><strong>無限投下モード</strong><output id="infinite-count">0 投</output></div><div class="infinite-actions"><label for="infinite-interval">投下間隔<select id="infinite-interval"><option value="0.5">0.5秒</option><option value="1" selected>1秒</option><option value="2">2秒</option><option value="3">3秒</option></select></label><button id="infinite-toggle" type="button" class="primary">▶ 無限投下開始</button></div><p id="infinite-status" class="hint">持ち玉を消費せず、同じステージで連続投下します。</p></section>
     <section id="reward-panel" class="reward-panel" hidden><h2 id="reward-title">札を選ぶ</h2><p id="reward-detail"></p><div id="reward-offers"></div><div class="reward-actions"><button id="reward-reroll" type="button">選び直し</button><button id="reward-auto" type="button">おまかせ配置</button></div></section>
     <div class="play-options">
       <label for="speed">再生速度</label>
@@ -216,6 +217,7 @@ export async function mountSimulator(engine) {
   const pins = [];
   const lockable = [...document.querySelectorAll('[data-lock]')];
   const extraDrop=byId('extra-drop'), nextStage=byId('next-stage'), autoShots=byId('auto-shots');
+  const infiniteToggle=byId('infinite-toggle'), infiniteInterval=byId('infinite-interval');
   autoShots.checked=setup.autoShots;
   for(const c of engine.relics){const label=document.createElement('label');label.textContent=c.name;label.title=c.desc;const input=document.createElement('input');input.type='number';input.min=0;input.max=c.max;input.value=setup.relics[c.id];input.inputMode='numeric';label.append(input);byId('relics').append(label);lockable.push(input);input.addEventListener('change',()=>{setup.relics[c.id]=boundedInt(input.value,0,0,c.max);input.value=setup.relics[c.id];invalidateComparison();readyTrial();saveSetup();});}
   autoShots.addEventListener('change',()=>{setup.autoShots=autoShots.checked;invalidateComparison();readyTrial();saveSetup();});
@@ -251,7 +253,9 @@ export async function mountSimulator(engine) {
     byId('score').title = scoreText(G.score);
     byId('first-score').title = scoreText(G.firstShotScore);
     display('reward', G.cleared ? cards + '枚' + (jump ? '・飛び級' : '') : '—');
-    display('remaining-shots', G.ballsLeft + ' / ' + G.ballsMax);
+    display('remaining-shots', playback?.infinite ? '∞（残 '+G.ballsLeft+'）' : G.ballsLeft + ' / ' + G.ballsMax);
+    display('infinite-count',(trial.infiniteCount||0).toLocaleString('ja-JP')+' 投');
+    if(playback?.infinite)display('infinite-status',playback.stopping?'追加投下停止・残った玉を処理中':'連続投下中・盤面上 '+G.balls.length+' 玉');
     display('hits', G.stats.hits.toLocaleString('ja-JP') + ' 回');
     display('fevers', G.stats.fevers + ' 回');
     const f=G.fever;const active=Boolean(f.on);const meter=byId('festival-progress');meter.max=f.need;meter.value=f.gauge;
@@ -268,7 +272,7 @@ export async function mountSimulator(engine) {
     const list=byId('grow-list');
     const values=grown.map(p=>`${p.r+1}段 ${p.c+1}列　Lv${p.lv}　×${engine.growMultiplier(p).toFixed(2)}（+${p.grow.toFixed(2)}）`).join('\n');
     if(list.textContent!==values)list.textContent=values;
-    extraDrop.disabled=!playback||playback.all||G.ballsLeft===0||G.dropCd>0;
+    extraDrop.disabled=!playback||playback.all||playback.infinite||G.ballsLeft===0||G.dropCd>0;
   }
 
   function renderBoard() {
@@ -318,6 +322,7 @@ export async function mountSimulator(engine) {
 
   function readyTrial() {
     playback = null;
+    display('infinite-status','持ち玉を消費せず、同じステージで連続投下します。');
     trial = newTrial(setup.boards[setup.active], setup.seed);
     renderMetrics();
     renderBoard();
@@ -331,16 +336,19 @@ export async function mountSimulator(engine) {
     const busy = Boolean(playback || batch);
     const rewarding=G.phase==='reward'||G.phase==='place';
     for (const control of lockable) control.disabled = busy||rewarding;
+    if(playback?.infinite&&!playback.stopping){range.disabled=false;byId('suggest-position').disabled=false;}
+    infiniteToggle.disabled=Boolean(batch||rewarding||(!playback?.infinite&&(busy||G.phase!=='play'||G.ballsLeft===0||trial.timedOut))||playback?.stopping);
+    infiniteToggle.textContent=playback?.infinite?(playback.stopping?'停止処理中…':'■ 無限投下停止'):'▶ 無限投下開始';
     level.disabled = fillBoard.disabled = busy || rewarding || brush === 'n';
     byId('undo').disabled = busy || rewarding || histories[setup.active].length === 0;
-    plate.dataset.busy = String(busy);
+    plate.dataset.busy = String(busy&&!playback?.infinite);
     for (const pin of pins) pin.setAttribute('aria-disabled', String(busy||G.phase==='reward'));
     dropOne.disabled = dropAll.disabled = busy || G.phase!=='play' || G.ballsLeft === 0 || trial.timedOut;
     dropAll.textContent = G.ballsLeft >= G.ballsMax ? '全玉を試す' : '残りの玉を試す';
     reset.disabled = Boolean(batch);
     byId('shots').disabled=busy||rewarding||setup.autoShots;
     nextStage.disabled=busy||rewarding||!G.cleared||trial.timedOut||G.stage>=MAX_STAGE;
-    extraDrop.disabled=!playback||playback.all||G.ballsLeft===0||G.dropCd>0;
+    extraDrop.disabled=!playback||playback.all||playback.infinite||G.ballsLeft===0||G.dropCd>0;
     compare.disabled = busy||rewarding;
     cancel.hidden = !batch;
     byId('compare-progress').hidden = !batch;
@@ -473,12 +481,12 @@ export async function mountSimulator(engine) {
     setAim(boundedInt(x, setup.x, minX, maxX));
   }
   track.addEventListener('pointerdown', event => {
-    if (batch || playback || !event.isPrimary || event.button !== 0) return;
+    if (batch || (playback && (!playback.infinite||playback.stopping)) || !event.isPrimary || event.button !== 0) return;
     track.setPointerCapture(event.pointerId);
     seek(event);
   });
   track.addEventListener('pointermove', event => {
-    if (track.hasPointerCapture(event.pointerId) && !batch && !playback) seek(event);
+    if (track.hasPointerCapture(event.pointerId) && !batch && (!playback||playback.infinite&&!playback.stopping)) seek(event);
   });
 
   const shapeSelect = byId('board-shape'), difficultySelect = byId('difficulty');
@@ -548,6 +556,7 @@ export async function mountSimulator(engine) {
   }
 
   function playFrame(now) {
+    if(playback.infinite){infiniteFrame(now);return;}
     const speed = Number(byId('speed').value);
     playback.carry += Math.min((now - playback.last) / 1000, 0.05) * speed;
     playback.last = now;
@@ -569,6 +578,22 @@ export async function mountSimulator(engine) {
     renderBoard();
     renderMetrics();
   }
+
+  function infiniteFrame(now){
+    const p=playback;const speed=Number(byId('speed').value);
+    p.carry+=Math.min((now-p.last)/1000,0.05)*speed;p.last=now;
+    while(p.carry>=TICK){p.carry-=TICK;
+      if(!p.stopping){p.untilDrop-=TICK;if(p.untilDrop<=0&&engine.withRandom(trial.random,()=>engine.dropUnlimited(setup.x))){trial.infiniteCount=(trial.infiniteCount||0)+1;p.untilDrop=Number(infiniteInterval.value);}}
+      engine.withRandom(trial.random,step);engine.updateFx(TICK);
+      if(p.stopping){p.drain+=TICK;if(!G.balls.length&&!G.spawn.length&&!G.fever.on||p.drain>=120){playback=null;if(G.balls.length||G.spawn.length||G.fever.on){trial.timedOut=true;display('infinite-status','停止：残玉の処理が時間上限に到達。初期化してください。');}else{display('infinite-status','停止済み：得点・育ち・祭ゲージを保持');}showTrialStatus();updateControls();break;}}
+    }
+    renderBoard();renderMetrics();
+  }
+  infiniteToggle.addEventListener('click',()=>{
+    if(playback?.infinite){playback.stopping=true;playback.drain=0;setStatus('停止処理中','busy');updateControls();return;}
+    if(batch||playback||G.phase!=='play'||G.ballsLeft===0||trial.timedOut)return;
+    playback={infinite:true,last:performance.now(),carry:0,untilDrop:0,stopping:false,drain:0};invalidateComparison();setStatus('無限投下中','busy');updateControls();scheduleFrame();
+  });
 
   function startComparison() {
     batch = { total: 0, run: null, completed: [[], []], preview: { ...G } };

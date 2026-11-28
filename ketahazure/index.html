@@ -601,12 +601,12 @@ function startStage(n) {
 function newBall(x, v, firstShot = false) {
   return { x, y: L.launchY, vx: rnd(-25, 25), vy: 0, v, vLog: logOf(v), firstShot, lastPeg: -1, used: null, tr: [], born: G.t, fever: false, wallOk: true, h: 0, ghost: false, dead: false, tp: false, low: L.launchY, lowT: G.t };
 }
-function dropBall(x) {
-  if (G.phase !== 'play' || G.ballsLeft <= 0 || G.dropCd > 0) return false;
-  const firstDrop = G.ballsLeft === G.ballsMax;
-  G.ballsLeft--; G.dropCd = 0.12;
+function dropBall(x, unlimited = false) {
+  if (G.phase !== 'play' || (!unlimited && G.ballsLeft <= 0) || G.dropCd > 0) return false;
+  const firstDrop = !unlimited && G.ballsLeft === G.ballsMax;
+  if (!unlimited) G.ballsLeft--; G.dropCd = 0.12;
   const n = 1 + (G.rel.twin || 0);
-  let v = ballV0(); if (G.ballsLeft === 0 && G.rel.shime) v *= Math.pow(10, G.rel.shime);
+  let v = ballV0(); if (!unlimited && G.ballsLeft === 0 && G.rel.shime) v *= Math.pow(10, G.rel.shime);
   for (let i = 0; i < n; i++) {
     const ballX = aimClamp(x + (i - (n - 1) / 2) * 26);
     G.balls.push(newBall(ballX, v, firstDrop));
@@ -2167,6 +2167,7 @@ if (balanceMode) {
     fmtMagnitude,
     rewardActions:{stageClear,afterClear,openReward,takeCard,reroll,placeAt,autoPlace,placementBlock},
     rewardRarity:RAR,
+    dropUnlimited(x) { if (G.balls.length+G.spawn.length+1+(G.rel.twin||0)>BAL.maxBalls) return false; return dropBall(x,true); },
     initialRerolls:()=>currentDifficulty().rerolls,
     primeFestival() { if (G.phase !== 'play' || G.fever.on || G.balls.length || G.spawn.length) return false; G.fever.gauge = Math.max(0,G.fever.need-1); return true; },
     selfTest() {
@@ -2199,6 +2200,12 @@ if (balanceMode) {
         G.offer=[instCard(CARDS.find(c=>c.id==='g2'))];takeCard(G.offer[0]);placeAt(grow);checks.push({name:'育ち札の重ね置きで成長維持',ok:grow.lv===2&&equal(grow.grow,.7)});autoPlace();checks.push({name:'配置完了で次の札を抽選',ok:G.phase==='reward'&&G.picksLeft===1});
         G.offer=[instCard(CARDS.find(c=>c.id==='ball'))];takeCard(G.offer[0]);checks.push({name:'お守り獲得・次ステージで持ち玉+1',ok:G.stage===2&&G.rel.ball===1&&G.ballsMax===BAL.balls+1&&equal(grow.grow,.7)});
         G.score=G.quota;G.scoreLog=logOf(G.score);G.cleared=true;stageClear();afterClear();const x=G.pegs.find(p=>p.type==='n');setPeg(x,'x',1);G.offer=[instCard(CARDS.find(c=>c.id==='lvx'))];takeCard(G.offer[0]);checks.push({name:'即時強化札で乗算Lv+1',ok:x.lv===2});
+        G.mode='normal';G.rel={twin:1,shime:3};G.fever={gauge:0,need:100,on:false,inStage:0,firstShot:true};G.stats={hits:0,fevers:0,bestHit:0,bestHitLog:-Infinity};buildBoard();startStage(1);G.ballsLeft=1;G.dropCd=0;
+        let throws=0;for(let i=0;i<100;i++){G.dropCd=0;if(dropBall(W/2,true))throws++;G.balls.length=0;}
+        checks.push({name:'無限投下100回で持ち玉数維持',ok:throws===100&&G.ballsLeft===1&&G.phase==='play'});
+        G.dropCd=0;dropBall(W/2,true);checks.push({name:'無限投下でもふたご玉有効・締めと一発判定なし',ok:G.balls.length===2&&G.balls.every(b=>b.v===ballV0()&&!b.firstShot)});
+        checks.push({name:'投下クールダウンを維持',ok:dropBall(W/2,true)===false});
+        G.balls.length=0;G.dropCd=0;dropBall(W/2);checks.push({name:'通常投下では持ち玉消費・締めの一発有効',ok:G.ballsLeft===0&&G.balls.every(b=>b.v===ballV0()*1000)});
       } catch(e) { checks.push({name:String(e),ok:false}); } finally { balanceRandom=null;Object.assign(G,snapshot); }
       return checks;
     },
