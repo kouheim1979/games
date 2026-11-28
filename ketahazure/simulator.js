@@ -1,4 +1,5 @@
 const STORAGE_KEY = 'ketahazure.balance.v1';
+const VERSION = '2026-11-28 / 本編同期版';
 const MAX_STAGE = 99;
 const MAX_LEVEL = 99;
 const MAX_SHOTS = 20;
@@ -33,7 +34,7 @@ const markup = `
 <header class="lab-header">
   <div class="lab-brand">
     <span class="lab-emblem" aria-hidden="true">桁</span>
-    <div><p>桁外れ</p><h1>開発者用シミュレーター</h1></div>
+    <div><p>桁外れ ・ ${VERSION}</p><h1>開発者用シミュレーター</h1></div>
   </div>
   <a class="game-link" href="./">ゲーム本編 <span aria-hidden="true">↗</span></a>
 </header>
@@ -75,13 +76,15 @@ const markup = `
     <div class="play-actions">
       <button id="drop-one" class="primary" type="button">1玉落とす</button>
       <button id="drop-all" type="button">全玉を試す</button>
+      <button id="extra-drop" type="button" disabled>投下中に追加投下</button>
+      <button id="next-stage" type="button" disabled>次のステージへ（育ち保持）</button>
     </div>
     <div class="play-options">
       <label for="speed">再生速度</label>
       <select id="speed">
         <option value="1">×1</option><option value="2" selected>×2</option><option value="4">×4</option><option value="8">×8</option>
       </select>
-      <button id="reset-trial" type="button">試行をリセット</button>
+      <button id="reset-trial" type="button">初期配置に戻す</button>
     </div>
   </section>
 
@@ -111,8 +114,11 @@ const markup = `
         <label for="shots">持ち玉<input id="shots" type="number" inputmode="numeric" min="1" max="${MAX_SHOTS}" data-lock></label>
         <label for="seed">乱数シード<input id="seed" type="number" inputmode="numeric" min="0" max="${MAX_SEED}" data-lock></label>
       </div>
-      <p class="hint">同じ盤面・落下位置・シードで結果を再現できます。玉と祭りが落ち切ってから次を投入します。</p>
+      <label class="hint"><input id="auto-shots" type="checkbox" data-lock> 本編と同じ持ち玉数（難易度・お守り反映）</label>
+      <p class="hint">全玉試行は落ち切ってから次を投入。追加投下は本編と同じクールダウンで可能。設定・配置の編集や初期化は育ちをリセットし、次ステージでは保持します。</p>
+      <details><summary>お守りの所持枚数を設定</summary><div id="relics" class="condition-grid"></div></details>
     </section>
+    <section class="lab-card"><h2>育ちちょうちん・実測倍率</h2><p class="hint">現在の倍率を表示（次に直接命中した時の基本倍率）。</p><p id="grow-summary" role="status"></p><div id="grow-list" class="grow-list"></div><button id="regression" type="button" data-lock>本編処理の自己診断</button><p id="regression-result" role="status"></p></section>
     <section class="lab-card compare" aria-labelledby="compare-title">
       <h2 id="compare-title">盤面 A/B の比較</h2>
       <p class="hint">同じ条件で各盤面を ${TRIALS} 回ずつ試します。すべての玉を現在の落下位置から投入します。</p>
@@ -187,7 +193,9 @@ export async function mountSimulator(engine) {
     ...defaults,
     active: stored.active === 1 ? 1 : 0,
     shape: engine.boards.some(b => b.id === stored.shape) ? stored.shape : 'classic',
-    difficulty: engine.difficulties.includes(stored.difficulty) ? stored.difficulty : 'normal',
+    difficulty: engine.difficulties.some(d => d.id === stored.difficulty) ? stored.difficulty : 'normal',
+    autoShots: stored.autoShots !== false,
+    relics: Object.fromEntries(engine.relics.map(c => [c.id,boundedInt(stored.relics?.[c.id],0,0,c.max)])),
     boards: defaults.boards.map((board, i) => readBoard(stored.boards?.[i], board)),
     stage: boundedInt(stored.stage, defaults.stage, 1, MAX_STAGE),
     shots: boundedInt(stored.shots, defaults.shots, 1, MAX_SHOTS),
@@ -203,6 +211,10 @@ export async function mountSimulator(engine) {
   let trial, playback, batch, frameId = 0;
   const pins = [];
   const lockable = [...document.querySelectorAll('[data-lock]')];
+  const extraDrop=byId('extra-drop'), nextStage=byId('next-stage'), autoShots=byId('auto-shots');
+  autoShots.checked=setup.autoShots;
+  for(const c of engine.relics){const label=document.createElement('label');label.textContent=c.name;label.title=c.desc;const input=document.createElement('input');input.type='number';input.min=0;input.max=c.max;input.value=setup.relics[c.id];input.inputMode='numeric';label.append(input);byId('relics').append(label);lockable.push(input);input.addEventListener('change',()=>{setup.relics[c.id]=boundedInt(input.value,0,0,c.max);input.value=setup.relics[c.id];invalidateComparison();readyTrial();saveSetup();});}
+  autoShots.addEventListener('change',()=>{setup.autoShots=autoShots.checked;invalidateComparison();readyTrial();saveSetup();});
 
   function saveSetup() {
     try { localStorage.setItem(STORAGE_KEY, JSON.stringify(setup)); } catch (_) { /* 保存できない環境でも使える */ }
@@ -226,9 +238,9 @@ export async function mountSimulator(engine) {
 
   function renderMetrics() {
     const { oneShot, jump, cards } = engine.clearReward();
-    display('score', engine.fmt(G.score));
+    display('score', engine.fmtMagnitude(G.score,G.scoreLog));
     display('quota', engine.fmtQ(G.quota));
-    display('first-score', engine.fmt(G.firstShotScore));
+    display('first-score', engine.fmtMagnitude(G.firstShotScore,G.firstShotScoreLog));
     const firstShot = trial.firstSettled ? '未達' : playback ? '計測中' : '—';
     display('one-shot', oneShot ? '達成' : firstShot);
     byId('score').title = scoreText(G.score);
@@ -240,6 +252,13 @@ export async function mountSimulator(engine) {
     const bar = byId('quota-progress');
     const progress = Math.min(1, G.score / G.quota);
     if (bar.value !== progress) bar.value = progress;
+    const grown=G.pegs.filter(p=>p.type==='g');
+    const max=grown.length?Math.max(...grown.map(engine.growMultiplier)):0;
+    display('grow-summary',grown.length?'育ち '+grown.length+'本 / 最大 ×'+max.toFixed(2):'育ちちょうちん未配置');
+    const list=byId('grow-list');
+    const values=grown.map(p=>`${p.r+1}段 ${p.c+1}列　Lv${p.lv}　×${engine.growMultiplier(p).toFixed(2)}（+${p.grow.toFixed(2)}）`).join('\n');
+    if(list.textContent!==values)list.textContent=values;
+    extraDrop.disabled=!playback||playback.all||G.ballsLeft===0||G.dropCd>0;
   }
 
   function renderBoard() {
@@ -249,6 +268,7 @@ export async function mountSimulator(engine) {
     if (canvas.width !== w) canvas.width = w;
     if (canvas.height !== h) canvas.height = h;
     engine.drawBoard();
+    G.pegs.forEach((p,i)=>{if(!pins[i])return;const label=p.type==='g'?`現在 ×${engine.growMultiplier(p).toFixed(2)}・Lv${p.lv}`:'';pins[i].dataset.growth=label;pins[i].title=label||pins[i].getAttribute('aria-label');});
   }
 
   function setAim(x) {
@@ -275,14 +295,15 @@ export async function mountSimulator(engine) {
       G.pegs[i].flash = 0;
     });
     Object.assign(G, {
-      t: 0, nextStage: 0, unitIdx: 0, reachedStage: null, runBest: 0, runBestLog: -Infinity, rel: {}, pockets: [],
+      t: 0, nextStage: 0, unitIdx: 0, reachedStage: null, runBest: 0, runBestLog: -Infinity, rel: Object.fromEntries(Object.entries(setup.relics).filter(([,n])=>n>0)), pockets: [],
       balls: [], spawn: [], aim: { x: setup.x, on: false, snap: false },
       stats: { bestHit: 0, bestHitLog: -Infinity, hits: 0, fevers: 0 },
       fever: { gauge: 0, need: BAL.feverNeed, on: false, count: 0, total: 0, spawnT: 0, inStage: 0, firstShot: true }
     });
-    engine.startStage(setup.stage);
-    G.ballsLeft = G.ballsMax = setup.shots;
-    return { random: seededRandom(seed), ticks: 0, timedOut: false, firstSettled: false };
+    const random=seededRandom(seed);
+    engine.withRandom(random,()=>engine.startStage(setup.stage));
+    if(!setup.autoShots)G.ballsLeft=G.ballsMax=setup.shots;
+    return {random,ticks:0,timedOut:false,firstSettled:false};
   }
 
   function readyTrial() {
@@ -304,6 +325,9 @@ export async function mountSimulator(engine) {
     dropOne.disabled = dropAll.disabled = busy || G.ballsLeft === 0 || trial.timedOut;
     dropAll.textContent = G.ballsLeft >= G.ballsMax ? '全玉を試す' : '残りの玉を試す';
     reset.disabled = Boolean(batch);
+    byId('shots').disabled=busy||setup.autoShots;
+    nextStage.disabled=busy||!G.cleared||trial.timedOut||G.stage>=MAX_STAGE;
+    extraDrop.disabled=!playback||playback.all||G.ballsLeft===0||G.dropCd>0;
     compare.disabled = busy;
     cancel.hidden = !batch;
     byId('compare-progress').hidden = !batch;
@@ -444,8 +468,7 @@ export async function mountSimulator(engine) {
 
   const shapeSelect = byId('board-shape'), difficultySelect = byId('difficulty');
   for (const b of engine.boards) shapeSelect.add(new Option(b.name, b.id));
-  const difficultyNames = {easy:'初級', normal:'中級', hard:'上級'};
-  for (const d of engine.difficulties) difficultySelect.add(new Option(difficultyNames[d] || d, d));
+  for (const d of engine.difficulties) difficultySelect.add(new Option(d.label,d.id));
   shapeSelect.value = setup.shape; difficultySelect.value = setup.difficulty;
   shapeSelect.addEventListener('change', () => {
     setup.shape = shapeSelect.value; engine.setBoard(setup.shape);
@@ -456,7 +479,7 @@ export async function mountSimulator(engine) {
   });
   difficultySelect.addEventListener('change', () => {
     setup.difficulty = difficultySelect.value; engine.setDifficulty(setup.difficulty);
-    invalidateComparison(); readyTrial(); saveSetup();
+    invalidateComparison(); readyTrial(); updateBrush(); saveSetup();
   });
   for (const [key, min, max] of [['stage', 1, MAX_STAGE], ['shots', 1, MAX_SHOTS], ['seed', 0, MAX_SEED]]) {
     const input = byId(key);
@@ -513,8 +536,9 @@ export async function mountSimulator(engine) {
     playback.last = now;
     while (playback.carry >= TICK) {
       playback.carry -= TICK;
-      if (!advance(trial)) continue;
-      if (G.ballsLeft === G.ballsMax - 1 && !trial.timedOut) trial.firstSettled = true;
+      const settled=advance(trial);engine.updateFx(TICK);
+      if(!settled)continue;
+      if (!trial.timedOut) trial.firstSettled = true;
       if (playback.all && G.ballsLeft > 0 && !trial.timedOut) {
         throwBall(trial);
         continue;
@@ -524,7 +548,6 @@ export async function mountSimulator(engine) {
       updateControls();
       break;
     }
-    engine.updateFx(TICK * speed);
     renderBoard();
     renderMetrics();
   }
@@ -613,6 +636,9 @@ export async function mountSimulator(engine) {
     if (batch || playback) scheduleFrame();
   }
 
+  extraDrop.addEventListener('click',()=>{if(playback&&!playback.all&&G.dropCd<=0&&G.ballsLeft>0){engine.withRandom(trial.random,()=>engine.dropBall(setup.x));extraDrop.disabled=true;}});
+  nextStage.addEventListener('click',()=>{if(playback||batch||!G.cleared)return;const next=Math.min(MAX_STAGE,G.stage+1+engine.clearReward().jump);setup.stage=next;byId('stage').value=next;engine.withRandom(trial.random,()=>engine.startStage(next));if(!setup.autoShots)G.ballsLeft=G.ballsMax=setup.shots;trial.ticks=0;trial.firstSettled=false;trial.timedOut=false;invalidateComparison();renderBoard();renderMetrics();showTrialStatus();updateControls();saveSetup();});
+  byId('regression').addEventListener('click',()=>{if(playback||batch)return;const checks=engine.selfTest();display('regression-result',checks.map(c=>(c.ok?'✓ ':'✗ ')+c.name).join('\n'));renderBoard();});
   dropOne.addEventListener('click', () => startPlayback(false));
   dropAll.addEventListener('click', () => startPlayback(true));
   reset.addEventListener('click', readyTrial);

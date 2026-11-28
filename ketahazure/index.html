@@ -2161,7 +2161,24 @@ if (balanceMode) {
   G.headless = true;
   const top = L.launchY - 30, height = L.pocketBot + 8 - top;
   import('./simulator.js').then(({ mountSimulator }) => mountSimulator({
-    G, PT, BAL, boards: BOARDS.map(({id, name}) => ({id, name})), difficulties: Object.keys(DIFFICULTIES),
+    G, PT, BAL, boards: BOARDS.map(({id, name}) => ({id, name})), difficulties: Object.entries(DIFFICULTIES).map(([id,d]) => ({id,label:d.label})),
+    relics: CARDS.filter(c => c.k === 'rel').map(({id,name,max,desc}) => ({id,name,max,desc})),
+    growMultiplier: p => BAL.growBase + currentDifficulty().growBonus + p.grow,
+    fmtMagnitude,
+    selfTest() {
+      const snapshot = {...G};
+      const equal = (a,b) => Math.abs(a-b) < 1e-8;
+      const checks = [];
+      try {
+        Object.assign(G,{mode:'normal',phase:'play',headless:true,t:0,rel:{},balls:[],spawn:[],pockets:[],aim:{x:W/2},stats:{hits:0,fevers:0,bestHit:0,bestHitLog:-Infinity},fever:{gauge:0,need:99999,on:false,inStage:0,firstShot:true},runBestLog:-Infinity,unitIdx:0,stamps:[],reachedStage:null});
+        buildBoard(); const p = G.pegs[0]; setPeg(p,'g',1); startStage(1);
+        for (let i=0;i<3;i++) { const b=newBall(p.x,100); hitPeg(p,b,null); checks.push({name:'育ち Lv1 命中'+(i+1)+'回目',ok:equal(b.v,100*(1.2+0.1*i)) && equal(p.grow,0.1*(i+1))}); }
+        startStage(2); checks.push({name:'ステージ移行後も×1.5を保持',ok:equal(BAL.growBase+p.grow,1.5)});
+        setPeg(p,'g',3); const b=newBall(p.x,100); hitPeg(p,b,null); checks.push({name:'Lv3 の成長量 +0.3',ok:equal(p.grow,0.3)});
+        for(const id of Object.keys(DIFFICULTIES)){G.mode=id;setPeg(p,'g',1);const ball=newBall(p.x,100);hitPeg(p,ball,null);checks.push({name:DIFFICULTIES[id].label+'の育ち倍率',ok:equal(ball.v,100*(BAL.growBase+DIFFICULTIES[id].growBonus))});}
+      } catch(e) { checks.push({name:String(e),ok:false}); } finally { Object.assign(G,snapshot); }
+      return checks;
+    },
     setBoard(id) { SAVE.board = boardById(id).id; },
     setDifficulty(id) { G.mode = DIFFICULTIES[id] ? id : 'normal'; },
     canvas: cv, width: W, top, height, launchY: L.launchY,
