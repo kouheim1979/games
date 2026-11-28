@@ -281,7 +281,7 @@ export async function mountSimulator(engine) {
     if (!w || !h) return;
     if (canvas.width !== w) canvas.width = w;
     if (canvas.height !== h) canvas.height = h;
-    engine.drawBoard();
+    if (trial) engine.withRandom(trial.random,()=>engine.drawBoard()); else engine.drawBoard();
     G.pegs.forEach((p,i)=>{if(!pins[i])return;const label=p.type==='g'?`現在 ×${engine.growMultiplier(p).toFixed(2)}・Lv${p.lv}`:'';pins[i].dataset.growth=label;pins[i].title=label||pins[i].getAttribute('aria-label');});
   }
 
@@ -302,6 +302,7 @@ export async function mountSimulator(engine) {
   }
 
   function newTrial(board, seed) {
+    engine.resetEffects();
     engine.buildBoard();
     board.forEach((lantern, i) => {
       if (!lantern) return;
@@ -526,7 +527,7 @@ export async function mountSimulator(engine) {
   }
 
   function advance(run, dt = TICK) {
-    engine.withRandom(run.random, () => engine.update(dt));
+    engine.withRandom(run.random, () => { engine.frameStep(dt,1); engine.drawBoard(); });
     if (!G.balls.length && !G.spawn.length && !G.fever.on) return true;
     if ((run.ticks += dt / TICK) < THROW_LIMIT) return false;
     run.timedOut = true;
@@ -538,6 +539,7 @@ export async function mountSimulator(engine) {
   }
 
   function startPlayback(all) {
+    engine.initAudio();
     playback = { all, last: performance.now(), carry: 0 };
     throwBall(trial);
     setStatus('投下中', 'busy');
@@ -561,7 +563,9 @@ export async function mountSimulator(engine) {
     const rdt = Math.min(0.05, Math.max(0.001, (now - playback.last) / 1000 || 0.016));
     playback.last = now;
     do {
-      const settled=advance(trial, rdt * speed);engine.withRandom(trial.random,()=>engine.updateFx(rdt));
+      engine.withRandom(trial.random,()=>engine.frameStep(rdt,speed));
+      trial.ticks += rdt * speed / TICK;
+      const settled=(!G.balls.length&&!G.spawn.length&&!G.fever.on)||(trial.ticks>=THROW_LIMIT&&(trial.timedOut=true));
       if(!settled)break;
       if (!trial.timedOut) trial.firstSettled = true;
       if (playback.all && G.ballsLeft > 0 && !trial.timedOut) {
@@ -583,7 +587,7 @@ export async function mountSimulator(engine) {
     const rdt=Math.min(0.05,Math.max(0.001,(now-p.last)/1000||0.016)),dt=rdt*speed;p.last=now;
     do {
       if(!p.stopping){p.untilDrop-=dt;if(p.untilDrop<=0&&engine.withRandom(trial.random,()=>engine.dropUnlimited(setup.x))){trial.infiniteCount=(trial.infiniteCount||0)+1;p.untilDrop=Number(infiniteInterval.value);}}
-      engine.withRandom(trial.random,()=>{engine.update(dt);engine.updateFx(rdt);});
+      engine.withRandom(trial.random,()=>engine.frameStep(rdt,speed));
       if(p.stopping){p.drain+=dt;if(!G.balls.length&&!G.spawn.length&&!G.fever.on||p.drain>=120){playback=null;if(G.balls.length||G.spawn.length||G.fever.on){trial.timedOut=true;display('infinite-status','停止：残玉の処理が時間上限に到達。初期化してください。');}else{display('infinite-status','停止済み：得点・育ち・祭ゲージを保持');}showTrialStatus();updateControls();break;}}
     } while(false);
     renderBoard();renderMetrics();
@@ -591,6 +595,7 @@ export async function mountSimulator(engine) {
   infiniteToggle.addEventListener('click',()=>{
     if(playback?.infinite){playback.stopping=true;playback.drain=0;setStatus('停止処理中','busy');updateControls();return;}
     if(batch||playback||G.phase!=='play'||G.ballsLeft===0||trial.timedOut)return;
+    engine.initAudio();
     playback={infinite:true,last:performance.now(),carry:0,untilDrop:0,stopping:false,drain:0};invalidateComparison();setStatus('無限投下中','busy');updateControls();scheduleFrame();
   });
 
