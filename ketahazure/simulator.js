@@ -1,5 +1,5 @@
 const STORAGE_KEY = 'ketahazure.balance.v1';
-const VERSION = '2026-11-28 / 本編同期版';
+const VERSION = '2026-11-28 / 祭り検証版 2';
 const MAX_STAGE = 99;
 const MAX_LEVEL = 99;
 const MAX_SHOTS = 20;
@@ -68,10 +68,11 @@ const markup = `
       <button id="suggest-position" type="button" data-lock>おすすめ位置</button>
       <input id="drop-position" type="range" step="1" data-lock>
     </div>
+    <div id="festival-panel" class="festival-panel" data-active="false"><div class="festival-line"><strong id="festival-state">祭ゲージ</strong><output id="festival-gauge">0 / 100</output></div><progress id="festival-progress" max="100" value="0" aria-label="祭ゲージ"></progress><div id="festival-detail" class="festival-detail">通常の命中で +1、祭ちょうちんで追加加算</div><button id="prime-festival" type="button" data-lock>検証用：ゲージを満タン直前にする</button></div>
     <div class="board-plate" id="board-plate">
       <div class="drop-track" aria-hidden="true"></div>
       <div class="aim-marker" aria-hidden="true"></div>
-      <div class="pins" role="group" aria-label="盤面の釘"></div>
+      <div class="pins" role="group" aria-label="盤面の釘"></div><div id="festival-banner" class="festival-banner" hidden>お祭りだ！</div>
     </div>
     <div class="play-actions">
       <button id="drop-one" class="primary" type="button">1玉落とす</button>
@@ -249,6 +250,11 @@ export async function mountSimulator(engine) {
     display('remaining-shots', G.ballsLeft + ' / ' + G.ballsMax);
     display('hits', G.stats.hits.toLocaleString('ja-JP') + ' 回');
     display('fevers', G.stats.fevers + ' 回');
+    const f=G.fever;const active=Boolean(f.on);const meter=byId('festival-progress');meter.max=f.need;meter.value=f.gauge;
+    byId('festival-panel').dataset.active=String(active);plate.dataset.festival=String(active);byId('festival-banner').hidden=!active;
+    display('festival-state',active?'お祭りだ！':'祭ゲージ');display('festival-gauge',Math.round(f.gauge)+' / '+f.need);
+    display('festival-detail',active?'追加玉 '+f.count+' / '+f.total+' ・落下中 '+G.balls.filter(b=>b.fever).length+' 個':'次回の祭り：'+(BAL.feverBalls+6*(G.rel.omatsuri||0))+'玉 ・発生 '+G.stats.fevers+' 回');
+    byId('prime-festival').disabled=Boolean(batch||playback||active||G.balls.length||G.ballsLeft===0||G.phase!=='play');
     const bar = byId('quota-progress');
     const progress = Math.min(1, G.score / G.quota);
     if (bar.value !== progress) bar.value = progress;
@@ -573,6 +579,7 @@ export async function mountSimulator(engine) {
     showTrialStatus();
     updateControls();
     renderBoard();
+    renderMetrics();
   }
 
   function comparisonFrame() {
@@ -636,6 +643,7 @@ export async function mountSimulator(engine) {
     if (batch || playback) scheduleFrame();
   }
 
+  byId('prime-festival').addEventListener('click',()=>{if(batch||playback)return;if(engine.primeFestival()){invalidateComparison();renderMetrics();setStatus('祭り検証：次の命中で発動','warn');}});
   extraDrop.addEventListener('click',()=>{if(playback&&!playback.all&&G.dropCd<=0&&G.ballsLeft>0){engine.withRandom(trial.random,()=>engine.dropBall(setup.x));extraDrop.disabled=true;}});
   nextStage.addEventListener('click',()=>{if(playback||batch||!G.cleared)return;const next=Math.min(MAX_STAGE,G.stage+1+engine.clearReward().jump);setup.stage=next;byId('stage').value=next;engine.withRandom(trial.random,()=>engine.startStage(next));if(!setup.autoShots)G.ballsLeft=G.ballsMax=setup.shots;trial.ticks=0;trial.firstSettled=false;trial.timedOut=false;invalidateComparison();renderBoard();renderMetrics();showTrialStatus();updateControls();saveSetup();});
   byId('regression').addEventListener('click',()=>{if(playback||batch)return;const checks=engine.selfTest();display('regression-result',checks.map(c=>(c.ok?'✓ ':'✗ ')+c.name).join('\n'));renderBoard();});

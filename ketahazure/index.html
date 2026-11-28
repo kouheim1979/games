@@ -2165,6 +2165,7 @@ if (balanceMode) {
     relics: CARDS.filter(c => c.k === 'rel').map(({id,name,max,desc}) => ({id,name,max,desc})),
     growMultiplier: p => BAL.growBase + currentDifficulty().growBonus + p.grow,
     fmtMagnitude,
+    primeFestival() { if (G.phase !== 'play' || G.fever.on || G.balls.length || G.spawn.length) return false; G.fever.gauge = Math.max(0,G.fever.need-1); return true; },
     selfTest() {
       const snapshot = {...G};
       const equal = (a,b) => Math.abs(a-b) < 1e-8;
@@ -2176,7 +2177,16 @@ if (balanceMode) {
         startStage(2); checks.push({name:'ステージ移行後も×1.5を保持',ok:equal(BAL.growBase+p.grow,1.5)});
         setPeg(p,'g',3); const b=newBall(p.x,100); hitPeg(p,b,null); checks.push({name:'Lv3 の成長量 +0.3',ok:equal(p.grow,0.3)});
         for(const id of Object.keys(DIFFICULTIES)){G.mode=id;setPeg(p,'g',1);const ball=newBall(p.x,100);hitPeg(p,ball,null);checks.push({name:DIFFICULTIES[id].label+'の育ち倍率',ok:equal(ball.v,100*(BAL.growBase+DIFFICULTIES[id].growBonus))});}
-      } catch(e) { checks.push({name:String(e),ok:false}); } finally { Object.assign(G,snapshot); }
+        for(const large of [0,1]) {
+          G.mode='normal';G.rel=large?{omatsuri:1}:{};G.stats={hits:0,fevers:0,bestHit:0,bestHitLog:-Infinity};G.fever={gauge:0,need:BAL.feverNeed,on:false,inStage:0,firstShot:true,count:0,total:0};
+          buildBoard();for(const p of G.pegs)setPeg(p,'f',3);startStage(1);const p=G.grid[0][3];
+          const probe=newBall(p.x,10,true);hitPeg(p,probe,null);checks.push({name:'祭Lv3の命中でゲージ+19',ok:G.fever.gauge===1+BAL.festivalGauge*3});
+          G.fever.gauge=0;G.dropCd=0;let seed=12345;balanceRandom=()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296;};dropBall(p.x);
+          let spawned=0,active=false;for(let i=0;i<7200;i++){update(1/60);if(G.fever.on){active=true;spawned=Math.max(spawned,G.fever.count);}if(active&&!G.fever.on&&!G.balls.length)break;}
+          checks.push({name:large?'大祭り1枚で12玉':'自然発動で6玉',ok:active&&spawned===BAL.feverBalls+6*large&&G.stats.fevers===1});
+          checks.push({name:'祭り終了後のゲージリセットと必要量160',ok:!G.fever.on&&G.fever.gauge===0&&G.fever.need===160});
+        }
+      } catch(e) { checks.push({name:String(e),ok:false}); } finally { balanceRandom=null;Object.assign(G,snapshot); }
       return checks;
     },
     setBoard(id) { SAVE.board = boardById(id).id; },
@@ -2193,6 +2203,8 @@ if (balanceMode) {
       ctx.setTransform(cv.width / W, 0, 0, sy, 0, -top * sy);
       ctx.clearRect(0, top, W, height);
       drawPockets(); drawPegs(); drawBalls();
+      // 開発者用だけの目印：祭りから追加された玉を区別する。
+      ctx.save();ctx.strokeStyle='#ff91c9';ctx.lineWidth=2;for(const b of G.balls)if(b.fever){ctx.beginPath();ctx.arc(b.x,b.y,13,0,TAU);ctx.stroke();}ctx.restore();
     }
   })).catch(error => {
     console.error(error);
