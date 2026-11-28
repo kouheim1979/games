@@ -406,7 +406,7 @@ function rankingEntries() {
   return new Map([...ranking.score, ...ranking.stage, ...readRanking()].map(row => [row.id, row]));
 }
 function saveRank() {
-  if (G.headless || !G.runId || G.runBestLog === -Infinity) return;
+  if (balanceMode || G.headless || !G.runId || G.runBestLog === -Infinity) return;
   const entries = rankingEntries();
   entries.set(G.runId, { id: G.runId, score: G.runBest, scoreLog: G.runBestLog, reached: G.reachedStage, mode: G.mode });
   ranking = rankLists([...entries.values()]);
@@ -414,7 +414,7 @@ function saveRank() {
   try { localStorage.setItem(RANK_KEY, JSON.stringify([...kept.values()])); } catch (_) { /* 今の画面では表示できる */ }
 }
 function loadSave() { try { const s = JSON.parse(localStorage.getItem(SAVE_KEY) || 'null'); if (s && typeof s === 'object') Object.assign(SAVE, s); } catch (e) { /* 保存なしでも遊べる */ } }
-function saveSave() { try { localStorage.setItem(SAVE_KEY, JSON.stringify(SAVE)); } catch (e) { /* 同上 */ } }
+function saveSave() { if (balanceMode) return; try { localStorage.setItem(SAVE_KEY, JSON.stringify(SAVE)); } catch (e) { /* 同上 */ } }
 
 // ───────── 音（Web Audio で合成。素材ファイルなし） ─────────
 const AU = { ctx: null, out: null, nb: null, last: {}, step: 0, festivalStep: 0, next: 0, mute: false };
@@ -2158,11 +2158,13 @@ function frame(ts) {
 const KETA = window.KETA = { G, BAL, SAVE, L, PT, CARDS, UI, freeze: false,
   api: { startRun, startStage, dropBall, takeCard, placeAt, autoPlace, suggestPeg, dropSpot, update, makeOffer, stageClear, afterClear, quotaFor, fmt, toTitle, resize, render, countType } };
 if (balanceMode) {
-  G.headless = true;
+  G.headless = false;
   resize();
-  const top = L.launchY - 30, height = L.pocketBot + 8 - top;
+  const top = 0, height = H;
   import('./simulator.js').then(({ mountSimulator }) => mountSimulator({
-    G, PT, BAL, boards: BOARDS.map(({id, name}) => ({id, name})), difficulties: Object.entries(DIFFICULTIES).map(([id,d]) => ({id,label:d.label})),
+    G, PT, BAL, initAudio() { auInit(); auResume(); }, resetEffects() { parts.length = rings.length = floats.length = bolts.length = laters.length = 0; G.stamps = []; G.banner = null; G.shake = G.flash = G.hitstop = 0; BG = null; },
+    frameStep(rdt, speed) { if (G.hitstop > 0) G.hitstop -= rdt; else update(rdt * speed); updateFx(rdt); },
+    boards: BOARDS.map(({id, name}) => ({id, name})), difficulties: Object.entries(DIFFICULTIES).map(([id,d]) => ({id,label:d.label})),
     relics: CARDS.filter(c => c.k === 'rel').map(({id,name,max,desc}) => ({id,name,max,desc})),
     growMultiplier: p => BAL.growBase + currentDifficulty().growBonus + p.grow,
     fmtMagnitude,
@@ -2219,13 +2221,7 @@ if (balanceMode) {
       balanceRandom = generator;
       try { return action(); } finally { balanceRandom = null; }
     },
-    drawBoard() {
-      const sy = cv.height / height;
-      ctx.setTransform(cv.width / W, 0, 0, sy, 0, -top * sy);
-      ctx.clearRect(0, top, W, height);
-      drawPockets(); drawPegs(); drawBalls();
-      // 開発者用だけの目印：祭りから追加された玉を区別する。
-      ctx.save();ctx.strokeStyle='#ff91c9';ctx.lineWidth=2;for(const b of G.balls)if(b.fever){ctx.beginPath();ctx.arc(b.x,b.y,13,0,TAU);ctx.stroke();}ctx.restore();
+    drawBoard() { render();
     }
   })).catch(error => {
     console.error(error);
