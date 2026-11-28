@@ -1,5 +1,5 @@
 const STORAGE_KEY = 'ketahazure.balance.v1';
-const VERSION = '2026-11-28 / 盤面表示修正版 8';
+const VERSION = '2026-11-28 / 高解像度版 9';
 const MAX_STAGE = 99;
 const MAX_LEVEL = 99;
 const MAX_SHOTS = 20;
@@ -279,11 +279,10 @@ export async function mountSimulator(engine) {
   }
 
   function renderBoard() {
-    const density = Math.min(window.devicePixelRatio || 1, 2);
+    const density = Math.min(window.devicePixelRatio || 1, 3);
     const w = Math.round(plate.clientWidth * density), h = Math.round(plate.clientHeight * density);
     if (!w || !h) return;
-    if (canvas.width !== w) canvas.width = w;
-    if (canvas.height !== h) canvas.height = h;
+    engine.resizeCanvas(w, h);
     if (trial) engine.withRandom(trial.random,()=>engine.drawBoard()); else engine.drawBoard();
     G.pegs.forEach((p,i)=>{if(!pins[i])return;const label=p.type==='g'?`現在 ×${engine.growMultiplier(p).toFixed(2)}・Lv${p.lv}`:'';pins[i].dataset.growth=label;pins[i].title=label||pins[i].getAttribute('aria-label');});
   }
